@@ -1,2 +1,2 @@
-# RAVE - 1.0
-Pipelined x86 Processor
+# RAVE I
+A pipelined x86 Processor
