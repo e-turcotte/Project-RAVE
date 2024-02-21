@@ -30,4 +30,4 @@ In a clean linux environment, do the following:
 
 6. The results are stored into "example_comb.v", or if you provided a custom file [fileName], it will be in [fileName].v
 
-7. The resulting file can now be added to any project as a functinal model. If you only want the code though, the file can be opened with your choice of file editor and its contents copied.
+7. The resulting file can now be added to any project as a functinal module. If you only want the code though, the file can be opened with your choice of file editor and its contents copied.
