@@ -7,3 +7,8 @@
 /home/projects/courses/spring_22/ee382n19_16785/lib/lib6
 
 decode_TOP.v
+
+prefix_d.v
+prefix_lut.v
+
+../../local-lib/fulladder1$

@@ -4,7 +4,7 @@ module prefix_lut(
     input [7:0] prefix,
     output is_rep,
     output [5:0] seg_override, //TODO: how to encode which seg override? - right now, onehot
-    output is_opsize_override;
+    output is_opsize_override
     ); 
  
     wire [7:0] rep, seg_cs, seg_ss, seg_ds, seg_es, seg_fs, seg_gs, opsize;
