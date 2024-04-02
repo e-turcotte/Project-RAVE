@@ -1,14 +1,14 @@
  
-
 module prefix_cmp(
     input [7:0] prefix,
     output is_rep,
-    output [5:0] seg_override, //TODO: how to encode which seg override? - right now, onehot
+    output [5:0] seg_override, //onehot
     output is_opsize_override
     ); 
  
     wire [7:0] rep, seg_cs, seg_ss, seg_ds, seg_es, seg_fs, seg_gs, opsize;
-    
+    wire [7:0] prefix_temp;
+
     wire rep_gt, rep_lt;
     wire seg_cs_gt, seg_cs_lt;
     wire seg_ss_gt, seg_ss_lt;
@@ -28,18 +28,21 @@ module prefix_cmp(
     assign seg_gs = 8'h65;
     assign opsize = 8'h66;
 
+    //need to buffer for fanout
+    bufferH16_8b$ b0(prefix, prefix_temp);
+
     //TODO: do I need to add a buffer to prefix for fanout? - probably
 
     //compare each prefix to the known prefixes
     //output will be 0 if they are equal (ie we have a match)
-    mag_comp8$(prefix, rep, rep_gt, rep_lt);
-    mag_comp8$(prefix, seg_cs, seg_cs_gt, seg_cs_lt);
-    mag_comp8$(prefix, seg_ss, seg_ss_gt, seg_ss_lt);
-    mag_comp8$(prefix, seg_ds, seg_ds_gt, seg_ds_lt);
-    mag_comp8$(prefix, seg_es, seg_es_gt, seg_es_lt);
-    mag_comp8$(prefix, seg_fs, seg_fs_gt, seg_fs_lt);
-    mag_comp8$(prefix, seg_gs, seg_gs_gt, seg_gs_lt);
-    mag_comp8$(prefix, opsize, opsize_gt, opsize_lt);
+    mag_comp8$(prefix_temp, rep, rep_gt, rep_lt);
+    mag_comp8$(prefix_temp, seg_cs, seg_cs_gt, seg_cs_lt);
+    mag_comp8$(prefix_temp, seg_ss, seg_ss_gt, seg_ss_lt);
+    mag_comp8$(prefix_temp, seg_ds, seg_ds_gt, seg_ds_lt);
+    mag_comp8$(prefix_temp, seg_es, seg_es_gt, seg_es_lt);
+    mag_comp8$(prefix_temp, seg_fs, seg_fs_gt, seg_fs_lt);
+    mag_comp8$(prefix_temp, seg_gs, seg_gs_gt, seg_gs_lt);
+    mag_comp8$(prefix_temp, opsize, opsize_gt, opsize_lt);
 
     nor2$(is_rep, rep_gt, rep_lt);
     nor2$(seg_override[0], seg_cs_gt, seg_cs_lt);

@@ -1,4 +1,4 @@
-module TOP;
+module prefix_tb;
 
 reg [127:0] packet;
 
@@ -44,7 +44,7 @@ initial
 	 //$dumpfile ("decode_prefix.dump");
 	 //$dumpvars (0, TOP);
 	 $vcdplusfile("decode_prefix.dump.vpd");
-	 $vcdpluson(0, TOP); 
+	 $vcdpluson(0, prefix_tb); 
       end // initial begin
 
       wire is_rep, is_seg_override, is_opsize_override;

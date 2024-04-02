@@ -4,9 +4,9 @@ module prefix_d (
     output [5:0] seg_override, //onehot
     output is_seg_override,
     output is_opsize_override,
-    output [1:0] num_prefixes
+    output [1:0] num_prefixes //sum of all prefixes (not onehot)
     );
-
+    //total prefix decode time is 2.2ns (i think)
     wire [7:0] prefix1, prefix2, prefix3;
 
     assign prefix1 = packet[127:120];
@@ -63,6 +63,5 @@ module prefix_d (
 
     fulladder1$ fa(is_rep, is_seg_override, is_opsize_override, num_prefixes[0], num_prefixes[1]);
 
-
-
 endmodule
+

@@ -1,14 +1,15 @@
-/home/projects/courses/spring_22/ee382n19_16785/lib/time -v 
-/home/projects/courses/spring_22/ee382n19_16785/lib/lib1
-/home/projects/courses/spring_22/ee382n19_16785/lib/lib2
-/home/projects/courses/spring_22/ee382n19_16785/lib/lib3
-/home/projects/courses/spring_22/ee382n19_16785/lib/lib4
-/home/projects/courses/spring_22/ee382n19_16785/lib/lib5
-/home/projects/courses/spring_22/ee382n19_16785/lib/lib6
+/home/projects/courses/spring_24/ee382n19/lib/time -v 
+/home/projects/courses/spring_24/ee382n19/lib/lib1
+/home/projects/courses/spring_24/ee382n19/lib/lib2
+/home/projects/courses/spring_24/ee382n19/lib/lib3
+/home/projects/courses/spring_24/ee382n19/lib/lib4
+/home/projects/courses/spring_24/ee382n19/lib/lib5
+/home/projects/courses/spring_24/ee382n19/lib/lib6
 
-decode_TOP.v
+prefix_tb.v
 
 prefix_d.v
-prefix_lut.v
+prefix_cmp.v
 
-../../local-lib/fulladder1$
+../../local-lib/fulladder1$.v
+../../local-lib/bufferH16_8b$.v
