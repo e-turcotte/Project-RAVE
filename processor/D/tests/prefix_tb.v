@@ -8,30 +8,30 @@ initial
 		#10
 
 		//nothing
-		packet = 127'h00000000000000000000000000000000;
+		packet = 128'h00000000000000000000000000000000;
 		#20
 
 		//garbage, REP, garbage
-		packet = 127'hABF34600000000000000000000000000;
+		packet = 128'hABF34600000000000000000000000000;
 		#20
 
 		//SS seg override, size override, garbage
-		packet = 127'h3666AB00000000000000000000000000;
+		packet = 128'h3666AB00000000000000000000000000;
 		#20
 
 		//size override, GS seg override, REP
-		packet = 127'h6665F300000000000000000000000000;
+		packet = 128'h6665F300000000000000000000000000;
 		#20
 
 		//all garbage/partial matches
-		packet = 127'h6AFBE200000000000000000000000000;
+		packet = 128'h6AFBE200000000000000000000000000;
 		#20
 
 		//REP, seg size override, ES seg override
-		packet = 127'hF3662600000000000000000000000000;
+		packet = 128'hF3662600000000000000000000000000;
 		#20
 
-		packet = 127'h0;
+		packet = 128'h0;
 	end
 
 

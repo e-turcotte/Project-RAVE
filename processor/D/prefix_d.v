@@ -17,21 +17,21 @@ module prefix_d (
     wire [5:0] seg_override1, seg_override2, seg_override3;
     wire is_opsize_override1, is_opsize_override2, is_opsize_override3;
     
-    prefix_lut prefix_lut1(
+    prefix_cmp prefix_cmp1(
         .prefix(prefix1),
         .is_rep(is_rep1),
         .seg_override(seg_override1),
         .is_opsize_override(is_opsize_override1)
     );
 
-    prefix_lut prefix_lut2(
+    prefix_cmp prefix_cmp2(
         .prefix(prefix2),
         .is_rep(is_rep2),
         .seg_override(seg_override2),
         .is_opsize_override(is_opsize_override2)
     );
 
-    prefix_lut prefix_lut3(
+    prefix_cmp prefix_cmp3(
         .prefix(prefix3),
         .is_rep(is_rep3),
         .seg_override(seg_override3),

@@ -1,6 +1,6 @@
  
 
-module prefix_lut(
+module prefix_cmp(
     input [7:0] prefix,
     output is_rep,
     output [5:0] seg_override, //TODO: how to encode which seg override? - right now, onehot
@@ -41,14 +41,14 @@ module prefix_lut(
     mag_comp8$(prefix, seg_gs, seg_gs_gt, seg_gs_lt);
     mag_comp8$(prefix, opsize, opsize_gt, opsize_lt);
 
-    nand2$(is_rep, rep_gt, rep_lt);
-    nand2$(seg_override[0], seg_cs_gt, seg_cs_lt);
-    nand2$(seg_override[1], seg_ss_gt, seg_ss_lt);
-    nand2$(seg_override[2], seg_ds_gt, seg_ds_lt);
-    nand2$(seg_override[3], seg_es_gt, seg_es_lt);
-    nand2$(seg_override[4], seg_fs_gt, seg_fs_lt);
-    nand2$(seg_override[5], seg_gs_gt, seg_gs_lt);
-    nand2$(is_opsize_override, opsize_gt, opsize_lt);
+    nor2$(is_rep, rep_gt, rep_lt);
+    nor2$(seg_override[0], seg_cs_gt, seg_cs_lt);
+    nor2$(seg_override[1], seg_ss_gt, seg_ss_lt);
+    nor2$(seg_override[2], seg_ds_gt, seg_ds_lt);
+    nor2$(seg_override[3], seg_es_gt, seg_es_lt);
+    nor2$(seg_override[4], seg_fs_gt, seg_fs_lt);
+    nor2$(seg_override[5], seg_gs_gt, seg_gs_lt);
+    nor2$(is_opsize_override, opsize_gt, opsize_lt);
     //at this point, outputs should be 1 for true (since nand)
 
 endmodule
