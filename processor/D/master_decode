@@ -13,3 +13,5 @@ prefix_cmp.v
 
 ../../local-lib/fulladder1$.v
 ../../local-lib/bufferH16_8b$.v
+../..local-lib/nbitdevices/gaten.v
+../../local-lib/nbitdevices/equaln.v

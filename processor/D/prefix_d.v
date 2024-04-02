@@ -17,7 +17,7 @@ module prefix_d (
     wire [5:0] seg_override1, seg_override2, seg_override3;
     wire is_opsize_override1, is_opsize_override2, is_opsize_override3;
     
-    prefix_cmp prefix_cmp1( //1.9ns in parallel
+    prefix_cmp prefix_cmp1( //0.7ns in parallel
         .prefix(prefix1),
         .is_rep(is_rep1),
         .seg_override(seg_override1),
