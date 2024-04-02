@@ -7,12 +7,12 @@ module fulladder1$(
     
     wire xor_1, nand_1, nand_2;
 
-    xor2$ (xor_1, A, B);
-    xor2$ (sum, xor_1, cin);
+    xor2$ (.out(xor_1), .in0(A), .in1(B));
+    xor2$ (.out(sum), .in0(xor_1), .in1(cin));
 
-    nand2$ (nand_1, A, B);
-    nand2$ (nand_2, xor_1, cin);
+    nand2$ (.out(nand_1), .in0(A), .in1(B));
+    nand2$ (.out(nand_2), .in0(xor_1), .in1(cin));
 
-    nand2$ (cout, nand_1, nand_2);
+    nand2$ (.out(cout), .in0(nand_1), .in1(nand_2));
 
 endmodule
