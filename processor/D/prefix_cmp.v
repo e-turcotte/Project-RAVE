@@ -46,7 +46,7 @@ module prefix_cmp(
     mag_comp8$(prefix_temp, seg_gs, seg_gs_gt, seg_gs_lt);
     mag_comp8$(prefix_temp, opsize, opsize_gt, opsize_lt);
 
-    nor2$(is_rep, rep_gt, rep_lt); //0.2 ns
+    nor2$(is_rep, rep_gt, rep_lt); //0.2 ns in parallel
     nor2$(seg_override[0], seg_cs_gt, seg_cs_lt);
     nor2$(seg_override[1], seg_ss_gt, seg_ss_lt);
     nor2$(seg_override[2], seg_ds_gt, seg_ds_lt);
