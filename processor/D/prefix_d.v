@@ -6,7 +6,7 @@ module prefix_d (
     output is_opsize_override,
     output [1:0] num_prefixes //sum of all prefixes (not onehot)
     );
-    //total prefix decode time is 2.2ns (i think)
+    //total prefix decode time is 3.35ns (i think)
     wire [7:0] prefix1, prefix2, prefix3;
 
     assign prefix1 = packet[127:120];
@@ -17,7 +17,7 @@ module prefix_d (
     wire [5:0] seg_override1, seg_override2, seg_override3;
     wire is_opsize_override1, is_opsize_override2, is_opsize_override3;
     
-    prefix_cmp prefix_cmp1(
+    prefix_cmp prefix_cmp1( //1.9ns in parallel
         .prefix(prefix1),
         .is_rep(is_rep1),
         .seg_override(seg_override1),
@@ -38,7 +38,7 @@ module prefix_d (
         .is_opsize_override(is_opsize_override3)
     );
     
-    or3$(is_rep, is_rep1, is_rep2, is_rep3);
+    or3$(is_rep, is_rep1, is_rep2, is_rep3); //0.35ns in parallel
     
     or3$(seg_override[0], seg_override1[0], seg_override2[0], seg_override3[0]);
     or3$(seg_override[1], seg_override1[1], seg_override2[1], seg_override3[1]);
@@ -53,15 +53,15 @@ module prefix_d (
 
     wire nor_1, nor_2, nor_3;
 
-    nor2$(nor_1, seg_override[0], seg_override[1]);
+    nor2$(nor_1, seg_override[0], seg_override[1]); //0.2ns
     nor2$(nor_2, seg_override[2], seg_override[3]);
     nor2$(nor_3, seg_override[4], seg_override[5]);
 
-    nand3$(is_seg_override, nor_1, nor_2, nor_3);
+    nand3$(is_seg_override, nor_1, nor_2, nor_3); //0.2ns
 
     //to encode num prefixes as a sum:
 
-    fulladder1$ fa(is_rep, is_seg_override, is_opsize_override, num_prefixes[0], num_prefixes[1]);
+    fulladder1$ fa(is_rep, is_seg_override, is_opsize_override, num_prefixes[0], num_prefixes[1]); //0.7ns
 
 endmodule
 

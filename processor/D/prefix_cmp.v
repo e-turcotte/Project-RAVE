@@ -6,6 +6,8 @@ module prefix_cmp(
     output is_opsize_override
     ); 
  
+ //total time: 1.9ns
+
     wire [7:0] rep, seg_cs, seg_ss, seg_ds, seg_es, seg_fs, seg_gs, opsize;
     wire [7:0] prefix_temp;
 
@@ -29,13 +31,13 @@ module prefix_cmp(
     assign opsize = 8'h66;
 
     //need to buffer for fanout
-    bufferH16_8b$ b0(prefix, prefix_temp);
+    bufferH16_8b$ b0(prefix, prefix_temp); //0.24ns
 
     //TODO: do I need to add a buffer to prefix for fanout? - probably
 
     //compare each prefix to the known prefixes
     //output will be 0 if they are equal (ie we have a match)
-    mag_comp8$(prefix_temp, rep, rep_gt, rep_lt);
+    mag_comp8$(prefix_temp, rep, rep_gt, rep_lt); //1.46ns in parallel
     mag_comp8$(prefix_temp, seg_cs, seg_cs_gt, seg_cs_lt);
     mag_comp8$(prefix_temp, seg_ss, seg_ss_gt, seg_ss_lt);
     mag_comp8$(prefix_temp, seg_ds, seg_ds_gt, seg_ds_lt);
@@ -44,7 +46,7 @@ module prefix_cmp(
     mag_comp8$(prefix_temp, seg_gs, seg_gs_gt, seg_gs_lt);
     mag_comp8$(prefix_temp, opsize, opsize_gt, opsize_lt);
 
-    nor2$(is_rep, rep_gt, rep_lt);
+    nor2$(is_rep, rep_gt, rep_lt); //0.2 ns
     nor2$(seg_override[0], seg_cs_gt, seg_cs_lt);
     nor2$(seg_override[1], seg_ss_gt, seg_ss_lt);
     nor2$(seg_override[2], seg_ds_gt, seg_ds_lt);
