@@ -20,7 +20,7 @@ module TOP;
 
     initial begin
         in = 0;
-        shfrot = 12'hfef;
+        shfrot = 12'h010;
         for (k = 0; k < 2**(NUM_TESTS); k = k + 1) begin
             #CYCLE_TIME;
             in <= in + 1;

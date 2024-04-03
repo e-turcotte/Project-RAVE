@@ -20,7 +20,7 @@ module TOP;
 
     initial begin
         a = 0; b = 0; c = 0; d = 0; e = 0;
-        tristate_sel = 5'h0f;
+        tristate_sel = 5'h10;
         tree_sel = 3'h0;
         for (k = 0; k < (2**(NUM_TESTS))*5; k = k + 1) begin
             #CYCLE_TIME;
@@ -34,7 +34,7 @@ module TOP;
             end
         end
         a = 0; b = 0; c = 0; d = 0; e = 0;
-        tristate_sel = 5'h17;
+        tristate_sel = 5'h08;
         tree_sel = 3'h1;
         for (k = 0; k < (2**(NUM_TESTS))*5; k = k + 1) begin
             #CYCLE_TIME;
@@ -48,7 +48,7 @@ module TOP;
             end
         end
         a = 0; b = 0; c = 0; d = 0; e = 0;
-        tristate_sel = 5'h1b;
+        tristate_sel = 5'h04;
         tree_sel = 3'h2;
         for (k = 0; k < (2**(NUM_TESTS))*5; k = k + 1) begin
             #CYCLE_TIME;
@@ -62,7 +62,7 @@ module TOP;
             end
         end
         a = 0; b = 0; c = 0; d = 0; e = 0;
-        tristate_sel = 5'h1d;
+        tristate_sel = 5'h02;
         tree_sel = 3'h3;
         for (k = 0; k < (2**(NUM_TESTS))*5; k = k + 1) begin
             #CYCLE_TIME;
@@ -76,7 +76,7 @@ module TOP;
             end
         end
         a = 0; b = 0; c = 0; d = 0; e = 0;
-        tristate_sel = 5'h1e;
+        tristate_sel = 5'h01;
         tree_sel = 3'h4;
         for (k = 0; k < (2**(NUM_TESTS))*5; k = k + 1) begin
             #CYCLE_TIME;
@@ -98,17 +98,3 @@ module TOP;
     end
 
 endmodule
-
-/*module eq_tester #(parameter WIDTH=2) (input [WIDTH-1:0] a, b,
-                                       input clk,
-                                       output out);
-
-    equaln #(.WIDTH(WIDTH)) m0(.a(a), .b(b), .eq(out));
-
-    always @(posedge clk) begin
-        if (out != (a == b)) begin
-            $display("TEST FAILED EQ(n=%0d):\tactual=0x%0h, ref=0x%0h", WIDTH, out, a == b); 
-        end
-    end
-
-endmodule*/

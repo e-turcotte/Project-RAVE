@@ -55,14 +55,18 @@ module muxnm_tristate #(parameter NUM_INPUTS=2, DATA_WIDTH=1) (input [NUM_INPUTS
                                                                output [DATA_WIDTH-1:0] out);
     
     wire [NUM_INPUTS*DATA_WIDTH-1:0] datavector;
+    wire [NUM_INPUTS-1:0] invsel;
 
     genvar i, j;
     generate
+        for (j = 0; j < NUM_INPUTS; j = j + 1) begin : invsel_wires
+            inv1$ g0(.out(invsel[j]), .in(sel[j]));
+        end
         for (i = 0; i < DATA_WIDTH; i = i + 1) begin : tristatemux_dataslices
             for (j = 0; j < NUM_INPUTS; j = j + 1) begin : datavector_splits
                 assign datavector[(i*NUM_INPUTS)+j] = in[(DATA_WIDTH*j)+i];
             end
-            muxn1_tristate #(.NUM_INPUTS(NUM_INPUTS)) m0(.in(datavector[(i+1)*NUM_INPUTS-1:i*NUM_INPUTS]), .sel(sel), .out(out[i]));
+            muxn1_tristate #(.NUM_INPUTS(NUM_INPUTS)) m0(.in(datavector[(i+1)*NUM_INPUTS-1:i*NUM_INPUTS]), .sel(invsel), .out(out[i]));
         end
     endgenerate
 
