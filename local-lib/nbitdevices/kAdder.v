@@ -43,22 +43,20 @@ module body_pg #(parameter WIDTH = 32) (
     input [WIDTH-1:0] G
 );
 
-
-
 if(WIDTH <= 4) begin
-    
+    body_4 #(WIDTH) b1(G_out, P, G);
 end
 
 else if(WIDTH <= 8) begin
-
+    body_8 #(WIDTH) b2(G_out, P, G);
 end
 
 else if(WIDTH <=16) begin
-    body_16 b3(G_out, P, G);
+    body_16 #(WIDTH) b3(G_out, P, G);
 end
 
 else if(WIDTH <= 32) begin
-   body_32 b4(G_out, P, G);
+   body_32 #(WIDTH) b4(G_out, P, G);
 end
 
 
@@ -376,5 +374,154 @@ assign C[31:0] = G_5[31:0];
 
 endmodule
 
+module body_8 #(parameter WIDTH = 8)(
+    output [7:0] C,   
+    input [7:0] P,
+    input [7:0] G
+    );
+    integer greyCnt = 1;
+    integer blackCnt = 14;
+    wire[7:0] P_1;
+    wire[7:0] G_1;
+    wire[7:0] P_2;
+    wire[7:0] G_2;
+    wire[7:0] P_3;
+    wire[7:0] G_3;
+    
+    
+    assign G_1[0] = G[0];
+    genvar i;
+    
+    ////////////////////////////////////////////
+    // Row 1
+    ////////////////////////////////////////////
+    
+    generate
+        for( i = 1; i < 2; i = i + 1) begin :row1g
+            grey_cell g1(G_1[1], G[1], P[1], G[0]);
+        end
+    endgenerate
+    
+    
+    generate
+        for( i = 2 ; i < WIDTH; i = i + 1) begin :row1b
+            black_cell b(G_1[i], P_1[i], G[i], P[i], G[i-1], P[i-1]);
+        end
+    endgenerate
+    
+    ////////////////////////////////////////////
+    // Row 2
+    ////////////////////////////////////////////
+    
+    generate
+        for( i = 0; i < 2; i = i + 1) begin :row2c
+            assign G_2[i] = G_1[i];
+        end
+    endgenerate
+    
+    generate
+        for( i = 2; i < 4; i = i + 1) begin :row2g
+            grey_cell g1(G_2[i], G_1[i], P_1[i], G_1[i-2]);
+        end
+    endgenerate
+    
+    generate
+        for( i = 4; i < WIDTH; i = i + 1) begin :row2b
+            black_cell b(G_2[i], P_2[i], G_1[i], P_1[i], G_1[i-2], P_1[i-2]);
+        end
+    endgenerate
+    
+    ////////////////////////////////////////////
+    // Row 3
+    ////////////////////////////////////////////
+    
+    generate
+        for( i = 0; i < 4; i = i + 1) begin :row3c
+            assign G_3[i] = G_2[i];
+        end
+    endgenerate
+    
+    generate
+        for( i = 4; i < 8; i = i + 1) begin :row3g
+            grey_cell g1(G_3[i], G_2[i], P_2[i], G_2[i-4]);
+        end
+    endgenerate
+    
+    generate
+        for( i = 8 ; i < WIDTH; i = i + 1) begin :row3b
+            black_cell b(G_3[i], P_3[i], G_2[i], P_2[i], G_2[i-4], P_2[i-4]);
+        end
+    endgenerate
+    
+    
+    //////////////////////////////////////////////
+    // Calculate Result
+    //////////////////////////////////////////////
+    assign C = G_3;
+    
+    endmodule
 
+
+    module body_4 #(parameter WIDTH = 4)(
+    output [3:0] C,   
+    input [3:0] P,
+    input [3:0] G
+    );
+    integer greyCnt = 1;
+    integer blackCnt = 14;
+    wire[3:0] P_1;
+    wire[3:0] G_1;
+    wire[3:0] P_2;
+    wire[3:0] G_2;
+    
+ 
+    assign G_1[0] = G[0];
+    genvar i;
+    
+    ////////////////////////////////////////////
+    // Row 1
+    ////////////////////////////////////////////
+    
+    generate
+        for( i = 1; i < 2; i = i + 1) begin :row1g
+            grey_cell g1(G_1[1], G[1], P[1], G[0]);
+        end
+    endgenerate
+    
+    
+    generate
+        for( i = 2 ; i < WIDTH; i = i + 1) begin :row1b
+            black_cell b(G_1[i], P_1[i], G[i], P[i], G[i-1], P[i-1]);
+        end
+    endgenerate
+    
+    ////////////////////////////////////////////
+    // Row 2
+    ////////////////////////////////////////////
+    
+    generate
+        for( i = 0; i < 2; i = i + 1) begin :row2c
+            assign G_2[i] = G_1[i];
+        end
+    endgenerate
+    
+    generate
+        for( i = 2; i < 4; i = i + 1) begin :row2g
+            grey_cell g1(G_2[i], G_1[i], P_1[i], G_1[i-2]);
+        end
+    endgenerate
+    
+    generate
+        for( i = 4; i < WIDTH; i = i + 1) begin :row2b
+            black_cell b(G_2[i], P_2[i], G_1[i], P_1[i], G_1[i-2], P_1[i-2]);
+        end
+    endgenerate
+
+    
+    //////////////////////////////////////////////
+    // Calculate Result
+    //////////////////////////////////////////////
+    assign C = G_2;
+    
+    endmodule
 
