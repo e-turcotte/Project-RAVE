@@ -14,6 +14,7 @@ In a clean linux environment, do the following:
     6. example_statemachine.in (or whatever your preferred name is with a file type '.in', [fileName].in)
 
 2.5 What are valid truth tables?
+    
     1. For the most part, any truth table that is valid with the espresso tool is valid with this tool. See: https://users.ece.utexas.edu/~patt/24s.382N/tools/espresso_manual.html
     
     2. However, the one change is that any state variables must be marked with a '*' asterix as the first character of its string. You should also make sure that it shares the same name and index for both input and output variables. The next state will be appended by the software tool.
