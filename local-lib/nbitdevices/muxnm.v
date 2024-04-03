@@ -37,7 +37,7 @@ module muxn1_tree #(parameter SEL_WIDTH=1) (input [(2**SEL_WIDTH)-1:0] in,
             for (i = 0; i < 2**SEL_WIDTH; i = i + 2) begin : treemux2_structslices
                 mux2$ g1(.outb(layer_out[i/2]), .in0(in[i]), .in1(in[i+1]), .s0(sel[0]));
             end
-            if (SEL_WIDTH == 2) begin
+            if (SEL_WIDTH == 1) begin
                 assign out = layer_out[0];
             end else begin
                 muxn1_tree #(.SEL_WIDTH(SEL_WIDTH-1)) m1(.in(layer_out[(2**(SEL_WIDTH-1))-1:0]), .sel(sel[SEL_WIDTH-1:1]), .out(out));
