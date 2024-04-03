@@ -9,7 +9,9 @@ module andn #(parameter NUM_INPUTS=2) (input [NUM_INPUTS-1:0] in,
     treelayer #(.NUM_INPUTS(NUM_INPUTS), .NUM_OUTPUTS(NUM_NAND_OUTPUTS), .AND_OR(1)) m0(.layer_in(in), .layer_out(nandlayer_outs));
 
     generate
-        if(NUM_NAND_OUTPUTS == 1) begin
+        if(NUM_INPUTS == 1) begin
+            assign out = in[0];
+        end else if(NUM_NAND_OUTPUTS == 1) begin
             inv1$ g0(.out(out), .in(nandlayer_outs[0]));
         end else begin
             wire [NUM_NOR_OUTPUTS-1:0] norlayer_outs;
@@ -37,7 +39,9 @@ module orn #(parameter NUM_INPUTS=2) (input [NUM_INPUTS-1:0] in,
     treelayer #(.NUM_INPUTS(NUM_INPUTS), .NUM_OUTPUTS(NUM_NOR_OUTPUTS), .AND_OR(0)) m0(.layer_in(in), .layer_out(norlayer_outs));
 
     generate
-        if(NUM_NOR_OUTPUTS == 1) begin
+        if(NUM_INPUTS == 1) begin
+            assign out = in[0];
+        end else if(NUM_NOR_OUTPUTS == 1) begin
             inv1$ g0(.out(out), .in(norlayer_outs[0]));
         end else begin
             wire [NUM_NAND_OUTPUTS-1:0] nandlayer_outs;
