@@ -1,3 +1,7 @@
+//WIDTH acts as a parameter that determines how large the adder is. kogeAdder creates a WIDTH by WIDTH adder
+//A and B are the 2 inputs to the adder
+//SUM is the resulting value from A+B
+//COUT and CIN are there standard roles. COUT adjusts to WIDTH properly
 module kogeAdder #(parameter WIDTH = 32)(
     output [WIDTH-1:0] SUM, 
     output COUT,
