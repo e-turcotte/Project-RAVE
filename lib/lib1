@@ -273,7 +273,7 @@ primitive table_dffq(q, d, clk, s, r);
     reg q;
 
     table
-    //  d  clk  s  r : q  : q+
+//  d  clk  s  r : q  : q+
 	?   ?   0  0 : ?  : x;
 
 	?   ?   1  0 : ?  : 0; //clear logic
@@ -282,8 +282,9 @@ primitive table_dffq(q, d, clk, s, r);
 	?   ?   0  1 : ?  : 1; //preset logic
 	?   ?   *  1 : 1  : 1;
 
-        1   r   1  1 : ?  : 1; //normal clocking
-        0   r   1  1 : ?  : 0;
+    1   r   1  1 : ?  : 1; //normal clocking
+    0   r   1  1 : ?  : 0;
+	
 	?   f   1  1 : ?  : -; //ignore negative edge of clock
 	*   ?   1  1 : ?  : -; //ignore data changes on a steady clock
     endtable
