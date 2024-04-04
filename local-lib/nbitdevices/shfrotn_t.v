@@ -40,8 +40,8 @@ module shfrot_tester #(parameter WIDTH=2) (input [WIDTH-1:0] in, shfrot,
                                            output [WIDTH-1:0] lshf_out, rshf_out, lrot_out, rrot_out,
                                            output [WIDTH-1:0] lshfv_out, rshfv_out, lrotv_out, rrotv_out);
 
-    lshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(4)) m0(.in(in), .out(lshf_out));
-    rshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(4)) m1(.in(in), .out(rshf_out));
+    lshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(4)) m0(.in(in), .shf_val(4'h0), .out(lshf_out));
+    rshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(4)) m1(.in(in), .shf_val(4'h0), .out(rshf_out));
     lrotn_fixed #(.WIDTH(WIDTH), .ROT_AMNT(4)) m2(.in(in), .out(lrot_out));
     rrotn_fixed #(.WIDTH(WIDTH), .ROT_AMNT(4)) m3(.in(in), .out(rrot_out));
 

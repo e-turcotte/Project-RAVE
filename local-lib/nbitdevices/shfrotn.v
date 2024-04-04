@@ -1,4 +1,5 @@
 module rshfn_fixed #(parameter WIDTH=8, SHF_AMNT=0) (input [WIDTH-1:0] in,
+                                                     input [SHF_AMNT-1:0] shf_val,
                                                      output [WIDTH-1:0] out);
 
     genvar i;
@@ -7,13 +8,14 @@ module rshfn_fixed #(parameter WIDTH=8, SHF_AMNT=0) (input [WIDTH-1:0] in,
             assign out[i-SHF_AMNT] = in[i];
         end
         if (SHF_AMNT > 0) begin
-            assign out[WIDTH-1:WIDTH-SHF_AMNT] = {SHF_AMNT{1'b0}};
+            assign out[WIDTH-1:WIDTH-SHF_AMNT] = shf_val;
         end
     endgenerate
 
 endmodule
 
 module lshfn_fixed #(parameter WIDTH=8, SHF_AMNT=0) (input [WIDTH-1:0] in,
+                                                     input [SHF_AMNT-1:0] shf_val,
                                                      output [WIDTH-1:0] out);
 
     genvar i;
@@ -22,7 +24,7 @@ module lshfn_fixed #(parameter WIDTH=8, SHF_AMNT=0) (input [WIDTH-1:0] in,
             assign out[i] = in[i-SHF_AMNT];
         end
         if (SHF_AMNT > 0) begin
-            assign out[SHF_AMNT-1:0] = {SHF_AMNT{1'b0}};
+            assign out[SHF_AMNT-1:0] = shf_val;
         end
     endgenerate
 
@@ -33,10 +35,12 @@ module rshfn_variable #(parameter WIDTH=8) (input [WIDTH-1:0] in, shf,
     
     wire [WIDTH*WIDTH-1:0] shf_outs;
 
+    assign shf_outs[WIDTH-1:0] = in;
+
     genvar i;
     generate
-        for (i = 0; i < WIDTH; i = i + 1) begin : rshf_shifters
-            rshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(i)) m0(.in(in), .out(shf_outs[(i+1)*WIDTH-1:i*WIDTH]));
+        for (i = 1; i < WIDTH; i = i + 1) begin : rshf_shifters
+            rshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(i)) m0(.in(in), .shf_val({i{1'b0}}), .out(shf_outs[(i+1)*WIDTH-1:i*WIDTH]));
         end
     endgenerate
 
@@ -48,10 +52,12 @@ module lshfn_variable #(parameter WIDTH=8) (input [WIDTH-1:0] in, shf,
     
     wire [WIDTH*WIDTH-1:0] shf_outs;
 
+    assign shf_outs[WIDTH-1:0] = in;
+
     genvar i;
     generate
-        for (i = 0; i < WIDTH; i = i + 1) begin : lshf_shifters
-            lshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(i)) m0(.in(in), .out(shf_outs[(i+1)*WIDTH-1:i*WIDTH]));
+        for (i = 1; i < WIDTH; i = i + 1) begin : lshf_shifters
+            lshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(i)) m0(.in(in), .shf_val({i{1'b0}}), .out(shf_outs[(i+1)*WIDTH-1:i*WIDTH]));
         end
     endgenerate
 
