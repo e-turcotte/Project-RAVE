@@ -45,9 +45,10 @@ module bp_gshare (
     decodern #(.INPUT_WIDTH(6)) pred_in(.in(prev_BR_alias), .out(counter_en_in));
 
     //PHT
+    genvar i;
     generate
         for (i = 0; i < 64; i = i + 1) begin : 
-            sat_cntr2$ cntr[i](
+            sat_cntr2$ cntr(
                 .clk(clk),
                 .set_n(set),
                 .rst_n(reset),
