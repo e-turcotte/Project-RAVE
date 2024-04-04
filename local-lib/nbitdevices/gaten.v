@@ -58,10 +58,6 @@ module orn #(parameter NUM_INPUTS=2) (input [NUM_INPUTS-1:0] in,
 
 endmodule
 
-
-
-
-
 module treelayer #(parameter NUM_INPUTS=2, NUM_OUTPUTS=2, AND_OR=1) (input [NUM_INPUTS-1:0] layer_in,
                                                                      output [NUM_OUTPUTS-1:0] layer_out);
 

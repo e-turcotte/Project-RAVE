@@ -5,3 +5,10 @@
 /home/projects/courses/spring_24/ee382n19/lib/lib4
 /home/projects/courses/spring_24/ee382n19/lib/lib5
 /home/projects/courses/spring_24/ee382n19/lib/lib6
+
+
+../../local-lib/nbitdevices/shfrotn.v
+../../local-lib/nbitdevices/decodern.v
+../../local-lib/nbitdevices/regn.v
+../../local-lib/nbitdevices/muxnm.v
+../../local-lib/sat_cntr2$.v

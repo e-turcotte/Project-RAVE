@@ -4,11 +4,13 @@ module sat_cntr2$(
     input wire set_n,
     input wire rst_n,
     input wire in,
-    output wire out,
+    input wire enable,
     output wire [1:0] s_out
 );
 
     wire [1:0] NS, S, notS;
+
+    and2$ (clk_temp, clk, enable);
 
     and2$ (f1 ,S[1], notS[0]);
     and3$ (f2, notS[1], notS[0], in);
@@ -20,8 +22,8 @@ module sat_cntr2$(
     and3$ (f6, notS[1], S[0], in);
     or3$ (NS[1], f4, f5, f6);
 
-    dff$ s1(clk, NS[1], S[1], notS[1], rst_n, set_n);
-    dff$ s2(clk, NS[0], S[0], notS[0], rst_n, set_n);
+    dff$ s1(clk_temp, NS[1], S[1], notS[1], rst_n, set_n);
+    dff$ s2(clk_temp, NS[0], S[0], notS[0], rst_n, set_n);
 
     assign s_out = S;
 
