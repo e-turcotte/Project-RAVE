@@ -1,4 +1,4 @@
-module twob_sat_tb;
+module sat_cntr2_tb;
 
 reg in, rst_n, set_n, enable;
 wire out;
@@ -128,12 +128,12 @@ initial
       begin
 	 //$dumpfile ("decode_prefix.dump");
 	 //$dumpvars (0, TOP);
-	 $vcdplusfile("twob_sat_2.dump.vpd");
-	 $vcdpluson(0, twob_sat_tb); 
+	 $vcdplusfile("sat_cntr2.dump.vpd");
+	 $vcdpluson(0, sat_cntr2_tb); 
       end // initial begin
 
 
 	//sat_counter2b (.in(in), .count(count))
-	cnt_sat (.clk(clk), .set_n(set_n), .rst_n(rst_n), .in(in), .enable(enable), .s_out(S)); 
+	sat_cntr2 (.clk(clk), .set_n(set_n), .rst_n(rst_n), .in(in), .enable(enable), .s_out(S)); 
 
 endmodule
