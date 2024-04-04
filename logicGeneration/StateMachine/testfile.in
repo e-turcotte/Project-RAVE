@@ -1,18 +1,13 @@
-.i 4		# .i specifies the number of inputs
+.i 3		# .i specifies the number of inputs
 .o 3		# .o specifies the number of outputs
-.ilb Q1 Q0 D N	# This line specifies the names of the inputs in order
-.ob T1 T0 OPEN	# This line specifies the names of the outputs in order
+.ilb *S1 *S0 in	# This line specifies the names of the inputs in order
+.ob *S1 *S0 out	# This line specifies the names of the outputs in order
 
-0011 ---	# The first four digits (before the space) correspond
-0101 110	# to the inputs, the three after the space correspond
-0110 100	# to the outputs, both in order specified above.
-0001 010
-0010 100
-0111 ---
-1001 010
-1010 010
-1011 ---
-1100 001
-1101 001
-1110 001
-1111 ---
+000 000		# The first four digits (before the space) correspond
+001 010		# to the inputs, the three after the space correspond
+010 000		# to the outputs, both in order specified above.
+011 101
+100 010
+101 111
+110 101
+111 111
