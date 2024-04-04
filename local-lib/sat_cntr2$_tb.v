@@ -1,8 +1,8 @@
 module twob_sat_tb;
 
-reg in, rst_n, set_n;
+reg in, rst_n, set_n, enable;
 wire out;
-wire [1:0] S, NS;
+wire [1:0] S;
 
 
 localparam cycle_time = 20;
@@ -21,87 +21,101 @@ initial
 
 		//nothing
 		in = 0;
+		enable = 1;
 		rst_n = 1;
 		set_n = 0;
 
-		$display("in = %0d, out = : %0d ", in, out);
-		$display("state = %0b", S);
-		$display("next state = %0b", NS);
+		$display("\nin = %0d", in);
+		$display("enable = %0d", enable);
+		$display("state = %0b\n", S);
 
 		#(cycle_time)
 		in = 1;
 		rst_n = 1;
 		set_n = 1;
-		$display("in = %0d, out = : %0d ", in, out);
-		$display("state = %0b", S);
-                $display("next state = %0b", NS);
+		enable = 1;
+
+		$display("in = %0d", in);
+		$display("enable = %0d", enable);
+		$display("state = %0b\n", S);
 
 		#(cycle_time)
 		in = 1;
-		$display("in = %0d, out = : %0d ", in, out);
-		$display("state = %0b", S);
-                $display("next state = %0b", NS);
+		enable = 1;
+		
+		$display("in = %0d", in);
+		$display("enable = %0d", enable);
+		$display("state = %0b\n", S);
 
 		#(cycle_time)
 		in = 0;
-		$display("in = %0d, out = : %0d ", in, out);
-		$display("state = %0b", S);
-                $display("next state = %0b", NS);
+		enable = 1;
+		$display("in = %0d", in);
+		$display("enable = %0d", enable);
+		$display("state = %0b\n", S);
 
 		#(cycle_time)
 	       	in = 1;
-		$display("in = %0d, out = : %0d ", in, out);
-		$display("state = %0b", S);
-                $display("next state = %0b", NS);
+		enable = 0;
+		$display("in = %0d", in);
+		$display("enable = %0d", enable);
+		$display("state = %0b\n", S);
 
 		#(cycle_time)
 		in = 0;
-		$display("in = %0d, out = : %0d ", in, out);
-		$display("state = %0b", S);
-                $display("next state = %0b", NS);
+		enable = 0;
+		$display("in = %0d", in);
+		$display("enable = %0d", enable);
+		$display("state = %0b\n", S);
 
 		#(cycle_time)
 		in = 0;
-		$display("in = %0d, out = : %0d ", in, out);
-		$display("state = %0b", S);
-                $display("next state = %0b", NS);
+		enable = 0;
+		$display("in = %0d", in);
+		$display("enable = %0d", enable);
+		$display("state = %0b\n", S);
 
 		#(cycle_time)
                 in = 1;
-		$display("in = %0d, out = : %0d ", in, out);
-		$display("state = %0b", S);
-                $display("next state = %0b", NS);
+		enable = 0;
+		$display("in = %0d", in);
+		$display("enable = %0d", enable);
+		$display("state = %0b\n", S);
 
                 #(cycle_time)
                 in = 0;
-		$display("in = %0d, out = : %0d ", in, out);
-		$display("state = %0b", S);
-                $display("next state = %0b", NS);
-		
-		#(cycle_time)
-                in = 0;
-                $display("in = %0d, out = : %0d ", in, out);
-		$display("state = %0b", S);
-                $display("next state = %0b", NS);
+		enable = 0;
+		$display("in = %0d", in);
+		$display("enable = %0d", enable);
+		$display("state = %0b\n", S);
 
 		#(cycle_time)
                 in = 0;
-                $display("in = %0d, out = : %0d ", in, out);
-		$display("state = %0b", S);
-                $display("next state = %0b", NS);
-		
+		enable = 0;
+		$display("in = %0d", in);
+		$display("enable = %0d", enable);
+		$display("state = %0b\n", S);
+
 		#(cycle_time)
                 in = 0;
-                $display("in = %0d, out = : %0d ", in, out);
-		$display("state = %0b", S);
-                $display("next state = %0b", NS);
+		enable = 0;
+ 		$display("in = %0d", in);
+		$display("enable = %0d", enable);
+		$display("state = %0b\n", S);
+
+		#(cycle_time)
+                in = 0;
+		enable = 1;
+		$display("in = %0d", in);
+		$display("enable = %0d", enable);
+		$display("state = %0b\n", S);
 
 		#(cycle_time)
                 in = 1;
-                $display("in = %0d, out = : %0d ", in, out);
-		$display("state = %0b", S);
-                $display("next state = %0b", NS);
-		
+		enable = 1;
+		$display("in = %0d", in);
+		$display("enable = %0d", enable);
+		$display("state = %0b\n", S);
 		
 		$display("end test");
 	end
@@ -114,12 +128,12 @@ initial
       begin
 	 //$dumpfile ("decode_prefix.dump");
 	 //$dumpvars (0, TOP);
-	 $vcdplusfile("twob_sat.dump.vpd");
+	 $vcdplusfile("twob_sat_2.dump.vpd");
 	 $vcdpluson(0, twob_sat_tb); 
       end // initial begin
 
 
 	//sat_counter2b (.in(in), .count(count))
-	cnt_sat (.clk(clk), .set_n(set_n), .rst_n(rst_n), .in(in), .out(out), .s_out(S), .ns_out(NS)); 
+	cnt_sat (.clk(clk), .set_n(set_n), .rst_n(rst_n), .in(in), .enable(enable), .s_out(S)); 
 
 endmodule
