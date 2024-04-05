@@ -9,7 +9,9 @@ module sat_cntr2(
 
     wire [1:0] NS, S, notS;
 
-    and2$ (clk_temp, clk, enable);
+    inv1$ (notclk, clk);
+    inv1$ (not_en, enable);
+    nand3$ (clk_temp, clk, not_en, notclk);
 
     and2$ (f1 ,S[1], notS[0]);
     and3$ (f2, notS[1], notS[0], in);

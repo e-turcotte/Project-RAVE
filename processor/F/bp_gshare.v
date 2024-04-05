@@ -7,15 +7,16 @@ module bp_gshare (
     input [5:0] prev_BR_alias,
     input prev_is_BR,
     output prediction,
-    output [5:0] BP_alias_out
+    output [5:0] BR_alias_out,
+    output [5:0] GBHR
 );
 
     wire [63:0] out_decoder_out;
-    wire [5:0] BP_alias, BP_alias_out, GBHR, GBHR_shifted;
+    wire [5:0] BP_alias, GBHR_shifted;
 
     //6 bit GBHR: output into a shifter back into BHR
     regn #(.WIDTH(6)) BHR(.din(GBHR_shifted),
-                        .ld(set), clr(reset),
+                        .ld(set), .clr(reset),
                         .clk(clk),
                         .dout(GBHR));
 
@@ -32,37 +33,40 @@ module bp_gshare (
     xor2$ (.out(BP_alias[5]), .in0(eip[2]),  .in1(GBHR[0]));
 
     regn #(.WIDTH(6)) BP_alias_reg(.din(BP_alias),
-                        .ld(set), clr(reset),
+                        .ld(set), .clr(reset),
                         .clk(clk),
-                        .dout(BP_alias_out));
+                        .dout(BR_alias_out));
 
     //6 to 64 bit decoder used to mux out prediction from PHT
-    decodern #(.INPUT_WIDTH(6)) pred_out(.in(BP_alias_out), .out(out_decoder_out)); 
+    decodern #(.INPUT_WIDTH(6)) pred_out(.in(BR_alias_out), .out(out_decoder_out)); 
     
-    wire [1:0] counter_out[63:0];
-    wire counter_en_in[63:0];
+    wire [63:0] counter_out[1:0];
+    //wire [63:0]counter_out_high;
+
+    wire [63:0] counter_en_in;
 
     decodern #(.INPUT_WIDTH(6)) pred_in(.in(prev_BR_alias), .out(counter_en_in));
 
     //PHT
     genvar i;
     generate
-        for (i = 0; i < 64; i = i + 1) begin : 
-            sat_cntr2 cntr(
+        for (i = 0; i < 64; i = i + 1) begin 
+            sat_cntr2 (
                 .clk(clk),
                 .set_n(set),
                 .rst_n(reset),
                 .in(prev_BR_result),
-                .enable(counter_en_in[i])
-                .s_out(counter_out[i])
+                .enable(counter_en_in[i]),
+                .s_out({counter_out[1][i],counter_out[0][i]})
             );
         end
+
     endgenerate
 
     //mux out prediction
     wire mux_pred_out;
 
-    muxn1_tristate #(.NUM_INPUTS(6)) pred_out_mux(.in(counter_out[63:0][1]), .sel(out_decoder_out), .out(mux_pred_out));
+    muxn1_tristate #(.NUM_INPUTS(64)) pred_out_mux(.in(counter_out[1][63:0]), .sel(out_decoder_out), .out(mux_pred_out));
     and2$ g0(.out(prediction), .in0(mux_pred_out), .in1(prev_is_BR));
 
 endmodule
