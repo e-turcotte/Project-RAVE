@@ -1,5 +1,4 @@
-
-module sat_cntr2$(
+module sat_cntr2(
     input wire clk,
     input wire set_n,
     input wire rst_n,

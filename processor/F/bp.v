@@ -48,7 +48,7 @@ module bp_gshare (
     genvar i;
     generate
         for (i = 0; i < 64; i = i + 1) begin : 
-            sat_cntr2$ cntr(
+            sat_cntr2 cntr(
                 .clk(clk),
                 .set_n(set),
                 .rst_n(reset),
@@ -61,7 +61,7 @@ module bp_gshare (
 
     //mux out prediction
     wire mux_pred_out;
-    
+
     muxn1_tristate #(.NUM_INPUTS(6)) pred_out_mux(.in(counter_out[63:0][1]), .sel(out_decoder_out), .out(mux_pred_out));
     and2$ g0(.out(prediction), .in0(mux_pred_out), .in1(prev_is_BR));
 
