@@ -5,3 +5,8 @@
 /home/projects/courses/spring_22/ee382n19_16785/lib/lib4
 /home/projects/courses/spring_22/ee382n19_16785/lib/lib5
 /home/projects/courses/spring_22/ee382n19_16785/lib/lib6
+
+stall_logic.v
+../../local-lib/nbitdevices/equaln.v
+../../local-lib/nbitdevices/gaten.v
+../../local-lib/mag_comp32.v
