@@ -6,6 +6,8 @@
 /home/projects/courses/spring_24/ee382n19/lib/lib5
 /home/projects/courses/spring_24/ee382n19/lib/lib6
 
+ROM/roms.v
+
 prefix_tb.v
 
 prefix_d.v
