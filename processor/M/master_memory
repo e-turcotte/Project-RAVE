@@ -10,3 +10,4 @@ stall_logic.v
 ../../local-lib/nbitdevices/equaln.v
 ../../local-lib/nbitdevices/gaten.v
 ../../local-lib/mag_comp32.v
+../../local-lib/encoder4_2.v

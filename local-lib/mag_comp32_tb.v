@@ -1,7 +1,7 @@
 module mag_comp32_tb;
 
 reg [31:0] A, B;
-wire AGB, BGA;
+wire AGB, BGA, EQ;
 
 localparam cycle_time = 20;
 
@@ -44,8 +44,13 @@ initial
 		B = 32'h00000001;
 
 		#(cycle_time)
-		A = 32'h40000000;
+		A = 32'h40100000;
 		B = 32'h00000001;
+
+		#(cycle_time)
+		A = 32'h40506070;
+		B = 32'h04030201;
+
 
 		
 		$display("end test");
@@ -59,12 +64,14 @@ initial
 		$display("outputs:");
 		$display("\tAGB = %0h", AGB);
 		$display("\tBGA = %0h", BGA);
+		$display("\tEQ = %0h", EQ);
+
 
 		$display("---------------------------------------\n");
 	end
 
    // Run simulation for n ns.
-   initial #200 $finish;
+   initial #250 $finish;
 
    // Dump all waveforms to decode_prefix.dump.vpd
    initial
@@ -75,7 +82,7 @@ initial
 	 $vcdpluson(0, mag_comp32_tb); 
       end // initial begin
 
-	mag_comp32 (.A(A), .B(B), .AGB(AGB), .BGA(BGA));
+	mag_comp32 (.A(A), .B(B), .AGB(AGB), .BGA(BGA), .EQ(EQ));
 
 
 endmodule

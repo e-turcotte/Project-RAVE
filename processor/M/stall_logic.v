@@ -28,10 +28,9 @@ module stall_logic(
 
     //TODO: is seg_size allowed to be equal to read_address_size
 
-    wire RA_gt_SS, RA_lt_SS;
-    mag_comp32 (.A(read_address_size), .B({12'b0, seg_size}), .AGB(prot_exception), .BGA(RA_lt_SS));
+    wire RA_gt_SS, RA_lt_SS, EQ;
+    mag_comp32 (.A(read_address_size), .B({12'b0, seg_size}), .AGB(prot_exception), .BGA(RA_lt_SS), .EQ(EQ));
     
-
     //assuming each of the signals are active high:
     or2$ (.out(nor_1), .in0(prot_exception), .in1(tlb_miss));
     or2$ (.out(nor_2), .in0(div0), .in1(interrupt_status));
