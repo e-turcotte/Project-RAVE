@@ -1,10 +1,11 @@
 module stall_logic(
     input tlb_miss,
     input interrupt_status,
-    input [31:0] read_address_size,
+    input [31:0] read_address_end_size,
     input [20:0] seg_size, //need to zext to 32b
     input [31:0] divisor_operand,
     input instruction_is_div, //need from decode?
+    input [3:0] rw_size, //encoded as 1hot
     output[3:0] stall_type,
     output stall
 );
@@ -26,11 +27,15 @@ module stall_logic(
     equaln #(.WIDTH(32)) op_zero_check(.a(zero), .b(divisor_operand), .eq(divisor_is_zero));
     and2$ (.out(div0), .in0(instruction_is_div), .in1(divisor_is_zero));   
 
-    //TODO: is seg_size allowed to be equal to read_address_size
+    //TODO: is seg_size allowed to be equal to read_address_size 
+    // - based on implementation from prot_exception_logic.v, it can't
+    // since it will give 1 + the last address of the 
+    // accesss
 
     wire RA_gt_SS, RA_lt_SS, EQ;
-    mag_comp32 (.A(read_address_size), .B({12'b0, seg_size}), .AGB(prot_exception), .BGA(RA_lt_SS), .EQ(EQ));
-    
+    mag_comp32 (.A(read_address_size), .B({12'b0, seg_size}), .AGB(RA_gt_SS), .BGA(RA_lt_SS), .EQ(EQ));
+    and2$ (.out(prot_exception), .in0(EQ), .in1(RA_gt_SS));
+
     //assuming each of the signals are active high:
     or2$ (.out(nor_1), .in0(prot_exception), .in1(tlb_miss));
     or2$ (.out(nor_2), .in0(div0), .in1(interrupt_status));
