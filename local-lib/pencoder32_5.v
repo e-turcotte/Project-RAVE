@@ -16,17 +16,16 @@ module pencoder32_5(
 endgenerate
 
 
-wire [31:0][4:0] values;
-generate
-    for (i = 0; i < 32; i = i + 1) begin : assign_loop
-        assign values[i] = i;
-    end 
-endgenerate
+wire [159:0] values;
+assign values = {5'b00000, 5'b00001, 5'b00010, 5'b00011, 5'b00100, 5'b00101, 5'b00110, 5'b00111,
+                5'b01000, 5'b01001, 5'b01010, 5'b01011, 5'b01100, 5'b01101, 5'b01110, 5'b01111,
+                5'b10000, 5'b10001, 5'b10010, 5'b10011, 5'b10100, 5'b10101, 5'b10110, 5'b10111,
+                5'b11000, 5'b11001, 5'b11010, 5'b11011, 5'b11100, 5'b11101, 5'b11110, 5'b11111};
 
 wire[19:0] muxOut;
 generate
     for(i = 0; i < 4; i = i + 1) begin
-        mux8_n #(32) m(muxOut[i*5+4:i*5], values[8*i], values[8*i+1], values[8*i+2], values[8*i+3], values[8*i+4], values[8*i+5], values[8*i+6], values[8*i+7], P1_OUT[3*i+2:i*3]);
+        mux8_n #(32) m(muxOut[i*5+4:i*5], values[40*i], values[40*i+4+5:40*i+5], values[40*i+4+10:40*i+10], values[40*i+4+15:40*i+15], values[40*i+4+20:40*i+20], values[40*i+4+25:40*i+25], values[40*i+4+30:40*i+30], values[40*i+4+35:40*i+35], P1_OUT[3*i+2:i*3]);
     end
 endgenerate
 
@@ -72,5 +71,19 @@ generate
 endgenerate
 
 mux2n #(32) mx2(OUT,mux1_out, mux2_out, S2);
+
+endmodule 
+module mux2n #(parameter DATA_WIDTH = 32)(
+    output [DATA_WIDTH-1:0] OUT,
+    input [DATA_WIDTH-1:0] A,B,
+    input S0_in
+);
+bufferH64$ b1(S0, S0_in);
+genvar i;
+generate
+    for(i = 0; i < DATA_WIDTH/16; i=i+1) begin : nmux
+        mux2_16$ m(OUT[16*i+15:16*i], A[16*i+15:16*i], B[16*i+15:16*i], S0);
+    end
+endgenerate
 
 endmodule 
