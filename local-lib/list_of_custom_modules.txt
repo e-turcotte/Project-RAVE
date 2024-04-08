@@ -3,9 +3,11 @@ Asher's Modules:
 kogeAdder #(width) (SUM, COUT, A, B, CIN); //nbitdevices/kAdder.v
 satAdder #(width) (SUM, COUT, A, B, CIN);  //nbitdevices/satAdder.v
 mux4n #(width) (OUT, A, B, C, D, S0, S1);  //nbitdevices/satAdder.v
-pencoder32_5 (Y, valid, X); //pencoder32_5.v
+pencoder32_5 (OUT, valid, INP); //pencoder32_5.v
 mux8_n (OUT, A, B, C, D, E, F, G, H, S0, S1, S2); //pencoder32_5.v
 mux2n #(width) (OUT, A, B, S0); //pencoder32_5.v
+inv_n #(width) (OUT, IN); //pencoder32_5.v
+reverseBits #(width) (OUT, IN):
 
 Varun's Modules:
 

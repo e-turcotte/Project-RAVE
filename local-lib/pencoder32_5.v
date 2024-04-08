@@ -1,20 +1,32 @@
 module pencoder32_5(
-    output [4:0] Y,
+    output [4:0] OUT,
     output valid,
-    input [31:0] X
+    input [31:0] INP
 );
+ genvar i;
 
+ wire [11:0] P1_OUT_R;
  wire [11:0] P1_OUT;
  wire [3:0] P1_VALID;
+ wire [7:0] P1_RES_R;
  wire [7:0] P1_RES;
- assign P1_RES = {4'h0, P1_VALID};
- genvar i;
- generate
-    for(i = 0; i < 4; i=i+1) begin : penc
-        pencoder8_3v$ p1(1'b0, X[i*8+7:i*8], P1_OUT[i*3+2:i*3],P1_VALID[i]); 
+ assign P1_RES[7:4] = 4'h0;
+ assign P1_RES_R = {4'h0, P1_VALID};
+ wire[31:0] X;
+  generate
+    for(i = 0; i < 4; i=i+1) begin : pence
+        reverseBits #(8) r(X[i*8+8:i*8], INP[i*8+7: i*8]); 
     end
 endgenerate
 
+
+ generate
+    for(i = 0; i < 4; i=i+1) begin : penc
+        pencoder8_3v$ p1(1'b0, X[i*8+7:i*8], P1_OUT_R[i*3+2:i*3],P1_VALID[i]); 
+    end
+endgenerate
+
+inv_n #(12) n(P1_OUT, P1_OUT_R);
 
 wire [159:0] values;
 assign values = {5'b11111, 5'b11110, 5'b11101, 5'b11100, 5'b11011, 5'b11010, 5'b11001, 5'b11000,
@@ -30,10 +42,13 @@ generate
     end
 endgenerate
 
-wire[2:0] penc_sel;
-pencoder8_3v$ p2(1'b0, P1_RES, penc_sel, valid);
+wire[2:0] penc_sel_n;
+wire[1:0] penc_sel;
 
-mux4_n #(32) m4(Y,muxOut[4:0], muxOut[9:5], muxOut[14:10], muxOut[19:15], penc_sel[0], penc_sel[1]);
+reverseBits #(4) rev1(P1_RES[3:0], P1_RES_R[3:0]);
+pencoder8_3v$ p2(1'b0, P1_RES, penc_sel_n, valid);
+inv_n #(2) inv2(penc_sel, penc_sel_n[1:0]);
+mux4_n #(32) m4(OUT,muxOut[4:0], muxOut[9:5], muxOut[14:10], muxOut[19:15], penc_sel[0], penc_sel[1]);
 
 endmodule
 
@@ -88,3 +103,31 @@ generate
 endgenerate
 
 endmodule 
+
+
+
+//////////////////////////////////////////////////////////////
+
+module reverseBits #(parameter WIDTH = 32)(
+    output [WIDTH-1:0] OUT,
+    input [WIDTH-1:0] IN
+);
+    genvar i;
+    generate
+        for(i = 0; i < WIDTH; i = i + 1) begin : rev
+            assign OUT[i] = IN[WIDTH-1- i];
+        end
+    endgenerate 
+endmodule
+
+module inv_n #(parameter WIDTH = 32)(
+    output [WIDTH-1:0] OUT,
+    input [WIDTH-1:0] IN
+);
+    genvar i;
+    generate
+        for(i = 0; i < WIDTH; i = i + 1) begin : inv
+            inv1$ n(OUT[i],IN[i]);
+        end
+    endgenerate 
+endmodule
