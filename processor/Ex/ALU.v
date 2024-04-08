@@ -10,7 +10,7 @@ module ALU_top(
     input [2:0] MUX_ADDER_IMM,
     input MUX_AND_INT,
     input [2:0] MUX_SHF
-    input []
+    //input []
 );
 wire[63:0] and_out;
 AND_alu a1(and_out,OP1,OP2,MUX_AND_INT);
@@ -19,7 +19,9 @@ wire[63:0] add_out;
 wire add_cout;
 ADD_alu a2(add_out, add_cout, OP1, OP2, MUX_ADDER_IMM);
 
-// priorityEncoder
+wire[63:0] penc_out;
+wire penc_invalid;
+PENC_alu p1(penc_out, penc_invalid, OP1);
 
 // PASSB
 
@@ -54,6 +56,23 @@ ADD_alu a2(add_out, add_cout, OP1, OP2, MUX_ADDER_IMM);
 endmodule
 
 /////////////////////////////////////////////
+
+module PENC_alu(
+    output [63:0] penc_out,
+    output invalid,
+    input [63:0] penc_in
+);
+wire[4:0] penc_val;
+wire penc_valid;
+
+pencoder32_5 p1(penc_val, penc_valid, penc_in[31:0]);
+inv1$ n1(invalid, penc_valid);
+
+assign penc_out = {59'd0,penc_val};
+
+endmodule
+
+////////////////////////////////////////////
 
 module AND_alu(
     output[63:0] AND_ALU_OUT,
@@ -93,7 +112,7 @@ endmodule
 
 module bsf(
 
-)
+);
 
 endmodule
 
