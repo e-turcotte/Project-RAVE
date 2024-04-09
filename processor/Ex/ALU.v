@@ -431,7 +431,7 @@ module par4(
     output pf,
     input[3:0] OP
 );
-if(WIDTH==4) begin
+
     xor4$ x1(pf, OP[3], OP[2], OP[1], OP[0]);    
 end
 endmodule 
