@@ -2,7 +2,7 @@
 //A and B are the 2 inputs to the adder
 //SUM is the resulting value from A+B
 //COUT and CIN are there standard roles. COUT adjusts to WIDTH properly
-module kogeAdder #(parameter WIDTH = 32)(
+module kogeAdder #(parameter WIDTH = 32)( //delay = .7 + .4(log2(WIDTH))
     output [WIDTH-1:0] SUM, 
     output COUT,
     input [WIDTH-1:0] A,
@@ -10,12 +10,12 @@ module kogeAdder #(parameter WIDTH = 32)(
     input CIN
 );
 wire [WIDTH:0] P, G, G_OUT;
-pg_stage #(WIDTH) pg(P, G, A,B, CIN );
+pg_stage #(WIDTH) pg(P, G, A,B, CIN ); //delay = .3
 
-body_pg #(WIDTH) bpg(G_OUT, P, G);
+body_pg #(WIDTH) bpg(G_OUT, P, G); //delay = .4 * log2(WIDTH)
 assign G_OUT[WIDTH] = G[WIDTH];
 
-sum_stage #(WIDTH) ss(SUM, COUT, P, G_OUT);
+sum_stage #(WIDTH) ss(SUM, COUT, P, G_OUT); //delay = .4
 
 endmodule
 
