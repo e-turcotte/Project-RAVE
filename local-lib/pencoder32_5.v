@@ -94,13 +94,21 @@ module mux2n #(parameter DATA_WIDTH = 32)(
     input [DATA_WIDTH-1:0] A,B,
     input S0
 );
-
 genvar i;
-generate
-    for(i = 0; i < DATA_WIDTH/16; i=i+1) begin : nmux
-        mux2_16$ m(OUT[16*i+15:16*i], A[16*i+15:16*i], B[16*i+15:16*i], S0);
-    end
-endgenerate
+
+    generate
+        for(i = 0; i < DATA_WIDTH; i=i+1) begin : nmux
+            mux2$ m(OUT[i], A[i], B[i], S0);
+        end
+    endgenerate
+    // generate
+    //     for(i = 0; i < DATA_WIDTH/16; i=i+1) begin : nmux
+    //         mux2_16$ m(OUT[16*i+15:16*i], A[16*i+15:16*i], B[16*i+15:16*i], S0);
+    //     end
+    // endgenerate
+
+
+
 
 endmodule 
 
