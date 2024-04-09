@@ -41,12 +41,12 @@ module shfrot_tester #(parameter WIDTH=2) (input [WIDTH-1:0] in, shfrot,
                                            output [WIDTH-1:0] lshfv_out, rshfv_out, lrotv_out, rrotv_out);
 
     lshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(4)) m0(.in(in), .shf_val(4'h0), .out(lshf_out));
-    rshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(4)) m1(.in(in), .shf_val(4'h0), .out(rshf_out));
+    rshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(4)) m1(.in(in), .shf_val({4{in[WIDTH-1]}}), .out(rshf_out));
     lrotn_fixed #(.WIDTH(WIDTH), .ROT_AMNT(4)) m2(.in(in), .out(lrot_out));
     rrotn_fixed #(.WIDTH(WIDTH), .ROT_AMNT(4)) m3(.in(in), .out(rrot_out));
 
-    lshfn_variable #(.WIDTH(WIDTH)) m4(.in(in), .shf(shfrot), .out(lshfv_out));
-    rshfn_variable #(.WIDTH(WIDTH)) m5(.in(in), .shf(shfrot), .out(rshfv_out));
+    lshfn_variable #(.WIDTH(WIDTH)) m4(.in(in), .shf(shfrot), .shf_val(1'b0), .out(lshfv_out));
+    rshfn_variable #(.WIDTH(WIDTH)) m5(.in(in), .shf(shfrot), .shf_val(in[WIDTH-1]), .out(rshfv_out));
     lrotn_variable #(.WIDTH(WIDTH)) m6(.in(in), .rot(shfrot), .out(lrotv_out));
     rrotn_variable #(.WIDTH(WIDTH)) m7(.in(in), .rot(shfrot), .out(rrotv_out));
 
