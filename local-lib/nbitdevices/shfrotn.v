@@ -31,6 +31,7 @@ module lshfn_fixed #(parameter WIDTH=8, SHF_AMNT=0) (input [WIDTH-1:0] in,
 endmodule
 
 module rshfn_variable #(parameter WIDTH=8) (input [WIDTH-1:0] in, shf,
+                                            input shf_val,
                                             output [WIDTH-1:0] out);
     
     wire [WIDTH*WIDTH-1:0] shf_outs;
@@ -40,7 +41,7 @@ module rshfn_variable #(parameter WIDTH=8) (input [WIDTH-1:0] in, shf,
     genvar i;
     generate
         for (i = 1; i < WIDTH; i = i + 1) begin : rshf_shifters
-            rshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(i)) m0(.in(in), .shf_val({i{1'b0}}), .out(shf_outs[(i+1)*WIDTH-1:i*WIDTH]));
+            rshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(i)) m0(.in(in), .shf_val({i{shf_val}}), .out(shf_outs[(i+1)*WIDTH-1:i*WIDTH]));
         end
     endgenerate
 
@@ -48,6 +49,7 @@ module rshfn_variable #(parameter WIDTH=8) (input [WIDTH-1:0] in, shf,
 endmodule
 
 module lshfn_variable #(parameter WIDTH=8) (input [WIDTH-1:0] in, shf,
+                                            input shf_val,
                                             output [WIDTH-1:0] out);
     
     wire [WIDTH*WIDTH-1:0] shf_outs;
@@ -57,7 +59,7 @@ module lshfn_variable #(parameter WIDTH=8) (input [WIDTH-1:0] in, shf,
     genvar i;
     generate
         for (i = 1; i < WIDTH; i = i + 1) begin : lshf_shifters
-            lshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(i)) m0(.in(in), .shf_val({i{1'b0}}), .out(shf_outs[(i+1)*WIDTH-1:i*WIDTH]));
+            lshfn_fixed #(.WIDTH(WIDTH), .SHF_AMNT(i)) m0(.in(in), .shf_val({i{shf_val}}), .out(shf_outs[(i+1)*WIDTH-1:i*WIDTH]));
         end
     endgenerate
 
