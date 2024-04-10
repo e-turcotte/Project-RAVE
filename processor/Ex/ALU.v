@@ -119,7 +119,7 @@ decodern #(5) d2(aluk, alukOH);
 
 wire[1215:0] aluRes;
 assign aluRes = {sal_out, sar_out, punpckhw_out, punpckhbw_out,packssdw_out, packsswb_out, paddd_out, paddw_out, or_out,notA_out, daa_out, cmpxchng_out, pass1, pass0, passA, passB, penc_out,add_out,and_out};
-muxnm_tristate #(32,64) (aluRes, alukOH, ALU_OUT);
+muxnm_tristate #(32,64) t1(aluRes, alukOH, ALU_OUT);
 
 endmodule
 
@@ -131,8 +131,8 @@ module SAL_alu(
     input MUX_SHF
 );
 wire[31:0] shiftCnt;
-mux2n #(32) (shiftCnt, OP2[31:0], 32'd1);
-lshfn_variable #(32) (OP1, shiftCnt, 1'b0, SAR_out);
+mux2n #(32) m2(shiftCnt, OP2[31:0], 32'd1);
+lshfn_variable #(32) r1(OP1, shiftCnt, 1'b0, SAR_out);
 assign SAR_out[63:32] = 32'd0;
 endmodule
 
@@ -145,8 +145,8 @@ module SAR_alu(
     input MUX_SHF
 );
 wire[31:0] shiftCnt;
-mux2n #(32) (shiftCnt, OP2[31:0], 32'd1);
-rshfn_variable #(32) (OP1, shiftCnt, OP1[31], SAR_out);
+mux2n #(32) m1 (shiftCnt, OP2[31:0], 32'd1);
+rshfn_variable #(32)  r1(OP1, shiftCnt, OP1[31], SAR_out);
 assign SAR_out[63:32] = 32'd0;
 endmodule
 
@@ -251,7 +251,7 @@ module OR_alu(
  genvar i;
  generate
     for(i = 0; i < 64; i = i + 1) begin : ord
-        or2$(or_out[i], OP1[i], OP2[i]);
+        or2$ o1(or_out[i], OP1[i], OP2[i]);
     end
  endgenerate
  assign or_of = 0; 
