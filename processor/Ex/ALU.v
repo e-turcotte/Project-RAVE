@@ -14,7 +14,7 @@ module ALU_top(
     input MUX_SHF,
     input CMPXCHNG_P_OP,
     //input EFLAGS
-    input zf, cf
+    input zf, cf, af
 );
 
 //WHYHYYHY
@@ -75,42 +75,42 @@ wire [63:0] notA_out;
 inv_n #(64) i1(notA_out, OP1);
 
 //do flags
-//aluk = 01001
+//aluk = 01010
 wire or_cf, or_of;
 wire[63:0] or_out;
 OR_alu o1(or_out, or_cf, or_of, OP1, OP2);
 
-//aluk = 01010
+//aluk = 01011
 wire[63:0] paddw_out; 
 PADDW_alu p2(paddw_out, OP1, OP2);
 
-//aluk = 01011
+//aluk = 01100
 wire[63:0] paddd_out; 
 PADDD_alu p3(paddd_out, OP1, OP2);
 
-//aluk = 01100
+//aluk = 01101
 wire[63:0] packsswb_out;
 PACKSSWB_alu p4(packsswb_out, OP1, OP2);
 
-//aluk = 01101
+//aluk = 01110
 wire[63:0] packssdw_out;
 PACKSSDW_alu p5(packssdw_out, OP1, OP2);
 
-//aluk = 01110
+//aluk = 01111
 wire[63:0] punpckhbw_out;
 PUNPCKHBW_alu p6 (punpckhbw_out, OP1, OP2);
 
-//aluk = 01111
+//aluk = 10000
 wire[63:0] punpckhw_out;
 PUNPCKHW_alu p7 (punpckhw_out, OP1, OP2);
 
 //do flags
-//aluk = 10000
+//aluk = 10001
 wire[63:0] sar_out;
 SAR_alu s1(sar_out, OP1, OP2, MUX_SHF);
 
 //do flags
-//aluk = 10001
+//aluk = 10010
 wire[63:0] sal_out;
 SAL_alu s2(sal_out, OP1, OP2, MUX_SHF);
 
@@ -126,14 +126,24 @@ endmodule
 ///////////////////////////////////////////////////////////
 
 module SAL_alu(
-    output [63:0] SAR_out,
+    output [63:0] SAL_out,
     input [63:0] OP1, OP2, 
     input MUX_SHF
 );
 wire[31:0] shiftCnt;
-mux2n #(32) m2(shiftCnt, OP2[31:0], 32'd1);
-lshfn_variable #(32) r1(OP1, shiftCnt, 1'b0, SAR_out);
-assign SAR_out[63:32] = 32'd0;
+wire[31:0] inpCap;
+//assign inpCap[31:8] = 24'h0000_00;
+//assign inpCap[7:0] = OP2[7:0];
+decodern #(5) d1(OP2[4:0], inpCap);
+mux2n #(32) m1 (shiftCnt, inpCap, 32'd1, MUX_SHF);
+wire[31:0] shf_out;
+lshfn_variable #(32)  r1(OP1, shiftCnt, 1'b0, shf_out);
+assign SAL_out[63:32] = 32'd0;
+
+wire overSHF;
+or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
+
+mux2n #(32) mx(SAL_out[31:0], shf_out, 32'd0 ,overSHF);
 endmodule
 
 
@@ -145,9 +155,19 @@ module SAR_alu(
     input MUX_SHF
 );
 wire[31:0] shiftCnt;
-mux2n #(32) m1 (shiftCnt, OP2[31:0], 32'd1);
-rshfn_variable #(32)  r1(OP1, shiftCnt, OP1[31], SAR_out);
+wire[31:0] inpCap;
+//assign inpCap[31:8] = 24'h0000_00;
+//assign inpCap[7:0] = OP2[7:0];
+decodern #(5) d1(OP2[4:0], inpCap);
+mux2n #(32) m1 (shiftCnt, inpCap, 32'd1, MUX_SHF);
+wire[31:0] shf_out;
+rshfn_variable #(32)  r1(OP1, shiftCnt, OP1[31], shf_out);
 assign SAR_out[63:32] = 32'd0;
+
+wire overSHF;
+or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
+
+mux4n #(32) mx(SAR_out[31:0], shf_out, 32'd0 ,shf_out ,32'hFFFF_FFFF ,overSHF, OP1[31]);
 endmodule
 
 ///////////////////////////////////////////////////////////
@@ -189,8 +209,8 @@ module PACKSSDW_alu(
     wire[7:0] cout;
     generate 
         for(i = 0; i < 2; i = i + 1) begin : iterate
-            satAdder #(16) a(packssdw_out[16*i+15:8*i],cout[i], OP1[32*i+31:32*i+16], OP1[32*i+15:16*i], 1'b0 );
-            satAdder #(16) b(packssdw_out[16*i+15+32:16*i+32],cout[i+4], OP2[32*i+31:32*i+16], OP2[32*i+31:32*i], 1'b0 );
+            satAdder #(16) a(packssdw_out[16*i+15:16*i],cout[i], OP1[32*i+31:32*i+16], OP1[32*i+15:32*i], 1'b0 );
+            satAdder #(16) b(packssdw_out[16*i+15+32:16*i+32],cout[i+4], OP2[32*i+31:32*i+16], OP2[32*i+15:32*i], 1'b0 );
         end
     endgenerate
 endmodule
@@ -308,12 +328,12 @@ module CMPXCHNG_alu(
     input cmpxchng_p_op
 
 );
-    assign cmpxchng_zf = op1_EQ_op3;
+ 
     wire isCMPXCHNG;
     wire op1_EQ_op3;
     equaln #(32) e1(OP1[31:0], OP3[31:0], op1_EQ_op3);
     // wire[4:0] alukProper;
-    
+       assign cmpxchng_zf = op1_EQ_op3;
     // inv_n #(2) in1(alukProper[4:3], aluk[4:3]);
     // assign alukProper[2:0] = aluk[2:0];
     

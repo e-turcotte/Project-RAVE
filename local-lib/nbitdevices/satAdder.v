@@ -6,13 +6,16 @@ module satAdder #(parameter WIDTH = 32)(
     input [WIDTH-1:0] B,
     input CIN
 );
+ localparam min4 = WIDTH-4;
 wire[WIDTH-1:0] adder_out;
-wire COUT;
 wire OF, UF;
-
+wire[WIDTH-1:0] OF_V;
+assign OF_V = {4'h7, {min4{1'b1}}};
+wire[WIDTH-1:0] UF_V;
+assign UF_V = {4'h8, {min4{1'b0}}};
 kogeAdder #(WIDTH) k1(adder_out, COUT, A, B, CIN);
 calcSat c1(OF, UF, A[WIDTH-1], B[WIDTH - 1] , adder_out[WIDTH - 1]);
-mux4n #(WIDTH) m1(OUT, adder_out, {4'h7, {1'b1}*(WIDTH-4)}, {1'b0}*WIDTH, OF, UF);
+mux4n #(WIDTH) m1(SUM, adder_out, OF_V, {WIDTH{1'b0}}, UF_V, OF, UF);
 //muxnm_tree #(2, WIDTH)()
 
 endmodule
@@ -29,9 +32,9 @@ inv1$ n0(notA, A);
 inv1$ n1(notB, B);
 inv1$ n2(notC, C);
 
-nor3$ f1(OF, notC, A, B);
+and3$ f1(UF, notC, A, B);
 
-nor3$ f2(UF, notB, notA, C);
+and3$ f2(OF, notB, notA, C);
 
 endmodule
 
