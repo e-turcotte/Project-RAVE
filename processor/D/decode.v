@@ -23,7 +23,7 @@ module decode (
     output load_SegReg,
     output [16:0] FMASK,
     output pred_T_NT_out,
-    output [31:0] pred_target_out
+    output [31:0] pred_target_out,
     output reg_or_SegReg,
     output [1:0] BR_CC,
     output is_BR,

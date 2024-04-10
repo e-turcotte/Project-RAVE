@@ -1,4 +1,4 @@
-module ROM_tb;
+module ROM_tb();
 
 reg [7:0] addr;
 
@@ -49,6 +49,6 @@ initial
 
       wire [24:0] out;
 
-	single_op_ROM r1(.addr(addr), .data(out))
+	single_op_ROM r1(.addr(addr), .data(out));
 
 endmodule

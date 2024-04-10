@@ -12,7 +12,6 @@ module ALU_top(
     input [2:0] MUX_ADDER_IMM,
     input MUX_AND_INT,
     input MUX_SHF,
-    input [1:0] shift,
     input CMPXCHNG_P_OP,
     //input EFLAGS
     input zf, cf
