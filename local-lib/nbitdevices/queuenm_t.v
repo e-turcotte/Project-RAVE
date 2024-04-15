@@ -5,7 +5,7 @@ module TOP;
 
     localparam mlen = 16;
     localparam nlen = 16;
-    localparam qlen = 8;
+    localparam qlen = 16;
 
     reg [3:0] regk;
 
@@ -39,8 +39,9 @@ module TOP;
         wr = 1'b0; rd = 1'b0;
         clr = 1'b0;
         m_din = {mlen{1'b1}};
+        modify_vector = {qlen{1'b0}};
         #CYCLE_TIME;
-        wr = 1'b1;
+        wr = 1'b1; rd = 1'b0;
         clr = 1'b1;
         for (k = 0; k < 9; k = k + 1) begin
             regk = k & 8'hf;
@@ -50,7 +51,22 @@ module TOP;
         #CYCLE_TIME;
         wr = 1'b0; rd = 1'b1;
         modify_vector = {qlen{1'b1}};
-        for (k = 0; k < 9; k = k + 1) begin
+        for (k = 0; k < 12; k = k + 1) begin
+            
+            #CYCLE_TIME; 
+        end
+        wr = 1'b1; rd = 1'b0;
+        clr = 1'b1;
+        modify_vector = {qlen{1'b0}};
+        for (k = 9; k < 16; k = k + 1) begin
+            regk = k & 8'hf;
+            n_din = {4{regk}};
+            #CYCLE_TIME; 
+        end
+        #CYCLE_TIME;
+        wr = 1'b0; rd = 1'b1;
+        modify_vector = {qlen{1'b1}};
+        for (k = 0; k < 12; k = k + 1) begin
             
             #CYCLE_TIME; 
         end
