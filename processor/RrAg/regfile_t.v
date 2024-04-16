@@ -8,11 +8,12 @@ module TOP;
     reg [63:0] in0, in1;
     reg [2:0] ld0, ld1,  rd0, rd1, rd2, rd3;
     reg [3:0] ldsize, rdsize;
+    reg [1:0] ld_en;
     reg clr;
     wire [63:0] out0, out1, out2, out3;
     reg clk;
 
-    regfile rf(.din({in1,in0}), .ld({ld1,ld0}), .rd({rd3,rd2,rd1,rd0}), .ldsize(ldsize), .rdsize(rdsize), .clr(clr), .clk(clk), .dout({out3,out2,out1,out0}));
+    regfile rf(.din({in1,in0}), .ld_addr({ld1,ld0}), .rd_addr({rd3,rd2,rd1,rd0}), .ldsize(ldsize), .rdsize(rdsize), .ld_en(ld_en), .clr(clr), .clk(clk), .dout({out3,out2,out1,out0}));
 
 
     initial begin
@@ -24,6 +25,7 @@ module TOP;
         rd0 = 0; rd1 = 0; rd2 = 0; rd3 = 0;
         ld0 = 0; ld1 = 0;
         ldsize = 4'b0100; rdsize = 4'b0100;
+        ld_en = 2'b11;
         clr = 1'b1;
         #CYCLE_TIME;
         for (k = 0; k < 8; k = k + 2) begin
@@ -58,6 +60,7 @@ module TOP;
         #CYCLE_TIME;
 
         ldsize = 4'b0001; rdsize = 4'b0001;
+        ld_en = 2'b10;
         for (k = 0; k < 8; k = k + 2) begin
             regk = k & 8'hff; regkinc = (k+1) & 8'hff;
             in0 = {64{regk<<4}};

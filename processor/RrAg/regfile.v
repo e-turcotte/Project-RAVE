@@ -1,7 +1,8 @@
 module regfile (input [127:0] din,
-                input [5:0] ld,
-                input [11:0] rd,
+                input [5:0] ld_addr,
+                input [11:0] rd_addr,
                 input [3:0] ldsize, rdsize,
+                input [1:0] ld_en,
                 input clr,
                 input clk,
                 output [255:0] dout);
@@ -13,22 +14,27 @@ module regfile (input [127:0] din,
 
     wire [15:0] gprld, mmxld, decodedld;
 
-    decodern #(.INPUT_WIDTH(3)) d0(.in(ld[2:0]), .out(decodedld[7:0]));
-    decodern #(.INPUT_WIDTH(3)) d1(.in(ld[5:3]), .out(decodedld[15:8])); 
+    decodern #(.INPUT_WIDTH(3)) d0(.in(ld_addr[2:0]), .out(decodedld[7:0]));
+    decodern #(.INPUT_WIDTH(3)) d1(.in(ld_addr[5:3]), .out(decodedld[15:8])); 
 
     genvar i;
     generate
         for (i = 0; i < 16; i = i + 1) begin : ld_slices
-            and2$ g2(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx));
-            and2$ g3(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr));
+            if (i < 8) begin
+                and3$ g2(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[0]));
+                and3$ g3(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[0]));
+            end else begin
+                and3$ g4(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[1]));
+                and3$ g5(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[1]));
+            end
         end
     endgenerate
 
     wire [127:0] gprouts;
     wire [255:0] mmxouts;
 
-    gprfile gf(.din({din[95:64],din[31:0]}), .ld(gprld), .rd(rd), .ldsize(ldsize[2:0]), .rdsize(rdsize[2:0]), .clr(clr), .clk(clk), .dout(gprouts));
-    mmxfile mf(.din(din), .ld(mmxld), .rd(rd), .clr(clr), .clk(clk), .dout(mmxouts));
+    gprfile gf(.din({din[95:64],din[31:0]}), .ld(gprld), .rd(rd_addr), .ldsize(ldsize[2:0]), .rdsize(rdsize[2:0]), .clr(clr), .clk(clk), .dout(gprouts));
+    mmxfile mf(.din(din), .ld(mmxld), .rd(rd_addr), .clr(clr), .clk(clk), .dout(mmxouts));
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(256)) m0(.in({mmxouts,{32{1'b0}},gprouts[127:96],{32{1'b0}},gprouts[95:64],{32{1'b0}},gprouts[63:32],{32{1'b0}},gprouts[31:0]}), .sel(rdsize[3]), .out(dout));
 
