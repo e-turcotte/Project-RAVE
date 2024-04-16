@@ -6,18 +6,23 @@ module bp_gshare (
     input prev_BR_result,
     input [5:0] prev_BR_alias,
     input prev_is_BR,
+    input WB_is_valid,
+
     output prediction,
     output [5:0] BP_alias,
-    output [5:0] GBHR
-);
+    output [5:0] GBHR_shifted //for debugging purposes
+    );
+    //important: need to individually initialize PHT entries using set/reset 
+    //           signal, see bp_tb.v
+    //also, bp_tb does not have a WB_is_valid for testing yet
 
     wire [63:0] out_decoder_out;
-    wire [5:0] GBHR_shifted;
+    wire [5:0] GBHR;
     wire set_n;
 
     //6 bit GBHR: output into a shifter back into BHR
     //only shift into GBHR if set is high and prev is a branch
-    and2$ (.out(set_n), .in0(set), .in1(prev_is_BR));
+    and3$ (.out(set_n), .in0(set), .in1(prev_is_BR), .in2(WB_is_valid));
 
     regn #(.WIDTH(6)) BHR(.din(GBHR_shifted),
                         .ld(set_n), .clr(reset),
@@ -28,12 +33,12 @@ module bp_gshare (
 
     //6bit XOR into BP_alias - 6 bit register
     //using bits 29, 23, 17, 11, 8, 2 for the XOR
-    xor2$ (.out(BP_alias[0]), .in0(eip[29]), .in1(GBHR[5]));
-    xor2$ (.out(BP_alias[1]), .in0(eip[23]), .in1(GBHR[4]));
-    xor2$ (.out(BP_alias[2]), .in0(eip[17]), .in1(GBHR[3]));
-    xor2$ (.out(BP_alias[3]), .in0(eip[11]), .in1(GBHR[2]));
-    xor2$ (.out(BP_alias[4]), .in0(eip[8]),  .in1(GBHR[1]));
-    xor2$ (.out(BP_alias[5]), .in0(eip[2]),  .in1(GBHR[0]));
+    xor2$ (.out(BP_alias[0]), .in0(eip[29]), .in1(GBHR_shifted[5]));
+    xor2$ (.out(BP_alias[1]), .in0(eip[23]), .in1(GBHR_shifted[4]));
+    xor2$ (.out(BP_alias[2]), .in0(eip[17]), .in1(GBHR_shifted[3]));
+    xor2$ (.out(BP_alias[3]), .in0(eip[11]), .in1(GBHR_shifted[2]));
+    xor2$ (.out(BP_alias[4]), .in0(eip[8]),  .in1(GBHR_shifted[1]));
+    xor2$ (.out(BP_alias[5]), .in0(eip[2]),  .in1(GBHR_shifted[0]));
 
     //6 to 64 bit decoder used to mux out prediction from PHT
     decodern #(.INPUT_WIDTH(6)) pred_out(.in(BP_alias), .out(out_decoder_out)); 
@@ -68,7 +73,7 @@ module bp_gshare (
 
     //mux out prediction
     //muxn1_tristate #(.NUM_INPUTS(64)) pred_out_mux(.in(counter_out_high), .sel(out_decoder_out), .out(prediction));
-
+    //for some reason tristate mux is not working properly here, using mux tree instead  
     muxn1_tree #(.SEL_WIDTH(6)) pred_out_mux(.in(counter_out_high), .sel(BP_alias), .out(prediction));
 
 endmodule
