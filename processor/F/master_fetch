@@ -12,3 +12,5 @@
 ../../local-lib/nbitdevices/regn.v
 ../../local-lib/nbitdevices/muxnm.v
 ../../local-lib/sat_cntr2.v
+../../local-lib/nbitdevices/gaten.v
+../../local-lib/nbitdevices/equaln.v
