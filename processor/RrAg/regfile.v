@@ -1,8 +1,8 @@
-module regfile (input [127:0] din,
-                input [5:0] ld_addr,
+module regfile (input [255:0] din,
+                input [11:0] ld_addr,
                 input [11:0] rd_addr,
                 input [3:0] ldsize, rdsize,
-                input [1:0] ld_en,
+                input [3:0] ld_en,
                 input clr,
                 input clk,
                 output [255:0] dout);
@@ -12,20 +12,28 @@ module regfile (input [127:0] din,
     inv1$ g0(.out(usegpr), .in(ldsize[3]));
     assign usemmx = ldsize[3];
 
-    wire [15:0] gprld, mmxld, decodedld;
+    wire [31:0] gprld, mmxld, decodedld;
 
     decodern #(.INPUT_WIDTH(3)) d0(.in(ld_addr[2:0]), .out(decodedld[7:0]));
     decodern #(.INPUT_WIDTH(3)) d1(.in(ld_addr[5:3]), .out(decodedld[15:8])); 
+    decodern #(.INPUT_WIDTH(3)) d2(.in(ld_addr[8:6]), .out(decodedld[23:16]));
+    decodern #(.INPUT_WIDTH(3)) d3(.in(ld_addr[11:9]), .out(decodedld[31:24])); 
 
     genvar i;
     generate
-        for (i = 0; i < 16; i = i + 1) begin : ld_slices
+        for (i = 0; i < 32; i = i + 1) begin : ld_slices
             if (i < 8) begin
                 and3$ g2(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[0]));
                 and3$ g3(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[0]));
-            end else begin
+            end else if (8 <= i < 16) begin
                 and3$ g4(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[1]));
                 and3$ g5(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[1]));
+            end else if (16 <= i < 24) begin
+                and3$ g4(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[2]));
+                and3$ g5(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[2]));
+            end else begin
+                and3$ g4(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[3]));
+                and3$ g5(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[3]));
             end
         end
     endgenerate
@@ -33,7 +41,7 @@ module regfile (input [127:0] din,
     wire [127:0] gprouts;
     wire [255:0] mmxouts;
 
-    gprfile gf(.din({din[95:64],din[31:0]}), .ld(gprld), .rd(rd_addr), .ldsize(ldsize[2:0]), .rdsize(rdsize[2:0]), .clr(clr), .clk(clk), .dout(gprouts));
+    gprfile gf(.din({din[223:192],din[159:128],din[95:64],din[31:0]}), .ld(gprld), .rd(rd_addr), .ldsize(ldsize[2:0]), .rdsize(rdsize[2:0]), .clr(clr), .clk(clk), .dout(gprouts));
     mmxfile mf(.din(din), .ld(mmxld), .rd(rd_addr), .clr(clr), .clk(clk), .dout(mmxouts));
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(256)) m0(.in({mmxouts,{32{1'b0}},gprouts[127:96],{32{1'b0}},gprouts[95:64],{32{1'b0}},gprouts[63:32],{32{1'b0}},gprouts[31:0]}), .sel(rdsize[3]), .out(dout));
@@ -43,8 +51,8 @@ endmodule
 
 
 
-module gprfile (input [63:0] din,
-                input [15:0] ld,
+module gprfile (input [127:0] din,
+                input [31:0] ld,
                 input [11:0] rd,
                 input [2:0] ldsize, rdsize,
                 input clr,
@@ -57,19 +65,19 @@ module gprfile (input [63:0] din,
     generate
         for (i = 0; i < 8; i = i + 1) begin : sized_ld_slices
             if (i < 4) begin
-                or2$ g0(.out(sized_ld_vector[0][i*3]), .in0(ld[i]), .in1(ld[8+i]));
-                or2$ g1(.out(sized_ld_vector[0][(i*3)+1]), .in0(ld[4+i]), .in1(ld[12+i]));
+                or4$ g0(.out(sized_ld_vector[0][i*3]), .in0(ld[i]), .in1(ld[8+i]), .in2(ld[16+i]), .in3(ld[24+i]));
+                or4$ g1(.out(sized_ld_vector[0][(i*3)+1]), .in0(ld[4+i]), .in1(ld[12+i]), .in2(ld[20+i]), .in3(ld[28+i]));
             end else begin
                 assign sized_ld_vector[0][i*3] = 1'b0;
                 assign sized_ld_vector[0][(i*3)+1] = 1'b0;
             end
             assign sized_ld_vector[0][(i*3)+2] = 1'b0;
 
-            or2$ g2(.out(sized_ld_vector[1][i*3]), .in0(ld[i]), .in1(ld[8+i]));
+            or4$ g2(.out(sized_ld_vector[1][i*3]), .in0(ld[i]), .in1(ld[8+i]), .in2(ld[16+i]), .in3(ld[24+i]));
             assign sized_ld_vector[1][(i*3)+1] = sized_ld_vector[1][i*3];
             assign sized_ld_vector[1][(i*3)+2] = 1'b0;
 
-            or2$ g3(.out(sized_ld_vector[2][i*3]), .in0(ld[i]), .in1(ld[8+i]));
+            or4$ g3(.out(sized_ld_vector[2][i*3]), .in0(ld[i]), .in1(ld[8+i]), .in2(ld[16+i]), .in3(ld[24+i]));
             assign sized_ld_vector[2][(i*3)+1] = sized_ld_vector[2][i*3];
             assign sized_ld_vector[2][(i*3)+2] = sized_ld_vector[2][i*3];
         end
@@ -89,13 +97,13 @@ module gprfile (input [63:0] din,
         for (i = 0; i < 8; i = i + 1) begin : gpr_slots
             wire [7:0] which_h [0:1];
 
-            muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) m1(.in({din[63:48],din[31:16]}), .sel(ld[8+i]), .out(e_in[i]));
+            muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(16)) m1(.in({din[127:112],din[95:80],din[63:48],din[31:16]}), .sel({ld[24+i],ld[16+i],ld[8+i],ld[i]}), .out(e_in[i]));
 
-            muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(8)) m2(.in({din[47:40],din[15:8]}), .sel(ld[8+i]), .out(which_h[0]));
-            muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(8)) m3(.in({din[7:0],din[39:32]}), .sel(ld[4+i]), .out(which_h[1]));
+            muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(8)) m2(.in({din[111:104],din[79:72],din[47:40],din[15:8]}), .sel({ld[24+i],ld[16+i],ld[8+i],ld[i]}), .out(which_h[0]));
+            muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(8)) m3(.in({din[103:96],din[71:64],din[39:32],din[7:0]}), .sel({ld[28+i],ld[20+i],ld[12+i],ld[4+i]}), .out(which_h[1]));
             muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(8)) m4(.in({which_h[1],which_h[0]}), .sel(ldsize[0]), .out(h_in[i]));
 
-            muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(8)) m5(.in({din[39:32],din[7:0]}), .sel(ld[8+i]), .out(l_in[i]));
+            muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(8)) m5(.in({din[103:96],din[71:64],din[39:32],din[7:0]}), .sel({ld[24+i],ld[16+i],ld[8+i],ld[i]}), .out(l_in[i]));
     
             gpr r0(.din({e_in[i],h_in[i],l_in[i]}), .sized_ld(adjusted_sized_ld_vector[(i*3)+2:i*3]), .clr(clr), .clk(clk), .e_dout(e_out[i]), .h_dout(h_out[i]), .l_dout(l_out[i]));
 
@@ -147,8 +155,8 @@ endmodule
 
 
 
-module mmxfile (input [127:0] din,
-                input [15:0] ld,
+module mmxfile (input [255:0] din,
+                input [31:0] ld,
                 input [11:0] rd,
                 input clr,
                 input clk,
@@ -160,7 +168,7 @@ module mmxfile (input [127:0] din,
     genvar i;
     generate
         for (i = 0; i < 8; i = i + 1) begin : mmx_slots
-            muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(64)) m0(.in(din), .sel(ld[8+i]), .out(ins[(i+1)*64-1:i*64]));
+            muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(64)) m0(.in(din), .sel({ld[24+i],ld[16+i],ld[8+i],ld[i]}), .out(ins[(i+1)*64-1:i*64]));
             or2$ g0(.out(ld_vector[i]), .in0(ld[i]), .in1(ld[8+i]));
             mmx r0(.din(ins[(i+1)*64-1:i*64]), .ld(ld_vector[i]), .clr(clr), .clk(clk), .dout(outs[(i+1)*64-1:i*64]));
         end
