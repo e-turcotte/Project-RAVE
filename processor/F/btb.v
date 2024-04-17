@@ -51,7 +51,7 @@ module branch_target_buff(
         for (i = 0; i < 64; i = i + 1) begin
             and2$ (.out(ld_reg[i]), .in0(LD), .in1(index_write_decoded[i]));
 
-            regn #(.WIDTH(32)) tag_reg (.din(tag_write[25:0]), 
+            regn #(.WIDTH(32)) tag_reg (.din(tag_write), 
                                         .ld(ld_reg[i]), 
                                         .clr(flush_not), 
                                         .clk(clk), 
@@ -83,9 +83,6 @@ module branch_target_buff(
     wire miss;
     equaln #(.WIDTH(64)) (.a(tag_compare), .b(64'h0), .eq(miss)); //will be 0 if any of the tags match
     inv1$ (.out(miss_hit), .in(miss)); //make it active high
-
-    //EIP_target = target_store_out_unpacked[index_lookup * 32 + 31 : index_lookup * 32];
-
 
     muxnm_tristate #(.NUM_INPUTS(64), .DATA_WIDTH(32) ) mux_target(
         .in(target_store_out_unpacked),

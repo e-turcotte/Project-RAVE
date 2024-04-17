@@ -6,7 +6,7 @@ module btb_tb;
     wire [31:0] FIP_E_target, FIP_O_target, EIP_target;
     wire miss_hit;
 
-    localparam cycle_time = 20;
+    localparam cycle_time = 3.001;
 
     reg clk;
     initial begin
@@ -89,7 +89,7 @@ initial
 	end
 
 	// Run simulation for n ns.
-   	initial #200 $finish;
+   	initial #50 $finish;
 
    	// Dump all waveforms
    	initial
