@@ -1,8 +1,10 @@
 module ALU_top(
     output[63:0] ALU_OUT,
     output [31:0] OP1_DEST,
-
+    output[63:0] ALU_OUT_2,
+    output swapCXC,
     output cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out,
+    output cc_inval,
     input [63:0] OP1,
     input [63:0] OP2,
     input [63:0] OP3,
@@ -13,44 +15,71 @@ module ALU_top(
     input MUX_AND_INT,
     input MUX_SHF,
     input CMPXCHNG_P_OP,
-    //input EFLAGS
-    input zf, cf, af
-);
+    input BSF_P_OP,
+    input STD_P_OP,
+    input SAR_P_OP,
+    input SAL_P_OP,
 
+    input [1:0] size,
+    //input EFLAGS
+    input  af, cf, zf
+);
+//CCGEN
+wire zf_base; wire penc_zf;
+wire cmpxchng_zf;
+assign pf_out = ALU_OUT[0];
+mux4$ m10(sf_out, ALU_OUT[7], ALU_OUT[15], ALU_OUT[31], ALU_OUT[63], size[0], size[1]);
+orn #(64) o10 (ALU_OUT[63:0], zf_base);
+mux3$ z1(zf_out, zf_base, penc_zf, cmpxchng_zf, BSF_P_OP, CMPXCHNG_P_OP);
+assign df_out = STD_P_OP;
+
+assign ALU_OUT_2 = OP1;
 //WHYHYYHY
 //doflags
 //aluk = 00000
 wire[63:0] and_out;
-AND_alu a1(and_out,OP1,OP2,MUX_AND_INT);
+wire and_of, and_cf, and_af;
+assign and_of = 1'b0; assign and_Cf = 1'b0; assign and_af = 1'b0;
+AND_alu a1(and_out, OP1,OP2,MUX_AND_INT);
 
 //do flags
 //aluk = 00001
 wire[63:0] add_out;
-wire add_cout;
-ADD_alu a2(add_out, add_cout, OP1, OP2, MUX_ADDER_IMM);
+wire add_cf, add_of, add_af;
+ADD_alu a2(add_out, add_af, add_cf, add_of, OP1, OP2, MUX_ADDER_IMM);
 
 //do flags
 //aluk = 00010
 wire[63:0] penc_out;
-wire penc_zf;
+
 wire penc_invalid;
+wire penc_cf, penc_of, penc_af;
+assign penc_cf = 0; assign penc_of = 0; assign penc_af = 0;
 PENC_alu p1(penc_out, penc_zf, penc_invalid, OP1);
 
 //aluk = 00011
+wire movB_cf, movB_of, movB_af;
+assign movB_cf = 0; assign movB_of = 0; assign movB_af = 0;
 wire[63:0] passB;
 assign passB = OP2;
 
 //aluk = 00100
+wire movA_cf, movA_of, movA_af;
+assign movA_cf = 0; assign movA_of = 0; assign movA_af = 0;
 wire[63:0] passA;
 assign passA = OP1;
 
 //aluk = 00101
+wire cld_cf, cld_of, cld_af;
+assign cld_cf = 0; assign cld_of = 0; assign cld_af = 0;
 wire[63:0] pass0;
 wire cld_df;
 assign cld_df = 1;
 assign pass0 = 64'd0;
 
 //aluk = 00110
+wire std_cf, std_of, std_af;
+assign std_cf = 0; assign std_of = 0; assign std_af = 0;
 wire[63:0] pass1;
 wire std_df;
 assign std_df = 1;
@@ -59,24 +88,31 @@ assign pass1 = 64'd1;
 //do flags
 //aluk = 00111
 wire[63:0] cmpxchng_out;
-wire cmpxchng_zf;
-CMPXCHNG_alu a3(cmpxchng_out, OP1_DEST, cmpxchng_zf, OP1, OP2, OP3,OP1_ORIG, CMPXCHNG_P_OP);
+ wire cmpxchng_af;wire cmpxchng_cf;wire cmpxchng_off;
+CMPXCHNG_alu a3(cmpxchng_out, OP1_DEST,cmpxchng_af, cmpxchng_cf, cmpxchng_of,  cmpxchng_zf, OP1, OP2, OP3,OP1_ORIG, CMPXCHNG_P_OP);
 
 //do parity
 //aluk = 01000
 wire[63:0] daa_out;
 wire daa_cf;
 wire daa_af;
+wire daa_of; assign daa_of = 0;
 DAA_alu d1(daa_out, daa_af, daa_cf, OP1, af, cf );
 
  //NOTA_alu
 //aluk = 01001
+wire not_af; assign not_af = 0;
+wire not_cf; assign not_cf = 0;
+wire not_of; assign not_of = 0;
 wire [63:0] notA_out;
 inv_n #(64) i1(notA_out, OP1);
 
 //do flags
 //aluk = 01010
-wire or_cf, or_of;
+wire or_af; assign or_af = 0;
+wire or_cf; assign or_cf = 0;
+wire or_of; assign or_of = 0;
+
 wire[63:0] or_out;
 OR_alu o1(or_out, or_cf, or_of, OP1, OP2);
 
@@ -107,12 +143,24 @@ PUNPCKHW_alu p7 (punpckhw_out, OP1, OP2);
 //do flags
 //aluk = 10001
 wire[63:0] sar_out;
-SAR_alu s1(sar_out, OP1, OP2, MUX_SHF);
+wire sar_af; 
+wire sar_cf; 
+wire sar_of; 
+wire sar_cc_val;
+SAR_alu s1(sar_out,sar_af, sar_cf, sar_of, sar_cc_val, OP1, OP2, MUX_SHF);
 
 //do flags
 //aluk = 10010
 wire[63:0] sal_out;
-SAL_alu s2(sal_out, OP1, OP2, MUX_SHF);
+wire sal_af; 
+wire sal_cf; 
+wire sal_of; 
+wire sal_cc_val;
+SAL_alu s2(sal_out,sal_af, sal_cf, sal_of, sal_cc_val, OP1, OP2, MUX_SHF);
+nand2$ o11(cc_val, sar_cc_val,SAR_P_OP );
+nand$ o12(isSHF,sal_cc_val , SAL_P_OP);
+nand$ a12(cc_inval, cc_val, iSHF);
+
 
 wire[31:0] alukOH;
 decodern #(5) d2(aluk, alukOH);
@@ -121,12 +169,30 @@ wire[1215:0] aluRes;
 assign aluRes = {sal_out, sar_out, punpckhw_out, punpckhbw_out,packssdw_out, packsswb_out, paddd_out, paddw_out, or_out,notA_out, daa_out, cmpxchng_out, pass1, pass0, passA, passB, penc_out,add_out,and_out};
 muxnm_tristate #(32,64) t1(aluRes, alukOH, ALU_OUT);
 
+
+wire [31:0] af_sel;
+assign af_sel = {and_af, add_af,penc_af,movB_af,movA_af, cld_af,std_af,cmpxchng_af,daa_af,     not_af,      or_af,    1'b0,    1'b0,    1'b0,    1'b0,    1'b0,    1'b0,      sar_af,      sal_af,    13'd0};
+wire [31:0] cf_sel;
+assign cf_sel = {and_cf,add_cf,penc_cf,movB_cf,    movA_cf,     cld_cf,     std_cf,cmpxchng_cf,     daa_cf,     not_cf,      or_cf,    1'b0,    1'b0,    1'b0,    1'b0,    1'b0,    1'b0,      sar_cf,      sal_cf,    13'd0};
+wire [31:0] of_sel;
+assign of_sel = {     and_of,     add_of,    penc_of,    movB_of,    movA_of,     cld_of,     std_of,cmpxchng_of,     daa_of,     not_of,      or_of,    1'b0,    1'b0,    1'b0,    1'b0,    1'b0,    1'b0,      sar_of,      sal_of,    13'd0};
+
+muxnm_tristate #(32,1) t2(af_sel, alukOH, af_out);
+muxnm_tristate #(32,1) t3(cf_sel, alukOH, cf_out);
+muxnm_tristate #(32,1) t4(of_sel, alukOH, of_out);
+
 endmodule
+
+
 
 ///////////////////////////////////////////////////////////
 
 module SAL_alu(
     output [63:0] SAL_out,
+    output sal_af,
+    output sal_cf,
+    output sal_of,
+    output cc_val,
     input [63:0] OP1, OP2, 
     input MUX_SHF
 );
@@ -143,7 +209,18 @@ assign SAL_out[63:32] = 32'd0;
 wire overSHF;
 or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
 
+
+//genCF
+inv_n #(32) (shiftCntN, shiftCnt);
+muxnm_tristate #(32, 1) ({1'b0,OP1[30:0]}, shiftCntN, SAR_cf_nOF);
+mux2$ (sal_cf, SAR_cf_nOF, OP1[31], overSHF);
+
+assign sal_of = OP1[31];
+assign sal_af = 0;
+
 mux2n #(32) mx(SAL_out[31:0], shf_out, 32'd0 ,overSHF);
+equaln #(32) (32'd0, shiftCnt, cc_val);
+
 endmodule
 
 
@@ -151,6 +228,10 @@ endmodule
 
 module SAR_alu(
     output [63:0] SAR_out,
+    output sar_af,
+    output sar_cf,
+    output sar_of,
+    output cc_val,
     input [63:0] OP1, OP2, 
     input MUX_SHF
 );
@@ -168,6 +249,14 @@ wire overSHF;
 or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
 
 mux4n #(32) mx(SAR_out[31:0], shf_out, 32'd0 ,shf_out ,32'hFFFF_FFFF ,overSHF, OP1[31]);
+
+//genCF
+muxnm_tristate #(32, 1) ({OP1[30:0],1'b0}, shiftCnt, SAR_cf_nOF);
+mux2$ (sar_cf, SAR_cf_nOF, OP1[31], overSHF);
+
+assign sar_of = OP1[0];
+assign sar_af = 0;
+equaln #(32) (32'd0, shiftCnt, cc_val);
 endmodule
 
 ///////////////////////////////////////////////////////////
@@ -265,7 +354,7 @@ endmodule
 
 module OR_alu(
     output[63:0] or_out,
-    output or_of, or_cf,
+    
     input [63:0] OP1, OP2
 );
  genvar i;
@@ -274,8 +363,7 @@ module OR_alu(
         or2$ o1(or_out[i], OP1[i], OP2[i]);
     end
  endgenerate
- assign or_of = 0; 
- assign or_cf = 0;
+
 endmodule
 
 
@@ -322,6 +410,10 @@ endmodule
 module CMPXCHNG_alu(
     output[63:0] cmpxchng_out,
     output [31:0] op1_dest,
+    output swap,
+    output cmpxchng_af,
+    output cmpxchng_cf,
+    output cmpxchng_of,
     output cmpxchng_zf,
     input [63:0] OP1, OP2, OP3,
     input [31:0] op1_orig,
@@ -339,11 +431,27 @@ module CMPXCHNG_alu(
     
     wire[31:0] mux1_out;
     mux2n #(32) m1(mux1_out, 32'd0, op1_orig, op1_EQ_op3);
-
-    mux2n #(32) m2(op1_dest, op1_orig, mux1_out, cmpxchng_p_op);
-
-    
+   
+   and2$ andx(swap, op1_EQ_op3, cmpxchng_p_op);
+   
+    mux2n #(32) m2(op1_dest, op1_orig, mux1_out, cmpxchng_p_op);   
     mux2n #(64) m3(cmpxchng_out, OP1, OP2, op1_EQ_op3);
+   
+    wire[31:0] not2;
+    inv_n #(32) in1(not2, OP2[31:0]);
+    wire[31:0] incB;
+    wire[31:0] adderResult;
+    kogeAdder #(32) a1(adderResult, cmpxchng_cf, OP1[31:0],not2 , 1'b1);
+    kogeAdder #(32) a2(incB, COUT2, 32'd0,not2 , 1'b1);
+    
+    wire[3:0] adder_af;
+    kogeAdder #(4) a3(adder_af, nulls, incB[7:4], OP1[7:4], 1'b0);
+    equaln #(4) e2(adder_af[3:0], adderResult[7:4], af_outn);
+    inv1$ i1(af_out, af_outn);
+    
+    wire uf, of;
+    calcSat cs1(of, uf, OP1[31], incB[31], adderResult[31]);
+    or2$ o1(of_out, of, uf);
 
 endmodule
 
@@ -384,14 +492,26 @@ endmodule
 
 module ADD_alu(
     output[63:0] ADD_ALU_OUT,
-    output COUT,
+    output af_out,
+    output cf_out,
+    output of_out,
     input[63:0] OP1, OP2,
     input[2:0] MUX_ADDER_IMM
 );
     wire [31:0] mux_res;
     wire[31:0] adderResult;
+    wire[3:0] adder_af;
+    wire nulls;
     mux8_n #(32) m1(mux_res, OP2[31:0], 32'd2, 32'd4, 0, 32'd6, 32'hFFFF_FFFE, 32'hFFFF_FFFC, 0, MUX_ADDER_IMM[0],MUX_ADDER_IMM[1], MUX_ADDER_IMM[2]);
     kogeAdder #(32) a1(adderResult, COUT, OP1[31:0], mux_res, 1'b0);
+    
+    kogeAdder #(4) a2(adder_af, nulls, mux_res[7:4], OP1[7:4], 1'b0);
+    equaln #(4) e1(adder_af[3:0], adderResult[7:4], af_outn);
+    inv1$ i1(af_out, af_outn);
+    
+    wire uf, of;
+    calcSat cs1(of, uf, OP1[31], mux_res[31], adderResult[31]);
+    or2$ o1(of_out, of, uf);
     
     wire[63:0] ext1;
     wire[63:0] ext0;
