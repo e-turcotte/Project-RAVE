@@ -1,6 +1,5 @@
 module regfile (input [255:0] din,
-                input [11:0] ld_addr,
-                input [11:0] rd_addr,
+                input [11:0] ld_addr, rd_addr,
                 input [3:0] ldsize, rdsize,
                 input [3:0] ld_en,
                 input clr,
@@ -29,11 +28,11 @@ module regfile (input [255:0] din,
                 and3$ g4(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[1]));
                 and3$ g5(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[1]));
             end else if (16 <= i < 24) begin
-                and3$ g4(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[2]));
-                and3$ g5(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[2]));
+                and3$ g6(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[2]));
+                and3$ g7(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[2]));
             end else begin
-                and3$ g4(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[3]));
-                and3$ g5(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[3]));
+                and3$ g8(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[3]));
+                and3$ g9(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[3]));
             end
         end
     endgenerate

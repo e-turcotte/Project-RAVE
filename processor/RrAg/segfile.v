@@ -1,13 +1,14 @@
 module segfile (input [15:0] base_in,
-                input [2:0] ld, rd,
-                input clr,
+                input [2:0] ld_addr,
+                input [5:0] rd_addr,
+                input ld_en, clr,
                 input clk,
-                output [15:0] base_out,
-                output [19:0] lim_out);
+                output [31:0] base_out,
+                output [39:0] lim_out);
 
     wire [7:0] decodedld;
 
-    decodern #(.INPUT_WIDTH(3)) d0(.in(ld), .out(decodedld)); 
+    decodern #(.INPUT_WIDTH(3)) d0(.in(ld_addr), .out(decodedld)); 
 
     wire [95:0] base_outs;
     wire [119:0] lim_outs;
@@ -27,12 +28,18 @@ module segfile (input [15:0] base_in,
                 default:    assign lim_in = 0;
             endcase
 
-            seg r0(.base_in(base_in), .lim_in(lim_in), .ld(decodedld[i]), .clr(clr), .clk(clk), .base_out(base_outs[(i+1)*16-1:i*16]), .lim_out(lim_outs[(i+1)*20-1:i*20]));
+            wire segld;
+
+            and2$ g0(.out(segld), .in0(decodedld[i]), .in1(ld_en));
+
+            seg r0(.base_in(base_in), .lim_in(lim_in), .ld(segld), .clr(clr), .clk(clk), .base_out(base_outs[(i+1)*16-1:i*16]), .lim_out(lim_outs[(i+1)*20-1:i*20]));
         end
     endgenerate
 
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(16)) m0(.in({{32{1'b0}},base_outs}), .sel(rd), .out(base_out));
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(20)) m1(.in({{40{1'b0}},lim_outs}), .sel(rd), .out(lim_out));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(16)) m0(.in({{32{1'b0}},base_outs}), .sel(rd_addr[2:0]), .out(base_out[15:0]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(20)) m1(.in({{40{1'b0}},lim_outs}), .sel(rd_addr[2:0]), .out(lim_out[19:0]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(16)) m2(.in({{32{1'b0}},base_outs}), .sel(rd_addr[5:3]), .out(base_out[31:16]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(20)) m3(.in({{40{1'b0}},lim_outs}), .sel(rd_addr[5:3]), .out(lim_out[39:20]));
 
     always @(posedge clk) begin
         #1;
