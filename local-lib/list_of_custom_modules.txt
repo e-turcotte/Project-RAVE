@@ -15,4 +15,7 @@ Eddie's Modules:
 
 Rohan's Modules: 
 
-
+mag_comp32 (A, B, AGB, ALB, EQ);
+sat_cntr2 (clk, set_n, rst_n, in, enable, s_out_high, s_out_low);
+fulladder1 (A, B, cin, sum, cout);
+encoder 4_2 (in, out);
