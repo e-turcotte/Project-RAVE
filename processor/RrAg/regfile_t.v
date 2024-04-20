@@ -7,13 +7,14 @@ module TOP;
 
     reg [63:0] in0, in1, in2, in3;
     reg [2:0] ld0, ld1, ld2, ld3, rd0, rd1, rd2, rd3;
-    reg [3:0] ldsize, rdsize;
-    reg [3:0] ld_en;
+    reg [1:0] ldsize, rdsize;
+    reg [3:0] ld_en, dest;
+    reg [6:0] data_ptcid, new_ptcid;
     reg clr;
-    wire [63:0] out0, out1, out2, out3;
+    wire [63:0] out0, out1, out2, out3, ptc0, ptc1, ptc2, ptc3;
     reg clk;
 
-    regfile rf(.din({in3,in2,in1,in0}), .ld_addr({ld3,ld2,ld1,ld0}), .rd_addr({rd3,rd2,rd1,rd0}), .ldsize(ldsize), .rdsize(rdsize), .ld_en(ld_en), .clr(clr), .clk(clk), .dout({out3,out2,out1,out0}));
+    regfile rf(.din({in3,in2,in1,in0}), .ld_addr({ld3,ld2,ld1,ld0}), .rd_addr({rd3,rd2,rd1,rd0}), .ldsize(ldsize), .rdsize(rdsize), .ld_en(ld_en), .dest(dest), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .clk(clk), .dout({out3,out2,out1,out0}), .ptcout({ptc3,ptc2,ptc1,ptc0}));
 
 
     initial begin
@@ -24,10 +25,12 @@ module TOP;
     initial begin
         rd0 = 0; rd1 = 0; rd2 = 0; rd3 = 0;
         ld0 = 0; ld1 = 0; ld2 = 0; ld3 = 0;
-        ldsize = 4'b0100; rdsize = 4'b0100;
-        ld_en = 4'b1111;
-        clr = 1'b1;
+        ldsize = 2'b10; rdsize = 2'b10;
+        ld_en = 4'b1111; dest = 4'b1111;
+        data_ptcid = 7'b0000000; new_ptcid = 7'b1111111;
+        clr = 1'b0;
         #CYCLE_TIME;
+        clr = 1'b1;
         for (k = 0; k < 8; k = k + 4) begin
             regk[0] = k & 8'hff; regk[1] = (k+1) & 8'hff; regk[2] = (k+2) & 8'hff; regk[3] = (k+3) & 8'hff;
             in0 = {64{regk[0]}};
@@ -38,8 +41,9 @@ module TOP;
             ld0 = regk[0][2:0]; ld1 =regk[1][2:0]; ld2 = regk[2][2:0]; ld3 =regk[3][2:0];
             #CYCLE_TIME; 
         end
+        #CYCLE_TIME;
 
-        ldsize = 4'b1000; rdsize = 4'b1000;
+        ldsize = 2'b11; rdsize = 2'b11;
         for (k = 0; k < 8; k = k + 4) begin
             regk[0] = k & 8'hff; regk[1] = (k+1) & 8'hff; regk[2] = (k+2) & 8'hff; regk[3] = (k+3) & 8'hff;
             in0 = {64{regk[0]<<4}};
@@ -52,7 +56,7 @@ module TOP;
         end
         #CYCLE_TIME;
 
-        ldsize = 4'b0010; rdsize = 4'b0010;
+        ldsize = 2'b01; rdsize = 4'b01;
         for (k = 0; k < 8; k = k + 4) begin
             regk[0] = k & 8'hff; regk[1] = (k+1) & 8'hff; regk[2] = (k+2) & 8'hff; regk[3] = (k+3) & 8'hff;
             in0 = {64{1'b1}};
@@ -65,7 +69,7 @@ module TOP;
         end
         #CYCLE_TIME;
 
-        ldsize = 4'b0001; rdsize = 4'b0001;
+        ldsize = 2'b00; rdsize = 2'b00;
         ld_en = 4'b0110;
         for (k = 0; k < 8; k = k + 4) begin
             regk[0] = k & 8'hff; regk[1] = (k+1) & 8'hff; regk[2] = (k+2) & 8'hff; regk[3] = (k+3) & 8'hff;
