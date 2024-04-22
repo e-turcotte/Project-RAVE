@@ -22,7 +22,9 @@ module ALU_top(
 
     input [1:0] size,
     //input EFLAGS
-    input  af, cf, zf
+    input  af, cf, of, zf,
+    input[15:0] CS,
+    input[31:0] EIP
 );
 //CCGEN
 wire zf_base; wire penc_zf;
@@ -39,7 +41,7 @@ assign ALU_OUT_2 = OP1;
 //aluk = 00000
 wire[63:0] and_out;
 wire and_of, and_cf, and_af;
-assign and_of = 1'b0; assign and_Cf = 1'b0; assign and_af = 1'b0;
+assign and_of = 1'b0; assign and_cf = 1'b0; assign and_af = 1'b0;
 AND_alu a1(and_out, OP1,OP2,MUX_AND_INT);
 
 //do flags
@@ -88,8 +90,8 @@ assign pass1 = 64'd1;
 //do flags
 //aluk = 00111
 wire[63:0] cmpxchng_out;
- wire cmpxchng_af;wire cmpxchng_cf;wire cmpxchng_off;
-CMPXCHNG_alu a3(cmpxchng_out, OP1_DEST,cmpxchng_af, cmpxchng_cf, cmpxchng_of,  cmpxchng_zf, OP1, OP2, OP3,OP1_ORIG, CMPXCHNG_P_OP);
+ wire cmpxchng_af;wire cmpxchng_cf;wire cmpxchng_of;
+CMPXCHNG_alu a3(cmpxchng_out, OP1_DEST,swapCXC, cmpxchng_af, cmpxchng_cf, cmpxchng_of,  cmpxchng_zf, OP1, OP2, OP3,OP1_ORIG, CMPXCHNG_P_OP);
 
 //do parity
 //aluk = 01000
@@ -114,7 +116,7 @@ wire or_cf; assign or_cf = 0;
 wire or_of; assign or_of = 0;
 
 wire[63:0] or_out;
-OR_alu o1(or_out, or_cf, or_of, OP1, OP2);
+OR_alu o1(or_out,  OP1, OP2);
 
 //aluk = 01011
 wire[63:0] paddw_out; 
@@ -147,7 +149,7 @@ wire sar_af;
 wire sar_cf; 
 wire sar_of; 
 wire sar_cc_val;
-SAR_alu s1(sar_out,sar_af, sar_cf, sar_of, sar_cc_val, OP1, OP2, MUX_SHF);
+SAR_alu s1(sar_out,sar_af, sar_cf, sar_of, sar_cc_val, OP1, OP2, MUX_SHF, of);
 
 //do flags
 //aluk = 10010
@@ -156,10 +158,13 @@ wire sal_af;
 wire sal_cf; 
 wire sal_of; 
 wire sal_cc_val;
-SAL_alu s2(sal_out,sal_af, sal_cf, sal_of, sal_cc_val, OP1, OP2, MUX_SHF);
+SAL_alu s2(sal_out,sal_af, sal_cf, sal_of, sal_cc_val, OP1, OP2, MUX_SHF, of);
 nand2$ o11(cc_val, sar_cc_val,SAR_P_OP );
-nand$ o12(isSHF,sal_cc_val , SAL_P_OP);
-nand$ a12(cc_inval, cc_val, iSHF);
+nand2$ o12(isSHF,sal_cc_val , SAL_P_OP);
+nand2$ a12(cc_inval, cc_val, isSHF);
+
+//aluk = 10011
+wire [63:0] ptr_out;
 
 
 wire[31:0] alukOH;
@@ -194,7 +199,8 @@ module SAL_alu(
     output sal_of,
     output cc_val,
     input [63:0] OP1, OP2, 
-    input MUX_SHF
+    input MUX_SHF,
+    input of
 );
 wire[31:0] shiftCnt;
 wire[31:0] inpCap;
@@ -207,19 +213,24 @@ lshfn_variable #(32)  r1(OP1, shiftCnt, 1'b0, shf_out);
 assign SAL_out[63:32] = 32'd0;
 
 wire overSHF;
-or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
+genvar i;
+
+equaln #(5) e1(of_sel, shiftCnt[4:0], 5'b00001);
+
+
 
 
 //genCF
-inv_n #(32) (shiftCntN, shiftCnt);
-muxnm_tristate #(32, 1) ({1'b0,OP1[30:0]}, shiftCntN, SAR_cf_nOF);
-mux2$ (sal_cf, SAR_cf_nOF, OP1[31], overSHF);
+inv_n #(32) inv1(shiftCntN, shiftCnt);
+muxnm_tristate #(32, 1) mx3({1'b0,OP1[30:0]}, shiftCntN, SAR_cf_nOF);
+mux2$ mx4(sal_cf, SAR_cf_nOF, OP1[31], overSHF);
 
-assign sal_of = OP1[31];
+or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
+mux2$ mx1(sal_of, op, OP1[31], of_sel);
 assign sal_af = 0;
 
 mux2n #(32) mx(SAL_out[31:0], shf_out, 32'd0 ,overSHF);
-equaln #(32) (32'd0, shiftCnt, cc_val);
+equaln #(32) mx5(32'd0, shiftCnt, cc_val);
 
 endmodule
 
@@ -233,7 +244,8 @@ module SAR_alu(
     output sar_of,
     output cc_val,
     input [63:0] OP1, OP2, 
-    input MUX_SHF
+    input MUX_SHF,
+    input of
 );
 wire[31:0] shiftCnt;
 wire[31:0] inpCap;
@@ -251,12 +263,14 @@ or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
 mux4n #(32) mx(SAR_out[31:0], shf_out, 32'd0 ,shf_out ,32'hFFFF_FFFF ,overSHF, OP1[31]);
 
 //genCF
-muxnm_tristate #(32, 1) ({OP1[30:0],1'b0}, shiftCnt, SAR_cf_nOF);
-mux2$ (sar_cf, SAR_cf_nOF, OP1[31], overSHF);
+muxnm_tristate #(32, 1) mx1({OP1[30:0],1'b0}, shiftCnt, SAR_cf_nOF);
+mux2$ mx2(sar_cf, SAR_cf_nOF, OP1[31], overSHF);
 
-assign sar_of = OP1[0];
+or3$ o2(overSHF, OP2[6], OP2[7], OP2[5]);
+mux2$ mx3(sar_of, op, OP1[0], of_sel);
+
 assign sar_af = 0;
-equaln #(32) (32'd0, shiftCnt, cc_val);
+equaln #(32) eq1(32'd0, shiftCnt, cc_val);
 endmodule
 
 ///////////////////////////////////////////////////////////
@@ -503,7 +517,7 @@ module ADD_alu(
     wire[3:0] adder_af;
     wire nulls;
     mux8_n #(32) m1(mux_res, OP2[31:0], 32'd2, 32'd4, 0, 32'd6, 32'hFFFF_FFFE, 32'hFFFF_FFFC, 0, MUX_ADDER_IMM[0],MUX_ADDER_IMM[1], MUX_ADDER_IMM[2]);
-    kogeAdder #(32) a1(adderResult, COUT, OP1[31:0], mux_res, 1'b0);
+    kogeAdder #(32) a1(adderResult, cf_out, OP1[31:0], mux_res, 1'b0);
     
     kogeAdder #(4) a2(adder_af, nulls, mux_res[7:4], OP1[7:4], 1'b0);
     equaln #(4) e1(adder_af[3:0], adderResult[7:4], af_outn);
@@ -513,12 +527,8 @@ module ADD_alu(
     calcSat cs1(of, uf, OP1[31], mux_res[31], adderResult[31]);
     or2$ o1(of_out, of, uf);
     
-    wire[63:0] ext1;
-    wire[63:0] ext0;
-    assign ext0 = {32'h0000_0000, adderResult};
-    assign ext1 = {32'hFFFF_FFFF, adderResult};
-
-    mux2n #(64) m2(ADD_ALU_OUT, ext0, ext1, adderResult[31]);
+    assign ADD_ALU_OUT[63:32] = 32'd0;
+    assign ADD_ALU_OUT[31:0] = adderResult[31:0];
 
 endmodule
 
