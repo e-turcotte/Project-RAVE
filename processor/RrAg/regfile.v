@@ -299,6 +299,6 @@ module mmx (input [63:0] din,
     equaln #(.WIDTH(7)) eq0(.a(data_ptcid), .b(id), .eq(clearptc));
     or2$ g0(.out(ptcld), .in0(dest), .in1(clearptc));
     regn #(.WIDTH(1)) mm_ptcv(.din(dest), .ld(ptcld), .clr(clr), .clk(clk), .dout(ptc));
-    assign mm_ptc = {8{ptc,id}};
+    assign mm_ptc = {64{ptc,id}};
 
 endmodule
