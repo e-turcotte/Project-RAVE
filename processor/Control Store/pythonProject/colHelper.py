@@ -968,7 +968,7 @@ def XCHG(row,op,asm):
     # OP1
     row[6] = "1'b1"  # op1_wb
     row[8] = "2'b10" if "EAX" in row[1] or "32" in asm[1] else "2'b00"  # op1_size
-    row[9] = "32'd0" if "+" not in op else row[9]  # Op1_orig
+    row[9] = "32'd0" if "+" not in op[0] else row[9]  # Op1_orig
     row[10] = "1'b1" if "EAX" in row[1] or "AL" in row[1] or not "/" in asm[1] else "1'b0"  # op1_isReg
     row[11] = "1'b0"  # op1_isSegReg
     row[12] = "1'b0"  # op1_loadEIP

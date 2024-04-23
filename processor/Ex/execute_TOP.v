@@ -5,6 +5,8 @@
 // swap EIP and CS to res2
 //Handle ESP-4 ,2 for OP3
 //verify CMOVC reads both r132 and rm32
+// handle push for OP3 and decrementing ESP
+//How is POP handled in RRAG
 
 module execute_TOP(
  output valid,
@@ -145,7 +147,7 @@ assign res2_dest = op2_orig;
  assign res2_size = op2_size;
 
 //handle ALU
-ALU_top a1(res1, res1_dest_out, res2_xchg, swapCXC, cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_inval, op1, op2, op3, op1_orig, aluk, MUX_ADDER_IMM, MUX_AND_INT, MUX_SHIFT, P_OP[7], P_OP[2], P_OP[31],P_OP[29], P_OP[30], op1_size,af,cf,zf); 
+ALU_top a1(res1, res1_dest_out, res2_xchg, swapCXC, cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_inval, op1, op2, op3, op1_orig, aluk, MUX_ADDER_IMM, MUX_AND_INT, MUX_SHIFT, P_OP[7], P_OP[2], P_OP[31],P_OP[29], P_OP[30], op1_size,af,cf,of,zf, CS, EIP_in); 
 
 //Handle eflags block
 wire[17:0] eflags_ld, eflags_rd;

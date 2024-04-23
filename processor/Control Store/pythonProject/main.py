@@ -24,7 +24,7 @@ def main():
                     rows[-1][2] = str("8'h" + (temp[0]))
 
                     # rows[-1][2] = int(rows[-1][0].split()[0],16) + i
-                    rows[-1][9] = "3'b" + format(i, '03b')
+                    rows[-1][9] = "32'd" +  str(i) #format(i, '032b')
             else:
                 if(not "REP" in row[1]):
                     rows.append(row)
