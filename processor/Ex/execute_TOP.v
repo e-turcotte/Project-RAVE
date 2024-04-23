@@ -3,10 +3,11 @@
 //handle EIP+CS in execute
 // add {CS, EIP} to ALU
 // swap EIP and CS to res2
-//Handle ESP-4 ,2 for OP3
+//Handle ESP-4 ,2 for OP4
 //verify CMOVC reads both r132 and rm32
 // handle push for OP3 and decrementing ESP
 //How is POP handled in RRAG
+//Look into how to handle skipgen when BR pred taken but actually not
 
 module execute_TOP(
  output valid,

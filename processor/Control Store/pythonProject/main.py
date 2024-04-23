@@ -24,7 +24,7 @@ def main():
                     rows[-1][2] = str("8'h" + (temp[0]))
 
                     # rows[-1][2] = int(rows[-1][0].split()[0],16) + i
-                    rows[-1][9] = "32'd" +  str(i) #format(i, '032b')
+                    rows[-1][20] = "3'd" +  str(i) #format(i, '032b')
             else:
                 if(not "REP" in row[1]):
                     rows.append(row)
@@ -37,13 +37,21 @@ def main():
     skip = True
     for row in rows:
         # parsing each column of a row
-        row[14] = "x"
-        row[21] = "x"
-        row[27] = "x"
         OP =  row[0].split()
         asm = row[1].split()
         opcode = asm[0]
         opH = row[2]
+        row[19] = "2'b11" if "64" in row[1] else "2'b10" if "32" in row[1] or "EAX" in row[1] else "2'b00"
+
+        row[9] = "1'b0"  # MUX_AND_INT
+
+        if "?" in row[0]:
+            row[6] = "8'h0" + row[0][row[0].find("/") + 1]
+        elif "0F" in row[0]:
+            row[6] = "8'h" + row[0][row[0].find("F") + 2] + row[0][row[0].find("F") + 3]
+        else:
+            row[6] = "8'h00"
+
         #HANDLE isMOD
         if  '/' in row[1]:
             row[3] = "1'b1"
@@ -62,43 +70,61 @@ def main():
 
         #isFP
         if(opcode == "FDIV" or opcode == "FMUL" or opcode == "FADD"):
+            row[16] = "1'b1"
+        else:
+            row[16] = "1'b0"
+
+        #isBR
+        if (opcode == "JMP" or opcode == "JNBE" or opcode == "JNE" or opcode == "RET" or opcode == "CALL" or opcode == "REtid" ):
+            row[15] = "1'b1"
+        else:
+            row[15] = "1'b0"
+
+        #conditionals
+        if(opcode == "JNBE"):
+            row[13] = "2'b11"
+        elif (opcode == "JNE"):
+            row[13] = "2'b10"
+        elif (opcode == "JNBE"):
+            row[13] = "2'b11"
+        elif(opcode == "CMOVC"):
+            row[13] = "2'b01"
+        else :
+            row[13] = "2'b00"
+
+        #isImm
+        if "imm" in row[1] or "rel" in row[1]:
+            row[17] = "1'b1"
+            for items in asm:
+                if "imm" in items or "rel" in items:
+                    row[18] = "2:b11" if ":" in items else "2'b10" if "32" in items else "2'b01" if "16" in items  else "2'b00"
+
+        else:
+            row[17] = "1'b0"
+            row[18] = "2'b00"
+
+        if(opH == "8'hD1" or opH == "8'hD0" ):
+            row[10] = "1'b1"
+        else:
+            row[10] = "1'b0"
+
+        if ("r/m8" in row[1] and "r8" in row[1]) or ("r/m32" in row[1] and "r32" in row[1]) or ("m64" in row[1] ):
             row[40] = "1'b1"
         else:
             row[40] = "1'b0"
 
-        #isBR
-        if (opcode == "JMP" or opcode == "JNBE" or opcode == "JNE" or opcode == "RET" or opcode == "CALL" or opcode == "REtid" ):
-            row[39] = "1'b1"
+        if(len(asm) > 1 and (("r/m8" in asm[1]) or ("r/m32" in asm[1]) or ("m64" in asm[1]))): #if MODRM first operand, overwrite OP1 to either MOD or REG mux select
+            row[43] = "2'b01"
+        elif (len(asm) > 2 and (("r/m8" in asm[2]) or ("r/m32" in asm[2]) or ("m64" in asm[2]))): #if MODRM second operand, overwrite OP1 to either MOD or REG mux select
+            row[43] = "2'b10"
         else:
-            row[39] = "1'b0"
+            row[43] = "1'b0"
 
-        #conditionals
-        if(opcode == "JNBE"):
-            row[37] = "2'b11"
-        elif (opcode == "JNE"):
-            row[37] = "2'b10"
-        elif (opcode == "JNBE"):
-            row[37] = "2'b11"
-        else :
-            row[37] = "2'b00"
-
-        #isImm
-        if "imm" in row[1] or "rel" in row[1]:
-            row[41] = "1'b1"
-            for items in asm:
-                if "imm" in items or "rel" in items:
-                    row[42] = "2:b11" if ":" in items else "2'b10" if "32" in items else "2'b01" if "16" in items  else "2'b00"
-
+        if(opH == "8'h83" or opH == "8'h8C"):
+            row[44] = "1'b1"
         else:
-            row[41] = "1'b0"
-            row[42] = "2'b00"
-
-        if(opH == "8'hD1" or opH == "8'hD0" ):
-            row[34] = "1'b1"
-        else:
-            row[34] = "1'b0"
-
-        row = helperOP(row, OP, asm)
+            row[44] = "1'b0"
+        helperOP(row, OP, asm)
 
     numRows = 1
 

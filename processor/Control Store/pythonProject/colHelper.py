@@ -1,394 +1,396 @@
+DC = "13'h0001"
+R1 = "13'h0001"
+R2 = "13'h0002"
+R3 = "13'h0004"
+R4 = "13'h0008"
+S1 = "13'h0010"
+S2 = "13'h0020"
+S3 = "13'h0040"
+S4 = "13'h0080"
+M1 = "13'h0100"
+M2 = "13'h0200"
+EIP  = "13'h0400"
+CSEIP = "13'h0800"
+IMM = "13'h1000"
+
+z = "1'b0"
+o = "1'b1"
+oo = "2'b11"
+zz = "2'b00"
+zo = "2'b01"
+oz = "2'b10"
+zzz = "3'b000"
+CS = "3'b000"
+DS = "3'b001"
+SS = "3'b010"
+ES = "3'b011"
+FS = "3'b100"
+GS = "3'b101"
+EAX = "3'b000"
+EBX = "3'b001"
+ECX = "3'b010"
+EDX = "3'b011"
+EBP = "3'b100"
+ESI = "3'b101"
+EDI = "3'b110"
+ESP = "3'b111"
+
+
+
+
 def ADD(row,op,asm):
-    #OP1
-    row[6] = "1'b1"    #op1_wb
-    row[8] = "2'b10" if "EAX" in row[1] or "32" in asm[1] else "2'b00"  #op1_size
-    row[9] = "32'd0"                                                    #Op1_orig
-    row[10] =  "1'b1" if "EAX" in row[1] or "AL" in row[1] or not "/" in asm[1] else "1'b0"                   #op1_isReg
-    row[11] = "1'b0"                                                                   #op1_isSegReg
-    row[12] = "1'b0"                                                    #op1_loadEIP
-    row[43] = "1'b0"                        #op1_isMem
-    row[49] = "1'b0"      #op1_rw
-
-    # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b10" if "32" in asm[2] else "2'b00"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b1" if "r" in asm[2] else "1'b0"  # op2_isReg
-    row[18] = "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0" #op2_isMem
-    row[50] = "1'b0"  # op1_rw
-
-    # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op1_rw
-
-    # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op1_rw
-
     #CS
-    row[31] = "6'b000001"  #aluk
-    row[32] = "3'b000"      #MUX_ADDER_IMM
-    row[33] = "1'b0"  #MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0000_0001"  #P_OP
-    #17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_1_0_00_1_1_1_1_1"
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00" #pushEIP_CS (one hot)
+    row[7] = "5'b00001"  #aluk
+    row[8] = "3'b000"      #MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0000_0001"  #P_OP
+    #18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_1_0_00_1_1_1_1_1" #FMASK
 
+    version = 0 if "EAX" in row[1] or "AL" in row [1] else 1 if "imm" in row[1]  else 2 if "r/m" in asm[1] else 3
+    #1
+    row[20] =   EAX    #R1 - MODRM override
+    row[24] =   DS     #S1  - MODRM DS
+    row[21] =    zzz   # R2  - MODRM Base
+    row[25] =    zzz      # S2 - M2 SEG
+    row[22] =    EBP   # R3 - MODRM Index
+    row[26] =   zzz    # S3 - FREE
+    row[23] =  zzz     # R4 - FREE
+    row[27] =   CS    # S4 - CS
+
+    row[41] = zz if version == 0 else oo if version == 1 or version == 2 else oz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    #OPERAND SWAP LOGIC
+    #OP1
+    row[28] =   R1 if version == 0 or version == 3 else M1     #op1_mux
+    row[32] =    R1 if version == 0 or version == 3 else M1    #dest1_mux
+    row[36] =  o      #op1_wb
+    # OP2
+    row[29] = IMM if version == 0 or version == 1 else R1 if version == 2 else M1  # op2_mux
+    row[33] = IMM if version == 0 or version == 1 else R1 if version == 2 else M1  # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
+    # OP4
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
     return
 def AND(row,op,asm):
+    row[7] = "5'b00000"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0000_0010"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_1_0_00_1_1_0_1_1"  # FMASK
+    version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = zzz  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = zz if version == 0 else oo if version == 1 or version == 2 else oz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
     # OP1
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b10" if "EAX" in row[1] or "32" in asm[1] else "2'b00"  # op1_size
-    row[9] = "32'd0"  # Op1_orig
-    row[10] = "1'b1" if "EAX" in row[1] or "AL" in row[1] or not "/" in asm[1] else "1'b0"  # op1_isReg
-    row[11] = "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0" #op_rw
+    row[28] = R1 if version == 0 or version == 3 else M1  # op1_mux
+    row[32] = R1 if version == 0 or version == 3 else M1  # dest1_mux
+    row[36] = o  # op1_wb
     # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b10" if "32" in asm[2] else "2'b00"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b1" if "r" in asm[2] else "1'b0"  # op2_isReg
-    row[18] = "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op_rw
-
+    row[29] = IMM if version == 0 or version == 1 else R1 if version == 2 else M1  # op2_mux
+    row[33] = IMM if version == 0 or version == 1 else R1 if version == 2 else M1  # dest2_mux
+    row[37] = z  # op2_wb
     # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op_rw
-
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
     # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op_rw
-
-    # CS
-    row[31] = "6'b000000"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0000_0010"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_1_0_00_1_1_0_1_1" #mask for EFLAGS
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
     return
 def BSF(row,op,asm):
+    row[7] = "5'b00010"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0000_0100"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_0_00_1_1_1_1_1"  # FMASK
+    #version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = zzz  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] =  oz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
     # OP1
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b10"  # op1_size
-    row[9] = "32'd0"  # Op1_orig
-    row[10] = "1'b1"   # op1_isReg
-    row[11] = "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op1_rw
-
+    row[28] = R1  # op1_mux
+    row[32] = R1   # dest1_mux
+    row[36] = o  # op1_wb
     # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] =  "2'b10"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b0"  # op2_isReg
-    row[18] = "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op1_rw
-
+    row[29] =  M1  # op2_mux
+    row[33] =  M1  # dest2_mux
+    row[37] = z  # op2_wb
     # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op1_rw
-
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
     # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op1_rw
-
-    # CS
-    row[31] = "6'b000010"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0000_0100"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_0_0_00_0_1_0_0_0"
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
-
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
     return
 def CALLnear(row,op,asm):
+    # CS
+    row[7] = "5'b00001"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0000_1000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_0_00_0_0_0_0_0"  # FMASK
+    #version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = zzz  # R1 - MODRM override
+    row[24] = SS  # S1  - MODRM DS
+    row[21] = ESP  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] =  zo # M1_RW
+    row[42] = zz # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = EIP  # op1_mux
+    row[32] = EIP  # dest1_mux
+    row[36] = o  # op1_wb
+    # OP2
+    row[29] = IMM   # op2_mux
+    row[33] = DC  # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = EIP  # op3_mux
+    row[34] = M1  # dest3_mux
+    row[38] = o  # op3_wb
+    # OP4
+    row[31] = S1  # op4_mux
+    row[35] = S1  # dest4_mux
+    row[39] = o  # op4_wb
     return
 
 def CLD(row,op,asm):
-    # OP1
-    row[6] = "1'b0"  # op1_wb
-    row[8] = "2'b00"  # op1_size
-    row[9] = "32'd0"  # Op1_orig
-    row[10] = "1'b0"  # op1_isReg
-    row[11] = "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op_rw
-    # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b00"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b0"  # op2_isReg
-    row[18] = "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op_rw
-    # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op_rw
-    # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op_rw
     # CS
-    row[31] = "6'b000101"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0001_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_0_1_00_0_0_0_0_0"  # mask for EFLAGS
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
+    row[7] = "5'b00101"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0001_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_1_00_0_0_0_0_0"  # FMASK
+    #version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = zz   # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = DC # op1_mux
+    row[32] = DC  # dest1_mux
+    row[36] = z  # op1_wb
+    # OP2
+    row[29] = DC  # op2_mux
+    row[33] = DC  # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
+    # OP4
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
     return
 def STD(row,op,asm):
-
-        # OP1
-        row[6] = "1'b0"  # op1_wb
-        row[8] = "2'b00"  # op1_size
-        row[9] = "32'd0"  # Op1_orig
-        row[10] = "1'b0"  # op1_isReg
-        row[11] = "1'b0"  # op1_isSegReg
-        row[12] = "1'b0"  # op1_loadEIP
-        row[43] = "1'b0"  # op1_isMem
-        row[49] = "1'b0"  # op_rw
-        # OP2
-        row[13] = "1'b0"  # op2_wb
-        row[15] = "2'b00"  # op2_size
-        row[16] = "32'd0"  # Op2_orig
-        row[17] = "1'b0"  # op2_isReg
-        row[18] = "1'b0"  # op2_isSegReg
-        row[19] = "1'b0"  # op2_loadEIP
-        row[44] = "1'b0"  # op2_isMem
-        row[50] = "1'b0"  # op_rw
-
-        # OP3
-        row[20] = "1'b0"  # op3_wb
-        row[22] = "2'b00"  # op3_size
-        row[23] = "32'd0"  # Op3_orig
-        row[24] = "1'b0"  # op3_isReg
-        row[25] = "1'b0"  # op3_isSegReg
-        row[45] = "1'b0"  # op3_isMem
-        row[51] = "1'b0"  # op_rw
-
-        # OP4
-        row[26] = "1'b0"  # op4_wb
-        row[28] = "2'b00"  # op4_size
-        row[29] = "32'd0"  # Op4_orig
-        row[30] = "1'b0"  # op4_isReg
-        row[47] = "1'b0"  # op4_isSegReg
-        row[46] = "1'b0"  # op4_isMem
-        row[52] = "1'b0"  # op_rw
-
-        # CS
-        row[31] = "6'b000110"  # aluk
-        row[32] = "3'b000"  # MUX_ADDER_IMM
-        row[33] = "1'b0"  # MUX_AND_INT
-        row[35] = "37'b0_0000_1000_0000_0000_0000_0000_0000_0010_0000"  # P_OP
-        # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-        row[36] = "17'b000000000_0_1_00_0_0_0_0_0"  # mask for EFLAGS
-        row[38] = "1'b0"  # swapEIP
-        row[48] = "2'b00"  # pushEIP_CS (one hot)
-        return
-def CMOVC(row,op,asm):
-    # OP1
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b10" if "EAX" in row[1] or "32" in asm[1] else "2'b00"  # op1_size
-    row[9] = "32'd0"  # Op1_orig
-    row[10] = "1'b1" if "EAX" in row[1] or "AL" in row[1] or not "/" in asm[1] else "1'b0"  # op1_isReg
-    row[11] = "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op1_rw
-
-    # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b10" if "32" in asm[2] else "2'b00"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b1" if "r" in asm[2] else "1'b0"  # op2_isReg
-    row[18] = "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op1_rw
-
-    # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op1_rw
-
-    # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op1_rw
-
     # CS
-    row[31] = "6'b000011"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0100_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_0_0_00_0_0_0_0_0"
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
+    row[7] = "5'b00110"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0010_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_1_00_0_0_0_0_0"  # FMASK
+    # version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = zz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = DC  # op1_mux
+    row[32] = DC  # dest1_mux
+    row[36] = z  # op1_wb
+    # OP2
+    row[29] = DC  # op2_mux
+    row[33] = DC  # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
+    # OP4
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
+    return
+def CMOVC(row,op,asm):
+    # CS
+    row[7] = "5'b00011"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0100_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000__0_00_0_0_0_0_0"  # FMASK
+
+    #version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = oz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = R1  # op1_mux
+    row[32] = R1   # dest1_mux
+    row[36] = o  # op1_wb
+    # OP2
+    row[29] = M1  # op2_mux
+    row[33] = DC  # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
+    # OP4
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
     return
 def CMPXCHG(row,op,asm):
-    # OP1
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b10" if "EAX" in row[1] or "32" in asm[1] else "2'b00"  # op1_size
-    row[9] = "32'd0"  # Op1_orig
-    row[10] = "1'b1" if "EAX" in row[1] or "AL" in row[1] or not "/" in asm[1] else "1'b0"  # op1_isReg
-    row[11] = "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op1_rw
-
-    # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b10" if "32" in asm[2] else "2'b00"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b1"   # op2_isReg
-    row[18] = "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op1_rw
-
-    # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b10" if "32" in asm[2] else "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b1"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op1_rw
-
-    # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op1_rw
-
     # CS
-    row[31] = "6'b000111"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_0000_0000_0000_0000_1000_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_0_0_00_0_1_0_0_0"
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
+    row[7] = "5'b00111"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0000_0000_0000_1000_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_1_0_00_1_1_1_1_1"  # FMASK
+
+    version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = EAX  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = oo  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = M1  # op1_mux
+    row[32] = M1  # dest1_mux
+    row[36] = o  # op1_wb
+    # OP2
+    row[29] = R1  # op2_mux
+    row[33] = DC  # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = R4  # op3_mux
+    row[34] = R4  # dest3_mux
+    row[38] = z  # op3_wb
+    # OP4
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
     return
 def DAA(row,op,asm):
-    # OP1
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b00"  # op1_size
-    row[9] = "32'd0"  # Op1_orig
-    row[10] = "1'b1"   # op1_isReg
-    row[11] = "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op1_rw
-
-    # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] =  "2'b00"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] =  "1'b0"  # op2_isReg
-    row[18] = "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op1_rw
-
-    # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op1_rw
-
-    # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op1_rw
-
     # CS
-    row[31] = "6'b001000"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_0000_0000_0000_0001_0000_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_0_0_00_1_1_1_1_1"
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
+    row[7] = "5'b01000"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0000_0000_0001_0000_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_0_00_1_1_1_1_1"  # FMASK
+
+    #version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = zz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = R1  # op1_mux
+    row[32] = R1   # dest1_mux
+    row[36] = o  # op1_wb
+    # OP2
+    row[29] = DC  # op2_mux
+    row[33] = DC  # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
+    # OP4
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
     return
 def HLT(row,op,asm):
     return
@@ -399,465 +401,408 @@ def JMPnear(row,op,asm):
 def JMPfar(row,op,asm):
     return
 def MOV(row,op,asm):
-    # OP1
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b10" if "EAX" in row[1] or "32" in asm[1] else "2'b00"  # op1_size
-    row[9] = "32'd0" if not "+" in op[0] else row[9] # Op1_orig
-    row[10] = "1'b1" if ("EAX" in row[1] or "AL" in row[1] or not "/" in asm[1] ) and not "Sreg" in asm[1] else "1'b0"  # op1_isReg
-    row[11] = "1'b1" if "Sreg" in asm[1] else "1'b0"   # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op1_rw
-
-    # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b10" if "32" in asm[2] else "2'b00"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b1" if (not "Sreg" in asm[2])  and (not "imm" in asm[2]) and (not "/" in asm[2])else "1'b0"  # op2_isReg
-    row[18] = "1'b1" if "Sreg" in asm[2] else "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op1_rw
-
-    # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op1_rw
-
-    # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op1_rw
-
     # CS
-    row[31] = "6'b000011"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_0000_0000_0010_0000_0000_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_0_0_00_0_0_0_0_0"
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
+    row[7] = "5'b00011"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0000_0010_0000_0000_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_0_00_0_0_0_0_0"  # FMASK
 
+    version = 2 if "Sreg" in asm[2] else 3 if "Sreg" in asm[1] else 5 if "/" in asm[1] and "imm" in asm[2] else 4 if "imm" in asm[2] else 1 if "/" in asm[2] else 0
+    # 1
+    row[20] = row[20]  if version == 4 else EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - MODRM override
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = zz if version == 4 else oz if version == 1 or version == 3 else oo  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = M1 if version == 0 or version == 2 or version == 5 else R1 if version ==1 or version == 4 else S3  # op1_mux
+    row[32] = M1 if version == 0 or version == 2 or version == 5 else R1 if version ==1 or version == 4 else S3 # dest1_mux
+    row[36] = o  # op1_wb
+    # OP2
+    row[29] =  R1 if version == 0 else M1 if version == 1 or version == 3 else S3 if version == 2 else IMM # op2_mux
+    row[33] =  DC # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
+    # OP4
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
+    return
 
 def MOVQ(row,op,asm):
-    # OP1
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b11"  # op1_size
-    row[9] = "32'd0" if not "+" in op[0] else row[9]  # Op1_orig
-    row[10] = "1'b1" if ("EAX" in row[1] or "AL" in row[1] or not "/" in asm[1]) and not "Sreg" in asm[
-        1] else "1'b0"  # op1_isReg
-    row[11] = "1'b1" if "Sreg" in asm[1] else "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op1_rw
-
-    # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b11"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b1" if (not "Sreg" in asm[2]) and (not "imm" in asm[2]) and (
-        not "/" in asm[2]) else "1'b0"  # op2_isReg
-    row[18] = "1'b1" if "Sreg" in asm[2] else "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op1_rw
-
-    # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op1_rw
-
-    # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op1_rw
-
     # CS
-    row[31] = "6'b000011"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_0000_0000_0010_0000_0000_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_0_0_00_0_0_0_0_0"
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
+    row[7] = "5'b00011"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0000_0100_0000_0000_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_0_00_0_0_0_0_0"  # FMASK
+
+    version = 0 if "64" in asm[1] else 1
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = oo if version == 0 else oz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = M1 if version == 0  else R1  # op1_mux
+    row[32] = M1 if version == 0  else R1  # dest1_mux
+    row[36] = o  # op1_wb
+    # OP2
+    row[29] = R1 if version == 0  else  M1  # op2_mux
+    row[33] = R1 if version == 0  else  M1  # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
+    # OP4
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
+    return
 def MOVS(row,op,asm):
     return
 def NOT(row,op,asm):
-    # OP1
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b10" if "EAX" in row[1] or "32" in asm[1] else "2'b00"  # op1_size
-    row[9] = "32'd0"  # Op1_orig
-    row[10] = "1'b1" if "EAX" in row[1] or "AL" in row[1] or not "/" in asm[1] else "1'b0"  # op1_isReg
-    row[11] = "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op_rw
+    # CS
+    row[7] = "5'b01001"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0001_0000_0000_0000_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_0_00_0_0_0_0_0"  # FMASK
 
-    # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b00"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b0"  # op2_isReg
-    row[18] = "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op_rw
-    # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op_rw
-    # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op_rw
-    # CS
-    row[31] = "6'b010001"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_0000_0001_0000_0000_0000_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_0_0_00_0_0_0_0_0"  # mask for EFLAGS
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
-def OR(row,op,asm):
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b10" if "EAX" in row[1] or "32" in asm[1] else "2'b00"  # op1_size
-    row[9] = "32'd0"  # Op1_orig
-    row[10] = "1'b1" if "EAX" in row[1] or "AL" in row[1] or not "/" in asm[1] else "1'b0"  # op1_isReg
-    row[11] = "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op_rw
-    # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b10" if "32" in asm[2] else "2'b00"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b1" if "r" in asm[2] else "1'b0"  # op2_isReg
-    row[18] = "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op_rw
-    # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op_rw
-    # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op_rw
-    # CS
-    row[31] = "6'b001010"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_0000_0010_0000_0000_0000_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_1_1_00_1_1_0_1_1"  # mask for EFLAGS
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
-def PADDW(row,op,asm):
+    #version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = oo  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
     # OP1
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b11"  # op1_size
-    row[9] = "32'd0"  # Op1_orig
-    row[10] = "1'b1"  # op1_isReg
-    row[11] = "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op_rw
+    row[28] = M1  # op1_mux
+    row[32] = M1  # dest1_mux
+    row[36] = o  # op1_wb
     # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b11"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b0"  # op2_isReg
-    row[18] = "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op_rw
+    row[29] = DC  # op2_mux
+    row[33] =DC  # dest2_mux
+    row[37] = z  # op2_wb
     # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op_rw
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
     # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op_rw
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
+    return
+def OR(row,op,asm):
     # CS
-    row[31] = "6'b001011"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_0000_0100_0000_0000_0000_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_0_0_00_0_0_0_0_0"  # mask for EFLAGS
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
+    row[7] = "5'b01010"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0010_0000_0000_0000_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_1_0_00_1_1_0_1_1"  # FMASK
+
+    version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = zz if version == 0 else oo if version == 1 or version == 2 else oz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = R1 if version == 0 or version == 3 else M1  # op1_mux
+    row[32] = R1 if version == 0 or version == 3 else M1  # dest1_mux
+    row[36] = o  # op1_wb
+    # OP2
+    row[29] = IMM if version == 0 or version == 1 else R1 if version == 2 else M1  # op2_mux
+    row[33] = IMM if version == 0 or version == 1 else R1 if version == 2 else M1  # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
+    # OP4
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
+    return
+def PADDW(row,op,asm):
+    # CS
+    row[7] = "5'b01011"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_0100_0000_0000_0000_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_0_00_0_0_0_0_0"  # FMASK
+
+    #version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = oz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = R1   # op1_mux
+    row[32] = R1   # dest1_mux
+    row[36] = o  # op1_wb
+    # OP2
+    row[29] = M1  # op2_mux
+    row[33] = M1  # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
+    # OP4
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
     return
 def PADDD(row,op,asm):
-        # OP1
-        row[6] = "1'b1"  # op1_wb
-        row[8] = "2'b11"  # op1_size
-        row[9] = "32'd0"  # Op1_orig
-        row[10] = "1'b1"  # op1_isReg
-        row[11] = "1'b0"  # op1_isSegReg
-        row[12] = "1'b0"  # op1_loadEIP
-        row[43] = "1'b0"  # op1_isMem
-        row[49] = "1'b0"  # op_rw
-        # OP2
-        row[13] = "1'b0"  # op2_wb
-        row[15] = "2'b11"  # op2_size
-        row[16] = "32'd0"  # Op2_orig
-        row[17] = "1'b0"  # op2_isReg
-        row[18] = "1'b0"  # op2_isSegReg
-        row[19] = "1'b0"  # op2_loadEIP
-        row[44] = "1'b0"  # op2_isMem
-        row[50] = "1'b0"  # op_rw
-        # OP3
-        row[20] = "1'b0"  # op3_wb
-        row[22] = "2'b00"  # op3_size
-        row[23] = "32'd0"  # Op3_orig
-        row[24] = "1'b0"  # op3_isReg
-        row[25] = "1'b0"  # op3_isSegReg
-        row[45] = "1'b0"  # op3_isMem
-        row[51] = "1'b0"  # op_rw
-        # OP4
-        row[26] = "1'b0"  # op4_wb
-        row[28] = "2'b00"  # op4_size
-        row[29] = "32'd0"  # Op4_orig
-        row[30] = "1'b0"  # op4_isReg
-        row[47] = "1'b0"  # op4_isSegReg
-        row[46] = "1'b0"  # op4_isMem
-        row[52] = "1'b0"  # op_rw
-        # CS
-        row[31] = "6'b001100"  # aluk
-        row[32] = "3'b000"  # MUX_ADDER_IMM
-        row[33] = "1'b0"  # MUX_AND_INT
-        row[35] = "37'b0_0000_0000_0000_0000_1000_0000_0000_0000_0000"  # P_OP
-        # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-        row[36] = "17'b000000000_0_0_00_0_0_0_0_0"  # mask for EFLAGS
-        row[38] = "1'b0"  # swapEIP
-        row[48] = "2'b00"  # pushEIP_CS (one hot)
-        return
-def PACKSSWB(row,op,asm):
-        # OP1
-        row[6] = "1'b1"  # op1_wb
-        row[8] = "2'b11"  # op1_size
-        row[9] = "32'd0"  # Op1_orig
-        row[10] = "1'b1"  # op1_isReg
-        row[11] = "1'b0"  # op1_isSegReg
-        row[12] = "1'b0"  # op1_loadEIP
-        row[43] = "1'b0"  # op1_isMem
-        row[49] = "1'b0"  # op_rw
-        # OP2
-        row[13] = "1'b0"  # op2_wb
-        row[15] = "2'b11"  # op2_size
-        row[16] = "32'd0"  # Op2_orig
-        row[17] = "1'b0"  # op2_isReg
-        row[18] = "1'b0"  # op2_isSegReg
-        row[19] = "1'b0"  # op2_loadEIP
-        row[44] = "1'b0"  # op2_isMem
-        row[50] = "1'b0"  # op_rw
-        # OP3
-        row[20] = "1'b0"  # op3_wb
-        row[22] = "2'b00"  # op3_size
-        row[23] = "32'd0"  # Op3_orig
-        row[24] = "1'b0"  # op3_isReg
-        row[25] = "1'b0"  # op3_isSegReg
-        row[45] = "1'b0"  # op3_isMem
-        row[51] = "1'b0"  # op_rw
-        # OP4
-        row[26] = "1'b0"  # op4_wb
-        row[28] = "2'b00"  # op4_size
-        row[29] = "32'd0"  # Op4_orig
-        row[30] = "1'b0"  # op4_isReg
-        row[47] = "1'b0"  # op4_isSegReg
-        row[46] = "1'b0"  # op4_isMem
-        row[52] = "1'b0"  # op_rw
-        # CS
-        row[31] = "6'b001101"  # aluk
-        row[32] = "3'b000"  # MUX_ADDER_IMM
-        row[33] = "1'b0"  # MUX_AND_INT
-        row[35] = "37'b0_0000_0000_0000_0001_0000_0000_0000_0000_0000"  # P_OP
-        # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-        row[36] = "17'b000000000_0_0_00_0_0_0_0_0"  # mask for EFLAGS
-        row[38] = "1'b0"  # swapEIP
-        row[48] = "2'b00"  # pushEIP_CS (one hot)
-        return
-def PACKSSDW(row,op,asm):
+    # CS
+    row[7] = "5'b01100"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0000_1000_0000_0000_0000_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_0_00_0_0_0_0_0"  # FMASK
+
+    # version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = oz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
     # OP1
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b11"  # op1_size
-    row[9] = "32'd0"  # Op1_orig
-    row[10] = "1'b1"  # op1_isReg
-    row[11] = "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op_rw
+    row[28] = R1  # op1_mux
+    row[32] = R1  # dest1_mux
+    row[36] = o  # op1_wb
     # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b11"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b0"  # op2_isReg
-    row[18] = "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op_rw
+    row[29] = M1  # op2_mux
+    row[33] = M1  # dest2_mux
+    row[37] = z  # op2_wb
     # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op_rw
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
     # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op_rw
-    # CS
-    row[31] = "6'b001110"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_0010_0000_0000_0000_0000_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_0_0_00_0_0_0_0_0"  # mask for EFLAGS
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
     return
+def PACKSSWB(row,op,asm):
+    # CS
+    row[7] = "5'b01101"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0001_0000_0000_0000_0000_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_0_00_0_0_0_0_0"  # FMASK
+
+    # version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = oz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = R1  # op1_mux
+    row[32] = R1  # dest1_mux
+    row[36] = o  # op1_wb
+    # OP2
+    row[29] = M1  # op2_mux
+    row[33] = M1  # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
+    # OP4
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
+    return
+
+def PACKSSDW(row,op,asm):
+    row[7] = "5'b01110"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0010_0000_0000_0000_0000_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_0_00_0_0_0_0_0"  # FMASK
+
+    # version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = oz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = R1  # op1_mux
+    row[32] = R1  # dest1_mux
+    row[36] = o  # op1_wb
+    # OP2
+    row[29] = M1  # op2_mux
+    row[33] = M1  # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
+    # OP4
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
+    return
+
 def PUNPCKHBW(row,op,asm):
-    def PACKSSDW(row, op, asm):
-        # OP1
-        row[6] = "1'b1"  # op1_wb
-        row[8] = "2'b11"  # op1_size
-        row[9] = "32'd0"  # Op1_orig
-        row[10] = "1'b1"  # op1_isReg
-        row[11] = "1'b0"  # op1_isSegReg
-        row[12] = "1'b0"  # op1_loadEIP
-        row[43] = "1'b0"  # op1_isMem
-        row[49] = "1'b0"  # op_rw
-        # OP2
-        row[13] = "1'b0"  # op2_wb
-        row[15] = "2'b11"  # op2_size
-        row[16] = "32'd0"  # Op2_orig
-        row[17] = "1'b0"  # op2_isReg
-        row[18] = "1'b0"  # op2_isSegReg
-        row[19] = "1'b0"  # op2_loadEIP
-        row[44] = "1'b0"  # op2_isMem
-        row[50] = "1'b0"  # op_rw
-        # OP3
-        row[20] = "1'b0"  # op3_wb
-        row[22] = "2'b00"  # op3_size
-        row[23] = "32'd0"  # Op3_orig
-        row[24] = "1'b0"  # op3_isReg
-        row[25] = "1'b0"  # op3_isSegReg
-        row[45] = "1'b0"  # op3_isMem
-        row[51] = "1'b0"  # op_rw
-        # OP4
-        row[26] = "1'b0"  # op4_wb
-        row[28] = "2'b00"  # op4_size
-        row[29] = "32'd0"  # Op4_orig
-        row[30] = "1'b0"  # op4_isReg
-        row[47] = "1'b0"  # op4_isSegReg
-        row[46] = "1'b0"  # op4_isMem
-        row[52] = "1'b0"  # op_rw
-        # CS
-        row[31] = "6'b001111"  # aluk
-        row[32] = "3'b000"  # MUX_ADDER_IMM
-        row[33] = "1'b0"  # MUX_AND_INT
-        row[35] = "37'b0_0000_0000_0000_0100_0000_0000_0000_0000_0000"  # P_OP
-        # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-        row[36] = "17'b000000000_0_0_00_0_0_0_0_0"  # mask for EFLAGS
-        row[38] = "1'b0"  # swapEIP
-        row[48] = "2'b00"  # pushEIP_CS (one hot)
-        return
-def PUNPCKHWD(row,op,asm):
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b11"  # op1_size
-    row[9] = "32'd0"  # Op1_orig
-    row[10] = "1'b1"  # op1_isReg
-    row[11] = "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op_rw
+    row[7] = "5'b01111"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_0100_0000_0000_0000_0000_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_0_00_0_0_0_0_0"  # FMASK
+
+    # version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = oz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = R1  # op1_mux
+    row[32] = R1  # dest1_mux
+    row[36] = o  # op1_wb
     # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b11"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b0"  # op2_isReg
-    row[18] = "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op_rw
+    row[29] = M1  # op2_mux
+    row[33] = M1  # dest2_mux
+    row[37] = z  # op2_wb
     # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op_rw
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
     # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op_rw
-    # CS
-    row[31] = "6'b010000"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0000_0000_1000_0000_0000_0000_0000_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_0_0_00_0_0_0_0_0"  # mask for EFLAGS
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
     return
+def PUNPCKHWD(row, op, asm):
+    row[7] = "5'b10000"  # aluk
+    row[8] = "3'b000"  # MUX_ADDER_IMM
+    row[11] = "37'b0_0000_0000_0000_1000_0000_0000_0000_0000_0000"  # P_OP
+    # 18'b000000000_of_df_00_sf_zf_af_pf_cf
+    row[12] = "18'b000000000_0_0_00_0_0_0_0_0"  # FMASK
+
+    # version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
+    # 1
+    row[20] = EAX  # R1 - MODRM override
+    row[24] = DS  # S1  - MODRM DS
+    row[21] = zzz  # R2  - MODRM Base
+    row[25] = zzz  # S2 - M2 SEG
+    row[22] = EBP  # R3 - MODRM Index
+    row[26] = zzz  # S3 - FREE
+    row[23] = zzz  # R4 - FREE
+    row[27] = CS  # S4 - CS
+
+    row[41] = oz  # M1_RW
+    row[42] = zz  # M2_RW
+
+    # OPERAND SWAP LOGIC
+    # OP1
+    row[28] = R1  # op1_mux
+    row[32] = R1  # dest1_mux
+    row[36] = o  # op1_wb
+    # OP2
+    row[29] = M1  # op2_mux
+    row[33] = M1  # dest2_mux
+    row[37] = z  # op2_wb
+    # OP3
+    row[30] = DC  # op3_mux
+    row[34] = DC  # dest3_mux
+    row[38] = z  # op3_wb
+    # OP4
+    row[31] = DC  # op4_mux
+    row[35] = DC  # dest4_mux
+    row[39] = z  # op4_wb
+    return
+
 def POP(row,op,asm):
     return
 def PUSH(row,op,asm):
@@ -865,149 +810,14 @@ def PUSH(row,op,asm):
 def RETnear(row,op,asm):
     return
 def SAL(row,op,asm):
-    # OP1
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b10" if "EAX" in row[1] or "32" in asm[1] else "2'b00"  # op1_size
-    row[9] = "32'd0" # Op1_orig
-    row[10] = "1'b0"  # op1_isReg
-    row[11] = "1'b1" if "Sreg" in asm[1] else "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op1_rw
-
-    # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b10" if "32" in asm[2] else "2'b00"  # op2_size
-    row[16] = "32'd2" if "CL" in asm[2] else "32'd0"  # Op2_orig
-    row[17] = "1'b1" if "CL" in asm[2] else "32'd0"  # op2_isReg
-    row[18] = "1'b1" if "Sreg" in asm[2] else "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op1_rw
-
-    # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op1_rw
-
-    # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op1_rw
-
-    # CS
-    row[31] = "6'b010010"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0010_0000_0000_0000_0000_0000_0000_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_1_0_00_1_1_0_1_1"
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
     return
 def SAR(row,op,asm):
-    # OP1
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b10" if "EAX" in row[1] or "32" in asm[1] else "2'b00"  # op1_size
-    row[9] = "32'd0"  # Op1_orig
-    row[10] = "1'b0"  # op1_isReg
-    row[11] = "1'b1" if "Sreg" in asm[1] else "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op1_rw
 
-    # OP2
-    row[13] = "1'b0"  # op2_wb
-    row[15] = "2'b10" if "32" in asm[2] else "2'b00"  # op2_size
-    row[16] = "32'd2" if "CL" in asm[2] else "32'd0"  # Op2_orig
-    row[17] = "1'b1" if "CL" in asm[2] else "32'd0"  # op2_isReg
-    row[18] = "1'b1" if "Sreg" in asm[2] else "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op1_rw
-
-    # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op1_rw
-
-    # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op1_rw
-
-    # CS
-    row[31] = "6'b010001"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0000_0100_0000_0000_0000_0000_0000_0000_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_1_0_00_1_1_0_1_1"
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
     return
 def JMPptr(row,op,asm):
     return
 def XCHG(row,op,asm):
-    # OP1
-    row[6] = "1'b1"  # op1_wb
-    row[8] = "2'b10" if "EAX" in row[1] or "32" in asm[1] else "2'b00"  # op1_size
-    row[9] = "32'd0" if "+" not in op[0] else row[9]  # Op1_orig
-    row[10] = "1'b1" if "EAX" in row[1] or "AL" in row[1] or not "/" in asm[1] else "1'b0"  # op1_isReg
-    row[11] = "1'b0"  # op1_isSegReg
-    row[12] = "1'b0"  # op1_loadEIP
-    row[43] = "1'b0"  # op1_isMem
-    row[49] = "1'b0"  # op_rw
-    # OP2
-    row[13] = "1'b1"  # op2_wb
-    row[15] = "2'b10" if "32" in asm[2] else "2'b00"  # op2_size
-    row[16] = "32'd0"  # Op2_orig
-    row[17] = "1'b1"   # op2_isReg
-    row[18] = "1'b0"  # op2_isSegReg
-    row[19] = "1'b0"  # op2_loadEIP
-    row[44] = "1'b0"  # op2_isMem
-    row[50] = "1'b0"  # op_rw
-    # OP3
-    row[20] = "1'b0"  # op3_wb
-    row[22] = "2'b00"  # op3_size
-    row[23] = "32'd0"  # Op3_orig
-    row[24] = "1'b0"  # op3_isReg
-    row[25] = "1'b0"  # op3_isSegReg
-    row[45] = "1'b0"  # op3_isMem
-    row[51] = "1'b0"  # op_rw
-    # OP4
-    row[26] = "1'b0"  # op4_wb
-    row[28] = "2'b00"  # op4_size
-    row[29] = "32'd0"  # Op4_orig
-    row[30] = "1'b0"  # op4_isReg
-    row[47] = "1'b0"  # op4_isSegReg
-    row[46] = "1'b0"  # op4_isMem
-    row[52] = "1'b0"  # op_rw
-    # CS
-    row[31] = "6'b000011"  # aluk
-    row[32] = "3'b000"  # MUX_ADDER_IMM
-    row[33] = "1'b0"  # MUX_AND_INT
-    row[35] = "37'b0_0010_0000_0000_0000_0000_0000_0000_0000_0000"  # P_OP
-    # 17'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[36] = "17'b000000000_0_0_00_0_0_0_0_0"  # mask for EFLAGS
-    row[38] = "1'b0"  # swapEIP
-    row[48] = "2'b00"  # pushEIP_CS (one hot)
+
     return
 def CALLfar(row,op,asm):
     return
@@ -1095,7 +905,7 @@ def helperOP(row, op, asm):
     else:
         print(opcode)
     #
-    row[7] = "x"
+
 
     # if(len(asm) > 1 and not(opcode == "CALL" or opcode == "JNBE" or opcode == "JNE" or opcode == "JMP" or opcode == "MOVS"  or opcode == "PUSH"  or opcode == "RET" or opcode == "XCHG" or opH ) or opH == "86" or opH == "87"):
     #     row[6] = "1'b1"
