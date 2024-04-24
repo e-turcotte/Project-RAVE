@@ -3,22 +3,23 @@
 #To overwrite on MODRM: ZZZ to EBP
 #To overwrite on MODRM: Change R1 from its initial value to register specified by mod when R1_MOD_OR == 1
 #M1 = "13'h0100" | R1 = "13'h0001"
-# 0	ADD - done
-# 1	AND - done
-# 2	BSF - done
-# 3	CALLnear - done
-# 4	CLD - done
-# 5	STD - done
-# 6	CMOVC -done
-# 7	CMPXCHG - done
-# 8	DAA - done
-# 9	HLT
-# 0	IREtd
+#REP prefix must override OP4_WB to 1
+# 0 	ADD - done
+# 1 	AND - done
+# 2 	BSF - done
+# 3 	CALLnear - done
+# 4 	CLD - done
+# 5 	STD - done
+# 6 	CMOVC -done
+# 7 	CMPXCHG - done
+# 8 	DAA - done
+# 9	    HLT
+# 0	    IREtd
 # 11	JMPnear
 # 12	JMPfar
 # 13	MOV - done
 # 14	MOVQ - done
-# 15	MOVS
+# 15	MOVS -done
 # 16	NOT - done
 # 17	OR - done
 # 18	PADDW - done
@@ -27,19 +28,19 @@
 # 21	PACKSSDW - done
 # 22	PUNPCKHBW - done
 # 23	PUNPCKHWD - done
-# 24	POP
+# 24	POP - done
 # 25	POP_seg //ignore4 now
-# 26	PUSH
+# 26	PUSH -done
 # 27	PUSH_seg //ignore4 now
-# 28	RETnear
-# 29	SAL -
-# 30	SAR -
-# 31      STD //
-# 32	JMPptr
-# 33      XCHG -
-# 34      CALLfar
-# 35 	CALLptr
-# 36	RETfar
+# 28	RETnear -done
+# 29	SAL - done
+# 30	SAR - done
+# 31      STD -done
+# 32	JMPptr -done
+# 33      XCHG - done
+# 34      CALLfar -done
+# 35 	CALLptr - done
+# 36	RETfar -done
 #
 #
 # List of signals coming from WB:

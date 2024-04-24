@@ -120,12 +120,16 @@ def main():
         else:
             row[43] = "1'b0"
 
-        if(opH == "8'h83" or opH == "8'h8C"):
+        if(opH == "8'h8E" or opH == "8'h8C"):
             row[44] = "1'b1"
         else:
             row[44] = "1'b0"
         helperOP(row, OP, asm)
 
+        if opH == "8'hCA" or opH == "8'hCB" or opH == "8'h9A":
+            row[45] = "1'b1"
+        else:
+            row[45] = "1'b0"
     numRows = 1
 
     with open('output.csv', 'w', newline='') as output_file:

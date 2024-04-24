@@ -3,8 +3,8 @@ module writeback_TOP(
     output  res1_reg_w,  res2_reg_w, res3_reg_w,  res4_reg_w,  //done
     output [31:0] res1_dest,res2_dest, res3_dest,res4_dest, //done
     output [1:0] res1_size, res2_size, res3_size, res4_size, //done
-    output res1_isPTC, res2_isPTC, res3_isPTC, res4_isPTC, //done
-    output [6:0] res1_PTC, res2_PTC, res3_PTC, res4_PTC, //done 
+    output res1_isPTC, res2_isPTC, res3_isPTC, res4_isPTC, //remove
+    output [6:0] res1_PTC, //done 
     output LD_EIP_CS,// done //Tells fetch that bits [47:32]is CS, [31:0] is EIP from Res1
     output LD_EIP,
 
@@ -59,7 +59,7 @@ module writeback_TOP(
     mux_tristate #(4, 2) t3({inp1_size, inp2_size, inp3_size, inp4_size}, {res1_mem_w, res2_mem_w, res3_mem_w, res4_mem_w}, mem_size);
     or4$ o1(mem_w, res1_mem_w, res2_mem_w, res3_mem_w, res4_mem_w);
 
-    mux2n #(32) m1(FIP_e, {BR_FIP_in[31:4],4'd0}, {BR_FIP_p1_in, 4'd0}, BR_FIP_in[5]);
+    mux2n #(32) m1(FIP_e   , {BR_FIP_in[31:4],4'd0}, {BR_FIP_p1_in, 4'd0}, BR_FIP_in[5]);
     mux2n #(32) m2(FIP_o, {BR_FIP_p1_in, 4'd0}, {BR_FIP_in[31:4],4'd0}, BR_FIP_in[5]);
 
     mux2n #(32) m3 (EIP,BR_EIP_IN, BR_FIP_in , BR_taken);

@@ -8,6 +8,7 @@
 // handle push for OP3 and decrementing ESP
 //How is POP handled in RRAG
 //Look into how to handle skipgen when BR pred taken but actually not
+//allow OP4 = OP4 + OP2
 
 module execute_TOP(
  output valid,
