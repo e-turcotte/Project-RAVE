@@ -130,6 +130,7 @@ def main():
             row[45] = "1'b1"
         else:
             row[45] = "1'b0"
+        row[14] = "1'b0"
     numRows = 1
 
     with open('output.csv', 'w', newline='') as output_file:
