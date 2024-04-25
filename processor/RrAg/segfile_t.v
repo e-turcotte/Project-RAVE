@@ -10,13 +10,13 @@ module TOP;
     reg [2:0] ld3, ld2, ld1, ld0, rd3, rd2, rd1, rd0;
     reg [3:0] ld_en, dest;
     reg [6:0] data_ptcid, new_ptcid;
-    reg clr;
+    reg clr, ptcclr;
     wire [15:0] base_out3, base_out2, base_out1, base_out0;
     wire [19:0] lim_out3, lim_out2, lim_out1, lim_out0;
-    wire [63:0] ptc_out3, ptc_out2, ptc_out1, ptc_out0;
+    wire [15:0] ptc_out3, ptc_out2, ptc_out1, ptc_out0;
     reg clk;
 
-    segfile sf(.base_in({base_in3,base_in2,base_in1,base_in0}), .lim_inits({lim_init5,lim_init4,lim_init3,lim_init2,lim_init1,lim_init0}), .ld_addr({ld3,ld2,ld1,ld0}), .rd_addr({rd3,rd2,rd1,rd0}), .ld_en(ld_en), .dest(dest), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .clk(clk), .base_out({base_out3,base_out2,base_out1,base_out0}), .lim_out({lim_out3,lim_out2,lim_out1,lim_out0}), .ptc_out({ptc_out3,ptc_out2,ptc_out1,ptc_out0}));
+    segfile sf(.base_in({base_in3,base_in2,base_in1,base_in0}), .lim_inits({lim_init5,lim_init4,lim_init3,lim_init2,lim_init1,lim_init0}), .ld_addr({ld3,ld2,ld1,ld0}), .rd_addr({rd3,rd2,rd1,rd0}), .ld_en(ld_en), .dest(dest), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .base_out({base_out3,base_out2,base_out1,base_out0}), .lim_out({lim_out3,lim_out2,lim_out1,lim_out0}), .ptc_out({ptc_out3,ptc_out2,ptc_out1,ptc_out0}));
 
     initial begin
         clk = 1'b1;
@@ -24,7 +24,7 @@ module TOP;
     end
 
     initial begin
-        clr = 1'b0;
+        clr = 1'b0; ptcclr = 1'b1;
         lim_init0 = 20'h04fff;
         lim_init1 = 20'h011ff;
         lim_init2 = 20'h04000;
@@ -34,7 +34,7 @@ module TOP;
         #CYCLE_TIME;
 
         ld_en = 4'b1111; dest = 4'b1111;
-        data_ptcid = 7'b0000000; new_ptcid = 7'b0000000;
+        data_ptcid = 7'b0000000; new_ptcid = 7'b1111111;
         clr = 1'b1;
         rd0 = 3'b000; rd1 = 3'b001; rd2 = 3'b010; rd3 = 3'b011;
         for (k = 0; k < 8; k = k + 4) begin
@@ -48,6 +48,8 @@ module TOP;
         end
         dest = 4'b0000;
         #(2*CYCLE_TIME);
+        ptcclr = 1'b0;
+        #CYCLE_TIME;
         $finish;
     end
 

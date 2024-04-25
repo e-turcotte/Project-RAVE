@@ -3,7 +3,7 @@ module regfile (input [255:0] din,
                 input [1:0] ldsize, rdsize,
                 input [3:0] ld_en, dest,
                 input [6:0] data_ptcid, new_ptcid,
-                input clr,
+                input clr, ptcclr,
                 input clk,
                 output [255:0] dout, ptcout);
 
@@ -58,8 +58,8 @@ module regfile (input [255:0] din,
     wire [127:0] gprouts, gprptcs;
     wire [255:0] mmxouts, mmxptcs;
 
-    gprfile gf(.din({din[223:192],din[159:128],din[95:64],din[31:0]}), .ld(gprld), .dest(gprdest), .rd(rd_addr), .ldsize(decodedldsize[2:0]), .rdsize(decodedrdsize[2:0]), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .clk(clk), .dout(gprouts), .ptcout(gprptcs));
-    mmxfile mf(.din(din), .ld(mmxld), .dest(mmxdest), .rd(rd_addr), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .clk(clk), .dout(mmxouts), .ptcout(mmxptcs));
+    gprfile gf(.din({din[223:192],din[159:128],din[95:64],din[31:0]}), .ld(gprld), .dest(gprdest), .rd(rd_addr), .ldsize(decodedldsize[2:0]), .rdsize(decodedrdsize[2:0]), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout(gprouts), .ptcout(gprptcs));
+    mmxfile mf(.din(din), .ld(mmxld), .dest(mmxdest), .rd(rd_addr), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout(mmxouts), .ptcout(mmxptcs));
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(256)) m0(.in({mmxouts,{32{1'b0}},gprouts[127:96],{32{1'b0}},gprouts[95:64],{32{1'b0}},gprouts[63:32],{32{1'b0}},gprouts[31:0]}), .sel(rdsize[3]), .out(dout));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(256)) m1(.in({mmxptcs,{32{1'b0}},gprptcs[127:96],{32{1'b0}},gprptcs[95:64],{32{1'b0}},gprptcs[63:32],{32{1'b0}},gprptcs[31:0]}), .sel(rdsize[3]), .out(ptcout));
@@ -74,7 +74,7 @@ module gprfile (input [127:0] din,
                 input [11:0] rd,
                 input [2:0] ldsize, rdsize,
                 input [6:0] data_ptcid, new_ptcid,
-                input clr,
+                input clr, ptcclr,
                 input clk,
                 output [127:0] dout, ptcout);
 
@@ -137,7 +137,7 @@ module gprfile (input [127:0] din,
 
             muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(8)) m6(.in({din[103:96],din[71:64],din[39:32],din[7:0]}), .sel({ld[24+i],ld[16+i],ld[8+i],ld[i]}), .out(l_in[i]));
     
-            gpr r0(.din({e_in[i],h_in[i],l_in[i]}), .sized_ld(adjusted_sized_ld_vector[(i*3)+2:i*3]), .sized_dest(adjusted_sized_dest_vector[(i*3)+2:i*3]), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .clk(clk), .e_dout(e_out[i]), .e_ptc(e_ptc[i]), .h_dout(h_out[i]), .h_ptc(h_ptc[i]), .l_dout(l_out[i]) ,.l_ptc(l_ptc[i]));
+            gpr r0(.din({e_in[i],h_in[i],l_in[i]}), .sized_ld(adjusted_sized_ld_vector[(i*3)+2:i*3]), .sized_dest(adjusted_sized_dest_vector[(i*3)+2:i*3]), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .e_dout(e_out[i]), .e_ptc(e_ptc[i]), .h_dout(h_out[i]), .h_ptc(h_ptc[i]), .l_dout(l_out[i]) ,.l_ptc(l_ptc[i]));
 
             wire notinuserd;
             nor3$ g5(.out(notinuserd), .in0(rdsize[2]), .in1(rdsize[1]), .in2(rdsize[0]));
@@ -193,7 +193,7 @@ endmodule
 module gpr (input [31:0] din,
             input [2:0] sized_ld, sized_dest,
             input [6:0] data_ptcid, new_ptcid,
-            input clr,
+            input clr, ptcclr,
             input clk,
             output [15:0] e_dout, e_ptc,
             output [7:0] h_dout, l_dout, h_ptc, l_ptc);
@@ -202,26 +202,28 @@ module gpr (input [31:0] din,
     regn #(.WIDTH(8)) h_section(.din(din[15:8]), .ld(sized_ld[1]), .clr(clr), .clk(clk), .dout(h_dout));
     regn #(.WIDTH(8)) l_section(.din(din[7:0]), .ld(sized_ld[0]), .clr(clr), .clk(clk), .dout(l_dout));
 
-    wire clearptc [0:2], ptcld [0:2];
+    wire clearptc [0:2], ptcld [0:2], clr_ptc_signal;
     wire ptc [0:2];
     wire [6:0] id [0:2];
 
+    and2$ g0(.out(clr_ptc_signal), .in0(clr), .in1(ptcclr));
+
     regn #(.WIDTH(7)) e_ptcid(.din(new_ptcid), .ld(sized_dest[2]), .clr(clr), .clk(clk), .dout(id[2]));
     equaln #(.WIDTH(7)) eq0(.a(data_ptcid), .b(id[2]), .eq(clearptc[2]));
-    or2$ g0(.out(ptcld[2]), .in0(sized_dest[2]), .in1(clearptc[2]));
-    regn #(.WIDTH(1)) e_ptcv(.din(sized_dest[2]), .ld(ptcld[2]), .clr(clr), .clk(clk), .dout(ptc[2]));
+    or2$ g1(.out(ptcld[2]), .in0(sized_dest[2]), .in1(clearptc[2]));
+    regn #(.WIDTH(1)) e_ptcv(.din(sized_dest[2]), .ld(ptcld[2]), .clr(clr_ptc_signal), .clk(clk), .dout(ptc[2]));
     assign e_ptc = {2{ptc[2],id[2]}};
 
     regn #(.WIDTH(7)) h_ptcid(.din(new_ptcid), .ld(sized_dest[1]), .clr(clr), .clk(clk), .dout(id[1]));
     equaln #(.WIDTH(7)) eq1(.a(data_ptcid), .b(id[1]), .eq(clearptc[1]));
-    or2$ g1(.out(ptcld[1]), .in0(sized_dest[1]), .in1(clearptc[1]));
-    regn #(.WIDTH(1)) h_ptcv(.din(sized_dest[1]), .ld(ptcld[1]), .clr(clr), .clk(clk), .dout(ptc[1]));
+    or2$ g2(.out(ptcld[1]), .in0(sized_dest[1]), .in1(clearptc[1]));
+    regn #(.WIDTH(1)) h_ptcv(.din(sized_dest[1]), .ld(ptcld[1]), .clr(clr_ptc_signal), .clk(clk), .dout(ptc[1]));
     assign h_ptc = {ptc[1],id[1]};
 
     regn #(.WIDTH(7)) l_ptcid(.din(new_ptcid), .ld(sized_dest[0]), .clr(clr), .clk(clk), .dout(id[0]));
     equaln #(.WIDTH(7)) eq2(.a(data_ptcid), .b(id[0]), .eq(clearptc[0]));
-    or2$ g2(.out(ptcld[0]), .in0(sized_dest[0]), .in1(clearptc[0]));
-    regn #(.WIDTH(1)) l_ptcv(.din(sized_dest[0]), .ld(ptcld[0]), .clr(clr), .clk(clk), .dout(ptc[0]));
+    or2$ g3(.out(ptcld[0]), .in0(sized_dest[0]), .in1(clearptc[0]));
+    regn #(.WIDTH(1)) l_ptcv(.din(sized_dest[0]), .ld(ptcld[0]), .clr(clr_ptc_signal), .clk(clk), .dout(ptc[0]));
     assign l_ptc = {ptc[0],id[0]};
 
 endmodule
@@ -232,7 +234,7 @@ module mmxfile (input [255:0] din,
                 input [31:0] ld, dest,
                 input [11:0] rd,
                 input [6:0] data_ptcid, new_ptcid,
-                input clr,
+                input clr, ptcclr,
                 input clk,
                 output [255:0] dout, ptcout);
 
@@ -245,7 +247,7 @@ module mmxfile (input [255:0] din,
             muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(64)) m0(.in(din), .sel({ld[24+i],ld[16+i],ld[8+i],ld[i]}), .out(ins[(i+1)*64-1:i*64]));
             or4$ g0(.out(ld_vector[i]), .in0(ld[i]), .in1(ld[8+i]), .in2(ld[16+i]), .in3(ld[24+i]));
             or4$ g1(.out(dest_vector[i]), .in0(dest[i]), .in1(dest[8+i]), .in2(dest[16+i]), .in3(dest[24+i]));
-            mmx r0(.din(ins[(i+1)*64-1:i*64]), .ld(ld_vector[i]), .dest(dest_vector[i]), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .clk(clk), .dout(outs[(i+1)*64-1:i*64]), .mm_ptc(ptcs[(i+1)*64-1:i*64]));
+            mmx r0(.din(ins[(i+1)*64-1:i*64]), .ld(ld_vector[i]), .dest(dest_vector[i]), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout(outs[(i+1)*64-1:i*64]), .mm_ptc(ptcs[(i+1)*64-1:i*64]));
         end
     endgenerate
 
@@ -285,20 +287,21 @@ endmodule
 module mmx (input [63:0] din,
             input ld, dest,
             input [6:0] data_ptcid, new_ptcid,
-            input clr,
+            input clr, ptcclr,
             input clk,
             output [63:0] dout, mm_ptc);
     
     regn #(.WIDTH(64)) mm(.din(din), .ld(ld), .clr(clr), .clk(clk), .dout(dout));
     
-    wire clearptc, ptcld;
+    wire clearptc, ptcld, clr_ptc_signal;
     wire ptc;
     wire [6:0] id;
 
     regn #(.WIDTH(7)) mm_ptcid(.din(new_ptcid), .ld(dest), .clr(clr), .clk(clk), .dout(id));
     equaln #(.WIDTH(7)) eq0(.a(data_ptcid), .b(id), .eq(clearptc));
     or2$ g0(.out(ptcld), .in0(dest), .in1(clearptc));
-    regn #(.WIDTH(1)) mm_ptcv(.din(dest), .ld(ptcld), .clr(clr), .clk(clk), .dout(ptc));
+    and2$ g1(.out(clr_ptc_signal), .in0(clr), .in1(ptcclr));
+    regn #(.WIDTH(1)) mm_ptcv(.din(dest), .ld(ptcld), .clr(clr_ptc_signal), .clk(clk), .dout(ptc));
     assign mm_ptc = {64{ptc,id}};
 
 endmodule

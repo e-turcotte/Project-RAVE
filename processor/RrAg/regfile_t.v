@@ -10,11 +10,11 @@ module TOP;
     reg [1:0] ldsize, rdsize;
     reg [3:0] ld_en, dest;
     reg [6:0] data_ptcid, new_ptcid;
-    reg clr;
+    reg clr, ptcclr;
     wire [63:0] out0, out1, out2, out3, ptc0, ptc1, ptc2, ptc3;
     reg clk;
 
-    regfile rf(.din({in3,in2,in1,in0}), .ld_addr({ld3,ld2,ld1,ld0}), .rd_addr({rd3,rd2,rd1,rd0}), .ldsize(ldsize), .rdsize(rdsize), .ld_en(ld_en), .dest(dest), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .clk(clk), .dout({out3,out2,out1,out0}), .ptcout({ptc3,ptc2,ptc1,ptc0}));
+    regfile rf(.din({in3,in2,in1,in0}), .ld_addr({ld3,ld2,ld1,ld0}), .rd_addr({rd3,rd2,rd1,rd0}), .ldsize(ldsize), .rdsize(rdsize), .ld_en(ld_en), .dest(dest), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout({out3,out2,out1,out0}), .ptcout({ptc3,ptc2,ptc1,ptc0}));
 
 
     initial begin
@@ -28,7 +28,7 @@ module TOP;
         ldsize = 2'b10; rdsize = 2'b10;
         ld_en = 4'b1111; dest = 4'b1111;
         data_ptcid = 7'b0000000; new_ptcid = 7'b1111111;
-        clr = 1'b0;
+        clr = 1'b0; ptcclr = 1'b1;
         #CYCLE_TIME;
         clr = 1'b1;
         for (k = 0; k < 8; k = k + 4) begin
@@ -81,6 +81,8 @@ module TOP;
             ld0 = regk[0][2:0]; ld1 =regk[1][2:0]; ld2 = regk[2][2:0]; ld3 =regk[3][2:0];
             #CYCLE_TIME; 
         end
+        #CYCLE_TIME;
+        ptcclr = 1'b0;
         #CYCLE_TIME;
         $finish;
     end
