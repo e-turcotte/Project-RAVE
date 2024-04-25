@@ -118,7 +118,7 @@ def main():
         elif (len(asm) > 2 and (("r/m8" in asm[2]) or ("r/m32" in asm[2]) or ("m64" in asm[2]))): #if MODRM second operand, overwrite OP1 to either MOD or REG mux select
             row[43] = "2'b10"
         else:
-            row[43] = "1'b0"
+            row[43] = "2'b00"
 
         if(opH == "8'h8E" or opH == "8'h8C"):
             row[44] = "1'b1"

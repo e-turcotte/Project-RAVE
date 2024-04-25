@@ -7,6 +7,7 @@ reg[W*4-1:0] C16;
 reg[W*2-1:0] C8;
 reg[W*1-1:0] C4;
 reg CIN;
+reg clk;
 wire COUT32, COUT16, COUT8, COUT4;
 satAdder #(32) s1(C32, COUT32, A, B, CIN);
 satAdder #(16) s2(C16, COUT16, A, B, CIN);
