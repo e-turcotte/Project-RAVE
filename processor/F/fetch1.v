@@ -5,22 +5,36 @@ module fetch_1 (
     input wire [31:0] D_EIP,
     input wire is_resteer,
     input wire is_init,
-    
 
+    input wire v_00_in,
+    input wire v_01_in,
+    input wire v_10_in,
+    input wire v_11_in,
+
+    output wire [127:0] line_1_out,
+    output wire [127:0] line_2_out,
+    output wire [127:0] line_3_out,
+    output wire [127:0] line_4_out,
+    
 
 );
 
 wire BR_hit;
 wire [27:0] BP_FIP_o, BP_FIP_e;
+wire [127:0] odd_line_out, even_line_out;
 
-//INSERT BP, BTB HERE
+wire cache_miss_even, cache_miss_odd;
+
+
 
 select_address_ICache select_address_ICache0(.clk(clk), .init(), .BP(BP_FIP_o), .resteer(), .sel_CF(sel_CF), .ld_FIP_reg(ld_FIP_reg), 
                                         .clr_FIP_reg(clr_FIP_reg), .is_ctrl_flow(is_ctrl_flow), .addr());
 select_address_ICache select_address_ICache1(.clk(clk), .init(), .BP(BP_FIP_e), .resteer(), .sel_CF(sel_CF), .ld_FIP_reg(ld_FIP_reg), 
                                         .clr_FIP_reg(clr_FIP_reg), .is_ctrl_flow(is_ctrl_flow), .addr());
 
-ICache ICache0()
+ICache ICache0(.clk(clk), .FIP_o(), .FIP_e(), .even_OE(), .odd_OE(), .cache_miss_even(cache_miss_even), .cache_miss_odd(cache_miss_odd), .odd_line(odd_line_out), .even_line(even_line_out));
+
+
 
 
                     
