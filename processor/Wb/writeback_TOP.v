@@ -1,4 +1,33 @@
 module writeback_TOP(
+    input clk,
+    input valid_in,
+    input wire [31:0] EIP_in,
+    input wire IE_in,                           //interrupt or exception signal
+    input wire [3:0] IE_type_in,
+    input wire set, rst,
+
+    input [63:0] inp1, inp2, inp3, inp4,
+    input  inp1_isReg,  inp2_isReg, inp3_isReg,  inp4_isReg,  
+    input [31:0] inp1_dest, inp2_dest, inp3_dest, inp4_dest,
+    input [1:0] inp1_size, inp2_size, inp3_size, inp4_size,
+    input inp1_isPTC, inp2_isPTC, inp3_isPTC, inp4_isPTC,
+    input [6:0] inp1_PTC, inp2_PTC, inp3_PTC, inp4_PTC,
+    input inp1_wb, inp2_wb, inp3_wb, inp4_wb,
+    input [36:0] P_OP,
+
+    input load_eip_in_res1,
+    input load_segReg_in_res1,
+    input load_eip_in_res2,
+    input load_segReg_in_res2,
+
+    input BR_valid_in, BR_taken_in, BR_correct_in,
+    input[31:0] BR_FIP_in, BR_FIP_p1_in, input BR_EIP_in,
+    input[15:0] CS_in
+
+    input interrupt_in,
+
+    output valid_out, //TODO
+
     output [63:0] res1, res2, res3, res4, //done
     output  res1_reg_w,  res2_reg_w, res3_reg_w,  res4_reg_w,  //done
     output [31:0] res1_dest,res2_dest, res3_dest,res4_dest, //done
@@ -22,37 +51,21 @@ module writeback_TOP(
     output load_segReg1,
     output load_segReg2,
 
-    input valid,
-    input [63:0] inp1, inp2, inp3, inp4,
-    input  inp1_isReg,  inp2_isReg, inp3_isReg,  inp4_isReg,  
-    input [31:0] inp1_dest,inp2_dest, inp3_dest,inp4_dest,
-    input [1:0] inp1_size, inp2_size, inp3_size, inp4_size,
-    input inp1_isPTC, inp2_isPTC, inp3_isPTC, inp4_isPTC,
-    input [6:0] inp1_PTC, inp2_PTC, inp3_PTC, inp4_PTC,
-    input inp1_wb, inp2_wb, inp3_wb, inp4_wb,
-    input [36:0]P_OP,
-
-    input load_eip_in_res1,
-    input load_segReg_in_res1,
-    input load_eip_in_res2,
-    input load_segReg_in_res2,
-
-    input BR_valid_in, BR_taken_in, BR_correct_in,
-    input[31:0] BR_FIP_in, BR_FIP_p1_in, input BR_EIP_in,
-    input[15:0] CS_in
+    output wire final_IE_val,
+    output wire [3:0] final_IE_type
     );
 
-    and2$   a1x(load_segReg1, load_segReg_in_res1,valid);
+    and2$   a1x(load_segReg1, load_segReg_in_res1, valid_in);
     or2$    ox(load_segReg1_temp, load_segReg1, LD_EIP_CS);
 
-    and2$   ax(load_segReg2, load_segReg_in_res2,valid);
+    and2$   ax(load_segReg2, load_segReg_in_res2, valid_in);
     wire res1_mem_w,res2_mem_w, res3_mem_w,res4_mem_w;
 
     assign CS = CS_in;
-    reg_wb_cell r1(res1, res1_mem_w, res1_reg_w, inp1, inp1_size, valid, inp1_wb, inp1_isReg, load_eip_in_res1 );
-    reg_wb_cell r2(res2, res2_mem_w, res2_reg_w, inp2, inp2_size, valid, inp2_wb, inp2_isReg, load_eip_in_res1);
-    reg_wb_cell r3(res3, res3_mem_w, res3_reg_w, inp3, inp3_size, valid, inp3_wb, inp3_isReg, 1'b0);
-    reg_wb_cell r4(res4, res4_mem_w, res4_reg_w, inp4, inp4_size, valid, inp4_wb, inp4_isReg,1'b0);
+    reg_wb_cell r1(res1, res1_mem_w, res1_reg_w, inp1, inp1_size, valid_in, inp1_wb, inp1_isReg, load_eip_in_res1 );
+    reg_wb_cell r2(res2, res2_mem_w, res2_reg_w, inp2, inp2_size, valid_in, inp2_wb, inp2_isReg, load_eip_in_res1);
+    reg_wb_cell r3(res3, res3_mem_w, res3_reg_w, inp3, inp3_size, valid_in, inp3_wb, inp3_isReg, 1'b0);
+    reg_wb_cell r4(res4, res4_mem_w, res4_reg_w, inp4, inp4_size, valid_in, inp4_wb, inp4_isReg,1'b0);
 
     mux_tristate #(4, 64) t1({res1, res2, res3, res4}, {res1_mem_w, res2_mem_w, res3_mem_w, res4_mem_w}, mem_data);
     mux_tristate #(4, 32) t2({inp1_dest, inp2_dest, inp3_dest, inp4_dest}, {res1_mem_w, res2_mem_w, res3_mem_w, res4_mem_w}, mem_adr);
@@ -77,4 +90,11 @@ module writeback_TOP(
 
     assign segReg2 = inp2[15:0];
     mux2n #(16) mxn(segReg1, inp1[15:0], inp1[47:32], LD_EIP_CS);
+
+    assign final_IE_type[2:0] = IE_type_in[2:0];
+    assign final_IE_type[3] = interrupt_in;
+    or2$ o4(.out(final_IE_val), .in0(IE_in), .in1(interrupt_in));
+
+    //TODO: Send final IE signal to stall/flush all stages and send final IE_type to exception handling in Fetch 2
+
 endmodule

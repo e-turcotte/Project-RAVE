@@ -1,3 +1,6 @@
+//in MEM
+//  -time to get PA:          ~1.43ns
+//  -time to exception logic: ~2.5ns
 module TLB(
     input wire clk,
     input wire [31:0] address, //used to lookup
