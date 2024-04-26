@@ -33,7 +33,7 @@ def generateVerilog(rows, fields):
 
         for row in rows:
             wireVal = genWireConcat(row, fields)
-            file.write("wire[227:0] w" + str(wireCnt) + ";\n")
+            #file.write("wire[227:0] w" + str(wireCnt) + ";\n")
             file.write("assign w" + str(wireCnt) + " = " + wireVal)
             wireCnt += 1
         file.write("\nendmodule")

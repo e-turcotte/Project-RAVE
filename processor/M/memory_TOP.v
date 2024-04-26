@@ -23,9 +23,9 @@ module MEM(
 
     output wire [31:0] EIP_out,
     output wire IE_out,
-    output wire [3:0] IE_type_out
+    output wire [3:0] IE_type_out,
     output wire [31:0] BR_pred_target_out,       
-    output wire BR_pred_T_NT_out,    
+    output wire BR_pred_T_NT_out    
     
     //TODO: add more outputs
 );

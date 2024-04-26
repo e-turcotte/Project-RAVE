@@ -47,7 +47,7 @@ module rrag (input valid_in,
              output [15:0] ptc_s1, ptc_s2, ptc_s3, ptc_s4,
              output [6:0] inst_ptcid,
              output [12:0] dest1_out, dest2_out, dest3_out, dest4_out,
-             output [31:0] rep_num
+             output [31:0] rep_num,
              
              output [4:0] aluk_out,
              output [2:0] mux_adder_out,
@@ -61,7 +61,7 @@ module rrag (input valid_in,
              output [31:0] eip_out,
              output IE_out,
              output [3:0] IE_type_out,
-             output [310] BR_pred_target_out,
+             output [31:0] BR_pred_target_out,
              output BR_pred_T_NT_out);
 
     wire invstall;
