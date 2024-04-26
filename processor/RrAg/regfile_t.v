@@ -11,7 +11,8 @@ module TOP;
     reg [3:0] ld_en, dest;
     reg [6:0] data_ptcid, new_ptcid;
     reg clr, ptcclr;
-    wire [63:0] out0, out1, out2, out3, ptc0, ptc1, ptc2, ptc3;
+    wire [63:0] out0, out1, out2, out3;
+    wire [127:0] ptc0, ptc1, ptc2, ptc3;
     reg clk;
 
     regfile rf(.din({in3,in2,in1,in0}), .ld_addr({ld3,ld2,ld1,ld0}), .rd_addr({rd3,rd2,rd1,rd0}), .ldsize(ldsize), .rdsize(rdsize), .ld_en(ld_en), .dest(dest), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout({out3,out2,out1,out0}), .ptcout({ptc3,ptc2,ptc1,ptc0}));
@@ -83,7 +84,7 @@ module TOP;
         end
         #CYCLE_TIME;
         ptcclr = 1'b0;
-        #CYCLE_TIME;
+        #(2*CYCLE_TIME);
         $finish;
     end
 
