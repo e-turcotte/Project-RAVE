@@ -145,7 +145,7 @@ def genTriM(eCNT, retStr, catCNT):
     dataCat = "wire[31779:0] dataCat" + catCNT + ";\n assign dataCat ={w0"
 
     for i in range(eCNT):
-        buf += "bufferH256$ b" + str(i) + "(beq" + str(i) + ", w" + str(i) + ");\n"
+        buf += "bufferH256$ b" + str(i) + "(beq" + str(i) + ", weq" + str(i) + ");\n"
         if (i == 0):
             continue
         sigCat += ", beq" + str(i)

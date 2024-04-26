@@ -14,7 +14,7 @@ isSIZE = 0;
 isSEG = 0;
 segSEL = 0;
 B1= 8'h0f; B2 = 8'h63; B3 = 8'hF9;
-#30
+#300
 isSIZE=1;
 end
 
