@@ -15,7 +15,7 @@ module pencoder32_5(
  wire[31:0] X;
   generate
     for(i = 0; i < 4; i=i+1) begin : pence
-        reverseBits #(8) r(X[i*8+8:i*8], INP[i*8+7: i*8]); 
+        reverseBits #(8) r(X[i*8+7:i*8], INP[i*8+7: i*8]); 
     end
 endgenerate
 
