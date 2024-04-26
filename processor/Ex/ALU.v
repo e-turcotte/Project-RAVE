@@ -172,7 +172,7 @@ decodern #(5) d2(aluk, alukOH);
 
 wire[1215:0] aluRes;
 assign aluRes = {sal_out, sar_out, punpckhw_out, punpckhbw_out,packssdw_out, packsswb_out, paddd_out, paddw_out, or_out,notA_out, daa_out, cmpxchng_out, pass1, pass0, passA, passB, penc_out,add_out,and_out};
-muxnm_tristate #(32,64) t1(aluRes, alukOH, ALU_OUT);
+muxnm_tristate #(5,64) t1(aluRes, alukOH, ALU_OUT);
 
 
 wire [31:0] af_sel;
@@ -182,9 +182,9 @@ assign cf_sel = {and_cf,add_cf,penc_cf,movB_cf,    movA_cf,     cld_cf,     std_
 wire [31:0] of_sel;
 assign of_sel = {     and_of,     add_of,    penc_of,    movB_of,    movA_of,     cld_of,     std_of,cmpxchng_of,     daa_of,     not_of,      or_of,    1'b0,    1'b0,    1'b0,    1'b0,    1'b0,    1'b0,      sar_of,      sal_of,    13'd0};
 
-muxnm_tristate #(32,1) t2(af_sel, alukOH, af_out);
-muxnm_tristate #(32,1) t3(cf_sel, alukOH, cf_out);
-muxnm_tristate #(32,1) t4(of_sel, alukOH, of_out);
+muxnm_tristate #(5,1) t2(af_sel, alukOH, af_out);
+muxnm_tristate #(5,1) t3(cf_sel, alukOH, cf_out);
+muxnm_tristate #(5,1) t4(of_sel, alukOH, of_out);
 
 endmodule
 
