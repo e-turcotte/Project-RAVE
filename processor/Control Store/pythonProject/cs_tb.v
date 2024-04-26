@@ -15,7 +15,12 @@ isSEG = 0;
 segSEL = 0;
 B1= 8'h0f; B2 = 8'h63; B3 = 8'hF9;
 #30
-$finish;
-
+isSIZE=1;
 end
+
+   	initial
+		begin
+	 	$vcdplusfile("CS.vpd");
+	 	$vcdpluson(0, btb_tb); 
+	end
 endmodule
