@@ -11,7 +11,8 @@ module branch_target_buff(
     output wire [31:0] FIP_E_target,
     output wire [31:0] FIP_O_target,
     output wire [31:0] EIP_target,
-    output wire miss_hit
+    output wire miss,
+    output wire hit
     );
 
     wire flush_not;
@@ -81,8 +82,8 @@ module branch_target_buff(
 
     //check if we have a miss or hit by checking if any of the tags match
     wire miss;
-    equaln #(.WIDTH(64)) (.a(tag_compare), .b(64'h0), .eq(miss)); //will be 0 if any of the tags match
-    inv1$ (.out(miss_hit), .in(miss)); //make it active high
+    equaln #(.WIDTH(64)) (.a(tag_compare), .b(64'h0), .eq(miss)); //will be 0 if we have a hit
+    inv1$ (.out(hit), .in(miss));
 
     muxnm_tristate #(.NUM_INPUTS(64), .DATA_WIDTH(32) ) mux_target(
         .in(target_store_out_unpacked),
