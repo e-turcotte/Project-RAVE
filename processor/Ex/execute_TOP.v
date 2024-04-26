@@ -64,6 +64,12 @@ module execute_TOP(
     //Global
 
     output valid_out,
+    output [31:0] EIP_out //
+    output IE_out,
+    output [3:0] IE_type_out,
+    output [31:0] BR_pred_target_out,
+    output BR_pred_T_NT_out,
+    
     output[17:0] eflags, 
     
     output res1_wb,
@@ -101,7 +107,6 @@ module execute_TOP(
     output BR_correct,  //
     output[31:0] BR_FIP, //
     output [31:0] BR_FIP_p1,
-    output [31:0] EIP_out //
 
 );
 

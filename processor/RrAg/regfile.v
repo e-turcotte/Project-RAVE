@@ -64,7 +64,7 @@ module regfile (input [255:0] din,
     gprfile gf(.din({din[223:192],din[159:128],din[95:64],din[31:0]}), .ld(gprld), .dest(gprdest), .rd(rd_addr), .ldsize(decodedldsize[2:0]), .rdsize(decodedrdsize[2:0]), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout(gprouts), .ptcout(gprptcs));
     mmxfile mf(.din(din), .ld(mmxld), .dest(mmxdest), .rd(rd_addr), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout(mmxouts), .ptcout(mmxptcs));
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(256)) m0(.in({mmxouts,{32{1'b0}},gprouts[127:96],{32{1'b0}},gprouts[95:64],{32{1'b0}},gprouts[63:32],{32{1'b0}},gprouts[31:0]}), .sel(rdsize[3]), .out(dout));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(256)) m0(.in({mmxouts,{32{gprouts[127]}},gprouts[127:96],{32{gprouts[95]}},gprouts[95:64],{32{gprouts[63]}},gprouts[63:32],{32{gprouts[31]}},gprouts[31:0]}), .sel(usemmx), .out(dout));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(512)) m1(.in({mmxptcs,{64{1'b0}},gprptcs[255:192],{64{1'b0}},gprptcs[191:128],{64{1'b0}},gprptcs[127:64],{64{1'b0}},gprptcs[63:0]}), .sel(rdsize[3]), .out(ptcout));
 
     integer k, cyc_cnt;
@@ -216,10 +216,12 @@ module gprfile (input [127:0] din,
             nor3$ g5(.out(notinuserd), .in0(rdsize[2]), .in1(rdsize[1]), .in2(rdsize[0]));
 
             assign out32[i] = {e_out[i],h_out[i],l_out[i]};
-            assign out16[i] = {32'h0000,h_out[i],l_out[i]};
+            assign out16[i] = {{16{h_out[i][7]}},h_out[i],l_out[i]};
             assign ptc32[i] = {e_ptc[i],h_ptc[i],l_ptc[i]};
             assign ptc16[i] = {32'h0000,h_ptc[i],l_ptc[i]};
             if (i < 4) begin
+                assign out8h[i] = {{24{h_out[i][7]}},h_out[i]};
+                assign out8l[i] = {{24{l_out[i][7]}},l_out[i]};
                 assign ptc8h[i] = {48'h000000,h_ptc[i]};
                 assign ptc8l[i] = {48'h000000,l_ptc[i]};
                 muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(32)) m7(.in({{32{1'b0}},out32[i],out16[i],out8l[i]}), .sel({notinuserd,rdsize}), .out(outs[(i*32)+31:i*32]));
