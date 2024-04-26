@@ -13,7 +13,7 @@ module TOP;
     reg clr, ptcclr;
     wire [15:0] base_out3, base_out2, base_out1, base_out0;
     wire [19:0] lim_out3, lim_out2, lim_out1, lim_out0;
-    wire [15:0] ptc_out3, ptc_out2, ptc_out1, ptc_out0;
+    wire [31:0] ptc_out3, ptc_out2, ptc_out1, ptc_out0;
     reg clk;
 
     segfile sf(.base_in({base_in3,base_in2,base_in1,base_in0}), .lim_inits({lim_init5,lim_init4,lim_init3,lim_init2,lim_init1,lim_init0}), .ld_addr({ld3,ld2,ld1,ld0}), .rd_addr({rd3,rd2,rd1,rd0}), .ld_en(ld_en), .dest(dest), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .base_out({base_out3,base_out2,base_out1,base_out0}), .lim_out({lim_out3,lim_out2,lim_out1,lim_out0}), .ptc_out({ptc_out3,ptc_out2,ptc_out1,ptc_out0}));
@@ -31,6 +31,7 @@ module TOP;
         lim_init3 = 20'h003ff;
         lim_init4 = 20'h003ff;
         lim_init5 = 20'h007ff;
+        ld_en = 4'b0000; dest = 4'b0000;
         #CYCLE_TIME;
 
         ld_en = 4'b1111; dest = 4'b1111;
