@@ -70,10 +70,10 @@ def generateVerilog(rows, fields):
         file.write("wire[227:0] chosen, chosen1, chosen2, chosen3, chosen4;\n ")
         file.write("wire[23:0] chosen5;\n")
 
-        file.write("cs_select css1(" + w + " .chosen(chosen1), .B1(B1), .B2(B2), .B3(B3));\n")
-        file.write("cs_select css2(" + w + " .chosen(chosen2), .B1(B2), .B2(B3), .B3(B4));\n")
-        file.write("cs_select css3(" + w + " .chosen(chosen3), .B1(B3), .B2(B4), .B3(B5));\n")
-        file.write("cs_select css4(" + w + " .chosen(chosen4), .B1(B4), .B2(B5), .B3(B6));\n")
+        file.write("cs_select css1(" + w + ", .chosen(chosen1), .B1(B1), .B2(B2), .B3(B3));\n")
+        file.write("cs_select css2(" + w + ", .chosen(chosen2), .B1(B2), .B2(B3), .B3(B4));\n")
+        file.write("cs_select css3(" + w + ", .chosen(chosen3), .B1(B3), .B2(B4), .B3(B5));\n")
+        file.write("cs_select css4(" + w + ", .chosen(chosen4), .B1(B4), .B2(B5), .B3(B6));\n")
         file.write("muxnm_tree #(2, 24) mxt420({{B6,B5,B4}, {B5, B4, B3}, {B4,B3,B2}, {B3,B2,B1}}, prefSize,chosen5);\n")
         file.write("muxnm_tree #(2, 277) mxt69({chosen4, chosen3, chosen2,chosen1}, prefSize,chosen);\n")
         file.write("cs_overwrite cso1("+genOUT(fieldList)+" .chosen(chosen), .B1(chosen5[23:16]), .B2(chosen5[15:8]), .B3(chosen5[7:0]), .isREP(isREP), .isSIZE(isSIZE), .isSEG(isSEG), .prefSize(prefSize), .segSEL(segSEL));\n\n")
@@ -86,7 +86,7 @@ def generateVerilog(rows, fields):
     with open("cs_overwrite.v", "w") as file:
         input = "input [227:0] chosen,\n input isREP, isSIZE, isSEG,\n input[3:0] prefSize, \n input[5:0] segSEL"
         output = genOutput2(rows, fields)
-        file.write("module cs_override(\n" + output + "\n" + input + ",\ninput [7:0] B1, B2, B3);\n\n")
+        file.write("module cs_overwrite(\n" + output + "\n" + input + ",\ninput [7:0] B1, B2, B3);\n\n")
         file.write("inv1$ inv1(size_n, isSIZE);\ninv1$ inv2(size1_n, size0[1]);\nnand3$ n1(size_s, size_n, size1_n, size[0]);\nmux2n mx12(size, size, 2'b01, size_s);\n")
         csAdapt = genBranchOut(fieldList, 0, "chosen")
         wires = genWires(rows,fields, 0)
@@ -100,7 +100,10 @@ def generateVerilog(rows, fields):
 def genW():
     output = ""
     for i in range(140):
-        output += ".w" +str(i) + "(w" + str(i) + "), "
+        if(i != 139):
+            output += ".w" +str(i) + "(w" + str(i) + "), "
+        else:
+            output += ".w" + str(i) + "(w" + str(i) + ") "
     return output
 def genOUT(fieldList):
     output = ""
