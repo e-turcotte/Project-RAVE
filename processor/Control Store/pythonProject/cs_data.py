@@ -162,7 +162,7 @@ def genEqual(row, fields, eCNT, wCNT, B1, B2, B3):
     o = "1'b1"
     z = "1'b0"
 
-    if (row[5] == o and row[46] == o):
+    if (row[5] == o and row[3] == o):
         return "equaln #(19) e" + str(eCNT) + "({" + B1 + ", " + B2 + ", " + B3 + "[5:3]}, {" + row[2] + ", " + row[
             6] + ", " + row[47] + "}, weq" + str(wCNT) + ");"
     elif row[5] == o and row[46] == z:
