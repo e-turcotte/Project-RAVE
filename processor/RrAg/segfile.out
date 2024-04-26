@@ -1,0 +1,61 @@
+cycle number:           0
+[===SEGR VALUES===]
+CS = 0xxxxx, lim:0xxxxxx   PTC:xx
+DS = 0xxxxx, lim:0xxxxxx   PTC:xx
+SS = 0xxxxx, lim:0xxxxxx   PTC:xx
+ES = 0xxxxx, lim:0xxxxxx   PTC:xx
+FS = 0xxxxx, lim:0xxxxxx   PTC:xx
+GS = 0xxxxx, lim:0xxxxxx   PTC:xx
+
+
+cycle number:           1
+[===SEGR VALUES===]
+CS = 0x0000, lim:0xxxxxx   PTC:00
+DS = 0x0000, lim:0xxxxxx   PTC:00
+SS = 0x0000, lim:0xxxxxx   PTC:00
+ES = 0x0000, lim:0xxxxxx   PTC:00
+FS = 0x0000, lim:0xxxxxx   PTC:00
+GS = 0x0000, lim:0xxxxxx   PTC:00
+
+
+cycle number:           2
+[===SEGR VALUES===]
+CS = 0x0000, lim:0x04fff   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+ES = 0x0000, lim:0x003ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:           3
+[===SEGR VALUES===]
+CS = 0x0000, lim:0x04fff   PTC:11
+DS = 0x1010, lim:0x011ff   PTC:11
+SS = 0x2020, lim:0x04000   PTC:11
+ES = 0x3030, lim:0x003ff   PTC:11
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:           4
+[===SEGR VALUES===]
+CS = 0x0000, lim:0x04fff   PTC:11
+DS = 0x1010, lim:0x011ff   PTC:11
+SS = 0x2020, lim:0x04000   PTC:11
+ES = 0x3030, lim:0x003ff   PTC:11
+FS = 0x4040, lim:0x003ff   PTC:00
+GS = 0x5050, lim:0x007ff   PTC:00
+
+
+cycle number:           5
+[===SEGR VALUES===]
+CS = 0x0000, lim:0x04fff   PTC:11
+DS = 0x1010, lim:0x011ff   PTC:11
+SS = 0x2020, lim:0x04000   PTC:11
+ES = 0x3030, lim:0x003ff   PTC:11
+FS = 0x4040, lim:0x003ff   PTC:00
+GS = 0x5050, lim:0x007ff   PTC:00
+
+
+cycle number:           6
