@@ -1,6 +1,13 @@
 module fetch_2 (
+    /////////////////////////////
+    //     global signals     //  
+    ///////////////////////////
     input wire clk,
     input wire reset,
+
+    /////////////////////////////
+    //   signals from IBuf    //  
+    ///////////////////////////
     input wire [127:0] line_00,
     input wire line_00_valid,
     input wire [127:0] line_01,
@@ -10,12 +17,93 @@ module fetch_2 (
     input wire [127:0] line_11,
     input wire line_11_valid,
 
+    /////////////////////////////
+    // signals from decode //  
+    ///////////////////////////
     input wire [7:0] D_length,
+    input stall,
 
+    /////////////////////////////
+    // signals from writeback //  
+    ///////////////////////////
+    input wire [5:0] WB_BIP,
+    input wire is_resteer,
+
+    /////////////////////////////
+    //    signals from BP     //  
+    ///////////////////////////
+    input wire [5:0] BP_BIP,
+    input wire is_BR,
+
+    ////////////////////////////
+    // signals from init     //  
+    ///////////////////////////
+    input wire [5:0] init_BIP,
+    input wire is_init,
+
+    /////////////////////////////
+    //    output signals      //  
+    ///////////////////////////
     output wire [127:0] packet_out,
     output wire packet_out_valid
 );
 
+    wire [2:0] select_CF_mux;
+
+    wire select_CF_mux_0, select_CF_mux_1, select_CF_mux_2;
+    assign select_CF_mux_2 = is_init;
+    
+    wire not_is_init;
+    inv1$ i0(.in(is_init), .out(not_is_init));
+    andn #(2) a0(.in({is_init, is_resteer}), .out(select_CF_mux_1));
+
+    wire not_is_resteer;
+    inv1$ i1(.in(is_resteer), .out(not_is_resteer));
+    andn #(3) a1(.in({not_is_init, not_is_resteer, is_BR}), .out(select_CF_mux_0));
+
+    wire [5:0] CF_BIP;
+    muxnm_tristate #(.NUM_INPUTS(3), .DATA_WIDTH(6)) m0(
+        .in({init_BIP, WB_BIP, BP_BIP}), 
+        .sel({select_CF_mux_2, select_CF_mux_1, select_CF_mux_0}), 
+        .out(CF_BIP)
+    );
+
+    wire is_CF, not_is_CF;
+    orn #(3) o0(.in({is_init, is_resteer, is_BR}), .out(is_CF));
+    inv1$ i2(.in(is_CF), .out(not_is_CF));
+
+    wire [5:0] latched_BIP, BIP_plus_length, mux_BIP_to_load;
+    muxnm_tristate #(.NUM_INPUTS(2), .DATA_WIDTH(6)) m1(
+        .in({BIP_plus_length, CF_BIP}), 
+        .sel({not_is_CF, is_CF}), 
+        .out(mux_BIP_to_load)
+    );
+
+    wire not_stall, ld_BIP;
+    inv1$ i0(.in(stall), .out(not_stall));
+    andn #(2) a0(.in({not_stall, valid_rotate}), .out(ld_BIP));
+    
+    regn #(.WIDTH(6)) BIP_reg(.din(mux_BIP_to_load), .ld(ld_BIP), .clk(clk), .clr(reset), .dout(latched_BIP));
+
+    kogeAdder #(.WIDTH(8)) a0(.A({2'b0, latched_BIP}), .B({D_length}), .CIN(1'b0), .SUM(BIP_plus_length), .COUT());
+
+    check_valid_rotate cvr(
+        .curr_line(BIP_plus_length[5:4]),
+        .valid_00(line_00_valid),
+        .valid_01(line_01_valid),
+        .valid_10(line_10_valid),
+        .valid_11(line_11_valid),
+        .valid_rotate(packet_out_valid)
+    );
+
+    rotate_I_Buff rib(
+        .line_00_in(line_00),
+        .line_01_in(line_01),
+        .line_10_in(line_10),
+        .line_11_in(line_11),
+        .length_to_rotate(BIP_plus_length),
+        .line_out(packet_out)
+    );
 
     
 endmodule
