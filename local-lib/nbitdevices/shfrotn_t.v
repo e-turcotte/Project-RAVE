@@ -1,4 +1,4 @@
-module TOP;
+module XKCD;
 
     localparam CYCLE_TIME = 2.0;
     localparam NUM_TESTS = 12;

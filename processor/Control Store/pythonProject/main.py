@@ -1,7 +1,7 @@
 from colHelper import *
 import csv
 import copy
-
+from cs_data import *
 fields = []
 rows = []
 numRows = 0
@@ -46,8 +46,12 @@ def main():
         row[9] = "1'b0"  # MUX_AND_INT
 
         if "?" in row[0]:
-            row[6] = "8'h0" + row[0][row[0].find("/") + 1]
-        elif "0F" in row[0]:
+            row[47] = "3'd" + row[0][row[0].find("/") + 1]
+            row[46] = "1'b1"
+        else:
+            row[46] = "3'd0"
+            row[47] = "3'd0"
+        if "0F" in row[0]:
             row[6] = "8'h" + row[0][row[0].find("F") + 2] + row[0][row[0].find("F") + 3]
         else:
             row[6] = "8'h00"
@@ -113,9 +117,9 @@ def main():
         else:
             row[40] = "1'b0"
 
-        if(len(asm) > 1 and (("r/m8" in asm[1]) or ("r/m32" in asm[1]) or ("m64" in asm[1]))): #if MODRM first operand, overwrite OP1 to either MOD or REG mux select
+        if(len(asm) > 1 and (("r/m8" in asm[1]) or ("r/m32" in asm[1]) or ("r/m16" in asm[1]) or ("m64" in asm[1]))): #if MODRM first operand, overwrite OP1 to either MOD or REG mux select
             row[43] = "2'b01"
-        elif (len(asm) > 2 and (("r/m8" in asm[2]) or ("r/m32" in asm[2]) or ("m64" in asm[2]))): #if MODRM second operand, overwrite OP1 to either MOD or REG mux select
+        elif (len(asm) > 2 and (("r/m8" in asm[2]) or ("r/m32" in asm[2]) or  ("r/m16" in asm[2])or ("m64" in asm[2]))): #if MODRM second operand, overwrite OP1 to either MOD or REG mux select
             row[43] = "2'b10"
         else:
             row[43] = "2'b00"
@@ -147,6 +151,7 @@ def main():
 
     print("Data has been written to output.csv")
 
+    generateVerilog(rows, fields)
 
 if __name__ == '__main__':
     main()

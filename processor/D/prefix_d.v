@@ -4,7 +4,7 @@ module prefix_d (
     output [5:0] seg_override, //onehot
     output is_seg_override,
     output is_opsize_override,
-    output [1:0] num_prefixes_encoded. //sum of all prefixes (not onehot)
+    output [1:0] num_prefixes_encoded, //sum of all prefixes (not onehot)
     output [3:0] num_prefixes_onehot //onehot encoding of num_prefixes
     );
 //num_prefixes_onehot

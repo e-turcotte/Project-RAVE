@@ -4,7 +4,7 @@ module IDTR (
     input [31:0] IDTR_base_address, //from init
     input [31:0] EIP_WB, 
     input [17:0] EFLAGS_EX, //passed from latches from EX
-    output [31:0] IDT_entry, //to send to MEM in WB
+    output [31:0] IDT_entry //to send to MEM in WB
 );
 
 //type encoding:

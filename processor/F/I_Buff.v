@@ -42,20 +42,20 @@ invalidate_selector i0(.new_BIP(new_BIP_fetch2), .old_BIP(old_BIP_fetch2), .inva
 //maybe or the clr signal for each of the lines and valid bits with the reset and invalidate signals
 
 //line00
-regn #(.WIDTH(1)) valid(.din(1'b1), .ld(ld_0), .clr(invalidate_line_00), .clk(clk), .dout(line_00_valid));
-regn #(.WIDTH(128)) line(.din(line_even_fetch1), .ld(ld_0), .clr(invalidate_line_00), .clk(clk), .dout(line_00));
+regn #(.WIDTH(1)) valid1(.din(1'b1), .ld(ld_0), .clr(invalidate_line_00), .clk(clk), .dout(line_00_valid));
+regn #(.WIDTH(128)) line1(.din(line_even_fetch1), .ld(ld_0), .clr(invalidate_line_00), .clk(clk), .dout(line_00));
 
 //line01
-regn #(.WIDTH(1)) valid(.din(1'b1), .ld(ld_1), .clr(invalidate_line_01), .clk(clk), .dout(line_01_valid));
-regn #(.WIDTH(128)) line(.din(line_odd_fetch1), .ld(ld_1), .clr(invalidate_line_01), .clk(clk), .dout(line_01));
+regn #(.WIDTH(1)) valid2(.din(1'b1), .ld(ld_1), .clr(invalidate_line_01), .clk(clk), .dout(line_01_valid));
+regn #(.WIDTH(128)) line2(.din(line_odd_fetch1), .ld(ld_1), .clr(invalidate_line_01), .clk(clk), .dout(line_01));
 
 //line10
-regn #(.WIDTH(1)) valid(.din(1'b1), .ld(ld_2), .clr(invalidate_line_10), .clk(clk), .dout(line_10_valid));
-regn #(.WIDTH(128)) line(.din(line_even_fetch1), .ld(ld_2), .clr(invalidate_line_10), .clk(clk), .dout(line_10));
+regn #(.WIDTH(1)) valid3(.din(1'b1), .ld(ld_2), .clr(invalidate_line_10), .clk(clk), .dout(line_10_valid));
+regn #(.WIDTH(128)) line3(.din(line_even_fetch1), .ld(ld_2), .clr(invalidate_line_10), .clk(clk), .dout(line_10));
 
 //line11
-regn #(.WIDTH(1)) valid(.din(1'b1), .ld(ld_3), .clr(invalidate_line_11), .clk(clk), .dout(line_11_valid));
-regn #(.WIDTH(128)) line(.din(line_odd_fetch1), .ld(ld_3), .clr(invalidate_line_11), .clk(clk), .dout(line_11));
+regn #(.WIDTH(1)) valid4(.din(1'b1), .ld(ld_3), .clr(invalidate_line_11), .clk(clk), .dout(line_11_valid));
+regn #(.WIDTH(128)) line4(.din(line_odd_fetch1), .ld(ld_3), .clr(invalidate_line_11), .clk(clk), .dout(line_11));
 
 
     

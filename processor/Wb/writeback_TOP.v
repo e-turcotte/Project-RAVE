@@ -22,7 +22,7 @@ module writeback_TOP(
 
     input BR_valid_in, BR_taken_in, BR_correct_in,
     input[31:0] BR_FIP_in, BR_FIP_p1_in, input BR_EIP_in,
-    input[15:0] CS_in
+    input[15:0] CS_in,
 
     input interrupt_in,
 
