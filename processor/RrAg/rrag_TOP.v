@@ -9,6 +9,7 @@ module rrag (input valid_in,
              input is_sib,
              input seg_switch,
              input [2:0] seg_switch_to,
+             input reg_or_disp,
              input rep,
 
              input clr, clk,
@@ -26,7 +27,7 @@ module rrag (input valid_in,
              input [31:0] eip_in,
              input IE_in,
              input [3:0] IE_type_in,
-             input [310] BR_pred_target_in,
+             input [31:0] BR_pred_target_in,
              input BR_pred_T_NT_in,
 
              input [63:0] wb_data1, wb_data2, wb_data3, wb_data4,
@@ -41,7 +42,7 @@ module rrag (input valid_in,
              output [1:0] opsize_out,
              output [31:0] mem_addr1, mem_addr2, mem_addr1_end, mem_addr2_end,
              output [63:0] reg1, reg2, reg3, reg4,
-             output [63:0] ptc_r1, ptc_r2, ptc_r3, ptc_r4,
+             output [127:0] ptc_r1, ptc_r2, ptc_r3, ptc_r4,
              output [2:0] reg1_orig, reg2_orig, reg3_orig, reg4_orig,
              output [15:0] seg1, seg2, seg3, seg4,
              output [15:0] ptc_s1, ptc_s2, ptc_s3, ptc_s4,
@@ -97,11 +98,12 @@ module rrag (input valid_in,
     lshfn_fixed #(.WIDTH(32), .SHF_AMNT(3)) s2(.in(reg3[31:0]), .shf_val(3'b000), .out(mul8));
     muxnm_tree #(.SEL_WIDTH(2), .DATA_WIDTH(32)) m0(.in({mul8,mul4,mul2,reg3[31:0]}), .sel(ss), .out(shfidx));
 
-    wire [31:0] sibcalc, segoffs, segdisp;
+    wire [31:0] rmbaseval, sibcalc, segoffs, segdisp;
 
-    kogeAdder #(.WIDTH(32)) add0(.SUM(sibcalc), .COUT(), .A(reg2[31:0]), .B(shfidx));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({reg2[31:0],32'h00000000}), .sel(reg_or_disp), .out(rmbaseval));
+    kogeAdder #(.WIDTH(32)) add0(.SUM(sibcalc), .COUT(), .A(rmbaseval), .B(shfidx));
     kogeAdder #(.WIDTH(32)) add1(.SUM(segdisp), .COUT(), .A(disp), .B(shfseg1));
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({sibcalc,reg2[31:0]}), .sel(is_sib), .out(segoffs));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({sibcalc,reg2[31:0]}), .sel(is_sib), .out(segoffs));
     kogeAdder #(.WIDTH(32)) add2(.SUM(mem_addr1), .COUT(), .A(segoffs), .B(segdisp));
     kogeAdder #(.WIDTH(32)) add3(.SUM(mem_addr2), .COUT(), .A(reg4[31:0]), .B(shfseg2));
 
@@ -115,7 +117,7 @@ module rrag (input valid_in,
     assign dest3_out = dest3_in;
     assign dest4_out = dest4_in;
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({reg4[31:0],32'h00000000}), .sel(rep), .out(rep_num));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({reg4[31:0],32'h00000000}), .sel(rep), .out(rep_num));
 
     wire [3:0] decodedsize;
 
@@ -140,4 +142,17 @@ module rrag (input valid_in,
     assign IE_type_out = IE_type_in;
     assign BR_pred_target_out = BR_pred_target_in;
     assign BR_pred_T_NT_out = BR_pred_T_NT_in;
+
+    wire mem1_use, mem2_use, rm_ptc, sib_ptc, actualsib_ptc, mem1_ptc, mem2_ptc, mem1_stall, mem2_stall;
+
+    or2$ g2(.out(mem1_use), .in0(mem1_rw_in[1]), .in1(mem2_rw_in[0]));
+    or2$ g3(.out(mem2_use), .in0(mem2_rw_in[1]), .in1(mem2_rw_in[0]));
+    orn #(.NUM_INPUTS(4)) g4(.in({ptc_r2[62],ptc_r2[46],ptc_r2[30],ptc_r2[14]}), .out(rm_ptc));
+    orn #(.NUM_INPUTS(4)) g5(.in({ptc_r3[62],ptc_r3[46],ptc_r3[30],ptc_r3[14]}), .out(sib_ptc));
+    and2$ g6(.out(actualsib_ptc), .in0(is_sib), .in1(sib_ptc));
+    or2$ g7(.out(mem1_ptc), .in0(rm_ptc), .in1(actualsib_ptc));
+    orn #(.NUM_INPUTS(4)) g8(.in({ptc_r4[62],ptc_r4[46],ptc_r4[30],ptc_r4[14]}), .out(mem2_ptc));
+    and2$ g9(.out(mem1_stall), .in0(mem1_use), .in1(mem1_ptc));
+    and2$ g10(.out(mem2_stall), .in0(mem2_use), .in1(mem2_ptc));
+    or3$ g11(.out(stall), .in0(fwd_stall), .in1(mem1_stall), .in2(mem2_stall));
 endmodule
