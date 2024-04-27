@@ -70,7 +70,8 @@ module execute_TOP(
     output [31:0] BR_pred_target_out,
     output BR_pred_T_NT_out,
     
-    output[17:0] eflags, 
+    output[17:0] eflags,
+    output[15:0] CS_out, 
     
     output res1_wb,
     output [63:0] res1, //done
@@ -162,7 +163,7 @@ module execute_TOP(
     assign eflags_ld = {1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 2'b0, of_out, df_out,  1'b0, 1'b0, sf_out, zf_out, af_out, pf_out, cf_out}; 
     assign af = eflags_rd[2]; assign cf = eflags_rd[0];  assign pf = eflags_rd[1]; assign zf = eflags_rd[3];   assign sf = eflags_rd[4];  assign df = eflags_rd[7];  assign of = eflags_rd[8];     
     EFLAG e1(eflags_rd, clk, set, rst, valid_in, eflags_ld, FMASK, cc_inval);
-
+    assign CS_out = CS;
     //Handle skipGen
     wire skip;
     SKIPGEN s1(skip, P_OP[6], P_OP[11], P_OP[12], cf, zf, conditionals);
