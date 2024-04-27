@@ -9,12 +9,12 @@ module TOP();
 
 //FETCH1 -> FETCH2 -> DECODE -> RrAg -> MEM -> EX -> WB
 
+//  IMPORTANT NOTES:
+//     -notation for latche wires: <signal.name>_<stage.prev>_<stage.next>_latch_<in/out>
+//      where in is the input to the latch (output of stage.prev) and out is the output from the latch (input of stage.next)
 
-//  notation for latche wires: <signal.name>_<stage.prev>_<stage.next>_latch_<in/out>
-//  where in is the input to the latch (output of stage.prev) and out is the output from the latch (input of stage.next)
-
-//////////////////////////////////////////////////////////
-//    Outputs from EX that go into EX_WB_latch:          //  
+///////////////////////////////////////////////////////////
+//    Outputs from EX that go into EX_WB_latch:         //  
 //////////////////////////////////////////////////////////
 
     wire valid_EX_WB_latch_in;
@@ -210,7 +210,8 @@ module TOP();
         .BR_FIP_p1(BR_FIP_p1_EX_WB_latch_in)
     );
 
-    integer EX_WB_latch_size; EX_WB_latch_size = 400;
+    integer EX_WB_latch_size; 
+    EX_WB_latch_size = 461;
 
     regn (.WIDTH(EX_WB_latch_size)) (
     .din({
@@ -228,7 +229,7 @@ module TOP();
         }),
     .ld(),
     .clr(),
-    .clk(),
+    .clk(clk),
     .dout({
         valid_EX_WB_latch_out, EIP_EX_WB_latch_out, IE_EX_WB_latch_out, IE_type_EX_WB_latch_out,
         BR_pred_target_EX_WB_latch_out, BR_pred_T_NT_EX_WB_latch_out, eflags_EX_WB_latch_out, CS_EX_WB_latch_out,
@@ -254,13 +255,13 @@ writeback_TOP wb(
     .BR_pred_target_in(BR_pred_target_EX_WB_latch_out),
     .BR_pred_T_NT_in(BR_pred_T_NT_EX_WB_latch_out),
     .set(), .rst(),
-    .inp1(), .inp2(), .inp3(), .inp4(),
-    .inp1_isReg(), .inp2_isReg(), .inp3_isReg(), .inp4_isReg(),
-    .inp1_dest(), .inp2_dest(), .inp3_dest(), .inp4_dest(),
-    .inp1_size(), .inp2_size(), .inp3_size(), .inp4_size(),
+    .inp1(res1_EX_WB_latch_out), .inp2(res2_EX_WB_latch_out), .inp3(res3_EX_WB_latch_out), .inp4(res4_EX_WB_latch_out),
+    .inp1_isReg(res1_is_reg_EX_WB_latch_out), .inp2_isReg(res2_is_reg_EX_WB_latch_out), .inp3_isReg(res3_is_reg_EX_WB_latch_out), .inp4_isReg(res4_is_reg_EX_WB_latch_out),
+    .inp1_dest(res1_dest_EX_WB_latch_out), .inp2_dest(res2_dest_EX_WB_latch_out), .inp3_dest(res3_dest_EX_WB_latch_out), .inp4_dest(res4_dest_EX_WB_latch_out),
+    .inp1_size(res1_size_EX_WB_latch_out), .inp2_size(res2_size_EX_WB_latch_out), .inp3_size(res3_size_EX_WB_latch_out), .inp4_size(res4_size_EX_WB_latch_out),
     .inp1_isPTC(), .inp2_isPTC(), .inp3_isPTC(), .inp4_isPTC(),
     .inp1_PTC(), .inp2_PTC(), .inp3_PTC(), .inp4_PTC(),
-    .inp1_wb(), .inp2_wb(), .inp3_wb(), .inp4_wb(),
+    .inp1_wb(res1_wb_EX_WB_latch_out), .inp2_wb(res2_wb_EX_WB_latch_out), .inp3_wb(res3_wb_EX_WB_latch_out), .inp4_wb(res4_wb_EX_WB_latch_out),
     .P_OP(),
 
     .load_eip_in_res1(load_eip_in_res1_EX_WB_latch_out),
@@ -294,9 +295,9 @@ writeback_TOP wb(
     .mem_data(),
     .mem_size(),
 
-    .FIP_e(), .FIP_o(), .EIP(),
-    .BR_valid(), .BR_taken(), .BR_correct(),
-    .CS(),
+    .FIP_e(), .FIP_o(), .EIP(), //to fetch
+    .BR_valid(), .BR_taken(), .BR_correct(), //to update BP
+    .CS(), //for IE servicing
     .segReg1(),
     .segReg2(),
 
@@ -306,8 +307,5 @@ writeback_TOP wb(
     .final_IE_val(),
     .final_IE_type()
     );
-
-
-
 
 endmodule
