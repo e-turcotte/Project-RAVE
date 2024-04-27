@@ -130,7 +130,7 @@ module seg (input [15:0] base_in,
     or2$ g1(.out(ptcld), .in0(dest), .in1(clearptc));
     and2$ g2(.out(clr_ptc_signal), .in0(clr), .in1(ptcclr));
     regn #(.WIDTH(1)) ptcv(.din(dest), .ld(ptcld), .clr(clr_ptc_signal), .clk(clk), .dout(v));
-    assign ptc_out = {1'b1,v,id,1'b1,loc,3'b001,
-                      1'b1,v,id,1'b1,loc,3'b000};
+    assign ptc_out = {1'b0,v,id,1'b1,loc,3'b001,
+                      1'b0,v,id,1'b1,loc,3'b000};
 
 endmodule

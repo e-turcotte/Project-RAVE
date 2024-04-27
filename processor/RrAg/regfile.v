@@ -290,20 +290,20 @@ module gpr (input [31:0] din,
     equaln #(.WIDTH(7)) eq0(.a(data_ptcid), .b(id[2]), .eq(clearptc[2]));
     or2$ g1(.out(ptcld[2]), .in0(sized_dest[2]), .in1(clearptc[2]));
     regn #(.WIDTH(1)) e_ptcv(.din(sized_dest[2]), .ld(ptcld[2]), .clr(clr_ptc_signal), .clk(clk), .dout(v[2]));
-    assign e_ptc = {1'b1,v[2],id[2],1'b0,loc,3'b011,
-                    1'b1,v[2],id[2],1'b0,loc,3'b010};
+    assign e_ptc = {1'b0,v[2],id[2],1'b0,loc,3'b011,
+                    1'b0,v[2],id[2],1'b0,loc,3'b010};
 
     regn #(.WIDTH(7)) h_ptcid(.din(new_ptcid), .ld(sized_dest[1]), .clr(clr), .clk(clk), .dout(id[1]));
     equaln #(.WIDTH(7)) eq1(.a(data_ptcid), .b(id[1]), .eq(clearptc[1]));
     or2$ g2(.out(ptcld[1]), .in0(sized_dest[1]), .in1(clearptc[1]));
     regn #(.WIDTH(1)) h_ptcv(.din(sized_dest[1]), .ld(ptcld[1]), .clr(clr_ptc_signal), .clk(clk), .dout(v[1]));
-    assign h_ptc = {1'b1,v[1],id[1],1'b0,loc,3'b001};
+    assign h_ptc = {1'b0,v[1],id[1],1'b0,loc,3'b001};
 
     regn #(.WIDTH(7)) l_ptcid(.din(new_ptcid), .ld(sized_dest[0]), .clr(clr), .clk(clk), .dout(id[0]));
     equaln #(.WIDTH(7)) eq2(.a(data_ptcid), .b(id[0]), .eq(clearptc[0]));
     or2$ g3(.out(ptcld[0]), .in0(sized_dest[0]), .in1(clearptc[0]));
     regn #(.WIDTH(1)) l_ptcv(.din(sized_dest[0]), .ld(ptcld[0]), .clr(clr_ptc_signal), .clk(clk), .dout(v[0]));
-    assign l_ptc = {1'b1,v[0],id[0],1'b0,loc,3'b000};
+    assign l_ptc = {1'b0,v[0],id[0],1'b0,loc,3'b000};
 
 endmodule
 
@@ -378,13 +378,13 @@ module mmx (input [63:0] din,
     or2$ g0(.out(ptcld), .in0(dest), .in1(clearptc));
     and2$ g1(.out(clr_ptc_signal), .in0(clr), .in1(ptcclr));
     regn #(.WIDTH(1)) mm_ptcv(.din(dest), .ld(ptcld), .clr(clr_ptc_signal), .clk(clk), .dout(v));
-    assign mm_ptc = {1'b1,v,id,1'b0,loc,3'b111,
-                     1'b1,v,id,1'b0,loc,3'b110,
-                     1'b1,v,id,1'b0,loc,3'b101,
-                     1'b1,v,id,1'b0,loc,3'b100,
-                     1'b1,v,id,1'b0,loc,3'b011,
-                     1'b1,v,id,1'b0,loc,3'b010,
-                     1'b1,v,id,1'b0,loc,3'b001,
-                     1'b1,v,id,1'b0,loc,3'b000};
+    assign mm_ptc = {1'b0,v,id,1'b0,loc,3'b111,
+                     1'b0,v,id,1'b0,loc,3'b110,
+                     1'b0,v,id,1'b0,loc,3'b101,
+                     1'b0,v,id,1'b0,loc,3'b100,
+                     1'b0,v,id,1'b0,loc,3'b011,
+                     1'b0,v,id,1'b0,loc,3'b010,
+                     1'b0,v,id,1'b0,loc,3'b001,
+                     1'b0,v,id,1'b0,loc,3'b000};
 
 endmodule
