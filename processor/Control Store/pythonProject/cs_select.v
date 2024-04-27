@@ -143,146 +143,146 @@ input [226:0] w138,
 input [226:0] w139,
 input [7:0] B1, B2, B3);
 
-equaln #(8) e0({B1}, {8'h04}, weq0);
-equaln #(8) e1({B1}, {8'h05}, weq1);
-equaln #(11) e2({B1, B2[5:3]}, {8'h80, 3'd0}, weq2);
-equaln #(11) e3({B1, B2[5:3]}, {8'h81, 3'd0}, weq3);
-equaln #(11) e4({B1, B2[5:3]}, {8'h83, 3'd0}, weq4);
-equaln #(8) e5({B1}, {8'h00}, weq5);
-equaln #(8) e6({B1}, {8'h01}, weq6);
-equaln #(8) e7({B1}, {8'h02}, weq7);
-equaln #(8) e8({B1}, {8'h03}, weq8);
-equaln #(8) e9({B1}, {8'h24}, weq9);
-equaln #(8) e10({B1}, {8'h25}, weq10);
-equaln #(11) e11({B1, B2[5:3]}, {8'h80, 3'd4}, weq11);
-equaln #(11) e12({B1, B2[5:3]}, {8'h81, 3'd4}, weq12);
-equaln #(11) e13({B1, B2[5:3]}, {8'h83, 3'd4}, weq13);
-equaln #(8) e14({B1}, {8'h20}, weq14);
-equaln #(8) e15({B1}, {8'h21}, weq15);
-equaln #(8) e16({B1}, {8'h22}, weq16);
-equaln #(8) e17({B1}, {8'h23}, weq17);
-equaln #(8) e18({B1}, {8'h0F}, weq18);
-equaln #(8) e19({B1}, {8'hE8}, weq19);
-equaln #(11) e20({B1, B2[5:3]}, {8'hFF, 3'd2}, weq20);
-equaln #(8) e21({B1}, {8'h9A}, weq21);
-equaln #(8) e22({B1}, {8'hFC}, weq22);
-equaln #(8) e23({B1}, {8'h0F}, weq23);
-equaln #(8) e24({B1}, {8'h0F}, weq24);
-equaln #(8) e25({B1}, {8'h0F}, weq25);
-equaln #(8) e26({B1}, {8'h27}, weq26);
-equaln #(8) e27({B1}, {8'hF4}, weq27);
-equaln #(8) e28({B1}, {8'hCF}, weq28);
-equaln #(8) e29({B1}, {8'h77}, weq29);
-equaln #(8) e30({B1}, {8'h75}, weq30);
-equaln #(8) e31({B1}, {8'h0F}, weq31);
-equaln #(8) e32({B1}, {8'h0F}, weq32);
-equaln #(8) e33({B1}, {8'hEB}, weq33);
-equaln #(8) e34({B1}, {8'hE9}, weq34);
-equaln #(11) e35({B1, B2[5:3]}, {8'hFF, 3'd4}, weq35);
-equaln #(8) e36({B1}, {8'hEA}, weq36);
-equaln #(8) e37({B1}, {8'h88}, weq37);
-equaln #(8) e38({B1}, {8'h89}, weq38);
-equaln #(8) e39({B1}, {8'h8A}, weq39);
-equaln #(8) e40({B1}, {8'h8B}, weq40);
-equaln #(8) e41({B1}, {8'h8C}, weq41);
-equaln #(8) e42({B1}, {8'h8E}, weq42);
-equaln #(8) e43({B1}, {8'hB0}, weq43);
-equaln #(8) e44({B1}, {8'hB1}, weq44);
-equaln #(8) e45({B1}, {8'hB2}, weq45);
-equaln #(8) e46({B1}, {8'hB3}, weq46);
-equaln #(8) e47({B1}, {8'hB4}, weq47);
-equaln #(8) e48({B1}, {8'hB5}, weq48);
-equaln #(8) e49({B1}, {8'hB6}, weq49);
-equaln #(8) e50({B1}, {8'hB7}, weq50);
-equaln #(8) e51({B1}, {8'hB8}, weq51);
-equaln #(8) e52({B1}, {8'hB9}, weq52);
-equaln #(8) e53({B1}, {8'hBA}, weq53);
-equaln #(8) e54({B1}, {8'hBB}, weq54);
-equaln #(8) e55({B1}, {8'hBC}, weq55);
-equaln #(8) e56({B1}, {8'hBD}, weq56);
-equaln #(8) e57({B1}, {8'hBE}, weq57);
-equaln #(8) e58({B1}, {8'hBF}, weq58);
-equaln #(8) e59({B1}, {8'hC6}, weq59);
-equaln #(8) e60({B1}, {8'hC7}, weq60);
-equaln #(8) e61({B1}, {8'h0F}, weq61);
-equaln #(8) e62({B1}, {8'h0F}, weq62);
-equaln #(8) e63({B1}, {8'hA4}, weq63);
-equaln #(8) e64({B1}, {8'hA5}, weq64);
-equaln #(8) e65({B1}, {8'hF6}, weq65);
-equaln #(8) e66({B1}, {8'hF7}, weq66);
-equaln #(8) e67({B1}, {8'h0C}, weq67);
-equaln #(8) e68({B1}, {8'h0D}, weq68);
-equaln #(11) e69({B1, B2[5:3]}, {8'h80, 3'd1}, weq69);
-equaln #(11) e70({B1, B2[5:3]}, {8'h81, 3'd1}, weq70);
-equaln #(11) e71({B1, B2[5:3]}, {8'h83, 3'd1}, weq71);
-equaln #(8) e72({B1}, {8'h08}, weq72);
-equaln #(8) e73({B1}, {8'h09}, weq73);
-equaln #(8) e74({B1}, {8'h0A}, weq74);
-equaln #(8) e75({B1}, {8'h0B}, weq75);
-equaln #(8) e76({B1}, {8'h0F}, weq76);
-equaln #(8) e77({B1}, {8'h0F}, weq77);
-equaln #(8) e78({B1}, {8'h0F}, weq78);
-equaln #(8) e79({B1}, {8'h0F}, weq79);
-equaln #(8) e80({B1}, {8'h0F}, weq80);
-equaln #(8) e81({B1}, {8'h0F}, weq81);
-equaln #(8) e82({B1}, {8'h8F}, weq82);
-equaln #(8) e83({B1}, {8'h58}, weq83);
-equaln #(8) e84({B1}, {8'h59}, weq84);
-equaln #(8) e85({B1}, {8'h5A}, weq85);
-equaln #(8) e86({B1}, {8'h5B}, weq86);
-equaln #(8) e87({B1}, {8'h5C}, weq87);
-equaln #(8) e88({B1}, {8'h5D}, weq88);
-equaln #(8) e89({B1}, {8'h5E}, weq89);
-equaln #(8) e90({B1}, {8'h5F}, weq90);
-equaln #(8) e91({B1}, {8'h1F}, weq91);
-equaln #(8) e92({B1}, {8'h7}, weq92);
-equaln #(8) e93({B1}, {8'h17}, weq93);
-equaln #(8) e94({B1}, {8'h0F}, weq94);
-equaln #(8) e95({B1}, {8'h0F}, weq95);
-equaln #(11) e96({B1, B2[5:3]}, {8'hFF, 3'd6}, weq96);
-equaln #(8) e97({B1}, {8'h50}, weq97);
-equaln #(8) e98({B1}, {8'h51}, weq98);
-equaln #(8) e99({B1}, {8'h52}, weq99);
-equaln #(8) e100({B1}, {8'h53}, weq100);
-equaln #(8) e101({B1}, {8'h54}, weq101);
-equaln #(8) e102({B1}, {8'h55}, weq102);
-equaln #(8) e103({B1}, {8'h56}, weq103);
-equaln #(8) e104({B1}, {8'h57}, weq104);
-equaln #(8) e105({B1}, {8'h6A}, weq105);
-equaln #(8) e106({B1}, {8'h68}, weq106);
-equaln #(8) e107({B1}, {8'h0E}, weq107);
-equaln #(8) e108({B1}, {8'h16}, weq108);
-equaln #(8) e109({B1}, {8'h1E}, weq109);
-equaln #(8) e110({B1}, {8'h6}, weq110);
-equaln #(8) e111({B1}, {8'h0F}, weq111);
-equaln #(8) e112({B1}, {8'h0F}, weq112);
-equaln #(8) e113({B1}, {8'hC3}, weq113);
-equaln #(8) e114({B1}, {8'hCB}, weq114);
-equaln #(8) e115({B1}, {8'hC2}, weq115);
-equaln #(8) e116({B1}, {8'hCA}, weq116);
-equaln #(11) e117({B1, B2[5:3]}, {8'hD0, 3'd4}, weq117);
-equaln #(11) e118({B1, B2[5:3]}, {8'hD2, 3'd4}, weq118);
-equaln #(8) e119({B1}, {8'hC0}, weq119);
-equaln #(11) e120({B1, B2[5:3]}, {8'hD1, 3'd4}, weq120);
-equaln #(11) e121({B1, B2[5:3]}, {8'hD3, 3'd4}, weq121);
-equaln #(11) e122({B1, B2[5:3]}, {8'hC1, 3'd4}, weq122);
-equaln #(11) e123({B1, B2[5:3]}, {8'hD0, 3'd7}, weq123);
-equaln #(11) e124({B1, B2[5:3]}, {8'hD2, 3'd7}, weq124);
-equaln #(8) e125({B1}, {8'hC0}, weq125);
-equaln #(11) e126({B1, B2[5:3]}, {8'hD1, 3'd7}, weq126);
-equaln #(11) e127({B1, B2[5:3]}, {8'hD3, 3'd7}, weq127);
-equaln #(11) e128({B1, B2[5:3]}, {8'hC1, 3'd7}, weq128);
-equaln #(8) e129({B1}, {8'hFD}, weq129);
-equaln #(8) e130({B1}, {8'h90}, weq130);
-equaln #(8) e131({B1}, {8'h91}, weq131);
-equaln #(8) e132({B1}, {8'h92}, weq132);
-equaln #(8) e133({B1}, {8'h93}, weq133);
-equaln #(8) e134({B1}, {8'h94}, weq134);
-equaln #(8) e135({B1}, {8'h95}, weq135);
-equaln #(8) e136({B1}, {8'h96}, weq136);
-equaln #(8) e137({B1}, {8'h97}, weq137);
-equaln #(8) e138({B1}, {8'h86}, weq138);
-equaln #(8) e139({B1}, {8'h87}, weq139);
+equaln #(8) e0({B1}, {8'h04}, weq0);//ADD AL, imm8 | 1'b0 | 1'b0 | 04 ib
+equaln #(8) e1({B1}, {8'h05}, weq1);//ADD EAX, imm32 | 1'b0 | 1'b0 | 05 id
+equaln #(11) e2({B1, B2[5:3]}, {8'h80, 3'd0}, weq2);//ADD r/m8, imm8 | 1'b0 | 1'b1 | 80 /0 ib ?
+equaln #(11) e3({B1, B2[5:3]}, {8'h81, 3'd0}, weq3);//ADD r/m32, imm32 | 1'b0 | 1'b1 | 81 /0 id ?
+equaln #(11) e4({B1, B2[5:3]}, {8'h83, 3'd0}, weq4);//ADD r/m32, imm8 | 1'b0 | 1'b1 | 83 /0 ib ?
+equaln #(8) e5({B1}, {8'h00}, weq5);//ADD r/m8, r8 | 1'b0 | 1'b0 | 00 /r
+equaln #(8) e6({B1}, {8'h01}, weq6);//ADD r/m32, r32 | 1'b0 | 1'b0 | 01 /r
+equaln #(8) e7({B1}, {8'h02}, weq7);//ADD r8, r/m8 | 1'b0 | 1'b0 | 02 /r
+equaln #(8) e8({B1}, {8'h03}, weq8);//ADD r32, r/m32 | 1'b0 | 1'b0 | 03 /r
+equaln #(8) e9({B1}, {8'h24}, weq9);//AND AL, imm8 | 1'b0 | 1'b0 | 24 ib
+equaln #(8) e10({B1}, {8'h25}, weq10);//AND EAX, imm32 | 1'b0 | 1'b0 | 25 id
+equaln #(11) e11({B1, B2[5:3]}, {8'h80, 3'd4}, weq11);//AND r/m8, imm8 | 1'b0 | 1'b1 | 80 /4 ib ?
+equaln #(11) e12({B1, B2[5:3]}, {8'h81, 3'd4}, weq12);//AND r/m32, imm32 | 1'b0 | 1'b1 | 81 /4 id ?
+equaln #(11) e13({B1, B2[5:3]}, {8'h83, 3'd4}, weq13);//AND r/m32, imm8 | 1'b0 | 1'b1 | 83 /4 ib ?
+equaln #(8) e14({B1}, {8'h20}, weq14);//AND r/m8, r8 | 1'b0 | 1'b0 | 20 /r
+equaln #(8) e15({B1}, {8'h21}, weq15);//AND r/m32, r32 | 1'b0 | 1'b0 | 21 /r
+equaln #(8) e16({B1}, {8'h22}, weq16);//AND r8, r/m8 | 1'b0 | 1'b0 | 22 /r
+equaln #(8) e17({B1}, {8'h23}, weq17);//AND r32, r/m32 | 1'b0 | 1'b0 | 23 /r
+equaln #(16) e18({B1, B2}, {8'h0F, 8'hBC}, weq18);//BSF r32, r/m32 | 1'b1 | 1'b0 | 0F BC
+equaln #(8) e19({B1}, {8'hE8}, weq19);//CALL rel32 | 1'b0 | 1'b0 | E8 cd
+equaln #(11) e20({B1, B2[5:3]}, {8'hFF, 3'd2}, weq20);//CALL r/m32 | 1'b0 | 1'b1 | FF /2 ?
+equaln #(8) e21({B1}, {8'h9A}, weq21);//CALL ptr16:32 | 1'b0 | 1'b0 | 9A cp
+equaln #(8) e22({B1}, {8'hFC}, weq22);//CLD | 1'b0 | 1'b0 | FC
+equaln #(16) e23({B1, B2}, {8'h0F, 8'h42}, weq23);//CMOVC r32, r/m32 | 1'b1 | 1'b0 | 0F 42 /r
+equaln #(16) e24({B1, B2}, {8'h0F, 8'hB0}, weq24);//CMPXCHG r/m8, r8 | 1'b1 | 1'b0 | 0F B0 /r
+equaln #(16) e25({B1, B2}, {8'h0F, 8'hB1}, weq25);//CMPXCHG r/m32, r32 | 1'b1 | 1'b0 | 0F B1 /r
+equaln #(8) e26({B1}, {8'h27}, weq26);//DAA | 1'b0 | 1'b0 | 27
+equaln #(8) e27({B1}, {8'hF4}, weq27);//HLT | 1'b0 | 1'b0 | F4
+equaln #(8) e28({B1}, {8'hCF}, weq28);//IREtd | 1'b0 | 1'b0 | CF
+equaln #(8) e29({B1}, {8'h77}, weq29);//JNBE rel8 | 1'b0 | 1'b0 | 77 cb
+equaln #(8) e30({B1}, {8'h75}, weq30);//JNE rel8 | 1'b0 | 1'b0 | 75 cb
+equaln #(16) e31({B1, B2}, {8'h0F, 8'h87}, weq31);//JNBE rel32 | 1'b1 | 1'b0 | 0F 87 cd
+equaln #(16) e32({B1, B2}, {8'h0F, 8'h85}, weq32);//JNE rel32 | 1'b1 | 1'b0 | 0F 85 cd
+equaln #(8) e33({B1}, {8'hEB}, weq33);//JMP rel8 | 1'b0 | 1'b0 | EB cb
+equaln #(8) e34({B1}, {8'hE9}, weq34);//JMP rel32 | 1'b0 | 1'b0 | E9 cd
+equaln #(11) e35({B1, B2[5:3]}, {8'hFF, 3'd4}, weq35);//JMP r/m32 | 1'b0 | 1'b1 | FF /4 ?
+equaln #(8) e36({B1}, {8'hEA}, weq36);//JMP ptr16:32 | 1'b0 | 1'b0 | EA cp
+equaln #(8) e37({B1}, {8'h88}, weq37);//MOV r/m8, r8 | 1'b0 | 1'b0 | 88 /r
+equaln #(8) e38({B1}, {8'h89}, weq38);//MOV r/m32, r32 | 1'b0 | 1'b0 | 89 /r
+equaln #(8) e39({B1}, {8'h8A}, weq39);//MOV r8, r/m8 | 1'b0 | 1'b0 | 8A /r
+equaln #(8) e40({B1}, {8'h8B}, weq40);//MOV r32, r/m32 | 1'b0 | 1'b0 | 8B /r
+equaln #(8) e41({B1}, {8'h8C}, weq41);//MOV r/m16, Sreg | 1'b0 | 1'b0 | 8C /r
+equaln #(8) e42({B1}, {8'h8E}, weq42);//MOV Sreg, r/m16 | 1'b0 | 1'b0 | 8E /r
+equaln #(8) e43({B1}, {8'hB0}, weq43);//MOV r8, imm8 | 1'b0 | 1'b0 | B0+ rb
+equaln #(8) e44({B1}, {8'hB1}, weq44);//MOV r8, imm8 | 1'b0 | 1'b0 | B0+ rb
+equaln #(8) e45({B1}, {8'hB2}, weq45);//MOV r8, imm8 | 1'b0 | 1'b0 | B0+ rb
+equaln #(8) e46({B1}, {8'hB3}, weq46);//MOV r8, imm8 | 1'b0 | 1'b0 | B0+ rb
+equaln #(8) e47({B1}, {8'hB4}, weq47);//MOV r8, imm8 | 1'b0 | 1'b0 | B0+ rb
+equaln #(8) e48({B1}, {8'hB5}, weq48);//MOV r8, imm8 | 1'b0 | 1'b0 | B0+ rb
+equaln #(8) e49({B1}, {8'hB6}, weq49);//MOV r8, imm8 | 1'b0 | 1'b0 | B0+ rb
+equaln #(8) e50({B1}, {8'hB7}, weq50);//MOV r8, imm8 | 1'b0 | 1'b0 | B0+ rb
+equaln #(8) e51({B1}, {8'hB8}, weq51);//MOV r32, imm32 | 1'b0 | 1'b0 | B8+ rd
+equaln #(8) e52({B1}, {8'hB9}, weq52);//MOV r32, imm32 | 1'b0 | 1'b0 | B8+ rd
+equaln #(8) e53({B1}, {8'hBA}, weq53);//MOV r32, imm32 | 1'b0 | 1'b0 | B8+ rd
+equaln #(8) e54({B1}, {8'hBB}, weq54);//MOV r32, imm32 | 1'b0 | 1'b0 | B8+ rd
+equaln #(8) e55({B1}, {8'hBC}, weq55);//MOV r32, imm32 | 1'b0 | 1'b0 | B8+ rd
+equaln #(8) e56({B1}, {8'hBD}, weq56);//MOV r32, imm32 | 1'b0 | 1'b0 | B8+ rd
+equaln #(8) e57({B1}, {8'hBE}, weq57);//MOV r32, imm32 | 1'b0 | 1'b0 | B8+ rd
+equaln #(8) e58({B1}, {8'hBF}, weq58);//MOV r32, imm32 | 1'b0 | 1'b0 | B8+ rd
+equaln #(8) e59({B1}, {8'hC6}, weq59);//MOV r/m8, imm8 | 1'b0 | 1'b0 | C6 /0
+equaln #(8) e60({B1}, {8'hC7}, weq60);//MOV r/m32, imm32 | 1'b0 | 1'b0 | C7 /0
+equaln #(16) e61({B1, B2}, {8'h0F, 8'h6F}, weq61);//MOVQ mm, mm/m64 | 1'b1 | 1'b0 | 0F 6F /r
+equaln #(16) e62({B1, B2}, {8'h0F, 8'h7F}, weq62);//MOVQ mm/m64, mm | 1'b1 | 1'b0 | 0F 7F /r
+equaln #(8) e63({B1}, {8'hA4}, weq63);//MOVS m8, m8 | 1'b0 | 1'b0 | A4
+equaln #(8) e64({B1}, {8'hA5}, weq64);//MOVS m32, m32 | 1'b0 | 1'b0 | A5
+equaln #(8) e65({B1}, {8'hF6}, weq65);//NOT r/m8 | 1'b0 | 1'b0 | F6 /2
+equaln #(8) e66({B1}, {8'hF7}, weq66);//NOT r/m32 | 1'b0 | 1'b0 | F7 /2
+equaln #(8) e67({B1}, {8'h0C}, weq67);//OR AL, imm8 | 1'b0 | 1'b0 | 0C ib
+equaln #(8) e68({B1}, {8'h0D}, weq68);//OR EAX, imm32 | 1'b0 | 1'b0 | 0D id
+equaln #(11) e69({B1, B2[5:3]}, {8'h80, 3'd1}, weq69);//OR r/m8, imm8 | 1'b0 | 1'b1 | 80 /1 ib ?
+equaln #(11) e70({B1, B2[5:3]}, {8'h81, 3'd1}, weq70);//OR r/m32, imm32 | 1'b0 | 1'b1 | 81 /1 id ?
+equaln #(11) e71({B1, B2[5:3]}, {8'h83, 3'd1}, weq71);//OR r/m32, imm8 | 1'b0 | 1'b1 | 83 /1 ib ?
+equaln #(8) e72({B1}, {8'h08}, weq72);//OR r/m8, r8 | 1'b0 | 1'b0 | 08 /r
+equaln #(8) e73({B1}, {8'h09}, weq73);//OR r/m32, r32 | 1'b0 | 1'b0 | 09 /r
+equaln #(8) e74({B1}, {8'h0A}, weq74);//OR r8, r/m8 | 1'b0 | 1'b0 | 0A /r
+equaln #(8) e75({B1}, {8'h0B}, weq75);//OR r32, r/m32 | 1'b0 | 1'b0 | 0B /r
+equaln #(16) e76({B1, B2}, {8'h0F, 8'hFD}, weq76);//PADDW mm, mm/m64 | 1'b1 | 1'b0 | 0F FD /r
+equaln #(16) e77({B1, B2}, {8'h0F, 8'hFE}, weq77);//PADDD mm, mm/m64 | 1'b1 | 1'b0 | 0F FE /r
+equaln #(16) e78({B1, B2}, {8'h0F, 8'h63}, weq78);//PACKSSWB mm1, mm/m64 | 1'b1 | 1'b0 | 0F 63/r
+equaln #(16) e79({B1, B2}, {8'h0F, 8'h6B}, weq79);//PACKSSDW mm1, mm/m64 | 1'b1 | 1'b0 | 0F 6B/r
+equaln #(16) e80({B1, B2}, {8'h0F, 8'h68}, weq80);//PUNPCKHBW mm1, mm/m64 | 1'b1 | 1'b0 | 0F 68/r
+equaln #(16) e81({B1, B2}, {8'h0F, 8'h69}, weq81);//PUNPCKHWD mm1, mm/m64 | 1'b1 | 1'b0 | 0F 69/r
+equaln #(8) e82({B1}, {8'h8F}, weq82);//POP r/m32 | 1'b0 | 1'b0 | 8F /0
+equaln #(8) e83({B1}, {8'h58}, weq83);//POP r32 | 1'b0 | 1'b0 | 58+ rd
+equaln #(8) e84({B1}, {8'h59}, weq84);//POP r32 | 1'b0 | 1'b0 | 58+ rd
+equaln #(8) e85({B1}, {8'h5A}, weq85);//POP r32 | 1'b0 | 1'b0 | 58+ rd
+equaln #(8) e86({B1}, {8'h5B}, weq86);//POP r32 | 1'b0 | 1'b0 | 58+ rd
+equaln #(8) e87({B1}, {8'h5C}, weq87);//POP r32 | 1'b0 | 1'b0 | 58+ rd
+equaln #(8) e88({B1}, {8'h5D}, weq88);//POP r32 | 1'b0 | 1'b0 | 58+ rd
+equaln #(8) e89({B1}, {8'h5E}, weq89);//POP r32 | 1'b0 | 1'b0 | 58+ rd
+equaln #(8) e90({B1}, {8'h5F}, weq90);//POP r32 | 1'b0 | 1'b0 | 58+ rd
+equaln #(8) e91({B1}, {8'h1F}, weq91);//POP DS | 1'b0 | 1'b0 | 1F
+equaln #(8) e92({B1}, {8'h7}, weq92);//POP ES | 1'b0 | 1'b0 | 7
+equaln #(8) e93({B1}, {8'h17}, weq93);//POP SS | 1'b0 | 1'b0 | 17
+equaln #(16) e94({B1, B2}, {8'h0F, 8'hA1}, weq94);//POP FS | 1'b1 | 1'b0 | 0F A1
+equaln #(16) e95({B1, B2}, {8'h0F, 8'hA9}, weq95);//POP GS | 1'b1 | 1'b0 | 0F A9
+equaln #(11) e96({B1, B2[5:3]}, {8'hFF, 3'd6}, weq96);//PUSH r/m32 | 1'b0 | 1'b1 | FF /6 ?
+equaln #(8) e97({B1}, {8'h50}, weq97);//PUSH r32 | 1'b0 | 1'b0 | 50+ rd
+equaln #(8) e98({B1}, {8'h51}, weq98);//PUSH r32 | 1'b0 | 1'b0 | 50+ rd
+equaln #(8) e99({B1}, {8'h52}, weq99);//PUSH r32 | 1'b0 | 1'b0 | 50+ rd
+equaln #(8) e100({B1}, {8'h53}, weq100);//PUSH r32 | 1'b0 | 1'b0 | 50+ rd
+equaln #(8) e101({B1}, {8'h54}, weq101);//PUSH r32 | 1'b0 | 1'b0 | 50+ rd
+equaln #(8) e102({B1}, {8'h55}, weq102);//PUSH r32 | 1'b0 | 1'b0 | 50+ rd
+equaln #(8) e103({B1}, {8'h56}, weq103);//PUSH r32 | 1'b0 | 1'b0 | 50+ rd
+equaln #(8) e104({B1}, {8'h57}, weq104);//PUSH r32 | 1'b0 | 1'b0 | 50+ rd
+equaln #(8) e105({B1}, {8'h6A}, weq105);//PUSH imm8 | 1'b0 | 1'b0 | 6A
+equaln #(8) e106({B1}, {8'h68}, weq106);//PUSH imm32 | 1'b0 | 1'b0 | 68
+equaln #(8) e107({B1}, {8'h0E}, weq107);//PUSH CS | 1'b0 | 1'b0 | 0E
+equaln #(8) e108({B1}, {8'h16}, weq108);//PUSH SS | 1'b0 | 1'b0 | 16
+equaln #(8) e109({B1}, {8'h1E}, weq109);//PUSH DS | 1'b0 | 1'b0 | 1E
+equaln #(8) e110({B1}, {8'h6}, weq110);//PUSH ES | 1'b0 | 1'b0 | 6
+equaln #(16) e111({B1, B2}, {8'h0F, 8'hA0}, weq111);//PUSH FS | 1'b1 | 1'b0 | 0F A0
+equaln #(16) e112({B1, B2}, {8'h0F, 8'hA8}, weq112);//PUSH GS | 1'b1 | 1'b0 | 0F A8
+equaln #(8) e113({B1}, {8'hC3}, weq113);//RET | 1'b0 | 1'b0 | C3
+equaln #(8) e114({B1}, {8'hCB}, weq114);//RET | 1'b0 | 1'b0 | CB
+equaln #(8) e115({B1}, {8'hC2}, weq115);//RET imm16 | 1'b0 | 1'b0 | C2 iw
+equaln #(8) e116({B1}, {8'hCA}, weq116);//RET imm16 | 1'b0 | 1'b0 | CA iw
+equaln #(11) e117({B1, B2[5:3]}, {8'hD0, 3'd4}, weq117);//SAL r/m8, 1 | 1'b0 | 1'b1 | D0 /4 ?
+equaln #(11) e118({B1, B2[5:3]}, {8'hD2, 3'd4}, weq118);//SAL r/m8, CL | 1'b0 | 1'b1 | D2 /4 ?
+equaln #(8) e119({B1}, {8'hC0}, weq119);//SAL r/m8, imm8 | 1'b0 | 1'b0 | C0 /4 ib
+equaln #(11) e120({B1, B2[5:3]}, {8'hD1, 3'd4}, weq120);//SAL r/m32, 1 | 1'b0 | 1'b1 | D1 /4 ?
+equaln #(11) e121({B1, B2[5:3]}, {8'hD3, 3'd4}, weq121);//SAL r/m32, CL | 1'b0 | 1'b1 | D3 /4 ?
+equaln #(11) e122({B1, B2[5:3]}, {8'hC1, 3'd4}, weq122);//SAL r/m32, imm8 | 1'b0 | 1'b1 | C1 /4 ib ?
+equaln #(11) e123({B1, B2[5:3]}, {8'hD0, 3'd7}, weq123);//SAR r/m8, 1 | 1'b0 | 1'b1 | D0 /7 ?
+equaln #(11) e124({B1, B2[5:3]}, {8'hD2, 3'd7}, weq124);//SAR r/m8, CL | 1'b0 | 1'b1 | D2 /7 ?
+equaln #(8) e125({B1}, {8'hC0}, weq125);//SAR r/m8, imm8 | 1'b0 | 1'b0 | C0 /7 ib
+equaln #(11) e126({B1, B2[5:3]}, {8'hD1, 3'd7}, weq126);//SAR r/m32, 1 | 1'b0 | 1'b1 | D1 /7 ?
+equaln #(11) e127({B1, B2[5:3]}, {8'hD3, 3'd7}, weq127);//SAR r/m32, CL | 1'b0 | 1'b1 | D3 /7 ?
+equaln #(11) e128({B1, B2[5:3]}, {8'hC1, 3'd7}, weq128);//SAR r/m32, imm8 | 1'b0 | 1'b1 | C1 /7 ib ?
+equaln #(8) e129({B1}, {8'hFD}, weq129);//STD | 1'b0 | 1'b0 | FD
+equaln #(8) e130({B1}, {8'h90}, weq130);//XCHG EAX, r32 | 1'b0 | 1'b0 | 90+ rd
+equaln #(8) e131({B1}, {8'h91}, weq131);//XCHG EAX, r32 | 1'b0 | 1'b0 | 90+ rd
+equaln #(8) e132({B1}, {8'h92}, weq132);//XCHG EAX, r32 | 1'b0 | 1'b0 | 90+ rd
+equaln #(8) e133({B1}, {8'h93}, weq133);//XCHG EAX, r32 | 1'b0 | 1'b0 | 90+ rd
+equaln #(8) e134({B1}, {8'h94}, weq134);//XCHG EAX, r32 | 1'b0 | 1'b0 | 90+ rd
+equaln #(8) e135({B1}, {8'h95}, weq135);//XCHG EAX, r32 | 1'b0 | 1'b0 | 90+ rd
+equaln #(8) e136({B1}, {8'h96}, weq136);//XCHG EAX, r32 | 1'b0 | 1'b0 | 90+ rd
+equaln #(8) e137({B1}, {8'h97}, weq137);//XCHG EAX, r32 | 1'b0 | 1'b0 | 90+ rd
+equaln #(8) e138({B1}, {8'h86}, weq138);//XCHG r/m8, r8 | 1'b0 | 1'b0 | 86  /r
+equaln #(8) e139({B1}, {8'h87}, weq139);//XCHG r/m32, r32 | 1'b0 | 1'b0 | 87 /r
 bufferH256$ b0(beq0, weq0);
 bufferH256$ b1(beq1, weq1);
 bufferH256$ b2(beq2, weq2);

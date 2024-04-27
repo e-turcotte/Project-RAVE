@@ -115,7 +115,7 @@ def generateVerilog(rows, fields):
         wires = genWires(rows,fields, 0)
         file.write(wires + "\n")
         file.write(csAdapt)
-        override = "mux2n  # (8) m1x(m, B2, B3, isDouble);\nmux2$ mx1(m1, B2[6], B3[6], isDouble);\nmux2$ mx2(m2, B2[7], B3[7], isDouble);\nand3$ a1(m1rw_s, isMOD, m1, m2);\nmux2n  # (2) mx3(M1_RW, M1_RW0, 2'b00, m1rw_s);\nand4$ a2(s3_s, isMOD, m1, m2, S3_MOD_OVR);\nmux2n  # (3)  mx4(S3, S30, m[5:3], s3_s);\nand4$ a3(r1_s, isMOD, m1, m2, R1_MOD_OVR);\nmux2n  # (3)  mx5(R1, R10, m[5:3], r1_s);\nand2$ a4(d1_s, dest1_mux0[8], OP_MOD_OVR[0]);\nand2$ a5(op1_s, dest1_mux0[8], OP_MOD_OVR[0]);\nand2$ a6(d2_s, dest2_mux0[8], OP_MOD_OVR[1]);\nand2$ a7(op2_s, dest2_mux0[8], OP_MOD_OVR[1]);\nmux2n  # (13) mx6(dest1_mux, dest1_mux0, 13'h0002, d1_s);\nmux2n  # (13) mx7(dest2_mux, dest2_mux0, 13'h0002, d2_s);\nmux2n  # (13) mx8(op1_mux, op1_mux0, 13'h0002, op1_s);\nmux2n  #(13) mx9(op2_mux, op2_mux0, 13'h0002, op2_s);\nmux2n #(3) mx10(R2, R20, m[2:0], m1rw_s);\nwire [2:0] s_out; \n muxmn_tristate #(8,3) mxtr( {3'd7, 3'd6, 3'd5, 3'd4, 3'd3, 3'd2,3'd1, 3'd0},{2'b00, segSEL}, s_out );\nand2$(seg_sel, isMOD0, isSEG); \n mux2n #(3) mx11(S1, S10, s_out, seg_sel);"
+        override = "mux2n  # (8) m1x(m, B2, B3, isDouble);\nmux2$ mx1(m1, B2[6], B3[6], isDouble);\nmux2$ mx2(m2, B2[7], B3[7], isDouble);\nand3$ a1(m1rw_s, isMOD, m1, m2);\nmux2n  # (2) mx3(M1_RW, M1_RW0, 2'b00, m1rw_s);\nand4$ a2(s3_s, isMOD, m1, m2, S3_MOD_OVR);\nmux2n  # (3)  mx4(S3, S30, m[5:3], s3_s);\nand4$ a3(r1_s, isMOD, m1, m2, R1_MOD_OVR);\nmux2n  # (3)  mx5(R1, R10, m[5:3], r1_s);\nand2$ a4(d1_s, dest1_mux0[8], OP_MOD_OVR[0]);\nand2$ a5(op1_s, dest1_mux0[8], OP_MOD_OVR[0]);\nand2$ a6(d2_s, dest2_mux0[8], OP_MOD_OVR[1]);\nand2$ a7(op2_s, dest2_mux0[8], OP_MOD_OVR[1]);\nmux2n  # (13) mx6(dest1_mux, dest1_mux0, 13'h0002, d1_s);\nmux2n  # (13) mx7(dest2_mux, dest2_mux0, 13'h0002, d2_s);\nmux2n  # (13) mx8(op1_mux, op1_mux0, 13'h0002, op1_s);\nmux2n  #(13) mx9(op2_mux, op2_mux0, 13'h0002, op2_s);\nmux2n #(3) mx10(R2, R20, m[2:0], m1rw_s);\nwire [2:0] s_out; \n muxnm_tristate #(8,3) mxtr( {3'd7, 3'd6, 3'd5, 3'd4, 3'd3, 3'd2,3'd1, 3'd0},{2'b00, segSEL}, s_out );\nand2$(seg_sel, isMOD0, isSEG); \n mux2n #(3) mx11(S1, S10, s_out, seg_sel);"
         file.write(override)
         file.write("\nendmodule")
 
@@ -179,15 +179,15 @@ def genEqual(row, fields, eCNT, wCNT, B1, B2, B3):
     print(row[1] + " | " + row[5] + " | " + row[46])
     if (row[5] == o and row[46] == o):
         return "equaln #(19) e" + str(eCNT) + "({" + B1 + ", " + B2 + ", " + B3 + "[5:3]}, {" + row[2] + ", " + row[
-            6] + ", " + row[47] + "}, weq" + str(wCNT) + ");"
+            6] + ", " + row[47] + "}, weq" + str(wCNT) + "); //" + row[1] + " | " + row[5] + " | " + row[46] + " | " +row[0]
     elif row[5] == o and row[46] == z:
         return "equaln #(16) e" + str(eCNT) + "({" + B1 + ", " + B2 + "}, {" + row[2] + ", " + row[6] + "}, weq" + str(
-            wCNT) + ");"
+            wCNT) + ");//" + row[1] + " | " + row[5] + " | " + row[46] + " | " +row[0]
     elif row[5] == z and row[46] == o:
         return "equaln #(11) e" + str(eCNT) + "({" + B1 + ", " + B2 + "[5:3]}, {" + row[2] + ", " + row[
-            47] + "}, weq" + str(wCNT) + ");"
+            47] + "}, weq" + str(wCNT) + ");//" + row[1] + " | " + row[5] + " | " + row[46] + " | " +row[0]
     else:
-        return "equaln #(8) e" + str(eCNT) + "({" + B1 + "}, {" + row[2] + "}, weq" + str(wCNT) + ");"
+        return "equaln #(8) e" + str(eCNT) + "({" + B1 + "}, {" + row[2] + "}, weq" + str(wCNT) + ");//" + row[1] + " | " + row[5] + " | " + row[46] + " | " +row[0]
 
 
 def genWireConcat(row, fields):

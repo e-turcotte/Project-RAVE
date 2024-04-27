@@ -49,7 +49,7 @@ def main():
             row[47] = "3'd" + row[0][row[0].find("/") + 1]
             row[46] = "1'b1"
         else:
-            row[46] = "1'd0"
+            row[46] = "1'b0"
             row[47] = "3'd0"
         if "0F" in row[0]:
             row[6] = "8'h" + row[0][row[0].find("F") + 2] + row[0][row[0].find("F") + 3]
