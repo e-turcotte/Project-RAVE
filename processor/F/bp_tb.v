@@ -1,6 +1,6 @@
 module bp_tb;
 
-reg reset, set, prev_BR_result, prev_is_BR, LD;
+reg reset, prev_BR_result, prev_is_BR, LD;
 reg [5:0] prev_BR_alias;
 reg [31:0] eip;
 wire prediction;
@@ -23,21 +23,20 @@ initial
 	begin		
 		//initialize
 		$display("\n");
-		for (i = 0; i < 64; i = i + 1) begin
+		//for (i = 0; i < 64; i = i + 1) begin
+			i = 0;
 			#(cycle_time)
-			set = 1;
 			reset = 0;
 			eip = i;
 			prev_BR_alias = i;
  			prev_BR_result = 1;
 			prev_is_BR = 1;
 			LD = 1;
-		end
+		//end
 		$display("\n--------------- init complete -------------------\n");
 
 		#(cycle_time)
 		reset = 1;
-		set = 1;
 		eip = 32'h12345678;
 		prev_BR_alias = BP_alias;
  		prev_BR_result = 1;
@@ -144,7 +143,6 @@ initial
 	always @(posedge clk) begin
 
 		$display("inputs:");
-		$display("\t set = %0d", set);
 		$display("\t reset = %0d", reset);
 		$display("\t eip = %0h , in bin: %0b", eip, eip);
 		$display("\t prev_BR_result = %0d", prev_BR_result);
@@ -160,7 +158,7 @@ initial
 	end
 
    // Run simulation for n ns.
-   initial #1000 $finish;
+   initial #100 $finish;
 
    initial
       begin
@@ -168,7 +166,7 @@ initial
 	 $vcdpluson(0, bp_tb); 
       end
 
-   bp_gshare bp(.clk(clk), .set(set), .reset(reset), .eip(eip), .prev_BR_result(prev_BR_result), 
+   bp_gshare bp(.clk(clk), .reset(reset), .eip(eip), .prev_BR_result(prev_BR_result), 
 			  .prev_BR_alias(prev_BR_alias), .prev_is_BR(prev_is_BR), .LD(LD), 
 			  .prediction(prediction), .BP_alias(BP_alias));
 

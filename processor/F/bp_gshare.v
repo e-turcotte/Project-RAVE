@@ -1,6 +1,5 @@
 module bp_gshare (
     input clk,
-    input set,
     input reset,
     input [31:0] eip,
     input prev_BR_result,
@@ -11,7 +10,6 @@ module bp_gshare (
     output prediction,
     output [5:0] BP_alias
     );
-
 
     wire [63:0] out_decoder_out;
     wire [5:0] GBHR, GBHR_shifted;
@@ -57,7 +55,7 @@ module bp_gshare (
 
             sat_cntr2 sat(
                 .clk(clk),
-                .set_n(set),
+                .set_n(1'b1),
                 .rst_n(reset),
                 .in(prev_BR_result),
                 .enable(counter_en[i]),
@@ -68,9 +66,8 @@ module bp_gshare (
 
     endgenerate
 
-    //muxn1_tristate #(.NUM_INPUTS(64)) pred_out_mux(.in(counter_out_high), .sel(out_decoder_out), .out(prediction));
-    //for some reason tristate mux is not working properly here, using mux tree instead 
+    muxnm_tristate #(.NUM_INPUTS(64), .DATA_WIDTH(1)) pred_out_mux(.in(counter_out_high), .sel(out_decoder_out), .out(prediction)); 
 
-    muxn1_tree #(.SEL_WIDTH(6)) pred_out_mux(.in(counter_out_high), .sel(BP_alias), .out(prediction));
+    //muxn1_tree #(.SEL_WIDTH(6)) pred_out_mux(.in(counter_out_high), .sel(BP_alias), .out(prediction));
 
 endmodule
