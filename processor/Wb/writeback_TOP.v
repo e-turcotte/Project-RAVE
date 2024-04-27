@@ -23,6 +23,7 @@ module writeback_TOP(
     input BR_valid_in, BR_taken_in, BR_correct_in,
     input[31:0] BR_FIP_in, BR_FIP_p1_in, input BR_EIP_in,
     input[15:0] CS_in,
+    input [17:0] EFLAGS_in,
 
     input interrupt_in,
 
@@ -51,8 +52,8 @@ module writeback_TOP(
     output load_segReg1,
     output load_segReg2,
 
-    output wire final_IE_val,
-    output wire [3:0] final_IE_type
+    output final_IE_val,
+    output [3:0] final_IE_type
     );
 
     and2$   a1x(load_segReg1, load_segReg_in_res1, valid_in);
