@@ -8,14 +8,17 @@ module TOP;
     reg [63:0] in0, in1, in2, in3;
     reg [2:0] ld0, ld1, ld2, ld3, rd0, rd1, rd2, rd3;
     reg [1:0] ldsize, rdsize;
+    reg addressingmode;
     reg [3:0] ld_en, dest;
     reg [6:0] data_ptcid, new_ptcid;
     reg clr, ptcclr;
     wire [63:0] out0, out1, out2, out3;
+    wire [31:0] addr0, addr1, addr2, addr3;
     wire [127:0] ptc0, ptc1, ptc2, ptc3;
+    wire addr0ptc, addr1ptc, addr2ptc, addr3ptc;
     reg clk;
 
-    regfile rf(.din({in3,in2,in1,in0}), .ld_addr({ld3,ld2,ld1,ld0}), .rd_addr({rd3,rd2,rd1,rd0}), .ldsize(ldsize), .rdsize(rdsize), .ld_en(ld_en), .dest(dest), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout({out3,out2,out1,out0}), .ptcout({ptc3,ptc2,ptc1,ptc0}));
+    regfile rf(.din({in3,in2,in1,in0}), .ld_addr({ld3,ld2,ld1,ld0}), .rd_addr({rd3,rd2,rd1,rd0}), .ldsize(ldsize), .rdsize(rdsize), .addressingmode(addressingmode), .ld_en(ld_en), .dest(dest), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout({out3,out2,out1,out0}), .addrout({addr3,addr2,addr1,addr0}), .ptcout({ptc3,ptc2,ptc1,ptc0}), .addrptc({addr3ptc,addr2ptc,addr1ptc,addr0ptc}));
 
 
     initial begin
@@ -28,6 +31,7 @@ module TOP;
         ld0 = 0; ld1 = 0; ld2 = 0; ld3 = 0;
         ldsize = 2'b10; rdsize = 2'b10;
         ld_en = 4'b1111; dest = 4'b1111;
+        addressingmode = 1'b1;
         data_ptcid = 7'b0000000; new_ptcid = 7'b1111111;
         clr = 1'b0; ptcclr = 1'b1;
         #CYCLE_TIME;
@@ -58,6 +62,7 @@ module TOP;
         #CYCLE_TIME;
 
         ldsize = 2'b01; rdsize = 4'b01;
+        addressingmode = 1'b0;
         for (k = 0; k < 8; k = k + 4) begin
             regk[0] = k & 8'hff; regk[1] = (k+1) & 8'hff; regk[2] = (k+2) & 8'hff; regk[3] = (k+3) & 8'hff;
             in0 = {64{1'b1}};

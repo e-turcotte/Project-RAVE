@@ -1,12 +1,15 @@
 module regfile (input [255:0] din,
                 input [11:0] ld_addr, rd_addr,
                 input [1:0] ldsize, rdsize,
+                input addressingmode,
                 input [3:0] ld_en, dest,
                 input [6:0] data_ptcid, new_ptcid,
                 input clr, ptcclr,
                 input clk,
                 output [255:0] dout,
-                output [511:0] ptcout);
+                output [127:0] addrout,
+                output [511:0] ptcout,
+                output [3:0] addrptc);
 
     wire [3:0] decodedldsize, decodedrdsize;
 
@@ -61,7 +64,7 @@ module regfile (input [255:0] din,
     wire [255:0] mmxouts;
     wire [511:0] mmxptcs;
 
-    gprfile gf(.din({din[223:192],din[159:128],din[95:64],din[31:0]}), .ld(gprld), .dest(gprdest), .rd(rd_addr), .ldsize(decodedldsize[2:0]), .rdsize(decodedrdsize[2:0]), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout(gprouts), .ptcout(gprptcs));
+    gprfile gf(.din({din[223:192],din[159:128],din[95:64],din[31:0]}), .ld(gprld), .dest(gprdest), .rd(rd_addr), .ldsize(decodedldsize[2:0]), .rdsize(decodedrdsize[2:0]), .addressingmode(addressingmode), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout(gprouts), .addrout(addrout), .ptcout(gprptcs), .addrptc(addrptc));
     mmxfile mf(.din(din), .ld(mmxld), .dest(mmxdest), .rd(rd_addr), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout(mmxouts), .ptcout(mmxptcs));
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(256)) m0(.in({mmxouts,{32{gprouts[127]}},gprouts[127:96],{32{gprouts[95]}},gprouts[95:64],{32{gprouts[63]}},gprouts[63:32],{32{gprouts[31]}},gprouts[31:0]}), .sel(usemmx), .out(dout));
@@ -127,11 +130,13 @@ module gprfile (input [127:0] din,
                 input [31:0] ld, dest,
                 input [11:0] rd,
                 input [2:0] ldsize, rdsize,
+                input addressingmode,
                 input [6:0] data_ptcid, new_ptcid,
                 input clr, ptcclr,
                 input clk,
-                output [127:0] dout,
-                output [255:0] ptcout);
+                output [127:0] dout, addrout,
+                output [255:0] ptcout,
+                output [3:0] addrptc);
 
     wire [23:0] sized_ld_vector [0:2], adjusted_sized_ld_vector, sized_dest_vector [0:2], adjusted_sized_dest_vector;
 
@@ -174,8 +179,10 @@ module gprfile (input [127:0] din,
     nor3$ g9(.out(notinuserd), .in0(rdsize[2]), .in1(rdsize[1]), .in2(rdsize[0]));
     muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(24)) m1(.in({{24{1'b0}},sized_dest_vector[2],sized_dest_vector[1],sized_dest_vector[0]}), .sel({notinuserd,rdsize}), .out(adjusted_sized_dest_vector));
 
-    wire [255:0] outs;
+    wire [255:0] outs, addrs;
     wire [511:0] ptcs;
+    wire [31:0] addr_ptcs;
+    wire [7:0] addr_is_ptc;
     wire [31:0] out32 [0:7], out16 [0:7], out8h [0:3], out8l [0:3];
     wire [63:0] ptc32 [0:7], ptc16 [0:7], ptc8h [0:3], ptc8l [0:3];
     wire [15:0] e_in [0:7], e_out [0:7];
@@ -216,12 +223,12 @@ module gprfile (input [127:0] din,
             nor3$ g5(.out(notinuserd), .in0(rdsize[2]), .in1(rdsize[1]), .in2(rdsize[0]));
 
             assign out32[i] = {e_out[i],h_out[i],l_out[i]};
-            assign out16[i] = {{16{h_out[i][7]}},h_out[i],l_out[i]};
+            sext_16_to_32 s0(.in({h_out[i],l_out[i]}), .out(out16[i]));
             assign ptc32[i] = {e_ptc[i],h_ptc[i],l_ptc[i]};
             assign ptc16[i] = {32'h0000,h_ptc[i],l_ptc[i]};
             if (i < 4) begin
-                assign out8h[i] = {{24{h_out[i][7]}},h_out[i]};
-                assign out8l[i] = {{24{l_out[i][7]}},l_out[i]};
+                sext_8_to_32 s1(.in(h_out[i]), .out(out8h[i]));
+                sext_8_to_32 s2(.in(l_out[i]), .out(out8l[i]));
                 assign ptc8h[i] = {48'h000000,h_ptc[i]};
                 assign ptc8l[i] = {48'h000000,l_ptc[i]};
                 muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(32)) m7(.in({{32{1'b0}},out32[i],out16[i],out8l[i]}), .sel({notinuserd,rdsize}), .out(outs[(i*32)+31:i*32]));
@@ -230,18 +237,31 @@ module gprfile (input [127:0] din,
                 muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(32)) m9(.in({{32{1'b0}},out32[i],out16[i],out8h[i-4]}), .sel({notinuserd,rdsize}), .out(outs[(i*32)+31:i*32]));
                 muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(64)) m10(.in({{64{1'b0}},ptc32[i],ptc16[i],ptc8h[i-4]}), .sel({notinuserd,rdsize}), .out(ptcs[(i*64)+63:i*64]));
             end
+            muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m11(.in({out32[i],out16[i]}), .sel(addressingmode), .out(addrs[(i+1)*32-1:i*32]));
+            muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(4)) m12(.in({ptc32[i][62],ptc32[i][46],ptc32[i][30],ptc32[i][14],2'b00,ptc16[i][30],ptc16[i][14]}), .sel(addressingmode), .out(addr_ptcs[(i+1)*4-1:i*4]));
+            or4$ g6(.out(addr_is_ptc[i]), .in0(addr_ptcs[i*4]), .in1(addr_ptcs[i*4+1]), .in2(addr_ptcs[i*4+2]), .in3(addr_ptcs[i*4+3]));
         end
     endgenerate
 
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m11(.in(outs), .sel(rd[2:0]), .out(dout[31:0]));
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m12(.in(outs), .sel(rd[5:3]), .out(dout[63:32]));
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m13(.in(outs), .sel(rd[8:6]), .out(dout[95:64]));
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m14(.in(outs), .sel(rd[11:9]), .out(dout[127:96]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m13(.in(outs), .sel(rd[2:0]), .out(dout[31:0]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m14(.in(outs), .sel(rd[5:3]), .out(dout[63:32]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m15(.in(outs), .sel(rd[8:6]), .out(dout[95:64]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m16(.in(outs), .sel(rd[11:9]), .out(dout[127:96]));
 
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(64)) m15(.in(ptcs), .sel(rd[2:0]), .out(ptcout[63:0]));
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(64)) m16(.in(ptcs), .sel(rd[5:3]), .out(ptcout[127:64]));
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(64)) m17(.in(ptcs), .sel(rd[8:6]), .out(ptcout[191:128]));
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(64)) m18(.in(ptcs), .sel(rd[11:9]), .out(ptcout[255:192]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(64)) m17(.in(ptcs), .sel(rd[2:0]), .out(ptcout[63:0]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(64)) m18(.in(ptcs), .sel(rd[5:3]), .out(ptcout[127:64]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(64)) m19(.in(ptcs), .sel(rd[8:6]), .out(ptcout[191:128]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(64)) m20(.in(ptcs), .sel(rd[11:9]), .out(ptcout[255:192]));
+
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m21(.in(addrs), .sel(rd[2:0]), .out(addrout[31:0]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m22(.in(addrs), .sel(rd[5:3]), .out(addrout[63:32]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m23(.in(addrs), .sel(rd[8:6]), .out(addrout[95:64]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m24(.in(addrs), .sel(rd[11:9]), .out(addrout[127:96]));
+
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(1)) m25(.in(addr_is_ptc), .sel(rd[2:0]), .out(addrptc[0])); 
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(1)) m26(.in(addr_is_ptc), .sel(rd[5:3]), .out(addrptc[1])); 
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(1)) m27(.in(addr_is_ptc), .sel(rd[8:6]), .out(addrptc[2]));                                                 
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(1)) m28(.in(addr_is_ptc), .sel(rd[11:9]), .out(addrptc[3])); 
 
 endmodule
 
