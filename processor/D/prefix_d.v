@@ -1,5 +1,6 @@
 module prefix_d (
-    input [127:0] packet,
+    //input [127:0] packet,
+    input [7:0] prefix1, prefix2, prefix3,
     output is_rep,
     output [5:0] seg_override, //onehot
     output is_seg_override,
@@ -14,11 +15,11 @@ module prefix_d (
     //1000: 3 prefixes
 
     //total prefix decode time is 2.25ns (i think)
-    wire [7:0] prefix1, prefix2, prefix3;
+    //wire [7:0] prefix1, prefix2, prefix3;
 
-    assign prefix1 = packet[127:120];
-    assign prefix2 = packet[119:112];
-    assign prefix3 = packet[111:104];
+    // assign prefix1 = packet[127:120];
+    // assign prefix2 = packet[119:112];
+    // assign prefix3 = packet[111:104];
 
     wire is_rep1, is_rep2, is_rep3;
     wire [5:0] seg_override1, seg_override2, seg_override3;
@@ -99,8 +100,9 @@ module prefix_cmp(
     assign opsize = 8'h66;
 
     //need to buffer for fanout
-    bufferH16_8b$ b0(prefix, prefix_temp); //0.24ns
-
+    
+    //bufferH16_8b$ b0(prefix, prefix_temp); //0.24ns
+    assign prefix_temp = prefix;
     equaln #(.WIDTH(8)) rep_mux(.a(rep), .b(prefix_temp), .eq(is_rep)); //0.7ns in parallel
     equaln #(.WIDTH(8)) seg_cs_mux(.a(seg_cs), .b(prefix_temp), .eq(seg_override[0]));
     equaln #(.WIDTH(8)) seg_ss_mux(.a(seg_ss), .b(prefix_temp), .eq(seg_override[1]));
