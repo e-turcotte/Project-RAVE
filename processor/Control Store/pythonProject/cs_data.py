@@ -98,7 +98,7 @@ def generateVerilog(rows, fields):
         file.write("cs_select css3(" + w + ", .chosen(chosen3), .B1(B3), .B2(B4), .B3(B5));\n")
         file.write("cs_select css4(" + w + ", .chosen(chosen4), .B1(B4), .B2(B5), .B3(B6));\n")
         file.write("muxnm_tristate #(4, 24) mxt420({{B6,B5,B4}, {B5, B4, B3}, {B4,B3,B2}, {B3,B2,B1}}, prefSize,chosen5);\n")
-        file.write("muxnm_tristate #(4, 226) mxt69({chosen4, chosen3, chosen2,chosen1}, prefSize,chosen);\n")
+        file.write("muxnm_tristate #(4, 227) mxt69({chosen4, chosen3, chosen2,chosen1}, prefSize,chosen);\n")
         file.write("cs_overwrite cso1("+genOUT(fieldList)+" .chosen(chosen), .B1(chosen5[23:16]), .B2(chosen5[15:8]), .B3(chosen5[7:0]), .isREP(isREP), .isSIZE(isSIZE), .isSEG(isSEG), .prefSize(prefSize), .segSEL(segSEL));\n\n")
         file.write("//cs_top cst1("+genOUT(fieldList)+");")
 
@@ -168,7 +168,7 @@ def genTriM(eCNT, retStr, catCNT):
     dataCat += "};\n"
     sigCat += "};\n"
 
-    tri = "muxnm_tristate #(140, 226) mxt1(dataCat" + catCNT + ", sigCat" + catCNT + " ," + retStr + ");\n"
+    tri = "muxnm_tristate #(140, 227) mxt1(dataCat" + catCNT + ", sigCat" + catCNT + " ," + retStr + ");\n"
 
     return buf, tri, sigCat, dataCat
 
