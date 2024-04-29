@@ -14,6 +14,23 @@ bufferH16$ b7(.out(out[7]), .in(in[7]));
 
 endmodule
 
+module bufferH16_nb$ #(
+    parameter WIDTH = 8
+) (
+    input [WIDTH-1:0] in,
+    output [WIDTH-1:0] out
+);
+
+genvar i;
+generate
+    for (i = 0; i < WIDTH; i = i + 1) begin : buffer
+        bufferH16$ b0(.out(out[i]), .in(in[i]));
+    end
+endgenerate
+    
+endmodule
+
+
 module bufferH64_8b$ (
     input [7:0] in,
     output [7:0] out
@@ -27,6 +44,54 @@ bufferH64$ b4(.out(out[4]), .in(in[4]));
 bufferH64$ b5(.out(out[5]), .in(in[5]));
 bufferH64$ b6(.out(out[6]), .in(in[6]));
 bufferH64$ b7(.out(out[7]), .in(in[7])); 
+    
+endmodule
+
+module bufferH64_nb$ #(
+    parameter WIDTH = 8
+) (
+    input [WIDTH-1:0] in,
+    output [WIDTH-1:0] out
+);
+
+genvar i;
+generate
+    for (i = 0; i < WIDTH; i = i + 1) begin : buffer
+        bufferH64$ b0(.out(out[i]), .in(in[i]));
+    end
+endgenerate
+
+endmodule
+
+module bufferH256_nb$ #(
+    parameter WIDTH = 8
+) (
+    input [WIDTH-1:0] in,
+    output [WIDTH-1:0] out
+);
+
+genvar i;
+generate
+    for (i = 0; i < WIDTH; i = i + 1) begin : buffer
+        bufferH256$ b0(.out(out[i]), .in(in[i]));
+    end    
+endgenerate
+
+endmodule
+
+module bufferH1024_nb$ #(
+    parameter WIDTH = 8
+) (
+    input [WIDTH-1:0] in,
+    output [WIDTH-1:0] out
+);
+
+genvar i;
+generate
+    for (i = 0; i < WIDTH; i = i + 1) begin : buffer
+        bufferH1024$ b0(.out(out[i]), .in(in[i]));
+    end
+endgenerate
     
 endmodule
 
