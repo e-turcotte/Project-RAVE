@@ -1,0 +1,23 @@
+.i 6		# .i specifies the number of inputs
+.o 3		# .o specifies the number of outputs
+.ilb *V *PTC *D sw extract wb,enable	# This line specifies the names of the inputs in order
+.ob *V *PTC *D 	# This line specifies the names of the outputs in order
+.d 8
+
+0001001 010		# The first four digits (before the space) correspond
+0100011 100		# to the inputs, the three after the space correspond
+1000101 010		# to the outputs, both in order specified above.
+1001001 110
+1100011 101
+1011001 111
+1010101 010
+1110011 101
+000---0 000
+001---0 001
+010---0 010
+011---0 011
+100---0 100
+101---0 101
+110---0 110
+111---0 111
+
