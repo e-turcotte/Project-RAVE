@@ -1,6 +1,6 @@
 module PTCVDFSM_t();
 reg set, rst, clk, sw, extract, wb;
-PTCVDFSM p1(clk, set_n, rst_n, sw, extract, wb,enable, PTC, D, V);
+PTCVDFSM p1(clk, set, rst, sw, extract, wb,enable, PTC, D, V);
 localparam CYCLE_TIME = 5.0;
 
 // Dump all waveforms

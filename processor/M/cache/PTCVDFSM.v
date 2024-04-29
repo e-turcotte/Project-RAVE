@@ -10,14 +10,14 @@ output PTC, D, V
 );
 
 inv1$ n3(notsw, sw);
-inv1$ n4(notextract, extract,);
+inv1$ n4(notextract, extract);
 inv1$ n5(notwb, wb);
 
 nand3$ f1(w2, notwb, PTC, D);
-nand2$ f2(w6, sw, extract,);
+nand2$ f2(w6, sw, extract);
 nor2$ f3(w1, w2, w6);
 nand3$ f4(w10, notwb, PTC, V);
-nand2$ f5(w14, sw, extract,);
+nand2$ f5(w14, sw, extract);
 nor2$ f6(w9, w10, w14);
 nand3$ f7(w18, notsw, V, PTC);
 nand2$ f8(w22, extract, wb);
@@ -39,7 +39,7 @@ nand3$ f21(w50, notsw, D, V);
 nand3$ f22(w54, PTC, extract, wb);
 nor2$ f23(w49, w50, w54);
 nand3$ f24(w59, notwb, PTC, V);
-nand2$ f25(w63, sw, extract,);
+nand2$ f25(w63, sw, extract);
 nor2$ f26(w58, w59, w63);
 nand2$ f27(D_NS, w49, w58);
 
