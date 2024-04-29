@@ -1,5 +1,5 @@
 module PTCVDFSM_t();
-reg set, rst, clk, sw, extract, wb;
+reg set,enable, rst, clk, sw, extract, wb;
 PTCVDFSM p1(clk, set, rst, sw, extract, wb,enable, PTC, D, V);
 localparam CYCLE_TIME = 5.0;
 
@@ -16,7 +16,7 @@ rst = 0; set = 1;
 enable = 0; sw = 0; wb =0; extract = 0;
 #10
 rst = 1;
-#20
+#17.5
 
 enable = 1;
 sw = 1;
@@ -53,7 +53,8 @@ sw = 0;
 #5
 extract = 1; wb = 0;
 
-
+#30
+$finish;
 end
 
 initial begin

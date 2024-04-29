@@ -1,6 +1,6 @@
 /home/projects/courses/spring_24/ee382n19/lib/time -v
 /home/projects/courses/spring_24/ee382n19/lib/lib1
-/home/projects/courses/spring_24/ee382n19/lib/lib2
+/home/projects/courses/spring_22/ee382n19_16785/lib/lib2
 /home/projects/courses/spring_24/ee382n19/lib/lib3
 /home/projects/courses/spring_24/ee382n19/lib/lib4
 /home/projects/courses/spring_24/ee382n19/lib/lib5
@@ -13,6 +13,7 @@ PTCVDFSM.v
 ../../../local-lib/nbitdevices/kAdder.v
 ../../../local-lib/nbitdevices/gaten.v
 ../../../local-lib/nbitdevices/decodern.v
+../../../local-lib/buffer_bytes.v
 ../../../local-lib/nbitdevices/muxnm.v
 ../../../local-lib/nbitdevices/regn.v
 ../../../local-lib/nbitdevices/shfrotn.v

@@ -1,54 +1,35 @@
 module PTCVDFSM(
 input wire clk,
-input wire set_n,
-input wire rst_n,
+input wire set,
+input wire rst,
 input wire sw,
-input wire extract,
+input wire ex,
 input wire wb,
 input enable,
 output PTC, D, V
 );
+wire PTC_new, D_new, V_new;
+dff$ d1(clk, D_new, D, D_bar, rst, set);
+dff$ d2(clk, V_new, V, V_bar, rst, set);
+dff$ d3(clk, PTC_new, PTC, PTC_bar, rst, set);
+wire[2:0] nextState;
+wire[2:0] cc;
 
-inv1$ n3(notsw, sw);
-inv1$ n4(notextract, extract);
-inv1$ n5(notwb, wb);
+mux2n #(3) m(cc, {V,PTC,D}, nextState, enable);
+assign V_new = cc[2];
+assign PTC_new  = cc[1];
+assign D_new = cc[0];
 
-nand3$ f1(w2, notwb, PTC, D);
-nand2$ f2(w6, sw, extract);
-nor2$ f3(w1, w2, w6);
-nand3$ f4(w10, notwb, PTC, V);
-nand2$ f5(w14, sw, extract);
-nor2$ f6(w9, w10, w14);
-nand3$ f7(w18, notsw, V, PTC);
-nand2$ f8(w22, extract, wb);
-nor2$ f9(w17, w18, w22);
-nand3$ f10(V_NS, w1, w9, w17);
+and4$(EX100, V, PTC_bar, D_bar, ex);//010
+and4$(SW000, V_bar, PTC_bar, D_bar, sw); //010
+and4$(WB010, V_bar, PTC, D_bar, wb);//100
+and4$(SW100, V, PTC_bar, D_bar, sw); //110
+and4$(WB110, V, PTC, D_bar, wb);//101
+and4$(SW101, V, PTC_bar, D, sw); //111
+and4$(WB111, V, PTC, D, wb); //101
+and4$(EX101, V, PTC_bar, D, ex); //010
 
-nand3$ f11(w26, notextract, V, PTC);
-nand2$ f12(w30, sw, wb);
-nor2$ f13(w25, w26, w30);
-nand3$ f14(w34, notsw, PTC, D);
-nand2$ f15(w38, extract, wb);
-nor2$ f16(w33, w34, w38);
-nand3$ f17(w42, notsw, V, PTC);
-nand2$ f18(w46, extract, wb);
-nor2$ f19(w41, w42, w46);
-nand3$ f20(PTC_NS, w25, w33, w41);
 
-nand3$ f21(w50, notsw, D, V);
-nand3$ f22(w54, PTC, extract, wb);
-nor2$ f23(w49, w50, w54);
-nand3$ f24(w59, notwb, PTC, V);
-nand2$ f25(w63, sw, extract);
-nor2$ f26(w58, w59, w63);
-nand2$ f27(D_NS, w49, w58);
-
-mux2$ m1(V_N, V, V_NS, enable);
-mux2$ m2(D_N, D, D_NS, enable);
-mux2$ m3(PTC_N, PTC, PTC_NS, enable);
-
-dff$ s1(clk, V_NS, V, notV, rst_n, set_n);
-dff$ s2(clk, PTC_N, PTC, notPTC, rst_n, set_n);
-dff$ s3(clk, D_N, D, notD, rst_n, set_n);
+muxnm_tristate #(8, 3) tm({3'b010,3'b010,3'b100,3'b110,3'b101,3'b111,3'b101,3'b010 }, {EX100,SW000,WB010,SW100,WB110,SW101,WB111,EX101},nextState);
 
 endmodule
