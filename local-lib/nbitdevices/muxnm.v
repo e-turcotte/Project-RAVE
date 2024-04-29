@@ -3,14 +3,31 @@ module muxnm_tree #(parameter SEL_WIDTH=1, DATA_WIDTH=1) (input [(2**SEL_WIDTH)*
                                                               output [DATA_WIDTH-1:0] out);
 
     wire [(2**SEL_WIDTH)*DATA_WIDTH-1:0] datavector;
+    wire [DATA_WIDTH-1:0] sel_buffered;
 
     genvar i, j;
     generate
+        if(DATA_WIDTH > 256) begin
+            bufferH1024_nb$ #(.WIDTH(DATA_WIDTH)) b0(.out(sel_buffered), .in(sel));
+        end
+        else if(DATA_WIDTH > 64) begin
+            bufferH256_nb$ #(.WIDTH(DATA_WIDTH)) b0(.out(sel_buffered), .in(sel));
+        end
+        else if(DATA_WIDTH > 16) begin
+            bufferH64_nb$ #(.WIDTH(DATA_WIDTH)) b0(.out(sel_buffered), .in(sel));
+        end
+        else if(DATA_WIDTH > 4) begin
+            bufferH16_8b$ b0(.out(sel_buffered), .in(sel));
+        end
+        else begin
+            assign sel_buffered = sel;
+        end
+
         for (i = 0; i < DATA_WIDTH; i = i + 1) begin : treemux_dataslices
             for (j = 0; j < (2**SEL_WIDTH); j = j + 1) begin : datavector_splits
                 assign datavector[(i*(2**SEL_WIDTH))+j] = in[(DATA_WIDTH*j)+i];
             end
-            muxn1_tree #(.SEL_WIDTH(SEL_WIDTH)) m0(.in(datavector[(i+1)*(2**SEL_WIDTH)-1:i*(2**SEL_WIDTH)]), .sel(sel), .out(out[i]));
+            muxn1_tree #(.SEL_WIDTH(SEL_WIDTH)) m0(.in(datavector[(i+1)*(2**SEL_WIDTH)-1:i*(2**SEL_WIDTH)]), .sel(sel_buffered), .out(out[i]));
         end
     endgenerate
 
