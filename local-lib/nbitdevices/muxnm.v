@@ -3,18 +3,18 @@ module muxnm_tree #(parameter SEL_WIDTH=1, DATA_WIDTH=1) (input [(2**SEL_WIDTH)*
                                                               output [DATA_WIDTH-1:0] out);
 
     wire [(2**SEL_WIDTH)*DATA_WIDTH-1:0] datavector;
-    wire [DATA_WIDTH-1:0] sel_buffered;
+    wire [SEL_WIDTH-1:0] sel_buffered;
 
     genvar i, j;
     generate
         if(DATA_WIDTH > 256) begin
-            bufferH1024_nb$ #(.WIDTH(DATA_WIDTH)) b0(.out(sel_buffered), .in(sel));
+            bufferH1024_nb$ #(.WIDTH(SEL_WIDTH)) b0(.out(sel_buffered), .in(sel));
         end
         else if(DATA_WIDTH > 64) begin
-            bufferH256_nb$ #(.WIDTH(DATA_WIDTH)) b0(.out(sel_buffered), .in(sel));
+            bufferH256_nb$ #(.WIDTH(SEL_WIDTH)) b0(.out(sel_buffered), .in(sel));
         end
         else if(DATA_WIDTH > 16) begin
-            bufferH64_nb$ #(.WIDTH(DATA_WIDTH)) b0(.out(sel_buffered), .in(sel));
+            bufferH64_nb$ #(.WIDTH(SEL_WIDTH)) b0(.out(sel_buffered), .in(sel));
         end
         else if(DATA_WIDTH > 4) begin
             bufferH16_8b$ b0(.out(sel_buffered), .in(sel));
