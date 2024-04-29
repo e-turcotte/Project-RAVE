@@ -1,3 +1,15 @@
+module invn #(parameter NUM_INPUTS=1) (input [NUM_INPUTS-1:0] in,
+                                       output [NUM_INPUTS-1:0] out);
+    
+    genvar i;
+    generate
+        for (i = 0; i < NUM_INPUTS; i = i + 1) begin : inv_gen
+            inv1$ inv(.out(out[i]), .in(in[i]));
+        end
+    endgenerate
+
+endmodule
+
 module andn #(parameter NUM_INPUTS=2) (input [NUM_INPUTS-1:0] in,
                                        output out);
 
