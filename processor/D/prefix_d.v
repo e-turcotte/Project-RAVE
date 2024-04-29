@@ -46,26 +46,26 @@ module prefix_d (
         .is_opsize_override(is_opsize_override3)
     );
     
-    or3$(.out(is_rep), .in0(is_rep1), .in1(is_rep2), .in2(is_rep3)); //0.35ns in parallel
+    or3$ o0(.out(is_rep), .in0(is_rep1), .in1(is_rep2), .in2(is_rep3)); //0.35ns in parallel
     
-    or3$(.out(seg_override[0]), .in0(seg_override1[0]), .in1(seg_override2[0]), .in2(seg_override3[0]));
-    or3$(.out(seg_override[1]), .in0(seg_override1[1]), .in1(seg_override2[1]), .in2(seg_override3[1]));
-    or3$(.out(seg_override[2]), .in0(seg_override1[2]), .in1(seg_override2[2]), .in2(seg_override3[2]));
-    or3$(.out(seg_override[3]), .in0(seg_override1[3]), .in1(seg_override2[3]), .in2(seg_override3[3]));
-    or3$(.out(seg_override[4]), .in0(seg_override1[4]), .in1(seg_override2[4]), .in2(seg_override3[4]));
-    or3$(.out(seg_override[5]), .in0(seg_override1[5]), .in1(seg_override2[5]), .in2(seg_override3[5]));
+    or3$ o1(.out(seg_override[0]), .in0(seg_override1[0]), .in1(seg_override2[0]), .in2(seg_override3[0]));
+    or3$ o2(.out(seg_override[1]), .in0(seg_override1[1]), .in1(seg_override2[1]), .in2(seg_override3[1]));
+    or3$ o3(.out(seg_override[2]), .in0(seg_override1[2]), .in1(seg_override2[2]), .in2(seg_override3[2]));
+    or3$ o4(.out(seg_override[3]), .in0(seg_override1[3]), .in1(seg_override2[3]), .in2(seg_override3[3]));
+    or3$ o5(.out(seg_override[4]), .in0(seg_override1[4]), .in1(seg_override2[4]), .in2(seg_override3[4]));
+    or3$ o6(.out(seg_override[5]), .in0(seg_override1[5]), .in1(seg_override2[5]), .in2(seg_override3[5]));
 
-    or3$(.out(is_opsize_override), .in0(is_opsize_override1), .in1(is_opsize_override2), .in2(is_opsize_override3)); 
+    or3$ o7(.out(is_opsize_override), .in0(is_opsize_override1), .in1(is_opsize_override2), .in2(is_opsize_override3)); 
 
     //find is_seg_override
 
     wire nor_1, nor_2, nor_3;
 
-    nor2$(.out(nor_1), .in0(seg_override[0]), .in1(seg_override[1])); //0.2ns
-    nor2$(.out(nor_2), .in0(seg_override[2]), .in1(seg_override[3]));
-    nor2$(.out(nor_3), .in0(seg_override[4]), .in1(seg_override[5]));
+    nor2$ n1(.out(nor_1), .in0(seg_override[0]), .in1(seg_override[1])); //0.2ns
+    nor2$ n2(.out(nor_2), .in0(seg_override[2]), .in1(seg_override[3]));
+    nor2$ n3(.out(nor_3), .in0(seg_override[4]), .in1(seg_override[5]));
 
-    nand3$(.out(is_seg_override), .in0(nor_1), .in1(nor_2), .in2(nor_3)); //0.2ns
+    nand3$ n4(.out(is_seg_override), .in0(nor_1), .in1(nor_2), .in2(nor_3)); //0.2ns
 
     //to encode num prefixes as a sum:
     fulladder1$ fa(.A(is_rep), .B(is_seg_override), .cin(is_opsize_override),
