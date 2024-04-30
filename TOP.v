@@ -7,15 +7,15 @@ module TOP();
         forever #(CYCLE_TIME / 2.0) clk = ~clk;
     end
 
-//FETCH1 -> FETCH2 -> DECODE -> RrAg -> MEM -> EX -> WB
+    //FETCH1 -> FETCH2 -> DECODE -> RrAg -> MEM -> EX -> WB
 
-//  IMPORTANT NOTES:
-//     -notation for latche wires: <signal.name>_<stage.prev>_<stage.next>_latch_<in/out>
-//      where in is the input to the latch (output of stage.prev) and out is the output from the latch (input of stage.next)
+    //  IMPORTANT NOTES:
+    //     -notation for latche wires: <signal.name>_<stage.prev>_<stage.next>_latch_<in/out>
+    //      where in is the input to the latch (output of stage.prev) and out is the output from the latch (input of stage.next)
 
-///////////////////////////////////////////////////////////
-//    Outputs from EX that go into EX_WB_latch:         //  
-//////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////
+    //    Outputs from EX that go into EX_WB_latch:         //  
+    //////////////////////////////////////////////////////////
 
     wire valid_EX_WB_latch_in;
     wire [31:0] EIP_EX_WB_latch_in;
