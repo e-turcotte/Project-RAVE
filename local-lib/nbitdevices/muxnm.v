@@ -17,7 +17,7 @@ module muxnm_tree #(parameter SEL_WIDTH=1, DATA_WIDTH=1) (input [(2**SEL_WIDTH)*
             bufferH64_nb$ #(.WIDTH(SEL_WIDTH)) b0(.out(sel_buffered), .in(sel));
         end
         else if(DATA_WIDTH > 4) begin
-            bufferH16_8b$ b0(.out(sel_buffered), .in(sel));
+            bufferH16_nb$ #(.WIDTH(SEL_WIDTH)) b0(.out(sel_buffered), .in(sel));
         end
         else begin
             assign sel_buffered = sel;
@@ -82,16 +82,16 @@ module muxnm_tristate #(parameter NUM_INPUTS=2, DATA_WIDTH=1) (input [NUM_INPUTS
             inv1$ g0(.out(invsel_unbuffered[j]), .in(sel[j]));
         end
         if(DATA_WIDTH > 256) begin
-            bufferH1024_nb$ #(.WIDTH(DATA_WIDTH)) b0(.out(invsel), .in(invsel_unbuffered));
+            bufferH1024_nb$ #(.WIDTH(NUM_INPUTS)) b0(.out(invsel), .in(invsel_unbuffered));
         end
         else if(DATA_WIDTH > 64) begin
-            bufferH256_nb$ #(.WIDTH(DATA_WIDTH)) b0(.out(invsel), .in(invsel_unbuffered));
+            bufferH256_nb$ #(.WIDTH(NUM_INPUTS)) b0(.out(invsel), .in(invsel_unbuffered));
         end
         else if(DATA_WIDTH > 16) begin
-            bufferH64_nb$ #(.WIDTH(DATA_WIDTH)) b0(.out(invsel), .in(invsel_unbuffered));
+            bufferH64_nb$ #(.WIDTH(NUM_INPUTS)) b0(.out(invsel), .in(invsel_unbuffered));
         end
         else if(DATA_WIDTH > 4) begin
-            bufferH16_8b$ b0(.out(invsel), .in(invsel_unbuffered));
+            bufferH16_nb$ #(.WIDTH(NUM_INPUTS)) b0(.out(invsel), .in(invsel_unbuffered));
         end
         else begin
             assign invsel = invsel_unbuffered;
