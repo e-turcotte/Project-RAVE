@@ -11,38 +11,23 @@
 //allow OP4 = OP4 + OP2
 
 module execute_TOP(
-    input wire clk,
-    input wire valid_in,
-    input wire [31:0] EIP_in,
-    input wire IE_in,                           //interrupt or exception signal
-    input wire [3:0] IE_type_in,
-    input wire [31:0] BR_pred_target_in,       //branch prediction target
-    input wire BR_pred_T_NT_in,                //branch prediction taken or not taken
-    input wire set, rst,
+    input clk,
+    input valid_in,
+    input [31:0] EIP_in,
+    input IE_in,                           //interrupt or exception signal
+    input [3:0] IE_type_in,
+    input [31:0] BR_pred_target_in,       //branch prediction target
+    input BR_pred_T_NT_in,                //branch prediction taken or not taken
+    input set, rst,
 
-    input op1_wb,
-    input[63:0] op1,
-    input op1_is_reg,
-    input[31:0] op1_orig,
-    input[1:0] op1_size,
-    
-    input op2_wb,
-    input[63:0] op2,
-    input op2_is_reg,
-    input[31:0] op2_orig,
-    input[1:0] op2_size,
-    
-    input op3_wb,
-    input[63:0] op3,
-    input op3_is_reg,
-    input[31:0] op3_orig,
-    input[1:0] op3_size,
-    
-    input op4_wb,
-    input[63:0] op4,
-    input op4_is_reg,
-    input[31:0] op4_orig,
-    input[1:0] op4_size,
+    input res1_ld_in, res2_ld_in, res3_ld_in, res4_ld_in,
+    input[63:0] op1, op2, op3, op4,
+    input [127:0] op1_ptcinfo, op2_ptcinfo, op3_ptcinfo, op4_ptcinfo,
+    output [31:0] dest1_addr, dest2_addr, dest3_addr, dest4_addr,
+    input res1_is_reg_in, res2_is_reg_in, res3_is_reg_in, res_in4_is_reg_in,
+    input res1_is_seg_in, res2_is_seg_in, res3_is_seg_in, res_in4_is_seg_in,
+    input res1_is_mem_in, res2_is_mem_in, res3_is_mem_in, res_in4_is_mem_in,
+    input[1:0] opsize_in,
     
     //From ContStore
     input[4:0] aluk,
@@ -73,29 +58,13 @@ module execute_TOP(
     output[17:0] eflags,
     output[15:0] CS_out, 
     
-    output res1_wb,
-    output [63:0] res1, //done
-    output res1_is_reg, //done
-    output [31:0] res1_dest, //
-    output [1:0] res1_size, //done
-    
-    output res2_wb,
-    output [63:0] res2, //done
-    output res2_is_reg,//done
-    output [31:0] res2_dest,//
-    output [1:0] res2_size,//done
-    
-    output res3_wb,
-    output [63:0] res3, //done
-    output res3_is_reg,//done
-    output [31:0] res3_dest,//
-    output [1:0] res3_size,//done
-    
-    output res4_wb,
-    output [63:0] res4, //done
-    output res4_is_reg,//done
-    output [31:0] res4_dest,//
-    output [1:0] res4_size,//done
+    output res1_wb, res2_wb, res3_wb, res4_wb,
+    output [63:0] res1, res2, res3, res4, //done
+    output res1_is_reg_out, res2_is_reg_out, res3_is_reg_out, res4_is_reg_out, //done
+    output res1_is_seg_out, res2_is_seg_out, res3_is_seg_out, res4_is_seg_out, //done
+    output res1_is_mem_out, res2_is_mem_out, res3_is_mem_out, res4_is_mem_out, //done
+    output [31:0] res1_dest, res2_dest, res3_dest, res4_dest, //
+    output [1:0] ressize, //done
     
     output load_eip_in_res1,
     output load_segReg_in_res1,
@@ -114,8 +83,8 @@ module execute_TOP(
     wire cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_val;
     wire af, cf, of, sf, pf, zf, df;
     assign EIP_out = EIP_in;
-    assign res2_wb = op2_wb;
-    assign res1_wb = op1_wb;
+    assign res2_wb = res2_ld_in;
+    assign res1_wb = res1_ld_in;
     wire swapCXC; 
     wire[63:0] res2_xchg;
     or2$ g1(gBR, load_eip_in_op1,load_eip_in_op2,);
@@ -127,35 +96,37 @@ module execute_TOP(
 
     //handle RES3/RES4
     assign res4 = op4;
-    assign res4_is_reg = op4_is_reg;
-    assign res4_dest = op4_orig;
-    assign res4_size = op4_size;
-    assign res4_wb = op4_wb;
+    assign res4_is_reg_out = res4_is_reg_in;
+    assign res4_is_seg_out = res4_is_seg_in;
+    assign res4_is_mem_out = res4_is_mem_in;
+    assign res4_dest = dest4_addr;
+    assign res4_size = opsize_in;
+    assign res4_wb = res4_ld_in;
 
     assign res3 = op3;
     assign res3_is_reg = op3_is_reg;
-    assign res3_dest = op3_orig;
-    assign res3_size = op3_size;
-    assign res3_wb = op3_wb;
+    assign res3_dest = dest3_addr;
+    assign res3_size = opsize_in;
+    assign res3_wb = res3_ld_in;
 
     wire[31:0] res1_dest_out;
 
     //Handle RES1/RES2
     // mux4n #(64) mx1(res1_is_reg, op1_is_reg, op2_is_reg, op2_is_reg, op2_is_reg, swapCXC, P_OP[33]);
-    mux2n #(32) mx4(res1_dest, res1_dest_out, op2_orig, P_OP[33]);
+    mux2n #(32) mx4(res1_dest, res1_dest_out, dest2_addr, P_OP[33]);
     assign res1_is_reg = op1_is_reg;
     
     mux2n #(64) mx5(res2, res2_xchg, op2, P_OP[15]);
     // mux2n #(64) mx2(res2_is_reg, op2_is_reg, op1_is_reg, P_OP[33]);
-    // mux2n #(32) mx3(res2_dest, op2_orig, op1_orig, P_OP[33]);
+    // mux2n #(32) mx3(res2_dest, dest2_addr, dest1_addr, P_OP[33]);
     assign res2_is_reg = op2_is_reg;
-    assign res2_dest = op2_orig;
+    assign res2_dest = dest2_addr;
     
-    assign res1_size = op1_size;
-    assign res2_size = op2_size;
+    assign res1_size = opsize_in;
+    assign res2_size = opsize_in;
 
     //handle ALU
-    ALU_top a1(res1, res1_dest_out, res2_xchg, swapCXC, cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_inval, op1, op2, op3, op1_orig, aluk, MUX_ADDER_IMM, MUX_AND_INT, MUX_SHIFT, P_OP[7], P_OP[2], P_OP[31],P_OP[29], P_OP[30], op1_size,af,cf,of,zf, CS, EIP_in); 
+    ALU_top a1(res1, res1_dest_out, res2_xchg, swapCXC, cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_inval, op1, op2, op3, dest1_addr, aluk, MUX_ADDER_IMM, MUX_AND_INT, MUX_SHIFT, P_OP[7], P_OP[2], P_OP[31],P_OP[29], P_OP[30], opsize_in,af,cf,of,zf, CS, EIP_in); 
 
     //Handle eflags block
     wire[17:0] eflags_ld, eflags_rd;

@@ -44,6 +44,7 @@ module mem (input valid_in,
             output [31:0] BR_pred_target_out,
             output BR_pred_T_NT_out,
             
+            output [1:0] opsize_out,
             output [63:0] op1_val, op2_val, op3_val, op4_val,
             output [127:0] op1_ptcinfo, op2_ptcinfo, op3_ptcinfo, op4_ptcinfo,
             output [31:0] dest1_addr, dest2_addr, dest3_addr, dest4_addr,
