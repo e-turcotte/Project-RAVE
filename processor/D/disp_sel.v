@@ -48,12 +48,12 @@ module disp_sel_logic(
 
 endmodule
 
-module rot_sel(
+module rot_sel_logic(
     input [1:0] mod,
     input [2:0] rm,
     input isMOD,
     input is_size_override,
-    output [3:0] rot_sel_out
+    output [3:0] rot_sel
 );
     
     wire isMOD_inv, is_size_override_inv;
@@ -64,18 +64,18 @@ module rot_sel(
     wire [2:0] rm_inv;
     invn #(.NUM_INPUTS(3)) i3(.in(rm), .out(rm_inv));
 
-    assign rot_sel_out[0] = isMOD_inv;
+    assign rot_sel[0] = isMOD_inv;
 
-    andn #(.NUM_INPUTS(2)) a0(.in({mod_inv[1], mod[0]}), .out(rot_sel_out[1]));
+    andn #(.NUM_INPUTS(2)) a0(.in({mod_inv[1], mod[0]}), .out(rot_sel[1]));
 
     wire sel2_0, sel2_1;
     andn #(.NUM_INPUTS(3)) a0(.in({mod[1], mod_inv[0], is_size_override}), .out(sel2_0));
     andn #(.NUM_INPUTS(3)) a1(.in({mod_inv[1], mod_inv[0], is_size_override, rm[2], rm[1], rm_inv[0]}), .out(sel2_1));
-    or2$ o0(.out(rot_sel_out[2]), .in0(sel2_0), .in1(sel2_1));
+    or2$ o0(.out(rot_sel[2]), .in0(sel2_0), .in1(sel2_1));
 
     wire sel3_0, sel3_1;
     andn #(.NUM_INPUTS(3)) a0(.in({mod[1], mod_inv[0], is_size_override_inv}), .out(sel4_0));
     andn #(.NUM_INPUTS(3)) a1(.in({mod_inv[1], mod_inv[0], is_size_override_inv, rm[2], rm_inv[1], rm[0]}), .out(sel4_1));
-    or2$ o0(.out(rot_sel_out[3]), .in0(sel4_0), .in1(sel4_1));
+    or2$ o0(.out(rot_sel[3]), .in0(sel4_0), .in1(sel4_1));
 
 endmodule
