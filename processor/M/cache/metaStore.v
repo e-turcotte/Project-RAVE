@@ -1,0 +1,108 @@
+module metaStore(
+    input clk,    
+    input rst, set,
+    input valid,
+
+    input[3:0] way,
+    input[1:0] index,
+
+    input wb,
+    input sw,
+    input ex,
+    input [6:0] ID_WB,ID_IN,
+    input ID_WB_V, ID_IN_WB,
+
+    output [3:0] VALID_out,
+    output [3:0]PTC_out,
+    output [3:0]DIRTY_out,
+    output [15:0] LRU
+    
+);
+
+wire[15*4*4-1:0] tagMetaData;
+wire[4*4 -1:0] LRU0;
+wire[4*4 -1:0] LRU1;
+wire[4*4 -1:0] LRU2;
+wire[4*4 -1:0] LRU3;
+wire[3:0] equals;
+wire[11:0] comp = 12'b111_110_101_100; 
+wire[15:0] PTC;
+wire[15:0] DIRTY;
+wire[15:0] VALID;
+
+mux4n #(16) mx1(LRU, {LRU3[15:12],{LRU3[3:0],LRU2[3:0],LRU1[3:0],LRU0[3:0]},{LRU3[7:4],LRU2[7:4],LRU1[7:4],LRU0[7:4]},{LRU3[11:8],LRU2[11:8],LRU1[11:8],LRU0[11:8]},LRU2[15:12],LRU1[15:12],LRU0[15:12]}, index);
+muxnm_tristate #(4, 4) m1(PTC, way, PTC_out);
+muxnm_tristate #(4, 4) m2(DIRTY, way, DIRTY_out);
+muxnm_tristate #(4, 4) m3(VALID, way, VALID_out);
+//generate load signal for next state
+wire nxt_state;
+wire transit;
+wire v_not;
+nor3$ n1(transit, wb, sw, ex);
+inv1$ i1(v_not, valid);
+wire[7*16 -1 :0] PTCID;
+wire [15:0]enable, lineSel;
+wire[1:0] index_n;
+wire[15:0] enable3;
+inv1$ i2(index_n[1], index[1]); inv1$ i3(index_n[0], index[0]);
+
+genvar i;
+generate 
+    for(i = 0; i < 4; i = i +1) begin : l1
+        nand4$ n(lineSel[i],index_n[0], index_n[1], way[i], valid );
+    end
+endgenerate
+
+generate 
+    for(i = 0; i < 4; i = i +1) begin : l2
+        nand4$ n(lineSel[i+4],index[0], index_n[1], way[i], valid );
+    end
+endgenerate
+
+generate 
+    for(i = 0; i < 4; i = i +1) begin : l3
+        nand4$ n(lineSel[i+8],index_n[0], index[1], way[i] , valid);
+    end
+endgenerate
+
+generate 
+    for(i = 0; i < 4; i = i +1) begin : l4
+        nand4$ n(lineSel[i+12],index[0], index[1], way[i], valid );
+    end
+endgenerate
+
+generate 
+    for(i = 0; i < 16; i = i +1) begin : l5
+        nor2$ n(enable3[i],transit, lineSel[i] );
+    end
+endgenerate
+
+
+
+wire[15:0] PTCID_LD;
+wire[15:0] enable2;
+
+//Generate cahce signals
+genvar j;
+generate
+    for(j = 0; j <4; j = j + 1) begin : outer
+        equaln #(3)  e1(comp[j*3+2: j*3], {valid, index},equals[j]);
+        LRU_FSM  L0(LRU0[j*4+3:j*4] , clk, rst, set, hit                , equals[j] );
+        LRU_FSM1 L1(LRU1[j*4+3:j*4] , clk, rst, set, {hit[2:0], hit[3]}  , equals[j] );
+        LRU_FSM2 L2(LRU2[j*4+3:j*4] , clk, rst, set, {hit[1:0], hit[3:2]}, equals[j] );
+        LRU_FSM3 L3(LRU3[j*4+3:j*4] , clk, rst, set, {hit[0],   hit[3:1]}, equals[j] );
+    
+    
+        for(i= 0; i <4; i = i +1) begin : inner
+            PTC_V_D_FSM p(.clk(clk), .set(set), .rst(rst), .sw(sw), .ex(ex), .wb(wb), .enable(enable[j*4+i]), .V(VALID[j*4+i]),.D(DIRTY[j*4+i]), .PTC(PTC[j*4+i]) );  
+            //[j*7*4+i*4+6:j*7*4+i*4]
+            and3$ a(PTCID_LD[j*4+i],sw, way[i],equals[j] );
+            equalsn #(7) r1(ID_IN, PTCID[j*7*4+i*4+6:j*7*4+i*4],enable2[j*4+i]);
+            and2$ a1(enable[j*4+i],enable2[j*4+i],enable3[j*4+i] );
+            regn #(7) r(ID_IN, PTCID_LD[j*4+i],rst, clk, PTCID[j*7*4+i*4+6:j*7*4+i*4]);
+            
+        end
+    end
+endgenerate
+
+endmodule
