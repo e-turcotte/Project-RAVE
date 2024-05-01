@@ -95,18 +95,20 @@ module execute_TOP(
     assign load_segReg_in_res2 =load_segReg_in_op2;
 
     //handle RES3/RES4
+    assign ressize = opsize_in;
+
     assign res4 = op4;
     assign res4_is_reg_out = res4_is_reg_in;
     assign res4_is_seg_out = res4_is_seg_in;
     assign res4_is_mem_out = res4_is_mem_in;
     assign res4_dest = dest4_addr;
-    assign res4_size = opsize_in;
     assign res4_wb = res4_ld_in;
 
     assign res3 = op3;
-    assign res3_is_reg = op3_is_reg;
+    assign res3_is_reg_out = res3_is_reg_in;
+    assign res3_is_seg_out = res3_is_seg_in;
+    assign res3_is_mem_out = res3_is_mem_in;
     assign res3_dest = dest3_addr;
-    assign res3_size = opsize_in;
     assign res3_wb = res3_ld_in;
 
     wire[31:0] res1_dest_out;
@@ -114,16 +116,17 @@ module execute_TOP(
     //Handle RES1/RES2
     // mux4n #(64) mx1(res1_is_reg, op1_is_reg, op2_is_reg, op2_is_reg, op2_is_reg, swapCXC, P_OP[33]);
     mux2n #(32) mx4(res1_dest, res1_dest_out, dest2_addr, P_OP[33]);
-    assign res1_is_reg = op1_is_reg;
+    assign res1_is_reg_out = res1_is_reg_in;
+    assign res1_is_seg_out = res1_is_seg_in;
+    assign res1_is_mem_out = res1_is_mem_in;
     
     mux2n #(64) mx5(res2, res2_xchg, op2, P_OP[15]);
     // mux2n #(64) mx2(res2_is_reg, op2_is_reg, op1_is_reg, P_OP[33]);
     // mux2n #(32) mx3(res2_dest, dest2_addr, dest1_addr, P_OP[33]);
-    assign res2_is_reg = op2_is_reg;
+    assign res2_is_reg_out = res2_is_reg_in;
+    assign reg2_is_seg_out = res2_is_seg_in;
+    assign res2_is_mem_out = res2_is_mem_in;
     assign res2_dest = dest2_addr;
-    
-    assign res1_size = opsize_in;
-    assign res2_size = opsize_in;
 
     //handle ALU
     ALU_top a1(res1, res1_dest_out, res2_xchg, swapCXC, cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_inval, op1, op2, op3, dest1_addr, aluk, MUX_ADDER_IMM, MUX_AND_INT, MUX_SHIFT, P_OP[7], P_OP[2], P_OP[31],P_OP[29], P_OP[30], opsize_in,af,cf,of,zf, CS, EIP_in); 
