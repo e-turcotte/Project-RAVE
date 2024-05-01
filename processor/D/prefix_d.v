@@ -25,7 +25,7 @@ module prefix_d (
     wire [5:0] seg_override1, seg_override2, seg_override3;
     wire is_opsize_override1, is_opsize_override2, is_opsize_override3;
     
-    prefix_cmp prefix_cmp1( //0.7ns in parallel
+    prefix_cmp prefix_cmp1( //0.5ns in parallel
         .prefix(prefix1),
         .is_rep(is_rep1),
         .seg_override(seg_override1),
@@ -71,7 +71,7 @@ module prefix_d (
     fulladder1$ fa(.A(is_rep), .B(is_seg_override), .cin(is_opsize_override),
                    .sum(num_prefixes_encoded[0]), .cout(num_prefixes_encoded[1])); //0.7ns
 
-
+    //1.25ns here w/o FA
     decodern #(.INPUT_WIDTH(2)) decodern1(.in(num_prefixes_encoded), .out(num_prefixes_onehot));
 
 endmodule
@@ -103,7 +103,7 @@ module prefix_cmp(
     
     //bufferH16_8b$ b0(prefix, prefix_temp); //0.24ns
     assign prefix_temp = prefix;
-    equaln #(.WIDTH(8)) rep_mux(.a(rep), .b(prefix_temp), .eq(is_rep)); //0.7ns in parallel
+    equaln #(.WIDTH(8)) rep_mux(.a(rep), .b(prefix_temp), .eq(is_rep)); //0.5ns in parallel
     equaln #(.WIDTH(8)) seg_cs_mux(.a(seg_cs), .b(prefix_temp), .eq(seg_override[0]));
     equaln #(.WIDTH(8)) seg_ss_mux(.a(seg_ss), .b(prefix_temp), .eq(seg_override[1]));
     equaln #(.WIDTH(8)) seg_ds_mux(.a(seg_ds), .b(prefix_temp), .eq(seg_override[2]));
