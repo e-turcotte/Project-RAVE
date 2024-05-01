@@ -3,7 +3,7 @@ module rrag (input valid_in,
              input [1:0] opsize_in,
              input addressingmode, //1 for 32b addressing mode, 0 for 16b
              input [12:0] op1_in, op2_in, op3_in, op4_in,
-             input res1_ld, res2_ld, res3_ld, res4_ld,
+             input res1_ld_in, res2_ld_in, res3_ld_in, res4_ld_in, //better op1-4_wb
              input [12:0] dest1_in, dest2_in, dest3_in, dest4_in,
              input [31:0] disp,
              input [1:0] reg3_shfamnt,
@@ -48,6 +48,7 @@ module rrag (input valid_in,
              output [6:0] inst_ptcid,
              output [12:0] op1_out, op2_out, op3_out, op4_out,
              output [12:0] dest1_out, dest2_out, dest3_out, dest4_out,
+             output res1_ld_out, res2_ld_out, res3_ld_out, res4_ld_out,
              output [31:0] rep_num,
              
              output [4:0] aluk_out,
@@ -126,6 +127,11 @@ module rrag (input valid_in,
     assign dest2_out = dest2_in;
     assign dest3_out = dest3_in;
     assign dest4_out = dest4_in;
+
+    assign re1_ld_out = res1_ld_in;
+    assign re2_ld_out = res2_ld_in;
+    assign re3_ld_out = res3_ld_in;
+    assign re4_ld_out = res4_ld_in;
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({regformem4,32'h00000000}), .sel(rep), .out(rep_num));
 
