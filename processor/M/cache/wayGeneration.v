@@ -6,6 +6,7 @@ module wayGeneration(
     input[1:0] index,
     input w,
     input missMSHR,
+    input valid,
 
     output ex_wb, ex_clr, stall, 
     output[3:0] way, 
@@ -65,7 +66,7 @@ muxnm_tristate #(4,1) mxt1(D, way, D_out);
 muxnm_tristate #(4,1) mxt2(V, way, V_out);
 muxnm_tristate #(4,1) mxt3(PTC, way, PTC_out);
 
-and3$ andEx(ex_wb, MISS, missMSHR, D_out);
-and2$ andExClr(ex_clr, MISS, missMSHR);
+and4$ andEx(ex_wb, MISS, missMSHR, D_out, valid);
+and3$ andExClr(ex_clr, MISS, missMSHR, valid);
 endmodule
 

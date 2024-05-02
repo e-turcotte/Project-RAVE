@@ -13,7 +13,9 @@ module cacheBank (
     input  [16*8-1:0] mask,
     input  AQ_isEMPTY,
     input  [6:0] PTC_ID_IN,
-
+    input oddIsGreater_in,
+    input needP1_in,
+    input [2:0] oneSize,
     //INPUT from MSHR
     input MSHR_HIT,
     input MSHR_FULL,
@@ -52,10 +54,17 @@ module cacheBank (
     output [31:0] EX_vAddress,
     output [14:0] EX_pAddress,
     output [1:0] EX_size,
-    output EX_wake
+    output EX_wake,
+    output oddIsGreater,
 
+    output cache_stall,
+    output cache_miss,
+    output needP1,
+    output [2:0]oneSize_out
 
 );
+assign oneSize_out = oneSize;
+
 //IO DETECTION
 wire[1:0] index; wire[3:0] offset; wire stall1, stall2, stall3;
 wire[16*4*4-1:0] data_dump;
@@ -76,6 +85,10 @@ assign AQ_READ = valid;
 assign offset = pAddress[3:0];
 assign index = pAddress[6:5];
 assign tag_in = pAddress[14:7];
+assign oddIsGreater = oddIsGreater_in;
+assign cache_stall = stall;
+assign cache_miss = MISS;
+assign needP1 = needP1_in;
 
 wire[3:0] V, D, PTC;
 wire[15:0] LRU;
