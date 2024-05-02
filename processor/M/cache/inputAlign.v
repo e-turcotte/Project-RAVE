@@ -16,7 +16,7 @@ module inputAlign(
     //endTLB SIGNALS
 
     output [31:0] vAddress0,
-    output[31:0] address0,
+    output[14:0] address0,
     output[16*8-1:0] data0,
     output [1:0] size0,
     output r0,w0,sw0,
@@ -25,7 +25,7 @@ module inputAlign(
     output [16*8-1:0] mask0,
 
     output [31:0] vAddress1,
-    output[31:0] address1,
+    output[14:0] address1,
     output[16*8-1:0] data1,
     output [1:0] size1,
     output r1,w1,sw1,
@@ -68,8 +68,8 @@ and2$ a2(hit, , miss1);
 and2$ a3(TLB_hit, TLB_hit0, TLB_hit1);
 
 //Address gneration
-assign address1[15:7] = tlb1[7:0];
-assign address0[15:7] = tlb0[7:0];
+assign address1[14:7] = tlb1[7:0];
+assign address0[14:7] = tlb0[7:0];
 
 //Mask generation
 mux4n #(64) m4(mask1[63:0], 64'h00FF, 64'h0FFFF, 64'h0FF_FFFF, 64'h0_FFFF_FFFF, size1[0], size1[1]);

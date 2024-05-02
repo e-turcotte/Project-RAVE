@@ -7,9 +7,10 @@ module wayGeneration(
     input w,
     input missMSHR,
 
-    output ex, stall, 
+    output ex_wb, ex_clr, stall, 
     output[3:0] way, 
-    output D_out, V_out, PTC_out
+    output D_out, V_out, PTC_out,
+    output MISS
 );
 wire HIT; or4$ a1(HIT, HITS[1],HITS[2],HITS[3],HITS[0]);
 wire MISS; nor4$ o1(MISS,HITS[1],HITS[2],HITS[3],HITS[0] );
@@ -64,6 +65,7 @@ muxnm_tristate #(4,1) mxt1(D, way, D_out);
 muxnm_tristate #(4,1) mxt2(V, way, V_out);
 muxnm_tristate #(4,1) mxt3(PTC, way, PTC_out);
 
-and3$ andEx(ex, MISS, missMSHR, D_out);
+and3$ andEx(ex_wb, MISS, missMSHR, D_out);
+and2$ andExClr(ex_clr, MISS, missMSHR);
 endmodule
 
