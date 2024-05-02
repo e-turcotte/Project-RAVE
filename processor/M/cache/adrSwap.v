@@ -17,6 +17,13 @@ module adrSwap(
     input fromBUS1, 
     input [16*8-1:0] mask1,
 
+    input needP1_in,
+    input [2:0]oneSize,
+
+    output oddIsGreater,
+    output needP1,
+    output[2:0] oneSize_out,
+
     output [31:0] vAddressE,
     output[31:0] addressE,
     output[16*8-1:0] dataE,
@@ -38,12 +45,13 @@ module adrSwap(
 wire even, odd;
 assign odd = vAddress0[4];
 inv1$ INVS(even, odd);
-
+assign needP1 = needP1_in;
 wire [326:0]CA;
 
 muxnm_tristate #(2, 327) mxE({vAddress0,address0,data0,size0,  r0,w0,sw0,valid0, fromBUS0,mask0,vAddress1,address1,data1,size1,  r1,w1,sw1,valid1, fromBUS1,mask1},{even, odd},{vAddressE,addressE,dataE,sizeE,  rE,wE,swE,validE, fromBUSE,maskE});
 muxnm_tristate #(2, 327) mxO({vAddress0,address0,data0,size0,  r0,w0,sw0,valid0, fromBUS0,mask0,vAddress1,address1,data1,size1,  r1,w1,sw1,valid1, fromBUS1,mask1},{odd, even},{vAddressO,addressO,dataO,sizeO,  rO,wO,swO,validO, fromBUSO,maskO});
 
 
-
+assign oddIsGreater = vAddress0[4];
+assign oneSize_out = oneSize;
 endmodule
