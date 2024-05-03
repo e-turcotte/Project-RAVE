@@ -12,40 +12,43 @@
 
 module execute_TOP(
     input clk,
-    input valid_in,
-    input [31:0] EIP_in,
-    input IE_in,                           //interrupt or exception signal
-    input [3:0] IE_type_in,
-    input [31:0] BR_pred_target_in,       //branch prediction target
-    input BR_pred_T_NT_in,                //branch prediction taken or not taken
-    input set, rst,
+    input valid_in,                         // N
+    input [31:0] EIP_in,                    // N
+    input IE_in,                            //interrupt or exception signal - N
+    input [3:0] IE_type_in,                 // N
+    input [31:0] BR_pred_target_in,         //branch prediction target - N
+    input BR_pred_T_NT_in,                  //branch prediction taken or not taken - N
+    input set, rst,                        
 
-    input res1_ld_in, res2_ld_in, res3_ld_in, res4_ld_in,
-    input[63:0] op1, op2, op3, op4,
-    input [127:0] op1_ptcinfo, op2_ptcinfo, op3_ptcinfo, op4_ptcinfo,
-    input [31:0] dest1_addr, dest2_addr, dest3_addr, dest4_addr,
-    input res1_is_reg_in, res2_is_reg_in, res3_is_reg_in, res_in4_is_reg_in,
-    input res1_is_seg_in, res2_is_seg_in, res3_is_seg_in, res_in4_is_seg_in,
-    input res1_is_mem_in, res2_is_mem_in, res3_is_mem_in, res_in4_is_mem_in,
-    input[1:0] opsize_in,
+    input res1_ld_in, res2_ld_in, res3_ld_in, res4_ld_in, //N
+
+    input[63:0] op1, op2, op3, op4, //M
+    input [127:0] op1_ptcinfo, op2_ptcinfo, op3_ptcinfo, op4_ptcinfo, //M
+    input [3:0] wake_in, //TODO: M, needs to be implemented - not implemented in TOP just yet
+
+    input [31:0] dest1_addr, dest2_addr, dest3_addr, dest4_addr, //N
+    input res1_is_reg_in, res2_is_reg_in, res3_is_reg_in, res4_is_reg_in, //N
+    input res1_is_seg_in, res2_is_seg_in, res3_is_seg_in, res4_is_seg_in, //N
+    input res1_is_mem_in, res2_is_mem_in, res3_is_mem_in, res4_is_mem_in, //N
+    input[1:0] opsize_in, //N
     
     //From ContStore
-    input[4:0] aluk,
-    input [2:0] MUX_ADDER_IMM,
-    input MUX_AND_INT,
-    input MUX_SHIFT,
-    input[34:0] P_OP,
-    input [16:0] FMASK,
-    input [1:0] conditionals,
+    input[4:0] aluk, //N
+    input [2:0] MUX_ADDER_IMM, //N
+    input MUX_AND_INT,  //N
+    input MUX_SHIFT, //N
+    input[34:0] P_OP, //N
+    input [16:0] FMASK, //N
+    input [1:0] conditionals, //N
     
     //From BP
-    input isBR,
-    input is_fp, 
-    input[15:0] CS,
+    input isBR,     //N
+    input is_fp,    //N
+    input[15:0] CS, //N
     //Global
 
     output valid_out,
-    output [31:0] EIP_out //
+    output [31:0] EIP_out, //
     output IE_out,
     output [3:0] IE_type_out,
     output [31:0] BR_pred_target_out,
@@ -68,6 +71,7 @@ module execute_TOP(
     output BR_correct,  //
     output[31:0] BR_FIP, //
     output [31:0] BR_FIP_p1
+    output [3:0] wake_out, //TODO: M, needs to be implemented if necessary - not implemented in TOP just yet
 
 );
 
