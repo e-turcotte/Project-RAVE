@@ -27,7 +27,7 @@ endgenerate
 wire[3:0] way_n;
 generate
     for(i = 0; i <4; i =  i+1) begin : writeGen
-        inv1$ i(w_n, w);
+        inv1$ i2(w_n, w);
         inv1$ i1(way_n[i], way[i]);
         
         nor3$ a(w_v[i], way_n[i], w_n, valid_n);
@@ -36,7 +36,7 @@ endgenerate
 
 nor4$ n1(miss, hit[3], hit[2], hit[1], hit[0]);
 
-muxnm_tristate #(4, 8)(data, way, tag_out);
+muxnm_tristate #(4, 8) asb(data, way, tag_out);
 
 
 endmodule

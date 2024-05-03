@@ -18,23 +18,23 @@ genvar i;
 
 generate
     for(i = 0; i < 16*8-1; i = i + 1)begin
-        mux2$(data_toWrite[i], data_out[i], data_in[i], mask_in[i]);
+        mux2$ mxn1(data_toWrite[i], data_out[i], data_in[i], mask_in[i]);
     end
 endgenerate
 
 generate
     for(i = 0; i <4; i =  i+1) begin : writeGen
-        inv1$ i(w_n, w);
+        inv1$ xi(w_n, w);
         inv1$ i1(way_n[i], way[i]);
-        nor3$ a1(way_no[i], way_n, w_n, valid_n);
-        bufferH16 b16(w_v[i], way_no);
+        nor3$ a1(way_no[i], way_n[i], w_n, valid_n);
+        bufferH16$ b16(w_v[i], way_no[i]);
     end
 endgenerate
 
 
 generate
     for(i = 0; i <64; i =  i+1) begin : dataGen
-        ram8b4w$ r(index, data_toWrite, 1'b0, w_v[i/16], data_out[i*8+7: i*8] );
+        ram8b4w$ r(index, data_toWrite[(i*8+7)%128 : (i*8)%128], 1'b0, w_v[i/16], data_out[i*8+7: i*8] );
     end
 endgenerate
 

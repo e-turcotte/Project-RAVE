@@ -72,7 +72,7 @@ assign oneSize_out = oneSize;
 
 //IO DETECTION
 wire[1:0] index; wire[3:0] offset; wire stall1, stall2, stall3;
-wire[16*4*4-1:0] data_dump;
+wire[16*8*4-1:0] data_dump;
 wire[16*8-1:0] cache_line;
 wire stall_n, valid_in_n, extract;
 wire[3:0] way, HITS; 
@@ -102,7 +102,7 @@ wire D_sel, V_sel, PTC_sel;
 tagStore ts(.valid(valid), .index(index), .way(way), .tag_in(tag_in), .w(w), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
 dataStore ds(.valid(valid), .index(index), .way(way), .data_in(data), .mask_in(mask), .w(w), .data_out(data_dump), .cache_line(cache_line) );
 metaStore ms(.clk(clk), .rst(rst), .set(set), .valid(valid), .way(way), .index(index), .wb(w), .sw(sw), .ex(ex_clr), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
-wayGeneration wg(.LRU(LRU), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid), .PCD_IN(PCD_in), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS));
+wayGeneration wg(.LRU(LRU), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS));
 
 //stall logic
 inv1$ inv(stall1_n, stall);
@@ -112,17 +112,17 @@ nand3$ or1(stall, stall1_n, stall2, stall3);
 
 //Handle MSHR
 and2$ an1(MSHR_valid1, valid, MISS);
-or2$ mshr(MSHR_valid,MSHR_valid1, PCD_in);
+or2$ mshr(MSHR_valid,MSHR_valid1, PCD_IN);
 assign MSHR_pAddress = pAddress;
 
 //Handle SERDES
-mux2n #(128) datasel(SER_data0, cache_line, data_in, PCD_in);
-mux2n #(15) addressSel(SER_pAddress0, {tag_read, pAddress[6:0]}, pAddress[14:0], PCD_in);
-or2$ orSER(SER_valid0, ex_wb, PCD_in);
+mux2n #(128) datasel(SER_data0, cache_line, data, PCD_IN);
+mux2n #(15) addressSel(SER_pAddress0, {tag_read, pAddress[6:0]}, pAddress[14:0], PCD_IN);
+or2$ orSER(SER_valid0, ex_wb, PCD_IN);
 assign SER_return0 = cache_id;
 assign SER_size0 = 16'h8000;
-mux2n #(1)  (rw0, 1'b1, w, PCD_in);
-mux2n #(3)  (SER_dest0,{1'b0,pAddress[5],pAddress[4]}, 3'b110, PCD_in);
+mux2n #(1)  cba(rw0, 1'b1, w, PCD_IN);
+mux2n #(3)  abc(SER_dest0,{1'b0,pAddress[5],pAddress[4]}, 3'b110, PCD_IN);
 
 assign SER_pAddress1 = {pAddress[14:0]};
 assign SER_valid1 = ex_clr;

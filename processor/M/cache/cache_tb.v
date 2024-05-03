@@ -1,6 +1,8 @@
 module cache_tb();
+
 reg clk;
 reg set, rst;
+localparam CYCLE_TIME = 12.0;
 
 //inputAlign
 reg[31:0] address_in;
@@ -9,18 +11,21 @@ reg[1:0] size_in; //done
 reg r, w, sw;
 reg valid_in;
 reg fromBUS, sizeOVR;//done
-reg[7:0] entry_V, entry_P, entry_RW;//DONE
-
+    reg [7:0] entry_V, entry_P,  entry_RW, entry_PCD;//DONE
+reg [19:0] VP_0, VP_1, VP_2, VP_3, VP_4, VP_5, VP_6, VP_7;
+reg [19:0] PF_0, PF_1, PF_2, PF_3, PF_4, PF_5, PF_6, PF_7;
+reg [159:0] VP, PF; 
 //cachebank
 reg MSHR_HIT, MSHR_FULL, SER_FULL; //DONE
 reg[2:0] cache_id; //DONE
-
+reg [6:0] PTC_ID_IN;
 
 initial begin
     rst = 0;
     set = 1;
     valid_in = 0;
     clk = 0;
+    PTC_ID_IN = 0;
     VP_0 = 20'h00000;
     VP_1 = 20'h02000;
     VP_2 = 20'h04000;
@@ -40,7 +45,7 @@ initial begin
     PF_7 = 20'h00003;
     MSHR_HIT = 0; MSHR_FULL = 0; SER_FULL = 0;
     sizeOVR = 0; fromBUS = 0;
-    entry_v = 8'b10111111;
+    entry_V = 8'b10111111;
     entry_P = 8'b11110111;
     entry_RW= 8'b11010101;
     entry_PCD = 8'b00000011;
@@ -190,7 +195,7 @@ inputAlign iA(
     .TLB_miss(TLB_miss),
     .protection_exception(protection_exception),
     .TLB_hit(TLB_hit),
-    .PCD_OUT(PCD_out),
+    .PCD_out(PCD_out),
     
     .vAddress0(vAddress0),
     .address0(address0),
@@ -226,7 +231,7 @@ adrSwap adrSwap_instance (
     .valid0(valid0),
     .fromBUS0(fromBUS0),
     .mask0(mask0),
-    .PCD_IN(PCD_out),
+    .PCD_in(PCD_out),
     .vAddress1(vAddress1),
     .address1(address1),
     .data1(data1),
@@ -238,7 +243,7 @@ adrSwap adrSwap_instance (
     .fromBUS1(fromBUS1),
     .mask1(mask1),
 
-    .needP1_in(needP1_in),
+    .needP1_in(needP1),
     .oneSize(oneSize),
 
     .oddIsGreater(oddIsGreater),
@@ -275,7 +280,7 @@ cacheBank cacheBank_E (
     .set(set),
     .cache_id(3'b011),
     .vAddress(vAddressE),
-    .pAddress(AddressE),
+    .pAddress(addressE),
     .data(dataE),
     .size(sizeE),
     .r(rE),
@@ -285,7 +290,7 @@ cacheBank cacheBank_E (
     .fromBUS(fromBUSE),
     .mask(maskE),
     
-    .AQ_isEMPTY(AQ_isEMPTY),
+    .AQ_isEMPTY(AQ_EMPTY),
     .PTC_ID_IN(PTC_ID_IN),
 
     .oddIsGreater_in(oddIsGreater),
@@ -294,8 +299,8 @@ cacheBank cacheBank_E (
     .oneSize(oneSize_outs),
     .MSHR_HIT(MSHR_HIT),
     .MSHR_FULL(MSHR_FULL),
-    .SER_FULL0(SER_FULL),
-    .SER_FULL1(SER_FULL),
+    .SER0_FULL(SER_FULL),
+    .SER1_FULL(SER_FULL),
 
     .PCD_IN(PCD_IN),
 
@@ -348,13 +353,13 @@ cacheBank cacheBank_O (
     .PTC_ID_IN(PTC_ID_IN),
 
     .oddIsGreater_in(oddIsGreater),
-    .PCD_in(PCD_in),
+    .PCD_IN(PCD_in),
     .needP1_in(needP1s),
     .oneSize(oneSize_outs),
     .MSHR_HIT(MSHR_HIT),
     .MSHR_FULL(MSHR_FULL),
-    .SER_FULL0(SER_FULL),
-    .SER_FULL1(SER_FULL),
+    .SER1_FULL(SER_FULL),
+    .SER0_FULL(SER_FULL),
     
     .AQ_READ(AQ_READO),
     .MSHR_valid(MSHR_validO),
@@ -414,7 +419,7 @@ outputAlign outputAlign_instance (
 );
 
 
-localparam CYCLE_TIME = 12.0;
+
 
 initial begin
     clk = 1'b1;
