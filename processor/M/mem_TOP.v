@@ -18,12 +18,14 @@ module mem (input valid_in,
             input [7:0] entry_v_in,
             input [7:0] entry_P_in,
             input [7:0] entry_RW_in,
+            input [7:0] entry_PCD_in,
             
             input [4:0] aluk_in,
             input [2:0] mux_adder_in,
             input mux_and_int_in, mux_shift_in,
             input [36:0] p_op_in,
             input [17:0] fmask_in,
+            input [15:0] CS_in,
             input [1:0] conditionals_in,
             input is_br_in, is_fp_in,
             input [47:0] imm,
@@ -59,11 +61,13 @@ module mem (input valid_in,
             output [36:0] p_op_out,
             output [16:0] fmask_out,
             output [1:0] conditionals_out,
-            output is_br_out, is_fp_out);
+            output is_br_out, is_fp_out
+            output [15:0] CS_out
+            );
 
     //wire TLB_prot, TLB_miss, TLB_hit;
-    //TLB tlb(.clk(clk), .address(/*TODO*/), .RW_in(/*TODO*/), .VP(VP_in), .PF(PF_in),  //TODO: finish signals
-    //        .entry_v(entry_v_in), .entry_P(entry_P_in), .entry_RW(entry_RW_in), 
+    //TLB tlb(.clk(clk), .address(/*TODO*/), .RW_in(/*TODO*/), is_mem_request(/*TODO*/), .VP(VP_in), .PF(PF_in),  //TODO: finish signals
+    //        .entry_v(entry_v_in), .entry_P(entry_P_in), .entry_RW(entry_RW_in), .entry_PCD(entry_PCD_in),
     //        .PF_out(/*TODO*/), .miss(TLB_miss), .hit(TLB_hit), .protection_exception(TLB_prot));                   
 
 
@@ -113,5 +117,6 @@ module mem (input valid_in,
     assign conditionals_out = conditionals_in;
     assign is_br_out = is_br_in;
     assign is_fp_out = is_fp_in;
+    assign CS_out = CS_in;
 
 endmodule
