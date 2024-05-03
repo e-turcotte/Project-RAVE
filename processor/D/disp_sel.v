@@ -48,7 +48,7 @@ module disp_sel_logic(
 
 endmodule
 
-module rot_sel_logic(
+module size_sel_logic(
     input [1:0] mod,
     input [2:0] rm,
     input isMOD,
