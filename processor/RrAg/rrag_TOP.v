@@ -56,6 +56,7 @@ module rrag (input valid_in,
              output mux_and_int_out, mux_shift_out,
              output [36:0] p_op_out,
              output [17:0] fmask_out,
+             output [15:0] CS_out,
              output [1:0] conditionals_out,
              output is_br_out, is_fp_out,
              output [47:0] imm_out,
@@ -147,6 +148,7 @@ module rrag (input valid_in,
     assign mux_shift_out = mux_shift_in;
     assign p_op_out = p_op_in;
     assign fmask_out = fmask_in;
+    assign CS_out = seg4;
     assign conditionals_out = conditionals_in;
     assign is_br_out = is_br_in;
     assign is_fp_out = is_fp_in;
@@ -161,7 +163,7 @@ module rrag (input valid_in,
 
     wire mem1_use, mem2_use, rm_ptc, sib_ptc, actualsib_ptc, mem1_ptc, mem2_ptc, mem1_stall, mem2_stall;
 
-    or2$ g2(.out(mem1_use), .in0(mem1_rw_in[1]), .in1(mem2_rw_in[0]));
+    or2$ g2(.out(mem1_use), .in0(mem1_rw_in[1]), .in1(mem1_rw_in[0]));
     or2$ g3(.out(mem2_use), .in0(mem2_rw_in[1]), .in1(mem2_rw_in[0]));
     and2$ g4(.out(modrm_ptc), .in0(usereg2), .in1(regformem2ptc));
     and2$ g5(.out(sib_ptc), .in0(usereg3), .in1(regformem3ptc));
