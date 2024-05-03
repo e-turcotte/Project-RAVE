@@ -50,6 +50,9 @@ assign w1 = w; assign w0 = w;
 assign sw1 =sw; assign sw0 = sw;
 assign valid0 = valid_in; assign fromBUS0 = fromBUS; assign fromBUS1 = fromBUS;
 bufferH256$ b12(fromMEM, fromBUS);
+inv1$ asa(PCD_not,PCD_out);
+
+and2$ asv(valid0, valid_in, PCD_not);
 
 //Adr + x10
 kogeAdder #(32) a1(vAddress1, dc, address_in, 32'h0000_0010, 1'b0);
@@ -57,7 +60,7 @@ kogeAdder #(32) a1(vAddress1, dc, address_in, 32'h0000_0010, 1'b0);
 //Calc Size1
 wire[3:0] addRes;
 assign size1 = addRes[1:0];
-and2$ a5(valid1, valid1_t, valid_in );
+and2$ a5(valid1, valid1_t, valid_in, PCD_not );
 wire[3:0] sizeAdd;
 mux4n mxn4(sizeAdd[3:0], 4'h1, 4'h2,4'h4, 4'h8, size_in[0], size_in[1]);
 assign baseSize = sizeAdd;
