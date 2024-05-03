@@ -161,7 +161,7 @@ module rrag (input valid_in,
 
     wire mem1_use, mem2_use, rm_ptc, sib_ptc, actualsib_ptc, mem1_ptc, mem2_ptc, mem1_stall, mem2_stall;
 
-    or2$ g2(.out(mem1_use), .in0(mem1_rw_in[1]), .in1(mem2_rw_in[0]));
+    or2$ g2(.out(mem1_use), .in0(mem1_rw_in[1]), .in1(mem1_rw_in[0]));
     or2$ g3(.out(mem2_use), .in0(mem2_rw_in[1]), .in1(mem2_rw_in[0]));
     and2$ g4(.out(modrm_ptc), .in0(usereg2), .in1(regformem2ptc));
     and2$ g5(.out(sib_ptc), .in0(usereg3), .in1(regformem3ptc));
