@@ -55,7 +55,7 @@ module fetch_2 (
     
     wire not_is_init;
     inv1$ i0(.in(is_init), .out(not_is_init));
-    andn #(2) a0(.in({is_init, is_resteer}), .out(select_CF_mux_1));
+    andn #(2) a0(.in({not_is_init, is_resteer}), .out(select_CF_mux_1));
 
     wire not_is_resteer;
     inv1$ i1(.in(is_resteer), .out(not_is_resteer));
