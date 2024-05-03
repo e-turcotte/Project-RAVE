@@ -128,11 +128,13 @@ module decode_TOP(
     wire is_seg_override;
     wire is_opsize_override;
     wire [3:0] num_prefixes_onehot; //onehot encoding of num_prefixes
+    wire [1:0] num_prefixes_encoded;
 
     //1.8 ns 
     prefix_d prefix(.prefix1(prefix1), .prefix2(prefix2), .prefix3(prefix3), .is_rep(is_rep), 
                         .seg_override(seg_override), .is_seg_override(is_seg_override), 
-                        .is_opsize_override(is_opsize_override), .num_prefixes_onehot(num_prefixes_onehot));
+                        .is_opsize_override(is_opsize_override), .num_prefixes_onehot(num_prefixes_onehot),
+                        .num_prefixes_encoded(num_prefixes_encoded));
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     /*                                                                                                */
@@ -244,26 +246,41 @@ module decode_TOP(
     /*                                                                                                */
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    wire [5:0] length_of_mod_sib_disp;
+    wire [3:0] disp_size;
+    wire [2:0] R2_modrm;
+    wire useR2;
+    wire [2:0] R3_modrm;
+    wire useR3;
     wire isSIB;
-    wire [2:0] dispSize;
+    addressing_decode addr_dec(
+        .packet1(buffered_byte1),
+        .packet2(buffered_byte2),
+        .packet3(buffered_byte3),
+        .packet4(buffered_byte4),
+        .packet5(buffered_byte5),
+        .packet6(buffered_byte6),
+        .isMod(isMOD),
+        .num_prefixes_onehot(num_prefixes_onehot),
+        .isDoubleOp(isDouble),
+        .is_opsize_override(is_opsize_override)
 
-    length_d len(.B1(buffered_byte1), .B2(buffered_byte2), .B3(buffered_byte3), .B4(buffered_byte4), .B5(buffered_byte5), .is_rep(is_rep), 
-                    .is_seg_override(is_seg_override), .is_opsize_override(is_opsize_override), .prefSize(num_prefixes_onehot), .isDoubleOp(isDouble), 
-                    .isModRM(isMOD), .immSize(immSize), .isImm(isImm), .length(length), .length_no_imm(length_no_imm), .isSIB(isSIB), .dispSize(dispSize));
-
-
-
-    wire not_isImm;
-    wire [7:0] length_no_CF;
-    inv1$ i0(.in(isImm), .out(not_isImm));
-    muxnm_tristate #(.NUM_INPUTS(2), .DATA_WIDTH(8)) muxeewuxee(
-        .in({length_no_imm, length}), 
-        .sel({not_isImm, isImm}), 
-        .out(length_no_CF);
+        .length_of_mod_sib_disp(length_of_mod_sib_disp),
+        .disp_size(disp_size),
+        .R2_modrm(R2_modrm),
+        .useR2(useR2),
+        .R3_modrm(R3_modrm),
+        .useR3(useR3),
+        .isSIB(isSIB)
     );
 
-
+    wire [11:0] identify_length_signal;
+    assign identify_length_signal = {num_prefixes_encoded, isDouble, isImm, immSize, length_of_mod_sib_disp};
+    wire [7:0] decoded_instr_length;
+    select_length sel_len(
+        .sel(identify_length_signal),
+        .out(decoded_instr_length)
+    );
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -277,20 +294,35 @@ module decode_TOP(
     /*                                                                                                */
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    
-    
+    wire [47:0] immediate;
+    wire [31:0] displacement;
 
+    disp_imm_select dis(
+        .B1(buffered_byte1),
+        .B2(buffered_byte2),
+        .B3(buffered_byte3),
+        .B4(buffered_byte4),
+        .B5(buffered_byte5),
+        .B6(buffered_byte6),
+        .B7(buffered_byte7),
+        .B8(buffered_byte8),
+        .B9(buffered_byte9),
+        .B10(buffered_byte10),
+        .B11(buffered_byte11),
+        .B12(buffered_byte12),
+        .B13(buffered_byte13),
+        .B14(buffered_byte14),
+        .B15(buffered_byte15),
+        .isDouble(isDouble),
+        .isMOD(isMOD),
+        .isSIB(isSIB),
+        .num_prefixes_onehot(num_prefixes_onehot),
+        .disp_size_select(disp_size),
+        .imm_size_select(immSize),
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    /*                                                                                                */
-    /*                                                                                                */
-    /*                                                                                                */
-    /*                                        SIB DECODE:                                             */
-    /*                                                                                                */
-    /*                                                                                                */
-    /*                                                                                                */
-    /*                                                                                                */
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
+        .immediate(immediate),
+        .displacement(displacement)
+    );
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -353,16 +385,6 @@ module decode_TOP(
     );
 
     kogeAdder #(.WIDTH(32)) add0(.A(latched_EIP), .B({24'b000000000000000000000000, D_length}), .CIN(1'b0), .SUM(EIP_plus_length), .COUT());
-
-
-
-
-
-
-
-
-
-
 
 
 
