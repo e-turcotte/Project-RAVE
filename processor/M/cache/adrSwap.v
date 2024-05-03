@@ -8,6 +8,8 @@ module adrSwap(
     input fromBUS0,
     input [16*8-1:0] mask0,
 
+    input PCD_in,
+
     input [31:0] vAddress1,
     input[31:0] address1,
     input[16*8-1:0] data1,
@@ -40,8 +42,11 @@ module adrSwap(
     output rO,wO,swO,
     output validO,
     output fromBUSO, 
-    output [16*8-1:0] maskO
+    output [16*8-1:0] maskO,
+
+    output PCD_out
 );
+assign PCD_out = PCD_in;
 wire even, odd;
 assign odd = vAddress0[4];
 inv1$ INVS(even, odd);

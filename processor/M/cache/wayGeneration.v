@@ -7,6 +7,7 @@ module wayGeneration(
     input w,
     input missMSHR,
     input valid,
+    input PCD_in,
 
     output ex_wb, ex_clr, stall, 
     output[3:0] way, 
@@ -14,7 +15,8 @@ module wayGeneration(
     output MISS
 );
 wire HIT; or4$ a1(HIT, HITS[1],HITS[2],HITS[3],HITS[0]);
-wire MISS; nor4$ o1(MISS,HITS[1],HITS[2],HITS[3],HITS[0] );
+wire  MISST; nor4$ o1(MISS,HITS[1],HITS[2],HITS[3],HITS[0] );
+
 wire[31:0] tag_next;
 wire [3:0] ptc_next, v_next, d_next;
 

@@ -6,8 +6,22 @@
 /home/projects/courses/spring_24/ee382n19/lib/lib5
 /home/projects/courses/spring_24/ee382n19/lib/lib6
 
-PTCVDFSM_t.v
+cache_tb.v
 PTCVDFSM.v
+LRU_FSM.v
+LRU_FSM1.v
+LRU_FSM2.v
+LRU_FSM3.v
+metaStore.v
+dataStore.v
+tagStore.v
+wayGeneration.v
+outputAlign.v
+inputAlign.v
+cacheBank.v
+adrSwap.v
+
+
 ../../../local-lib/pencoder32_5.v
 ../../../local-lib/nbitdevices/equaln.v
 ../../../local-lib/nbitdevices/kAdder.v

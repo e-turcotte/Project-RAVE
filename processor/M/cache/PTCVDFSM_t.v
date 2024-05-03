@@ -1,14 +1,10 @@
 module PTCVDFSM_t();
 reg set,enable, rst, clk, sw, extract, wb;
 PTCVDFSM p1(clk, set, rst, sw, extract, wb,enable, PTC, D, V);
-localparam CYCLE_TIME = 5.0;
+
 
 // Dump all waveforms
-initial
-begin
- $vcdplusfile("PTCVDFSM.vpd");
- $vcdpluson(0, PTCVDFSM_t); 
-end
+
 
 
 initial begin
@@ -57,8 +53,15 @@ extract = 1; wb = 0;
 $finish;
 end
 
+localparam CYCLE_TIME = 5.0;
+
 initial begin
     clk = 1'b1;
     forever #(CYCLE_TIME / 2.0) clk = ~clk;
+end
+
+initial begin
+ $vcdplusfile("PTCVDFSM.vpd");
+ $vcdpluson(0, PTCVDFSM_t); 
 end
 endmodule

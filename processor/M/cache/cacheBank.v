@@ -21,7 +21,9 @@ module cacheBank (
     input MSHR_FULL,
 
     //INPUT from SERDES
-    input SER_FULL,
+    input SER1_FULL,
+    input SER0_FULL,
+    input PCD_IN,
 
     //output to AQ
     output AQ_READ,
@@ -47,6 +49,8 @@ module cacheBank (
     output[15:0] SER_size1,
     output SER_rw1,
     output SER_dest1,
+
+    
 
     //Output to outputAlign (data converted to 64 bits there)
     output EX_valid,
@@ -97,11 +101,11 @@ wire D_sel, V_sel, PTC_sel;
 tagStore ts(.valid(valid), .index(index), .way(way), .tag_in(tag_in), .w(w), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
 dataStore ds(.valid(valid), .index(index), .way(way), .data_in(data), .mask_in(mask), .w(w), .data_out(data_dump), .cache_line(cache_line) );
 metaStore ms(.clk(clk), .rst(rst), .set(set), .valid(valid), .way(way), .index(index), .wb(w), .sw(sw), .ex(ex_clr), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
-wayGeneration wg(.LRU(LRU), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid),  .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS));
+wayGeneration wg(.LRU(LRU), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid), .PCD_IN(PCD_in), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS));
 
 //stall logic
 inv1$ inv(stall1_n, stall);
-nand2$ a1(stall2, SER_FULL, MISS);
+nand3$ a1(stall2, SER1_FULL,SER0_FULL, MISS);
 nand2$ a2(stall3, MSHR_FULL, MISS);
 nand3$ or1(stall, stall1_n, stall2, stall3);
 
@@ -110,15 +114,15 @@ and2$ an1(MSHR_valid, valid, MISS);
 assign MSHR_pAddress = pAddress;
 
 //Handle SERDES
-assign SER_data0 = data;
-assign SER_pAddress0 = {tag_read, pAddress[6:4], 4'b00};
+assign SER_data0 = cache_line;
+assign SER_pAddress0 = {tag_read, pAddress[6:0]};
 assign SER_valid0 = ex_wb;
 assign SER_return0 = cache_id;
 assign SER_size0 = 16'h8000;
 assign SER_rw0 = 1'b1;
-assign SER_dest0 = 3'b000;
+assign SER_dest0 = {2'b00, PCD_IN};
 
-assign SER_pAddress1 = {pAddress[14:4], 4'b0};
+assign SER_pAddress1 = {pAddress[14:0]};
 assign SER_valid1 = ex_clr;
 assign SER_return1 = cache_id;
 assign SER_size1 = 16'h0001;

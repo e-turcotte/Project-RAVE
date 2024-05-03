@@ -9,9 +9,9 @@ module inputAlign(
     //TLB SIGNALS
     input clk,
     input [159:0] VP, PF,
-    input[7:0] entry_V, entry_P, entry_RW,
+    input[7:0] entry_V, entry_P, entry_RW, entry_PCD,
     
-    output TLB_miss, protection_exception, TLB_hit,
+    output TLB_miss, protection_exception, TLB_hit,PCD_out,
 
     //endTLB SIGNALS
 
@@ -38,11 +38,13 @@ module inputAlign(
     output[2:0] oneSize
    
 );
-wire[19:0] tlb1, tl02;
+wire[19:0] tlb1, tlb2;
 assign address1[6:4] = vAddress1[6:4];
 assign address1[3:0] = 4'd0;
 assign address0[6:0] = vAddress0[6:0];
 assign vAddress0 = address0;
+assign address1[11:7] = vAddress1[11:7];
+assign address0[11:7] = vAddress0[11:7];
 assign r1 = r; assign r0 = r;
 assign w1 = w; assign w0 = w;
 assign sw1 =sw; assign sw0 = sw;
@@ -74,15 +76,16 @@ inv1$ in3(size1_n[3], addRes[3]);
 kogeAdder #(4) ad2(shift2, dc1, sizeAdd, addRes, 1'b1);
 
 //TLB Handler
-TLB t1(clk, vAddress0, w, VP, PF,entry_V, entry_P, entry_RW, tlb0, miss0, hit0, prot_except0 );
-TLB t2(clk, vAddress1, w, VP, PF, entry_V, entry_P, entry_RW, tlb1, miss1, hit1,  prot_except1);
+TLB t1(clk, vAddress0, w,valid0, VP, PF,entry_V, entry_P, entry_RW, entry_PCD, PCD_out0, tlb0, miss0, hit0, prot_except0 );
+TLB t2(clk, vAddress1, w,valid1, VP, PF, entry_V, entry_P, entry_RW, entry_PCD, PCD_out1, tlb1, miss1, hit1,  prot_except1);
 and2$ a0(TLB_miss, miss0, miss1);
-and2$ a2(hit, , miss1);
+and2$ a2(protection_exception,prot_except1 , prot_except0);
 and2$ a3(TLB_hit, TLB_hit0, TLB_hit1);
+and2$ a6(PCD_out, PCD_out0, PCD_out1);
 
 //Address gneration
-assign address1[14:7] = tlb1[7:0];
-assign address0[14:7] = tlb0[7:0];
+assign address1[14:12] = tlb1[2:0];
+assign address0[14:12] = tlb0[2:0];
 
 //Mask generation
 mux8n #(64) m4(mask1[63:0],64'd0, 64'h00FF, 64'h0FFFF, 64'h0FF_FFFF, 64'h0_FFFF_FFFF,64'h00FF_FFFF_FFFF,64'hFFFF_FFFF_FFFF,64'h00FF_FFFF_FFFF_FFFF, addRes[0], addRes[1], addRes[2]);
