@@ -32,7 +32,7 @@
 master
 50
 which_declare=declare -f
-XDG_SESSION_ID=351
+XDG_SESSION_ID=407
 XDG_RUNTIME_DIR=/run/user/29195
 XDG_DATA_DIRS=/home/ecelrc/students/jnederveld//.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
 VMR_MODE_FLAG=64
@@ -52,9 +52,9 @@ TCLSH=/usr/bin/tclsh
 SYNOPSYS_SYN_ROOT=/usr/local/packages/synopsys_2022/syn
 SYNOPSYS_LC_ROOT=/usr/local/packages/synopsys_2022/lc/T-2022.03-SP5
 STROOT=/usr/local/packages/synopsys_2022/sentaurus/T-2022.03-SP1
-SSH_TTY=/dev/pts/4
-SSH_CONNECTION=10.145.9.54 65202 10.157.72.74 22
-SSH_CLIENT=10.145.9.54 65202 22
+SSH_TTY=/dev/pts/7
+SSH_CONNECTION=10.145.9.54 50674 10.157.72.74 22
+SSH_CLIENT=10.145.9.54 50674 22
 SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
 SNPS_VCS_CLANG_PATH=/usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/clang
 SNPS_INTERNAL_VCS_LINUX_OS=linux
@@ -79,7 +79,7 @@ LC_ALL=C
 HISTCONTROL=ignoredups
 GDK_BACKEND=x11
 DVE_HOME=/usr/local/packages/synopsys_2022/vcs/T-2022.06/
-DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-WivxBxGWKW,guid=dc72054378916711484d4967663467db
+DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-3tLG0tESmE,guid=6050c9680ece78171ab1617866348aff
 BASH_FUNC_which%%=() {  ( alias;_ eval ${which_declare} ) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@_}
 0
 0
@@ -96,7 +96,7 @@ BASH_FUNC_which%%=() {  ( alias;_ eval ${which_declare} ) | /usr/bin/which --tty
 1714710741 ../../../local-lib/nbitdevices/equaln.v
 1714717836 ../../../local-lib/pencoder32_5.v
 1714710741 ../TLB.v
-1714710741 adrSwap.v
+1714718799 adrSwap.v
 1714717996 cacheBank.v
 1714717784 inputAlign.v
 1714715179 outputAlign.v
@@ -109,7 +109,7 @@ BASH_FUNC_which%%=() {  ( alias;_ eval ${which_declare} ) | /usr/bin/which --tty
 1714714857 LRU_FSM1.v
 1714714645 LRU_FSM.v
 1714712079 PTCVDFSM.v
-1714717002 cache_tb.v
+1714719355 cache_tb.v
 1704864655 /home/projects/courses/spring_24/ee382n19/lib/lib6
 1704864655 /home/projects/courses/spring_24/ee382n19/lib/lib5
 1704864655 /home/projects/courses/spring_24/ee382n19/lib/lib4
@@ -124,5 +124,5 @@ BASH_FUNC_which%%=() {  ( alias;_ eval ${which_declare} ) | /usr/bin/which --tty
 1654053585 /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/liberrorinf.so
 1654053489 /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/libsnpsmalloc.so
 1654053565 /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/libvfs.so
-1714718005 simv.daidir
+1714719894 simv.daidir
 -1 partitionlib

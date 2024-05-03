@@ -19,6 +19,7 @@ reg [159:0] VP, PF;
 reg MSHR_HIT, MSHR_FULL, SER_FULL; //DONE
 reg[2:0] cache_id; //DONE
 reg [6:0] PTC_ID_IN;
+reg AQ_EMPTY;
 
 initial begin
     rst = 0;
@@ -26,6 +27,7 @@ initial begin
     valid_in = 0;
     clk = 0;
     PTC_ID_IN = 0;
+    AQ_EMPTY = 0;
     VP_0 = 20'h00000;
     VP_1 = 20'h02000;
     VP_2 = 20'h04000;
@@ -93,7 +95,7 @@ wire  oddIsGreaters;
 wire  needP1s;
 wire [2:0] oneSize_outs;
 wire  [31:0] vAddressE;
-wire [31:0] addressE;
+wire [14:0] addressE;
 wire [16*8-1:0] dataE;
 wire  [1:0] sizeE;
 wire  rE,wE,swE;
@@ -101,7 +103,7 @@ wire  validE;
 wire  fromBUSE;
 wire  [16*8-1:0] maskE;
 wire  [31:0] vAddressO;
-wire [31:0] addressO;
+wire [14:0] addressO;
 wire [16*8-1:0] dataO;
 wire  [1:0] sizeO;
 wire  rO,wO,swO;
@@ -302,7 +304,7 @@ cacheBank cacheBank_E (
     .SER0_FULL(SER_FULL),
     .SER1_FULL(SER_FULL),
 
-    .PCD_IN(PCD_IN),
+    .PCD_IN(PCD_in),
 
     .AQ_READ(AQ_READE),
     .MSHR_valid(MSHR_validE),
@@ -330,7 +332,7 @@ cacheBank cacheBank_E (
     .cache_stall(cache_stallE),
     .cache_miss(cache_missE),
     .needP1(needP1E),
-    .oneSize_out(oneSize_ouE)
+    .oneSize_out(oneSize_outE)
 );
 
 cacheBank cacheBank_O (
@@ -339,17 +341,17 @@ cacheBank cacheBank_O (
     .set(set),
     .cache_id(3'b011),
     .vAddress(vAddressO),
-    .pAddress(AddressO),
+    .pAddress(addressO),
     .data(dataO),
     .size(sizeO),
       .r(rO),
       .w(wO),
     .sw(swO),
     .valid_in(validO),
-    .fromBUS(fromBUSO),
+    .fromBUS(fromBUSOs),
     .mask(maskO),
     
-    .AQ_isEMPTY(AQ_isEMPTY),
+    .AQ_isEMPTY(AQ_EMPTY),
     .PTC_ID_IN(PTC_ID_IN),
 
     .oddIsGreater_in(oddIsGreater),
@@ -396,10 +398,10 @@ outputAlign outputAlign_instance (
     .E_pAddress(EX_pAddressE),
     .E_size(EX_sizeE),
     .E_wake(EX_wakeE),
-    .E_cache_stall(EX_cache_stallE),
-    .E_cache_miss(EX_cache_missE),
-    .E_oddIsGreater(EX_oddIsGreaterE),
-    .E_needP1(EX_needP1E),
+    .E_cache_stall(cache_stallE),
+    .E_cache_miss(cache_missE),
+    .E_oddIsGreater(oddIsGreaterE),
+    .E_needP1(needP1E),
     .oneSize(oneSize_outO),
     .O_valid(EX_validO),
     .O_data(EX_dataO),
@@ -407,10 +409,10 @@ outputAlign outputAlign_instance (
     .O_pAddress(EX_pAddressO),
     .O_size(EX_sizeO),
     .O_wake(EX_wakeO),
-    .O_cache_stall(EX_cache_stallO),
-    .O_cache_miss(EX_cache_missO),
-    .O_oddIsGreater(EX_oddIsGreaterO),
-    .O_needP1(EX_needP1O),
+    .O_cache_stall(cache_stallO),
+    .O_cache_miss(cache_missO),
+    .O_oddIsGreater(oddIsGreaterO),
+    .O_needP1(needP1O),
     .PTC_out(PTC_out),
     .data_out(data_out),
     .valid_out(valid_out),
