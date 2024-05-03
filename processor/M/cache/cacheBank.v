@@ -16,6 +16,7 @@ module cacheBank (
     input oddIsGreater_in,
     input needP1_in,
     input [2:0] oneSize,
+    
     //INPUT from MSHR
     input MSHR_HIT,
     input MSHR_FULL,
@@ -110,24 +111,25 @@ nand2$ a2(stall3, MSHR_FULL, MISS);
 nand3$ or1(stall, stall1_n, stall2, stall3);
 
 //Handle MSHR
-and2$ an1(MSHR_valid, valid, MISS);
+and2$ an1(MSHR_valid1, valid, MISS);
+or2$ mshr(MSHR_valid,MSHR_valid1, PCD_in);
 assign MSHR_pAddress = pAddress;
 
 //Handle SERDES
-assign SER_data0 = cache_line;
-assign SER_pAddress0 = {tag_read, pAddress[6:0]};
-assign SER_valid0 = ex_wb;
+mux2n #(128) datasel(SER_data0, cache_line, data_in, PCD_in);
+mux2n #(15) addressSel(SER_pAddress0, {tag_read, pAddress[6:0]}, pAddress[14:0], PCD_in);
+or2$ orSER(SER_valid0, ex_wb, PCD_in);
 assign SER_return0 = cache_id;
 assign SER_size0 = 16'h8000;
-assign SER_rw0 = 1'b1;
-assign SER_dest0 = {2'b00, PCD_IN};
+mux2n #(1)  (rw0, 1'b1, w, PCD_in);
+mux2n #(3)  (SER_dest0,{1'b0,pAddress[5],pAddress[4]}, 3'b110, PCD_in);
 
 assign SER_pAddress1 = {pAddress[14:0]};
 assign SER_valid1 = ex_clr;
 assign SER_return1 = cache_id;
 assign SER_size1 = 16'h0001;
 assign SER_rw1 = 1'b0;
-assign SER_dest1 = 3'b000;
+assign SER_dest1 = {1'b0,pAddress[5],pAddress[4]};
 
 //Handle outputAlign
 inv1$ in12(HIT, MISS);
