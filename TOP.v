@@ -4,12 +4,21 @@ module TOP();
     integer file;
     reg clk;
     integer cycle_number; //TODO
+    integer m_size_D_RrAg, n_size_D_RrAg;
+    integer m_size_MEM_EX, n_size_MEM_EX;
+
     
     initial begin
         file = $fopen("debug.out", "w");
         clk = 1'b1;
         cycle_number = 0;
         forever #(CYCLE_TIME / 2.0) clk = ~clk;
+
+        m_size_D_RrAg = 1;
+        n_size_D_RrAg = 361;
+
+        m_size_MEM_EX = 773;
+        n_size_MEM_EX = 300;
     end
 
     //TODO: TLB Initializations
@@ -211,11 +220,6 @@ module TOP();
         .stall_out(),
         .D_length()
     );
-
-    integer m_size_D_RrAg, n_size_D_RrAg;
-
-    m_size_D_RrAg = 1;
-    n_size_D_RrAg = 300;
     
     wire [m_size_D_RrAg-1:0] m_din_D_RrAg;
     wire [n_size_D_RrAg-1:0] n_din_D_RrAg;
@@ -589,11 +593,6 @@ module TOP();
     wire [3:0]   wake_MEM_EX_latch_out;
 
     //queued latches between MEM and EX - 8
-
-    integer m_size_MEM_EX, n_size_MEM_EX;
-
-    m_size_MEM_EX = 773;
-    n_size_MEM_EX = 300;
     
     wire [m_size_MEM_EX-1:0] m_din_MEM_EX;
     wire [n_size_MEM_EX-1:0] n_din_MEM_EX;
