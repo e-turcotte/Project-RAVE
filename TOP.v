@@ -4,8 +4,12 @@ module TOP();
     integer file;
     reg clk;
     integer cycle_number; //TODO
-    integer m_size_D_RrAg, n_size_D_RrAg;
-    integer m_size_MEM_EX, n_size_MEM_EX;
+
+    localparam m_size_D_RrAg = 1;
+    localparam n_size_D_RrAg = 361;
+    
+    localparam m_size_MEM_EX = 773;
+    localparam n_size_MEM_EX = 300;
 
     
     initial begin
@@ -14,11 +18,6 @@ module TOP();
         cycle_number = 0;
         forever #(CYCLE_TIME / 2.0) clk = ~clk;
 
-        m_size_D_RrAg = 1;
-        n_size_D_RrAg = 361;
-
-        m_size_MEM_EX = 773;
-        n_size_MEM_EX = 300;
     end
 
     //TODO: TLB Initializations
@@ -143,6 +142,138 @@ module TOP();
     wire [31:0] BR_pred_target_D_RrAg_latch_out;
     wire        BR_pred_T_NT_D_RrAg_latch_out;
 
+    ///////////////////////////////////////////////////////////
+    // Outputs from Rr/Ag that go into the RrAg_MEM_latch:  //  
+    //////////////////////////////////////////////////////////
+    
+    wire         valid_RrAg_MEM_latch_in, stall_RrAg_MEM_latch_in;
+    wire [1:0]   opsize_RrAg_MEM_latch_in;
+    wire [31:0]  mem_addr1_RrAg_MEM_latch_in, mem_addr2_RrAg_MEM_latch_in, mem_addr1_end_RrAg_MEM_latch_in, mem_addr2_end_RrAg_MEM_latch_in;
+    wire [63:0]  reg1_RrAg_MEM_latch_in, reg2_RrAg_MEM_latch_in, reg3_RrAg_MEM_latch_in, reg4_RrAg_MEM_latch_in;
+    wire [127:0] ptc_r1_RrAg_MEM_latch_in, ptc_r2_RrAg_MEM_latch_in, ptc_r3_RrAg_MEM_latch_in, ptc_r4_RrAg_MEM_latch_in;
+    wire [2:0]   reg1_orig_RrAg_MEM_latch_in, reg2_orig_RrAg_MEM_latch_in, reg3_orig_RrAg_MEM_latch_in, reg4_orig_RrAg_MEM_latch_in;
+    wire [15:0]  seg1_RrAg_MEM_latch_in, seg2_RrAg_MEM_latch_in, seg3_RrAg_MEM_latch_in, seg4_RrAg_MEM_latch_in;
+    wire [31:0]  ptc_s1_RrAg_MEM_latch_in, ptc_s2_RrAg_MEM_latch_in, ptc_s3_RrAg_MEM_latch_in, ptc_s4_RrAg_MEM_latch_in;
+    wire [2:0]   seg1_orig_RrAg_MEM_latch_in, seg2_orig_RrAg_MEM_latch_in, seg3_orig_RrAg_MEM_latch_in, seg4_orig_RrAg_MEM_latch_in;
+    wire [6:0]   inst_ptcid_RrAg_MEM_latch_in;
+    wire [12:0]  op1_out_RrAg_MEM_latch_in, op2_out_RrAg_MEM_latch_in, op3_out_RrAg_MEM_latch_in, op4_out_RrAg_MEM_latch_in;
+    wire [12:0]  dest1_out_RrAg_MEM_latch_in, dest2_out_RrAg_MEM_latch_in, dest3_out_RrAg_MEM_latch_in, dest4_out_RrAg_MEM_latch_in;
+    wire         res1_ld_out_RrAg_MEM_latch_in, res2_ld_out_RrAg_MEM_latch_in, res3_ld_out_RrAg_MEM_latch_in, res4_ld_out_RrAg_MEM_latch_in;
+    wire [31:0]  rep_num_RrAg_MEM_latch_in;
+    wire [4:0]   aluk_out_RrAg_MEM_latch_in;
+    wire [2:0]   mux_adder_out_RrAg_MEM_latch_in;
+    wire         mux_and_int_out_RrAg_MEM_latch_in, mux_shift_out_RrAg_MEM_latch_in;
+    wire [36:0]  p_op_out_RrAg_MEM_latch_in;
+    wire [17:0]  fmask_out_RrAg_MEM_latch_in;
+    wire [1:0]   conditionals_out_RrAg_MEM_latch_in;
+    wire         is_br_out_RrAg_MEM_latch_in, is_fp_out_RrAg_MEM_latch_in;
+    wire [47:0]  imm_out_RrAg_MEM_latch_in;
+    wire [1:0]   mem1_rw_out_RrAg_MEM_latch_in, mem2_rw_out_RrAg_MEM_latch_in;
+    wire [31:0]  eip_out_RrAg_MEM_latch_in;
+    wire         IE_out_RrAg_MEM_latch_in;
+    wire [3:0]   IE_type_out_RrAg_MEM_latch_in;
+    wire [31:0]  BR_pred_target_out_RrAg_MEM_latch_in;
+    wire         BR_pred_T_NT_out_RrAg_MEM_latch_in;
+    
+    ///////////////////////////////////////////////////////////
+    //   Outputs from RrAg_MEM_latch that go into the MEM:  //  
+    //////////////////////////////////////////////////////////
+
+    wire         valid_RrAg_MEM_latch_out, stall_RrAg_MEM_latch_out;
+    wire [1:0]   opsize_RrAg_MEM_latch_out;
+    wire [31:0]  mem_addr1_RrAg_MEM_latch_out, mem_addr2_RrAg_MEM_latch_out, mem_addr1_end_RrAg_MEM_latch_out, mem_addr2_end_RrAg_MEM_latch_out;
+    wire [63:0]  reg1_RrAg_MEM_latch_out, reg2_RrAg_MEM_latch_out, reg3_RrAg_MEM_latch_out, reg4_RrAg_MEM_latch_out;
+    wire [127:0] ptc_r1_RrAg_MEM_latch_out, ptc_r2_RrAg_MEM_latch_out, ptc_r3_RrAg_MEM_latch_out, ptc_r4_RrAg_MEM_latch_out;
+    wire [2:0]   reg1_orig_RrAg_MEM_latch_out, reg2_orig_RrAg_MEM_latch_out, reg3_orig_RrAg_MEM_latch_out, reg4_orig_RrAg_MEM_latch_out;
+    wire [15:0]  seg1_RrAg_MEM_latch_out, seg2_RrAg_MEM_latch_out, seg3_RrAg_MEM_latch_out, seg4_RrAg_MEM_latch_out;
+    wire [31:0]  ptc_s1_RrAg_MEM_latch_out, ptc_s2_RrAg_MEM_latch_out, ptc_s3_RrAg_MEM_latch_out, ptc_s4_RrAg_MEM_latch_out;
+    wire [2:0]   seg1_orig_RrAg_MEM_latch_out, seg2_orig_RrAg_MEM_latch_out, seg3_orig_RrAg_MEM_latch_out, seg4_orig_RrAg_MEM_latch_out;
+    wire [6:0]   inst_ptcid_RrAg_MEM_latch_out;
+    wire [12:0]  op1_RrAg_MEM_latch_out, op2_RrAg_MEM_latch_out, op3_RrAg_MEM_latch_out, op4_RrAg_MEM_latch_out;
+    wire [12:0]  dest1_RrAg_MEM_latch_out, dest2_RrAg_MEM_latch_out, dest3_RrAg_MEM_latch_out, dest4_RrAg_MEM_latch_out;
+    wire         res1_ld_out_RrAg_MEM_latch_out, res2_ld_out_RrAg_MEM_latch_out, res3_ld_out_RrAg_MEM_latch_out, res4_ld_out_RrAg_MEM_latch_out;
+    wire [31:0]  rep_num_RrAg_MEM_latch_out;
+    wire [4:0]   aluk_RrAg_MEM_latch_out;
+    wire [2:0]   mux_adder_RrAg_MEM_latch_out;
+    wire         mux_and_int_RrAg_MEM_latch_out, mux_shift_RrAg_MEM_latch_out;
+    wire [36:0]  p_op_RrAg_MEM_latch_out;
+    wire [17:0]  fmask_RrAg_MEM_latch_out;
+    wire [15:0]  CS_out_RrAg_MEM_latch_out;
+    wire [1:0]   conditionals_RrAg_MEM_latch_out;
+    wire         is_br_RrAg_MEM_latch_out, is_fp_RrAg_MEM_latch_out;
+    wire [47:0]  imm_RrAg_MEM_latch_out;
+    wire [1:0]   mem1_rw_RrAg_MEM_latch_out, mem2_rw_RrAg_MEM_latch_out;
+    wire [31:0]  eip_RrAg_MEM_latch_out;
+    wire         IE_RrAg_MEM_latch_out;
+    wire [3:0]   IE_type_RrAg_MEM_latch_out;
+    wire [31:0]  BR_pred_target_RrAg_MEM_latch_out;
+    wire         BR_pred_T_NT_RrAg_MEM_latch_out;
+
+    ///////////////////////////////////////////////////////////
+    //     Outputs from MEM that go into MEM_EX_latch:      //  
+    //////////////////////////////////////////////////////////
+
+    wire         valid_MEM_EX_latch_in;
+    wire [31:0]  EIP_MEM_EX_latch_in;
+    wire         IE_MEM_EX_latch_in;
+    wire [3:0]   IE_type_MEM_EX_latch_in;
+    wire [31:0]  BR_pred_target_MEM_EX_latch_in;
+    wire         BR_pred_T_NT_MEM_EX_latch_in;
+ 
+    wire         res1_ld_MEM_EX_latch_in, res2_ld_MEM_EX_latch_in, res3_ld_MEM_EX_latch_in, res4_ld_MEM_EX_latch_in;
+    wire [63:0]  op1_MEM_EX_latch_in, op2_MEM_EX_latch_in, op3_MEM_EX_latch_in, op4_MEM_EX_latch_in;
+    wire [127:0] op1_ptcinfo_MEM_EX_latch_in, op2_ptcinfo_MEM_EX_latch_in, op3_ptcinfo_MEM_EX_latch_in, op4_ptcinfo_MEM_EX_latch_in;
+    wire [31:0]  dest1_addr_MEM_EX_latch_in, dest2_addr_MEM_EX_latch_in, dest3_addr_MEM_EX_latch_in, dest4_addr_MEM_EX_latch_in;
+    wire         res1_is_reg_MEM_EX_latch_in, res2_is_reg_MEM_EX_latch_in, res3_is_reg_MEM_EX_latch_in, res4_is_reg_MEM_EX_latch_in;
+    wire         res1_is_seg_MEM_EX_latch_in, res2_is_seg_MEM_EX_latch_in, res3_is_seg_MEM_EX_latch_in, res4_is_seg_MEM_EX_latch_in;
+    wire         res1_is_mem_MEM_EX_latch_in, res2_is_mem_MEM_EX_latch_in, res3_is_mem_MEM_EX_latch_in, res4_is_mem_MEM_EX_latch_in;
+    wire [1:0]   opsize_MEM_EX_latch_in;
+
+    wire [4:0]   aluk_MEM_EX_latch_in;
+    wire [2:0]   MUX_ADDER_IMM_MEM_EX_latch_in;
+    wire         MUX_AND_INT_MEM_EX_latch_in, MUX_SHIFT_MEM_EX_latch_in;
+
+    wire [34:0]  P_OP_MEM_EX_latch_in;
+    wire [16:0]  FMASK_MEM_EX_latch_in;
+    wire [1:0]   conditionals_MEM_EX_latch_in;
+
+    wire         isBR_MEM_EX_latch_in, is_fp_MEM_EX_latch_in;
+    wire [15:0]  CS_MEM_EX_latch_in;
+    wire [3:0]   wake_MEM_EX_latch_in;
+
+    ///////////////////////////////////////////////////////////
+    //     Outputs from MEM_EX_latch that go into EX:        //  
+    //////////////////////////////////////////////////////////
+
+    wire         valid_MEM_EX_latch_out;
+    wire [31:0]  EIP_MEM_EX_latch_out;
+    wire         IE_MEM_EX_latch_out;
+    wire [3:0]   IE_type_MEM_EX_latch_out;
+    wire [31:0]  BR_pred_target_MEM_EX_latch_out;
+    wire         BR_pred_T_NT_MEM_EX_latch_out;
+
+    wire         res1_ld_MEM_EX_latch_out, res2_ld_MEM_EX_latch_out, res3_ld_MEM_EX_latch_out, res4_ld_MEM_EX_latch_out;
+    wire [63:0]  op1_MEM_EX_latch_out, op2_MEM_EX_latch_out, op3_MEM_EX_latch_out, op4_MEM_EX_latch_out;
+    wire [127:0] op1_ptcinfo_MEM_EX_latch_out, op2_ptcinfo_MEM_EX_latch_out, op3_ptcinfo_MEM_EX_latch_out, op4_ptcinfo_MEM_EX_latch_out;
+    wire [31:0]  dest1_addr_MEM_EX_latch_out, dest2_addr_MEM_EX_latch_out, dest3_addr_MEM_EX_latch_out, dest4_addr_MEM_EX_latch_out;
+    wire         res1_is_reg_MEM_EX_latch_out, res2_is_reg_MEM_EX_latch_out, res3_is_reg_MEM_EX_latch_out, res4_is_reg_MEM_EX_latch_out;
+    wire         res1_is_seg_MEM_EX_latch_out, res2_is_seg_MEM_EX_latch_out, res3_is_seg_MEM_EX_latch_out, res4_is_seg_MEM_EX_latch_out;
+    wire         res1_is_mem_MEM_EX_latch_out, res2_is_mem_MEM_EX_latch_out, res3_is_mem_MEM_EX_latch_out, res4_is_mem_MEM_EX_latch_out;
+    wire [1:0]   opsize_MEM_EX_latch_out;
+
+    wire [4:0]   aluk_MEM_EX_latch_out;
+    wire [2:0]   MUX_ADDER_IMM_MEM_EX_latch_out;
+    wire         MUX_AND_INT_MEM_EX_latch_out;
+    wire         MUX_SHIFT_MEM_EX_latch_out;
+    wire [34:0]  P_OP_MEM_EX_latch_out;
+    wire [16:0]  FMASK_MEM_EX_latch_out;
+    wire [1:0]   conditionals_MEM_EX_latch_out;
+
+    wire         isBR_MEM_EX_latch_out;
+    wire         is_fp_MEM_EX_latch_out;
+    wire [15:0]  CS_MEM_EX_latch_out;
+    wire [3:0]   wake_MEM_EX_latch_out;
+
     decode_TOP d0(
         // Clock and Reset
         .clk(clk),
@@ -255,74 +386,6 @@ module TOP();
          })
             
         );
-
-
-    ///////////////////////////////////////////////////////////
-    // Outputs from Rr/Ag that go into the RrAg_MEM_latch:  //  
-    //////////////////////////////////////////////////////////
-    
-    wire         valid_RrAg_MEM_latch_in, stall_RrAg_MEM_latch_in;
-    wire [1:0]   opsize_RrAg_MEM_latch_in;
-    wire [31:0]  mem_addr1_RrAg_MEM_latch_in, mem_addr2_RrAg_MEM_latch_in, mem_addr1_end_RrAg_MEM_latch_in, mem_addr2_end_RrAg_MEM_latch_in;
-    wire [63:0]  reg1_RrAg_MEM_latch_in, reg2_RrAg_MEM_latch_in, reg3_RrAg_MEM_latch_in, reg4_RrAg_MEM_latch_in;
-    wire [127:0] ptc_r1_RrAg_MEM_latch_in, ptc_r2_RrAg_MEM_latch_in, ptc_r3_RrAg_MEM_latch_in, ptc_r4_RrAg_MEM_latch_in;
-    wire [2:0]   reg1_orig_RrAg_MEM_latch_in, reg2_orig_RrAg_MEM_latch_in, reg3_orig_RrAg_MEM_latch_in, reg4_orig_RrAg_MEM_latch_in;
-    wire [15:0]  seg1_RrAg_MEM_latch_in, seg2_RrAg_MEM_latch_in, seg3_RrAg_MEM_latch_in, seg4_RrAg_MEM_latch_in;
-    wire [31:0]  ptc_s1_RrAg_MEM_latch_in, ptc_s2_RrAg_MEM_latch_in, ptc_s3_RrAg_MEM_latch_in, ptc_s4_RrAg_MEM_latch_in;
-    wire [2:0]   seg1_orig_RrAg_MEM_latch_in, seg2_orig_RrAg_MEM_latch_in, seg3_orig_RrAg_MEM_latch_in, seg4_orig_RrAg_MEM_latch_in;
-    wire [6:0]   inst_ptcid_RrAg_MEM_latch_in;
-    wire [12:0]  op1_out_RrAg_MEM_latch_in, op2_out_RrAg_MEM_latch_in, op3_out_RrAg_MEM_latch_in, op4_out_RrAg_MEM_latch_in;
-    wire [12:0]  dest1_out_RrAg_MEM_latch_in, dest2_out_RrAg_MEM_latch_in, dest3_out_RrAg_MEM_latch_in, dest4_out_RrAg_MEM_latch_in;
-    wire         res1_ld_out_RrAg_MEM_latch_in, res2_ld_out_RrAg_MEM_latch_in, res3_ld_out_RrAg_MEM_latch_in, res4_ld_out_RrAg_MEM_latch_in;
-    wire [31:0]  rep_num_RrAg_MEM_latch_in;
-    wire [4:0]   aluk_out_RrAg_MEM_latch_in;
-    wire [2:0]   mux_adder_out_RrAg_MEM_latch_in;
-    wire         mux_and_int_out_RrAg_MEM_latch_in, mux_shift_out_RrAg_MEM_latch_in;
-    wire [36:0]  p_op_out_RrAg_MEM_latch_in;
-    wire [17:0]  fmask_out_RrAg_MEM_latch_in;
-    wire [1:0]   conditionals_out_RrAg_MEM_latch_in;
-    wire         is_br_out_RrAg_MEM_latch_in, is_fp_out_RrAg_MEM_latch_in;
-    wire [47:0]  imm_out_RrAg_MEM_latch_in;
-    wire [1:0]   mem1_rw_out_RrAg_MEM_latch_in, mem2_rw_out_RrAg_MEM_latch_in;
-    wire [31:0]  eip_out_RrAg_MEM_latch_in;
-    wire         IE_out_RrAg_MEM_latch_in;
-    wire [3:0]   IE_type_out_RrAg_MEM_latch_in;
-    wire [31:0]  BR_pred_target_out_RrAg_MEM_latch_in;
-    wire         BR_pred_T_NT_out_RrAg_MEM_latch_in;
-    
-    ///////////////////////////////////////////////////////////
-    //   Outputs from RrAg_MEM_latch that go into the MEM:  //  
-    //////////////////////////////////////////////////////////
-
-    wire         valid_RrAg_MEM_latch_out, stall_RrAg_MEM_latch_out;
-    wire [1:0]   opsize_RrAg_MEM_latch_out;
-    wire [31:0]  mem_addr1_RrAg_MEM_latch_out, mem_addr2_RrAg_MEM_latch_out, mem_addr1_end_RrAg_MEM_latch_out, mem_addr2_end_RrAg_MEM_latch_out;
-    wire [63:0]  reg1_RrAg_MEM_latch_out, reg2_RrAg_MEM_latch_out, reg3_RrAg_MEM_latch_out, reg4_RrAg_MEM_latch_out;
-    wire [127:0] ptc_r1_RrAg_MEM_latch_out, ptc_r2_RrAg_MEM_latch_out, ptc_r3_RrAg_MEM_latch_out, ptc_r4_RrAg_MEM_latch_out;
-    wire [2:0]   reg1_orig_RrAg_MEM_latch_out, reg2_orig_RrAg_MEM_latch_out, reg3_orig_RrAg_MEM_latch_out, reg4_orig_RrAg_MEM_latch_out;
-    wire [15:0]  seg1_RrAg_MEM_latch_out, seg2_RrAg_MEM_latch_out, seg3_RrAg_MEM_latch_out, seg4_RrAg_MEM_latch_out;
-    wire [31:0]  ptc_s1_RrAg_MEM_latch_out, ptc_s2_RrAg_MEM_latch_out, ptc_s3_RrAg_MEM_latch_out, ptc_s4_RrAg_MEM_latch_out;
-    wire [2:0]   seg1_orig_RrAg_MEM_latch_out, seg2_orig_RrAg_MEM_latch_out, seg3_orig_RrAg_MEM_latch_out, seg4_orig_RrAg_MEM_latch_out;
-    wire [6:0]   inst_ptcid_RrAg_MEM_latch_out;
-    wire [12:0]  op1_RrAg_MEM_latch_out, op2_RrAg_MEM_latch_out, op3_RrAg_MEM_latch_out, op4_RrAg_MEM_latch_out;
-    wire [12:0]  dest1_RrAg_MEM_latch_out, dest2_RrAg_MEM_latch_out, dest3_RrAg_MEM_latch_out, dest4_RrAg_MEM_latch_out;
-    wire         res1_ld_out_RrAg_MEM_latch_out, res2_ld_out_RrAg_MEM_latch_out, res3_ld_out_RrAg_MEM_latch_out, res4_ld_out_RrAg_MEM_latch_out;
-    wire [31:0]  rep_num_RrAg_MEM_latch_out;
-    wire [4:0]   aluk_RrAg_MEM_latch_out;
-    wire [2:0]   mux_adder_RrAg_MEM_latch_out;
-    wire         mux_and_int_RrAg_MEM_latch_out, mux_shift_RrAg_MEM_latch_out;
-    wire [36:0]  p_op_RrAg_MEM_latch_out;
-    wire [17:0]  fmask_RrAg_MEM_latch_out;
-    wire [15:0]  CS_out_RrAg_MEM_latch_out;
-    wire [1:0]   conditionals_RrAg_MEM_latch_out;
-    wire         is_br_RrAg_MEM_latch_out, is_fp_RrAg_MEM_latch_out;
-    wire [47:0]  imm_RrAg_MEM_latch_out;
-    wire [1:0]   mem1_rw_RrAg_MEM_latch_out, mem2_rw_RrAg_MEM_latch_out;
-    wire [31:0]  eip_RrAg_MEM_latch_out;
-    wire         IE_RrAg_MEM_latch_out;
-    wire [3:0]   IE_type_RrAg_MEM_latch_out;
-    wire [31:0]  BR_pred_target_RrAg_MEM_latch_out;
-    wire         BR_pred_T_NT_RrAg_MEM_latch_out;
     
     rrag r1 ( //TODO
         //inputs
@@ -428,7 +491,6 @@ module TOP();
         .BR_pred_target_in(BR_pred_target_RrAg_MEM_latch_out), .BR_pred_T_NT_in(BR_pred_T_NT_RrAg_MEM_latch_out)
     );
 
-
     mem m1 (
         .valid_in(valid_RrAg_MEM_latch_out),
         .opsize_in(opsize_RrAg_MEM_latch_out),
@@ -491,7 +553,7 @@ module TOP();
         .IE_type_out(IE_type_MEM_EX_latch_in),
         .BR_pred_target_out(BR_pred_target_MEM_EX_latch_in),
         .BR_pred_T_NT_out(BR_pred_T_NT_MEM_EX_latch_in),
-        .opsize_out(opsize_MEM_EX_latch_in)
+        .opsize_out(opsize_MEM_EX_latch_in),
         .set_out(set_MEM_EX_latch_in),
         .rst_out(rst_MEM_EX_latch_in),
         .res1_ld_out(res1_ld_MEM_EX_latch_in),
@@ -527,72 +589,6 @@ module TOP();
         .wake_out(wake_MEM_EX_latch_in)
     );        
         
-    ///////////////////////////////////////////////////////////
-    //     Outputs from MEM that go into MEM_EX_latch:        //  
-    //////////////////////////////////////////////////////////
-
-    wire         valid_MEM_EX_latch_in;
-    wire [31:0]  EIP_MEM_EX_latch_in;
-    wire         IE_MEM_EX_latch_in;
-    wire [3:0]   IE_type_MEM_EX_latch_in;
-    wire [31:0]  BR_pred_target_MEM_EX_latch_in;
-    wire         BR_pred_T_NT_MEM_EX_latch_in;
- 
-    wire         res1_ld_MEM_EX_latch_in, res2_ld_MEM_EX_latch_in, res3_ld_MEM_EX_latch_in, res4_ld_MEM_EX_latch_in;
-    wire [63:0]  op1_MEM_EX_latch_in, op2_MEM_EX_latch_in, op3_MEM_EX_latch_in, op4_MEM_EX_latch_in;
-    wire [127:0] op1_ptcinfo_MEM_EX_latch_in, op2_ptcinfo_MEM_EX_latch_in, op3_ptcinfo_MEM_EX_latch_in, op4_ptcinfo_MEM_EX_latch_in;
-    wire [31:0]  dest1_addr_MEM_EX_latch_in, dest2_addr_MEM_EX_latch_in, dest3_addr_MEM_EX_latch_in, dest4_addr_MEM_EX_latch_in;
-    wire         res1_is_reg_MEM_EX_latch_in, res2_is_reg_MEM_EX_latch_in, res3_is_reg_MEM_EX_latch_in, res4_is_reg_MEM_EX_latch_in;
-    wire         res1_is_seg_MEM_EX_latch_in, res2_is_seg_MEM_EX_latch_in, res3_is_seg_MEM_EX_latch_in, res4_is_seg_MEM_EX_latch_in;
-    wire         res1_is_mem_MEM_EX_latch_in, res2_is_mem_MEM_EX_latch_in, res3_is_mem_MEM_EX_latch_in, res4_is_mem_MEM_EX_latch_in;
-    wire [1:0]   opsize_MEM_EX_latch_in;
-
-    wire [4:0]   aluk_MEM_EX_latch_in;
-    wire [2:0]   MUX_ADDER_IMM_MEM_EX_latch_in;
-    wire         MUX_AND_INT_MEM_EX_latch_in, MUX_SHIFT_MEM_EX_latch_in;
-
-    wire [34:0]  P_OP_MEM_EX_latch_in;
-    wire [16:0]  FMASK_MEM_EX_latch_in;
-    wire [1:0]   conditionals_MEM_EX_latch_in;
-
-    wire         isBR_MEM_EX_latch_in, is_fp_MEM_EX_latch_in;
-    wire [15:0]  CS_MEM_EX_latch_in;
-    wire [3:0]   wake_MEM_EX_latch_in;
-
-    ///////////////////////////////////////////////////////////
-    //     Outputs from MEM_EX_latch that go into EX:        //  
-    //////////////////////////////////////////////////////////
-
-    wire         valid_MEM_EX_latch_out;
-    wire [31:0]  EIP_MEM_EX_latch_out;
-    wire         IE_MEM_EX_latch_out;
-    wire [3:0]   IE_type_MEM_EX_latch_out;
-    wire [31:0]  BR_pred_target_MEM_EX_latch_out;
-    wire         BR_pred_T_NT_MEM_EX_latch_out;
-
-    wire         res1_ld_MEM_EX_latch_out, res2_ld_MEM_EX_latch_out, res3_ld_MEM_EX_latch_out, res4_ld_MEM_EX_latch_out;
-    wire [63:0]  op1_MEM_EX_latch_out, op2_MEM_EX_latch_out, op3_MEM_EX_latch_out, op4_MEM_EX_latch_out;
-    wire [127:0] op1_ptcinfo_MEM_EX_latch_out, op2_ptcinfo_MEM_EX_latch_out, op3_ptcinfo_MEM_EX_latch_out, op4_ptcinfo_MEM_EX_latch_out;
-    wire [31:0]  dest1_addr_MEM_EX_latch_out, dest2_addr_MEM_EX_latch_out, dest3_addr_MEM_EX_latch_out, dest4_addr_MEM_EX_latch_out;
-    wire         res1_is_reg_MEM_EX_latch_out, res2_is_reg_MEM_EX_latch_out, res3_is_reg_MEM_EX_latch_out, res4_is_reg_MEM_EX_latch_out;
-    wire         res1_is_seg_MEM_EX_latch_out, res2_is_seg_MEM_EX_latch_out, res3_is_seg_MEM_EX_latch_out, res4_is_seg_MEM_EX_latch_out;
-    wire         res1_is_mem_MEM_EX_latch_out, res2_is_mem_MEM_EX_latch_out, res3_is_mem_MEM_EX_latch_out, res4_is_mem_MEM_EX_latch_out;
-    wire [1:0]   opsize_MEM_EX_latch_out;
-
-    wire [4:0]   aluk_MEM_EX_latch_out;
-    wire [2:0]   MUX_ADDER_IMM_MEM_EX_latch_out;
-    wire         MUX_AND_INT_MEM_EX_latch_out;
-    wire         MUX_SHIFT_MEM_EX_latch_out;
-    wire [34:0]  P_OP_MEM_EX_latch_out;
-    wire [16:0]  FMASK_MEM_EX_latch_out;
-    wire [1:0]   conditionals_MEM_EX_latch_out;
-
-    wire         isBR_MEM_EX_latch_out
-    wire         is_fp_MEM_EX_latch_out;
-    wire [15:0]  CS_MEM_EX_latch_out;
-    wire [3:0]   wake_MEM_EX_latch_out;
-
-    //queued latches between MEM and EX - 8
     
     wire [m_size_MEM_EX-1:0] m_din_MEM_EX;
     wire [n_size_MEM_EX-1:0] n_din_MEM_EX;
