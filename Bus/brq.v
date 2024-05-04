@@ -7,7 +7,7 @@ module brq (input [3:0] send3, send2, send1, send0,
             input clk, clr,
             
             output ack3, ack2, ack1, ack0,
-            output valid,
+            output valid, empty,
             output [3:0] send_out);
 
     wire [3:0] arb_wr_vector, arb_rd_vector;
@@ -50,7 +50,7 @@ module brq (input [3:0] send3, send2, send1, send0,
     endgenerate    
 
     arbiter a1(.in(ready_vector), .out(arb_rd_vector));
-    muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(4)) m1(.in({rout[3][7:4],rout[2][7:4],rout[1][7:4],rout[0][7:4]}), .out(send_out));
+    muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(4)) m1(.in({rout[3][7:4],rout[2][7:4],rout[1][7:4],rout[0][7:4]}), .sel(arb_rd_vector), .out(send_out));
 
     wire invvalid3, invvalid2, invvalid1, invvalid0;
 
@@ -69,5 +69,7 @@ module brq (input [3:0] send3, send2, send1, send0,
     and2$ g18(.out(ack2), .in0(arb_wr_vector[2]), .in1(rld[0]));
     and2$ g19(.out(ack1), .in0(arb_wr_vector[1]), .in1(rld[0]));
     and2$ g20(.out(ack0), .in0(arb_wr_vector[0]), .in1(rld[0]));
+
+    nor4$ g21(.out(empty), .in0(rout[3][8]), .in1(rout[2][8]), .in2(rout[1][8]), .in3(rout[0][8]));
 
 endmodule

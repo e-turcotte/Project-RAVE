@@ -9,7 +9,7 @@ module TOP;
     reg pull;
     reg clr;
     wire ack3, ack2, ack1, ack0;
-    wire valid;
+    wire valid, empty;
     wire [3:0] send_out;
     reg clk;
 
@@ -19,7 +19,7 @@ module TOP;
            .free4(free4), .free3(free3), .free2(free2), .free1(free1), .free0(free0),
            .pull(pull), .clk(clk), .clr(clr),
            .ack3(ack3), .ack2(ack2), .ack1(ack1), .ack0(ack0),
-           .valid(valid), .send_out(send_out));
+           .valid(valid), .empty(empty), .send_out(send_out));
 
     initial begin
         clk = 1'b1;
