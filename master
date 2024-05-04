@@ -6,6 +6,8 @@
 /home/projects/courses/spring_22/ee382n19_16785/lib/lib5
 /home/projects/courses/spring_22/ee382n19_16785/lib/lib6
 
+TOP.v
+
 processor/F/TOP.v
 processor/F/fetch_TOP.v
 processor/F/fetch1.v

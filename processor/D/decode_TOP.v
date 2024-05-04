@@ -443,7 +443,7 @@ module decode_TOP(
     assign imm_out = immediate;
     assign mem1_rw_out = M1_RW;
     assign mem2_rw_out = M2_RW;
-    assign eip_out = latched_EIP;
+    assign eip_out = EIP_plus_length;
     assign IE_out = IE_in;
     assign IE_type_out = IE_type_in;
     assign BR_pred_target_out = BP_EIP;
