@@ -15,6 +15,7 @@ module addressing_decode (
     output wire [3:0] disp_size,
     output wire [2:0] R2_override_val,
     output wire use_R2,
+    output wire [1:0] shift_R3_amount,
     output wire [2:0] R3_override_val,
     output wire use_R2,
     output wire isSIB
