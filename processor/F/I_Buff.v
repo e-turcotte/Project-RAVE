@@ -41,7 +41,7 @@ invalidate_selector i0(.new_BIP(new_BIP_fetch2), .old_BIP(old_BIP_fetch2), .inva
 
 //maybe or the clr signal for each of the lines and valid bits with the reset and invalidate signals
 
-//line00
+//line00 ///MIGHT HAVE TO MAKE THE INVALIDATE SIGNALS ACTIVE LOW
 regn #(.WIDTH(1)) valid1(.din(1'b1), .ld(ld_0), .clr(invalidate_line_00), .clk(clk), .dout(line_00_valid));
 regn #(.WIDTH(128)) line1(.din(line_even_fetch1), .ld(ld_0), .clr(invalidate_line_00), .clk(clk), .dout(line_00));
 

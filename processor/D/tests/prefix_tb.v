@@ -49,8 +49,12 @@ initial
 
       wire is_rep, is_seg_override, is_opsize_override;
       wire [5:0] seg_override;
-      wire [1:0] num_prefixes;
+      wire [1:0] num_prefixes_encoded;
+	  wire [3:0] num_prefixes_onehot;
 
-	prefix_d(packet, is_rep, seg_override, is_seg_override, is_opsize_override, num_prefixes);
+	prefix_d pd(.prefix1(packet[127:120]), .prefix2(packet[119:112]), .prefix3(packet[111:104]), 
+			 .is_rep(is_rep), .seg_override(seg_override), .is_seg_override(is_seg_override),
+			 .is_opsize_override(is_opsize_override), .num_prefixes_encoded(num_prefixes_encoded),
+			 .num_prefixes_onehot(num_prefixes_onehot));
 
 endmodule

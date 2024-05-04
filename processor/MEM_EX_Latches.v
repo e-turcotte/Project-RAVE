@@ -44,24 +44,30 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
 		$display(file, "\n=============== MEM to EX Latch Values ===============\n");
 
         for (latch_num = 0; latch_num < qlen; latch_num = latch_num + 1) begin
-            $fdisplay(file, "\t==LATCH==: %d", latch_num);            
-            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][1068]);
-            $fdisplay(file, "\t\t eip: %d", all_outs[latch_num][1067:1036]);
-            $fdisplay(file, "\t\t IE: %d", all_outs[latch_num][1035]);
-            $fdisplay(file, "\t\t IE_type: %d", all_outs[latch_num][1034:1031]);
-            $fdisplay(file, "\t\t BR_pred_target: %d", all_outs[latch_num][1030:999]);
-            $fdisplay(file, "\t\t BR_pred_T_NT: %d", all_outs[latch_num][998]);
-            $fdisplay(file, "\t\t opsize: %d\n", all_outs[latch_num][997:996]); 
+            $fdisplay(file, "\t ==LATCH==: %d", latch_num);
+            $fdisplay(file, "\t modifiable signals:");
 
-            $fdisplay(file, "\t\t op1_val: %d", all_outs[latch_num][995:932]);
-            $fdisplay(file, "\t\t op2_val: %d", all_outs[latch_num][931:868]);
-            $fdisplay(file, "\t\t op3_val: %d", all_outs[latch_num][867:804]);
-            $fdisplay(file, "\t\t op4_val: %d\n", all_outs[latch_num][803:740]); 
+            $fdisplay(file, "\t\t wake: %d", all_outs[latch_num][1072:1069]);
+            $fdisplay(file, "\t\t op1_val: %d", all_outs[latch_num][1068:1005]);
+            $fdisplay(file, "\t\t op2_val: %d", all_outs[latch_num][1004:941]);
+            $fdisplay(file, "\t\t op3_val: %d", all_outs[latch_num][940:877]);
+            $fdisplay(file, "\t\t op4_val: %d\n", all_outs[latch_num][876:813]); 
 
-            $fdisplay(file, "\t\t op1_ptcinfo: %d", all_outs[latch_num][739:612]);
-            $fdisplay(file, "\t\t op2_ptcinfo: %d", all_outs[latch_num][611:484]);
-            $fdisplay(file, "\t\t op3_ptcinfo: %d", all_outs[latch_num][483:356]);
-            $fdisplay(file, "\t\t op4_ptcinfo: %d", all_outs[latch_num][355:228]);
+            $fdisplay(file, "\t\t op1_ptcinfo: %d", all_outs[latch_num][812:685]);
+            $fdisplay(file, "\t\t op2_ptcinfo: %d", all_outs[latch_num][684:557]);
+            $fdisplay(file, "\t\t op3_ptcinfo: %d", all_outs[latch_num][556:429]);
+            $fdisplay(file, "\t\t op4_ptcinfo: %d", all_outs[latch_num][428:301]);
+
+            $fdisplay(file, "\n\t non-modifiable signals:");
+
+            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][300]);
+            $fdisplay(file, "\t\t eip: %d", all_outs[latch_num][299:268]);
+            $fdisplay(file, "\t\t IE: %d", all_outs[latch_num][267]);
+            $fdisplay(file, "\t\t IE_type: %d", all_outs[latch_num][266:263]);
+            $fdisplay(file, "\t\t BR_pred_target: %d", all_outs[latch_num][262:231]);
+            $fdisplay(file, "\t\t BR_pred_T_NT: %d", all_outs[latch_num][230]);
+            $fdisplay(file, "\t\t opsize: %d\n", all_outs[latch_num][229:228]); 
+
             $fdisplay(file, "\t\t dest1_addr: %d", all_outs[latch_num][227:196]);
             $fdisplay(file, "\t\t dest2_addr: %d", all_outs[latch_num][195:164]);
             $fdisplay(file, "\t\t dest3_addr: %d", all_outs[latch_num][163:132]);
@@ -102,22 +108,28 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
 endmodule 
 
 //  for reference, these are the outputs from MEM coming into the latch:
-//  valid_out                   //[1068]
-//  [31:0] eip_out              //[1067:1036]
-//  IE_out                      //[1035]
-//  [3:0] IE_type_out           //[1034:1031]
-//  [31:0] BR_pred_target_out   //[1030:999]
-//  BR_pred_T_NT_out            //[998]
 
-//  [1:0] opsize_out         //[997:996]
-//  [63:0] op1_val           //[995:932]
-//  [63:0] op2_val           //[931:868]
-//  [63:0] op3_val           //[867:804]
-//  [63:0] op4_val           //[803:740]
-//  [127:0] op1_ptcinfo      //[739:612]
-//  [127:0] op2_ptcinfo      //[611:484]
-//  [127:0] op3_ptcinfo      //[483:356]
-//  [127:0] op4_ptcinfo      //[355:228]
+//modifiable signals:
+//  [3:0] wake               //[1072:1069]
+//  [63:0] op1_val           //[1068:1005]
+//  [63:0] op2_val           //[1004:941]
+//  [63:0] op3_val           //[940:877]
+//  [63:0] op4_val           //[876:813]
+//  [127:0] op1_ptcinfo      //[812:685]
+//  [127:0] op2_ptcinfo      //[684:557]
+//  [127:0] op3_ptcinfo      //[556:429]
+//  [127:0] op4_ptcinfo      //[428:301]
+
+//non-modifiable signals:
+
+//  valid_out                   //[300]
+//  [31:0] eip_out              //[299:268]
+//  IE_out                      //[267]
+//  [3:0] IE_type_out           //[266:263]
+//  [31:0] BR_pred_target_out   //[262:231]
+//  BR_pred_T_NT_out            //[230]
+
+//  [1:0] opsize_out         //[229:228]
 //  [31:0] dest1_addr        //[227:196]
 //  [31:0] dest2_addr        //[195:164]
 //  [31:0] dest3_addr        //[163:132]
