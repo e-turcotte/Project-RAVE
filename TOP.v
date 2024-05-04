@@ -22,7 +22,8 @@ module TOP();
 	reg [159:0] VP, PF; //concats of VP_7 to VP_0 and PF_7 to PF_0
 
     //TODO: Core initializations:
-    reg reset;
+    reg global_reset;
+    reg global_set;
 
     //Pipeline: FETCH1 -> FETCH2 -> DECODE -> RrAg -> MEM -> EX -> WB
 

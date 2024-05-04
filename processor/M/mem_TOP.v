@@ -35,7 +35,6 @@ module mem (input valid_in,
             input [3:0] IE_type_in,
             input [31:0] BR_pred_target_in,
             input BR_pred_T_NT_in,
-            //input [3:0] wake_in, //TODO: needs to be implemented if needed  - not implemented in TOP just yet
 
             input clr,
             input clk,

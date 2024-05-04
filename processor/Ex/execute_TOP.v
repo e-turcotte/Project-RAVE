@@ -71,7 +71,6 @@ module execute_TOP(
     output BR_correct,  //
     output[31:0] BR_FIP, //
     output [31:0] BR_FIP_p1
-    output [3:0] wake_out, //TODO: M, needs to be implemented if necessary - not implemented in TOP just yet
 
 );
 
