@@ -138,7 +138,7 @@ module decode_TOP(
     assign prefix2 = buffered_byte1;
     assign prefix3 = buffered_byte2;
     wire is_rep;
-    wire [5:0] seg_overrid; //onehot
+    wire [5:0] seg_override; //onehot
     wire is_seg_override;
     wire is_opsize_override;
     wire [3:0] num_prefixes_onehot; //onehot encoding of num_prefixes
@@ -254,7 +254,7 @@ module decode_TOP(
     wire [2:0] R3_modrm;
     wire useR3;
     wire isSIB;
-    wire R3_scale;
+    wire [1:0] R3_scale;
     addressing_decode addr_dec(
         .packet1(buffered_byte1),
         .packet2(buffered_byte2),
@@ -265,15 +265,15 @@ module decode_TOP(
         .isMod(isMOD),
         .num_prefixes_onehot(num_prefixes_onehot),
         .isDoubleOp(isDouble),
-        .is_opsize_override(is_opsize_override)
+        .is_opsize_override(is_opsize_override),
 
         .length_of_mod_sib_disp(length_of_mod_sib_disp),
         .disp_size(disp_size),
-        .R2_modrm(R2_modrm),
-        .useR2(useR2),
+        .R2_override_val(R2_modrm),
+        .use_R2(useR2),
         .shift_R3_amount(R3_scale),
-        .R3_modrm(R3_modrm),
-        .useR3(useR3),
+        .R3_override_val(R3_modrm),
+        .use_R3(useR3),
         .isSIB(isSIB)
     );
 
@@ -373,7 +373,7 @@ module decode_TOP(
     wire not_stall, ld_BIP;
     wire ld_EIP_without_CF;
     wire ld_EIP;
-    inv1$ i0(.in(queue_full_stall), .out(not_stall));
+    inv1$ i0234235(.in(queue_full_stall), .out(not_stall));
     andn #(2) a2(.in({not_stall, valid_in}), .out(ld_EIP_without_CF));
     orn #(2) o2(.in({ld_EIP_without_CF, is_CF}), .out(ld_EIP));
     
@@ -382,12 +382,12 @@ module decode_TOP(
     wire [7:0] instruction_length;
 
     muxnm_tristate #(.NUM_INPUTS(2), .DATA_WIDTH(8)) muuxewuxee1(
-        .in({length_no_CF, 8'b00000000}), 
+        .in({decoded_instr_length, 8'b00000000}), 
         .sel({not_is_CF, is_CF}), 
         .out(instruction_length)
     );
 
-    kogeAdder #(.WIDTH(32)) add0(.A(latched_EIP), .B({24'b000000000000000000000000, decoded_instr_length}), .CIN(1'b0), .SUM(EIP_plus_length), .COUT());
+    kogeAdder #(.WIDTH(32)) add0(.A(latched_EIP), .B({24'b000000000000000000000000, instruction_length}), .CIN(1'b0), .SUM(EIP_plus_length), .COUT());
 
 
 
@@ -404,8 +404,8 @@ module decode_TOP(
 
     assign valid_out = valid_in;
     assign reg_addr1_out = R1;
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m0(.in({R2_modrm, R2}), .sel(isMOD), .out(reg_addr2_out));
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({R3_modrm, R3}), .sel(isMOD), .out(reg_addr3_out));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(3)) m0234(.in({R2_modrm, R2}), .sel(isMOD), .out(reg_addr2_out));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(3)) m11234(.in({R3_modrm, R3}), .sel(isMOD), .out(reg_addr3_out));
     assign reg_addr4_out = R4;
     assign seg_addr1_out = S1;
     assign seg_addr2_out = S2;
@@ -449,7 +449,7 @@ module decode_TOP(
     assign BR_pred_target_out = BP_EIP;
     assign BR_pred_T_NT_out = is_BR_T_NT;
 
-    assign D_length = decoded_instr_length;
+    assign D_length = instruction_length;
     assign stall_out = queue_full_stall;
 
 

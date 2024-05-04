@@ -46,7 +46,7 @@ with open("../length_data.v", "w") as length_data_file:
     length_data_file.write(f"    wire [{(8*total_output_bits) - 1}:0] data_concat;\n")
     length_data_file.write("    assign data_concat = {")
     for i in range(total_output_bits):
-        length_data_file.write(f"wire{total_output_bits - i}, " if (i < total_output_bits) else f"wire{total_output_bits - i}")
+        length_data_file.write(f"wire{total_output_bits - i}, " if (i < total_output_bits - 1) else f"wire{total_output_bits - i}")
     length_data_file.write("};\n")
 
     length_data_file.write("    assign out = data_concat;\n")
@@ -82,6 +82,6 @@ with open("../select_length.v", "w") as sel_file:
 
     sel_file.write("    assign out = {")
     for i in range(total_output_bits):
-        sel_file.write(f"weq{total_output_bits - i}, " if (i < total_output_bits) else f"weq{total_output_bits - i}")
+        sel_file.write(f"weq{total_output_bits - i}, " if (i < total_output_bits - 1) else f"weq{total_output_bits - i}")
     sel_file.write("};\n")
     sel_file.write("\n\nendmodule")

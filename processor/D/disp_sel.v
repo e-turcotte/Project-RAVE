@@ -8,7 +8,7 @@ module disp_sel_logic(
     wire is_double_opcode_inv, is_MOD_inv, is_SIB_inv;
     wire [3:0] num_prefixes_inv;
 
-    invn #(.NUM_INPUTS(1)) i0(.in(num_prefixes_onehot), .out(num_prefixes_inv));
+    invn #(.NUM_INPUTS(4)) i0(.in(num_prefixes_onehot), .out(num_prefixes_inv));
     inv1$ i1(.out(is_double_opcode_inv), .in(is_double_opcode));
     inv1$ i2(.out(is_MOD_inv), .in(is_MOD));
     inv1$ i3(.out(is_SIB_inv), .in(is_SIB));
@@ -59,7 +59,7 @@ module disp_sel_logic(
     orn #(.NUM_INPUTS(3)) o4(.in({sel5_0, sel5_1, sel5_2}), .out(disp_sel[5]));
 
     //disp_sel[6] - done
-    andn #(.NUM_INPUTS(7)) a23.in({num_prefixes_onehot[3], num_prefixes_inv[2:0], is_double_opcode, is_MOD, is_SIB}), .out(disp_sel[6]));
+    andn #(.NUM_INPUTS(7)) a23(.in({num_prefixes_onehot[3], num_prefixes_inv[2:0], is_double_opcode, is_MOD, is_SIB}), .out(disp_sel[6]));
 
 endmodule
 
@@ -81,16 +81,16 @@ module size_sel_logic(
 
     assign rot_sel[0] = isMOD_inv;
 
-    andn #(.NUM_INPUTS(2)) a0(.in({mod_inv[1], mod[0]}), .out(rot_sel[1]));
+    andn #(.NUM_INPUTS(2)) a023413(.in({mod_inv[1], mod[0]}), .out(rot_sel[1]));
 
     wire sel2_0, sel2_1;
-    andn #(.NUM_INPUTS(3)) a0(.in({mod[1], mod_inv[0], is_size_override}), .out(sel2_0));
-    andn #(.NUM_INPUTS(3)) a1(.in({mod_inv[1], mod_inv[0], is_size_override, rm[2], rm[1], rm_inv[0]}), .out(sel2_1));
+    andn #(.NUM_INPUTS(3)) a0341234(.in({mod[1], mod_inv[0], is_size_override}), .out(sel2_0));
+    andn #(.NUM_INPUTS(6)) a1(.in({mod_inv[1], mod_inv[0], is_size_override, rm[2], rm[1], rm_inv[0]}), .out(sel2_1));
     or2$ o0(.out(rot_sel[2]), .in0(sel2_0), .in1(sel2_1));
 
     wire sel3_0, sel3_1;
-    andn #(.NUM_INPUTS(3)) a0(.in({mod[1], mod_inv[0], is_size_override_inv}), .out(sel4_0));
-    andn #(.NUM_INPUTS(3)) a1(.in({mod_inv[1], mod_inv[0], is_size_override_inv, rm[2], rm_inv[1], rm[0]}), .out(sel4_1));
-    or2$ o0(.out(rot_sel[3]), .in0(sel4_0), .in1(sel4_1));
+    andn #(.NUM_INPUTS(3)) a0qwr3(.in({mod[1], mod_inv[0], is_size_override_inv}), .out(sel4_0));
+    andn #(.NUM_INPUTS(6)) a1df324r(.in({mod_inv[1], mod_inv[0], is_size_override_inv, rm[2], rm_inv[1], rm[0]}), .out(sel4_1));
+    or2$ o0dfbds(.out(rot_sel[3]), .in0(sel4_0), .in1(sel4_1));
 
 endmodule

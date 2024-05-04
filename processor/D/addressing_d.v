@@ -17,7 +17,7 @@ module addressing_decode (
     output wire use_R2,
     output wire [1:0] shift_R3_amount,
     output wire [2:0] R3_override_val,
-    output wire use_R2,
+    output wire use_R3,
     output wire isSIB
 );
 
@@ -40,7 +40,7 @@ module addressing_decode (
         .use_R3(use_R3_1),
         .shift_R3_amount(shift_R3_amount_1),
         .length_of_everything_mod_and_after(length_of_everything_mod_and_after_1),
-        .length_of_disp(length_of_disp_1)
+        .length_of_disp(length_of_disp_1),
         .is_SIB(is_SIB_1)
     );
 
@@ -66,7 +66,7 @@ module addressing_decode (
         .use_R3(use_R3_2),
         .shift_R3_amount(shift_R3_amount_2),
         .length_of_everything_mod_and_after(length_of_everything_mod_and_after_2),
-        .length_of_disp(length_of_disp_2)
+        .length_of_disp(length_of_disp_2),
         .is_SIB(is_SIB_2)
     );
 
@@ -92,7 +92,7 @@ module addressing_decode (
         .use_R3(use_R3_3),
         .shift_R3_amount(shift_R3_amount_3),
         .length_of_everything_mod_and_after(length_of_everything_mod_and_after_3),
-        .length_of_disp(length_of_disp_3)
+        .length_of_disp(length_of_disp_3),
         .is_SIB(is_SIB_3)
     );
 
@@ -118,7 +118,7 @@ module addressing_decode (
         .use_R3(use_R3_4),
         .shift_R3_amount(shift_R3_amount_4),
         .length_of_everything_mod_and_after(length_of_everything_mod_and_after_4),
-        .length_of_disp(length_of_disp_4)
+        .length_of_disp(length_of_disp_4),
         .is_SIB(is_SIB_4)
     );
 
@@ -144,7 +144,7 @@ module addressing_decode (
         .use_R3(use_R3_5),
         .shift_R3_amount(shift_R3_amount_5),
         .length_of_everything_mod_and_after(length_of_everything_mod_and_after_5),
-        .length_of_disp(length_of_disp_5)
+        .length_of_disp(length_of_disp_5),
         .is_SIB(is_SIB_5)
     );
 
@@ -162,11 +162,11 @@ module addressing_decode (
 
     //assign all the output values
     assign length_of_mod_sib_disp = data_sel[10:5];
-    assign disp_size_sel = data_sel[4:1]
+    assign disp_size = data_sel[4:1];
     assign R2_override_val = data_sel[20:18];
     assign use_R2 = data_sel[14];
     assign R3_override_val = data_sel[17:15];
-    assign use_R2 = data_sel[13];
+    assign use_R3 = data_sel[13];
     assign shift_R3_amount = data_sel[12:11];
     assign isSIB = data_sel[0];
   
@@ -187,7 +187,7 @@ module mod (
     output wire [1:0] shift_R3_amount,
     output wire [5:0] length_of_everything_mod_and_after,
     output wire [3:0] length_of_disp,
-    output wire is_SIB;
+    output wire is_SIB
 
 );
 
@@ -362,7 +362,7 @@ wire w32_bit_length_of_disp_bit_3, w32_bit_length_of_disp_bit_2, w32_bit_length_
 wire temp10, temp11;
 andn #(4) a19(.in({mod_equal_00, rm_not_equal_101, isMod, w32_bit_mode}), .out(temp10));
 andn #(3) a20(.in({mod_equal_11, isMod, w32_bit_mode}), .out(temp11));
-orn #(2) o11(.in({temp10, temp11}), .out(w32_bit_length_of_disp_bit_0));
+orn #(3) o11(.in({temp10, temp11, no_mod}), .out(w32_bit_length_of_disp_bit_0));
 
 //assign 1 length
 andn #(3) a21(.in({mod_equal_01, isMod, w32_bit_mode}), .out(w32_bit_length_of_disp_bit_1));
@@ -382,7 +382,7 @@ wire w16_bit_length_of_disp_bit_3, w16_bit_length_of_disp_bit_2, w16_bit_length_
 wire temp14, temp15;
 andn #(4) a24(.in({mod_equal_00, rm_not_equal_110, isMod, w16_bit_mode}), .out(temp14));
 andn #(3) a25(.in({mod_equal_11, isMod, w16_bit_mode}), .out(temp15));
-orn #(2) o13(.in({temp14, temp15}), .out(w16_bit_length_of_disp_bit_0));
+orn #(3) o13(.in({temp14, temp15, no_mod}), .out(w16_bit_length_of_disp_bit_0));
 
 //assign 1 length
 andn #(3) a26(.in({mod_equal_01, isMod, w16_bit_mode}), .out(w16_bit_length_of_disp_bit_1));
