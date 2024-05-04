@@ -81,7 +81,6 @@ module branch_target_buff(
     endgenerate
 
     //check if we have a miss or hit by checking if any of the tags match
-    wire miss;
     equaln #(.WIDTH(64)) (.a(tag_compare), .b(64'h0), .eq(miss)); //will be 0 if we have a hit
     inv1$ (.out(hit), .in(miss));
 

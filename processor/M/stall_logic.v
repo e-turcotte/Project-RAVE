@@ -1,3 +1,5 @@
+//DEPRECATED
+
 module stall_logic(
     input tlb_miss,
     input interrupt_status,

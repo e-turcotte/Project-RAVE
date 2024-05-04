@@ -19,7 +19,7 @@ module prot_exception_logic(
     wire [31:0] address_size_shifted, addr_sum1;
 
     //to find address_size in bits, left shift a 1 by address_size 
-    lshfn_variable #(.WIDTH(32)) shf(.in(32'b1), .shf({28'b0,address_size}), .out(address_size_shifted));
+    lshfn_variable #(.WIDTH(32)) shf(.in(32'b1), .shf({28'b0, address_size}), .shf_val(1'b1), .out(address_size_shifted));
     
     kogeAdder #(.WIDTH(32)) adder0(.SUM(addr_sum1), .COUT(cout0), .A(address_size_shifted), .B(disp_imm), .CIN(1'b0));
     kogeAdder #(.WIDTH(32)) adder1(.SUM(read_address_end_size), .COUT(cout1), .A(calc_size), .B(addr_sum1), .CIN(cout0));

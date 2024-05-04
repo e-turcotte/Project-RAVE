@@ -1,6 +1,5 @@
 module prefix_d (
     //input [127:0] packet,
-    input clk,
     input [7:0] prefix1, prefix2, prefix3,
     output is_rep,
     output [5:0] seg_override, //onehot

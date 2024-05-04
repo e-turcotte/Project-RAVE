@@ -55,7 +55,7 @@ module fetch_2 (
     
     wire not_is_init;
     inv1$ i0(.in(is_init), .out(not_is_init));
-    andn #(2) a0(.in({is_init, is_resteer}), .out(select_CF_mux_1));
+    andn #(2) a0(.in({not_is_init, is_resteer}), .out(select_CF_mux_1));
 
     wire not_is_resteer;
     inv1$ i1(.in(is_resteer), .out(not_is_resteer));
@@ -80,12 +80,12 @@ module fetch_2 (
     );
 
     wire not_stall, ld_BIP;
-    inv1$ i0(.in(stall), .out(not_stall));
-    andn #(2) a0(.in({not_stall, valid_rotate}), .out(ld_BIP));
+    inv1$ i3(.in(stall), .out(not_stall));
+    andn #(2) a2(.in({not_stall, valid_rotate}), .out(ld_BIP));
     
     regn #(.WIDTH(6)) BIP_reg(.din(mux_BIP_to_load), .ld(ld_BIP), .clk(clk), .clr(reset), .dout(latched_BIP));
 
-    kogeAdder #(.WIDTH(8)) a0(.A({2'b0, latched_BIP}), .B({D_length}), .CIN(1'b0), .SUM(BIP_plus_length), .COUT());
+    kogeAdder #(.WIDTH(8)) a4(.A({2'b0, latched_BIP}), .B({D_length}), .CIN(1'b0), .SUM(BIP_plus_length), .COUT());
 
     check_valid_rotate cvr(
         .curr_line(BIP_plus_length[5:4]),
