@@ -24,6 +24,7 @@ module TOP();
     //TODO: Core initializations:
     reg global_reset;
     reg global_set;
+    reg [31:0] EIP_init;
 
     //Pipeline: FETCH1 -> FETCH2 -> DECODE -> RrAg -> MEM -> EX -> WB
 
@@ -31,6 +32,131 @@ module TOP();
     //   -  notation for latche wires: <signal.name>_<stage.prev>_<stage.next>_latch_<in/out>
     //      where <in> is the input to the latch (output of stage.prev) and <out> is the output 
     //      from the latch (input of stage.next)
+
+    wire valid_out_D_RrAg_latch_in;
+    wire [2:0] reg_addr1_D_RrAg_latch_in;
+    wire [2:0] reg_addr2_D_RrAg_latch_in;
+    wire [2:0] reg_addr3_D_RrAg_latch_in;
+    wire [2:0] reg_addr4_D_RrAg_latch_in;
+    wire [2:0] seg_addr1_D_RrAg_latch_in;
+    wire [2:0] seg_addr2_D_RrAg_latch_in;
+    wire [2:0] seg_addr3_D_RrAg_latch_in;
+    wire [2:0] seg_addr4_D_RrAg_latch_in;
+    wire [1:0] opsize_D_RrAg_latch_in;
+    wire addressingmode_D_RrAg_latch_in;
+    wire [12:0] op1_D_RrAg_latch_in;
+    wire [12:0] op2_D_RrAg_latch_in;
+    wire [12:0] op3_D_RrAg_latch_in;
+    wire [12:0] op4_D_RrAg_latch_in;
+    wire res1_ld_D_RrAg_latch_in;
+    wire res2_ld_D_RrAg_latch_in;
+    wire res3_ld_D_RrAg_latch_in;
+    wire res4_ld_D_RrAg_latch_in;
+    wire [12:0] dest1_D_RrAg_latch_in;
+    wire [12:0] dest2_D_RrAg_latch_in;
+    wire [12:0] dest3_D_RrAg_latch_in;
+    wire [12:0] dest4_D_RrAg_latch_in;
+    wire [31:0] disp_D_RrAg_latch_in;
+    wire [1:0] reg3_shfamnt_D_RrAg_latch_in;
+    wire usereg2_D_RrAg_latch_in;
+    wire usereg3_D_RrAg_latch_in;
+    wire rep_D_RrAg_latch_in;
+    wire [4:0] aluk_D_RrAg_latch_in;
+    wire [2:0] mux_adder_D_RrAg_latch_in;
+    wire mux_and_int_D_RrAg_latch_in;
+    wire mux_shift_D_RrAg_latch_in;
+    wire [36:0] p_op_D_RrAg_latch_in;
+    wire [17:0] fmask_D_RrAg_latch_in;
+    wire [1:0] conditionals_D_RrAg_latch_in;
+    wire is_br_D_RrAg_latch_in;
+    wire is_fp_D_RrAg_latch_in;
+    wire [47:0] imm_D_RrAg_latch_in;
+    wire [1:0] mem1_rw_D_RrAg_latch_in;
+    wire [1:0] mem2_rw_D_RrAg_latch_in;
+    wire [31:0] eip_D_RrAg_latch_in;
+    wire IE_D_RrAg_latch_in;
+    wire [3:0] IE_type_D_RrAg_latch_in;
+    wire [31:0] BR_pred_target_D_RrAg_latch_in;
+    wire BR_pred_T_NT_D_RrAg_latch_in;
+
+    decode_TOP d0(
+        // Clock and Reset
+        .clk(clk),
+        .reset(),
+    
+        // Signals from fetch_2
+        .valid_in(),
+        .packet_in(),
+        .IE_in(),
+        .IE_type_in(),
+    
+        // Signals from BP
+        .BP_EIP(),
+        .is_BR_T_NT(),
+    
+        // Writeback signals
+        .WB_EIP(),
+        .is_resteer(),
+    
+        // Init signals
+        .init_EIP(),
+        .is_init(),
+    
+        // Stall signal
+        .queue_full_stall(),
+    
+        // Outputs to RRAG
+        .valid_out(valid_out_D_RrAg_latch_in),
+        .reg_addr1_out(reg_addr1_D_RrAg_latch_in),
+        .reg_addr2_out(reg_addr2_D_RrAg_latch_in),
+        .reg_addr3_out(reg_addr3_D_RrAg_latch_in),
+        .reg_addr4_out(reg_addr4_D_RrAg_latch_in),
+        .seg_addr1_out(seg_addr1_D_RrAg_latch_in),
+        .seg_addr2_out(seg_addr2_D_RrAg_latch_in),
+        .seg_addr3_out(seg_addr3_D_RrAg_latch_in),
+        .seg_addr4_out(seg_addr4_D_RrAg_latch_in),
+        .opsize_out(opsize_D_RrAg_latch_in),
+        .addressingmode_out(addressingmode_D_RrAg_latch_in),
+        .op1_out(op1_D_RrAg_latch_in),
+        .op2_out(op2_D_RrAg_latch_in),
+        .op3_out(op3_D_RrAg_latch_in),
+        .op4_out(op4_D_RrAg_latch_in),
+        .res1_ld_out(res1_ld_D_RrAg_latch_in),
+        .res2_ld_out(res2_ld_D_RrAg_latch_in),
+        .res3_ld_out(res3_ld_D_RrAg_latch_in),
+        .res4_ld_out(res4_ld_D_RrAg_latch_in),
+        .dest1_out(dest1_D_RrAg_latch_in),
+        .dest2_out(dest2_D_RrAg_latch_in),
+        .dest3_out(dest3_D_RrAg_latch_in),
+        .dest4_out(dest4_D_RrAg_latch_in),
+        .disp_out(disp_D_RrAg_latch_in),
+        .reg3_shfamnt_out(reg3_shfamnt_D_RrAg_latch_in),
+        .usereg2_out(usereg2_D_RrAg_latch_in),
+        .usereg3_out(usereg3_D_RrAg_latch_in),
+        .rep_out(rep_D_RrAg_latch_in),
+        .aluk_out(aluk_D_RrAg_latch_in),
+        .mux_adder_out(mux_adder_D_RrAg_latch_in),
+        .mux_and_int_out(mux_and_int_D_RrAg_latch_in),
+        .mux_shift_out(mux_shift_D_RrAg_latch_in),
+        .p_op_out(p_op_D_RrAg_latch_in),
+        .fmask_out(fmask_D_RrAg_latch_in),
+        .conditionals_out(conditionals_D_RrAg_latch_in),
+        .is_br_out(is_br_D_RrAg_latch_in),
+        .is_fp_out(is_fp_D_RrAg_latch_in),
+        .imm_out(imm_D_RrAg_latch_in),
+        .mem1_rw_out(mem1_rw_D_RrAg_latch_in),
+        .mem2_rw_out(mem2_rw_D_RrAg_latch_in),
+        .eip_out(eip_D_RrAg_latch_in),
+        .IE_out(IE_D_RrAg_latch_in),
+        .IE_type_out(IE_type_D_RrAg_latch_in),
+        .BR_pred_target_out(BR_pred_target_D_RrAg_latch_in),
+        .BR_pred_T_NT_out(BR_pred_T_NT_D_RrAg_latch_in),
+    
+        // Outputs to fetch_2
+        .stall_out(),
+        .D_length()
+    );
+
 
     ///////////////////////////////////////////////////////////
     // Outputs from Rr/Ag that go into the RrAg_MEM_latch:  //  

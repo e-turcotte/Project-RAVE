@@ -9,10 +9,13 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
                                                                                output [M_WIDTH*Q_LENGTH-1:0] old_m_vector,
                                                                                output [M_WIDTH+N_WIDTH-1:0] dout);
 
-      queuenm #(M_WIDTH, N_WIDTH, Q_LENGTH) q0(.m_din(m_din), .n_din(n_din), .new_m_vector(new_m_vector), .wr(wr), .rd(rd), .modify_vector(modify_vector), .clr(clr), .clk(clk), .full(full), .empty(empty), .old_m_vector(old_m_vector), .dout(dout));                                                                 
+      queuenm #(M_WIDTH, N_WIDTH, Q_LENGTH) q0(.m_din(m_din), .n_din(n_din), 
+                .new_m_vector(new_m_vector), .wr(wr), .rd(rd), .modify_vector(modify_vector), 
+                .clr(clr), .clk(clk), .full(full), .empty(empty), .old_m_vector(old_m_vector), .dout(dout));                                                                 
 
     integer file;
     initial begin
+        cyc_cnt = 0;
         file = $fopen("MEM_EX_latches.out", "w");
     end
 
@@ -23,7 +26,10 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
     reg [(0+1)*(mlen+nlen)-1:0*(mlen+nlen)] all_outs[Q_LENGTH-1:0];
     integer k, latch_num;
 
-    always @(posedge clk) begin        
+    always @(posedge clk) begin
+        $fdisplay(file, "cycle number: %d", cyc_cnt);
+        cyc_cnt = cyc_cnt + 1;
+
         k = 0;
         all_outs[k] = q0.outs[(0+1)*(mlen+nlen)-1:0*(mlen+nlen)];
         k = 1;
@@ -47,20 +53,10 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
             $fdisplay(file, "\t ==LATCH==: %d", latch_num);
             $fdisplay(file, "\t modifiable signals:");
 
-            $fdisplay(file, "\t\t wake: %d", all_outs[latch_num][1072:1069]);
-            $fdisplay(file, "\t\t op1_val: %d", all_outs[latch_num][1068:1005]);
-            $fdisplay(file, "\t\t op2_val: %d", all_outs[latch_num][1004:941]);
-            $fdisplay(file, "\t\t op3_val: %d", all_outs[latch_num][940:877]);
-            $fdisplay(file, "\t\t op4_val: %d\n", all_outs[latch_num][876:813]); 
-
-            $fdisplay(file, "\t\t op1_ptcinfo: %d", all_outs[latch_num][812:685]);
-            $fdisplay(file, "\t\t op2_ptcinfo: %d", all_outs[latch_num][684:557]);
-            $fdisplay(file, "\t\t op3_ptcinfo: %d", all_outs[latch_num][556:429]);
-            $fdisplay(file, "\t\t op4_ptcinfo: %d", all_outs[latch_num][428:301]);
+            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][300]);
 
             $fdisplay(file, "\n\t non-modifiable signals:");
 
-            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][300]);
             $fdisplay(file, "\t\t eip: %d", all_outs[latch_num][299:268]);
             $fdisplay(file, "\t\t IE: %d", all_outs[latch_num][267]);
             $fdisplay(file, "\t\t IE_type: %d", all_outs[latch_num][266:263]);
@@ -106,7 +102,7 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
     end
 endmodule 
 
-    //  for reference, these are the outputs from MEM coming into the latch:
+//  for reference, these are the outputs from MEM coming into the latch:
 
     //modifiable signals:
     //  [3:0] wake               //[1072:1069]
