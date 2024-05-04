@@ -3,4 +3,5 @@ A pipelined, in-order x86 processor designed as a part of the graduate Microarch
 
 The University of Texas at Austin - Spring 2024
 
-Johan Rain, Asher (jon?) Nederveld, Varun Arumagummy, Edmeister Turcotte
+Rohan Jain, Asher Nederveld, Varun Arumugam, Edgar Turcotte
+
