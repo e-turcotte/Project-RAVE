@@ -64,7 +64,13 @@ module decode_TOP(
     output IE_out,
     output [3:0] IE_type_out,
     output [31:0] BR_pred_target_out,
-    output BR_pred_T_NT_out
+    output BR_pred_T_NT_out,
+
+    ////////////////////////////
+    //    outputs to fetch_2  //
+    ///////////////////////////
+    output stall_out,
+    output wire [7:0] D_length
 
 );
     ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -381,7 +387,7 @@ module decode_TOP(
         .out(instruction_length)
     );
 
-    kogeAdder #(.WIDTH(32)) add0(.A(latched_EIP), .B({24'b000000000000000000000000, D_length}), .CIN(1'b0), .SUM(EIP_plus_length), .COUT());
+    kogeAdder #(.WIDTH(32)) add0(.A(latched_EIP), .B({24'b000000000000000000000000, decoded_instr_length}), .CIN(1'b0), .SUM(EIP_plus_length), .COUT());
 
 
 
@@ -442,6 +448,9 @@ module decode_TOP(
     assign IE_type_out = IE_type_in;
     assign BR_pred_target_out = BP_EIP;
     assign BR_pred_T_NT_out = is_BR_T_NT;
+
+    assign D_length = decoded_instr_length;
+    assign stall_out = queue_full_stall;
 
 
 
