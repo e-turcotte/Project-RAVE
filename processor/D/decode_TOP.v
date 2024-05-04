@@ -17,7 +17,7 @@ module decode_TOP(
     //     signals from BP   //
     ///////////////////////////
     input wire [31:0] BP_EIP,
-    input wire is_BR,
+    input wire is_BR_T_NT,
 
     ////////////////////////////
     //    writeback signals   //
@@ -30,6 +30,11 @@ module decode_TOP(
     ///////////////////////////
     input wire [31:0] init_EIP,
     input wire is_init,
+
+    ////////////////////////////
+    //     stall signal      //
+    ///////////////////////////
+    input queue_full_stall,
 
     ////////////////////////////
     //    outputs to RRAG    //
@@ -57,7 +62,10 @@ module decode_TOP(
     output [1:0] mem1_rw_out, mem2_rw_out,
     output [31:0] eip_out,
     output IE_out,
-    output [3:0] IE_type_out
+    output [3:0] IE_type_out,
+    output [31:0] BR_pred_target_out,
+    output BR_pred_T_NT_out
+
 );
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     /*                                                                                                */
@@ -128,11 +136,13 @@ module decode_TOP(
     wire is_seg_override;
     wire is_opsize_override;
     wire [3:0] num_prefixes_onehot; //onehot encoding of num_prefixes
+    wire [1:0] num_prefixes_encoded;
 
     //1.8 ns 
     prefix_d prefix(.prefix1(prefix1), .prefix2(prefix2), .prefix3(prefix3), .is_rep(is_rep), 
                         .seg_override(seg_override), .is_seg_override(is_seg_override), 
-                        .is_opsize_override(is_opsize_override), .num_prefixes_onehot(num_prefixes_onehot));
+                        .is_opsize_override(is_opsize_override), .num_prefixes_onehot(num_prefixes_onehot),
+                        .num_prefixes_encoded(num_prefixes_encoded));
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     /*                                                                                                */
@@ -219,19 +229,6 @@ module decode_TOP(
                 .M1_RW(M1_RW), .M2_RW(M2_RW), .OP_MOD_OVR(OP_MOD_OVR), .S3_MOD_OVR(S3_MOD_OVR), .memSizeOVR(memSizeOVR), .B1(B1), .B2(B2), .B3(B3), .B4(B4), 
                 .B5(B5), .B6(B6), .isREP(isREP), .isSIZE(isSIZE), .isSEG(isSEG), .prefSize(prefSize), .segSEL(segSEL));
 
-    assign aluk_out = aluk;
-    assign mux_adder_out = MUX_ADDER_IMM;
-    assign mux_and_int_out = MUX_AND_INT;
-    assign mux_shift_out = MUX_SHIFT;
-    assign p_op_out = P_OP;
-    assign fmask_out = FMASK;
-    assign conditionals_out = conditionals;
-    assign is_br_out = isBR;
-    assign is_fp_out = isFP;
-    assign imm_out = immSize;
-    assign mem1_rw_out = M1_RW;
-    assign mem2_rw_out = M2_RW;
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     /*                                                                                                */
@@ -244,26 +241,43 @@ module decode_TOP(
     /*                                                                                                */
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    wire [5:0] length_of_mod_sib_disp;
+    wire [3:0] disp_size;
+    wire [2:0] R2_modrm;
+    wire useR2;
+    wire [2:0] R3_modrm;
+    wire useR3;
     wire isSIB;
-    wire [2:0] dispSize;
+    wire R3_scale;
+    addressing_decode addr_dec(
+        .packet1(buffered_byte1),
+        .packet2(buffered_byte2),
+        .packet3(buffered_byte3),
+        .packet4(buffered_byte4),
+        .packet5(buffered_byte5),
+        .packet6(buffered_byte6),
+        .isMod(isMOD),
+        .num_prefixes_onehot(num_prefixes_onehot),
+        .isDoubleOp(isDouble),
+        .is_opsize_override(is_opsize_override)
 
-    length_d len(.B1(buffered_byte1), .B2(buffered_byte2), .B3(buffered_byte3), .B4(buffered_byte4), .B5(buffered_byte5), .is_rep(is_rep), 
-                    .is_seg_override(is_seg_override), .is_opsize_override(is_opsize_override), .prefSize(num_prefixes_onehot), .isDoubleOp(isDouble), 
-                    .isModRM(isMOD), .immSize(immSize), .isImm(isImm), .length(length), .length_no_imm(length_no_imm), .isSIB(isSIB), .dispSize(dispSize));
-
-
-
-    wire not_isImm;
-    wire [7:0] length_no_CF;
-    inv1$ i0(.in(isImm), .out(not_isImm));
-    muxnm_tristate #(.NUM_INPUTS(2), .DATA_WIDTH(8)) muxeewuxee(
-        .in({length_no_imm, length}), 
-        .sel({not_isImm, isImm}), 
-        .out(length_no_CF);
+        .length_of_mod_sib_disp(length_of_mod_sib_disp),
+        .disp_size(disp_size),
+        .R2_modrm(R2_modrm),
+        .useR2(useR2),
+        .shift_R3_amount(R3_scale),
+        .R3_modrm(R3_modrm),
+        .useR3(useR3),
+        .isSIB(isSIB)
     );
 
-
+    wire [11:0] identify_length_signal;
+    assign identify_length_signal = {num_prefixes_encoded, isDouble, isImm, immSize, length_of_mod_sib_disp};
+    wire [7:0] decoded_instr_length;
+    select_length sel_len(
+        .sel(identify_length_signal),
+        .out(decoded_instr_length)
+    );
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -277,20 +291,35 @@ module decode_TOP(
     /*                                                                                                */
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    
-    
+    wire [47:0] immediate;
+    wire [31:0] displacement;
 
+    disp_imm_select dis(
+        .B1(buffered_byte1),
+        .B2(buffered_byte2),
+        .B3(buffered_byte3),
+        .B4(buffered_byte4),
+        .B5(buffered_byte5),
+        .B6(buffered_byte6),
+        .B7(buffered_byte7),
+        .B8(buffered_byte8),
+        .B9(buffered_byte9),
+        .B10(buffered_byte10),
+        .B11(buffered_byte11),
+        .B12(buffered_byte12),
+        .B13(buffered_byte13),
+        .B14(buffered_byte14),
+        .B15(buffered_byte15),
+        .isDouble(isDouble),
+        .isMOD(isMOD),
+        .isSIB(isSIB),
+        .num_prefixes_onehot(num_prefixes_onehot),
+        .disp_size_select(disp_size),
+        .imm_size_select(immSize),
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    /*                                                                                                */
-    /*                                                                                                */
-    /*                                                                                                */
-    /*                                        SIB DECODE:                                             */
-    /*                                                                                                */
-    /*                                                                                                */
-    /*                                                                                                */
-    /*                                                                                                */
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
+        .immediate(immediate),
+        .displacement(displacement)
+    );
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -315,7 +344,7 @@ module decode_TOP(
 
     wire not_is_resteer;
     inv1$ i1(.in(is_resteer), .out(not_is_resteer));
-    andn #(3) a1(.in({not_is_init, not_is_resteer, is_BR}), .out(select_CF_mux_0));
+    andn #(3) a1(.in({not_is_init, not_is_resteer, is_BR_T_NT}), .out(select_CF_mux_0));
 
     wire [31:0] CF_EIP;
     muxnm_tristate #(.NUM_INPUTS(3), .DATA_WIDTH(32)) m0(
@@ -325,7 +354,7 @@ module decode_TOP(
     );
 
     wire is_CF, not_is_CF;
-    orn #(3) o0(.in({is_init, is_resteer, is_BR}), .out(is_CF));
+    orn #(3) o0(.in({is_init, is_resteer, is_BR_T_NT}), .out(is_CF));
     inv1$ i2(.in(is_CF), .out(not_is_CF));
 
     wire [31:0] latched_EIP, EIP_plus_length, mux_EIP_to_load;
@@ -338,7 +367,7 @@ module decode_TOP(
     wire not_stall, ld_BIP;
     wire ld_EIP_without_CF;
     wire ld_EIP;
-    inv1$ i0(.in(stall), .out(not_stall));
+    inv1$ i0(.in(queue_full_stall), .out(not_stall));
     andn #(2) a2(.in({not_stall, valid_in}), .out(ld_EIP_without_CF));
     orn #(2) o2(.in({ld_EIP_without_CF, is_CF}), .out(ld_EIP));
     
@@ -356,13 +385,63 @@ module decode_TOP(
 
 
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*                                                                                                */
+    /*                                                                                                */
+    /*                                                                                                */
+    /*                                        ASSIGN OUTPUTS:                                         */
+    /*                                                                                                */
+    /*                                                                                                */
+    /*                                                                                                */
+    /*                                                                                                */
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    assign valid_out = valid_in;
+    assign reg_addr1_out = R1;
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m0(.in({R2_modrm, R2}), .sel(isMOD), .out(reg_addr2_out));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({R3_modrm, R3}), .sel(isMOD), .out(reg_addr3_out));
+    assign reg_addr4_out = R4;
+    assign seg_addr1_out = S1;
+    assign seg_addr2_out = S2;
+    assign seg_addr3_out = S3;
+    assign seg_addr4_out = S4;
+    assign opsize_out = size;
+    inv1$ wehwehweh(.in(is_opsize_override), .out(addressingmode_out));//1 for 32b addressing mode, 0 for 16b
+    assign op1_out = op1_mux;
+    assign op2_out = op2_mux;
+    assign op3_out = op3_mux;
+    assign op4_out = op4_mux;
+    assign res1_ld_out = op1_wb;
+    assign res2_ld_out = op2_wb;
+    assign res3_ld_out = op3_wb;
+    assign res4_ld_out = op4_wb; //better op1-4_wb
+    assign dest1_out = dest1_mux;
+    assign dest2_out = dest2_mux;
+    assign dest3_out = dest3_mux; 
+    assign dest4_out = dest4_mux;
+    assign disp_out = displacement;
+    assign reg3_shfamnt_out = R3_scale;
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m2(.in({useR2, 1'b1}), .sel(isMOD), .out(usereg2_out));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m3(.in({useR3, 1'b0}), .sel(isMOD), .out(usereg3_out));
+    assign rep_out = is_rep;
 
-
-
-
-
-
+    assign aluk_out = aluk;
+    assign mux_adder_out = MUX_ADDER_IMM;
+    assign mux_and_int_out = MUX_AND_INT;
+    assign mux_shift_out = MUX_SHIFT;
+    assign p_op_out = P_OP;
+    assign fmask_out = FMASK;
+    assign conditionals_out = conditionals;
+    assign is_br_out = isBR;
+    assign is_fp_out = isFP;
+    assign imm_out = immediate;
+    assign mem1_rw_out = M1_RW;
+    assign mem2_rw_out = M2_RW;
+    assign eip_out = latched_EIP;
+    assign IE_out = IE_in;
+    assign IE_type_out = IE_type_in;
+    assign BR_pred_target_out = BP_EIP;
+    assign BR_pred_T_NT_out = is_BR_T_NT;
 
 
 

@@ -1,8 +1,9 @@
 module select_length(
-    input wire [3071:0] data,
     input wire [11:0] sel,
-    output wire [383:0] out
+    output wire [7:0] out
 );
+    wire [3071:0] data;
+    length_data ld(.out(data));
     wire [383:0] sel_out;
     select_signal s0(.sel(sel), .out(sel_out));
     muxnm_tristate #(384, 8) mxt1(.in(data), .sel(sel_out) ,.out(out));
@@ -11,7 +12,7 @@ endmodule
 
 module select_signal(
     input wire [11:0] sel,
-    output wire [384:0] out
+    output wire [383:0] out
 );
     wire [11:0] buffered_input;
     bufferH1024_nb$ #(12) buff(.in(sel), .out(buffered_input));

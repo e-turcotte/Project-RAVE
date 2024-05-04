@@ -33,8 +33,7 @@ with open("../length_data.v", "w") as length_data_file:
     length_data_file.write("module length_data(\n")
     length_data_file.write(f"    output wire [{(8*total_output_bits) - 1}:0] out\n")
     length_data_file.write(");\n")
-
-    length_data_file.write(f"    wire [{total_output_bits - 1}:0]")
+    length_data_file.write(f"    wire [{7}:0]")
     for i, key in enumerate(data_store.keys()):
         length_data_file.write(f'wire{i}, ' if (i < total_output_bits - 1) else f'wire{i};\n')
     
@@ -57,10 +56,11 @@ with open("../length_data.v", "w") as length_data_file:
 
 with open("../select_length.v", "w") as sel_file:
     sel_file.write("module select_length(\n")
-    sel_file.write(f"    input wire [{(8*total_output_bits) - 1}:0] data,\n")
     sel_file.write("    input wire [11:0] sel,\n")
-    sel_file.write(f"    output wire [{total_output_bits - 1}:0] out\n")
+    sel_file.write(f"    output wire [7:0] out\n")
     sel_file.write(");\n")
+    sel_file.write(f"    wire [{(8*total_output_bits) - 1}:0] data;\n")
+    sel_file.write(f"    length_data ld(.out(data));\n")
     sel_file.write(f"    wire [{total_output_bits - 1}:0] sel_out;\n")
     sel_file.write("    select_signal s0(.sel(sel), .out(sel_out));\n")
     sel_file.write(f"    muxnm_tristate #({total_output_bits}, {8}) mxt1(.in(data), .sel(sel_out) ,.out(out));")
