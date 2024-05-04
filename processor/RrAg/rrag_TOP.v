@@ -35,6 +35,7 @@ module rrag (input valid_in,
              input [3:0] wb_regld, wb_segld,
              input [6:0] wb_inst_ptcid,
              input fwd_stall,
+             input ptc_clear, //not from latch, from IDTR
 
              output valid_out, stall,
              output [1:0] opsize_out,
@@ -86,8 +87,8 @@ module rrag (input valid_in,
     wire [31:0] regformem1, regformem2, regformem3, regformem4;
     wire regformem1ptc, regformem2ptc, regformem3ptc, regformem4ptc;
 
-    regfile rf(.din({wb_data4,wb_data3,wb_data2,wb_data1}), .ld_addr({wb_addr4,wb_addr3,wb_addr2,wb_addr1}), .rd_addr({reg_addr4,reg_addr3,reg_addr2,reg_addr1}), .ldsize(wb_opsize), .rdsize(opsize_in), .addressingmode(addressingmode), .ld_en(wb_regld), .dest(collated_dest_vector[7:4]), .data_ptcid(wb_inst_ptcid), .new_ptcid(inst_ptcid), .clr(clr), .clk(clk), .dout({reg4,reg3,reg2,reg1}), .addrout({regformem4,regformem3,regformem2,regformem1}), .ptcout({ptc_r4,ptc_r3,ptc_r2,ptc_r1}), .addrptc({regformem4ptc,regformem3ptc,regformem2ptc,regformem1ptc}));
-    segfile sf(.base_in({wb_segdata4,wb_segdata3,wb_segdata2,wb_segdata1}), .lim_inits({lim_init5,lim_init4,lim_init3,lim_init2,lim_init1,lim_init0}), .ld_addr({wb_segaddr4,wb_segaddr3,wb_segaddr2,wb_segaddr1}), .rd_addr({seg_addr4,seg_addr3,seg_addr2,seg_addr1}), .ld_en(wb_segld), .dest(collated_dest_vector[3:0]), .data_ptcid(wb_inst_ptcid), .new_ptcid(inst_ptcid), .clr(clr), .clk(clk), .base_out({seg4,seg3,seg2,seg1}), .lim_out({lim_out4,lim_out3,lim_out2,lim_out1}), .ptc_out({ptc_s4,ptc_s3,ptc_s2,ptc_s1}));
+    regfile rf(.din({wb_data4,wb_data3,wb_data2,wb_data1}), .ld_addr({wb_addr4,wb_addr3,wb_addr2,wb_addr1}), .rd_addr({reg_addr4,reg_addr3,reg_addr2,reg_addr1}), .ldsize(wb_opsize), .rdsize(opsize_in), .addressingmode(addressingmode), .ld_en(wb_regld), .dest(collated_dest_vector[7:4]), .data_ptcid(wb_inst_ptcid), .new_ptcid(inst_ptcid), .clr(clr), .ptcclr(ptc_clear), .clk(clk), .dout({reg4,reg3,reg2,reg1}), .addrout({regformem4,regformem3,regformem2,regformem1}), .ptcout({ptc_r4,ptc_r3,ptc_r2,ptc_r1}), .addrptc({regformem4ptc,regformem3ptc,regformem2ptc,regformem1ptc}));
+    segfile sf(.base_in({wb_segdata4,wb_segdata3,wb_segdata2,wb_segdata1}), .lim_inits({lim_init5,lim_init4,lim_init3,lim_init2,lim_init1,lim_init0}), .ld_addr({wb_segaddr4,wb_segaddr3,wb_segaddr2,wb_segaddr1}), .rd_addr({seg_addr4,seg_addr3,seg_addr2,seg_addr1}), .ld_en(wb_segld), .dest(collated_dest_vector[3:0]), .data_ptcid(wb_inst_ptcid), .new_ptcid(inst_ptcid), .ptcclr(ptc_clear), .clr(clr), .clk(clk), .base_out({seg4,seg3,seg2,seg1}), .lim_out({lim_out4,lim_out3,lim_out2,lim_out1}), .ptc_out({ptc_s4,ptc_s3,ptc_s2,ptc_s1}));
 
     wire [31:0] shfseg1, shfseg2;
 
@@ -105,11 +106,11 @@ module rrag (input valid_in,
     wire [31:0] rmbaseval, modsibcalc, segoffs, segdisp;
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regformem2,32'h00000000}), .sel(usereg2), .out(rmbaseval));
-    kogeAdder #(.WIDTH(32)) add0(.SUM(modsibcalc), .COUT(), .A(rmbaseval), .B(shfreg3));
-    kogeAdder #(.WIDTH(32)) add1(.SUM(segdisp), .COUT(), .A(disp), .B(shfseg1));
+    kogeAdder #(.WIDTH(32)) add0(.SUM(modsibcalc), .COUT(), .A(rmbaseval), .B(shfreg3), .CIN(1'b0));
+    kogeAdder #(.WIDTH(32)) add1(.SUM(segdisp), .COUT(), .A(disp), .B(shfseg1), .CIN(1'b0));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({modsibcalc,regformem2}), .sel(usereg3), .out(segoffs));
-    kogeAdder #(.WIDTH(32)) add2(.SUM(mem_addr1), .COUT(), .A(segoffs), .B(segdisp));
-    kogeAdder #(.WIDTH(32)) add3(.SUM(mem_addr2), .COUT(), .A(regformem4), .B(shfseg2));
+    kogeAdder #(.WIDTH(32)) add2(.SUM(mem_addr1), .COUT(), .A(segoffs), .B(segdisp), .CIN(1'b0));
+    kogeAdder #(.WIDTH(32)) add3(.SUM(mem_addr2), .COUT(), .A(regformem4), .B(shfseg2), .CIN(1'b0));
 
     assign reg1_orig = reg_addr1;
     assign reg2_orig = reg_addr2;

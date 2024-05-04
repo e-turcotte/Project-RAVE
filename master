@@ -8,13 +8,12 @@
 
 TOP.v
 
-processor/F/TOP.v
 processor/F/fetch_TOP.v
 processor/F/fetch1.v
 processor/F/fetch2.v
 processor/F/btb.v
 processor/F/bp_gshare.v
-processor/F/I_buff.v
+processor/F/I_Buff.v
 
 processor/D/decode_TOP.v
 processor/D/addressing_d.v
@@ -23,11 +22,11 @@ processor/D/length_data.v
 processor/D/select_length.v
 processor/D/prefix_d.v
 processor/D/little_endian_bs.v
-processor/ControlStore/CS_Adapter.v
-processor/ControlStore/cs_data.v
-processor/ControlStore/cs_overwrite.v
-processor/ControlStore/cs_select.v
-processor/ControlStore/cs_top.v
+processor/ControlStore/pythonProject/CS_Adapter.v
+processor/ControlStore/pythonProject/cs_data.v
+processor/ControlStore/pythonProject/cs_overwrite.v
+processor/ControlStore/pythonProject/cs_select.v
+processor/ControlStore/pythonProject/cs_top.v
 
 processor/RrAg/rrag_TOP.v
 processor/RrAg/prot_exception_logic.v
@@ -41,7 +40,7 @@ processor/M/TLB.v
 
 processor/Ex/execute_TOP.v
 processor/Ex/BRLOGIC.v
-processor/Ex/EFLAGS.v
+processor/Ex/EFLAG.v
 processor/Ex/SKIPGEN.v
 processor/Ex/ALU.v
 
@@ -52,20 +51,19 @@ processor/Wb/reg_wb_cell.v
 processor/MEM_EX_Latches.v
 processor/RrAg_MEM_Latch.v
 
-../local-lib/nbitdevices/decodern.v
-../local-lib/nbitdevices/equaln.v
-../local-lib/nbitdevices/gaten.v
-../local-lib/nbitdevices/kAdder.v
-../local-lib/nbitdevices/muxnm.v
-../local-lib/nbitdevices/queuenm.v
-../local-lib/nbitdevices/regn.v
-../local-lib/nbitdevices/satAdder.v
-../local-lib/nbitdevices/sext.v
-../local-lib/nbitdevices/shfrotn.v
-
-../local-lib/buffer_bytes.v
-../local-lib/encoder4_2.v
-../local-lib/fulladder1.v
-../local-lib/mag_comp32.v
-../local-lib/pencoder32_5.v
-../local-lib/sat_cntr2.v
+local-lib/nbitdevices/decodern.v
+local-lib/nbitdevices/equaln.v
+local-lib/nbitdevices/gaten.v
+local-lib/nbitdevices/kAdder.v
+local-lib/nbitdevices/muxnm.v
+local-lib/nbitdevices/queuenm.v
+local-lib/nbitdevices/regn.v
+local-lib/nbitdevices/satAdder.v
+local-lib/nbitdevices/sext.v
+local-lib/nbitdevices/shfrotn.v
+local-lib/buffer_bytes.v
+local-lib/encoder4_2.v
+local-lib/fulladder1.v
+local-lib/mag_comp32.v
+local-lib/pencoder32_5.v
+local-lib/sat_cntr2.v

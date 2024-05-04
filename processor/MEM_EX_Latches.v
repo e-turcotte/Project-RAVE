@@ -13,7 +13,7 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
                 .new_m_vector(new_m_vector), .wr(wr), .rd(rd), .modify_vector(modify_vector), 
                 .clr(clr), .clk(clk), .full(full), .empty(empty), .old_m_vector(old_m_vector), .dout(dout));                                                                 
 
-    integer file;
+    integer file, cyc_cnt;
     initial begin
         cyc_cnt = 0;
         file = $fopen("MEM_EX_latches.out", "w");

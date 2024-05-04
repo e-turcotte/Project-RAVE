@@ -14,7 +14,7 @@ module BRLOGIC(
     input JMPnear_P_OP, JMPfar_P_OP, JMPptr_P_OP,
     input gurBR
 );
-    inv1$(gurBR_n, gurBR);
+    inv1$ i0(gurBR_n, gurBR);
     and2$ a1(w1, conditionals[0], cf);
     and2$ a2(w2, conditionals[1], zf);
     nor2$ n1(taken_t, w1, w2);
