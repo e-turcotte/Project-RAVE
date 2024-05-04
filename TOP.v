@@ -488,12 +488,17 @@ module TOP();
 
     //queued latches between MEM and EX - 8
 
-    integer m_size, n_size;
+    integer m_size_MEM_EX, n_size_MEM_EX;
 
-    wire [m_size-1:0] m_din;
-    wire [n_size-1:0] n_din;
+    m_size_MEM_EX = 773;
+    n_size_MEM_EX = 300;
+    
+    wire [m_size_MEM_EX-1:0] m_din_MEM_EX;
+    wire [n_size_MEM_EX-1:0] n_din_MEM_EX;
 
-    MEM_EX_Queued_Latches #(.M_WIDTH(/*TODO*/), .N_WIDTH(/*TODO*/), .Q_LENGTH(8)) q5 (
+    assign m_din_MEM_EX = {};
+
+    MEM_EX_Queued_Latches #(.M_WIDTH(m_din_MEM_EX), .N_WIDTH(n_din_MEM_EX), .Q_LENGTH(8)) q5 (
         .m_din(/*TODO*/), .n_din(/*TODO*/), .new_m_vector(/*TODO*/), .wr(/*TODO*/), .rd(/*TODO*/), 
         .modify_vector(/*TODO*/), .clr(/*TODO*/), .clk(clk), .full(/*TODO*/), .empty(/*TODO*/), .old_m_vector(/*TODO*/), .dout(/*TODO*/)
     );
