@@ -16,7 +16,7 @@ module branch_target_buff(
     );
 
     wire flush_not;
-    inv1$ (.out(flush_not), .in(flush));
+    inv1$ i0(.out(flush_not), .in(flush));
 
     //a BTB entry includes: 26 bit tag, 32 bit (each) FIP_O, FIP_E, target
 
@@ -82,7 +82,7 @@ module branch_target_buff(
 
     //check if we have a miss or hit by checking if any of the tags match
     equaln #(.WIDTH(64)) eq(.a(tag_compare), .b(64'h0), .eq(miss)); //will be 0 if we have a hit
-    inv1$ i0(.out(hit), .in(miss));
+    inv1$ i1(.out(hit), .in(miss));
 
     muxnm_tristate #(.NUM_INPUTS(64), .DATA_WIDTH(32) ) mux_target(
         .in(target_store_out_unpacked),
