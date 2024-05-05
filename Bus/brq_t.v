@@ -53,6 +53,11 @@ module TOP;
         #CYCLE_TIME;
         #CYCLE_TIME;
         #CYCLE_TIME;
+        free2 = 1'b1;
+        #CYCLE_TIME;
+        #CYCLE_TIME;
+        #CYCLE_TIME;
+        #CYCLE_TIME;
         $finish;
     end
 

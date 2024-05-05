@@ -70,6 +70,7 @@ module brq (input [3:0] send3, send2, send1, send0,
     and2$ g19(.out(ack1), .in0(arb_wr_vector[1]), .in1(rld[0]));
     and2$ g20(.out(ack0), .in0(arb_wr_vector[0]), .in1(rld[0]));
 
-    nor4$ g21(.out(empty), .in0(rout[3][8]), .in1(rout[2][8]), .in2(rout[1][8]), .in3(rout[0][8]));
+    or4$ g21(.out(empty), .in0(rout[3][8]), .in1(rout[2][8]), .in2(rout[1][8]), .in3(rout[0][8]));
+    or4$ g22(.out(valid), .in0(ready_vector[3]), .in1(ready_vector[2]), .in2(ready_vector[1]), .in3(ready_vector[0]));
 
 endmodule
