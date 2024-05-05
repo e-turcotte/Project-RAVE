@@ -77,6 +77,61 @@ initial begin
     address_in = 32'h0400_000F;
     r = 1; sw = 0; w = 0; fromBUS = 0;
     data_in = 128'd0;
+    
+    #CYCLE_TIME
+    address_in = 32'h0400_0104;
+    r = 1; sw = 1; w = 0; fromBUS = 0;
+    data_in = 128'd0;
+
+    #CYCLE_TIME
+    address_in = 32'h0400_0204;
+    r = 1; sw = 1; w = 0; fromBUS = 0;
+    data_in = 128'd0;
+    
+    #CYCLE_TIME
+    address_in = 32'h0400_0304;
+    r = 1; sw = 1; w = 0; fromBUS = 0;
+    data_in = 128'd0;
+    
+    #CYCLE_TIME
+    address_in = 32'h0400_0404;
+    r = 1; sw = 1; w = 0; fromBUS = 0;
+    data_in = 128'd0;
+    
+    #CYCLE_TIME
+    r = 0; sw = 0; w = 1;fromBUS = 1;
+    address_in = 32'h0400_0104;
+    data_in = 128'd8;
+
+    #CYCLE_TIME
+    r = 0; sw = 0; w = 1;fromBUS = 1;
+    address_in = 32'h0400_0204;
+    data_in = 128'd4;
+
+    #CYCLE_TIME
+    r = 0; sw = 0; w = 1;fromBUS = 1;
+    address_in = 32'h0400_0304;
+    data_in = 128'd2;
+
+    #CYCLE_TIME
+    r = 0; sw = 0; w = 1;fromBUS = 1;
+    address_in = 32'h0400_0404;
+    data_in = 128'd1;
+
+    #CYCLE_TIME
+    r = 1; sw = 1; w = 0;fromBUS = 0;
+    address_in = 32'h0400_0404;
+    size_in = 01;
+    data_in = 128'd1;
+
+    #CYCLE_TIME
+    r = 0; sw = 0; w = 1;fromBUS = 0;
+    address_in = 32'h0400_0004;
+    size_in = 01;
+    data_in = 128'd16;
+
+    
+    
     #CYCLE_TIME
     valid_in = 0;
     #CYCLE_TIME

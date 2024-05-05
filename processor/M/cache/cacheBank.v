@@ -128,6 +128,7 @@ mux2n #(3)  abc(SER_dest0,{1'b0,pAddress[5],pAddress[4]}, 3'b110, PCD_IN);
 
 assign SER_pAddress1 = {pAddress[14:0]};
 assign SER_valid1 = ex_clr;
+and2$ andSER(SER_valid1, ex_clr, w_not);
 assign SER_return1 = cache_id;
 assign SER_size1 = 16'h0001;
 assign SER_rw1 = 1'b0;
