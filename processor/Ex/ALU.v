@@ -35,7 +35,7 @@ orn #(64) o10 (ALU_OUT[63:0], zf_base);
 mux3$ z1(zf_out, zf_base, penc_zf, cmpxchng_zf, BSF_P_OP, CMPXCHNG_P_OP);
 assign df_out = STD_P_OP;
 
-assign ALU_OUT_2 = OP1;
+assign ALU_OUT_2 = OP2;
 //WHYHYYHY
 //doflags
 //aluk = 00000
@@ -634,3 +634,9 @@ module par32(
     xor4$ x5(pf2, x1[4], x1[5], x1[6],x1[7]);
     xor2$ x6(pf, pf1, pf2);
 endmodule 
+
+module xor4$(output out, input a, input b, input c, input d);
+    xor2$(temp1, a, b);
+    xor2$(temp2, c, d);
+    xor2$(out, temp1, temp2);
+endmodule

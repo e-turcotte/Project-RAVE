@@ -41,6 +41,13 @@ module TOP();
     //      where <in> is the input to the latch (output of stage.prev) and <out> is the output 
     //      from the latch (input of stage.next)
 
+    ///////////////////////////////////////////////////////////
+    //                      stall signals:                  //  
+    //////////////////////////////////////////////////////////
+
+    wire EX_stall_out, MEM_stall_out, RrAg_stall_out, D_stall_out;
+    wire D_RrAg_Latches_full, MEM_EX_Latches_full;
+    wire D_RrAg_Latches_empty, MEM_EX_Latches_empty; // AND with valid to get internal valid signals   
 
     ///////////////////////////////////////////////////////////
     //    Outputs from D that go into the D_RrAg_latch:     //  
@@ -146,7 +153,7 @@ module TOP();
     // Outputs from Rr/Ag that go into the RrAg_MEM_latch:  //  
     //////////////////////////////////////////////////////////
     
-    wire         valid_RrAg_MEM_latch_in, stall_RrAg_MEM_latch_in;
+    wire         valid_RrAg_MEM_latch_in;
     wire [1:0]   opsize_RrAg_MEM_latch_in;
     wire [31:0]  mem_addr1_RrAg_MEM_latch_in, mem_addr2_RrAg_MEM_latch_in, mem_addr1_end_RrAg_MEM_latch_in, mem_addr2_end_RrAg_MEM_latch_in;
     wire [63:0]  reg1_RrAg_MEM_latch_in, reg2_RrAg_MEM_latch_in, reg3_RrAg_MEM_latch_in, reg4_RrAg_MEM_latch_in;
@@ -179,7 +186,7 @@ module TOP();
     //   Outputs from RrAg_MEM_latch that go into the MEM:  //  
     //////////////////////////////////////////////////////////
 
-    wire         valid_RrAg_MEM_latch_out, stall_RrAg_MEM_latch_out;
+    wire         valid_RrAg_MEM_latch_out;
     wire [1:0]   opsize_RrAg_MEM_latch_out;
     wire [31:0]  mem_addr1_RrAg_MEM_latch_out, mem_addr2_RrAg_MEM_latch_out, mem_addr1_end_RrAg_MEM_latch_out, mem_addr2_end_RrAg_MEM_latch_out;
     wire [63:0]  reg1_RrAg_MEM_latch_out, reg2_RrAg_MEM_latch_out, reg3_RrAg_MEM_latch_out, reg4_RrAg_MEM_latch_out;
@@ -298,7 +305,7 @@ module TOP();
         .is_init(),
     
         // Stall signal
-        .queue_full_stall(),
+        .queue_full_stall(D_RrAg_Latches_full), // recieve from D_RrAg_Queued_latches
     
         // Outputs to RRAG
         .valid_out(valid_out_D_RrAg_latch_in),
@@ -348,7 +355,7 @@ module TOP();
         .BR_pred_T_NT_out(BR_pred_T_NT_D_RrAg_latch_in),
     
         // Outputs to fetch_2
-        .stall_out(),
+        .stall_out(D_stall_out), //TODO: send to fetch_2
         .D_length()
     );
     
@@ -370,8 +377,9 @@ module TOP();
                         };
 
     D_RrAg_Queued_Latches #(.M_WIDTH(m_size_D_RrAg), .N_WIDTH(n_size_D_RrAg), .Q_LENGTH(8)) q2 (
-        .m_din(m_din_D_RrAg), .n_din(n_din_D_RrAg), .new_m_vector(/*TODO*/), .wr(/*TODO*/), .rd(/*TODO*/), 
-        .modify_vector(/*TODO*/), .clr(/*TODO*/), .clk(clk), .full(/*TODO*/), .empty(/*TODO*/), .old_m_vector(/*TODO*/), 
+        .m_din(m_din_D_RrAg), .n_din(n_din_D_RrAg), .new_m_vector(/*TODO*/), .wr(valid_out_D_RrAg_latch_out), 
+        .rd(RrAg_stall_out), 
+        .modify_vector(/*TODO*/), .clr(/*TODO*/), .clk(clk), .full(D_RrAg_Latches_full), .empty(D_RrAg_Latches_empty), .old_m_vector(/*TODO*/), 
             .dout({valid_out_D_RrAg_latch_out, reg_addr1_D_RrAg_latch_out, reg_addr2_D_RrAg_latch_out, reg_addr3_D_RrAg_latch_out, reg_addr4_D_RrAg_latch_out,
             seg_addr1_D_RrAg_latch_out, seg_addr2_D_RrAg_latch_out, seg_addr3_D_RrAg_latch_out, seg_addr4_D_RrAg_latch_out,
             opsize_D_RrAg_latch_out, addressingmode_D_RrAg_latch_out,
@@ -396,8 +404,8 @@ module TOP();
         .res1_ld_in(res1_ld_D_RrAg_latch_out), .res2_ld_in(res2_ld_D_RrAg_latch_out), .res3_ld_in(res3_ld_D_RrAg_latch_out), .res4_ld_in(res4_ld_D_RrAg_latch_out),
         .dest1_in(dest1_D_RrAg_latch_out), .dest2_in(dest2_D_RrAg_latch_out), .dest3_in(dest3_D_RrAg_latch_out), .dest4_in(dest4_D_RrAg_latch_out),
         .disp(disp_D_RrAg_latch_out), .reg3_shfamnt(reg3_shfamnt_D_RrAg_latch_out), .usereg2(usereg2_D_RrAg_latch_out), .usereg3(usereg3_D_RrAg_latch_out), .rep(rep_D_RrAg_latch_out),
-        .clr(/*TODO*/), .clk(clk),
-        .lim_init5(), .lim_init4(), .lim_init3(), .lim_init2(), .lim_init1(), .lim_init0(), //TODO
+        .latch_empty(D_RrAg_Latches_empty), .clr(/*TODO*/), .clk(clk),
+        .lim_init5(), .lim_init4(), .lim_init3(), .lim_init2(), .lim_init1(), .lim_init0(), //TODO: initializations
         .aluk_in(aluk_D_RrAg_latch_out), .mux_adder_in(mux_adder_D_RrAg_latch_out), .mux_and_int_in(mux_and_int_D_RrAg_latch_out), .mux_shift_in(mux_shift_D_RrAg_latch_out),
         .p_op_in(p_op_D_RrAg_latch_out), .fmask_in(fmask_D_RrAg_latch_out), .conditionals_in(conditionals_D_RrAg_latch_out), .is_br_in(is_br_D_RrAg_latch_out), .is_fp_in(is_fp_D_RrAg_latch_out),
         .imm_in(imm_D_RrAg_latch_out), .mem1_rw_in(mem1_rw_D_RrAg_latch_out), .mem2_rw_in(mem2_rw_D_RrAg_latch_out), .eip_in(eip_D_RrAg_latch_out), .IE_in(IE_D_RrAg_latch_out), 
@@ -407,11 +415,12 @@ module TOP();
         .wb_addr1(), .wb_addr2(), .wb_addr3(), .wb_addr4(),
         .wb_segaddr1(), .wb_segaddr2(), .wb_segaddr3(), .wb_segaddr4(),
         .wb_opsize(), .wb_regld(), .wb_segld(), .wb_inst_ptcid(),
-        .fwd_stall(), //TODO: from MEM
+        .fwd_stall(MEM_stall_out), //recieve from MEM
         .ptc_clear(), //TODO: from IDTR
 
         //outputs
-        .valid_out(valid_RrAg_MEM_latch_in), .stall(stall_RrAg_MEM_latch_in), .opsize_out(opsize_RrAg_MEM_latch_in),
+        .valid_out(valid_RrAg_MEM_latch_in), .stall(RrAg_stall_out), //send to D_RrAg_Queued_Latches
+        .opsize_out(opsize_RrAg_MEM_latch_in),
         .mem_addr1(mem_addr1_RrAg_MEM_latch_in), .mem_addr2(mem_addr2_RrAg_MEM_latch_in), .mem_addr1_end(mem_addr1_end_RrAg_MEM_latch_in), .mem_addr2_end(mem_addr2_end_RrAg_MEM_latch_in),
         .reg1(reg1_RrAg_MEM_latch_in), .reg2(reg2_RrAg_MEM_latch_in), .reg3(reg3_RrAg_MEM_latch_in), .reg4(reg4_RrAg_MEM_latch_in),
         .ptc_r1(ptc_r1_RrAg_MEM_latch_in), .ptc_r2(ptc_r2_RrAg_MEM_latch_in), .ptc_r3(ptc_r3_RrAg_MEM_latch_in), .ptc_r4(ptc_r4_RrAg_MEM_latch_in),
@@ -444,9 +453,9 @@ module TOP();
 
     RrAg_MEM_latch q4(
         //inputs
-        .ld(), .clr(), //TODO
+        .ld(MEM_stall_out), .clr(), // LD comes from MEM stalling 
         .clk(clk),
-        .valid_in(valid_RrAg_MEM_latch_in), .stall_in(stall_RrAg_MEM_latch_in), .opsize_in(opsize_RrAg_MEM_latch_in),
+        .valid_in(valid_RrAg_MEM_latch_in), .opsize_in(opsize_RrAg_MEM_latch_in),
         .mem_addr1_in(mem_addr1_RrAg_MEM_latch_in), .mem_addr2_in(mem_addr2_RrAg_MEM_latch_in), .mem_addr1_end_in(mem_addr1_end_RrAg_MEM_latch_in), .mem_addr2_end_in(mem_addr2_end_RrAg_MEM_latch_in),
         .reg1_in(reg1_RrAg_MEM_latch_in), .reg2_in(reg2_RrAg_MEM_latch_in), .reg3_in(reg3_RrAg_MEM_latch_in), .reg4_in(reg4_RrAg_MEM_latch_in),
         .ptc_r1_in(ptc_r1_RrAg_MEM_latch_in), .ptc_r2_in(ptc_r2_RrAg_MEM_latch_in), .ptc_r3_in(ptc_r3_RrAg_MEM_latch_in), .ptc_r4_in(ptc_r4_RrAg_MEM_latch_in),
@@ -476,7 +485,7 @@ module TOP();
         .BR_pred_T_NT_in(BR_pred_T_NT_out_RrAg_MEM_latch_in),
         
         //outputs
-        .valid_out(valid_RrAg_MEM_latch_out), .stall_out(stall_RrAg_MEM_latch_out), .opsize_out(opsize_RrAg_MEM_latch_out),
+        .valid_out(valid_RrAg_MEM_latch_out), .opsize_out(opsize_RrAg_MEM_latch_out),
         .mem_addr1_out(mem_addr1_RrAg_MEM_latch_out), .mem_addr2_out(mem_addr2_RrAg_MEM_latch_out), .mem_addr1_end_out(mem_addr1_end_RrAg_MEM_latch_out), .mem_addr2_end_out(mem_addr2_end_RrAg_MEM_latch_out),
         .reg1_out(reg1_RrAg_MEM_latch_out), .reg2_out(reg2_RrAg_MEM_latch_out), .reg3_out(reg3_RrAg_MEM_latch_out), .reg4_out(reg4_RrAg_MEM_latch_out),
         .ptc_r1_out(ptc_r1_RrAg_MEM_latch_out), .ptc_r2_out(ptc_r2_RrAg_MEM_latch_out), .ptc_r3_out(ptc_r3_RrAg_MEM_latch_out), .ptc_r4_out(ptc_r4_RrAg_MEM_latch_out),
@@ -507,7 +516,9 @@ module TOP();
     );
 
     mem m1 (
+        //inputs
         .valid_in(valid_RrAg_MEM_latch_out),
+        .fwd_stall(MEM_EX_Latches_full), // receive from MEM_EX_Queued_Latches
         .opsize_in(opsize_RrAg_MEM_latch_out),
         .mem_addr1(mem_addr1_RrAg_MEM_latch_out),
         .mem_addr2(mem_addr2_RrAg_MEM_latch_out),
@@ -599,7 +610,8 @@ module TOP();
         .mux_and_int_out(MUX_AND_INT_MEM_EX_latch_in), .mux_shift_out(MUX_SHIFT_MEM_EX_latch_in),
         .p_op_out(P_OP_MEM_EX_latch_in), .fmask_out(FMASK_MEM_EX_latch_in), .conditionals_out(conditionals_MEM_EX_latch_in), .is_br_out(isBR_MEM_EX_latch_in), .is_fp_out(is_fp_MEM_EX_latch_in),
         .CS_out(CS_MEM_EX_latch_in),
-        .wake_out(wake_MEM_EX_latch_in)
+        .wake_out(wake_MEM_EX_latch_in),
+        .stall(MEM_stall_out) //send to RrAg and RrAg_MEM_latch
     );        
         
     
@@ -623,8 +635,9 @@ module TOP();
     
 
     MEM_EX_Queued_Latches #(.M_WIDTH(m_size_MEM_EX), .N_WIDTH(n_size_MEM_EX), .Q_LENGTH(8)) q5 (
-        .m_din(m_din_MEM_EX), .n_din(n_din_MEM_EX), .new_m_vector(/*TODO*/), .wr(/*TODO*/), .rd(/*TODO*/), 
-        .modify_vector(/*TODO*/), .clr(/*TODO*/), .clk(clk), .full(/*TODO*/), .empty(/*TODO*/), .old_m_vector(/*TODO*/), 
+        .m_din(m_din_MEM_EX), .n_din(n_din_MEM_EX), .new_m_vector(/*TODO*/), 
+        .wr(valid_MEM_EX_latch_in), .rd(EX_stall_out),
+        .modify_vector(/*TODO*/), .clr(/*TODO*/), .clk(clk), .full(MEM_EX_Latches_full), .empty(MEM_EX_Latches_empty), .old_m_vector(/*TODO*/), 
             .dout({
                 wake_MEM_EX_latch_out, op1_MEM_EX_latch_out, op2_MEM_EX_latch_out, op3_MEM_EX_latch_out, op4_MEM_EX_latch_out, 
                 op1_ptcinfo_MEM_EX_latch_out, op2_ptcinfo_MEM_EX_latch_out, op3_ptcinfo_MEM_EX_latch_out, op4_ptcinfo_MEM_EX_latch_out,
@@ -641,7 +654,9 @@ module TOP();
 
     execute_TOP e1 (
         .clk(clk),
+        .fwd_stall(), //TODO: recieve from WB
         .valid_in(valid_MEM_EX_latch_out),
+        .latch_empty(MEM_EX_Latches_empty),
         .EIP_in(EIP_MEM_EX_latch_out),
         .IE_in(IE_MEM_EX_latch_out),  
         .IE_type_in(IE_type_MEM_EX_latch_out),
@@ -700,7 +715,8 @@ module TOP();
         .BR_taken(),
         .BR_correct(), 
         .BR_FIP(), 
-        .BR_FIP_p1()
+        .BR_FIP_p1(),
+        .stall(EX_stall_out) //send stall to MEM_EX_Queued_Latches
     );
 
 

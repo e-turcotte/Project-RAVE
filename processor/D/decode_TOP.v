@@ -65,6 +65,7 @@ module decode_TOP(
     output [3:0] IE_type_out,
     output [31:0] BR_pred_target_out,
     output BR_pred_T_NT_out,
+    output isImm_out,
 
     ////////////////////////////
     //    outputs to fetch_2  //
@@ -451,6 +452,7 @@ module decode_TOP(
 
     assign D_length = instruction_length;
     assign stall_out = queue_full_stall;
+    assign isImm_out = isImm;
 
 
 

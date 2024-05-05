@@ -9,6 +9,7 @@ module rrag (input valid_in,
              input [1:0] reg3_shfamnt,
              input usereg2, usereg3,
              input rep,
+             input latch_empty,
 
              input clr, clk,
              input [19:0] lim_init5, lim_init4, lim_init3, lim_init2, lim_init1, lim_init0,
@@ -68,9 +69,12 @@ module rrag (input valid_in,
              output [31:0] BR_pred_target_out,
              output BR_pred_T_NT_out);
 
-    wire invstall;
+    wire invstall, invempty;
 
     inv1$ g0(.out(invstall), .in(stall));
+
+    inv1$ i0(.out(invempty), .in(latch_empty));
+    and2$ g9(.out(valid_out), .in0(valid_in), .in1(invempty));
 
     ptc_generator ptcgen(.next(invstall), .clr(clr), .clk(clk), .ptcid(inst_ptcid));
 
