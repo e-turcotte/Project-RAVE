@@ -47,10 +47,10 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
         k = 7;
         all_outs[k] = q0.outs[(7+1)*(mlen+nlen)-1:7*(mlen+nlen)];
 
-		$display(file, "\n=============== MEM to EX Latch Values ===============\n");
+		$fdisplay(file, "\n=============== MEM to EX Latch Values ===============\n");
 
         for (latch_num = 0; latch_num < qlen; latch_num = latch_num + 1) begin
-            $fdisplay(file, "\t ==LATCH==: %d", latch_num);
+            $fdisplay(file, "\n\t ==LATCH==: %d", latch_num);
             $fdisplay(file, "\t modifiable signals:");
 
             $fdisplay(file, "\t\t wake: %b", all_outs[latch_num][1072:1069]);
@@ -59,7 +59,7 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
             $fdisplay(file, "\t\t op3_val: 0x%h", all_outs[latch_num][940:877]);
             $fdisplay(file, "\t\t op4_val: 0x%h\n", all_outs[latch_num][876:813]); 
 
-            $fdisplay(file, "\t\t op1_ptcinfo: 0x%dh", all_outs[latch_num][812:685]);
+            $fdisplay(file, "\t\t op1_ptcinfo: 0x%d", all_outs[latch_num][812:685]);
             $fdisplay(file, "\t\t op2_ptcinfo: 0x%h", all_outs[latch_num][684:557]);
             $fdisplay(file, "\t\t op3_ptcinfo: 0x%h", all_outs[latch_num][556:429]);
             $fdisplay(file, "\t\t op4_ptcinfo: 0x%h", all_outs[latch_num][428:301]);

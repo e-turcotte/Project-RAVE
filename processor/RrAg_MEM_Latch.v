@@ -65,9 +65,10 @@ module RrAg_MEM_latch (
 
         );
     
-    integer file;
+    integer file, cyc_cnt;
     initial begin
         file = $fopen("RrAg_MEM_latches.out", "w");
+        cyc_cnt = 0;
     end
 
     regn #(.WIDTH(1)) r1 (.din(valid_in), .ld(ld), .clr(clr), .clk(clk), .dout(valid_out));
@@ -135,6 +136,9 @@ module RrAg_MEM_latch (
     regn #(.WIDTH(1)) r62 (.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
 
     always @(posedge clk) begin
+        $fdisplay(file, "cycle number: %d", cyc_cnt);
+        cyc_cnt = cyc_cnt + 1;
+        
 		$fdisplay(file, "\n=============== RrAg to MEM Latch Values ===============\n");
  
         $fdisplay(file, "\t\t valid: %b", valid_out);

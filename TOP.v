@@ -11,13 +11,13 @@ module TOP();
     localparam m_size_MEM_EX = 773;
     localparam n_size_MEM_EX = 300;
 
-    
+    initial #5000 $finish;
+
     initial begin
         file = $fopen("debug.out", "w");
         clk = 1'b1;
         cycle_number = 0;
         forever #(CYCLE_TIME / 2.0) clk = ~clk;
-
     end
 
     //TODO: TLB Initializations
