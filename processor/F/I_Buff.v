@@ -27,7 +27,7 @@ module iBuff_latch (
 
 wire [1:0] num_lines_to_ld_reg_out;
 wire ld_reg;
-nor2$ n0(.out(ld_reg), .in1(cache_miss_even_fetch1), .in2(cache_miss_odd_fetch1));
+nor2$ n0(.out(ld_reg), .in0(cache_miss_even_fetch1), .in1(cache_miss_odd_fetch1));
 loadStateReg r0(.clk(clk), .reset(reset), .CF(CF), .ld_reg(ld_reg), .v_00(line_00_valid), .v_01(line_01_valid), .v_10(line_10_valid), .v_11(line_11_valid), 
                     .num_lines_to_ld(num_lines_to_ld_reg_out));
 
@@ -110,7 +110,7 @@ wire crossed_boundary;
 mag_comp8$ m0(.A(new_buff_offset), .B(old_buff_offset), .AGB(), .BGA(crossed_boundary));
 
 wire [3:0] check_line, check_line_bar;
-decoder2_4$(.SEL(curr_line), .Y(check_line), .YBAR(check_line_bar));
+decoder2_4$ d0(.SEL(curr_line), .Y(check_line), .YBAR(check_line_bar));
 
 andn #(2) a0(.in({crossed_boundary, check_line[0]}), .out(invalidate_line_00));
 andn #(2) a1(.in({crossed_boundary, check_line[1]}), .out(invalidate_line_01));
@@ -132,7 +132,7 @@ module ld_selector (
 
 wire [3:0] check_line, check_line_bar;
 wire check_line_00, check_line_01, check_line_10, check_line_11;
-decoder2_4$(.SEL(curr_line), .Y(check_line), .YBAR(check_line_bar));
+decoder2_4$ d1(.SEL(curr_line), .Y(check_line), .YBAR(check_line_bar));
 assign check_line_00 = check_line[0];
 assign check_line_01 = check_line[1];
 assign check_line_10 = check_line[2];
