@@ -3,7 +3,7 @@ module RrAg_MEM_latch (
         input ld, clr,
         input clk,
 
-        input       valid_in, stall_in,
+        input       valid_in,
         input [1:0]  opsize_in,
         input [31:0] mem_addr1_in, mem_addr2_in, mem_addr1_end_in, mem_addr2_end_in,
         input [63:0] reg1_in, reg2_in, reg3_in, reg4_in,
@@ -33,7 +33,7 @@ module RrAg_MEM_latch (
         input [31:0] BR_pred_target_in,
         input BR_pred_T_NT_in,
 
-        output valid_out, stall_out,
+        output valid_out,
         output [1:0] opsize_out,
         output [31:0] mem_addr1_out, mem_addr2_out, mem_addr1_end_out, mem_addr2_end_out,
         output [63:0] reg1_out, reg2_out, reg3_out, reg4_out,
@@ -72,7 +72,6 @@ module RrAg_MEM_latch (
     end
 
     regn #(.WIDTH(1)) r1 (.din(valid_in), .ld(ld), .clr(clr), .clk(clk), .dout(valid_out));
-    regn #(.WIDTH(1)) r2 (.din(stall_in), .ld(ld), .clr(clr), .clk(clk), .dout(stall_out));
     regn #(.WIDTH(2)) r3 (.din(opsize_in), .ld(ld), .clr(clr), .clk(clk), .dout(opsize_out));
     regn #(.WIDTH(32)) r4 (.din(mem_addr1_in), .ld(ld), .clr(clr), .clk(clk), .dout(mem_addr1_out));
     regn #(.WIDTH(32)) r5 (.din(mem_addr2_in), .ld(ld), .clr(clr), .clk(clk), .dout(mem_addr2_out));
@@ -142,7 +141,6 @@ module RrAg_MEM_latch (
 		$fdisplay(file, "\n=============== RrAg to MEM Latch Values ===============\n");
  
         $fdisplay(file, "\t\t valid: %b", valid_out);
-        $fdisplay(file, "\t\t stall: %b", stall_out);
         $fdisplay(file, "\t\t opsize: %b", opsize_out);
         $fdisplay(file, "\t\t mem_addr1: 0x%h", mem_addr1_out);
         $fdisplay(file, "\t\t mem_addr2: 0x%h", mem_addr2_out);

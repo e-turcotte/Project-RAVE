@@ -12,7 +12,9 @@
 
 module execute_TOP(
     input clk,
-    input valid_in,                         // N
+    input fwd_stall,
+    input valid_in,                         // M
+    input latch_empty,
     input [31:0] EIP_in,                    // N
     input IE_in,                            //interrupt or exception signal - N
     input [3:0] IE_type_in,                 // N
@@ -71,7 +73,7 @@ module execute_TOP(
     output BR_correct,  //
     output[31:0] BR_FIP, //
     output [31:0] BR_FIP_p1
-
+    output stall
 );
 
     wire cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_val;
@@ -82,6 +84,10 @@ module execute_TOP(
     wire swapCXC; 
     wire[63:0] res2_xchg;
     or2$ g1(gBR, load_eip_in_op1,load_eip_in_op2,);
+
+    wire valid_internal, invempty;
+    inv1$ i0(.out(invempty), .in(latch_empty));
+    and2$ g9(.out(valid_internal), .in0(valid_in), .in1(invempty));
 
     //handle RES3/RES4
     assign ressize = opsize_in;
@@ -125,17 +131,17 @@ module execute_TOP(
     assign eflags = eflags_rd;
     assign eflags_ld = {1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 2'b0, of_out, df_out,  1'b0, 1'b0, sf_out, zf_out, af_out, pf_out, cf_out}; 
     assign af = eflags_rd[2]; assign cf = eflags_rd[0];  assign pf = eflags_rd[1]; assign zf = eflags_rd[3];   assign sf = eflags_rd[4];  assign df = eflags_rd[7];  assign of = eflags_rd[8];     
-    EFLAG e1(eflags_rd, clk, set, rst, valid_in, eflags_ld, FMASK, cc_inval);
+    EFLAG e1(eflags_rd, clk, set, rst, valid_internal, eflags_ld, FMASK, cc_inval);
     assign CS_out = CS;
     //Handle skipGen
     wire skip;
     SKIPGEN s1(skip, P_OP[6], P_OP[11], P_OP[12], cf, zf, conditionals);
     inv1$ i1(skip_n, skip);
-    and2$ a2(valid_out, valid_in, skip_n);
+    and2$ a2(valid_out, valid_internal, skip_n);
 
     //HandleBRLOGIC
     assign BR_EIP = EIP_in;
-    BRLOGIC b1(BR_valid, BR_taken, BR_correct, BR_FIP, BR_FIP_p1, valid_in, BR_pred_target_in, BR_pred_T_NT_in, conditionals, zf, cf, res1[31:0], P_OP[11], P_OP[12], P_OP[32], gBR);
+    BRLOGIC b1(BR_valid, BR_taken, BR_correct, BR_FIP, BR_FIP_p1, valid_internal, BR_pred_target_in, BR_pred_T_NT_in, conditionals, zf, cf, res1[31:0], P_OP[11], P_OP[12], P_OP[32], gBR);
 
     //TODO: exception checking for DIV0 for FDIV
     //      - without throwing exception, result from Goldschmidt div will be 0:
