@@ -8,7 +8,7 @@ module mem (input valid_in,
             input [15:0] seg1, seg2, seg3, seg4,
             input [31:0] ptc_s1, ptc_s2, ptc_s3, ptc_s4,
             output [2:0] seg1_orig, seg2_orig, seg3_orig, seg4_orig,
-            input [6:0] inst_ptcid,
+            input [6:0] inst_ptcid_in,
             input [12:0] op1_sel, op2_sel, op3_sel, op4_sel,
             input [12:0] dest1_sel, dest2_sel, dest3_sel, dest4_sel,
             input res1_ld_in, res2_ld_in, res3_ld_in, res4_ld_in,
@@ -55,6 +55,7 @@ module mem (input valid_in,
             output dest1_is_seg, dest2_is_seg, dest3_is_seg, dest4_is_seg,
             output dest1_is_mem, dest2_is_mem, dest3_is_mem, dest4_is_mem,
             output res1_ld_out, res2_ld_out, res3_ld_out, res4_ld_out,
+            output [6:0] inst_ptcid_out,
             
             output [4:0] aluk_out,
             output [2:0] mux_adder_out,
@@ -106,6 +107,8 @@ module mem (input valid_in,
     assign re2_ld_out = res2_ld_in;
     assign re3_ld_out = res3_ld_in;
     assign re4_ld_out = res4_ld_in;
+
+    assign inst_ptcid_out = inst_ptcid_in;
     
     assign valid_out = valid_in;
     assign eip_out = eip_in;
