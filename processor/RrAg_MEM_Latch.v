@@ -17,21 +17,21 @@ module RrAg_MEM_latch (
         input [12:0] dest1_in, dest2_in, dest3_in, dest4_in,
         input res1_ld_in, res2_ld_in, res3_ld_in, res4_ld_in,
         input [31:0] rep_num_in,
-        input [4:0] aluk_out_in,
-        input [2:0] mux_adder_out_in,
-        input mux_and_int_out_in, mux_shift_out_in,
-        input [36:0] p_op_out_in,
-        input [17:0] fmask_out_in,
-        input [15:0]  CS_out_in,
-        input [1:0] conditionals_out_in,
-        input is_br_out_in, is_fp_out_in,
+        input [4:0] aluk_in,
+        input [2:0] mux_adder_in,
+        input mux_and_int_in, mux_shift_in,
+        input [36:0] p_op_in,
+        input [17:0] fmask_in,
+        input [15:0]  CS_in,
+        input [1:0] conditionals_in,
+        input is_br_in, is_fp_in,
         input [47:0] imm_in,
-        input [1:0] mem1_rw_out_in, mem2_rw_out_in,
-        input [31:0] eip_out_in,
-        input IE_out_in,
-        input [3:0] IE_type_out_in,
-        input [31:0] BR_pred_target_out_in,
-        input BR_pred_T_NT_out_in,
+        input [1:0] mem1_rw_in, mem2_rw_in,
+        input [31:0] eip_in,
+        input IE_in,
+        input [3:0] IE_type_in,
+        input [31:0] BR_pred_target_in,
+        input BR_pred_T_NT_in,
 
         output valid_out, stall_out,
         output [1:0] opsize_out,
@@ -52,7 +52,7 @@ module RrAg_MEM_latch (
         output mux_and_int_out, mux_shift_out,
         output [36:0] p_op_out,
         output [17:0] fmask_out,
-        output [15:0]  CS_out_out,
+        output [15:0]  CS_out,
         output [1:0] conditionals_out,
         output is_br_out, is_fp_out,
         output [47:0] imm_out,
@@ -121,7 +121,7 @@ module RrAg_MEM_latch (
     regn #(.WIDTH(1)) r49 (.din(mux_shift_in), .ld(ld), .clr(clr), .clk(clk), .dout(mux_shift_out));
     regn #(.WIDTH(37)) r50 (.din(p_op_in), .ld(ld), .clr(clr), .clk(clk), .dout(p_op_out));
     regn #(.WIDTH(18)) r51 (.din(fmask_in), .ld(ld), .clr(clr), .clk(clk), .dout(fmask_out));
-    regn #(.WIDTH(16)) r52 (.din(CS_in), .ld(ld), .clr(clr), .clk(clk), .dout(CS_out_out));
+    regn #(.WIDTH(16)) r52 (.din(CS_in), .ld(ld), .clr(clr), .clk(clk), .dout(CS_out));
     regn #(.WIDTH(2)) r63 (.din(conditionals_in), .ld(ld), .clr(clr), .clk(clk), .dout(conditionals_out));
     regn #(.WIDTH(1)) r53 (.din(is_br_in), .ld(ld), .clr(clr), .clk(clk), .dout(is_br_out));
     regn #(.WIDTH(1)) r54 (.din(is_fp_in), .ld(ld), .clr(clr), .clk(clk), .dout(is_fp_out));
@@ -188,7 +188,7 @@ module RrAg_MEM_latch (
         $fdisplay(file, "\t\t mux_shift: %b", mux_shift_out);
         $fdisplay(file, "\t\t p_op: 0x%h", p_op_out);
         $fdisplay(file, "\t\t fmask: 0x%h = %b", fmask_out, fmask_out);
-        $fdisplay(file, "\t\t CS: 0x%h", CS_out_out);
+        $fdisplay(file, "\t\t CS: 0x%h", CS_out);
         $fdisplay(file, "\t\t conditionals:x%b", conditionals_out);
         $fdisplay(file, "\t\t is_br: %h", is_br_out);
         $fdisplay(file, "\t\t is_fp: %h", is_fp_out);
