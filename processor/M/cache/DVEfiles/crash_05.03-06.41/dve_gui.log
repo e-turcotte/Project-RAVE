@@ -1,0 +1,817 @@
+The file '/home/ecelrc/students/jnederveld/Project-RAVE/processor/M/cache/cache.vpd' was opened successfully.
+---------------------------------------------
+
+The tool has just exited abnormally:
+
+
+Release = 'T-2022.06_Full64'  Architecture = 'linux64'  Program = 'DVE'
+
+'35648016 35682754 35684238 140206498902697'
+
+---------------------------------------------
+=======================DVE Context and Call Stack=========================
+Command line: /usr/local/packages/synopsys_2022/vcs/T-2022.06//gui/dve/linux64/bin/dve.exe -full64
+
+--- Stack trace follows:
+---------------------------------------------
+
+The tool has just exited abnormally:
+
+
+Release = 'T-2022.06_Full64'  Architecture = 'linux64'  Program = 'DVE'
+
+'35648016 35682754 35684238 139950169277097'
+
+---------------------------------------------
+=======================DVE Context and Call Stack=========================
+Command line: /usr/local/packages/synopsys_2022/vcs/T-2022.06//gui/dve/linux64/bin/dve.exe -full64
+
+--- Stack trace follows:
+---------------------------------------------
+
+The tool has just exited abnormally:
+
+
+Release = 'T-2022.06_Full64'  Architecture = 'linux64'  Program = 'DVE'
+
+'35648016 35682754 35684238 140378465583785'
+
+---------------------------------------------
+---------------------------------------------
+
+The tool has just exited abnormally:
+
+
+Release = 'T-2022.06_Full64'  Architecture = 'linux64'  Program = 'DVE'
+
+'35648016 35682754 35684238 139938093118121'
+=======================DVE Context and Call Stack=========================
+Command line: /usr/local/packages/synopsys_2022/vcs/T-2022.06//gui/dve/linux64/bin/dve.exe -full64
+
+--- Stack trace follows:
+[New LWP 2069054]
+BFD: warning: /lib64/libz.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libpthread.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libX11.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXext.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libSM.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libICE.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libm.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libdl.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libc.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/ld-linux-x86-64.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libxcb.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libuuid.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXau.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libudev.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libmount.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgcc_s.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libblkid.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libselinux.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/librt.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libpcre2-8.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libdbus-glib-1.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libdbus-1.so.3: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgio-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgobject-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libglib-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libsystemd.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgmodule-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgnutls.so.30: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libpcre.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libresolv.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/liblzma.so.5: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/liblz4.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libcap.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgcrypt.so.20: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libp11-kit.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libidn2.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libunistring.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libtasn1.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libnettle.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libhogweed.so.4: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgmp.so.10: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgpg-error.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXcursor.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXrender.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXfixes.so.3: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+0x00007f45e05f36c2 in waitpid () from /lib64/libc.so.6
+
+Thread 2 (Thread 0x7f45da539700 (LWP 2069054)):
+#0  0x00007f45e1d0f45c in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
+#1  0x00007f45e14b1975 in ?? () from /lib64/libX11.so.6
+#2  0x00007f45e14b1e0d in ?? () from /lib64/libX11.so.6
+#3  0x00007f45e14a633c in XFreeFont () from /lib64/libX11.so.6
+#4  0x0000000002e1ce77 in QFontEngineXLFD::~QFontEngineXLFD() ()
+#5  0x0000000002e1cf31 in QFontEngineXLFD::~QFontEngineXLFD() ()
+#6  0x0000000002e1cf92 in QFontEngineLatinXLFD::~QFontEngineLatinXLFD() ()
+#7  0x0000000002e1d031 in QFontEngineLatinXLFD::~QFontEngineLatinXLFD() ()
+#8  0x0000000002b5bb37 in QFontCache::~QFontCache() ()
+#9  0x0000000002b5bdf1 in QFontCache::~QFontCache() ()
+#10 0x0000000002b5ca45 in QSingleCleanupHandler<QFontCache>::~QSingleCleanupHandler() ()
+#11 0x00007f45e054b26c in __run_exit_handlers () from /lib64/libc.so.6
+#12 0x00007f45e054b3a0 in exit () from /lib64/libc.so.6
+#13 0x0000000002aee6ec in ?? ()
+#14 0x00007f45e14c6cb2 in _XIOError () from /lib64/libX11.so.6
+#15 0x00007f45e14c4495 in _XEventsQueued () from /lib64/libX11.so.6
+#16 0x00007f45e149ff2d in XCheckTypedEvent () from /lib64/libX11.so.6
+#17 0x00000000012cd4f5 in ag::dveXThread::run() ()
+#18 0x0000000002b3f93a in QThreadInstance::start(void*) ()
+#19 0x00007f45e1d091ca in start_thread () from /lib64/libpthread.so.0
+#20 0x00007f45e0533e73 in clone () from /lib64/libc.so.6
+
+Thread 1 (Thread 0x7f45e3fe1740 (LWP 2067571)):
+#0  0x00007f45e05f36c2 in waitpid () from /lib64/libc.so.6
+#1  0x00007f45e0555ce7 in do_system () from /lib64/libc.so.6
+#2  0x00007f45e391d183 in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313e639d2928478c79b3f673f99203bcf8be64600612100082236bffb2007f1e0ef9 () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#3  0x00007f45e391d790 in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313e81c34e9ac4c8988ef4a6e067b3aa9271e9f15440f9e8f69e71727f1bc8d6ddca () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#4  0x00007f45e391edba in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313efba706aab251478fa49e66610e453774633a6c152e7ef778f93045171fb3645d () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#5  0x00007f45e3916f43 in SNPSle_d35ca1ff70d465c2b9b1a72eee90a50630165806651fae96c1bbda5b5d02066c () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#6  0x000000000220797b in ag::logErrorMessage(ag::errorType, QString const&, bool) ()
+#7  0x0000000002207f8e in ?? ()
+#8  0x00007f45e054b2a9 in __run_exit_handlers () from /lib64/libc.so.6
+#9  0x00007f45e054b3a0 in exit () from /lib64/libc.so.6
+#10 0x0000000002aee6ec in ?? ()
+#11 0x00007f45e14c6cb2 in _XIOError () from /lib64/libX11.so.6
+#12 0x00007f45e14c4495 in _XEventsQueued () from /lib64/libX11.so.6
+#13 0x00007f45e14b5e27 in XPending () from /lib64/libX11.so.6
+#14 0x0000000002b0a064 in QEventLoop::processEvents(unsigned int) ()
+#15 0x000000000131942a in ag::ovaEventLoop::processEvents(unsigned int) ()
+#16 0x0000000002b55c29 in QEventLoop::enterLoop() ()
+#17 0x0000000002b55baa in QEventLoop::exec() ()
+#18 0x0000000001318e96 in run_cci_event_loop ()
+#19 0x00000000012cf6b2 in ag::ovaAppInst::enterEventLoop(int, char**) ()
+#20 0x0000000000e840c7 in main ()
+
+Process VmPeak: 483092 kb, VmSize: 437292 kb
+System Free Memory: 374087060 kb, System Free Swap: 4194300 kb
+
+No context available
+==========================================================================
+
+---------------------------------------------
+=======================DVE Context and Call Stack=========================
+Command line: /usr/local/packages/synopsys_2022/vcs/T-2022.06//gui/dve/linux64/bin/dve.exe -full64
+
+--- Stack trace follows:
+[New LWP 2069054]
+BFD: warning: /lib64/libz.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libpthread.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libX11.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXext.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libSM.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libICE.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libm.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libdl.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libc.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/ld-linux-x86-64.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libxcb.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libuuid.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXau.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libudev.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libmount.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgcc_s.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libblkid.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libselinux.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/librt.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libpcre2-8.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libdbus-glib-1.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libdbus-1.so.3: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgio-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgobject-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libglib-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libsystemd.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgmodule-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgnutls.so.30: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libpcre.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libresolv.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/liblzma.so.5: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/liblz4.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libcap.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgcrypt.so.20: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libp11-kit.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libidn2.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libunistring.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libtasn1.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libnettle.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libhogweed.so.4: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgmp.so.10: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgpg-error.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXcursor.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXrender.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXfixes.so.3: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+0x00007f45e05f36c2 in waitpid () from /lib64/libc.so.6
+
+Thread 2 (Thread 0x7f45da539700 (LWP 2069054)):
+#0  0x00007f45e1d0f45c in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
+#1  0x00007f45e14b1975 in ?? () from /lib64/libX11.so.6
+#2  0x00007f45e14b1e0d in ?? () from /lib64/libX11.so.6
+#3  0x00007f45e14a633c in XFreeFont () from /lib64/libX11.so.6
+#4  0x0000000002e1ce77 in QFontEngineXLFD::~QFontEngineXLFD() ()
+#5  0x0000000002e1cf31 in QFontEngineXLFD::~QFontEngineXLFD() ()
+#6  0x0000000002e1cf92 in QFontEngineLatinXLFD::~QFontEngineLatinXLFD() ()
+#7  0x0000000002e1d031 in QFontEngineLatinXLFD::~QFontEngineLatinXLFD() ()
+#8  0x0000000002b5bb37 in QFontCache::~QFontCache() ()
+#9  0x0000000002b5bdf1 in QFontCache::~QFontCache() ()
+#10 0x0000000002b5ca45 in QSingleCleanupHandler<QFontCache>::~QSingleCleanupHandler() ()
+#11 0x00007f45e054b26c in __run_exit_handlers () from /lib64/libc.so.6
+#12 0x00007f45e054b3a0 in exit () from /lib64/libc.so.6
+#13 0x0000000002aee6ec in ?? ()
+#14 0x00007f45e14c6cb2 in _XIOError () from /lib64/libX11.so.6
+#15 0x00007f45e14c4495 in _XEventsQueued () from /lib64/libX11.so.6
+#16 0x00007f45e149ff2d in XCheckTypedEvent () from /lib64/libX11.so.6
+#17 0x00000000012cd4f5 in ag::dveXThread::run() ()
+#18 0x0000000002b3f93a in QThreadInstance::start(void*) ()
+#19 0x00007f45e1d091ca in start_thread () from /lib64/libpthread.so.0
+#20 0x00007f45e0533e73 in clone () from /lib64/libc.so.6
+
+Thread 1 (Thread 0x7f45e3fe1740 (LWP 2067571)):
+#0  0x00007f45e05f36c2 in waitpid () from /lib64/libc.so.6
+#1  0x00007f45e0555ce7 in do_system () from /lib64/libc.so.6
+#2  0x00007f45e391d183 in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313e639d2928478c79b3f673f99203bcf8be64600612100082236bffb2007f1e0ef9 () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#3  0x00007f45e391d790 in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313e81c34e9ac4c8988ef4a6e067b3aa9271e9f15440f9e8f69e71727f1bc8d6ddca () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#4  0x00007f45e391edba in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313efba706aab251478fa49e66610e453774633a6c152e7ef778f93045171fb3645d () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#5  0x00007f45e3916f43 in SNPSle_d35ca1ff70d465c2b9b1a72eee90a50630165806651fae96c1bbda5b5d02066c () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#6  0x000000000220797b in ag::logErrorMessage(ag::errorType, QString const&, bool) ()
+#7  0x0000000002207f8e in ?? ()
+#8  0x00007f45e054b2a9 in __run_exit_handlers () from /lib64/libc.so.6
+#9  0x00007f45e054b3a0 in exit () from /lib64/libc.so.6
+#10 0x0000000002aee6ec in ?? ()
+#11 0x00007f45e14c6cb2 in _XIOError () from /lib64/libX11.so.6
+#12 0x00007f45e14c4495 in _XEventsQueued () from /lib64/libX11.so.6
+#13 0x00007f45e14b5e27 in XPending () from /lib64/libX11.so.6
+#14 0x0000000002b0a064 in QEventLoop::processEvents(unsigned int) ()
+#15 0x000000000131942a in ag::ovaEventLoop::processEvents(unsigned int) ()
+#16 0x0000000002b55c29 in QEventLoop::enterLoop() ()
+#17 0x0000000002b55baa in QEventLoop::exec() ()
+#18 0x0000000001318e96 in run_cci_event_loop ()
+#19 0x00000000012cf6b2 in ag::ovaAppInst::enterEventLoop(int, char**) ()
+#20 0x0000000000e840c7 in main ()
+
+Process VmPeak: 483092 kb, VmSize: 437292 kb
+System Free Memory: 374087060 kb, System Free Swap: 4194300 kb
+
+No context available
+==========================================================================
+---------------------------------------------
+
+The tool has just exited abnormally:
+
+
+Release = 'T-2022.06_Full64'  Architecture = 'linux64'  Program = 'DVE'
+
+'35648016 35682754 35684238 140306909729449'
+
+---------------------------------------------
+=======================DVE Context and Call Stack=========================
+Command line: /usr/local/packages/synopsys_2022/vcs/T-2022.06//gui/dve/linux64/bin/dve.exe -full64
+
+--- Stack trace follows:
+[New LWP 2069054]
+BFD: warning: /lib64/libz.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libpthread.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libX11.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXext.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libSM.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libICE.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libm.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libdl.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libc.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/ld-linux-x86-64.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libxcb.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libuuid.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXau.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libudev.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libmount.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgcc_s.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libblkid.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libselinux.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/librt.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libpcre2-8.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libdbus-glib-1.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libdbus-1.so.3: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgio-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgobject-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libglib-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libsystemd.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgmodule-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgnutls.so.30: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libpcre.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libresolv.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/liblzma.so.5: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/liblz4.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libcap.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgcrypt.so.20: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libp11-kit.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libidn2.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libunistring.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libtasn1.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libnettle.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libhogweed.so.4: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgmp.so.10: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgpg-error.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXcursor.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXrender.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXfixes.so.3: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+0x00007f45e05f36c2 in waitpid () from /lib64/libc.so.6
+
+Thread 2 (Thread 0x7f45da539700 (LWP 2069054)):
+#0  0x00007f45e1d0f45c in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
+#1  0x00007f45e14b1975 in ?? () from /lib64/libX11.so.6
+#2  0x00007f45e14b1e0d in ?? () from /lib64/libX11.so.6
+#3  0x00007f45e14a633c in XFreeFont () from /lib64/libX11.so.6
+#4  0x0000000002e1ce77 in QFontEngineXLFD::~QFontEngineXLFD() ()
+#5  0x0000000002e1cf31 in QFontEngineXLFD::~QFontEngineXLFD() ()
+#6  0x0000000002e1cf92 in QFontEngineLatinXLFD::~QFontEngineLatinXLFD() ()
+#7  0x0000000002e1d031 in QFontEngineLatinXLFD::~QFontEngineLatinXLFD() ()
+#8  0x0000000002b5bb37 in QFontCache::~QFontCache() ()
+#9  0x0000000002b5bdf1 in QFontCache::~QFontCache() ()
+#10 0x0000000002b5ca45 in QSingleCleanupHandler<QFontCache>::~QSingleCleanupHandler() ()
+#11 0x00007f45e054b26c in __run_exit_handlers () from /lib64/libc.so.6
+#12 0x00007f45e054b3a0 in exit () from /lib64/libc.so.6
+#13 0x0000000002aee6ec in ?? ()
+#14 0x00007f45e14c6cb2 in _XIOError () from /lib64/libX11.so.6
+#15 0x00007f45e14c4495 in _XEventsQueued () from /lib64/libX11.so.6
+#16 0x00007f45e149ff2d in XCheckTypedEvent () from /lib64/libX11.so.6
+#17 0x00000000012cd4f5 in ag::dveXThread::run() ()
+#18 0x0000000002b3f93a in QThreadInstance::start(void*) ()
+#19 0x00007f45e1d091ca in start_thread () from /lib64/libpthread.so.0
+#20 0x00007f45e0533e73 in clone () from /lib64/libc.so.6
+
+Thread 1 (Thread 0x7f45e3fe1740 (LWP 2067571)):
+#0  0x00007f45e05f36c2 in waitpid () from /lib64/libc.so.6
+#1  0x00007f45e0555ce7 in do_system () from /lib64/libc.so.6
+#2  0x00007f45e391d183 in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313e639d2928478c79b3f673f99203bcf8be64600612100082236bffb2007f1e0ef9 () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#3  0x00007f45e391d790 in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313e81c34e9ac4c8988ef4a6e067b3aa9271e9f15440f9e8f69e71727f1bc8d6ddca () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#4  0x00007f45e391edba in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313efba706aab251478fa49e66610e453774633a6c152e7ef778f93045171fb3645d () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#5  0x00007f45e3916f43 in SNPSle_d35ca1ff70d465c2b9b1a72eee90a50630165806651fae96c1bbda5b5d02066c () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#6  0x000000000220797b in ag::logErrorMessage(ag::errorType, QString const&, bool) ()
+#7  0x0000000002207f8e in ?? ()
+#8  0x00007f45e054b2a9 in __run_exit_handlers () from /lib64/libc.so.6
+#9  0x00007f45e054b3a0 in exit () from /lib64/libc.so.6
+#10 0x0000000002aee6ec in ?? ()
+#11 0x00007f45e14c6cb2 in _XIOError () from /lib64/libX11.so.6
+#12 0x00007f45e14c4495 in _XEventsQueued () from /lib64/libX11.so.6
+#13 0x00007f45e14b5e27 in XPending () from /lib64/libX11.so.6
+#14 0x0000000002b0a064 in QEventLoop::processEvents(unsigned int) ()
+#15 0x000000000131942a in ag::ovaEventLoop::processEvents(unsigned int) ()
+#16 0x0000000002b55c29 in QEventLoop::enterLoop() ()
+#17 0x0000000002b55baa in QEventLoop::exec() ()
+#18 0x0000000001318e96 in run_cci_event_loop ()
+#19 0x00000000012cf6b2 in ag::ovaAppInst::enterEventLoop(int, char**) ()
+#20 0x0000000000e840c7 in main ()
+
+Process VmPeak: 483092 kb, VmSize: 437292 kb
+System Free Memory: 374087060 kb, System Free Swap: 4194300 kb
+
+No context available
+==========================================================================
+---------------------------------------------
+
+The tool has just exited abnormally:
+
+
+Release = 'T-2022.06_Full64'  Architecture = 'linux64'  Program = 'DVE'
+
+'35648016 35682754 35684238 140004050858665'
+
+---------------------------------------------
+=======================DVE Context and Call Stack=========================
+Command line: /usr/local/packages/synopsys_2022/vcs/T-2022.06//gui/dve/linux64/bin/dve.exe -full64
+
+--- Stack trace follows:
+[New LWP 2069054]
+BFD: warning: /lib64/libz.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libpthread.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libX11.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXext.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libSM.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libICE.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libm.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libdl.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libc.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/ld-linux-x86-64.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libxcb.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libuuid.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXau.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libudev.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libmount.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgcc_s.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libblkid.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libselinux.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/librt.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libpcre2-8.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libdbus-glib-1.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libdbus-1.so.3: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgio-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgobject-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libglib-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libsystemd.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgmodule-2.0.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgnutls.so.30: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libpcre.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libresolv.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/liblzma.so.5: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/liblz4.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libcap.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgcrypt.so.20: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libp11-kit.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libidn2.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libunistring.so.2: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libtasn1.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libnettle.so.6: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libhogweed.so.4: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgmp.so.10: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libgpg-error.so.0: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXcursor.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXrender.so.1: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+BFD: warning: /lib64/libXfixes.so.3: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000002
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+
+warning: Cannot parse .gnu_debugdata section; LZMA support was disabled at compile time
+0x00007f45e05f36c2 in waitpid () from /lib64/libc.so.6
+
+Thread 2 (Thread 0x7f45da539700 (LWP 2069054)):
+#0  0x00007f45e1d0f45c in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
+#1  0x00007f45e14b1975 in ?? () from /lib64/libX11.so.6
+#2  0x00007f45e14b1e0d in ?? () from /lib64/libX11.so.6
+#3  0x00007f45e14a633c in XFreeFont () from /lib64/libX11.so.6
+#4  0x0000000002e1ce77 in QFontEngineXLFD::~QFontEngineXLFD() ()
+#5  0x0000000002e1cf31 in QFontEngineXLFD::~QFontEngineXLFD() ()
+#6  0x0000000002e1cf92 in QFontEngineLatinXLFD::~QFontEngineLatinXLFD() ()
+#7  0x0000000002e1d031 in QFontEngineLatinXLFD::~QFontEngineLatinXLFD() ()
+#8  0x0000000002b5bb37 in QFontCache::~QFontCache() ()
+#9  0x0000000002b5bdf1 in QFontCache::~QFontCache() ()
+#10 0x0000000002b5ca45 in QSingleCleanupHandler<QFontCache>::~QSingleCleanupHandler() ()
+#11 0x00007f45e054b26c in __run_exit_handlers () from /lib64/libc.so.6
+#12 0x00007f45e054b3a0 in exit () from /lib64/libc.so.6
+#13 0x0000000002aee6ec in ?? ()
+#14 0x00007f45e14c6cb2 in _XIOError () from /lib64/libX11.so.6
+#15 0x00007f45e14c4495 in _XEventsQueued () from /lib64/libX11.so.6
+#16 0x00007f45e149ff2d in XCheckTypedEvent () from /lib64/libX11.so.6
+#17 0x00000000012cd4f5 in ag::dveXThread::run() ()
+#18 0x0000000002b3f93a in QThreadInstance::start(void*) ()
+#19 0x00007f45e1d091ca in start_thread () from /lib64/libpthread.so.0
+#20 0x00007f45e0533e73 in clone () from /lib64/libc.so.6
+
+Thread 1 (Thread 0x7f45e3fe1740 (LWP 2067571)):
+#0  0x00007f45e05f36c2 in waitpid () from /lib64/libc.so.6
+#1  0x00007f45e0555ce7 in do_system () from /lib64/libc.so.6
+#2  0x00007f45e391d183 in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313e639d2928478c79b3f673f99203bcf8be64600612100082236bffb2007f1e0ef9 () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#3  0x00007f45e391d790 in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313e81c34e9ac4c8988ef4a6e067b3aa9271e9f15440f9e8f69e71727f1bc8d6ddca () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#4  0x00007f45e391edba in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313efba706aab251478fa49e66610e453774633a6c152e7ef778f93045171fb3645d () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#5  0x00007f45e3916f43 in SNPSle_d35ca1ff70d465c2b9b1a72eee90a50630165806651fae96c1bbda5b5d02066c () from /usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/lib/liberrorinf.so
+#6  0x000000000220797b in ag::logErrorMessage(ag::errorType, QString const&, bool) ()
+#7  0x0000000002207f8e in ?? ()
+#8  0x00007f45e054b2a9 in __run_exit_handlers () from /lib64/libc.so.6
+#9  0x00007f45e054b3a0 in exit () from /lib64/libc.so.6
+#10 0x0000000002aee6ec in ?? ()
+#11 0x00007f45e14c6cb2 in _XIOError () from /lib64/libX11.so.6
+#12 0x00007f45e14c4495 in _XEventsQueued () from /lib64/libX11.so.6
+#13 0x00007f45e14b5e27 in XPending () from /lib64/libX11.so.6
+#14 0x0000000002b0a064 in QEventLoop::processEvents(unsigned int) ()
+#15 0x000000000131942a in ag::ovaEventLoop::processEvents(unsigned int) ()
+#16 0x0000000002b55c29 in QEventLoop::enterLoop() ()
+#17 0x0000000002b55baa in QEventLoop::exec() ()
+#18 0x0000000001318e96 in run_cci_event_loop ()
+#19 0x00000000012cf6b2 in ag::ovaAppInst::enterEventLoop(int, char**) ()
+#20 0x0000000000e840c7 in main ()
+
+Process VmPeak: 483092 kb, VmSize: 437292 kb
+System Free Memory: 374087060 kb, System Free Swap: 4194300 kb
+
+No context available
+==========================================================================

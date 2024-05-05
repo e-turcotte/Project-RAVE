@@ -375,7 +375,7 @@
         "cache_tb",
         "nGxCG",
         "module",
-        63
+        125
     ],
     "PTCVDFSM": [
         "PTCVDFSM",
@@ -411,13 +411,13 @@
         "dataStore_0000",
         "tSF4Q",
         "module",
-        69
+        124
     ],
     "tagStore_0000": [
         "tagStore_0000",
         "NN4DC",
         "module",
-        70
+        113
     ],
     "wayGeneration_0000": [
         "wayGeneration_0000",
@@ -429,7 +429,19 @@
         "outputAlign_0000",
         "LyNI0",
         "module",
-        72
+        110
+    ],
+    "lShf16_0000": [
+        "lShf16_0000",
+        "DPW3I",
+        "module",
+        149
+    ],
+    "rShf16_0000": [
+        "rShf16_0000",
+        "APZcb",
+        "module",
+        123
     ],
     "cacheBank": [
         "cacheBank",
@@ -477,7 +489,7 @@
         "mux2n_0002",
         "Gy2YV",
         "module",
-        80
+        98
     ],
     "mux2n_0003": [
         "mux2n_0003",
@@ -489,7 +501,7 @@
         "mux2n_0004",
         "zk6bZ",
         "module",
-        82
+        127
     ],
     "mux2n_0005": [
         "mux2n_0005",
@@ -507,7 +519,7 @@
         "mux2n_0008",
         "T6QHv",
         "module",
-        85
+        109
     ],
     "reverseBits_0001": [
         "reverseBits_0001",
@@ -581,11 +593,17 @@
         "module",
         97
     ],
+    "andn_0001_0000": [
+        "andn_0001_0000",
+        "TmVFE",
+        "module",
+        155
+    ],
     "andn_0001_0001": [
         "andn_0001_0001",
         "EbDyt",
         "module",
-        98
+        72
     ],
     "decodern_0000": [
         "decodern_0000",
@@ -593,17 +611,17 @@
         "module",
         99
     ],
+    "decodern_0002": [
+        "decodern_0002",
+        "hFRDa",
+        "module",
+        154
+    ],
     "bufferH16_8b$": [
         "bufferH16_8b0x24",
         "k6zpw",
         "module",
         100
-    ],
-    "bufferH16_nb$_0002": [
-        "bufferH16_nb0x24_0002",
-        "IHg1p",
-        "module",
-        101
     ],
     "bufferH64_8b$": [
         "bufferH64_8b0x24",
@@ -651,13 +669,13 @@
         "muxnm_tristate_0001",
         "jEdas",
         "module",
-        109
+        85
     ],
     "muxnm_tristate_0002": [
         "muxnm_tristate_0002",
         "PgHxQ",
         "module",
-        110
+        70
     ],
     "muxnm_tristate_0003": [
         "muxnm_tristate_0003",
@@ -675,7 +693,7 @@
         "muxnm_tristate_0006",
         "jA1Ny",
         "module",
-        113
+        69
     ],
     "muxnm_tristate_0007": [
         "muxnm_tristate_0007",
@@ -694,12 +712,6 @@
         "nGpvE",
         "module",
         116
-    ],
-    "muxnm_tristate_000A": [
-        "muxnm_tristate_000A",
-        "Q2YZ3",
-        "module",
-        117
     ],
     "muxn1_tristate_0000": [
         "muxn1_tristate_0000",
@@ -723,7 +735,7 @@
         "muxn1_tristate_0003",
         "CIwmT",
         "module",
-        121
+        138
     ],
     "satAdder": [
         "satAdder",
@@ -731,29 +743,41 @@
         "module",
         122
     ],
+    "mux4n_0000": [
+        "mux4n_0000",
+        "fB7ds",
+        "module",
+        152
+    ],
     "mux4n_0001": [
         "mux4n_0001",
         "sYmCK",
         "module",
-        124
+        80
     ],
     "mux4n_0002": [
         "mux4n_0002",
         "xrzu2",
         "module",
-        125
+        63
     ],
-    "rshfn_variable_0000": [
-        "rshfn_variable_0000",
-        "JyBU2",
+    "regn_0000": [
+        "regn_0000",
+        "n9Viz",
         "module",
-        126
+        153
     ],
-    "lshfn_variable_0000": [
-        "lshfn_variable_0000",
-        "PV4KG",
+    "rshfn_variable": [
+        "rshfn_variable",
+        "CaCYr",
         "module",
-        127
+        150
+    ],
+    "lshfn_variable": [
+        "lshfn_variable",
+        "NGs9d",
+        "module",
+        151
     ],
     "rrotn_variable": [
         "rrotn_variable",
@@ -819,7 +843,7 @@
         "or20x24",
         "HYgzw",
         "module",
-        138
+        156
     ],
     "xor2$": [
         "xor20x24",

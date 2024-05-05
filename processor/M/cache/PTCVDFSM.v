@@ -8,6 +8,7 @@ input wire wb,
 input enable,
 output PTC, D, V
 );
+
 wire PTC_new, D_new, V_new;
 dff$ d1(clk, D_new, D, D_bar, rst, set);
 dff$ d2(clk, V_new, V, V_bar, rst, set);
@@ -28,8 +29,9 @@ and4$ a5(WB110, V, PTC, D_bar, wb);//101
 and4$ a6(SW101, V, PTC_bar, D, sw); //111
 and4$ a7(WB111, V, PTC, D, wb); //101
 and4$ a8(EX101, V, PTC_bar, D, ex); //010
+and4$ a9(SW111, V, PTC, D, sw);
+and4$ a10(SW110, V, PTC,  D_bar, sw);
 
-
-muxnm_tristate #(8, 3) tm({3'b010,3'b010,3'b100,3'b110,3'b101,3'b111,3'b101,3'b010 }, {EX100,SW000,WB010,SW100,WB110,SW101,WB111,EX101},nextState);
+muxnm_tristate #(10, 3) tm({3'b110, 3'b111,3'b010,3'b010,3'b100,3'b110,3'b101,3'b111,3'b101,3'b010 }, {SW110, SW111,EX100,SW000,WB010,SW100,WB110,SW101,WB111,EX101},nextState);
 
 endmodule
