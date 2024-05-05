@@ -18,10 +18,10 @@ module TOP;
     end
 
     initial begin
-        $readmemh("init/dram_test.init", d0.sram0.mem);
-        $readmemh("init/dram_test.init", d0.sram1.mem);
-        $readmemh("init/dram_test.init", d0.sram2.mem);
-        $readmemh("init/dram_test.init", d0.sram3.mem);
+        $readmemh("initfiles/dram_test.init", d0.sram0.mem);
+        $readmemh("initfiles/dram_test.init", d0.sram1.mem);
+        $readmemh("initfiles/dram_test.init", d0.sram2.mem);
+        $readmemh("initfiles/dram_test.init", d0.sram3.mem);
         ce = 1'b0;
         din = 128'hffffffffffffffffffffffffffffffff;
         rw = 1'b1;
