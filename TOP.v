@@ -11,13 +11,13 @@ module TOP();
     localparam m_size_MEM_EX = 773;
     localparam n_size_MEM_EX = 300;
 
-    
+    initial #5000 $finish;
+
     initial begin
         file = $fopen("debug.out", "w");
         clk = 1'b1;
         cycle_number = 0;
         forever #(CYCLE_TIME / 2.0) clk = ~clk;
-
     end
 
     //TODO: TLB Initializations
@@ -569,8 +569,6 @@ module TOP();
         .BR_pred_target_out(BR_pred_target_MEM_EX_latch_in),
         .BR_pred_T_NT_out(BR_pred_T_NT_MEM_EX_latch_in),
         .opsize_out(opsize_MEM_EX_latch_in),
-        .set_out(set_MEM_EX_latch_in),
-        .rst_out(rst_MEM_EX_latch_in),
         .res1_ld_out(res1_ld_MEM_EX_latch_in),
         .res2_ld_out(res2_ld_MEM_EX_latch_in),
         .res3_ld_out(res3_ld_MEM_EX_latch_in),

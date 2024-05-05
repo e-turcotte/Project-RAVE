@@ -11,7 +11,7 @@ module D_RrAg_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
 
       queuenm #(M_WIDTH, N_WIDTH, Q_LENGTH) q0(.m_din(m_din), .n_din(n_din), .new_m_vector(new_m_vector), .wr(wr), .rd(rd), .modify_vector(modify_vector), .clr(clr), .clk(clk), .full(full), .empty(empty), .old_m_vector(old_m_vector), .dout(dout));                                                                 
 
-    integer file;
+    integer file, cyc_cnt;
     initial begin
         cyc_cnt = 0;
         file = $fopen("D_RrAg_latches.out", "w");
@@ -45,10 +45,10 @@ module D_RrAg_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
         k = 7;
         all_outs[k] = q0.outs[(7+1)*(mlen+nlen)-1:7*(mlen+nlen)];
 
-		$display(file, "\n=============== D to RrAg Latch Values ===============\n");
+		$fdisplay(file, "\n=============== D to RrAg Latch Values ===============\n");
 
         for (latch_num = 0; latch_num < qlen; latch_num = latch_num + 1) begin
-            $fdisplay(file, "\t ==LATCH==: %d", latch_num);
+            $fdisplay(file, "\n\t ==LATCH==: %d", latch_num);
             $fdisplay(file, "\t modifiable signals:");
 
             $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][361]);
@@ -67,7 +67,7 @@ module D_RrAg_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
 
             $fdisplay(file, "\t\t opsize: %b", all_outs[latch_num][338:337]);
             $fdisplay(file, "\t\t addressing mode: %d", all_outs[latch_num][336]);
-            $fdisplay(file, "\n\t op1: 0x%d", all_outs[latch_num][335:323]);
+            $fdisplay(file, "\t\t op1: 0x%d", all_outs[latch_num][335:323]);
             $fdisplay(file, "\t\t op2: 0x%d", all_outs[latch_num][322:310]);
             $fdisplay(file, "\t\t op3: 0x%d", all_outs[latch_num][309:297]);
             $fdisplay(file, "\t\t op4: 0x%d", all_outs[latch_num][296:284]);
