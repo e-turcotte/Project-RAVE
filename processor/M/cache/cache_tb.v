@@ -1,6 +1,8 @@
 module cache_tb();
+
 reg clk;
 reg set, rst;
+localparam CYCLE_TIME = 12.0;
 
 //inputAlign
 reg[31:0] address_in;
@@ -9,18 +11,23 @@ reg[1:0] size_in; //done
 reg r, w, sw;
 reg valid_in;
 reg fromBUS, sizeOVR;//done
-reg[7:0] entry_V, entry_P, entry_RW;//DONE
-
+    reg [7:0] entry_V, entry_P,  entry_RW, entry_PCD;//DONE
+reg [19:0] VP_0, VP_1, VP_2, VP_3, VP_4, VP_5, VP_6, VP_7;
+reg [19:0] PF_0, PF_1, PF_2, PF_3, PF_4, PF_5, PF_6, PF_7;
+reg [159:0] VP, PF; 
 //cachebank
 reg MSHR_HIT, MSHR_FULL, SER_FULL; //DONE
 reg[2:0] cache_id; //DONE
-
+reg [6:0] PTC_ID_IN;
+reg AQ_EMPTY;
 
 initial begin
     rst = 0;
     set = 1;
     valid_in = 0;
     clk = 0;
+    PTC_ID_IN = 0;
+    AQ_EMPTY = 0;
     VP_0 = 20'h00000;
     VP_1 = 20'h02000;
     VP_2 = 20'h04000;
@@ -40,18 +47,42 @@ initial begin
     PF_7 = 20'h00003;
     MSHR_HIT = 0; MSHR_FULL = 0; SER_FULL = 0;
     sizeOVR = 0; fromBUS = 0;
-    entry_v = 8'b10111111;
+    entry_V = 8'b10111111;
     entry_P = 8'b11110111;
     entry_RW= 8'b11010101;
     entry_PCD = 8'b00000011;
     size_in = 2'b10;
     data_in = 128'h1111_2222_3333_4444_5555_6666_7777_8888;
-    
+    r = 0; w = 0; sw = 0;
+    address_in = 32'h0400_000F;
     VP = {VP_7, VP_6, VP_5, VP_4, VP_3, VP_2, VP_1, VP_0};
     PF = {PF_7, PF_6, PF_5, PF_4, PF_3, PF_2, PF_1, PF_0};
 
     #CYCLE_TIME
     rst = 1;
+    #CYCLE_TIME
+    #CYCLE_TIME
+    #CYCLE_TIME
+
+    r = 1;
+    sw = 1;
+    valid_in = 1;
+    #CYCLE_TIME
+    r = 0; sw = 0; w = 1;fromBUS = 1;
+    address_in = 32'h0400_0000;
+    #CYCLE_TIME
+    address_in = 32'h0400_0010;
+    data_in = 128'hFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF;
+    #CYCLE_TIME
+    address_in = 32'h0400_000F;
+    r = 1; sw = 0; w = 0; fromBUS = 0;
+    data_in = 128'd0;
+    #CYCLE_TIME
+    valid_in = 0;
+    #CYCLE_TIME
+       #CYCLE_TIME
+    #CYCLE_TIME
+    $finish;
 end
 
 
@@ -88,7 +119,7 @@ wire  oddIsGreaters;
 wire  needP1s;
 wire [2:0] oneSize_outs;
 wire  [31:0] vAddressE;
-wire [31:0] addressE;
+wire [14:0] addressE;
 wire [16*8-1:0] dataE;
 wire  [1:0] sizeE;
 wire  rE,wE,swE;
@@ -96,13 +127,33 @@ wire  validE;
 wire  fromBUSE;
 wire  [16*8-1:0] maskE;
 wire  [31:0] vAddressO;
-wire [31:0] addressO;
+wire [14:0] addressO;
 wire [16*8-1:0] dataO;
 wire  [1:0] sizeO;
 wire  rO,wO,swO;
 wire  validO;
 wire  fromBUSOs;
 wire  [16*8-1:0] maskO;
+
+wire  oddIsGreaters_t;
+wire  needP1s_t;
+wire [2:0] oneSize_outs_t;
+wire  [31:0] vAddressE_t;
+wire [14:0] addressE_t;
+wire [16*8-1:0] dataE_t;
+wire  [1:0] sizeE_t;
+wire  rE,wE,swE_t;
+wire  validE_t;
+wire  fromBUSE_t;
+wire  [16*8-1:0] maskE_t;
+wire  [31:0] vAddressO_t;
+wire [14:0] addressO_t;
+wire [16*8-1:0] dataO_t;
+wire  [1:0] sizeO_t;
+wire  rO,wO,swO_t;
+wire  validO_t;
+wire  fromBUSOs_t;
+wire  [16*8-1:0] maskO_t;
    
 
 //cachebank outputs
@@ -190,7 +241,7 @@ inputAlign iA(
     .TLB_miss(TLB_miss),
     .protection_exception(protection_exception),
     .TLB_hit(TLB_hit),
-    .PCD_OUT(PCD_out),
+    .PCD_out(PCD_outss),
     
     .vAddress0(vAddress0),
     .address0(address0),
@@ -226,7 +277,7 @@ adrSwap adrSwap_instance (
     .valid0(valid0),
     .fromBUS0(fromBUS0),
     .mask0(mask0),
-    .PCD_IN(PCD_out),
+    .PCD_in(PCD_outss),
     .vAddress1(vAddress1),
     .address1(address1),
     .data1(data1),
@@ -238,35 +289,48 @@ adrSwap adrSwap_instance (
     .fromBUS1(fromBUS1),
     .mask1(mask1),
 
-    .needP1_in(needP1_in),
+    .needP1_in(needP1),
     .oneSize(oneSize),
 
-    .oddIsGreater(oddIsGreater),
-    .needP1(needP1s),
-    .oneSize_out(oneSize_outs),
+    .oddIsGreater(oddIsGreater_t),
+    .needP1(needP1s_t),
+    .oneSize_out(oneSize_outs_t),
+    .vAddressE(vAddressE_t),
+    .addressE(addressE_t),
+    .dataE(dataE_t),
+    .sizeE(sizeE_t),
+    .rE(rE_t),
+    .wE(wE_t),
+    .swE(swE_t),
+    .validE(validE_t),
+    .fromBUSE(fromBUSE_t),
+    .maskE(maskE_t),
+    .vAddressO(vAddressO_t),
+    .addressO(addressO_t),
+    .dataO(dataO_t),
+    .sizeO(sizeO_t),
+    .rO(rO_t),
+    .wO(wO_t),
+    .swO(swO_t),
+    .validO(validO_t),
+    .fromBUSO(fromBUSOs_t),
+    .maskO(maskO_t),
+    .PCD_out(PCD_in_t)
+);
 
-    .vAddressE(vAddressE),
-    .addressE(addressE),
-    .dataE(dataE),
-    .sizeE(sizeE),
-    .rE(rE),
-    .wE(wE),
-    .swE(swE),
-    .validE(validE),
-    .fromBUSE(fromBUSE),
-    .maskE(maskE),
+regn #(626) rrr(
+    {
+    oddIsGreater_t, needP1s_t, oneSize_outs_t,
+    vAddressE_t, addressE_t, dataE_t, sizeE_t, rE_t, wE_t, swE_t, validE_t, fromBUSE_t, maskE_t,
+    vAddressO_t, addressO_t, dataO_t, sizeO_t, rO_t, wO_t, swO_t, validO_t, fromBUSOs_t, maskO_t, PCD_in_t
+},
+1'b1, rst, clk,
+{
+    oddIsGreater, needP1s, oneSize_outs,
+    vAddressE, addressE, dataE, sizeE, rE, wE, swE, validE, fromBUSE, maskE,
+    vAddressO, addressO, dataO, sizeO, rO, wO, swO, validO, fromBUSOs, maskO, PCD_in
+}
 
-    .vAddressO(vAddressO),
-    .addressO(addressO),
-    .dataO(dataO),
-    .sizeO(sizeO),
-    .rO(rO),
-    .wO(wO),
-    .swO(swO),
-    .validO(validO),
-    .fromBUSO(fromBUSOs),
-    .maskO(maskO),
-    .PCD_out(PCD_in)
 );
 
 cacheBank cacheBank_E (
@@ -275,7 +339,7 @@ cacheBank cacheBank_E (
     .set(set),
     .cache_id(3'b011),
     .vAddress(vAddressE),
-    .pAddress(AddressE),
+    .pAddress(addressE),
     .data(dataE),
     .size(sizeE),
     .r(rE),
@@ -285,7 +349,7 @@ cacheBank cacheBank_E (
     .fromBUS(fromBUSE),
     .mask(maskE),
     
-    .AQ_isEMPTY(AQ_isEMPTY),
+    .AQ_isEMPTY(AQ_EMPTY),
     .PTC_ID_IN(PTC_ID_IN),
 
     .oddIsGreater_in(oddIsGreater),
@@ -294,10 +358,10 @@ cacheBank cacheBank_E (
     .oneSize(oneSize_outs),
     .MSHR_HIT(MSHR_HIT),
     .MSHR_FULL(MSHR_FULL),
-    .SER_FULL0(SER_FULL),
-    .SER_FULL1(SER_FULL),
+    .SER0_FULL(SER_FULL),
+    .SER1_FULL(SER_FULL),
 
-    .PCD_IN(PCD_IN),
+    .PCD_IN(PCD_in),
 
     .AQ_READ(AQ_READE),
     .MSHR_valid(MSHR_validE),
@@ -325,7 +389,7 @@ cacheBank cacheBank_E (
     .cache_stall(cache_stallE),
     .cache_miss(cache_missE),
     .needP1(needP1E),
-    .oneSize_out(oneSize_ouE)
+    .oneSize_out(oneSize_outE)
 );
 
 cacheBank cacheBank_O (
@@ -334,27 +398,27 @@ cacheBank cacheBank_O (
     .set(set),
     .cache_id(3'b011),
     .vAddress(vAddressO),
-    .pAddress(AddressO),
+    .pAddress(addressO),
     .data(dataO),
     .size(sizeO),
       .r(rO),
       .w(wO),
     .sw(swO),
     .valid_in(validO),
-    .fromBUS(fromBUSO),
+    .fromBUS(fromBUSOs),
     .mask(maskO),
     
-    .AQ_isEMPTY(AQ_isEMPTY),
+    .AQ_isEMPTY(AQ_EMPTY),
     .PTC_ID_IN(PTC_ID_IN),
 
     .oddIsGreater_in(oddIsGreater),
-    .PCD_in(PCD_in),
+    .PCD_IN(PCD_in),
     .needP1_in(needP1s),
     .oneSize(oneSize_outs),
     .MSHR_HIT(MSHR_HIT),
     .MSHR_FULL(MSHR_FULL),
-    .SER_FULL0(SER_FULL),
-    .SER_FULL1(SER_FULL),
+    .SER1_FULL(SER_FULL),
+    .SER0_FULL(SER_FULL),
     
     .AQ_READ(AQ_READO),
     .MSHR_valid(MSHR_validO),
@@ -391,10 +455,10 @@ outputAlign outputAlign_instance (
     .E_pAddress(EX_pAddressE),
     .E_size(EX_sizeE),
     .E_wake(EX_wakeE),
-    .E_cache_stall(EX_cache_stallE),
-    .E_cache_miss(EX_cache_missE),
-    .E_oddIsGreater(EX_oddIsGreaterE),
-    .E_needP1(EX_needP1E),
+    .E_cache_stall(cache_stallE),
+    .E_cache_miss(cache_missE),
+    .E_oddIsGreater(oddIsGreaterE),
+    .E_needP1(needP1E),
     .oneSize(oneSize_outO),
     .O_valid(EX_validO),
     .O_data(EX_dataO),
@@ -402,10 +466,10 @@ outputAlign outputAlign_instance (
     .O_pAddress(EX_pAddressO),
     .O_size(EX_sizeO),
     .O_wake(EX_wakeO),
-    .O_cache_stall(EX_cache_stallO),
-    .O_cache_miss(EX_cache_missO),
+    .O_cache_stall(cache_stallO),
+    .O_cache_miss(cache_missO),
     .O_oddIsGreater(EX_oddIsGreaterO),
-    .O_needP1(EX_needP1O),
+    .O_needP1(needP1O),
     .PTC_out(PTC_out),
     .data_out(data_out),
     .valid_out(valid_out),
@@ -414,7 +478,7 @@ outputAlign outputAlign_instance (
 );
 
 
-localparam CYCLE_TIME = 12.0;
+
 
 initial begin
     clk = 1'b1;

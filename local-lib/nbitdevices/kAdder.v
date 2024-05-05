@@ -12,7 +12,7 @@ module kogeAdder #(parameter WIDTH = 32)( //delay = .7 + .4(log2(WIDTH))
 wire [WIDTH:0] P, G, G_OUT;
 pg_stage #(WIDTH) pg(P, G, A,B, CIN ); //delay = .3
 
-body_pg #(WIDTH) bpg(G_OUT, P, G); //delay = .4 * log2(WIDTH)
+body_pg #(WIDTH) bpg(G_OUT[WIDTH-1:0], P[WIDTH-1:0], G[WIDTH-1:0]); //delay = .4 * log2(WIDTH)
 assign G_OUT[WIDTH] = G[WIDTH];
 
 sum_stage #(WIDTH) ss(SUM, COUT, P, G_OUT); //delay = .4

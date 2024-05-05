@@ -28,13 +28,18 @@ wire[11:0] comp = 12'b111_110_101_100;
 wire[15:0] PTC;
 wire[15:0] DIRTY;
 wire[15:0] VALID;
+wire[3:0] indDec;
+mux4n #(16) mx1(LRU,  {LRU3[3:0],LRU2[3:0],LRU1[3:0],LRU0[3:0]},{LRU3[7:4],LRU2[7:4],LRU1[7:4],LRU0[7:4]},
+ {LRU3[11:8],LRU2[11:8],LRU1[11:8],LRU0[11:8]},{LRU3[15:12],LRU2[15:12],LRU1[15:12],LRU0[15:12]},index[0], index[1]);
+ muxnm_tristate #(4, 4) m1(PTC, indDec, PTC_out);
 
-mux4n #(16) mx1(LRU, {LRU3[15:12],{LRU3[3:0],LRU2[3:0],LRU1[3:0],LRU0[3:0]},{LRU3[7:4],LRU2[7:4],LRU1[7:4],LRU0[7:4]},{LRU3[11:8],LRU2[11:8],LRU1[11:8],LRU0[11:8]},LRU2[15:12],LRU1[15:12],LRU0[15:12]}, index);
-muxnm_tristate #(4, 4) m1(PTC, way, PTC_out);
-muxnm_tristate #(4, 4) m2(DIRTY, way, DIRTY_out);
-muxnm_tristate #(4, 4) m3(VALID, way, VALID_out);
+
+decodern #(2) d78 (index, indDec );
+
+
+muxnm_tristate #(4, 4) m2(DIRTY, indDec, DIRTY_out);
+muxnm_tristate #(4, 4) m3(VALID, indDec, VALID_out);
 //generate load signal for next state
-wire nxt_state;
 wire transit;
 wire v_not;
 nor3$ n1(transit, wb, sw, ex);
@@ -86,30 +91,32 @@ genvar j;
 generate
     for(j = 0; j <4; j = j + 1) begin : outer
         equaln #(3)  e1(comp[j*3+2: j*3], {valid, index},equals[j]);
-        LRU_FSM  L0(LRU0[j*4+3:j*4] , clk, rst, set, hit                , equals[j] );
-        LRU_FSM1 L1(LRU1[j*4+3:j*4] , clk, rst, set, {hit[2:0], hit[3]}  , equals[j] );
-        LRU_FSM2 L2(LRU2[j*4+3:j*4] , clk, rst, set, {hit[1:0], hit[3:2]}, equals[j] );
-        LRU_FSM3 L3(LRU3[j*4+3:j*4] , clk, rst, set, {hit[0],   hit[3:1]}, equals[j] );
+        LRU_FSM  L0(LRU0[j*4+3:j*4] , clk, rst, set, way                , equals[j] );
+        LRU_FSM1 L1(LRU1[j*4+3:j*4] , clk, rst, set, {way[2:0], way[3]}  , equals[j] );
+        LRU_FSM2 L2(LRU2[j*4+3:j*4] , clk, rst, set, {way[1:0], way[3:2]}, equals[j] );
+        LRU_FSM3 L3(LRU3[j*4+3:j*4] , clk, rst, set, {way[0],   way[3:1]}, equals[j] );
     
     
         for(i= 0; i <4; i = i +1) begin : inner
-            PTC_V_D_FSM p(.clk(clk), .set(set), .rst(rst), .sw(sw), .ex(ex), .wb(wb), .enable(enable[j*4+i]), .V(VALID[j*4+i]),.D(DIRTY[j*4+i]), .PTC(PTC[j*4+i]) );  
+            PTCVDFSM p(.clk(clk), .set(set), .rst(rst), .sw(sw), .ex(ex), .wb(wb), .enable(enable[j*4+i]), .V(VALID[j*4+i]),.D(DIRTY[j*4+i]), .PTC(PTC[j*4+i]) );  
             //[j*7*4+i*4+6:j*7*4+i*4]
             and3$ a(PTCID_LD[j*4+i],sw, way[i],equals[j] );
-            equalsn #(7) r1(ID_IN, PTCID[j*7*4+i*4+6:j*7*4+i*4],enable2[j*4+i]);
+            equaln #(7) r1(ID_IN, PTCID[j*7*4+i*7+6:j*7*4+i*7],enable2[j*4+i]);
             
             nand3$ nands(nandTemp[j*4+i], VALID[j*4+i], enable2[j*4+i], PTC[j*4+i]);
             inv1$ inv(VALID_n[j*4+i], VALID[j*4+i]);
             inv1$ inv1(PTC_not[j*4+i], PTC[j*4+i]);
-            nor2$ nors(norTemp, PTC_not[j*4+i], VALID_n[j*4+i]);
-            nor2$ nors1(enable4[j*4+i], norTemp[j*4+i], nandTemp[j*4+i] );
+            nor2$ nors(norTemp[j*4+i], PTC_not[j*4+i], VALID_n[j*4+i]);
+            nand2$ nors1(enable4[j*4+i], norTemp[j*4+i], nandTemp[j*4+i] );
 
             
             and2$ a1(enable[j*4+i],enable4[j*4+i],enable3[j*4+i] );
-            regn #(7) r(ID_IN, PTCID_LD[j*4+i],rst, clk, PTCID[j*7*4+i*4+6:j*7*4+i*4]);
+            regn #(7) r(ID_IN, PTCID_LD[j*4+i],rst, clk, PTCID[j*7*4+i*7+6:j*7*4+i*7]);
             
         end
     end
 endgenerate
 
 endmodule
+
+

@@ -1,0 +1,10 @@
+=======================DVE Context and Call Stack=========================
+Command line: /usr/local/packages/synopsys_2022/vcs/T-2022.06//gui/dve/linux64/bin/dve.exe -full64
+
+--- Stack trace follows:
+
+Received Signal 1 from: PID=577667 (UID=29195)
+
+
+Process terminated by hangup.
+

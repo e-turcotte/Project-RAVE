@@ -38,7 +38,7 @@ assign values = {5'b11111, 5'b11110, 5'b11101, 5'b11100, 5'b11011, 5'b11010, 5'b
 wire[19:0] muxOut;
 generate
     for(i = 0; i < 4; i = i + 1) begin
-        mux8_n #(32) m(muxOut[i*5+4:i*5], values[40*i +4:40*i], values[40*i+4+5:40*i+5], values[40*i+4+10:40*i+10], values[40*i+4+15:40*i+15], values[40*i+4+20:40*i+20], values[40*i+4+25:40*i+25], values[40*i+4+30:40*i+30], values[40*i+4+35:40*i+35], P1_OUT[3*i],P1_OUT[3*i+1], P1_OUT[3*i+2] );
+        mux8_n #(5) m(muxOut[i*5+4:i*5], values[40*i +4:40*i], values[40*i+4+5:40*i+5], values[40*i+4+10:40*i+10], values[40*i+4+15:40*i+15], values[40*i+4+20:40*i+20], values[40*i+4+25:40*i+25], values[40*i+4+30:40*i+30], values[40*i+4+35:40*i+35], P1_OUT[3*i],P1_OUT[3*i+1], P1_OUT[3*i+2] );
     end
 endgenerate
 
@@ -48,7 +48,7 @@ wire[1:0] penc_sel;
 reverseBits #(4) rev1(P1_RES[3:0], P1_RES_R[3:0]);
 pencoder8_3v$ p2(1'b0, P1_RES, penc_sel_n, valid);
 inv_n #(2) inv2(penc_sel, penc_sel_n[1:0]);
-mux4_n #(32) m4(OUT,muxOut[4:0], muxOut[9:5], muxOut[14:10], muxOut[19:15], penc_sel[0], penc_sel[1]);
+mux4_n #(5) m4(OUT,muxOut[4:0], muxOut[9:5], muxOut[14:10], muxOut[19:15], penc_sel[0], penc_sel[1]);
 
 endmodule
 
@@ -86,7 +86,7 @@ generate
     end
 endgenerate
 
-mux2n #(32) mx2(OUT,mux1_out, mux2_out, S2);
+mux2n #(DATA_WIDTH) mx2(OUT,mux1_out, mux2_out, S2);
 
 endmodule 
 module mux2n #(parameter DATA_WIDTH = 32)(

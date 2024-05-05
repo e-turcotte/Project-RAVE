@@ -21,7 +21,7 @@ inputAlign.v
 cacheBank.v
 adrSwap.v
 
-
+../TLB.v
 ../../../local-lib/pencoder32_5.v
 ../../../local-lib/nbitdevices/equaln.v
 ../../../local-lib/nbitdevices/kAdder.v
@@ -29,5 +29,6 @@ adrSwap.v
 ../../../local-lib/nbitdevices/decodern.v
 ../../../local-lib/buffer_bytes.v
 ../../../local-lib/nbitdevices/muxnm.v
+../../../local-lib/nbitdevices/satAdder.v
 ../../../local-lib/nbitdevices/regn.v
 ../../../local-lib/nbitdevices/shfrotn.v

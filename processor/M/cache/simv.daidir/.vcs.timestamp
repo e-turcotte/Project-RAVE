@@ -1,0 +1,128 @@
+0 
+30
++itf+/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcsdp.tab
++memcbk
++vcsd
++vpi
+-Mamsrun=
+-Masflags=
+-Mcc=gcc
+-Mcfl= -pipe -fPIC -O -I/usr/local/packages/synopsys_2022/vcs/T-2022.06/include
+-Mcplusplus=g++
+-Mcrt0=
+-Mcrtn=
+-Mcsrc=
+-Mexternalobj=
+-Mldflags= -rdynamic
+-Mobjects= /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/libvirsim.so /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/liberrorinf.so /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/libsnpsmalloc.so /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/libvfs.so
+-Mout=simv
+-Msaverestoreobj=/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_save_restore_new.o
+-Msyslibs=-ldl
+-Mvcsaceobjs=
+-Mxcflags= -pipe -fPIC -I/usr/local/packages/synopsys_2022/vcs/T-2022.06/include
+-Mxllcflags=
+-debug_access+all+bc
+-debug_region+cell
+-f master
+-full64
+-gen_obj
+-picarchive
+-v2005
+/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/bin/vcs1
+master
+50
+which_declare=declare -f
+XDG_SESSION_ID=700
+XDG_RUNTIME_DIR=/run/user/29195
+XDG_DATA_DIRS=/home/ecelrc/students/jnederveld//.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
+VMR_MODE_FLAG=64
+VC_STATIC_HOME=/usr/local/packages/synopsys_2020/vc_static/T-2022.06-SP1
+VCS_TARGET_ARCH=linux64
+VCS_PATHMAP_PRELOAD_DONE=1
+VCS_MX_HOME_INTERNAL=1
+VCS_MODE_FLAG=64
+VCS_HOME=/usr/local/packages/synopsys_2022/vcs/T-2022.06/
+VCS_EXEC_DONE=1
+VCS_DEPTH=0
+VCS_ARG_ADDED_FOR_TMP=1
+VCS_ARCH=linux64
+UNAME=/bin/uname
+TOOL_HOME=/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64
+TCLSH=/usr/bin/tclsh
+SYNOPSYS_SYN_ROOT=/usr/local/packages/synopsys_2022/syn
+SYNOPSYS_LC_ROOT=/usr/local/packages/synopsys_2022/lc/T-2022.03-SP5
+STROOT=/usr/local/packages/synopsys_2022/sentaurus/T-2022.03-SP1
+SSH_TTY=/dev/pts/18
+SSH_CONNECTION=10.145.0.19 49771 10.157.72.74 22
+SSH_CLIENT=10.145.0.19 49771 22
+SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
+SNPS_VCS_CLANG_PATH=/usr/local/packages/synopsys_2022/vcs/T-2022.06//linux64/clang
+SNPS_INTERNAL_VCS_LINUX_OS=linux
+SNPSLMD_LICENSE_FILE_modshare=/usr/local/packages/synopsys_2022/key:1
+SELINUX_USE_CURRENT_RANGE=
+SELINUX_ROLE_REQUESTED=
+SELINUX_LEVEL_REQUESTED=
+SCRNAME=vcs
+SCRIPT_NAME=vcs
+PATH_modshare=/usr/local/packages/synopsys_2022/QuantumATK/QuantumATK-U-2022.12-SP1/bin:2:/usr/local/packages/synopsys_2022/fm/T-2022.03-SP3/bin:1:/usr/bin:1:/usr/local/packages/synopsys_2022/verdi/T-2022.06-SP2/bin:1:/usr/local/packages/synopsys_2022/QuantumATK/QuantumATK-U-2022.12-SP1/libexec:1:/usr/local/packages/synopsys_2022/taurus_medici/T_2022.03/bin:1:/usr/local/bin:1:/usr/local/packages/synopsys_2022/finesim/T-2022.06-SP2/bin:1:/usr/local/packages/synopsys_2022/prime/T-2022.03-SP5/bin:1:/usr/local/packages/synopsys_2022/wv/T-2022.06-SP2/bin:1:/usr/local/packages/synopsys_2022/primewave/T-2022.06/bin:1:/usr/local/packages/synopsys_2022/starrc/U-2022.12-SP3/bin:1:/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/linux64/syn/bin:1:/usr/local/packages/synopsys_2022/vcs/T-2022.06/bin:1:/usr/local/packages/synopsys_2022/taurus_tsuprem4/T_2022.03/bin:1:/usr/sbin:1:/usr/local/packages/synopsys_2022/hspice/T-2022.06/hspice/bin:1:/usr/local/sbin:1:/usr/local/packages/synopsys_2022/sentaurus/T-2022.03-SP1/bin:1:/usr/local/packages/synopsys_2022/lc/T-2022.03-SP5/bin:1:/usr/local/packages/synopsys_2022/vc_static/T-2022.06-SP1/bin:2:/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/bin:2:/usr/local/packages/synopsys_2022/icc2/T-2022.03-SP3/bin:1
+OVA_UUM=0
+MODULESHOME=/home/projects/Modules
+MODULEPATH_modshare=/home/projects/Modules/tools:1:/home/projects/Modules/projects:1:/home/projects/Modules/base:1
+MODULEPATH=/home/projects/Modules/projects:/home/projects/Modules/tools:/home/projects/Modules/base
+MANPATH_modshare=/home/projects/Modules/man:1:/usr/share/man:1
+MAILPATH=/var/spool/mail/jnederveld
+LOADEDMODULES_modshare=synopsys/2022:1:system:1:modules:1:ece-defaults:1:aliases:1
+LOADEDMODULES=modules:system:aliases:ece-defaults:synopsys/2022
+LM_LICENSE_FILE_modshare=/usr/local/packages/synopsys_2022/key:1
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+LC_ALL=C
+HISTCONTROL=ignoredups
+GDK_BACKEND=x11
+DVE_HOME=/usr/local/packages/synopsys_2022/vcs/T-2022.06/
+DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-jPWhL9F9GH,guid=e142d75ffb376852e946b77066372e52
+BASH_FUNC_which%%=() {  ( alias;_ eval ${which_declare} ) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@_}
+0
+0
+35
+1704864655 /home/projects/courses/spring_24/ee382n19/lib/lib1
+1714710741 ../../../local-lib/nbitdevices/shfrotn.v
+1714710741 ../../../local-lib/nbitdevices/regn.v
+1714710741 ../../../local-lib/nbitdevices/satAdder.v
+1714710741 ../../../local-lib/nbitdevices/muxnm.v
+1714710741 ../../../local-lib/buffer_bytes.v
+1714710741 ../../../local-lib/nbitdevices/decodern.v
+1714710741 ../../../local-lib/nbitdevices/gaten.v
+1714714508 ../../../local-lib/nbitdevices/kAdder.v
+1714710741 ../../../local-lib/nbitdevices/equaln.v
+1714717836 ../../../local-lib/pencoder32_5.v
+1714710741 ../TLB.v
+1714718799 adrSwap.v
+1714883420 cacheBank.v
+1714893723 inputAlign.v
+1714894734 outputAlign.v
+1714715244 wayGeneration.v
+1714883065 tagStore.v
+1714890174 dataStore.v
+1714882451 metaStore.v
+1714873170 LRU_FSM3.v
+1714873160 LRU_FSM2.v
+1714873156 LRU_FSM1.v
+1714872836 LRU_FSM.v
+1714876505 PTCVDFSM.v
+1714880702 cache_tb.v
+1704864655 /home/projects/courses/spring_24/ee382n19/lib/lib6
+1704864655 /home/projects/courses/spring_24/ee382n19/lib/lib5
+1704864655 /home/projects/courses/spring_24/ee382n19/lib/lib4
+1704864655 /home/projects/courses/spring_24/ee382n19/lib/lib3
+1649711265 /home/projects/courses/spring_22/ee382n19_16785/lib/lib2
+1704864655 /home/projects/courses/spring_24/ee382n19/lib/lib1
+1704864655 /home/projects/courses/spring_24/ee382n19/lib/time
+1714876972 master
+1654052745 /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcsdp.tab
+4
+1654054205 /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/libvirsim.so
+1654053585 /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/liberrorinf.so
+1654053489 /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/libsnpsmalloc.so
+1654053565 /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/libvfs.so
+1714894742 simv.daidir
+-1 partitionlib
