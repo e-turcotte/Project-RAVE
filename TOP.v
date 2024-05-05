@@ -569,8 +569,6 @@ module TOP();
         .BR_pred_target_out(BR_pred_target_MEM_EX_latch_in),
         .BR_pred_T_NT_out(BR_pred_T_NT_MEM_EX_latch_in),
         .opsize_out(opsize_MEM_EX_latch_in),
-        .set_out(set_MEM_EX_latch_in),
-        .rst_out(rst_MEM_EX_latch_in),
         .res1_ld_out(res1_ld_MEM_EX_latch_in),
         .res2_ld_out(res2_ld_MEM_EX_latch_in),
         .res3_ld_out(res3_ld_MEM_EX_latch_in),
