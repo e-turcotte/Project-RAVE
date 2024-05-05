@@ -4,6 +4,7 @@ module bau(input [3:0] sender,
            
            input clr, clk,
            
+           output pull,
            output grantIE, grantIO, grantDE, grantDO, grantB0, grantB1, grantB2, grantB3, grantDMA);
 
     wire [8:0] grant_vector;
@@ -26,11 +27,11 @@ module bau(input [3:0] sender,
     
     wire busy, idle, rel, ldstate;
 
-    regn #(.WIDTH(9)) r0(.din(grant_vector), .ld(ldstate), .clr(clr), .clk(clk), .dout({grantIE,grantIO,grantDE,grantDO,grantB0,grantB1,grantB2,grantB3,grantDMA}));
+    regn #(.WIDTH(9)) r0(.din(grant_vector), .ld(pull), .clr(clr), .clk(clk), .dout({grantIE,grantIO,grantDE,grantDO,grantB0,grantB1,grantB2,grantB3,grantDMA}));
 
     orn #(.NUM_INPUTS(9)) g13(.in({grantIE,grantIO,grantDE,grantDO,grantB0,grantB1,grantB2,grantB3,grantDMA}), .out(busy));
     inv1$ g14(.out(idle), .in(busy));
     equaln #(.WIDTH(9)) g15(.a({grantIE,grantIO,grantDE,grantDO,grantB0,grantB1,grantB2,grantB3,grantDMA}), .b({releaseIE,releaseIO,releaseDE,releaseDO,releaseB0,releaseB1,releaseB2,releaseB3,releaseDMA}), .eq(rel));
-    or2$ g16(.out(ldstate), .in0(idle), .in1(rel));
+    or2$ g16(.out(pull), .in0(idle), .in1(rel));
 
 endmodule

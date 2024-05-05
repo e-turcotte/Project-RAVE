@@ -6,6 +6,7 @@ module TOP;
     reg req_ready;
     reg releaseIE, releaseIO, releaseDE, releaseDO, releaseB0, releaseB1, releaseB2, releaseB3, releaseDMA;
     reg clr;
+    wire pull;
     wire grantIE, grantIO, grantDE, grantDO, grantB0, grantB1, grantB2, grantB3, grantDMA;
     reg clk;
 
@@ -14,6 +15,7 @@ module TOP;
            .releaseB0(releaseB0), .releaseB1(releaseB1), .releaseB2(releaseB2), .releaseB3(releaseB3),
            .releaseDMA(releaseDMA),
            .clr(clr), .clk(clk),
+           .pull(pull),
            .grantIE(grantIE), .grantIO(grantIO), .grantDE(grantDE), .grantDO(grantDO),
            .grantB0(grantB0), .grantB1(grantB1), .grantB2(grantB2), .grantB3(grantB3),
            .grantDMA(grantDMA));
