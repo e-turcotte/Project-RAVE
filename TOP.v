@@ -18,6 +18,9 @@ module TOP();
         clk = 1'b1;
         cycle_number = 0;
         forever #(CYCLE_TIME / 2.0) clk = ~clk;
+
+        $vcdplusfile("processor.dump.vpd");
+        $vcdpluson(0, TOP); 
     end
 
     always @(posedge clk) begin
