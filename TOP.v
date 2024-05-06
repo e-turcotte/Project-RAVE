@@ -293,10 +293,23 @@ module TOP();
     wire [3:0]   wake_MEM_EX_latch_out;
     wire         inst_ptcid_MEM_EX_latch_out;
 
+    bp_gshare bp (
+        .clk(clk),
+        .reset(global_reset),
+        .eip(),
+        .prev_BR_result(),
+        .prev_BR_alias(),
+        .prev_is_BR,
+        .LD(),
+
+        .prediction(),
+        .BP_alias()
+    );
+
     decode_TOP d0(
         // Clock and Reset
         .clk(clk),
-        .reset(),
+        .reset(global_reset),
     
         // Signals from fetch_2
         .valid_in(),
@@ -390,9 +403,9 @@ module TOP();
                         };
 
     D_RrAg_Queued_Latches #(.M_WIDTH(m_size_D_RrAg), .N_WIDTH(n_size_D_RrAg), .Q_LENGTH(8)) q2 (
-        .m_din(m_din_D_RrAg), .n_din(n_din_D_RrAg), .new_m_vector(/*TODO*/), .wr(valid_out_D_RrAg_latch_out), 
+        .m_din(m_din_D_RrAg), .n_din(n_din_D_RrAg), .new_m_vector(), .wr(valid_out_D_RrAg_latch_out), 
         .rd(RrAg_stall_out), 
-        .modify_vector(/*TODO*/), .clr(/*TODO*/), .clk(clk), .full(D_RrAg_Latches_full), .empty(D_RrAg_Latches_empty), .old_m_vector(/*TODO*/), 
+        .modify_vector(8'h0), .clr(global_reset), .clk(clk), .full(D_RrAg_Latches_full), .empty(D_RrAg_Latches_empty), .old_m_vector(/*TODO*/), 
             .dout({valid_out_D_RrAg_latch_out, is_imm_D_RrAg_latch_out, reg_addr1_D_RrAg_latch_out, reg_addr2_D_RrAg_latch_out, reg_addr3_D_RrAg_latch_out, reg_addr4_D_RrAg_latch_out,
             seg_addr1_D_RrAg_latch_out, seg_addr2_D_RrAg_latch_out, seg_addr3_D_RrAg_latch_out, seg_addr4_D_RrAg_latch_out,
             opsize_D_RrAg_latch_out, addressingmode_D_RrAg_latch_out,
@@ -417,7 +430,7 @@ module TOP();
         .res1_ld_in(res1_ld_D_RrAg_latch_out), .res2_ld_in(res2_ld_D_RrAg_latch_out), .res3_ld_in(res3_ld_D_RrAg_latch_out), .res4_ld_in(res4_ld_D_RrAg_latch_out),
         .dest1_in(dest1_D_RrAg_latch_out), .dest2_in(dest2_D_RrAg_latch_out), .dest3_in(dest3_D_RrAg_latch_out), .dest4_in(dest4_D_RrAg_latch_out),
         .disp(disp_D_RrAg_latch_out), .reg3_shfamnt(reg3_shfamnt_D_RrAg_latch_out), .usereg2(usereg2_D_RrAg_latch_out), .usereg3(usereg3_D_RrAg_latch_out), .rep(rep_D_RrAg_latch_out),
-        .latch_empty(D_RrAg_Latches_empty), .clr(/*TODO*/), .clk(clk),
+        .latch_empty(D_RrAg_Latches_empty), .clr(global_reset), .clk(clk),
         .lim_init5(), .lim_init4(), .lim_init3(), .lim_init2(), .lim_init1(), .lim_init0(), //TODO: initializations
         .aluk_in(aluk_D_RrAg_latch_out), .mux_adder_in(mux_adder_D_RrAg_latch_out), .mux_and_int_in(mux_and_int_D_RrAg_latch_out), .mux_shift_in(mux_shift_D_RrAg_latch_out),
         .p_op_in(p_op_D_RrAg_latch_out), .fmask_in(fmask_D_RrAg_latch_out), .conditionals_in(conditionals_D_RrAg_latch_out), .is_br_in(is_br_D_RrAg_latch_out), .is_fp_in(is_fp_D_RrAg_latch_out),
@@ -466,7 +479,7 @@ module TOP();
 
     RrAg_MEM_latch q4(
         //inputs
-        .ld(MEM_stall_out), .clr(), // LD comes from MEM stalling 
+        .ld(MEM_stall_out), .clr(global_reset), // LD comes from MEM stalling 
         .clk(clk),
         .valid_in(valid_RrAg_MEM_latch_in), .opsize_in(opsize_RrAg_MEM_latch_in),
         .mem_addr1_in(mem_addr1_RrAg_MEM_latch_in), .mem_addr2_in(mem_addr2_RrAg_MEM_latch_in), .mem_addr1_end_in(mem_addr1_end_RrAg_MEM_latch_in), .mem_addr2_end_in(mem_addr2_end_RrAg_MEM_latch_in),
@@ -584,7 +597,7 @@ module TOP();
         .imm(imm_RrAg_MEM_latch_out), .mem1_rw(mem1_rw_RrAg_MEM_latch_out), .mem2_rw(mem2_rw_RrAg_MEM_latch_out),
         .eip_in(eip_RrAg_MEM_latch_out), .IE_in(IE_RrAg_MEM_latch_out), .IE_type_in(IE_type_RrAg_MEM_latch_out),
         .BR_pred_target_in(BR_pred_target_RrAg_MEM_latch_out), .BR_pred_T_NT_in(BR_pred_T_NT_RrAg_MEM_latch_out),
-        .clr(/*TODO*/), .clk(clk),
+        .clr(global_reset), .clk(clk),
         //outputs
         .valid_out(valid_MEM_EX_latch_in),
         .eip_out(EIP_MEM_EX_latch_in),
@@ -652,7 +665,7 @@ module TOP();
     MEM_EX_Queued_Latches #(.M_WIDTH(m_size_MEM_EX), .N_WIDTH(n_size_MEM_EX), .Q_LENGTH(8)) q5 (
         .m_din(m_din_MEM_EX), .n_din(n_din_MEM_EX), .new_m_vector(/*TODO*/), 
         .wr(valid_MEM_EX_latch_in), .rd(EX_stall_out),
-        .modify_vector(/*TODO*/), .clr(/*TODO*/), .clk(clk), .full(MEM_EX_Latches_full), .empty(MEM_EX_Latches_empty), .old_m_vector(/*TODO*/), 
+        .modify_vector(8'b0), .clr(global_reset), .clk(clk), .full(MEM_EX_Latches_full), .empty(MEM_EX_Latches_empty), .old_m_vector(/*TODO*/), 
             .dout({
                 inst_ptcid_MEM_EX_latch_out, wake_MEM_EX_latch_out, op1_MEM_EX_latch_out, op2_MEM_EX_latch_out, op3_MEM_EX_latch_out, op4_MEM_EX_latch_out, 
                 op1_ptcinfo_MEM_EX_latch_out, op2_ptcinfo_MEM_EX_latch_out, op3_ptcinfo_MEM_EX_latch_out, op4_ptcinfo_MEM_EX_latch_out,
@@ -677,7 +690,7 @@ module TOP();
         .IE_type_in(IE_type_MEM_EX_latch_out),
         .BR_pred_target_in(BR_pred_target_MEM_EX_latch_out),     
         .BR_pred_T_NT_in(BR_pred_T_NT_MEM_EX_latch_out),        
-        .set(), .rst(), //TODO
+        .set(global_set), .rst(global_reset),
         .PTCID_in(inst_ptcid_MEM_EX_latch_out),
 
         .res1_ld_in(res1_ld_MEM_EX_latch_out), .res2_ld_in(res2_ld_MEM_EX_latch_out),
