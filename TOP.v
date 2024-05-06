@@ -25,6 +25,16 @@ module TOP();
         $fdisplay(file, "Cycle number: %d", cycle_number);
     end
 
+    reg [127:0] packet;
+    reg D_valid;
+
+    initial begin
+        #10
+        packet = 128'h0432_0000_0000_0000_0000_0000_0000_0000
+        D_valid = 1'b1;
+
+    end
+
     //TODO: TLB Initializations
     reg [19:0] VP_0, VP_1, VP_2, VP_3, VP_4, VP_5, VP_6, VP_7;
 	reg [19:0] PF_0, PF_1, PF_2, PF_3, PF_4, PF_5, PF_6, PF_7;
@@ -310,8 +320,8 @@ module TOP();
         .reset(global_reset),
     
         // Signals from fetch_2
-        .valid_in(),
-        .packet_in(),
+        .valid_in(D_valid),
+        .packet_in(packet),
         .IE_in(),
         .IE_type_in(),
     
