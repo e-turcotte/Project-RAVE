@@ -31,13 +31,6 @@ module TOP();
     reg [127:0] packet;
     reg D_valid;
 
-    initial begin
-        #10
-        packet = 128'h0432_0000_0000_0000_0000_0000_0000_0000
-        D_valid = 1'b1;
-
-    end
-
     //TODO: TLB Initializations
     reg [19:0] VP_0, VP_1, VP_2, VP_3, VP_4, VP_5, VP_6, VP_7;
 	reg [19:0] PF_0, PF_1, PF_2, PF_3, PF_4, PF_5, PF_6, PF_7;
@@ -51,6 +44,23 @@ module TOP();
     reg global_reset;
     reg global_set;
     reg [31:0] EIP_init;
+
+    initial begin
+        #(cycle_time)
+
+        global_set = 1;
+        global_reset = 0;
+
+        #(cycle_time)
+
+        global_reset = 1;
+        global_set = 1;
+
+
+        packet = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
+        D_valid = 1'b1;
+
+    end
 
     //Pipeline: FETCH1 -> FETCH2 -> DECODE -> RrAg -> MEM -> EX -> WB
 
