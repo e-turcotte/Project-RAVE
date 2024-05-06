@@ -122,7 +122,7 @@ module RrAg_MEM_latch (
     regn #(.WIDTH(37)) r50 (.din(p_op_in), .ld(ld), .clr(clr), .clk(clk), .dout(p_op_out));
     regn #(.WIDTH(18)) r51 (.din(fmask_in), .ld(ld), .clr(clr), .clk(clk), .dout(fmask_out));
     regn #(.WIDTH(16)) r52 (.din(CS_in), .ld(ld), .clr(clr), .clk(clk), .dout(CS_out));
-    regn #(.WIDTH(2)) r63 (.din(conditionals_in), .ld(ld), .clr(clr), .clk(clk), .dout(conditionals_out));
+    regn #(.WIDTH(2)) r90 (.din(conditionals_in), .ld(ld), .clr(clr), .clk(clk), .dout(conditionals_out));
     regn #(.WIDTH(1)) r53 (.din(is_br_in), .ld(ld), .clr(clr), .clk(clk), .dout(is_br_out));
     regn #(.WIDTH(1)) r54 (.din(is_fp_in), .ld(ld), .clr(clr), .clk(clk), .dout(is_fp_out));
     regn #(.WIDTH(1)) r55 (.din(is_imm_in), .ld(ld), .clr(clr), .clk(clk), .dout(is_imm_out));
