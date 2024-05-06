@@ -20,7 +20,7 @@ module rrag (input valid_in,
              input [36:0] p_op_in,
              input [17:0] fmask_in,
              input [1:0] conditionals_in,
-             input is_br_in, is_fp_in,
+             input is_br_in, is_fp_in,, is_imm_in,
              input [47:0] imm_in,
              input [1:0] mem1_rw_in, mem2_rw_in,
              input [31:0] eip_in,
@@ -60,7 +60,7 @@ module rrag (input valid_in,
              output [17:0] fmask_out,
              output [15:0] CS_out,
              output [1:0] conditionals_out,
-             output is_br_out, is_fp_out,
+             output is_br_out, is_fp_out, is_imm_out,
              output [47:0] imm_out,
              output [1:0] mem1_rw_out, mem2_rw_out,
              output [31:0] eip_out,
@@ -157,6 +157,7 @@ module rrag (input valid_in,
     assign conditionals_out = conditionals_in;
     assign is_br_out = is_br_in;
     assign is_fp_out = is_fp_in;
+    assign is_imm_out = is_imm_in;
     assign imm_out = imm_in;
     assign mem1_rw_out = mem1_rw_in;
     assign mem2_rw_out = mem2_rw_in;

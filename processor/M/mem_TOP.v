@@ -28,7 +28,7 @@ module mem (input valid_in,
             input [17:0] fmask_in,
             input [15:0] CS_in,
             input [1:0] conditionals_in,
-            input is_br_in, is_fp_in,
+            input is_br_in, is_fp_in, is_imm_in,
             input [47:0] imm,
             input [1:0] mem1_rw, mem2_rw,
             input [31:0] eip_in,
@@ -63,7 +63,7 @@ module mem (input valid_in,
             output [36:0] p_op_out,
             output [16:0] fmask_out,
             output [1:0] conditionals_out,
-            output is_br_out, is_fp_out,
+            output is_br_out, is_fp_out, is_imm_out,
             output [15:0] CS_out,
             output [3:0] wake_out, //TODO: needs to be implemented
             output stall
@@ -123,6 +123,7 @@ module mem (input valid_in,
     assign conditionals_out = conditionals_in;
     assign is_br_out = is_br_in;
     assign is_fp_out = is_fp_in;
+    assign is_imm_out = is_imm_in;
     assign CS_out = CS_in;
 
 endmodule
