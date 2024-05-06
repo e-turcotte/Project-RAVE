@@ -636,7 +636,7 @@ module par32(
 endmodule 
 
 module xor4$(output out, input a, input b, input c, input d);
-    xor2$(temp1, a, b);
-    xor2$(temp2, c, d);
-    xor2$(out, temp1, temp2);
+    xor2$ x0(temp1, a, b);
+    xor2$ x1(temp2, c, d);
+    xor2$ x2(out, temp1, temp2);
 endmodule
