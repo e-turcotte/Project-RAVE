@@ -1,5 +1,6 @@
 module execute_t();
     localparam cycle_time = 10;
+    localparam CYCLE_TIME = 10;
     reg clk;
     initial begin
         clk = 0;
@@ -37,7 +38,7 @@ module execute_t();
  wire [31:0] BR_FIP, BR_FIP_p1, BR_EIP;
  
  
- execute_TOP e1(valid, eflags, res1_wb, res1, res1_is_reg, res1_dest, res1_size, res2_wb, res2, res2_is_reg, res2_dest, res2_size, res3_wb, res3, res3_is_reg, res3_dest, res3_size, res4_wb, res4, res4_is_reg, res4_dest, res4_size, load_eip_in_res1, load_segReg_in_res1, load_eip_in_res2, load_segReg_in_res2, valid_in, op1_wb, op1, op1_is_reg, op1_orig, op1_size, op2_wb, op2, op2_is_reg, op2_orig, op2_size, op3_wb, op3, op3_is_reg, op3_orig, op3_size, op4_wb, op4, op4_is_reg, op4_orig, op4_size,aluk, MUX_ADDER_IMM, MUX_AND_INT, MUX_SHIFT, P_OP, load_eip_in_op1, load_segReg_in_op1, load_eip_in_op2, load_segReg_in_op2, FMASK, conditionals, pred_T_NT, pred_target, isBR, is_fp, EIP_in, stall, set, rst, clk, interrupt, BR_valid, BR_taken, BR_correct, BR_FIP, BR_FIP_p1, BR_EIP);   
+// execute_TOP e1(valid, eflags, res1_wb, res1, res1_is_reg, res1_dest, res1_size, res2_wb, res2, res2_is_reg, res2_dest, res2_size, res3_wb, res3, res3_is_reg, res3_dest, res3_size, res4_wb, res4, res4_is_reg, res4_dest, res4_size, load_eip_in_res1, load_segReg_in_res1, load_eip_in_res2, load_segReg_in_res2, valid_in, op1_wb, op1, op1_is_reg, op1_orig, op1_size, op2_wb, op2, op2_is_reg, op2_orig, op2_size, op3_wb, op3, op3_is_reg, op3_orig, op3_size, op4_wb, op4, op4_is_reg, op4_orig, op4_size,aluk, MUX_ADDER_IMM, MUX_AND_INT, MUX_SHIFT, P_OP, load_eip_in_op1, load_segReg_in_op1, load_eip_in_op2, load_segReg_in_op2, FMASK, conditionals, pred_T_NT, pred_target, isBR, is_fp, EIP_in, stall, set, rst, clk, interrupt, BR_valid, BR_taken, BR_correct, BR_FIP, BR_FIP_p1, BR_EIP);   
 
 integer i;
 
@@ -72,6 +73,14 @@ integer i;
 
 
 
+initial begin
+    clk = 1'b1;
+    forever #(CYCLE_TIME / 2.0) clk = ~clk;
+end
 
+initial begin
+ $vcdplusfile("execute.vpd");
+ $vcdpluson(0, execute_t); 
+end
 
 endmodule
