@@ -21,7 +21,7 @@ module BRLOGIC(
     or2$ n2(taken, taken_t, gurBR);
     assign FIP = act_target;
     
-    or3$ o1(w3, JMPnear_P_OP, JMPfar_P_OP, JMPptr_P_OP, gurBR );
+    or4$ o1(w3, JMPnear_P_OP, JMPfar_P_OP, JMPptr_P_OP, gurBR );
     and2$ a3(val, w3, val_in);
     
     wire match32, match48;

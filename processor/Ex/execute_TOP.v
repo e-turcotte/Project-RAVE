@@ -87,7 +87,7 @@ module execute_TOP(
     assign res1_wb = res1_ld_in;
     wire swapCXC; 
     wire[63:0] res2_xchg;
-    or2$ g1(gBR, load_eip_in_op1,load_eip_in_op2,);
+    or2$ g1(gBR, load_eip_in_op1,load_eip_in_op2);
 
     wire valid_internal, invempty;
     inv1$ i0(.out(invempty), .in(latch_empty));
