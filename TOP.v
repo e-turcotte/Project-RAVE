@@ -773,6 +773,9 @@ module TOP();
         .stall(EX_stall_out) //send stall to MEM_EX_Queued_Latches
     );
 
+    assign EX_stall_out = 1;
+    //TODO: stall signal is negative logic, so need to invert when passing to queued latches
+
 
 endmodule
 
