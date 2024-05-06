@@ -180,7 +180,7 @@ wire[1:0] size_adj;
 or3$ orx(size_adj[1], P_OP_CALL_PTR, P_OP_RET_PTR ,size[1]);
 or3$ ory(size_adj[0], P_OP_CALL_PTR, P_OP_RET_PTR ,size[0]);
 
-mux8n #(32) mx(add1, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size_adj[0], size_adj[1], df );
+mux8_n #(32) mx(add1, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size_adj[0], size_adj[1], df );
 kogeAdder #(32) add0(addResults, dc, op3[31:0], add1, 1'b0 );
 
 
@@ -200,7 +200,7 @@ module res3Handler(
 );
     wire[31:0] add1;
     wire[31:0] addResults;
-    mux8n #(32) mx(add1, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], df );
+    mux8_n #(32) mx(add1, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], df );
     kogeAdder #(32) add0(addResults, dc, op3[31:0], add1, 1'b0 );
 
     mux2n #(32) m0(res3[31:0], op3[31:0], addResults, P_OP_MOVS);
@@ -234,7 +234,7 @@ module res4Handler(
     and2$ immO(immOVR, isRet, isImm);
     or3$ incre(switch, isPush, isPop, P-OP_MOVS);
 
-    mux8n #(32) mx(add3, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], isPush );
+    mux8_n #(32) mx(add3, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], isPush );
     // mux2n #(32) mxm(add3, add1, op2[31:0],)
     mux2n #(32) mnx(add1, add3,op2[31:0],immOVR );
     mux2n #(32) mxn(add2, add1, 32'hFFFF_FFFF, P_OP_MOVS);

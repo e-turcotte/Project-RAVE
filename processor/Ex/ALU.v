@@ -414,7 +414,7 @@ assign daa_out[63:8] = 56'd0;
 
 //compute CF
 and2$ a4(cf_firstIF, daa_af, cout6);
-or3$ o4 (daa_cf, cf, mux2 );
+or2$ o4 (daa_cf, cf, mux2 );
 
 endmodule
 
