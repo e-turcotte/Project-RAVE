@@ -87,7 +87,7 @@ module execute_TOP(
     assign res1_wb = res1_ld_in;
     wire swapCXC; 
     wire[63:0] res2_xchg;
-    or2$ g1(gBR, load_eip_in_op1,load_eip_in_op2,);
+    or2$ g1(gBR, load_eip_in_op1,load_eip_in_op2);
 
     wire valid_internal, invempty;
     inv1$ i0(.out(invempty), .in(latch_empty));
@@ -97,7 +97,7 @@ module execute_TOP(
     assign ressize = opsize_in;
     assign PTCID_out = PTCID_in;
     //assign res4 = op4;
-    res4Handler r4H(op4, op2, size, isImm, P_OP[26], P_OP[24],P_OP[3], P_OP[34],P_OP[35], P_OP[28], P_OP[36], res4 );
+    res4Handler r4H(op4, op2, size, isImm, P_OP[26], P_OP[24],P_OP[3], P_OP[34],P_OP[35], P_OP[28], P_OP[36], P_OP[15], res4 );
     assign res4_is_reg_out = res4_is_reg_in;
     assign res4_is_seg_out = res4_is_seg_in;
     assign res4_is_mem_out = res4_is_mem_in;
@@ -180,7 +180,7 @@ wire[1:0] size_adj;
 or3$ orx(size_adj[1], P_OP_CALL_PTR, P_OP_RET_PTR ,size[1]);
 or3$ ory(size_adj[0], P_OP_CALL_PTR, P_OP_RET_PTR ,size[0]);
 
-mux8n #(32) mx(add1, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size_adj[0], size_adj[1], df );
+mux8_n #(32) mx(add1, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size_adj[0], size_adj[1], df );
 kogeAdder #(32) add0(addResults, dc, op3[31:0], add1, 1'b0 );
 
 
@@ -200,7 +200,7 @@ module res3Handler(
 );
     wire[31:0] add1;
     wire[31:0] addResults;
-    mux8n #(32) mx(add1, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], df );
+    mux8_n #(32) mx(add1, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], df );
     kogeAdder #(32) add0(addResults, dc, op3[31:0], add1, 1'b0 );
 
     mux2n #(32) m0(res3[31:0], op3[31:0], addResults, P_OP_MOVS);
@@ -234,7 +234,7 @@ module res4Handler(
     and2$ immO(immOVR, isRet, isImm);
     or3$ incre(switch, isPush, isPop, P-OP_MOVS);
 
-    mux8n #(32) mx(add3, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], isPush );
+    mux8_n #(32) mx(add3, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], isPush );
     // mux2n #(32) mxm(add3, add1, op2[31:0],)
     mux2n #(32) mnx(add1, add3,op2[31:0],immOVR );
     mux2n #(32) mxn(add2, add1, 32'hFFFF_FFFF, P_OP_MOVS);
