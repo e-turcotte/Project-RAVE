@@ -18,8 +18,10 @@ tagStore.v
 wayGeneration.v
 outputAlign.v
 inputAlign.v
-cacheBank.v
+pulseGen.v
+cache_stage1.v
 adrSwap.v
+cacheBankNew.v
 
 ../TLB.v
 ../../../local-lib/pencoder32_5.v
