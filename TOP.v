@@ -20,12 +20,9 @@ module TOP();
         forever #(CYCLE_TIME / 2.0) clk = ~clk;
     end
 
-    initial begin
-        always @(posedge clk) begin
-            cycle_number = cycle_number + 1;
-            $fdisplay(file, "Cycle number: %d", cycle_number);
-        end
-
+    always @(posedge clk) begin
+        cycle_number = cycle_number + 1;
+        $fdisplay(file, "Cycle number: %d", cycle_number);
     end
 
     //TODO: TLB Initializations
@@ -293,18 +290,19 @@ module TOP();
     wire [3:0]   wake_MEM_EX_latch_out;
     wire         inst_ptcid_MEM_EX_latch_out;
 
-    bp_gshare bp (
-        .clk(clk),
-        .reset(global_reset),
-        .eip(),
-        .prev_BR_result(),
-        .prev_BR_alias(),
-        .prev_is_BR,
-        .LD(),
-
-        .prediction(),
-        .BP_alias()
-    );
+    // bp_gshare bp (
+    //     //inputs
+    //     .clk(clk),
+    //     .reset(global_reset),
+    //     .eip(),
+    //     .prev_BR_result(),
+    //     .prev_BR_alias(),
+    //     .prev_is_BR,
+    //     .LD(),
+    //     //outputs
+    //     .prediction(),
+    //     .BP_alias()
+    // );
 
     decode_TOP d0(
         // Clock and Reset
@@ -468,7 +466,7 @@ module TOP();
         .fmask_out(fmask_out_RrAg_MEM_latch_in),
         .conditionals_out(conditionals_out_RrAg_MEM_latch_in),
         .is_br_out(is_br_out_RrAg_MEM_latch_in), .is_fp_out(is_fp_out_RrAg_MEM_latch_in), .is_imm_out(is_imm_RrAg_MEM_latch_in), 
-        .imm_out(imm_out_RrAg_MEM_latch_in),
+        .imm_out(imm_RrAg_MEM_latch_in),
         .mem1_rw_out(mem1_rw_out_RrAg_MEM_latch_in), .mem2_rw_out(mem2_rw_out_RrAg_MEM_latch_in),
         .eip_out(eip_out_RrAg_MEM_latch_in),
         .IE_out(IE_out_RrAg_MEM_latch_in),
@@ -501,8 +499,8 @@ module TOP();
         .p_op_in(p_op_out_RrAg_MEM_latch_in),
         .fmask_in(fmask_out_RrAg_MEM_latch_in),
         .conditionals_in(conditionals_out_RrAg_MEM_latch_in),
-        .is_br_in(is_br_out_RrAg_MEM_latch_in), .is_fp_in(is_fp_out_RrAg_MEM_latch_in), is_imm_in(is_imm_RrAg_MEM_latch_in),
-        .imm_in(imm_out_RrAg_MEM_latch_in),
+        .is_br_in(is_br_out_RrAg_MEM_latch_in), .is_fp_in(is_fp_out_RrAg_MEM_latch_in), .is_imm_in(is_imm_RrAg_MEM_latch_in),
+        .imm_in(imm_RrAg_MEM_latch_in),
         .mem1_rw_in(mem1_rw_out_RrAg_MEM_latch_in), .mem2_rw_in(mem2_rw_out_RrAg_MEM_latch_in),
         .eip_in(eip_out_RrAg_MEM_latch_in),
         .IE_in(IE_out_RrAg_MEM_latch_in),
@@ -531,7 +529,7 @@ module TOP();
         .p_op_out(p_op_RrAg_MEM_latch_out),
         .fmask_out(fmask_RrAg_MEM_latch_out),
         .conditionals_out(conditionals_RrAg_MEM_latch_out),
-        .is_br_out(is_br_RrAg_MEM_latch_out), .is_fp_out(is_fp_RrAg_MEM_latch_out), is_imm_out(is_imm_RrAg_MEM_latch_out), 
+        .is_br_out(is_br_RrAg_MEM_latch_out), .is_fp_out(is_fp_RrAg_MEM_latch_out), .is_imm_out(is_imm_RrAg_MEM_latch_out), 
         .imm_out(imm_RrAg_MEM_latch_out),
         .mem1_rw_out(mem1_rw_RrAg_MEM_latch_out), .mem2_rw_out(mem2_rw_RrAg_MEM_latch_out),
         .eip_out(eip_RrAg_MEM_latch_out),
