@@ -97,7 +97,7 @@ module execute_TOP(
     assign ressize = opsize_in;
     assign PTCID_out = PTCID_in;
     //assign res4 = op4;
-    res4Handler r4H(op4, op2, size, isImm, P_OP[26], P_OP[24],P_OP[3], P_OP[34],P_OP[35], P_OP[28], P_OP[36], res4 );
+    res4Handler r4H(op4, op2, size, isImm, P_OP[26], P_OP[24],P_OP[3], P_OP[34],P_OP[35], P_OP[28], P_OP[36], P_OP[15], res4 );
     assign res4_is_reg_out = res4_is_reg_in;
     assign res4_is_seg_out = res4_is_seg_in;
     assign res4_is_mem_out = res4_is_mem_in;
