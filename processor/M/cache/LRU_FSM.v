@@ -45,7 +45,7 @@ mux2n #(4) m2(state_new1[3:0], state[3:0], stateFlip, stateTransit);
 // nor2$ a3(LRUx[2], state_n[4], state[3]);
 // nor2$ a4(LRUx[3], state_n[4], state_n[3]);
 
-nor4$ a5(holdVal, LRUina[0], LRUina[1], LRUina[2], LRUina[3]);
+nor4$ a5(holdVal, LRUina[0], LRUina[1], LRUina[2], LRUina[0]);
 mux2n #(8) m3(state_new, state_new1, 8'b00011110, LRUina[0]);
 
 xor2$ x1(stateFlip[0], state[0], LRUina[0]);

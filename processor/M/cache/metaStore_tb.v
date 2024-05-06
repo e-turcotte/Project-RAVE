@@ -67,8 +67,18 @@ initial begin
 
     // for(i = 0; i <4; i = i + 1)begin :l1
     //     for(j = 0; j < 4; j = j + 1)begin : l2
-            
-                         
+        index = 1   ; 
+        way = 4;
+            #CYCLE_TIME
+
+    way =2;
+
+        #CYCLE_TIME
+     way = 1;
+        #CYCLE_TIME
+     way = 8;
+        #CYCLE_TIME
+     way = 2;          
 
 
             

@@ -36,7 +36,7 @@ generate
         nand2$ n2(nextState[i], LRUina[i],state[i]);
     end
 endgenerate
-nor4$ n1(stateTransit, nextState[0], nextState[1], nextState[2], nextState[3]);
+nand4$ n1(stateTransit, nextState[0], nextState[1], nextState[2], nextState[3]);
 
 mux2n #(4) m1(state_new1[7:4], state[7:4], {state[6:4], 1'b0}, stateTransit);
 mux2n #(4) m2(state_new1[3:0], state[3:0], stateFlip, stateTransit);
@@ -46,7 +46,7 @@ mux2n #(4) m2(state_new1[3:0], state[3:0], stateFlip, stateTransit);
 // nor2$ a4(LRUx[3], state_n[4], state_n[3]);
 
 nor4$ a5(holdVal, LRUina[0], LRUina[1], LRUina[2], LRUina[3]);
-mux2n #(8) m3(state_new, state_new1, 8'b00011110, LRUina[0]);
+mux2n #(8) m3(state_new, state_new1, 8'b00011011, LRUina[2]);
 
 xor2$ x1(stateFlip[0], state[0], LRUina[0]);
 xor2$ x2(stateFlip[1], state[1], LRUina[1]);

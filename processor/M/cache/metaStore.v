@@ -92,10 +92,12 @@ generate
     for(j = 0; j <4; j = j + 1) begin : outer
         equaln #(3)  e1(comp[j*3+2: j*3], {valid, index},equals[j]);
         LRU_FSM  L0(LRU0[j*4+3:j*4] , clk, rst, set, way                , equals[j] );
-        LRU_FSM1 L1(LRU1[j*4+3:j*4] , clk, rst, set, {way[2:0], way[3]}  , equals[j] );
-        LRU_FSM2 L2(LRU2[j*4+3:j*4] , clk, rst, set, {way[1:0], way[3:2]}, equals[j] );
-        LRU_FSM3 L3(LRU3[j*4+3:j*4] , clk, rst, set, {way[0],   way[3:1]}, equals[j] );
-    
+        LRU_FSM1 L1(LRU1[j*4+3:j*4] , clk, rst, set, way   , equals[j] );
+        LRU_FSM2 L2(LRU2[j*4+3:j*4] , clk, rst, set, way   , equals[j] );
+        LRU_FSM3 L3(LRU3[j*4+3:j*4] , clk, rst, set, way   , equals[j] );
+//     {way[0],   way[3:1]}
+// {way[1:0], way[3:2]}
+// {way[2:0], way[3]}  
     
         for(i= 0; i <4; i = i +1) begin : inner
             PTCVDFSM p(.clk(clk), .set(set), .rst(rst), .sw(sw), .ex(ex), .wb(wb), .enable(enable[j*4+i]), .V(VALID[j*4+i]),.D(DIRTY[j*4+i]), .PTC(PTC[j*4+i]) );  

@@ -13,7 +13,7 @@ wire[16*8-1:0] data_toWrite, data;
 inv1$ clkinv(clkn, clk);
 inv1$ inv12(valid_n, valid);
 
-wire [3:0] way_no, way_n, w_v,way_non;
+wire [3:0] way_no, way_n, w_v,way_non, write;
 genvar i;
 wire [3:0] buf1, buf2, buf3, buf4, buf5, buf6, buf7, buf8, buf9, buf10, buf11;
 generate
@@ -24,23 +24,9 @@ endgenerate
 
 generate
     for(i = 0; i <4; i =  i+1) begin : writeGen
-        and3$ as(way_no[i], way[i], w, valid);
-        inv1$ kms(buf11[i], way_no[i]);
-        and2$ buff10(buf10[i], buf11[i], buf11[i]);
-        and2$ buff11(buf1[i], buf10[i], buf10[i]);
-
-        and2$ buff1(buf2[i], clkn, clkn);
-        and2$ buff2(buf3[i], buf2[i], buf2[i]);
-        and2$ buff3(buf4[i], buf3[i], buf3[i]);
-        and2$ buff4(buf5[i], buf4[i], buf4[i]);
-        and2$ buff5(buf6[i], buf5[i], buf5[i]);
-        and2$ buff7(buf7[i], buf6[i], buf6[i]);
-        and2$ buff9(buf8[i], buf7[i], buf7[i]);
-        and2$ buff8(buf9[i], buf8[i], buf8[i]);
-    
-
-        or2$ a4(way_non[i], buf1[i], buf8[i] );
-        bufferH16$ b16(w_v[i], way_non[i]);
+        inv1$ in(way_n[i], way[i]);
+        or3$ orin(write[i], w, valid_n, way_n[i]);
+        bufferH16$ b16(w_v[i], write[i]);
     end
 endgenerate
 

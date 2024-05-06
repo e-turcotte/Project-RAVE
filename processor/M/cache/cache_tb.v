@@ -100,17 +100,17 @@ initial begin
     
     #CYCLE_TIME
     r = 0; sw = 0; w = 1;fromBUS = 1;
-    address_in = 32'h0400_0104;
+    address_in = 32'h0400_0100;
     data_in = 128'd8;
 
     #CYCLE_TIME
     r = 0; sw = 0; w = 1;fromBUS = 1;
-    address_in = 32'h0400_0204;
+    address_in = 32'h0400_0200;
     data_in = 128'd4;
 
     #CYCLE_TIME
     r = 0; sw = 0; w = 1;fromBUS = 1;
-    address_in = 32'h0400_0304;
+    address_in = 32'h0400_0300;
     data_in = 128'd2;
 
     #CYCLE_TIME
@@ -126,7 +126,7 @@ initial begin
 
     #CYCLE_TIME
     r = 0; sw = 0; w = 1;fromBUS = 0;
-    address_in = 32'h0400_0004;
+    address_in = 32'h0400_0404;
     size_in = 01;
     data_in = 128'd16;
 

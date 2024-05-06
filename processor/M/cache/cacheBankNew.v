@@ -1,4 +1,4 @@
-module cacheBank_old (
+module cacheBank (
     input clk,
     input rst, set,
     input [2:0] cache_id,
@@ -70,6 +70,10 @@ module cacheBank_old (
 );
 assign oneSize_out = oneSize;
 
+
+
+
+
 //IO DETECTION
 wire[1:0] index; wire[3:0] offset; wire stall1, stall2, stall3;
 wire[16*8*4-1:0] data_dump;
@@ -101,18 +105,36 @@ wire D_sel, V_sel, PTC_sel;
 
 inv1$ invx(clkn, clk);
 
+wire[14:0] extAddress;
+cache_stage1 cs1(.clk(clk), 
+.rst(rst),
+ .set(set), 
+ .cache_id(cache_id), 
+ .vAddress_in(vAddress),
+  .pAddress_in(pAddress),
+  .r(r), 
+  .w(w), 
+  .sw(sw),
+  .valid_in(valid_in),
+  .fromBUS(fromBUS),
+  .PTC_ID_IN(PTC_ID_IN),
+  .data_in(data),
+  .mask_in(mask),
+  .MSHR_MISS(MSHR_MISS),
+  .SER0_FULL(SER0_FULL),
+  .SER1_FULL(SER1_FULL),
+  .cache_line(cache_line),
+  .MSHR_FULL(MSHR_FULL),
+  .MISS(MISS),
+  .ex_clr(ex_clr),
+  .ex_wb(ex_wb), 
+  .HIT(HIT),
+  .stall(stall),
+  .valid_out(valid),
+  .extAddress(extAddress),
+  .PCD_IN(PCD_IN)
+  );
 
-
-tagStore ts(.valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(ex_clr), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
-dataStore ds(.clk(clk), .valid(valid), .index(index), .way(way), .data_in(data), .mask_in(mask), .w(w), .data_out(data_dump), .cache_line(cache_line) );
-metaStore ms(.clk(clk), .rst(rst), .set(set), .valid(valid_in), .way(way), .index(index), .wb(w), .sw(sw), .ex(ex_clr), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
-wayGeneration wg(.LRU(LRU), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS));
-
-//stall logic
-inv1$ inv(stall1_n, stall1);
-nand3$ a1(stall2, SER1_FULL,SER0_FULL, MISS);
-nand2$ a2(stall3, MSHR_FULL, MISS);
-nand3$ or1(stall, stall1_n, stall2, stall3);
 
 //Handle MSHR
 and2$ an1(MSHR_valid1, valid, MISS);
@@ -121,7 +143,7 @@ assign MSHR_pAddress = pAddress;
 
 //Handle SERDES
 mux2n #(128) datasel(SER_data0, cache_line, data, PCD_IN);
-mux2n #(15) addressSel(SER_pAddress0, {tag_read, pAddress[6:0]}, pAddress[14:0], PCD_IN);
+mux2n #(15) addressSel(SER_pAddress0, extAddress, pAddress[14:0], PCD_IN);
 or2$ orSER(SER_valid0, ex_wb, checkVal);
 inv1$ inv123(w_not, w);
 and2$ andwp(checkVal, PCD_IN, w_not);
@@ -139,7 +161,6 @@ assign SER_rw1 = 1'b0;
 assign SER_dest1 = {1'b0,pAddress[5],pAddress[4]};
 
 //Handle outputAlign
-inv1$ in12(HIT, MISS);
 assign EX_valid = valid; 
 assign EX_data = cache_line;
 assign EX_vAddress = vAddress;

@@ -16,7 +16,7 @@ end
 
     reg[3:0] LRUin;
     reg enable;
-    LRU_FSM lfs(.LRUx(LRUx), .clk(clk), .rst(rst), .set(set), .LRUin(LRUin), .enables(enable));
+    LRU_FSM1 lfs(.LRUx(LRUx), .clk(clk), .rst(rst), .set(set), .LRUin(LRUin), .enable(enable));
 
 initial begin
     enable = 0;
@@ -25,7 +25,7 @@ initial begin
     #CYCLE_TIME
     rst = 1;
     enable = 1;
-    LRUin = 0;
+    LRUin = 1;
     #CYCLE_TIME
     LRUin = 1;
     #CYCLE_TIME
