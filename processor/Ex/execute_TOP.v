@@ -57,10 +57,11 @@ module execute_TOP(
     output [3:0] IE_type_out,
     output [31:0] BR_pred_target_out,
     output BR_pred_T_NT_out,
-    output [7:0] PTCID_out,
+    output [6:0] PTCID_out,
 
     output[17:0] eflags,
     output[15:0] CS_out, 
+    output [36:0] P_OP_out,
     
     output res1_wb, res2_wb, res3_wb, res4_wb,
     output [63:0] res1, res2, res3, res4, //done
@@ -86,7 +87,7 @@ module execute_TOP(
     assign res1_wb = res1_ld_in;
     wire swapCXC; 
     wire[63:0] res2_xchg;
-    or2$ g1(gBR, load_eip_in_op1,load_eip_in_op2,);
+    or2$ g1(gBR, load_eip_in_op1,load_eip_in_op2);
 
     wire valid_internal, invempty;
     inv1$ i0(.out(invempty), .in(latch_empty));
@@ -96,7 +97,7 @@ module execute_TOP(
     assign ressize = opsize_in;
     assign PTCID_out = PTCID_in;
     //assign res4 = op4;
-    res4Handler r4H(op4, op2, size, isImm, P_OP[26], P_OP[24],P_OP[3], P_OP[34],P_OP[35], P_OP[28], P_OP[36], res4 );
+    res4Handler r4H(op4, op2, size, isImm, P_OP[26], P_OP[24],P_OP[3], P_OP[34],P_OP[35], P_OP[28], P_OP[36], P_OP[15], res4 );
     assign res4_is_reg_out = res4_is_reg_in;
     assign res4_is_seg_out = res4_is_seg_in;
     assign res4_is_mem_out = res4_is_mem_in;
@@ -140,6 +141,7 @@ module execute_TOP(
     assign af = eflags_rd[2]; assign cf = eflags_rd[0];  assign pf = eflags_rd[1]; assign zf = eflags_rd[3];   assign sf = eflags_rd[4];  assign df = eflags_rd[7];  assign of = eflags_rd[8];     
     EFLAG e1(eflags_rd, clk, set, rst, valid_internal, eflags_ld, FMASK, cc_inval);
     assign CS_out = CS;
+    assign P_OP_out = P_OP;
     //Handle skipGen
     wire skip;
     SKIPGEN s1(skip, P_OP[6], P_OP[11], P_OP[12], cf, zf, conditionals);
@@ -175,15 +177,15 @@ wire[31:0] add1;
 wire[31:0] addResults;
 wire[1:0] size_adj;
 
-or3$ orx(size_adj[1], P_OP_CALL_PTR, P_OP_RET_PTR, ,size[1]);
-or3$ ory(size_adj[0], P_OP_CALL_PTR, P_OP_RET_PTR, ,size[0]);
+or3$ orx(size_adj[1], P_OP_CALL_PTR, P_OP_RET_PTR ,size[1]);
+or3$ ory(size_adj[0], P_OP_CALL_PTR, P_OP_RET_PTR ,size[0]);
 
-mux8n #(32) mx(add1, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size_adj[0], size_adj[1], df );
-kogeAdder #(32) (addResults, dc, op3[31:0], add1, 1'b0 );
+mux8_n #(32) mx(add1, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size_adj[0], size_adj[1], df );
+kogeAdder #(32) add0(addResults, dc, op3[31:0], add1, 1'b0 );
 
 
 
-mux4n #(32) (res2[31:0], op3[31:0], addResults, op1[31:0], op1[31:0], P_OP_MOVS, P_OP_XCHG);
+mux4n #(32) m0(res2[31:0], op3[31:0], addResults, op1[31:0], op1[31:0], P_OP_MOVS, P_OP_XCHG);
 assign res2[63:32] = 32'd0;
 
 endmodule
@@ -198,10 +200,10 @@ module res3Handler(
 );
     wire[31:0] add1;
     wire[31:0] addResults;
-    mux8n #(32) mx(add1, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], df );
-    kogeAdder #(32) (addResults, dc, op3[31:0], add1, 1'b0 );
+    mux8_n #(32) mx(add1, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], df );
+    kogeAdder #(32) add0(addResults, dc, op3[31:0], add1, 1'b0 );
 
-    mux2n #(32) (res3[31:0], op3[31:0], addResults, P_OP_MOVS);
+    mux2n #(32) m0(res3[31:0], op3[31:0], addResults, P_OP_MOVS);
     assign res3[63:32] = 32'd0;
 
 
@@ -232,12 +234,12 @@ module res4Handler(
     and2$ immO(immOVR, isRet, isImm);
     or3$ incre(switch, isPush, isPop, P-OP_MOVS);
 
-    mux8n #(32) mx(add3, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], isPush );
+    mux8_n #(32) mx(add3, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], isPush );
     // mux2n #(32) mxm(add3, add1, op2[31:0],)
     mux2n #(32) mnx(add1, add3,op2[31:0],immOVR );
     mux2n #(32) mxn(add2, add1, 32'hFFFF_FFFF, P_OP_MOVS);
-    kogeAdder #(32) (addResults, dc, op3[31:0], add2, 1'b0 );
-    mux2n #(32) (res4, op4[31:0], addResults, immOVR);
+    kogeAdder #(32) add0(addResults, dc, op3[31:0], add2, 1'b0 );
+    mux2n #(32) m0(res4, op4[31:0], addResults, immOVR);
     assign res4[63:32] = 0;
 
     // mux2n #(32) (res4[31:0],op4[31:0], add_Results

@@ -9,7 +9,9 @@ module D_RrAg_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
                                                                                output [M_WIDTH*Q_LENGTH-1:0] old_m_vector,
                                                                                output [M_WIDTH+N_WIDTH-1:0] dout);
 
-      queuenm #(M_WIDTH, N_WIDTH, Q_LENGTH) q0(.m_din(m_din), .n_din(n_din), .new_m_vector(new_m_vector), .wr(wr), .rd(rd), .modify_vector(modify_vector), .clr(clr), .clk(clk), .full(full), .empty(empty), .old_m_vector(old_m_vector), .dout(dout));                                                                 
+    inv1$ (.out(read_inv), .in(rd));
+
+      queuenm #(M_WIDTH, N_WIDTH, Q_LENGTH) q0(.m_din(m_din), .n_din(n_din), .new_m_vector(new_m_vector), .wr(wr), .rd(read_inv), .modify_vector(modify_vector), .clr(clr), .clk(clk), .full(full), .empty(empty), .old_m_vector(old_m_vector), .dout(dout));                                                                 
 
     integer file, cyc_cnt;
     initial begin
@@ -47,14 +49,22 @@ module D_RrAg_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
 
 		$fdisplay(file, "\n=============== D to RrAg Latch Values ===============\n");
 
+        $fdisplay(file, "\t Queue values: ");
+        $fdisplay(file, "\t read: %b", rd);
+        $fdisplay(file, "\t write: %b", wr);
+        $fdisplay(file, "\t clear: %b", clr);
+        $fdisplay(file, "\t full: %b", full);
+        $fdisplay(file, "\t empty: %b", empty);
+
         for (latch_num = 0; latch_num < qlen; latch_num = latch_num + 1) begin
             $fdisplay(file, "\n\t ==LATCH==: %d", latch_num);
             $fdisplay(file, "\t modifiable signals:");
 
-            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][361]);
+            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][362]);
 
             $fdisplay(file, "\n\t non-modifiable signals:");
 
+            $fdisplay(file, "\t\t is_imm: %d", all_outs[latch_num][361]);
             $fdisplay(file, "\t\t reg_addr1: %b", all_outs[latch_num][360:358]);
             $fdisplay(file, "\t\t reg_addr2: %b", all_outs[latch_num][357:355]);
             $fdisplay(file, "\t\t reg_addr3: %b", all_outs[latch_num][354:352]);
@@ -115,10 +125,11 @@ endmodule
 //  for reference, these are the outputs from MEM coming into the latch:
 
 //modifiable signals:
-//          valid_out               [361]
+//          valid_out               [362]
 
 //non-modifiable signals:
 
+//          is_imm                  [361]
 // [2:0]    reg_addr1               [360:358]
 // [2:0]    reg_addr2               [357:355]
 // [2:0]    reg_addr3               [354:352]

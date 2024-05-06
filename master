@@ -8,12 +8,12 @@
 
 TOP.v
 
-processor/F/fetch_TOP.v
-processor/F/fetch1.v
-processor/F/fetch2.v
-processor/F/btb.v
-processor/F/bp_gshare.v
-processor/F/I_Buff.v
+// processor/F/fetch_TOP.v
+// processor/F/fetch1.v
+// processor/F/fetch2.v
+// processor/F/btb.v
+// processor/F/bp_gshare.v
+// processor/F/I_Buff.v
 
 processor/D/decode_TOP.v
 processor/D/addressing_d.v
@@ -44,9 +44,9 @@ processor/Ex/EFLAG.v
 processor/Ex/SKIPGEN.v
 processor/Ex/ALU.v
 
-processor/Wb/writeback_TOP.v
-processor/Wb/bypassmech.v
-processor/Wb/reg_wb_cell.v
+// processor/Wb/writeback_TOP.v
+// processor/Wb/bypassmech.v
+// processor/Wb/reg_wb_cell.v
 
 processor/D_RrAg_Latches.v
 processor/RrAg_MEM_Latch.v

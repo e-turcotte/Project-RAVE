@@ -9,8 +9,10 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
                                                                                output [M_WIDTH*Q_LENGTH-1:0] old_m_vector,
                                                                                output [M_WIDTH+N_WIDTH-1:0] dout);
 
+    inv1$ (.out(read_inv), .in(rd));
+
       queuenm #(M_WIDTH, N_WIDTH, Q_LENGTH) q0(.m_din(m_din), .n_din(n_din), 
-                .new_m_vector(new_m_vector), .wr(wr), .rd(rd), .modify_vector(modify_vector), 
+                .new_m_vector(new_m_vector), .wr(wr), .rd(read_inv), .modify_vector(modify_vector), 
                 .clr(clr), .clk(clk), .full(full), .empty(empty), .old_m_vector(old_m_vector), .dout(dout));                                                                 
 
     integer file, cyc_cnt;
@@ -49,24 +51,33 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
 
 		$fdisplay(file, "\n=============== MEM to EX Latch Values ===============\n");
 
+        $fdisplay(file, "\t Queue values: ");
+        $fdisplay(file, "\t read: %b", rd);
+        $fdisplay(file, "\t write: %b", wr);
+        $fdisplay(file, "\t clear: %b", clr);
+        $fdisplay(file, "\t full: %b", full);
+        $fdisplay(file, "\t empty: %b", empty);
+
         for (latch_num = 0; latch_num < qlen; latch_num = latch_num + 1) begin
             $fdisplay(file, "\n\t ==LATCH==: %d", latch_num);
             $fdisplay(file, "\t modifiable signals:");
 
-            $fdisplay(file, "\t\t wake: %b", all_outs[latch_num][1072:1069]);
-            $fdisplay(file, "\t\t op1_val: 0x%h", all_outs[latch_num][1068:1005]);
-            $fdisplay(file, "\t\t op2_val: 0x%h", all_outs[latch_num][1004:941]);
-            $fdisplay(file, "\t\t op3_val: 0x%h", all_outs[latch_num][940:877]);
-            $fdisplay(file, "\t\t op4_val: 0x%h\n", all_outs[latch_num][876:813]); 
+            $fdisplay(file, "\t\t PTC_ID: %b", all_outs[latch_num][1074]);
+            $fdisplay(file, "\t\t wake: %b", all_outs[latch_num][1073:1070]);
+            $fdisplay(file, "\t\t op1_val: 0x%h", all_outs[latch_num][1069:1006]);
+            $fdisplay(file, "\t\t op2_val: 0x%h", all_outs[latch_num][1005:942]);
+            $fdisplay(file, "\t\t op3_val: 0x%h", all_outs[latch_num][941:878]);
+            $fdisplay(file, "\t\t op4_val: 0x%h\n", all_outs[latch_num][877:814]); 
 
-            $fdisplay(file, "\t\t op1_ptcinfo: 0x%d", all_outs[latch_num][812:685]);
-            $fdisplay(file, "\t\t op2_ptcinfo: 0x%h", all_outs[latch_num][684:557]);
-            $fdisplay(file, "\t\t op3_ptcinfo: 0x%h", all_outs[latch_num][556:429]);
-            $fdisplay(file, "\t\t op4_ptcinfo: 0x%h", all_outs[latch_num][428:301]);
-            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][300]);
+            $fdisplay(file, "\t\t op1_ptcinfo: 0x%d", all_outs[latch_num][813:686]);
+            $fdisplay(file, "\t\t op2_ptcinfo: 0x%h", all_outs[latch_num][685:558]);
+            $fdisplay(file, "\t\t op3_ptcinfo: 0x%h", all_outs[latch_num][557:430]);
+            $fdisplay(file, "\t\t op4_ptcinfo: 0x%h", all_outs[latch_num][429:302]);
+            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][301]);
             
             $fdisplay(file, "\n\t non-modifiable signals:");
 
+            $fdisplay(file, "\t\t is_imm: %d", all_outs[latch_num][300]);
             $fdisplay(file, "\t\t eip: 0x%h", all_outs[latch_num][299:268]);
             $fdisplay(file, "\t\t IE: %d", all_outs[latch_num][267]);
             $fdisplay(file, "\t\t IE_type: %b", all_outs[latch_num][266:263]);
@@ -115,19 +126,20 @@ endmodule
 //  for reference, these are the outputs from MEM coming into the latch:
 
     //modifiable signals:
-    //  [3:0] wake               //[1072:1069]
-    //  [63:0] op1_val           //[1068:1005]
-    //  [63:0] op2_val           //[1004:941]
-    //  [63:0] op3_val           //[940:877]
-    //  [63:0] op4_val           //[876:813]
-    //  [127:0] op1_ptcinfo      //[812:685]
-    //  [127:0] op2_ptcinfo      //[684:557]
-    //  [127:0] op3_ptcinfo      //[556:429]
-    //  [127:0] op4_ptcinfo      //[428:301]
+    //  [3:0] wake               //[1073:1070]
+    //  [63:0] op1_val           //[1069:1006]
+    //  [63:0] op2_val           //[1005:942]
+    //  [63:0] op3_val           //[941:878]
+    //  [63:0] op4_val           //[877:814]
+    //  [127:0] op1_ptcinfo      //[813:686]
+    //  [127:0] op2_ptcinfo      //[685:558]
+    //  [127:0] op3_ptcinfo      //[557:430]
+    //  [127:0] op4_ptcinfo      //[429:302]
+    //  valid_out                   //[301]
 
     //non-modifiable signals:
 
-    //  valid_out                   //[300]
+    //  is_imm                      //[300]
     //  [31:0] eip_out              //[299:268]
     //  IE_out                      //[267]
     //  [3:0] IE_type_out           //[266:263]

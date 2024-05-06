@@ -212,7 +212,11 @@ module gprfile (input [127:0] din,
             muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(16)) m2(.in({din[127:112],din[95:80],din[63:48],din[31:16]}), .sel({ld[24+i],ld[16+i],ld[8+i],ld[i]}), .out(e_in[i]));
 
             muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(8)) m3(.in({din[111:104],din[79:72],din[47:40],din[15:8]}), .sel({ld[24+i],ld[16+i],ld[8+i],ld[i]}), .out(which_h[0]));
-            muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(8)) m4(.in({din[103:96],din[71:64],din[39:32],din[7:0]}), .sel({ld[28+i],ld[20+i],ld[12+i],ld[4+i]}), .out(which_h[1]));
+            if (i < 4) begin
+                muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(8)) m4(.in({din[103:96],din[71:64],din[39:32],din[7:0]}), .sel({ld[28+i],ld[20+i],ld[12+i],ld[4+i]}), .out(which_h[1]));
+            end else begin
+                assign which_h[1] = 8'h00;
+            end
             muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(8)) m5(.in({which_h[1],which_h[0]}), .sel(ldsize[0]), .out(h_in[i]));
 
             muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(8)) m6(.in({din[103:96],din[71:64],din[39:32],din[7:0]}), .sel({ld[24+i],ld[16+i],ld[8+i],ld[i]}), .out(l_in[i]));
