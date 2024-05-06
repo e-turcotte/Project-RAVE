@@ -1,5 +1,5 @@
 module TOP();
-    localparam CYCLE_TIME = 12.0;
+    localparam CYCLE_TIME = 15.0;
     
     integer file;
     reg clk;
@@ -11,16 +11,18 @@ module TOP();
     localparam m_size_MEM_EX = 774;
     localparam n_size_MEM_EX = 301;
 
-    initial #5000 $finish; //TODO: run for n ns
+    initial #500 $finish; //TODO: run for n ns
 
     initial begin
         file = $fopen("debug.out", "w");
-        clk = 1'b1;
         cycle_number = 0;
-        forever #(CYCLE_TIME / 2.0) clk = ~clk;
-
         $vcdplusfile("processor.dump.vpd");
         $vcdpluson(0, TOP); 
+    end
+
+    initial begin
+        clk = 1'b1;
+        forever #(CYCLE_TIME / 2.0) clk = ~clk;
     end
 
     always @(posedge clk) begin
@@ -46,12 +48,12 @@ module TOP();
     reg [31:0] EIP_init;
 
     initial begin
-        #(cycle_time)
+        #(CYCLE_TIME)
 
         global_set = 1;
         global_reset = 0;
 
-        #(cycle_time)
+        #(CYCLE_TIME)
 
         global_reset = 1;
         global_set = 1;
@@ -424,7 +426,7 @@ module TOP();
                         };
 
     D_RrAg_Queued_Latches #(.M_WIDTH(m_size_D_RrAg), .N_WIDTH(n_size_D_RrAg), .Q_LENGTH(8)) q2 (
-        .m_din(m_din_D_RrAg), .n_din(n_din_D_RrAg), .new_m_vector(), .wr(valid_out_D_RrAg_latch_out), 
+        .m_din(m_din_D_RrAg), .n_din(n_din_D_RrAg), .new_m_vector(), .wr(valid_out_D_RrAg_latch_in), 
         .rd(RrAg_stall_out), 
         .modify_vector(8'h0), .clr(global_reset), .clk(clk), .full(D_RrAg_Latches_full), .empty(D_RrAg_Latches_empty), .old_m_vector(/*TODO*/), 
             .dout({valid_out_D_RrAg_latch_out, is_imm_D_RrAg_latch_out, reg_addr1_D_RrAg_latch_out, reg_addr2_D_RrAg_latch_out, reg_addr3_D_RrAg_latch_out, reg_addr4_D_RrAg_latch_out,
