@@ -502,7 +502,7 @@ module TOP();
 
     RrAg_MEM_latch q4(
         //inputs
-        .ld(MEM_stall_out), .clr(global_reset), // LD comes from MEM stalling 
+        .ld_inv(MEM_stall_out), .clr(global_reset), // LD comes from MEM stalling 
         .clk(clk),
         .valid_in(valid_RrAg_MEM_latch_in), .opsize_in(opsize_RrAg_MEM_latch_in),
         .mem_addr1_in(mem_addr1_RrAg_MEM_latch_in), .mem_addr2_in(mem_addr2_RrAg_MEM_latch_in), .mem_addr1_end_in(mem_addr1_end_RrAg_MEM_latch_in), .mem_addr2_end_in(mem_addr2_end_RrAg_MEM_latch_in),
@@ -770,10 +770,10 @@ module TOP();
         .BR_correct(), 
         .BR_FIP(), 
         .BR_FIP_p1(),
-        .stall(EX_stall_out) //send stall to MEM_EX_Queued_Latches
+        .stall(/*EX_stall_out*/) //send stall to MEM_EX_Queued_Latches
     );
 
-    assign EX_stall_out = 1;
+    assign EX_stall_out = 0;
     //TODO: stall signal is negative logic, so need to invert when passing to queued latches
 
 

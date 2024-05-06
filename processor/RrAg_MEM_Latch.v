@@ -1,6 +1,6 @@
 
 module RrAg_MEM_latch (
-        input ld, clr,
+        input ld_inv, clr,
         input clk,
 
         input         valid_in,
@@ -70,6 +70,8 @@ module RrAg_MEM_latch (
         file = $fopen("RrAg_MEM_latches.out", "w");
         cyc_cnt = 0;
     end
+
+    inv1$ i0 (.out(ld), .in(ld_inv));
 
     regn #(.WIDTH(1)) r1 (.din(valid_in), .ld(ld), .clr(clr), .clk(clk), .dout(valid_out));
     regn #(.WIDTH(2)) r3 (.din(opsize_in), .ld(ld), .clr(clr), .clk(clk), .dout(opsize_out));

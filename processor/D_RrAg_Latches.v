@@ -9,7 +9,9 @@ module D_RrAg_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
                                                                                output [M_WIDTH*Q_LENGTH-1:0] old_m_vector,
                                                                                output [M_WIDTH+N_WIDTH-1:0] dout);
 
-      queuenm #(M_WIDTH, N_WIDTH, Q_LENGTH) q0(.m_din(m_din), .n_din(n_din), .new_m_vector(new_m_vector), .wr(wr), .rd(rd), .modify_vector(modify_vector), .clr(clr), .clk(clk), .full(full), .empty(empty), .old_m_vector(old_m_vector), .dout(dout));                                                                 
+    inv1$ (.out(read_inv), .in(rd));
+
+      queuenm #(M_WIDTH, N_WIDTH, Q_LENGTH) q0(.m_din(m_din), .n_din(n_din), .new_m_vector(new_m_vector), .wr(wr), .rd(read_inv), .modify_vector(modify_vector), .clr(clr), .clk(clk), .full(full), .empty(empty), .old_m_vector(old_m_vector), .dout(dout));                                                                 
 
     integer file, cyc_cnt;
     initial begin
@@ -46,6 +48,13 @@ module D_RrAg_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
         all_outs[k] = q0.outs[(7+1)*(mlen+nlen)-1:7*(mlen+nlen)];
 
 		$fdisplay(file, "\n=============== D to RrAg Latch Values ===============\n");
+
+        $fdisplay(file, "\t Queue values: ");
+        $fdisplay(file, "\t read: %b", rd);
+        $fdisplay(file, "\t write: %b", wr);
+        $fdisplay(file, "\t clear: %b", clr);
+        $fdisplay(file, "\t full: %b", full);
+        $fdisplay(file, "\t empty: %b", empty);
 
         for (latch_num = 0; latch_num < qlen; latch_num = latch_num + 1) begin
             $fdisplay(file, "\n\t ==LATCH==: %d", latch_num);
