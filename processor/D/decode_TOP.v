@@ -60,6 +60,7 @@ module decode_TOP(
     output is_br_out, is_fp_out,
     output [47:0] imm_out,
     output [1:0] mem1_rw_out, mem2_rw_out,
+    output [31:0] latched_eip_out,
     output [31:0] eip_out,
     output IE_out,
     output [3:0] IE_type_out,
@@ -453,6 +454,8 @@ module decode_TOP(
     assign D_length = instruction_length;
     assign stall_out = queue_full_stall;
     assign isImm_out = isImm;
+
+    assign latched_eip_out = latched_EIP;
 
 
 
