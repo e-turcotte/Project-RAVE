@@ -13,6 +13,7 @@ module mem (input valid_in,
             input [12:0] dest1_sel, dest2_sel, dest3_sel, dest4_sel,
             input res1_ld_in, res2_ld_in, res3_ld_in, res4_ld_in,
             input [31:0] rep_num,
+            input        is_rep_in,
 
             input [159:0] VP_in,                  
             input [159:0] PF_in,
@@ -32,6 +33,7 @@ module mem (input valid_in,
             input [47:0] imm,
             input [1:0] mem1_rw, mem2_rw,
             input [31:0] eip_in,
+            input [31:0] latched_eip_in,
             input IE_in,
             input [3:0] IE_type_in,
             input [31:0] BR_pred_target_in,
@@ -42,6 +44,7 @@ module mem (input valid_in,
            
             output valid_out,
             output [31:0] eip_out,
+            output [31:0] latched_eip_out,
             output IE_out,
             output [3:0] IE_type_out,
             output [31:0] BR_pred_target_out,
@@ -63,7 +66,7 @@ module mem (input valid_in,
             output [36:0] p_op_out,
             output [16:0] fmask_out,
             output [1:0] conditionals_out,
-            output is_br_out, is_fp_out, is_imm_out,
+            output is_br_out, is_fp_out, is_imm_out, is_rep_out
             output [15:0] CS_out,
             output [3:0] wake_out, //TODO: needs to be implemented
             output stall
@@ -112,6 +115,7 @@ module mem (input valid_in,
     
     assign valid_out = valid_in;
     assign eip_out = eip_in;
+    assign latched_eip_out = latched_eip_in;
     assign BR_pred_target_out = BR_pred_target_in;
     assign BR_pred_T_NT_out = BR_pred_T_NT_in;
     assign aluk_out = aluk_in;
@@ -124,6 +128,7 @@ module mem (input valid_in,
     assign is_br_out = is_br_in;
     assign is_fp_out = is_fp_in;
     assign is_imm_out = is_imm_in;
+    assign is_rep_out = is_rep_in;
     assign CS_out = CS_in;
 
 endmodule

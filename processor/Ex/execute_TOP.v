@@ -17,6 +17,7 @@ module execute_TOP(
     input valid_in,                         // M
     input latch_empty,
     input [31:0] EIP_in,                    // N
+    input [31:0] latched_EIP_in,            // N
     input IE_in,                            //interrupt or exception signal - N
     input [3:0] IE_type_in,                 // N
     input [31:0] BR_pred_target_in,         //branch prediction target - N
@@ -50,16 +51,19 @@ module execute_TOP(
     //From BP
     input isBR,     //N
     input is_fp,    //N
+    input is_rep_in,   //N
     input[15:0] CS, //N
     //Global
 
     output valid_out,
     output [31:0] EIP_out, //
+    output [31:0] latched_EIP_out, 
     output IE_out,
     output [3:0] IE_type_out,
     output [31:0] BR_pred_target_out,
     output BR_pred_T_NT_out,
     output [6:0] PTCID_out,
+    output is_rep_out,
 
     output[17:0] eflags,
     output[15:0] CS_out, 
@@ -85,6 +89,8 @@ module execute_TOP(
     wire cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_val;
     wire af, cf, of, sf, pf, zf, df;
     assign EIP_out = EIP_in;
+    assign latched_EIP_out = latched_EIP_in;
+    assign is_rep_out = is_rep_in;
     assign res2_wb = res2_ld_in;
     assign res1_wb = res1_ld_in;
     wire swapCXC; 

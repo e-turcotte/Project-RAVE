@@ -8,7 +8,7 @@ module rrag (input valid_in,
              input [31:0] disp,
              input [1:0] reg3_shfamnt,
              input usereg2, usereg3,
-             input rep,
+             input is_rep_in,
              input latch_empty,
 
              input clr, clk,
@@ -24,6 +24,7 @@ module rrag (input valid_in,
              input [47:0] imm_in,
              input [1:0] mem1_rw_in, mem2_rw_in,
              input [31:0] eip_in,
+             input [31:0] latched_eip_in,
              input IE_in,
              input [3:0] IE_type_in,
              input [31:0] BR_pred_target_in,
@@ -52,6 +53,7 @@ module rrag (input valid_in,
              output [12:0] dest1_out, dest2_out, dest3_out, dest4_out,
              output res1_ld_out, res2_ld_out, res3_ld_out, res4_ld_out,
              output [31:0] rep_num,
+             output is_rep_out,
              
              output [4:0] aluk_out,
              output [2:0] mux_adder_out,
@@ -64,6 +66,7 @@ module rrag (input valid_in,
              output [47:0] imm_out,
              output [1:0] mem1_rw_out, mem2_rw_out,
              output [31:0] eip_out,
+             output [31:0] latched_eip_out,
              output IE_out,
              output [3:0] IE_type_out,
              output [31:0] BR_pred_target_out,
@@ -162,10 +165,12 @@ module rrag (input valid_in,
     assign mem1_rw_out = mem1_rw_in;
     assign mem2_rw_out = mem2_rw_in;
     assign eip_out = eip_in;
+    assign latched_eip_out = latched_eip_in;
     assign IE_out = IE_in;
     assign IE_type_out = IE_type_in;
     assign BR_pred_target_out = BR_pred_target_in;
     assign BR_pred_T_NT_out = BR_pred_T_NT_in;
+    assign is_rep_out = is_rep_in;
 
     wire mem1_use, mem2_use, rm_ptc, sib_ptc, actualsib_ptc, mem1_ptc, mem2_ptc, mem1_stall, mem2_stall;
 
