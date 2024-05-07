@@ -66,7 +66,7 @@ module mem (input valid_in,
             output [36:0] p_op_out,
             output [16:0] fmask_out,
             output [1:0] conditionals_out,
-            output is_br_out, is_fp_out, is_imm_out, is_rep_out
+            output is_br_out, is_fp_out, is_imm_out, is_rep_out,
             output [15:0] CS_out,
             output [3:0] wake_out, //TODO: needs to be implemented
             output stall
