@@ -45,6 +45,7 @@ module TOP();
     //TODO: Core initializations:
     reg global_reset;
     reg global_set;
+    reg global_init;
     reg [31:0] EIP_init;
 
     initial begin
@@ -52,13 +53,18 @@ module TOP();
 
         global_set = 1;
         global_reset = 0;
+        
 
         #(CYCLE_TIME)
 
         global_reset = 1;
         global_set = 1;
+        global_init = 1;
+        EIP_init = 32'h0000_0000;
 
+        #(CYCLE_TIME)
 
+        global_init = 0;
         packet = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
         D_valid = 1'b1;
 
@@ -360,8 +366,8 @@ module TOP();
         .is_resteer(),
     
         // Init signals
-        .init_EIP(),
-        .is_init(),
+        .init_EIP(EIP_init),
+        .is_init(global_init),
     
         // Stall signal
         .queue_full_stall(D_RrAg_Latches_full), // recieve from D_RrAg_Queued_latches
@@ -457,6 +463,7 @@ module TOP();
             
         );
     
+    assign RrAg_stall_out = 0;
     rrag r1 (
         //inputs
         .valid_in(valid_out_D_RrAg_latch_out), .reg_addr1(reg_addr1_D_RrAg_latch_out), .reg_addr2(reg_addr2_D_RrAg_latch_out), .reg_addr3(reg_addr3_D_RrAg_latch_out), .reg_addr4(reg_addr4_D_RrAg_latch_out),
@@ -481,7 +488,7 @@ module TOP();
         .ptc_clear(), //TODO: from IDTR
 
         //outputs
-        .valid_out(valid_RrAg_MEM_latch_in), .stall(RrAg_stall_out), //send to D_RrAg_Queued_Latches
+        .valid_out(valid_RrAg_MEM_latch_in), .stall(/*RrAg_stall_out*/), //send to D_RrAg_Queued_Latches
         .opsize_out(opsize_RrAg_MEM_latch_in),
         .mem_addr1(mem_addr1_RrAg_MEM_latch_in), .mem_addr2(mem_addr2_RrAg_MEM_latch_in), .mem_addr1_end(mem_addr1_end_RrAg_MEM_latch_in), .mem_addr2_end(mem_addr2_end_RrAg_MEM_latch_in),
         .reg1(reg1_RrAg_MEM_latch_in), .reg2(reg2_RrAg_MEM_latch_in), .reg3(reg3_RrAg_MEM_latch_in), .reg4(reg4_RrAg_MEM_latch_in),
