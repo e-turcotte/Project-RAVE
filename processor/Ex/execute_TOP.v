@@ -44,7 +44,7 @@ module execute_TOP(
     input MUX_AND_INT,  //N
     input MUX_SHIFT, //N
     input[36:0] P_OP, //N
-    input [16:0] FMASK, //N
+    input [17:0] FMASK, //N
     input [1:0] conditionals, //N
     input isImm,
     
@@ -71,6 +71,7 @@ module execute_TOP(
     
     output res1_wb, res2_wb, res3_wb, res4_wb,
     output [63:0] res1, res2, res3, res4, //done
+    output [127:0] res1_ptcinfo, res2_ptcinfo, res3_ptcinfo, res4_ptcinfo,
     output res1_is_reg_out, res2_is_reg_out, res3_is_reg_out, res4_is_reg_out, //done
     output res1_is_seg_out, res2_is_seg_out, res3_is_seg_out, res4_is_seg_out, //done
     output res1_is_mem_out, res2_is_mem_out, res3_is_mem_out, res4_is_mem_out, //done
@@ -81,8 +82,7 @@ module execute_TOP(
     output BR_valid, //
     output BR_taken, //
     output BR_correct,  //
-    output[31:0] BR_FIP, //
-    output [31:0] BR_FIP_p1,
+    output[31:0] BR_FIP, BR_FIP_p1,
     output stall
 );
 
@@ -114,14 +114,16 @@ module execute_TOP(
     assign res4_is_mem_out = res4_is_mem_in;
     assign res4_dest = dest4_addr;
     assign res4_wb = res4_ld_in;
+    assign res4_ptcinfo = op4_ptcinfo;
 
     //assign res3 = op3;
-    res3Handler r3H(op3, opsize_in, sizeOVR, P_OP[15], df, res3);
+    res3Handler r3H(op3, opsize_in, P_OP[15], df, res3);
     assign res3_is_reg_out = res3_is_reg_in;
     assign res3_is_seg_out = res3_is_seg_in;
     assign res3_is_mem_out = res3_is_mem_in;
     assign res3_dest = dest3_addr;
     assign res3_wb = res3_ld_in;
+    assign res3_ptcinfo = op3_ptcinfo;
 
     wire[31:0] res1_dest_out;
 
@@ -132,6 +134,7 @@ module execute_TOP(
     assign res1_is_seg_out = res1_is_seg_in;
     assign res1_is_mem_out = res1_is_mem_in;
     assign res1_dest = res1_dest_out;
+    assign res1_ptcinfo = op1_ptcinfo;
     
     // mux2n #(64) mx5(res2, res2_xchg, op2, P_OP[15]);
     // mux2n #(64) mx2(res2_is_reg, op2_is_reg, op1_is_reg, P_OP[33]);
@@ -141,6 +144,7 @@ module execute_TOP(
     assign reg2_is_seg_out = res2_is_seg_in;
     assign res2_is_mem_out = res2_is_mem_in;
     assign res2_dest = dest2_addr;
+    assign res2_ptcinfo = op2_ptcinfo;
 
     //handle ALU
     ALU_top a1(res1, res1_dest_out, res2_xchg, swapCXC, cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_inval, op1, op2, op3, dest1_addr, aluk, MUX_ADDER_IMM, MUX_AND_INT, MUX_SHIFT, P_OP[7], P_OP[2], P_OP[31],P_OP[29], P_OP[30], opsize_in,af,cf,of,zf, CS, EIP_in); 
@@ -160,7 +164,6 @@ module execute_TOP(
     and2$ a2(valid_out, valid_internal, skip_n);
 
     //HandleBRLOGIC
-    assign BR_EIP = EIP_in;
     BRLOGIC b1(BR_valid, BR_taken, BR_correct, BR_FIP, BR_FIP_p1, valid_internal, BR_pred_target_in, BR_pred_T_NT_in, conditionals, zf, cf, res1[31:0], P_OP[11], P_OP[12], P_OP[32], gBR);
 
     //TODO: exception checking for DIV0 for FDIV
@@ -197,7 +200,7 @@ kogeAdder #(32) add0(addResults, dc, op2[31:0], add1, 1'b0 );
 
 
 mux4n #(32) m0(res2[31:0], op2[31:0], addResults, op1[31:0], op1[31:0], P_OP_MOVS, P_OP_XCHG);
-mux2n #(32) m1(res[63:32], op2[63:32], op1[63:32], P_OP_XCHG);
+mux2n #(32) m1(res2[63:32], op2[63:32], op1[63:32], P_OP_XCHG);
 
 
 endmodule
@@ -205,7 +208,7 @@ endmodule
 module res3Handler(
     input[63:0] op3,
     input[1:0] size,
-    input sizeOVR, 
+    // input sizeOVR, 
     input P_OP_MOVS,
     input df,
     output[63:0] res3
@@ -249,7 +252,7 @@ module res4Handler(
     mux2n #(32) mnx(add1, add3,op2[31:0],immOVR );
     mux2n #(32) mxn(add2, add1, 32'hFFFF_FFFF, P_OP_MOVS);
     kogeAdder #(32) add0(addResults, dc, op4[31:0], add2, 1'b0 );
-    mux2n #(32) m0(res4, op4[31:0], addResults, immOVR);
+    mux2n #(32) m0(res4[31:0], op4[31:0], addResults, immOVR);
     assign res4[63:32] = op4[63:32];
 
     // mux2n #(32) (res4[31:0],op4[31:0], add_Results
