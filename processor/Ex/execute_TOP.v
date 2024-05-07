@@ -43,7 +43,7 @@ module execute_TOP(
     input MUX_AND_INT,  //N
     input MUX_SHIFT, //N
     input[36:0] P_OP, //N
-    input [16:0] FMASK, //N
+    input [17:0] FMASK, //N
     input [1:0] conditionals, //N
     input isImm,
     
@@ -111,7 +111,7 @@ module execute_TOP(
     assign res4_ptcinfo = op4_ptcinfo;
 
     //assign res3 = op3;
-    res3Handler r3H(op3, opsize_in, sizeOVR, P_OP[15], df, res3);
+    res3Handler r3H(op3, opsize_in, P_OP[15], df, res3);
     assign res3_is_reg_out = res3_is_reg_in;
     assign res3_is_seg_out = res3_is_seg_in;
     assign res3_is_mem_out = res3_is_mem_in;
@@ -194,7 +194,7 @@ kogeAdder #(32) add0(addResults, dc, op2[31:0], add1, 1'b0 );
 
 
 mux4n #(32) m0(res2[31:0], op2[31:0], addResults, op1[31:0], op1[31:0], P_OP_MOVS, P_OP_XCHG);
-mux2n #(32) m1(res[63:32], op2[63:32], op1[63:32], P_OP_XCHG);
+mux2n #(32) m1(res2[63:32], op2[63:32], op1[63:32], P_OP_XCHG);
 
 
 endmodule
@@ -202,7 +202,7 @@ endmodule
 module res3Handler(
     input[63:0] op3,
     input[1:0] size,
-    input sizeOVR, 
+    // input sizeOVR, 
     input P_OP_MOVS,
     input df,
     output[63:0] res3
@@ -246,7 +246,7 @@ module res4Handler(
     mux2n #(32) mnx(add1, add3,op2[31:0],immOVR );
     mux2n #(32) mxn(add2, add1, 32'hFFFF_FFFF, P_OP_MOVS);
     kogeAdder #(32) add0(addResults, dc, op4[31:0], add2, 1'b0 );
-    mux2n #(32) m0(res4, op4[31:0], addResults, immOVR);
+    mux2n #(32) m0(res4[31:0], op4[31:0], addResults, immOVR);
     assign res4[63:32] = op4[63:32];
 
     // mux2n #(32) (res4[31:0],op4[31:0], add_Results

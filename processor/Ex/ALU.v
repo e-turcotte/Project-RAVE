@@ -172,7 +172,7 @@ decodern #(5) d2(aluk, alukOH);
 
 wire[1215:0] aluRes;
 assign aluRes = {sal_out, sar_out, punpckhw_out, punpckhbw_out,packssdw_out, packsswb_out, paddd_out, paddw_out, or_out,notA_out, daa_out, cmpxchng_out, pass1, pass0, passA, passB, penc_out,add_out,and_out};
-muxnm_tristate #(19,64) t1(aluRes, alukOH, ALU_OUT);
+muxnm_tristate #(32,64) t1(aluRes, alukOH, ALU_OUT);
 
 
 wire [31:0] af_sel;
@@ -182,9 +182,9 @@ assign cf_sel = {and_cf,add_cf,penc_cf,movB_cf,    movA_cf,     cld_cf,     std_
 wire [31:0] of_sel;
 assign of_sel = {     and_of,     add_of,    penc_of,    movB_of,    movA_of,     cld_of,     std_of,cmpxchng_of,     daa_of,     not_of,      or_of,    1'b0,    1'b0,    1'b0,    1'b0,    1'b0,    1'b0,      sar_of,      sal_of,    13'd0};
 
-muxnm_tristate #(5,1) t2(af_sel, alukOH, af_out);
-muxnm_tristate #(5,1) t3(cf_sel, alukOH, cf_out);
-muxnm_tristate #(5,1) t4(of_sel, alukOH, of_out);
+muxnm_tristate #(32,1) t2(af_sel, alukOH, af_out);
+muxnm_tristate #(32,1) t3(cf_sel, alukOH, cf_out);
+muxnm_tristate #(32,1) t4(of_sel, alukOH, of_out);
 
 endmodule
 
@@ -227,7 +227,7 @@ muxnm_tristate #(32, 1) mx3({1'b0,OP1[30:0]}, shiftCntN, SAR_cf_nOF);
 mux2$ mx4(sal_cf, SAR_cf_nOF, OP1[31], overSHF);
 
 or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
-mux2$ mx1(sal_of, OP1[31], of, of_sel);
+mux2$ mx1(sal_of, of, OP1[31], of_sel);
 assign sal_af = 0;
 //TODO: check here
 mux2n #(32) mx(SAL_out[31:0], shf_out, 32'd0 ,overSHF);
@@ -255,11 +255,12 @@ wire[31:0] inpCap;
 decodern #(5) d1(OP2[4:0], inpCap);
 mux2n #(32) m1 (shiftCnt, inpCap, 32'd1, MUX_SHF);
 wire[31:0] shf_out;
-rshfn_variable #(32)  r1(OP1, shiftCnt, OP1[31], shf_out);
+rshfn_variable #(32)  r1(OP1[31:0], shiftCnt, OP1[31], shf_out);
 assign SAR_out[63:32] = 32'd0;
 
 wire overSHF;
 or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
+equaln #(5) e1(shiftCnt[4:0], 5'b00001, of_sel);
 
 mux4n #(32) mx(SAR_out[31:0], shf_out, 32'd0 ,shf_out ,32'hFFFF_FFFF ,overSHF, OP1[31]);
 
@@ -268,7 +269,7 @@ muxnm_tristate #(32, 1) mx1({OP1[30:0],1'b0}, shiftCnt, SAR_cf_nOF);
 mux2$ mx2(sar_cf, SAR_cf_nOF, OP1[31], overSHF);
 
 or3$ o2(overSHF, OP2[6], OP2[7], OP2[5]);
-mux2$ mx3(sar_of, op, OP1[0], of_sel);
+mux2$ mx3(sar_of,OP1[0],of, of_sel);
 
 assign sar_af = 0;
 equaln #(32) eq1(32'd0, shiftCnt, cc_val);
