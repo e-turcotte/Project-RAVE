@@ -6,9 +6,9 @@ module TOP();
     integer cycle_number;
 
     localparam m_size_D_RrAg = 1;
-    localparam n_size_D_RrAg = 362;
+    localparam n_size_D_RrAg = 364;
     
-    localparam m_size_MEM_EX = 774;
+    localparam m_size_MEM_EX = 780;
     localparam n_size_MEM_EX = 301;
 
     initial #500 $finish; //TODO: run for n ns
@@ -195,24 +195,24 @@ module TOP();
     wire [31:0]  ptc_s1_RrAg_MEM_latch_in, ptc_s2_RrAg_MEM_latch_in, ptc_s3_RrAg_MEM_latch_in, ptc_s4_RrAg_MEM_latch_in;
     wire [2:0]   seg1_orig_RrAg_MEM_latch_in, seg2_orig_RrAg_MEM_latch_in, seg3_orig_RrAg_MEM_latch_in, seg4_orig_RrAg_MEM_latch_in;
     wire [6:0]   inst_ptcid_RrAg_MEM_latch_in;
-    wire [12:0]  op1_out_RrAg_MEM_latch_in, op2_out_RrAg_MEM_latch_in, op3_out_RrAg_MEM_latch_in, op4_out_RrAg_MEM_latch_in;
-    wire [12:0]  dest1_out_RrAg_MEM_latch_in, dest2_out_RrAg_MEM_latch_in, dest3_out_RrAg_MEM_latch_in, dest4_out_RrAg_MEM_latch_in;
-    wire         res1_ld_out_RrAg_MEM_latch_in, res2_ld_out_RrAg_MEM_latch_in, res3_ld_out_RrAg_MEM_latch_in, res4_ld_out_RrAg_MEM_latch_in;
+    wire [12:0]  op1_RrAg_MEM_latch_in, op2_RrAg_MEM_latch_in, op3_RrAg_MEM_latch_in, op4_RrAg_MEM_latch_in;
+    wire [12:0]  dest1_RrAg_MEM_latch_in, dest2_RrAg_MEM_latch_in, dest3_RrAg_MEM_latch_in, dest4_RrAg_MEM_latch_in;
+    wire         res1_ld_RrAg_MEM_latch_in, res2_ld_RrAg_MEM_latch_in, res3_ld_RrAg_MEM_latch_in, res4_ld_RrAg_MEM_latch_in;
     wire [31:0]  rep_num_RrAg_MEM_latch_in;
-    wire [4:0]   aluk_out_RrAg_MEM_latch_in;
-    wire [2:0]   mux_adder_out_RrAg_MEM_latch_in;
-    wire         mux_and_int_out_RrAg_MEM_latch_in, mux_shift_out_RrAg_MEM_latch_in;
-    wire [36:0]  p_op_out_RrAg_MEM_latch_in;
-    wire [17:0]  fmask_out_RrAg_MEM_latch_in;
-    wire [1:0]   conditionals_out_RrAg_MEM_latch_in;
-    wire         is_br_out_RrAg_MEM_latch_in, is_fp_out_RrAg_MEM_latch_in, is_imm_RrAg_MEM_latch_in;
-    wire [47:0]  imm_out_RrAg_MEM_latch_in;
-    wire [1:0]   mem1_rw_out_RrAg_MEM_latch_in, mem2_rw_out_RrAg_MEM_latch_in;
-    wire [31:0]  eip_out_RrAg_MEM_latch_in;
-    wire         IE_out_RrAg_MEM_latch_in;
-    wire [3:0]   IE_type_out_RrAg_MEM_latch_in;
-    wire [31:0]  BR_pred_target_out_RrAg_MEM_latch_in;
-    wire         BR_pred_T_NT_out_RrAg_MEM_latch_in;
+    wire [4:0]   aluk_RrAg_MEM_latch_in;
+    wire [2:0]   mux_adder_RrAg_MEM_latch_in;
+    wire         mux_and_int_RrAg_MEM_latch_in, mux_shift_RrAg_MEM_latch_in;
+    wire [36:0]  p_op_RrAg_MEM_latch_in;
+    wire [17:0]  fmask_RrAg_MEM_latch_in;
+    wire [1:0]   conditionals_RrAg_MEM_latch_in;
+    wire         is_br_RrAg_MEM_latch_in, is_fp_RrAg_MEM_latch_in, is_imm_RrAg_MEM_latch_in;
+    wire [47:0]  imm_RrAg_MEM_latch_in;
+    wire [1:0]   mem1_rw_RrAg_MEM_latch_in, mem2_rw_RrAg_MEM_latch_in;
+    wire [31:0]  eip_RrAg_MEM_latch_in;
+    wire         IE_RrAg_MEM_latch_in;
+    wire [3:0]   IE_type_RrAg_MEM_latch_in;
+    wire [31:0]  BR_pred_target_RrAg_MEM_latch_in;
+    wire         BR_pred_T_NT_RrAg_MEM_latch_in;
     
     ///////////////////////////////////////////////////////////
     //   Outputs from RrAg_MEM_latch that go into the MEM:  //  
@@ -230,14 +230,14 @@ module TOP();
     wire [6:0]   inst_ptcid_RrAg_MEM_latch_out;
     wire [12:0]  op1_RrAg_MEM_latch_out, op2_RrAg_MEM_latch_out, op3_RrAg_MEM_latch_out, op4_RrAg_MEM_latch_out;
     wire [12:0]  dest1_RrAg_MEM_latch_out, dest2_RrAg_MEM_latch_out, dest3_RrAg_MEM_latch_out, dest4_RrAg_MEM_latch_out;
-    wire         res1_ld_out_RrAg_MEM_latch_out, res2_ld_out_RrAg_MEM_latch_out, res3_ld_out_RrAg_MEM_latch_out, res4_ld_out_RrAg_MEM_latch_out;
+    wire         res1_ld_RrAg_MEM_latch_out, res2_ld_RrAg_MEM_latch_out, res3_ld_RrAg_MEM_latch_out, res4_ld_RrAg_MEM_latch_out;
     wire [31:0]  rep_num_RrAg_MEM_latch_out;
     wire [4:0]   aluk_RrAg_MEM_latch_out;
     wire [2:0]   mux_adder_RrAg_MEM_latch_out;
     wire         mux_and_int_RrAg_MEM_latch_out, mux_shift_RrAg_MEM_latch_out;
     wire [36:0]  p_op_RrAg_MEM_latch_out;
     wire [17:0]  fmask_RrAg_MEM_latch_out;
-    wire [15:0]  CS_out_RrAg_MEM_latch_out;
+    wire [15:0]  CS_RrAg_MEM_latch_out;
     wire [1:0]   conditionals_RrAg_MEM_latch_out;
     wire         is_br_RrAg_MEM_latch_out, is_fp_RrAg_MEM_latch_out, is_imm_RrAg_MEM_latch_out;
     wire [47:0]  imm_RrAg_MEM_latch_out;
@@ -272,14 +272,14 @@ module TOP();
     wire [2:0]   MUX_ADDER_IMM_MEM_EX_latch_in;
     wire         MUX_AND_INT_MEM_EX_latch_in, MUX_SHIFT_MEM_EX_latch_in;
 
-    wire [34:0]  P_OP_MEM_EX_latch_in;
+    wire [36:0]  P_OP_MEM_EX_latch_in;
     wire [16:0]  FMASK_MEM_EX_latch_in;
     wire [1:0]   conditionals_MEM_EX_latch_in;
 
     wire         isBR_MEM_EX_latch_in, is_fp_MEM_EX_latch_in, is_imm_MEM_EX_latch_in;
     wire [15:0]  CS_MEM_EX_latch_in;
     wire [3:0]   wake_MEM_EX_latch_in;
-    wire         inst_ptcid_MEM_EX_latch_in;
+    wire [6:0]   inst_ptcid_MEM_EX_latch_in;
     
 
     ///////////////////////////////////////////////////////////
@@ -306,14 +306,14 @@ module TOP();
     wire [2:0]   MUX_ADDER_IMM_MEM_EX_latch_out;
     wire         MUX_AND_INT_MEM_EX_latch_out;
     wire         MUX_SHIFT_MEM_EX_latch_out;
-    wire [34:0]  P_OP_MEM_EX_latch_out;
+    wire [36:0]  P_OP_MEM_EX_latch_out;
     wire [16:0]  FMASK_MEM_EX_latch_out;
     wire [1:0]   conditionals_MEM_EX_latch_out;
 
     wire         isBR_MEM_EX_latch_out, is_fp_MEM_EX_latch_out, is_imm_MEM_EX_latch_out;
     wire [15:0]  CS_MEM_EX_latch_out;
     wire [3:0]   wake_MEM_EX_latch_out;
-    wire         inst_ptcid_MEM_EX_latch_out;
+    wire [6:0]   inst_ptcid_MEM_EX_latch_out;
 
     // bp_gshare bp (
     //     //inputs
@@ -478,26 +478,26 @@ module TOP();
         .ptc_s1(ptc_s1_RrAg_MEM_latch_in), .ptc_s2(ptc_s2_RrAg_MEM_latch_in), .ptc_s3(ptc_s3_RrAg_MEM_latch_in), .ptc_s4(ptc_s4_RrAg_MEM_latch_in),
         .seg1_orig(seg1_orig_RrAg_MEM_latch_in), .seg2_orig(seg2_orig_RrAg_MEM_latch_in), .seg3_orig(seg3_orig_RrAg_MEM_latch_in), .seg4_orig(seg4_orig_RrAg_MEM_latch_in),
         .inst_ptcid(inst_ptcid_RrAg_MEM_latch_in),
-        .op1_out(op1_out_RrAg_MEM_latch_in), .op2_out(op2_out_RrAg_MEM_latch_in), .op3_out(op3_out_RrAg_MEM_latch_in), .op4_out(op4_out_RrAg_MEM_latch_in),
-        .dest1_out(dest1_out_RrAg_MEM_latch_in), .dest2_out(dest2_out_RrAg_MEM_latch_in), .dest3_out(dest3_out_RrAg_MEM_latch_in), .dest4_out(dest4_out_RrAg_MEM_latch_in),
-        .res1_ld_out(res1_ld_out_RrAg_MEM_latch_in), .res2_ld_out(res2_ld_out_RrAg_MEM_latch_in), 
-        .res3_ld_out(res3_ld_out_RrAg_MEM_latch_in), .res4_ld_out(res4_ld_out_RrAg_MEM_latch_in),
+        .op1_out(op1_RrAg_MEM_latch_in), .op2_out(op2_RrAg_MEM_latch_in), .op3_out(op3_RrAg_MEM_latch_in), .op4_out(op4_RrAg_MEM_latch_in),
+        .dest1_out(dest1_RrAg_MEM_latch_in), .dest2_out(dest2_RrAg_MEM_latch_in), .dest3_out(dest3_RrAg_MEM_latch_in), .dest4_out(dest4_RrAg_MEM_latch_in),
+        .res1_ld_out(res1_ld_RrAg_MEM_latch_in), .res2_ld_out(res2_ld_RrAg_MEM_latch_in), 
+        .res3_ld_out(res3_ld_RrAg_MEM_latch_in), .res4_ld_out(res4_ld_RrAg_MEM_latch_in),
         .rep_num(rep_num_RrAg_MEM_latch_in),
         
-        .aluk_out(aluk_out_RrAg_MEM_latch_in),
-        .mux_adder_out(mux_adder_out_RrAg_MEM_latch_in),
-        .mux_and_int_out(mux_and_int_out_RrAg_MEM_latch_in), .mux_shift_out(mux_shift_out_RrAg_MEM_latch_in),
-        .p_op_out(p_op_out_RrAg_MEM_latch_in),
-        .fmask_out(fmask_out_RrAg_MEM_latch_in),
-        .conditionals_out(conditionals_out_RrAg_MEM_latch_in),
-        .is_br_out(is_br_out_RrAg_MEM_latch_in), .is_fp_out(is_fp_out_RrAg_MEM_latch_in), .is_imm_out(is_imm_RrAg_MEM_latch_in), 
+        .aluk_out(aluk_RrAg_MEM_latch_in),
+        .mux_adder_out(mux_adder_RrAg_MEM_latch_in),
+        .mux_and_int_out(mux_and_int_RrAg_MEM_latch_in), .mux_shift_out(mux_shift_RrAg_MEM_latch_in),
+        .p_op_out(p_op_RrAg_MEM_latch_in),
+        .fmask_out(fmask_RrAg_MEM_latch_in),
+        .conditionals_out(conditionals_RrAg_MEM_latch_in),
+        .is_br_out(is_br_RrAg_MEM_latch_in), .is_fp_out(is_fp_RrAg_MEM_latch_in), .is_imm_out(is_imm_RrAg_MEM_latch_in), 
         .imm_out(imm_RrAg_MEM_latch_in),
-        .mem1_rw_out(mem1_rw_out_RrAg_MEM_latch_in), .mem2_rw_out(mem2_rw_out_RrAg_MEM_latch_in),
-        .eip_out(eip_out_RrAg_MEM_latch_in),
-        .IE_out(IE_out_RrAg_MEM_latch_in),
-        .IE_type_out(IE_type_out_RrAg_MEM_latch_in),
-        .BR_pred_target_out(BR_pred_target_out_RrAg_MEM_latch_in),
-        .BR_pred_T_NT_out(BR_pred_T_NT_out_RrAg_MEM_latch_in)
+        .mem1_rw_out(mem1_rw_RrAg_MEM_latch_in), .mem2_rw_out(mem2_rw_RrAg_MEM_latch_in),
+        .eip_out(eip_RrAg_MEM_latch_in),
+        .IE_out(IE_RrAg_MEM_latch_in),
+        .IE_type_out(IE_type_RrAg_MEM_latch_in),
+        .BR_pred_target_out(BR_pred_target_RrAg_MEM_latch_in),
+        .BR_pred_T_NT_out(BR_pred_T_NT_RrAg_MEM_latch_in)
     );
 
     RrAg_MEM_latch q4(
@@ -513,25 +513,25 @@ module TOP();
         .ptc_s1_in(ptc_s1_RrAg_MEM_latch_in), .ptc_s2_in(ptc_s2_RrAg_MEM_latch_in), .ptc_s3_in(ptc_s3_RrAg_MEM_latch_in), .ptc_s4_in(ptc_s4_RrAg_MEM_latch_in),
         .seg1_orig_in(seg1_orig_RrAg_MEM_latch_in), .seg2_orig_in(seg2_orig_RrAg_MEM_latch_in), .seg3_orig_in(seg3_orig_RrAg_MEM_latch_in), .seg4_orig_in(seg4_orig_RrAg_MEM_latch_in),
         .inst_ptcid_in(inst_ptcid_RrAg_MEM_latch_in),
-        .op1_in(op1_out_RrAg_MEM_latch_in), .op2_in(op2_out_RrAg_MEM_latch_in), .op3_in(op3_out_RrAg_MEM_latch_in), .op4_in(op4_out_RrAg_MEM_latch_in),
-        .dest1_in(dest1_out_RrAg_MEM_latch_in), .dest2_in(dest2_out_RrAg_MEM_latch_in), .dest3_in(dest3_out_RrAg_MEM_latch_in), .dest4_in(dest4_out_RrAg_MEM_latch_in),
-        .res1_ld_in(res1_ld_out_RrAg_MEM_latch_in), .res2_ld_in(res2_ld_out_RrAg_MEM_latch_in),
-        .res3_ld_in(res3_ld_out_RrAg_MEM_latch_in), .res4_ld_in(res4_ld_out_RrAg_MEM_latch_in),
+        .op1_in(op1_RrAg_MEM_latch_in), .op2_in(op2_RrAg_MEM_latch_in), .op3_in(op3_RrAg_MEM_latch_in), .op4_in(op4_RrAg_MEM_latch_in),
+        .dest1_in(dest1_RrAg_MEM_latch_in), .dest2_in(dest2_RrAg_MEM_latch_in), .dest3_in(dest3_RrAg_MEM_latch_in), .dest4_in(dest4_RrAg_MEM_latch_in),
+        .res1_ld_in(res1_ld_RrAg_MEM_latch_in), .res2_ld_in(res2_ld_RrAg_MEM_latch_in),
+        .res3_ld_in(res3_ld_RrAg_MEM_latch_in), .res4_ld_in(res4_ld_RrAg_MEM_latch_in),
         .rep_num_in(rep_num_RrAg_MEM_latch_in),
-        .aluk_in(aluk_out_RrAg_MEM_latch_in),
-        .mux_adder_in(mux_adder_out_RrAg_MEM_latch_in),
-        .mux_and_int_in(mux_and_int_out_RrAg_MEM_latch_in), .mux_shift_in(mux_shift_out_RrAg_MEM_latch_in),
-        .p_op_in(p_op_out_RrAg_MEM_latch_in),
-        .fmask_in(fmask_out_RrAg_MEM_latch_in),
-        .conditionals_in(conditionals_out_RrAg_MEM_latch_in),
-        .is_br_in(is_br_out_RrAg_MEM_latch_in), .is_fp_in(is_fp_out_RrAg_MEM_latch_in), .is_imm_in(is_imm_RrAg_MEM_latch_in),
+        .aluk_in(aluk_RrAg_MEM_latch_in),
+        .mux_adder_in(mux_adder_RrAg_MEM_latch_in),
+        .mux_and_int_in(mux_and_int_RrAg_MEM_latch_in), .mux_shift_in(mux_shift_RrAg_MEM_latch_in),
+        .p_op_in(p_op_RrAg_MEM_latch_in),
+        .fmask_in(fmask_RrAg_MEM_latch_in),
+        .conditionals_in(conditionals_RrAg_MEM_latch_in),
+        .is_br_in(is_br_RrAg_MEM_latch_in), .is_fp_in(is_fp_RrAg_MEM_latch_in), .is_imm_in(is_imm_RrAg_MEM_latch_in),
         .imm_in(imm_RrAg_MEM_latch_in),
-        .mem1_rw_in(mem1_rw_out_RrAg_MEM_latch_in), .mem2_rw_in(mem2_rw_out_RrAg_MEM_latch_in),
-        .eip_in(eip_out_RrAg_MEM_latch_in),
-        .IE_in(IE_out_RrAg_MEM_latch_in),
-        .IE_type_in(IE_type_out_RrAg_MEM_latch_in),
-        .BR_pred_target_in(BR_pred_target_out_RrAg_MEM_latch_in),
-        .BR_pred_T_NT_in(BR_pred_T_NT_out_RrAg_MEM_latch_in),
+        .mem1_rw_in(mem1_rw_RrAg_MEM_latch_in), .mem2_rw_in(mem2_rw_RrAg_MEM_latch_in),
+        .eip_in(eip_RrAg_MEM_latch_in),
+        .IE_in(IE_RrAg_MEM_latch_in),
+        .IE_type_in(IE_type_RrAg_MEM_latch_in),
+        .BR_pred_target_in(BR_pred_target_RrAg_MEM_latch_in),
+        .BR_pred_T_NT_in(BR_pred_T_NT_RrAg_MEM_latch_in),
         
         //outputs
         .valid_out(valid_RrAg_MEM_latch_out), .opsize_out(opsize_RrAg_MEM_latch_out),
@@ -545,8 +545,8 @@ module TOP();
         .inst_ptcid_out(inst_ptcid_RrAg_MEM_latch_out),
         .op1_out(op1_RrAg_MEM_latch_out), .op2_out(op2_RrAg_MEM_latch_out), .op3_out(op3_RrAg_MEM_latch_out), .op4_out(op4_RrAg_MEM_latch_out),
         .dest1_out(dest1_RrAg_MEM_latch_out), .dest2_out(dest2_RrAg_MEM_latch_out), .dest3_out(dest3_RrAg_MEM_latch_out), .dest4_out(dest4_RrAg_MEM_latch_out),
-        .res1_ld_out(res1_ld_out_RrAg_MEM_latch_out), .res2_ld_out(res2_ld_out_RrAg_MEM_latch_out),
-        .res3_ld_out(res3_ld_out_RrAg_MEM_latch_out), .res4_ld_out(res4_ld_out_RrAg_MEM_latch_out),
+        .res1_ld_out(res1_ld_RrAg_MEM_latch_out), .res2_ld_out(res2_ld_RrAg_MEM_latch_out),
+        .res3_ld_out(res3_ld_RrAg_MEM_latch_out), .res4_ld_out(res4_ld_RrAg_MEM_latch_out),
         .rep_num_out(rep_num_RrAg_MEM_latch_out),
         .aluk_out(aluk_RrAg_MEM_latch_out),
         .mux_adder_out(mux_adder_RrAg_MEM_latch_out),
@@ -606,15 +606,15 @@ module TOP();
         .dest2_sel(dest2_RrAg_MEM_latch_out),
         .dest3_sel(dest3_RrAg_MEM_latch_out),
         .dest4_sel(dest4_RrAg_MEM_latch_out),
-        .res1_ld_in(res1_ld_out_RrAg_MEM_latch_out), .res2_ld_in(res2_ld_out_RrAg_MEM_latch_out),
-        .res3_ld_in(res3_ld_out_RrAg_MEM_latch_out), .res4_ld_in(res4_ld_out_RrAg_MEM_latch_out),
+        .res1_ld_in(res1_ld_RrAg_MEM_latch_out), .res2_ld_in(res2_ld_RrAg_MEM_latch_out),
+        .res3_ld_in(res3_ld_RrAg_MEM_latch_out), .res4_ld_in(res4_ld_RrAg_MEM_latch_out),
         .rep_num(rep_num_RrAg_MEM_latch_out),
         .VP_in(VP), .PF_in(PF),
         .entry_v_in(entry_v), .entry_P_in(entry_P), .entry_RW_in(entry_RW), .entry_PCD_in(entry_PCD),
         .aluk_in(aluk_RrAg_MEM_latch_out), .mux_adder_in(mux_adder_RrAg_MEM_latch_out), 
         .mux_and_int_in(mux_and_int_RrAg_MEM_latch_out), .mux_shift_in(mux_shift_RrAg_MEM_latch_out),
         .p_op_in(p_op_RrAg_MEM_latch_out), .fmask_in(fmask_RrAg_MEM_latch_out),
-        .CS_in(CS_out_RrAg_MEM_latch_out),
+        .CS_in(CS_RrAg_MEM_latch_out),
         .conditionals_in(conditionals_RrAg_MEM_latch_out), .is_br_in(is_br_RrAg_MEM_latch_out), 
         .is_fp_in(is_fp_RrAg_MEM_latch_out), .is_imm_in(is_imm_RrAg_MEM_latch_out),
         .imm(imm_RrAg_MEM_latch_out), .mem1_rw(mem1_rw_RrAg_MEM_latch_out), .mem2_rw(mem2_rw_RrAg_MEM_latch_out),

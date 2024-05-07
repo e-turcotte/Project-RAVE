@@ -9,7 +9,7 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
                                                                                output [M_WIDTH*Q_LENGTH-1:0] old_m_vector,
                                                                                output [M_WIDTH+N_WIDTH-1:0] dout);
 
-    inv1$ (.out(read_inv), .in(rd));
+    inv1$ i0(.out(read_inv), .in(rd));
 
       queuenm #(M_WIDTH, N_WIDTH, Q_LENGTH) q0(.m_din(m_din), .n_din(n_din), 
                 .new_m_vector(new_m_vector), .wr(wr), .rd(read_inv), .modify_vector(modify_vector), 
@@ -62,7 +62,7 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
             $fdisplay(file, "\n\t ==LATCH==: %d", latch_num);
             $fdisplay(file, "\t modifiable signals:");
 
-            $fdisplay(file, "\t\t PTC_ID: %b", all_outs[latch_num][1074]);
+            $fdisplay(file, "\t\t PTC_ID: %b", all_outs[latch_num][1080:1074]);
             $fdisplay(file, "\t\t wake: %b", all_outs[latch_num][1073:1070]);
             $fdisplay(file, "\t\t op1_val: 0x%h", all_outs[latch_num][1069:1006]);
             $fdisplay(file, "\t\t op2_val: 0x%h", all_outs[latch_num][1005:942]);
@@ -126,6 +126,7 @@ endmodule
 //  for reference, these are the outputs from MEM coming into the latch:
 
     //modifiable signals:
+    //  [6:0] ptcid              //[1080:1074]
     //  [3:0] wake               //[1073:1070]
     //  [63:0] op1_val           //[1069:1006]
     //  [63:0] op2_val           //[1005:942]

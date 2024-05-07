@@ -172,7 +172,7 @@ decodern #(5) d2(aluk, alukOH);
 
 wire[1215:0] aluRes;
 assign aluRes = {sal_out, sar_out, punpckhw_out, punpckhbw_out,packssdw_out, packsswb_out, paddd_out, paddw_out, or_out,notA_out, daa_out, cmpxchng_out, pass1, pass0, passA, passB, penc_out,add_out,and_out};
-muxnm_tristate #(5,64) t1(aluRes, alukOH, ALU_OUT);
+muxnm_tristate #(19,64) t1(aluRes, alukOH, ALU_OUT);
 
 
 wire [31:0] af_sel;
@@ -202,33 +202,34 @@ module SAL_alu(
     input MUX_SHF,
     input of
 );
-wire[31:0] shiftCnt;
+wire[31:0] shiftCnt, shiftCntN;
 wire[31:0] inpCap;
 //assign inpCap[31:8] = 24'h0000_00;
 //assign inpCap[7:0] = OP2[7:0];
 decodern #(5) d1(OP2[4:0], inpCap);
 mux2n #(32) m1 (shiftCnt, inpCap, 32'd1, MUX_SHF);
 wire[31:0] shf_out;
-lshfn_variable #(32)  r1(OP1, shiftCnt, 1'b0, shf_out);
+lshfn_variable #(32)  r1(OP1[31:0], shiftCnt, 1'b0, shf_out);
 assign SAL_out[63:32] = 32'd0;
 
 wire overSHF;
 genvar i;
 
-equaln #(5) e1(of_sel, shiftCnt[4:0], 5'b00001);
+equaln #(5) e1(shiftCnt[4:0], 5'b00001, of_sel);
 
 
 
 
 //genCF
-inv_n #(32) inv1(shiftCntN, shiftCnt);
+
+inv_n #(32) iv(shiftCntN, shiftCnt);
 muxnm_tristate #(32, 1) mx3({1'b0,OP1[30:0]}, shiftCntN, SAR_cf_nOF);
 mux2$ mx4(sal_cf, SAR_cf_nOF, OP1[31], overSHF);
 
 or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
-mux2$ mx1(sal_of, op, OP1[31], of_sel);
+mux2$ mx1(sal_of, OP1[31], of, of_sel);
 assign sal_af = 0;
-
+//TODO: check here
 mux2n #(32) mx(SAL_out[31:0], shf_out, 32'd0 ,overSHF);
 equaln #(32) mx5(32'd0, shiftCnt, cc_val);
 

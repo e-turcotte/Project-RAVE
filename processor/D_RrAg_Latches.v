@@ -9,9 +9,8 @@ module D_RrAg_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
                                                                                output [M_WIDTH*Q_LENGTH-1:0] old_m_vector,
                                                                                output [M_WIDTH+N_WIDTH-1:0] dout);
 
-    inv1$ (.out(read_inv), .in(rd));
-
-      queuenm #(M_WIDTH, N_WIDTH, Q_LENGTH) q0(.m_din(m_din), .n_din(n_din), .new_m_vector(new_m_vector), .wr(wr), .rd(read_inv), .modify_vector(modify_vector), .clr(clr), .clk(clk), .full(full), .empty(empty), .old_m_vector(old_m_vector), .dout(dout));                                                                 
+    inv1$ i0(.out(read_inv), .in(rd));
+    queuenm #(M_WIDTH, N_WIDTH, Q_LENGTH) q0(.m_din(m_din), .n_din(n_din), .new_m_vector(new_m_vector), .wr(wr), .rd(read_inv), .modify_vector(modify_vector), .clr(clr), .clk(clk), .full(full), .empty(empty), .old_m_vector(old_m_vector), .dout(dout));                                                                 
 
     integer file, cyc_cnt;
     initial begin
@@ -60,17 +59,17 @@ module D_RrAg_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
             $fdisplay(file, "\n\t ==LATCH==: %d", latch_num);
             $fdisplay(file, "\t modifiable signals:");
 
-            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][362]);
+            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][364]);
 
             $fdisplay(file, "\n\t non-modifiable signals:");
 
-            $fdisplay(file, "\t\t is_imm: %d", all_outs[latch_num][361]);
-            $fdisplay(file, "\t\t reg_addr1: %b", all_outs[latch_num][360:358]);
-            $fdisplay(file, "\t\t reg_addr2: %b", all_outs[latch_num][357:355]);
-            $fdisplay(file, "\t\t reg_addr3: %b", all_outs[latch_num][354:352]);
-            $fdisplay(file, "\t\t reg_addr4: %b", all_outs[latch_num][351:349]);
+            $fdisplay(file, "\t\t is_imm: %d", all_outs[latch_num][363]);
+            $fdisplay(file, "\t\t reg_addr1: %b", all_outs[latch_num][362:360]);
+            $fdisplay(file, "\t\t reg_addr2: %b", all_outs[latch_num][359:357]);
+            $fdisplay(file, "\t\t reg_addr3: %b", all_outs[latch_num][356:354]);
+            $fdisplay(file, "\t\t reg_addr4: %b", all_outs[latch_num][353:351]);
             
-            $fdisplay(file, "\t\t seg_addr1: %b", all_outs[latch_num][348:346]);
+            $fdisplay(file, "\t\t seg_addr1: %b", all_outs[latch_num][350:348]);
             $fdisplay(file, "\t\t seg_addr2: %b", all_outs[latch_num][347:345]);
             $fdisplay(file, "\t\t seg_addr3: %b", all_outs[latch_num][344:342]);
             $fdisplay(file, "\t\t seg_addr4: %b", all_outs[latch_num][341:339]);
