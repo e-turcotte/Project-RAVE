@@ -13,10 +13,14 @@ module fetch_1 (
     input wire even_latch_was_loaded,
     input wire odd_latch_was_loaded,
 
-    output wire [127:0] line_1_out,
-    output wire [127:0] line_2_out,
-    output wire [127:0] line_3_out,
-    output wire [127:0] line_4_out
+    output wire [127:0] even_line_out,
+    output wire [127:0] odd_line_out,
+
+    output wire cache_miss_even,
+    output wire cache_miss_odd,
+
+    output wire [1:0] FIP_o_lsb,
+    output wire [1:0] FIP_e_lsb
     
 );
 
@@ -61,6 +65,13 @@ select_address_ICache sel_odd(.clk(clk), .init_FIP(init_FIP_o), .BP_FIP(BP_FIP_o
 select_address_ICache sel_even(.clk(clk), .init_FIP(init_FIP_e), .BP_FIP(BP_FIP_e), .WB_FIP(WB_FIP_e), .sel_CF(select_CF_mux), .ld_FIP_reg(ld_FIP_reg_even), 
                                        .clr_FIP_reg(reset), .is_ctrl_flow(is_CF), .addr(FIP_e_access));
 
+assign FIP_o_lsb = FIP_o_access[5:4];
+assign FIP_e_lsb = FIP_e_access[5:4];
+
+wire cache_miss_even, cache_miss_odd;
+I$ cache(.FIP_o(FIP_o_access), .FIP_e(FIP_e_access), .line_even_out(even_line_out), .cache_miss_even(cache_miss_even), 
+            .line_odd_out(odd_line_out), .cache_miss_odd(cache_miss_odd));
+
 
     
 endmodule
@@ -91,7 +102,164 @@ endmodule
 
 
 module I$ (
+    input wire [27:0] FIP_o,
+    input wire [27:0] FIP_e,
     
+    output wire [127:0] line_even_out,
+    output wire [127:0] line_odd_out,
+
+    output wire cache_miss_even,
+    output wire cache_miss_odd
+);
+
+wire [31:0] odd_access_address_VA, even_access_address_VA;
+assign odd_access_address_VA = {FIP_o[27:0], 4'b0000};
+assign even_access_address_VA = {FIP_e[27:0], 4'b0000};
+/*FILL OUT THESE SIGNALS*/
+TLB tlb_even(
+    .clk(/*TODO*/),
+    .address(/*TODO*/), //used to lookup
+    .RW_in(/*TODO*/),
+    .is_mem_request(/*TODO*/), //if 1, then we are doing a memory request, else - no prot exception should be thrown
+    .VP(/*TODO*/), //unpacked, do wire concatenation in TOP
+    .PF(/*TODO*/),
+    .entry_v(/*TODO*/),
+    .entry_P(/*TODO*/),
+    .entry_RW(/*TODO*/), //read or write (im guessing 0 is read only)
+    .entry_PCD(/*TODO*/), //PCD disable - 1 means this entry is disabled for normal mem accesses since it is for MMIO
+    .PF_out(/*TODO*/),
+    .PCD_out(/*TODO*/),
+    .miss(/*TODO*/),
+    .hit(/*TODO*/), //if page is valid, present and tag hit - 1 if hit
+    .protection_exception(/*TODO*/) //if RW doesn't match entry_RW - 1 if exception
+);
+
+
+cacheBank even(
+    .clk(/*TODO*/),
+    .rst(/*TODO*/), 
+    .set(/*TODO*/),
+    .cache_id(/*TODO*/),
+    .vAddress(/*TODO*/),
+    .pAddress(/*TODO*/),
+    .data(/*TODO*/),
+    .size(/*TODO*/),
+    .r(1'b1),
+    .w(/*TODO*/),
+    .sw(/*TODO*/),
+    .valid_in(1'b1),
+    .fromBUS(/*TODO*/), 
+    .mask(/*TODO*/),
+    .AQ_isEMPTY(1'b0),
+    .PTC_ID_IN(/*TODO*/),
+    .oddIsGreater_in(/*TODO*/),
+    .needP1_in(/*TODO*/),
+    .oneSize(/*TODO*/),
+    .MSHR_HIT(/*TODO*/),
+    .MSHR_FULL(/*TODO*/),
+    .SER1_FULL(/*TODO*/),
+    .SER0_FULL(/*TODO*/),
+    .PCD_IN(/*TODO*/),
+    .AQ_READ(/*TODO*/),
+    .MSHR_valid(/*TODO*/),
+    .MSHR_pAddress(/*TODO*/),
+    .SER_valid0(/*TODO*/),
+    .SER_data0(/*TODO*/),
+    .SER_pAddress0(/*TODO*/),
+    .SER_return0(/*TODO*/),
+    .SER_size0(/*TODO*/),
+    .SER_rw0(/*TODO*/),
+    .SER_dest0(/*TODO*/),
+    .SER_valid1(/*TODO*/),
+    .SER_pAddress1(/*TODO*/),
+    .SER_return1(/*TODO*/),
+    .SER_size1(/*TODO*/),
+    .SER_rw1(/*TODO*/),
+    .SER_dest1(/*TODO*/),
+    .EX_valid(/*TODO*/),
+    .EX_data(/*TODO*/),
+    .EX_vAddress(/*TODO*/),
+    .EX_pAddress(/*TODO*/),
+    .EX_size(/*TODO*/),
+    .EX_wake(/*TODO*/),
+    .oddIsGreater(/*TODO*/),
+    .cache_stall(/*TODO*/),
+    .cache_miss(/*TODO*/),
+    .needP1(/*TODO*/),
+    .oneSize_out(/*TODO*/)
+);
+
+TLB tlb_even(
+    .clk(/*TODO*/),
+    .address(/*TODO*/), //used to lookup
+    .RW_in(/*TODO*/),
+    .is_mem_request(/*TODO*/), //if 1, then we are doing a memory request, else - no prot exception should be thrown
+    .VP(/*TODO*/), //unpacked, do wire concatenation in TOP
+    .PF(/*TODO*/),
+    .entry_v(/*TODO*/),
+    .entry_P(/*TODO*/),
+    .entry_RW(/*TODO*/), //read or write (im guessing 0 is read only)
+    .entry_PCD(/*TODO*/), //PCD disable - 1 means this entry is disabled for normal mem accesses since it is for MMIO
+    .PF_out(/*TODO*/),
+    .PCD_out(/*TODO*/),
+    .miss(/*TODO*/),
+    .hit(/*TODO*/), //if page is valid, present and tag hit - 1 if hit
+    .protection_exception(/*TODO*/) //if RW doesn't match entry_RW - 1 if exception
+);
+
+
+cacheBank even(
+    .clk(/*TODO*/),
+    .rst(/*TODO*/), 
+    .set(/*TODO*/),
+    .cache_id(/*TODO*/),
+    .vAddress(/*TODO*/),
+    .pAddress(/*TODO*/),
+    .data(/*TODO*/),
+    .size(/*TODO*/),
+    .r(1'b1),
+    .w(/*TODO*/),
+    .sw(/*TODO*/),
+    .valid_in(1'b1),
+    .fromBUS(/*TODO*/), 
+    .mask(/*TODO*/),
+    .AQ_isEMPTY(1'b0),
+    .PTC_ID_IN(/*TODO*/),
+    .oddIsGreater_in(/*TODO*/),
+    .needP1_in(/*TODO*/),
+    .oneSize(/*TODO*/),
+    .MSHR_HIT(/*TODO*/),
+    .MSHR_FULL(/*TODO*/),
+    .SER1_FULL(/*TODO*/),
+    .SER0_FULL(/*TODO*/),
+    .PCD_IN(/*TODO*/),
+    .AQ_READ(/*TODO*/),
+    .MSHR_valid(/*TODO*/),
+    .MSHR_pAddress(/*TODO*/),
+    .SER_valid0(/*TODO*/),
+    .SER_data0(/*TODO*/),
+    .SER_pAddress0(/*TODO*/),
+    .SER_return0(/*TODO*/),
+    .SER_size0(/*TODO*/),
+    .SER_rw0(/*TODO*/),
+    .SER_dest0(/*TODO*/),
+    .SER_valid1(/*TODO*/),
+    .SER_pAddress1(/*TODO*/),
+    .SER_return1(/*TODO*/),
+    .SER_size1(/*TODO*/),
+    .SER_rw1(/*TODO*/),
+    .SER_dest1(/*TODO*/),
+    .EX_valid(/*TODO*/),
+    .EX_data(/*TODO*/),
+    .EX_vAddress(/*TODO*/),
+    .EX_pAddress(/*TODO*/),
+    .EX_size(/*TODO*/),
+    .EX_wake(/*TODO*/),
+    .oddIsGreater(/*TODO*/),
+    .cache_stall(/*TODO*/),
+    .cache_miss(/*TODO*/),
+    .needP1(/*TODO*/),
+    .oneSize_out(/*TODO*/)
 );
     
 endmodule

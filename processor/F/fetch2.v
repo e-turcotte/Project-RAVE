@@ -33,7 +33,7 @@ module fetch_2 (
     //    signals from BP     //  
     ///////////////////////////
     input wire [5:0] BP_BIP,
-    input wire is_BR,
+    input wire is_BR_T_NT,
 
     ////////////////////////////
     // signals from init     //  
@@ -45,7 +45,9 @@ module fetch_2 (
     //    output signals      //  
     ///////////////////////////
     output wire [127:0] packet_out,
-    output wire packet_out_valid
+    output wire packet_out_valid,
+    output wire [5:0] old_BIP,
+    output wire [5:0] new_BIP
 );
 
     wire [2:0] select_CF_mux;
@@ -72,9 +74,10 @@ module fetch_2 (
     orn #(3) o0(.in({is_init, is_resteer, is_BR}), .out(is_CF));
     inv1$ i2(.in(is_CF), .out(not_is_CF));
 
-    wire [5:0] latched_BIP, BIP_plus_length, mux_BIP_to_load;
+    wire [5:0] latched_BIP, mux_BIP_to_load;
+    wire [7:0] BIP_plus_length;
     muxnm_tristate #(.NUM_INPUTS(2), .DATA_WIDTH(6)) m1(
-        .in({BIP_plus_length, CF_BIP}), 
+        .in({BIP_plus_length[5:0], CF_BIP}), 
         .sel({not_is_CF, is_CF}), 
         .out(mux_BIP_to_load)
     );
@@ -101,9 +104,12 @@ module fetch_2 (
         .line_01_in(line_01),
         .line_10_in(line_10),
         .line_11_in(line_11),
-        .length_to_rotate(BIP_plus_length),
+        .length_to_rotate(BIP_plus_length[5:0]),
         .line_out(packet_out)
     );
+
+    assign old_BIP = latched_BIP;
+    assign new_BIP = BIP_plus_length[5:0];
 
     
 endmodule

@@ -1,7 +1,9 @@
 module iBuff_latch (
     input wire clk,
     input wire reset,
-    input wire CF,
+    input wire is_BR_T_NT,
+    input wire is_resteer,
+    input wire is_init,
     input wire [127:0] line_even_fetch1,
     input wire [127:0] line_odd_fetch1,
 
@@ -21,9 +23,15 @@ module iBuff_latch (
     output wire [127:0] line_10,
     output wire line_10_valid,
     output wire [127:0] line_11,
-    output wire line_11_valid
+    output wire line_11_valid,
+
+    output wire even_latch_was_loaded,
+    output wire odd_latch_was_loaded
 
 );
+
+wire CF;
+orn #(3) o0(.in({is_init, is_resteer, is_BR_T_NT}), .out(CF));
 
 wire [1:0] num_lines_to_ld_reg_out;
 wire ld_reg;
@@ -34,29 +42,35 @@ loadStateReg r0(.clk(clk), .reset(reset), .CF(CF), .ld_reg(ld_reg), .v_00(line_0
 
 wire ld_0, ld_1, ld_2, ld_3;
 ld_selector l0(.num_lines_to_ld_in(num_lines_to_ld_reg_out), .FIP_o(FIP_o_lsb_fetch1), .FIP_e(FIP_e_lsb_fetch1), .ld_0(ld_0), .ld_1(ld_1), .ld_2(ld_2), .ld_3(ld_3));
+orn #(2) o1123124(.out(even_latch_was_loaded), .in({ld_0, ld_2}));
+orn #(2) o1123125(.out(odd_latch_was_loaded), .in({ld_1, ld_3}));
 
 wire invalidate_line_00, invalidate_line_01, invalidate_line_10, invalidate_line_11;
+wire invalidate_line_00_activelow, invalidate_line_01_activelow, invalidate_line_10_activelow, invalidate_line_11_activelow;
 invalidate_selector i0(.new_BIP(new_BIP_fetch2), .old_BIP(old_BIP_fetch2), .invalidate_line_00(invalidate_line_00), .invalidate_line_01(invalidate_line_01), 
                         .invalidate_line_10(invalidate_line_10), .invalidate_line_11(invalidate_line_11));
+inv1$ i1(.out(invalidate_line_00_activelow), .in(invalidate_line_00));
+inv1$ i2(.out(invalidate_line_01_activelow), .in(invalidate_line_01));
+inv1$ i3(.out(invalidate_line_10_activelow), .in(invalidate_line_10));
+inv1$ i4(.out(invalidate_line_11_activelow), .in(invalidate_line_11));
 
 //maybe or the clr signal for each of the lines and valid bits with the reset and invalidate signals
 
 //line00 ///MIGHT HAVE TO MAKE THE INVALIDATE SIGNALS ACTIVE LOW
-regn #(.WIDTH(1)) valid1(.din(1'b1), .ld(ld_0), .clr(invalidate_line_00), .clk(clk), .dout(line_00_valid));
-regn #(.WIDTH(128)) line1(.din(line_even_fetch1), .ld(ld_0), .clr(invalidate_line_00), .clk(clk), .dout(line_00));
+regn #(.WIDTH(1)) valid1(.din(1'b1), .ld(ld_0), .clr(invalidate_line_00_activelow), .clk(clk), .dout(line_00_valid));
+regn #(.WIDTH(128)) line1(.din(line_even_fetch1), .ld(ld_0), .clr(invalidate_line_00_activelow), .clk(clk), .dout(line_00));
 
 //line01
-regn #(.WIDTH(1)) valid2(.din(1'b1), .ld(ld_1), .clr(invalidate_line_01), .clk(clk), .dout(line_01_valid));
-regn #(.WIDTH(128)) line2(.din(line_odd_fetch1), .ld(ld_1), .clr(invalidate_line_01), .clk(clk), .dout(line_01));
+regn #(.WIDTH(1)) valid2(.din(1'b1), .ld(ld_1), .clr(invalidate_line_01_activelow), .clk(clk), .dout(line_01_valid));
+regn #(.WIDTH(128)) line2(.din(line_odd_fetch1), .ld(ld_1), .clr(invalidate_line_01_activelow), .clk(clk), .dout(line_01));
 
 //line10
-regn #(.WIDTH(1)) valid3(.din(1'b1), .ld(ld_2), .clr(invalidate_line_10), .clk(clk), .dout(line_10_valid));
-regn #(.WIDTH(128)) line3(.din(line_even_fetch1), .ld(ld_2), .clr(invalidate_line_10), .clk(clk), .dout(line_10));
+regn #(.WIDTH(1)) valid3(.din(1'b1), .ld(ld_2), .clr(invalidate_line_10_activelow), .clk(clk), .dout(line_10_valid));
+regn #(.WIDTH(128)) line3(.din(line_even_fetch1), .ld(ld_2), .clr(invalidate_line_10_activelow), .clk(clk), .dout(line_10));
 
 //line11
-regn #(.WIDTH(1)) valid4(.din(1'b1), .ld(ld_3), .clr(invalidate_line_11), .clk(clk), .dout(line_11_valid));
-regn #(.WIDTH(128)) line4(.din(line_odd_fetch1), .ld(ld_3), .clr(invalidate_line_11), .clk(clk), .dout(line_11));
-
+regn #(.WIDTH(1)) valid4(.din(1'b1), .ld(ld_3), .clr(invalidate_line_11_activelow), .clk(clk), .dout(line_11_valid));
+regn #(.WIDTH(128)) line4(.din(line_odd_fetch1), .ld(ld_3), .clr(invalidate_line_11_activelow), .clk(clk), .dout(line_11));
 
     
 endmodule
