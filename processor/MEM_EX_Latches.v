@@ -62,57 +62,59 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
             $fdisplay(file, "\n\t ==LATCH==: %d", latch_num);
             $fdisplay(file, "\t modifiable signals:");
 
-            $fdisplay(file, "\t\t PTC_ID: %b", all_outs[latch_num][1080:1074]);
-            $fdisplay(file, "\t\t wake: %b", all_outs[latch_num][1073:1070]);
-            $fdisplay(file, "\t\t op1_val: 0x%h", all_outs[latch_num][1069:1006]);
-            $fdisplay(file, "\t\t op2_val: 0x%h", all_outs[latch_num][1005:942]);
-            $fdisplay(file, "\t\t op3_val: 0x%h", all_outs[latch_num][941:878]);
-            $fdisplay(file, "\t\t op4_val: 0x%h\n", all_outs[latch_num][877:814]); 
+            $fdisplay(file, "\t\t PTC_ID: %b", all_outs[latch_num][1014:1008]);
+            $fdisplay(file, "\t\t wake: %b", all_outs[latch_num][1107:1104]);
+            $fdisplay(file, "\t\t op1_val: 0x%h", all_outs[latch_num][1103:1040]);
+            $fdisplay(file, "\t\t op2_val: 0x%h", all_outs[latch_num][1039:976]);
+            $fdisplay(file, "\t\t op3_val: 0x%h", all_outs[latch_num][975:912]);
+            $fdisplay(file, "\t\t op4_val: 0x%h\n", all_outs[latch_num][911:848]); 
 
-            $fdisplay(file, "\t\t op1_ptcinfo: 0x%d", all_outs[latch_num][813:686]);
-            $fdisplay(file, "\t\t op2_ptcinfo: 0x%h", all_outs[latch_num][685:558]);
-            $fdisplay(file, "\t\t op3_ptcinfo: 0x%h", all_outs[latch_num][557:430]);
-            $fdisplay(file, "\t\t op4_ptcinfo: 0x%h", all_outs[latch_num][429:302]);
-            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][301]);
+            $fdisplay(file, "\t\t op1_ptcinfo: 0x%d", all_outs[latch_num][847:720]);
+            $fdisplay(file, "\t\t op2_ptcinfo: 0x%h", all_outs[latch_num][719:592]);
+            $fdisplay(file, "\t\t op3_ptcinfo: 0x%h", all_outs[latch_num][591:464]);
+            $fdisplay(file, "\t\t op4_ptcinfo: 0x%h", all_outs[latch_num][463:336]);
+            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][335]);
             
             $fdisplay(file, "\n\t non-modifiable signals:");
 
-            $fdisplay(file, "\t\t is_imm: %d", all_outs[latch_num][300]);
-            $fdisplay(file, "\t\t eip: 0x%h", all_outs[latch_num][299:268]);
-            $fdisplay(file, "\t\t IE: %d", all_outs[latch_num][267]);
-            $fdisplay(file, "\t\t IE_type: %b", all_outs[latch_num][266:263]);
-            $fdisplay(file, "\t\t BR_pred_target: 0x%h", all_outs[latch_num][262:231]);
-            $fdisplay(file, "\t\t BR_pred_T_NT: %d", all_outs[latch_num][230]);
-            $fdisplay(file, "\t\t opsize: %b\n", all_outs[latch_num][229:228]); 
+            $fdisplay(file, "\t\t is_rep: %d", all_outs[latch_num][334]);
+            $fdisplay(file, "\t\t is_imm: %d", all_outs[latch_num][333]);
+            $fdisplay(file, "\t\t eip: 0x%h", all_outs[latch_num][332:301]);
+            $fdisplay(file, "\t\t latched_eip: 0x%h", all_outs[latch_num][300:269]);
+            $fdisplay(file, "\t\t IE: %d", all_outs[latch_num][268]);
+            $fdisplay(file, "\t\t IE_type: %b", all_outs[latch_num][267:264]);
+            $fdisplay(file, "\t\t BR_pred_target: 0x%h", all_outs[latch_num][263:232]);
+            $fdisplay(file, "\t\t BR_pred_T_NT: %d", all_outs[latch_num][231]);
+            $fdisplay(file, "\t\t opsize: %b\n", all_outs[latch_num][230:229]); 
 
-            $fdisplay(file, "\t\t dest1_addr: 0x%h", all_outs[latch_num][227:196]);
-            $fdisplay(file, "\t\t dest2_addr: 0x%h", all_outs[latch_num][195:164]);
-            $fdisplay(file, "\t\t dest3_addr: 0x%h", all_outs[latch_num][163:132]);
-            $fdisplay(file, "\t\t dest4_addr: 0x%h\n", all_outs[latch_num][131:100]); 
+            $fdisplay(file, "\t\t dest1_addr: 0x%h", all_outs[latch_num][228:197]);
+            $fdisplay(file, "\t\t dest2_addr: 0x%h", all_outs[latch_num][196:165]);
+            $fdisplay(file, "\t\t dest3_addr: 0x%h", all_outs[latch_num][164:133]);
+            $fdisplay(file, "\t\t dest4_addr: 0x%h\n", all_outs[latch_num][132:101]); 
 
-            $fdisplay(file, "\t\t dest1_is_reg: %d", all_outs[latch_num][99]);
-            $fdisplay(file, "\t\t dest2_is_reg: %d", all_outs[latch_num][98]);
-            $fdisplay(file, "\t\t dest3_is_reg: %d", all_outs[latch_num][97]);
-            $fdisplay(file, "\t\t dest4_is_reg: %d", all_outs[latch_num][96]);
-            $fdisplay(file, "\t\t dest1_is_seg: %d", all_outs[latch_num][95]);
-            $fdisplay(file, "\t\t dest2_is_seg: %d", all_outs[latch_num][94]);
-            $fdisplay(file, "\t\t dest3_is_seg: %d", all_outs[latch_num][93]);
-            $fdisplay(file, "\t\t dest4_is_seg: %d", all_outs[latch_num][92]);
-            $fdisplay(file, "\t\t dest1_is_mem: %d", all_outs[latch_num][91]);
-            $fdisplay(file, "\t\t dest2_is_mem: %d", all_outs[latch_num][90]);
-            $fdisplay(file, "\t\t dest3_is_mem: %d", all_outs[latch_num][89]);
-            $fdisplay(file, "\t\t dest4_is_mem: %d", all_outs[latch_num][88]);
-            $fdisplay(file, "\t\t res1_ld_out: %d", all_outs[latch_num][87]);
-            $fdisplay(file, "\t\t res2_ld_out: %d", all_outs[latch_num][86]);
-            $fdisplay(file, "\t\t res3_ld_out: %d", all_outs[latch_num][85]);
-            $fdisplay(file, "\t\t res4_ld_out: %b\n", all_outs[latch_num][84]); 
+            $fdisplay(file, "\t\t dest1_is_reg: %d", all_outs[latch_num][100]);
+            $fdisplay(file, "\t\t dest2_is_reg: %d", all_outs[latch_num][99]);
+            $fdisplay(file, "\t\t dest3_is_reg: %d", all_outs[latch_num][98]);
+            $fdisplay(file, "\t\t dest4_is_reg: %d", all_outs[latch_num][97]);
+            $fdisplay(file, "\t\t dest1_is_seg: %d", all_outs[latch_num][96]);
+            $fdisplay(file, "\t\t dest2_is_seg: %d", all_outs[latch_num][95]);
+            $fdisplay(file, "\t\t dest3_is_seg: %d", all_outs[latch_num][94]);
+            $fdisplay(file, "\t\t dest4_is_seg: %d", all_outs[latch_num][93]);
+            $fdisplay(file, "\t\t dest1_is_mem: %d", all_outs[latch_num][92]);
+            $fdisplay(file, "\t\t dest2_is_mem: %d", all_outs[latch_num][91]);
+            $fdisplay(file, "\t\t dest3_is_mem: %d", all_outs[latch_num][90]);
+            $fdisplay(file, "\t\t dest4_is_mem: %d", all_outs[latch_num][89]);
+            $fdisplay(file, "\t\t res1_ld_out: %d", all_outs[latch_num][88]);
+            $fdisplay(file, "\t\t res2_ld_out: %d", all_outs[latch_num][87]);
+            $fdisplay(file, "\t\t res3_ld_out: %d", all_outs[latch_num][86]);
+            $fdisplay(file, "\t\t res4_ld_out: %b\n", all_outs[latch_num][85]); 
 
-            $fdisplay(file, "\t\t aluk: %b", all_outs[latch_num][83:79]);
-            $fdisplay(file, "\t\t mux_adder: %b", all_outs[latch_num][78:76]);
-            $fdisplay(file, "\t\t mux_and_int: %d", all_outs[latch_num][75]);
-            $fdisplay(file, "\t\t mux_shift: %d", all_outs[latch_num][74]);
-            $fdisplay(file, "\t\t p_op: 0x%h", all_outs[latch_num][73:37]);
-            $fdisplay(file, "\t\t fmask: 0x%h = %b", all_outs[latch_num][36:20], all_outs[latch_num][36:20]); 
+            $fdisplay(file, "\t\t aluk: %b", all_outs[latch_num][84:80]);
+            $fdisplay(file, "\t\t mux_adder: %b", all_outs[latch_num][79:77]);
+            $fdisplay(file, "\t\t mux_and_int: %d", all_outs[latch_num][76]);
+            $fdisplay(file, "\t\t mux_shift: %d", all_outs[latch_num][75]);
+            $fdisplay(file, "\t\t p_op: 0x%h", all_outs[latch_num][74:38]);
+            $fdisplay(file, "\t\t fmask: 0x%h = %b", all_outs[latch_num][37:20], all_outs[latch_num][36:20]); 
             $fdisplay(file, "\t\t conditionals: %b", all_outs[latch_num][19:18]);
             $fdisplay(file, "\t\t is_br: %d", all_outs[latch_num][17]);
             $fdisplay(file, "\t\t is_fp: %d", all_outs[latch_num][16]);
@@ -126,55 +128,56 @@ endmodule
 //  for reference, these are the outputs from MEM coming into the latch:
 
     //modifiable signals:
-    //  [6:0] ptcid              //[1080:1074]
-    //  [3:0] wake               //[1073:1070]
-    //  [63:0] op1_val           //[1069:1006]
-    //  [63:0] op2_val           //[1005:942]
-    //  [63:0] op3_val           //[941:878]
-    //  [63:0] op4_val           //[877:814]
-    //  [127:0] op1_ptcinfo      //[813:686]
-    //  [127:0] op2_ptcinfo      //[685:558]
-    //  [127:0] op3_ptcinfo      //[557:430]
-    //  [127:0] op4_ptcinfo      //[429:302]
-    //  valid_out                   //[301]
+    //  [6:0] ptcid              //[1014:1008]
+    //  [3:0] wake               //[1107:1104]
+    //  [63:0] op1_val           //[1103:1040]
+    //  [63:0] op2_val           //[1039:976]
+    //  [63:0] op3_val           //[975:912]
+    //  [63:0] op4_val           //[911:848]
+    //  [127:0] op1_ptcinfo      //[847:720]
+    //  [127:0] op2_ptcinfo      //[719:592]
+    //  [127:0] op3_ptcinfo      //[591:464]
+    //  [127:0] op4_ptcinfo      //[463:336]
+    //  valid_out                //[335]
 
     //non-modifiable signals:
+    //  is_rep                      //[334]
+    //  is_imm                      //[333]
+    //  [31:0] eip_out              //[332:301]
+    //  [31:0] latched_eip_out      //[300:269]
+    //  IE_out                      //[268]
+    //  [3:0] IE_type_out           //[267:264]
+    //  [31:0] BR_pred_target_out   //[263:232]
+    //  BR_pred_T_NT_out            //[231]
 
-    //  is_imm                      //[300]
-    //  [31:0] eip_out              //[299:268]
-    //  IE_out                      //[267]
-    //  [3:0] IE_type_out           //[266:263]
-    //  [31:0] BR_pred_target_out   //[262:231]
-    //  BR_pred_T_NT_out            //[230]
+    //  [1:0] opsize_out         //[230:229]
+    //  [31:0] dest1_addr        //[228:197]
+    //  [31:0] dest2_addr        //[196:165]
+    //  [31:0] dest3_addr        //[164:133]
+    //  [31:0] dest4_addr        //[132:101]
+    //  dest1_is_reg             //[100]
+    //  dest2_is_reg             //[99]
+    //  dest3_is_reg             //[98]
+    //  dest4_is_reg             //[97]
+    //  dest1_is_seg             //[96]
+    //  dest2_is_seg             //[95]
+    //  dest3_is_seg             //[94]
+    //  dest4_is_seg             //[93]
+    //  dest1_is_mem             //[92]  
+    //  dest2_is_mem             //[91]
+    //  dest3_is_mem             //[90]
+    //  dest4_is_mem             //[89]
+    //  res1_ld_out              //[88]
+    //  res2_ld_out              //[87]
+    //  res3_ld_out              //[86]
+    //  res4_ld_out              //[85]
 
-    //  [1:0] opsize_out         //[229:228]
-    //  [31:0] dest1_addr        //[227:196]
-    //  [31:0] dest2_addr        //[195:164]
-    //  [31:0] dest3_addr        //[163:132]
-    //  [31:0] dest4_addr        //[131:100]
-    //  dest1_is_reg             //[99]
-    //  dest2_is_reg             //[98]
-    //  dest3_is_reg             //[97]
-    //  dest4_is_reg             //[96]
-    //  dest1_is_seg             //[95]
-    //  dest2_is_seg             //[94]
-    //  dest3_is_seg             //[93]
-    //  dest4_is_seg             //[92]
-    //  dest1_is_mem             //[91]  
-    //  dest2_is_mem             //[90]
-    //  dest3_is_mem             //[89]
-    //  dest4_is_mem             //[88]
-    //  res1_ld_out              //[87]
-    //  res2_ld_out              //[86]
-    //  res3_ld_out              //[85]
-    //  res4_ld_out              //[84]
-
-    //  [4:0] aluk_out,           //[83:79]  
-    //  [2:0] mux_adder_out       //[78:76]
-    //  mux_and_int_out           //[75]
-    //  mux_shift_out             //[74]
-    //  [36:0] p_op_out           //[73:37]  
-    //  [16:0] fmask_out          //[36:20]
+    //  [4:0] aluk_out,           //[84:80]  
+    //  [2:0] mux_adder_out       //[79:77]
+    //  mux_and_int_out           //[76]
+    //  mux_shift_out             //[75]
+    //  [36:0] p_op_out           //[74:38]  
+    //  [17:0] fmask_out          //[37:20]
     //  [1:0] conditionals_out    //[19:18]
     //  is_br_out,                //[17]
     //  is_fp_out                 //[16]
