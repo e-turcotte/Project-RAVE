@@ -6,6 +6,7 @@ module metaStore(
     input[3:0] way,
     input[1:0] index,
 
+    input r,
     input wb,
     input sw,
     input ex,
@@ -84,7 +85,7 @@ endgenerate
 
 
 wire[15:0] PTCID_LD;
-wire[15:0] enable2, enable4, nandTemp, norTemp, VALID_n, PTC_not;
+wire[15:0] enable2, enable4, nandTemp, norTemp, VALID_n, PTC_not,fixTemp;
 
 //Generate cahce signals
 genvar j;
@@ -100,7 +101,7 @@ generate
 // {way[2:0], way[3]}  
     
         for(i= 0; i <4; i = i +1) begin : inner
-            PTCVDFSM p(.clk(clk), .set(set), .rst(rst), .sw(sw), .ex(ex), .wb(wb), .enable(enable[j*4+i]), .V(VALID[j*4+i]),.D(DIRTY[j*4+i]), .PTC(PTC[j*4+i]) );  
+            PTCVDFSM p(.clk(clk), .set(set), .rst(rst),.r(r), .sw(sw), .ex(ex), .wb(wb), .enable(enable[j*4+i]), .V(VALID[j*4+i]),.D(DIRTY[j*4+i]), .PTC(PTC[j*4+i]) );  
             //[j*7*4+i*4+6:j*7*4+i*4]
             and3$ a(PTCID_LD[j*4+i],sw, way[i],equals[j] );
             equaln #(7) r1(ID_IN, PTCID[j*7*4+i*7+6:j*7*4+i*7],enable2[j*4+i]);
@@ -109,7 +110,10 @@ generate
             inv1$ inv(VALID_n[j*4+i], VALID[j*4+i]);
             inv1$ inv1(PTC_not[j*4+i], PTC[j*4+i]);
             nor2$ nors(norTemp[j*4+i], PTC_not[j*4+i], VALID_n[j*4+i]);
-            nand2$ nors1(enable4[j*4+i], norTemp[j*4+i], nandTemp[j*4+i] );
+
+            nand3$ rFix(fixTemp[j*4+i], r, VALID_n[j*4+i], PTC_not[j*4+i] );
+
+            nand3$ nors1(enable4[j*4+i], norTemp[j*4+i], nandTemp[j*4+i], fixTemp[j*4+i] );
 
             
             and2$ a1(enable[j*4+i],enable4[j*4+i],enable3[j*4+i] );

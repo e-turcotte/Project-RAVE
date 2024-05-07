@@ -2,6 +2,7 @@ module PTCVDFSM(
 input wire clk,
 input wire set,
 input wire rst,
+input wire r,
 input wire sw,
 input wire ex,
 input wire wb,
@@ -23,6 +24,7 @@ assign D_new = cc[0];
 
 and4$ a1(EX100, V, PTC_bar, D_bar, ex);//010
 and4$ a2(SW000, V_bar, PTC_bar, D_bar, sw); //010
+and4$ a11(R000, V_bar, PTC_bar, D_bar, r); //010
 and4$ a3(WB010, V_bar, PTC, D_bar, wb);//100
 and4$ a4(SW100, V, PTC_bar, D_bar, sw); //110
 and4$ a5(WB110, V, PTC, D_bar, wb);//101
@@ -32,6 +34,6 @@ and4$ a8(EX101, V, PTC_bar, D, ex); //010
 and4$ a9(SW111, V, PTC, D, sw);
 and4$ a10(SW110, V, PTC,  D_bar, sw);
 
-muxnm_tristate #(10, 3) tm({3'b110, 3'b111,3'b010,3'b010,3'b100,3'b110,3'b101,3'b111,3'b101,3'b010 }, {SW110, SW111,EX100,SW000,WB010,SW100,WB110,SW101,WB111,EX101},nextState);
+muxnm_tristate #(11, 3) tm({3'b110, 3'b111,3'b010,3'b010,3'b100,3'b110,3'b101,3'b111,3'b101,3'b010 , 3'b010}, {SW110, SW111,EX100,SW000,WB010,SW100,WB110,SW101,WB111,EX101, R000},nextState);
 
 endmodule
