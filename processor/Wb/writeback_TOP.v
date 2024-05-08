@@ -66,6 +66,41 @@ module writeback_TOP(
     and2$ g105(.out(seg_ld[2]), .in0(inp3_isSeg), .in1(valid_out));
     and2$ g106(.out(seg_ld[1]), .in0(inp2_isSeg), .in1(valid_out));
     and2$ g107(.out(seg_ld[0]), .in0(inp1_isSeg), .in1(valid_out));
+
+    wire [127:0] sreg_ptcs [0:3];
+    
+    assign sreg_ptcs[3] = {inp4_ptcinfo[127:126],inst_ptcid_in,inp4_ptcinfo[118:112],
+                           inp4_ptcinfo[111:110],inst_ptcid_in,inp4_ptcinfo[102:96],
+                           inp4_ptcinfo[95:94],inst_ptcid_in,inp4_ptcinfo[86:80],
+                           inp4_ptcinfo[79:78],inst_ptcid_in,inp4_ptcinfo[70:64],
+                           inp4_ptcinfo[63:62],inst_ptcid_in,inp4_ptcinfo[54:48],
+                           inp4_ptcinfo[47:46],inst_ptcid_in,inp4_ptcinfo[38:32],
+                           inp4_ptcinfo[31:30],inst_ptcid_in,inp4_ptcinfo[22:16],
+                           inp4_ptcinfo[15:14],inst_ptcid_in,inp4_ptcinfo[6:0]};
+    assign sreg_ptcs[2] = {inp3_ptcinfo[127:126],inst_ptcid_in,inp3_ptcinfo[118:112],
+                           inp3_ptcinfo[111:110],inst_ptcid_in,inp3_ptcinfo[102:96],
+                           inp3_ptcinfo[95:94],inst_ptcid_in,inp3_ptcinfo[86:80],
+                           inp3_ptcinfo[79:78],inst_ptcid_in,inp3_ptcinfo[70:64],
+                           inp3_ptcinfo[63:62],inst_ptcid_in,inp3_ptcinfo[54:48],
+                           inp3_ptcinfo[47:46],inst_ptcid_in,inp3_ptcinfo[38:32],
+                           inp3_ptcinfo[31:30],inst_ptcid_in,inp3_ptcinfo[22:16],
+                           inp3_ptcinfo[15:14],inst_ptcid_in,inp3_ptcinfo[6:0]};
+    assign sreg_ptcs[1] = {inp2_ptcinfo[127:126],inst_ptcid_in,inp2_ptcinfo[118:112],
+                           inp2_ptcinfo[111:110],inst_ptcid_in,inp2_ptcinfo[102:96],
+                           inp2_ptcinfo[95:94],inst_ptcid_in,inp2_ptcinfo[86:80],
+                           inp2_ptcinfo[79:78],inst_ptcid_in,inp2_ptcinfo[70:64],
+                           inp2_ptcinfo[63:62],inst_ptcid_in,inp2_ptcinfo[54:48],
+                           inp2_ptcinfo[47:46],inst_ptcid_in,inp2_ptcinfo[38:32],
+                           inp2_ptcinfo[31:30],inst_ptcid_in,inp2_ptcinfo[22:16],
+                           inp2_ptcinfo[15:14],inst_ptcid_in,inp2_ptcinfo[6:0]};
+    assign sreg_ptcs[0] = {inp1_ptcinfo[127:126],inst_ptcid_in,inp1_ptcinfo[118:112],
+                           inp1_ptcinfo[111:110],inst_ptcid_in,inp1_ptcinfo[102:96],
+                           inp1_ptcinfo[95:94],inst_ptcid_in,inp1_ptcinfo[86:80],
+                           inp1_ptcinfo[79:78],inst_ptcid_in,inp1_ptcinfo[70:64],
+                           inp1_ptcinfo[63:62],inst_ptcid_in,inp1_ptcinfo[54:48],
+                           inp1_ptcinfo[47:46],inst_ptcid_in,inp1_ptcinfo[38:32],
+                           inp1_ptcinfo[31:30],inst_ptcid_in,inp1_ptcinfo[22:16],
+                           inp1_ptcinfo[15:14],inst_ptcid_in,inp1_ptcinfo[6:0]};
     
     assign CS_out = CS_in;
 
@@ -89,10 +124,13 @@ module writeback_TOP(
     assign BR_correct = BR_correct_in;
     inv1$ g0(.out(is_resteer), .in(BR_correct_in));
 
-    assign valid_out = valid_in;
+    wire might_mem_ld, invstall;
 
-    or4$ o94(.out(mem_ld), .in0(inp1_isMem), .in1(inp1_isMem), .in2(inp2_isMem), .in3(inp3_isMem));
+    or4$ o94(.out(might_mem_ld), .in0(inp1_isMem), .in1(inp1_isMem), .in2(inp2_isMem), .in3(inp3_isMem));
+    and2$ g108(.out(mem_ld), .in0(might_mem_ld), .in1(valid_out));
     and2$ a94(.out(stall), .in0(wbaq_full), .in1(mem_ld)); 
+    inv1$ i92(.out(invstall), .in(stall));
+    and2$ asd(.out(valid_out), .in0(valid_in), .in1(invstall));
 
     assign final_IE_type[2:0] = IE_type_in[2:0]; //TODO: Rohan's IE stuff
     assign final_IE_type[3] = interrupt_in;
