@@ -109,157 +109,365 @@ module I$ (
     output wire [127:0] line_odd_out,
 
     output wire cache_miss_even,
-    output wire cache_miss_odd
-);
+    output wire cache_miss_odd,
 
+    output evenW,
+    output oddW,
+
+    ///////////////////////////////////////
+    input clk,
+    input set, rst,
+
+    
+    //////////////////////////////////////
+    //TLB I/O
+    input [159:0] VP, PF,
+    input [7:0]MSHR_entry_V, MSHR_entry_P, MSHR_entry_RW, MSHR_entry_PCD,
+
+    output protection_exception_e,
+    output TLB_MISS_EXCEPTION_e,
+    output protection_exception_o,
+    output TLB_MISS_EXCEPTION_o,
+
+    /////////////////////////////////////
+    //SERDES IO
+    //From bau input
+    input SER_i$_grant_e,
+    input SER_i$_grant_o,
+    //to bau output
+    
+    output SER_i$_release_o,
+    output SER_i$_req_o,
+    output SER_i$_release_e,
+    output SER_i$_req_e,
+    
+    //DES_o
+    output DES_i$_free_o,
+
+    //DES_e
+    output DES_i$_free_e,
+    
+    //BUS
+    inout valid_bus,
+    inout [14:0] pAdr_bus,
+    inout [31:0] data_bus,
+    inout [3:0] return_bus,
+    inout [3:0] dest_bus,
+    inout rw_bus,
+    inout [15:0] size_bus,
+);
+wire DES_free_e, DES_free_o;
 wire [31:0] odd_access_address_VA, even_access_address_VA;
 assign odd_access_address_VA = {FIP_o[27:0], 4'b0000};
 assign even_access_address_VA = {FIP_e[27:0], 4'b0000};
 /*FILL OUT THESE SIGNALS*/
-TLB tlb_even(
-    .clk(/*TODO*/),
-    .address(/*TODO*/), //used to lookup
-    .RW_in(/*TODO*/),
-    .is_mem_request(/*TODO*/), //if 1, then we are doing a memory request, else - no prot exception should be thrown
-    .VP(/*TODO*/), //unpacked, do wire concatenation in TOP
-    .PF(/*TODO*/),
-    .entry_v(/*TODO*/),
-    .entry_P(/*TODO*/),
-    .entry_RW(/*TODO*/), //read or write (im guessing 0 is read only)
-    .entry_PCD(/*TODO*/), //PCD disable - 1 means this entry is disabled for normal mem accesses since it is for MMIO
-    .PF_out(/*TODO*/),
-    .PCD_out(/*TODO*/),
-    .miss(/*TODO*/),
-    .hit(/*TODO*/), //if page is valid, present and tag hit - 1 if hit
-    .protection_exception(/*TODO*/) //if RW doesn't match entry_RW - 1 if exception
-);
 
+wire DES_read_o,
+wire DES_full_o;
+wire [14:0] DES_pAdr_o;
+wire [16*8-1:0]DES_DATA_o;
+wire [3:0] DES_return_o;
+wire [3:0]DES_dest_o;
+wire DES_rw_o;
+wire [15:0] DES_size_o;
+wire DES_free_o;
 
-cacheBank even(
-    .clk(/*TODO*/),
-    .rst(/*TODO*/), 
-    .set(/*TODO*/),
-    .cache_id(/*TODO*/),
-    .vAddress(/*TODO*/),
-    .pAddress(/*TODO*/),
-    .data(/*TODO*/),
-    .size(/*TODO*/),
-    .r(1'b1),
-    .w(/*TODO*/),
-    .sw(/*TODO*/),
-    .valid_in(1'b1),
-    .fromBUS(/*TODO*/), 
-    .mask(/*TODO*/),
-    .AQ_isEMPTY(1'b0),
-    .PTC_ID_IN(/*TODO*/),
-    .oddIsGreater_in(/*TODO*/),
-    .needP1_in(/*TODO*/),
-    .oneSize(/*TODO*/),
-    .MSHR_HIT(/*TODO*/),
-    .MSHR_FULL(/*TODO*/),
-    .SER1_FULL(/*TODO*/),
-    .SER0_FULL(/*TODO*/),
-    .PCD_IN(/*TODO*/),
-    .AQ_READ(/*TODO*/),
-    .MSHR_valid(/*TODO*/),
-    .MSHR_pAddress(/*TODO*/),
-    .SER_valid0(/*TODO*/),
-    .SER_data0(/*TODO*/),
-    .SER_pAddress0(/*TODO*/),
-    .SER_return0(/*TODO*/),
-    .SER_size0(/*TODO*/),
-    .SER_rw0(/*TODO*/),
-    .SER_dest0(/*TODO*/),
-    .SER_valid1(/*TODO*/),
-    .SER_pAddress1(/*TODO*/),
-    .SER_return1(/*TODO*/),
-    .SER_size1(/*TODO*/),
-    .SER_rw1(/*TODO*/),
-    .SER_dest1(/*TODO*/),
-    .EX_valid(/*TODO*/),
-    .EX_data(/*TODO*/),
-    .EX_vAddress(/*TODO*/),
-    .EX_pAddress(/*TODO*/),
-    .EX_size(/*TODO*/),
-    .EX_wake(/*TODO*/),
-    .oddIsGreater(/*TODO*/),
-    .cache_stall(/*TODO*/),
-    .cache_miss(/*TODO*/),
-    .needP1(/*TODO*/),
-    .oneSize_out(/*TODO*/)
-);
+wire DES_read_e;
+wire DES_full_e;
+wire [14:0] DES_pAdr_e;
+wire [16*8-1:0]DES_DATA_e;
+wire [3:0] DES_return_e;
+wire [3:0]DES_dest_e;
+wire DES_rw_e;
+wire [15:0] DES_size_e;
+wire DES_free_e;
+
+wire SER_valid_e;
+wire[14:0] SER_pAddress_e;
+wire[2:0] SER_return_e;
+wire[15:0] SER_size_e;
+wire SER_rw_e;
+wire [2:0] SER_dest_e;
+
+wire SER_valid_o;
+wire[14:0] SER_pAddress_o;
+wire[2:0] SER_return_o;
+wire[15:0] SER_size_o;
+wire SER_rw_o;
+wire [2:0] SER_dest_o;
+
+wire SER_full_e, wire SER_full_o;
+
+wire[19:0] pf_e, pf_o;
+wire[14:0] pAddress_e, pAddress_o;
+assign pAddress_e = {pf_e[2:0], FIP_e[11:0]};
+assign pAddress_o = {pf_o[2:0], FIP_o[11:0]};
 
 TLB tlb_even(
-    .clk(/*TODO*/),
-    .address(/*TODO*/), //used to lookup
-    .RW_in(/*TODO*/),
-    .is_mem_request(/*TODO*/), //if 1, then we are doing a memory request, else - no prot exception should be thrown
-    .VP(/*TODO*/), //unpacked, do wire concatenation in TOP
-    .PF(/*TODO*/),
-    .entry_v(/*TODO*/),
-    .entry_P(/*TODO*/),
-    .entry_RW(/*TODO*/), //read or write (im guessing 0 is read only)
-    .entry_PCD(/*TODO*/), //PCD disable - 1 means this entry is disabled for normal mem accesses since it is for MMIO
-    .PF_out(/*TODO*/),
-    .PCD_out(/*TODO*/),
-    .miss(/*TODO*/),
-    .hit(/*TODO*/), //if page is valid, present and tag hit - 1 if hit
-    .protection_exception(/*TODO*/) //if RW doesn't match entry_RW - 1 if exception
+    .clk(clk),
+    .address(FIP_e[31:12]), //used to lookup
+    .RW_in(0),
+    .is_mem_request(1'b1), //if 1, then we are doing a memory request, else - no prot exception should be thrown
+    .VP(VP), //unpacked, do wire concatenation in TOP
+    .PF(PF),
+    .entry_v(MSHR_entry_V),
+    .entry_P(MSHR_entry_P),
+    .entry_RW(MSHR_entry_RW), //read or write (im guessing 0 is read only)
+    .entry_PCD(MSHR_entry_PCD), //PCD disable - 1 means this entry is disabled for normal mem accesses since it is for MMIO
+    .PF_out(pf_e),
+    .PCD_out(),
+    .miss(TLB_MISS_EXCEPTION_e),
+    .hit(), //if page is valid, present and tag hit - 1 if hit
+    .protection_exception(protection_exception_e) //if RW doesn't match entry_RW - 1 if exception
 );
+TLB tlb_odd(
+    .clk(clk),
+    .address(FIP_e[31:12]), //used to lookup
+    .RW_in(0),
+    .is_mem_request(1'b1), //if 1, then we are doing a memory request, else - no prot exception should be thrown
+    .VP(VP), //unpacked, do wire concatenation in TOP
+    .PF(PF),
+    .entry_v(MSHR_entry_V),
+    .entry_P(MSHR_entry_P),
+    .entry_RW(MSHR_entry_RW), //read or write (im guessing 0 is read only)
+    .entry_PCD(MSHR_entry_PCD), //PCD disable - 1 means this entry is disabled for normal mem accesses since it is for MMIO
+    .PF_out(pf_o),
+    .PCD_out(),
+    .miss(TLB_MISS_EXCEPTION_o),
+    .hit(), //if page is valid, present and tag hit - 1 if hit
+    .protection_exception(protection_exception_o) //if RW doesn't match entry_RW - 1 if exception
+);
+wire[16*8-1:0] DES_DATA_e, DES_DATA_o;
 
 
-cacheBank even(
-    .clk(/*TODO*/),
-    .rst(/*TODO*/), 
-    .set(/*TODO*/),
-    .cache_id(/*TODO*/),
-    .vAddress(/*TODO*/),
-    .pAddress(/*TODO*/),
-    .data(/*TODO*/),
-    .size(/*TODO*/),
-    .r(1'b1),
-    .w(/*TODO*/),
-    .sw(/*TODO*/),
+wire[14:0] pAddr_e, pAddr_o;
+mux2n #(15) (pAddr_e, pAddress_e, DES_pAdr_e, DES_full_e);
+mux2n #(15) (pAddr_o, pAddress_o, DES_pAdr_o, DES_full_o);
+inv1$ invx(DES_full_ne, DES_full_e);
+inv1$ inx(DES_full_ne, DES_full_e);
+
+cacheBankNew even$(
+    .clk(clk),
+    .rst(rst), 
+    .set(set),
+    .cache_id(4'b0000),
+    .vAddress({FIP_e,4'd0}),
+    .pAddress(pAddr_e),
+    .data(DES_DATA_e),
+    .size(2'b00),
+    .r(DES_full_ne),
+    .w(DES_full_e),
+    .sw(1'b0),
     .valid_in(1'b1),
-    .fromBUS(/*TODO*/), 
-    .mask(/*TODO*/),
+    .fromBUS(1'b1), 
+    .mask(128'hFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF),
+    
     .AQ_isEMPTY(1'b0),
-    .PTC_ID_IN(/*TODO*/),
-    .oddIsGreater_in(/*TODO*/),
-    .needP1_in(/*TODO*/),
-    .oneSize(/*TODO*/),
+    .PTC_ID_IN(7'b0000000),
+    .oddIsGreater_in(1'b0),
+    .needP1_in(1'b0),
+    .oneSize(3'b0),
+
     .MSHR_HIT(/*TODO*/),
     .MSHR_FULL(/*TODO*/),
-    .SER1_FULL(/*TODO*/),
-    .SER0_FULL(/*TODO*/),
-    .PCD_IN(/*TODO*/),
-    .AQ_READ(/*TODO*/),
+    
+    .SER1_FULL(SER_full_e),
+    .SER0_FULL(1'b),
+    .PCD_IN(1'b0),
+
+    .AQ_READ(),
     .MSHR_valid(/*TODO*/),
     .MSHR_pAddress(/*TODO*/),
-    .SER_valid0(/*TODO*/),
-    .SER_data0(/*TODO*/),
-    .SER_pAddress0(/*TODO*/),
-    .SER_return0(/*TODO*/),
-    .SER_size0(/*TODO*/),
-    .SER_rw0(/*TODO*/),
-    .SER_dest0(/*TODO*/),
-    .SER_valid1(/*TODO*/),
-    .SER_pAddress1(/*TODO*/),
-    .SER_return1(/*TODO*/),
-    .SER_size1(/*TODO*/),
-    .SER_rw1(/*TODO*/),
-    .SER_dest1(/*TODO*/),
-    .EX_valid(/*TODO*/),
-    .EX_data(/*TODO*/),
-    .EX_vAddress(/*TODO*/),
-    .EX_pAddress(/*TODO*/),
-    .EX_size(/*TODO*/),
-    .EX_wake(/*TODO*/),
-    .oddIsGreater(/*TODO*/),
-    .cache_stall(/*TODO*/),
-    .cache_miss(/*TODO*/),
-    .needP1(/*TODO*/),
-    .oneSize_out(/*TODO*/)
+    .MSHR_write(/*todo*/),
+
+    .SER_valid0(1'b0),                  
+    .SER_data0(),                   
+    .SER_pAddress0(),                   
+    .SER_return0(),                 
+    .SER_size0(),                   
+    .SER_rw0(),                 
+    .SER_dest0(),                   
+
+    .SER_valid1(SER_valid_e),         
+    .SER_pAddress1(SER_pAddress_e),   
+    .SER_return1(SER_dest_e),         
+    .SER_size1(SER_size_e),           
+    .SER_rw1(SER_rw_e),               
+    .SER_dest1(SER_dest_e),           
+
+    .EX_valid(),
+    .EX_data(line_even_out),
+    .EX_pAddress(),
+    .EX_size(),
+    .EX_wake(cache_miss_even),
+
+    .oddIsGreater(),
+    .cache_stall(),
+    .cache_miss(),
+    .needP1(),
+    .oneSize_out()
+);
+cacheBankNew odd$(
+    .clk(clk),
+    .rst(rst), 
+    .set(set),
+    .cache_id(4'b0001),
+    .vAddress({FIP_o,4'd0}),
+    .pAddress(pAddr_o),
+    .data(DES_DATA_o),
+    .size(2'b00),
+    .r(DES_full_no),
+    .w(DES_full_o),
+    .sw(1'b0),
+    .valid_in(1'b1),
+    .fromBUS(1'b1), 
+    .mask(128'hFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF),
+    
+    .AQ_isEMPTY(1'b0),
+    .PTC_ID_IN(7'b0000000),
+    .oddIsGreater_in(1'b0),
+    .needP1_in(1'b0),
+    .oneSize(3'b0),
+
+    .MSHR_HIT(/*TODO*/),
+    .MSHR_FULL(/*TODO*/),
+    
+    .SER1_FULL(SER_full_o),
+    .SER0_FULL(1'b),
+    .PCD_IN(1'b0),
+
+    .AQ_READ(),
+    .MSHR_valid(/*TODO*/),
+    .MSHR_pAddress(/*TODO*/),
+    .MSHR_write(/*todo*/),
+
+    .SER_valid0(1'b0),                  
+    .SER_data0(),                   
+    .SER_pAddress0(),                   
+    .SER_return0(),                 
+    .SER_size0(),                   
+    .SER_rw0(),                 
+    .SER_dest0(),                   
+
+    .SER_valid1(SER_valid_o),         
+    .SER_pAddress1(SER_pAddress_o),   
+    .SER_return1(SER_dest_o),         
+    .SER_size1(SER_size_o),           
+    .SER_rw1(SER_rw_o),               
+    .SER_dest1(SER_dest_o),           
+
+    .EX_valid(),
+    .EX_data(line_odd_out),
+    .EX_pAddress(),
+    .EX_size(),
+    .EX_wake(cache_miss_odd),
+
+    .oddIsGreater(),
+    .cache_stall(),
+    .cache_miss(),
+    .needP1(),
+    .oneSize_out()
 );
     
+SER SER_e(
+    .valid_in(SER_valid_e),
+    .pAdr_in(SER_pAddress_e),
+    .dest_in(SER_dest__e),
+    .return_in(SER_return_e),
+    .rw_in(SER_rw_e),
+    .size_in(SER_size_e),
+    .data_in(),
+
+    .grant(SER_i$_grant_e),
+
+    .full_block(SER_full_e),
+    .free_block(),
+
+    .release(SER_i$_release_e),
+    .req(SER_i$_req_e),
+
+    .valid_bus(valid_bus),
+    .pAdr_bus(pAdr_bus),
+    .data_bus(data_bus),
+    .return_bus(return_bus),
+    .dest_bus(dest_bus),
+    .rw_bus(rw_bus),
+    .size_bus(size_bus)
+);
+
+
+SER SER_o(
+    .valid_in(SER_valid_o),
+    .pAdr_in(SER_pAddress_o),
+    .dest_in(SER_dest_o;),
+    .return_in(SER_return_o),
+    .rw_in(SER_rw_o),
+    .size_in(SER_size_o),
+    .data_in(),
+
+    .grant(SER_i$_grant_o),
+
+    .full_block(SER_full_o),
+    .free_block(),
+
+    .release(SER_i$_release_o),
+    .req(SER_i$_req_o),
+
+    .valid_bus(valid_bus),
+    .pAdr_bus(pAdr_bus),
+    .data_bus(data_bus),
+    .return_bus(return_bus),
+    .dest_bus(dest_bus),
+    .rw_bus(rw_bus),
+    .size_bus(size_bus)
+);
+
+DES DES_e(
+    .read(DES_read_e),
+
+    .valid_bus(valid_bus),
+    .pAdr_bus(pAdr_bus),
+    .data_bus(data_bus),
+    .return_bus(return_bus),
+    .dest_bus(dest_bus),
+    .rw_bus(rw_bus),
+    .size_bus(size_bus)
+    
+    .full(DES_full_e),
+    .pAdr(DES_pAdr_e),
+    .data(DES_DATA_e),
+    .return(DES_return_e),
+    .dest(DES_dest_e),
+    .rw(DES_rw_e),
+    .size(DES_size_e),
+    .free_bau(DES_free_e)
+);
+
+DES DES_o(
+    .read(DES_read_o),
+
+    .valid_bus(valid_bus),
+    .pAdr_bus(pAdr_bus),
+    .data_bus(data_bus),
+    .return_bus(return_bus),
+    .dest_bus(dest_bus),
+    .rw_bus(rw_bus),
+    .size_bus(size_bus)
+    
+    .full(DES_full_o),
+    .pAdr(DES_pAdr_o),
+    .data(DES_DATA_o),
+    .return(DES_return_o),
+    .dest(DES_dest_o),
+    .rw(DES_rw_o),
+    .size(DES_size_o),
+    
+    .free_bau(DES_free_o)
+);
+
 endmodule
+
+// module mux$(
+//     input w,
+//     input 
+// );
