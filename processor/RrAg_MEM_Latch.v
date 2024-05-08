@@ -71,7 +71,7 @@ module RrAg_MEM_latch (
     
     integer file, cyc_cnt;
     initial begin
-        file = $fopen("RrAg_MEM_latches.out", "w");
+        file = $fopen("RrAg_MEM_latch.out", "w");
         cyc_cnt = 0;
     end
 
@@ -212,7 +212,7 @@ module RrAg_MEM_latch (
         $fdisplay(file, "\t\t BR_pred_T_NT: %h", BR_pred_T_NT_out);
         
 		
-		$display("\n=================================================\n");    
+		$fdisplay("\n=================================================\n");    
 	end
 
 endmodule
