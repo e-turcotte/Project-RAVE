@@ -171,6 +171,7 @@ module rrag (input valid_in,
     assign BR_pred_target_out = BR_pred_target_in;
     assign BR_pred_T_NT_out = BR_pred_T_NT_in;
     assign is_rep_out = is_rep_in;
+    assign opsize_out = opsize_in;
 
     wire mem1_use, mem2_use, rm_ptc, sib_ptc, actualsib_ptc, mem1_ptc, mem2_ptc, mem1_stall, mem2_stall;
 

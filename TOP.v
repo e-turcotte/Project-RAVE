@@ -88,6 +88,20 @@ module TOP();
     wire D_RrAg_Latches_empty, MEM_EX_Latches_empty; // AND with valid to get internal valid signals   
 
     ///////////////////////////////////////////////////////////
+    //    Outputs from F that go into the F_D_latch:     //  
+    //////////////////////////////////////////////////////////
+    
+    wire [127:0] packet_out_F_D_latch_in;
+    wire packet_out_valid_F_D_latch_in;
+
+    ///////////////////////////////////////////////////////////
+    //         Outputs from F_D_latch that go into D:       //  
+    //////////////////////////////////////////////////////////
+    
+    wire [127:0] packet_out_F_D_latch_out;
+    wire packet_out_valid_F_D_latch_out;
+
+    ///////////////////////////////////////////////////////////
     //    Outputs from D that go into the D_RrAg_latch:     //  
     //////////////////////////////////////////////////////////
 
@@ -489,9 +503,9 @@ module TOP();
         .wb_segdata1(), .wb_segdata2(), .wb_segdata3(), .wb_segdata4(),
         .wb_addr1(), .wb_addr2(), .wb_addr3(), .wb_addr4(),
         .wb_segaddr1(), .wb_segaddr2(), .wb_segaddr3(), .wb_segaddr4(),
-        .wb_opsize(), .wb_regld(), .wb_segld(), .wb_inst_ptcid(),
+        .wb_opsize(), .wb_regld(4'b0), .wb_segld(4'b0), .wb_inst_ptcid(),
         .fwd_stall(MEM_stall_out), //recieve from MEM
-        .ptc_clear(), //TODO: from IDTR
+        .ptc_clear(1'b1), //TODO: from IDTR
 
         //outputs
         .valid_out(valid_RrAg_MEM_latch_in), .stall(/*RrAg_stall_out*/), //send to D_RrAg_Queued_Latches
@@ -823,6 +837,31 @@ module TOP();
     assign EX_stall_out = 0;
     //TODO: stall signal is negative logic, so need to invert when passing to queued latches
 
+
+    writeback_TOP(
+        .clk(),
+        .valid_in(),
+        .EIP_in(),
+        .IE_in(),                           //interrupt or exception sign
+        .IE_type_in(),
+        .BR_pred_target_in(),
+        .BR_pred_T_NT_in(),
+        .inst_ptcid_in(),
+        .set(), rst(),
+        .inp1(), .inp2(), .inp3(), .inp4(),
+        .inp1_isReg(),  .inp2_isReg(), .inp3_isReg(),  .inp4_isReg(),
+        .inp1_isSeg(),  .inp2_isSeg(), .inp3_isSeg(),  .inp4_isSeg(),
+        .inp1_isMem(),  .inp2_isMem(), .inp3_isMem(),  .inp4_isMem(),  
+        .inp1_dest(), .inp2_dest(), .inp3_dest(), .inp4_dest(),
+        .inpsize(),
+        .inp1_wb(), .inp2_wb(), .inp3_wb(), .inp4_wb(),
+        .inp1_ptcinfo(), .inp2_ptcinfo(), .inp3_ptcinfo(), .inp4_ptcinfo(),
+        .BR_valid_in(), .BR_taken_in(), .BR_correct_in(),
+        .BR_FIP_in(), .BR_FIP_p1_in(),
+        .CS_in(),
+        .EFLAGS_in(),
+        .P_OP(),
+    );
 
 endmodule
 

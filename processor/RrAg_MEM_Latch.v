@@ -75,8 +75,6 @@ module RrAg_MEM_latch (
         cyc_cnt = 0;
     end
 
-    inv1$ i0 (.out(ld), .in(ld_inv));
-
     regn #(.WIDTH(1))   r1  (.din(valid_in), .ld(ld), .clr(clr), .clk(clk), .dout(valid_out));
     regn #(.WIDTH(2))   r3  (.din(opsize_in), .ld(ld), .clr(clr), .clk(clk), .dout(opsize_out));
     regn #(.WIDTH(32))  r4  (.din(mem_addr1_in), .ld(ld), .clr(clr), .clk(clk), .dout(mem_addr1_out));
