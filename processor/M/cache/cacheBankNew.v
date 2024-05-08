@@ -31,6 +31,7 @@ module cacheBank (
 
     //output to MSHR
     output MSHR_valid,
+    output MSHR_write,
     output [14:0] MSHR_pAddress,
     
     //output to SERDES
@@ -87,7 +88,7 @@ inv1$ inv2(MSHR_MISS,MSHR_HIT);
 
 inv1$ inv1(valid_in_n, valid_in);
 wire valid;
-nor3$ nor1(valid, valid_in_n,stall, AQ_isEMPTY);
+//nor3$ nor1(valid, valid_in_n,stall, AQ_isEMPTY);
 assign AQ_READ = valid;
 
 
@@ -138,8 +139,9 @@ cache_stage1 cs1(.clk(clk),
 
 //Handle MSHR
 and2$ an1(MSHR_valid1, valid, MISS);
-or2$ mshr(MSHR_valid,MSHR_valid1, checkVal);
+or2$ mshr(MSHR_write,MSHR_valid1, checkVal);
 assign MSHR_pAddress = pAddress;
+assign MSHR_valid = valid; 
 
 //Handle SERDES
 mux2n #(128) datasel(SER_data0, cache_line, data, PCD_IN);
