@@ -72,6 +72,9 @@ module mem (input valid_in,
             output stall
             );
 
+            /*TODO*/
+            assign stall = 1'b0;
+
     //wire TLB_prot, TLB_miss, TLB_hit;
     //TLB tlb(.clk(clk), .address(/*TODO*/), .RW_in(/*TODO*/), is_mem_request(/*TODO*/), .VP(VP_in), .PF(PF_in),  //TODO: finish signals
     //        .entry_v(entry_v_in), .entry_P(entry_P_in), .entry_RW(entry_RW_in), .entry_PCD(entry_PCD_in),
