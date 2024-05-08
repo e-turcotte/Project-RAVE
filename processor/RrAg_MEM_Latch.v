@@ -1,6 +1,6 @@
 
 module RrAg_MEM_latch (
-        input ld_inv, clr,
+        input ld, clr,
         input clk,
 
         input         valid_in,

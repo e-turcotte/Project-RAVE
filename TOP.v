@@ -6,10 +6,10 @@ module TOP();
     integer cycle_number;
 
     localparam m_size_D_RrAg = 1;
-    localparam n_size_D_RrAg = 364;
+    localparam n_size_D_RrAg = 396;
     
     localparam m_size_MEM_EX = 780;
-    localparam n_size_MEM_EX = 301;
+    localparam n_size_MEM_EX = 335;
 
     initial #500 $finish; //TODO: run for n ns
 
@@ -68,8 +68,7 @@ module TOP();
         D_valid = 1'b1;
 
         #(CYCLE_TIME)
-
-        $finish;
+        global_init = 0;
 
     end
 
@@ -213,6 +212,7 @@ module TOP();
     wire [12:0]  dest1_RrAg_MEM_latch_in, dest2_RrAg_MEM_latch_in, dest3_RrAg_MEM_latch_in, dest4_RrAg_MEM_latch_in;
     wire         res1_ld_RrAg_MEM_latch_in, res2_ld_RrAg_MEM_latch_in, res3_ld_RrAg_MEM_latch_in, res4_ld_RrAg_MEM_latch_in;
     wire [31:0]  rep_num_RrAg_MEM_latch_in;
+    wire         is_rep_RrAg_MEM_latch_in;
     wire [4:0]   aluk_RrAg_MEM_latch_in;
     wire [2:0]   mux_adder_RrAg_MEM_latch_in;
     wire         mux_and_int_RrAg_MEM_latch_in, mux_shift_RrAg_MEM_latch_in;
@@ -508,7 +508,7 @@ module TOP();
         .dest1_out(dest1_RrAg_MEM_latch_in), .dest2_out(dest2_RrAg_MEM_latch_in), .dest3_out(dest3_RrAg_MEM_latch_in), .dest4_out(dest4_RrAg_MEM_latch_in),
         .res1_ld_out(res1_ld_RrAg_MEM_latch_in), .res2_ld_out(res2_ld_RrAg_MEM_latch_in), 
         .res3_ld_out(res3_ld_RrAg_MEM_latch_in), .res4_ld_out(res4_ld_RrAg_MEM_latch_in),
-        .rep_num(rep_num_RrAg_MEM_latch_in), .is_rep_out(is_rep_RrAg_MEM_latch_out),
+        .rep_num(rep_num_RrAg_MEM_latch_in), .is_rep_out(is_rep_RrAg_MEM_latch_in),
         
         .aluk_out(aluk_RrAg_MEM_latch_in),
         .mux_adder_out(mux_adder_RrAg_MEM_latch_in),
@@ -528,11 +528,11 @@ module TOP();
     );
     
     wire RrAg_MEM_latch_LD;
-    nand2# 2000(.out(RrAg_MEM_latch_LD), .in0(valid_MEM_EX_latch_in), .in1(MEM_stall_out));
+    nand2$ n2000(.out(RrAg_MEM_latch_LD), .in0(valid_MEM_EX_latch_in), .in1(MEM_stall_out));
 
     RrAg_MEM_latch q4(
         //inputs
-        .ld_inv(RrAg_MEM_latch_LD), .clr(global_reset), // LD comes from MEM stalling 
+        .ld(RrAg_MEM_latch_LD), .clr(global_reset), // LD comes from MEM stalling 
         .clk(clk),
         .valid_in(valid_RrAg_MEM_latch_in), .opsize_in(opsize_RrAg_MEM_latch_in),
         .mem_addr1_in(mem_addr1_RrAg_MEM_latch_in), .mem_addr2_in(mem_addr2_RrAg_MEM_latch_in), .mem_addr1_end_in(mem_addr1_end_RrAg_MEM_latch_in), .mem_addr2_end_in(mem_addr2_end_RrAg_MEM_latch_in),
@@ -553,6 +553,7 @@ module TOP();
         .mux_and_int_in(mux_and_int_RrAg_MEM_latch_in), .mux_shift_in(mux_shift_RrAg_MEM_latch_in),
         .p_op_in(p_op_RrAg_MEM_latch_in),
         .fmask_in(fmask_RrAg_MEM_latch_in),
+        .CS_in(CS_RrAg_MEM_latch_in), //TODO RN
         .conditionals_in(conditionals_RrAg_MEM_latch_in),
         .is_br_in(is_br_RrAg_MEM_latch_in), .is_fp_in(is_fp_RrAg_MEM_latch_in), .is_imm_in(is_imm_RrAg_MEM_latch_in),
         .imm_in(imm_RrAg_MEM_latch_in),
@@ -584,6 +585,7 @@ module TOP();
         .mux_and_int_out(mux_and_int_RrAg_MEM_latch_out), .mux_shift_out(mux_shift_RrAg_MEM_latch_out),
         .p_op_out(p_op_RrAg_MEM_latch_out),
         .fmask_out(fmask_RrAg_MEM_latch_out),
+        .CS_out(CS_RrAg_MEM_latch_out), //TODO RN
         .conditionals_out(conditionals_RrAg_MEM_latch_out),
         .is_br_out(is_br_RrAg_MEM_latch_out), .is_fp_out(is_fp_RrAg_MEM_latch_out), .is_imm_out(is_imm_RrAg_MEM_latch_out), 
         .imm_out(imm_RrAg_MEM_latch_out),
@@ -798,10 +800,12 @@ module TOP();
         .is_rep_out(),
 
         .eflags(),
-        .CS_out(), 
+        .CS_out(),
+        .P_OP_out,
         
         .res1_wb(), .res2_wb(), .res3_wb(), .res4_wb(),
         .res1(), .res2(), .res3(), .res4(),
+        .res1_ptcinfo(), .res2_ptcinfo(), .res3_ptcinfo(), .res4_ptcinfo(),
         .res1_is_reg_out(), .res2_is_reg_out(), .res3_is_reg_out(), .res4_is_reg_out(), 
         .res1_is_seg_out(), .res2_is_seg_out(), .res3_is_seg_out(), .res4_is_seg_out(), 
         .res1_is_mem_out(), .res2_is_mem_out(), .res3_is_mem_out(), .res4_is_mem_out(),
