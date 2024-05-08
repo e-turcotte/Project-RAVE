@@ -352,7 +352,7 @@ module TOP();
         .reset(global_reset),
     
         // Signals from fetch_2
-        .valid_in(D_valid),
+        .valid_in(1'b1), //TODO: D_valid
         .packet_in(packet),
         .IE_in(),
         .IE_type_in(),

@@ -142,7 +142,7 @@ module rrag (input valid_in,
     assign re3_ld_out = res3_ld_in;
     assign re4_ld_out = res4_ld_in;
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({regformem4,32'h00000000}), .sel(rep), .out(rep_num));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({regformem4,32'h00000000}), .sel(is_rep_in), .out(rep_num));
 
     wire [3:0] decodedsize;
 
