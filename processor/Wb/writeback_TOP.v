@@ -2,10 +2,12 @@ module writeback_TOP(
     input clk,
     input valid_in,
     input [31:0] EIP_in,
+    input [31:0] latched_EIP_in,
     input IE_in,                           //interrupt or exception signal
     input [3:0] IE_type_in,
     input [31:0] BR_pred_target_in,
     input BR_pred_T_NT_in,
+    input [5:0] BP_alias_in,
     input [6:0] inst_ptcid_in,
     input set, rst,
 
@@ -40,7 +42,9 @@ module writeback_TOP(
     output [6:0] inst_ptcid_out,
 
     output [31:0] newFIP_e, newFIP_o, newEIP, //done 
+    output [31:0] latched_EIP_out,
     output BR_valid, BR_taken, BR_correct, //done
+    output [5:0] WB_BP_update_alias,
     output is_resteer,
     output [15:0] CS_out, //done
 
@@ -68,15 +72,18 @@ module writeback_TOP(
     and2$ g107(.out(seg_ld[0]), .in0(inp1_isSeg), .in1(valid_out));
 
     wire [127:0] sreg_ptcs [0:3];
-    
-    assign sreg_ptcs[3] = {inp4_ptcinfo[127:126],inst_ptcid_in,inp4_ptcinfo[118:112],
-                           inp4_ptcinfo[111:110],inst_ptcid_in,inp4_ptcinfo[102:96],
-                           inp4_ptcinfo[95:94],inst_ptcid_in,inp4_ptcinfo[86:80],
-                           inp4_ptcinfo[79:78],inst_ptcid_in,inp4_ptcinfo[70:64],
-                           inp4_ptcinfo[63:62],inst_ptcid_in,inp4_ptcinfo[54:48],
-                           inp4_ptcinfo[47:46],inst_ptcid_in,inp4_ptcinfo[38:32],
-                           inp4_ptcinfo[31:30],inst_ptcid_in,inp4_ptcinfo[22:16],
-                           inp4_ptcinfo[15:14],inst_ptcid_in,inp4_ptcinfo[6:0]};
+    wire [6:0] flip_ptcid, ptctouse;
+
+    invn flip(.in(inst_ptcid_in), .out(flip_ptcid));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(7)) m3456789(.in({flip_ptcid,inst_ptcid_in}), .sel(is_rep), .out(ptctouse));
+    assign sreg_ptcs[3] = {inp4_ptcinfo[127:126],ptctouse,inp4_ptcinfo[118:112],
+                           inp4_ptcinfo[111:110],ptctouse,inp4_ptcinfo[102:96],
+                           inp4_ptcinfo[95:94],ptctouse,inp4_ptcinfo[86:80],
+                           inp4_ptcinfo[79:78],ptctouse,inp4_ptcinfo[70:64],
+                           inp4_ptcinfo[63:62],ptctouse,inp4_ptcinfo[54:48],
+                           inp4_ptcinfo[47:46],ptctouse,inp4_ptcinfo[38:32],
+                           inp4_ptcinfo[31:30],ptctouse,inp4_ptcinfo[22:16],
+                           inp4_ptcinfo[15:14],ptctouse,inp4_ptcinfo[6:0]};
     assign sreg_ptcs[2] = {inp3_ptcinfo[127:126],inst_ptcid_in,inp3_ptcinfo[118:112],
                            inp3_ptcinfo[111:110],inst_ptcid_in,inp3_ptcinfo[102:96],
                            inp3_ptcinfo[95:94],inst_ptcid_in,inp3_ptcinfo[86:80],
@@ -101,6 +108,18 @@ module writeback_TOP(
                            inp1_ptcinfo[47:46],inst_ptcid_in,inp1_ptcinfo[38:32],
                            inp1_ptcinfo[31:30],inst_ptcid_in,inp1_ptcinfo[22:16],
                            inp1_ptcinfo[15:14],inst_ptcid_in,inp1_ptcinfo[6:0]};
+
+    wire [3:0] notneedptc;
+    
+    nor3$ qwerty(.out(notneedptc[3]), .in0(inp4_isReg), .in1(inp4_isSeg), .in2(inp4_isMem));
+    muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(128)) mqwerty(.in({128'h0,sreg_ptcs[3],sreg_ptcs[3],inp4_ptcinfo}), .sel({notneedptc[3],inp4_isReg,inp4_isSeg,inp4_isMem}), .out(res4_ptcinfo));
+    nor3$ uiop(.out(notneedptc[2]), .in0(inp3_isReg), .in1(inp3_isSeg), .in2(inp3_isMem));
+    muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(128)) muiop(.in({128'h0,sreg_ptcs[2],sreg_ptcs[2],inp3_ptcinfo}), .sel({notneedptc[2],inp3_isReg,inp3_isSeg,inp3_isMem}), .out(res3_ptcinfo));
+    nor3$ dvorak(.out(notneedptc[1]), .in0(inp2_isReg), .in1(inp2_isSeg), .in2(inp2_isMem));
+    muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(128)) mdvorak(.in({128'h0,sreg_ptcs[1],sreg_ptcs[1],inp2_ptcinfo}), .sel({notneedptc[1],inp2_isReg,inp2_isSeg,inp2_isMem}), .out(res2_ptcinfo));
+    nor3$ zxcvb(.out(notneedptc[0]), .in0(inp1_isReg), .in1(inp1_isSeg), .in2(inp1_isMem));
+    muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(128)) mzxcvb(.in({128'h0,sreg_ptcs[0],sreg_ptcs[0],inp1_ptcinfo}), .sel({notneedptc[0],inp1_isReg,inp1_isSeg,inp1_isMem}), .out(res1_ptcinfo));
+    
     
     assign CS_out = CS_in;
 
@@ -123,6 +142,8 @@ module writeback_TOP(
     assign BR_taken = BR_taken_in;
     assign BR_correct = BR_correct_in;
     inv1$ g0(.out(is_resteer), .in(BR_correct_in));
+    assign latched_EIP_out = latched_EIP_in;
+    assign WB_BP_update_alias = BP_alias_in;
 
     wire might_mem_ld, invstall;
 
