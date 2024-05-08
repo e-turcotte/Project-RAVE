@@ -26,6 +26,8 @@ module writeback_TOP(
 
     input interrupt_in,
 
+    input wbaq_full, is_rep,
+
     output valid_out, //TODO
 
     output [63:0] res1, res2, res3, res4, mem_data, //done
@@ -42,6 +44,8 @@ module writeback_TOP(
     output is_resteer,
     output [15:0] CS_out, //done
 
+    output stall,
+
     output final_IE_val,
     output [3:0] final_IE_type
     );
@@ -53,9 +57,50 @@ module writeback_TOP(
     assign ressize = inpsize;
 
     assign reg_addr = {inp1_dest[2:0],inp2_dest[2:0],inp3_dest[2:0],inp4_dest[2:0]};
-    assign reg_ld = {inp1_isReg,inp2_isReg,inp3_isReg,inp4_isReg};
+    and2$ g100(.out(reg_ld[3]), .in0(inp4_isReg), .in1(valid_out));
+    and2$ g101(.out(reg_ld[2]), .in0(inp3_isReg), .in1(valid_out));
+    and2$ g102(.out(reg_ld[1]), .in0(inp2_isReg), .in1(valid_out));
+    and2$ g103(.out(reg_ld[0]), .in0(inp1_isReg), .in1(valid_out));
     assign seg_addr = {inp1_dest[2:0],inp2_dest[2:0],inp3_dest[2:0],inp4_dest[2:0]};
-    assign seg_ld = {inp1_isSeg,inp2_isSeg,inp3_isSeg,inp4_isSeg};
+    and2$ g104(.out(seg_ld[3]), .in0(inp4_isSeg), .in1(valid_out));
+    and2$ g105(.out(seg_ld[2]), .in0(inp3_isSeg), .in1(valid_out));
+    and2$ g106(.out(seg_ld[1]), .in0(inp2_isSeg), .in1(valid_out));
+    and2$ g107(.out(seg_ld[0]), .in0(inp1_isSeg), .in1(valid_out));
+
+    wire [127:0] sreg_ptcs [0:3];
+    
+    assign sreg_ptcs[3] = {inp4_ptcinfo[127:126],inst_ptcid_in,inp4_ptcinfo[118:112],
+                           inp4_ptcinfo[111:110],inst_ptcid_in,inp4_ptcinfo[102:96],
+                           inp4_ptcinfo[95:94],inst_ptcid_in,inp4_ptcinfo[86:80],
+                           inp4_ptcinfo[79:78],inst_ptcid_in,inp4_ptcinfo[70:64],
+                           inp4_ptcinfo[63:62],inst_ptcid_in,inp4_ptcinfo[54:48],
+                           inp4_ptcinfo[47:46],inst_ptcid_in,inp4_ptcinfo[38:32],
+                           inp4_ptcinfo[31:30],inst_ptcid_in,inp4_ptcinfo[22:16],
+                           inp4_ptcinfo[15:14],inst_ptcid_in,inp4_ptcinfo[6:0]};
+    assign sreg_ptcs[2] = {inp3_ptcinfo[127:126],inst_ptcid_in,inp3_ptcinfo[118:112],
+                           inp3_ptcinfo[111:110],inst_ptcid_in,inp3_ptcinfo[102:96],
+                           inp3_ptcinfo[95:94],inst_ptcid_in,inp3_ptcinfo[86:80],
+                           inp3_ptcinfo[79:78],inst_ptcid_in,inp3_ptcinfo[70:64],
+                           inp3_ptcinfo[63:62],inst_ptcid_in,inp3_ptcinfo[54:48],
+                           inp3_ptcinfo[47:46],inst_ptcid_in,inp3_ptcinfo[38:32],
+                           inp3_ptcinfo[31:30],inst_ptcid_in,inp3_ptcinfo[22:16],
+                           inp3_ptcinfo[15:14],inst_ptcid_in,inp3_ptcinfo[6:0]};
+    assign sreg_ptcs[1] = {inp2_ptcinfo[127:126],inst_ptcid_in,inp2_ptcinfo[118:112],
+                           inp2_ptcinfo[111:110],inst_ptcid_in,inp2_ptcinfo[102:96],
+                           inp2_ptcinfo[95:94],inst_ptcid_in,inp2_ptcinfo[86:80],
+                           inp2_ptcinfo[79:78],inst_ptcid_in,inp2_ptcinfo[70:64],
+                           inp2_ptcinfo[63:62],inst_ptcid_in,inp2_ptcinfo[54:48],
+                           inp2_ptcinfo[47:46],inst_ptcid_in,inp2_ptcinfo[38:32],
+                           inp2_ptcinfo[31:30],inst_ptcid_in,inp2_ptcinfo[22:16],
+                           inp2_ptcinfo[15:14],inst_ptcid_in,inp2_ptcinfo[6:0]};
+    assign sreg_ptcs[0] = {inp1_ptcinfo[127:126],inst_ptcid_in,inp1_ptcinfo[118:112],
+                           inp1_ptcinfo[111:110],inst_ptcid_in,inp1_ptcinfo[102:96],
+                           inp1_ptcinfo[95:94],inst_ptcid_in,inp1_ptcinfo[86:80],
+                           inp1_ptcinfo[79:78],inst_ptcid_in,inp1_ptcinfo[70:64],
+                           inp1_ptcinfo[63:62],inst_ptcid_in,inp1_ptcinfo[54:48],
+                           inp1_ptcinfo[47:46],inst_ptcid_in,inp1_ptcinfo[38:32],
+                           inp1_ptcinfo[31:30],inst_ptcid_in,inp1_ptcinfo[22:16],
+                           inp1_ptcinfo[15:14],inst_ptcid_in,inp1_ptcinfo[6:0]};
     
     assign CS_out = CS_in;
 
@@ -73,13 +118,19 @@ module writeback_TOP(
     wire [31:0] targetEIP;
 
     mux2n #(32) m25(targetEIP, BR_FIP_in, inp1[31:0], LD_EIP_CS);
-    mux2n #(32) m3 (newEIP,EIP_in, targetEIP , BR_taken); //TODO: set newEIP to NT target or T target
+    mux2n #(32) m3 (newEIP,EIP_in, targetEIP, BR_taken); //TODO: set newEIP to NT target or T target
     assign BR_valid = BR_valid_in;
     assign BR_taken = BR_taken_in;
     assign BR_correct = BR_correct_in;
     inv1$ g0(.out(is_resteer), .in(BR_correct_in));
 
-    assign valid_out = valid_in;
+    wire might_mem_ld, invstall;
+
+    or4$ o94(.out(might_mem_ld), .in0(inp1_isMem), .in1(inp1_isMem), .in2(inp2_isMem), .in3(inp3_isMem));
+    and2$ g108(.out(mem_ld), .in0(might_mem_ld), .in1(valid_out));
+    and2$ a94(.out(stall), .in0(wbaq_full), .in1(mem_ld)); 
+    inv1$ i92(.out(invstall), .in(stall));
+    and2$ asd(.out(valid_out), .in0(valid_in), .in1(invstall));
 
     assign final_IE_type[2:0] = IE_type_in[2:0]; //TODO: Rohan's IE stuff
     assign final_IE_type[3] = interrupt_in;

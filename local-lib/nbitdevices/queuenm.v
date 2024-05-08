@@ -23,11 +23,11 @@ module queuenm #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=16) (input [M_WIDTH-1:
 
     inv1$ g0(.out(invempty), .in(empty));
     inv1$ g1(.out(invfull), .in(full));
-    nand2$ g2(.out(ldptr_rd), .in0(invempty), .in1(rd));
-    nand2$ g3(.out(ldptr_wr), .in0(invfull), .in1(wr));
+    and2$ g2(.out(ldptr_rd), .in0(invempty), .in1(rd));
+    and2$ g3(.out(ldptr_wr), .in0(invfull), .in1(wr));
 
-    muxnm_tree #(.SEL_WIDTH(2), .DATA_WIDTH(Q_LENGTH)) m0(.in({ptr_rd,rot_ptr_rd,{(Q_LENGTH-1){1'b0}},1'b1,{(Q_LENGTH-1){1'b0}},1'b1}), .sel({clr,ldptr_rd}), .out(new_ptr_rd));
-    muxnm_tree #(.SEL_WIDTH(2), .DATA_WIDTH(Q_LENGTH)) m1(.in({ptr_wr,rot_ptr_wr,{(Q_LENGTH-1){1'b0}},1'b1,{(Q_LENGTH-1){1'b0}},1'b1}), .sel({clr,ldptr_wr}), .out(new_ptr_wr));
+    muxnm_tree #(.SEL_WIDTH(2), .DATA_WIDTH(Q_LENGTH)) m0(.in({rot_ptr_rd,ptr_rd,{(Q_LENGTH-1){1'b0}},1'b1,{(Q_LENGTH-1){1'b0}},1'b1}), .sel({clr,ldptr_rd}), .out(new_ptr_rd));
+    muxnm_tree #(.SEL_WIDTH(2), .DATA_WIDTH(Q_LENGTH)) m1(.in({rot_ptr_wr,ptr_wr,{(Q_LENGTH-1){1'b0}},1'b1,{(Q_LENGTH-1){1'b0}},1'b1}), .sel({clr,ldptr_wr}), .out(new_ptr_wr));
 
 
     wire [(M_WIDTH+N_WIDTH)*Q_LENGTH-1:0] outs;
@@ -36,7 +36,7 @@ module queuenm #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=16) (input [M_WIDTH-1:
     generate
         for (i = 0; i < Q_LENGTH; i = i + 1) begin : queue_slices
             wire ld;
-            and2$ g4(.out(ld), .in0(wr), .in1(ptr_wr[i]));
+            and2$ g4(.out(ld), .in0(ldptr_wr), .in1(ptr_wr[i]));
             qentry #(.M_WIDTH(M_WIDTH), .N_WIDTH(N_WIDTH)) q0(.m_din(m_din), .n_din(n_din), .new_m(new_m_vector[(i+1)*M_WIDTH-1:i*M_WIDTH]), .ld(ld), .modify(modify_vector[i]), .clr(clr), .clk(clk), .old_m(old_m_vector[(i+1)*M_WIDTH-1:i*M_WIDTH]), .dout(outs[(i+1)*(M_WIDTH+N_WIDTH)-1:i*(M_WIDTH+N_WIDTH)]));
         end
     endgenerate
