@@ -36,7 +36,7 @@ module queuenm #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=16) (input [M_WIDTH-1:
     generate
         for (i = 0; i < Q_LENGTH; i = i + 1) begin : queue_slices
             wire ld;
-            and2$ g4(.out(ld), .in0(wr), .in1(ptr_wr[i]));
+            and2$ g4(.out(ld), .in0(ldptr_wr), .in1(ptr_wr[i]));
             qentry #(.M_WIDTH(M_WIDTH), .N_WIDTH(N_WIDTH)) q0(.m_din(m_din), .n_din(n_din), .new_m(new_m_vector[(i+1)*M_WIDTH-1:i*M_WIDTH]), .ld(ld), .modify(modify_vector[i]), .clr(clr), .clk(clk), .old_m(old_m_vector[(i+1)*M_WIDTH-1:i*M_WIDTH]), .dout(outs[(i+1)*(M_WIDTH+N_WIDTH)-1:i*(M_WIDTH+N_WIDTH)]));
         end
     endgenerate
