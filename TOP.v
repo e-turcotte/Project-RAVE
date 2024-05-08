@@ -447,7 +447,7 @@ module TOP();
                            BR_pred_T_NT_D_RrAg_latch_in
                         };
 
-    wire MEM_EX_Latch_RD; 
+    wire D_RrAg_Latch_RD; 
     nand2$ n2002 (.out(D_RrAg_Latch_RD), .in0(valid_RrAg_MEM_latch_in), .in1(RrAg_stall_out));
 
     D_RrAg_Queued_Latches #(.M_WIDTH(m_size_D_RrAg), .N_WIDTH(n_size_D_RrAg), .Q_LENGTH(8)) q2 (
@@ -801,15 +801,15 @@ module TOP();
 
         .eflags(),
         .CS_out(),
-        .P_OP_out,
+        .P_OP_out(),
         
-        .res1_wb(), .res2_wb(), .res3_wb(), .res4_wb(),
-        .res1(), .res2(), .res3(), .res4(),
-        .res1_ptcinfo(), .res2_ptcinfo(), .res3_ptcinfo(), .res4_ptcinfo(),
+        .res1_wb(),         .res2_wb(),         .res3_wb(),         .res4_wb(),
+        .res1(),            .res2(),            .res3(),            .res4(),
+        .res1_ptcinfo(),    .res2_ptcinfo(),    .res3_ptcinfo(),    .res4_ptcinfo(),
         .res1_is_reg_out(), .res2_is_reg_out(), .res3_is_reg_out(), .res4_is_reg_out(), 
         .res1_is_seg_out(), .res2_is_seg_out(), .res3_is_seg_out(), .res4_is_seg_out(), 
         .res1_is_mem_out(), .res2_is_mem_out(), .res3_is_mem_out(), .res4_is_mem_out(),
-        .res1_dest(), .res2_dest(), .res3_dest(), .res4_dest(), 
+        .res1_dest(),       .res2_dest(),       .res3_dest(),       .res4_dest(), 
         .ressize(), 
 
         .BR_valid(), 
