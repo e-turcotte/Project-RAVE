@@ -49,11 +49,10 @@ module TOP();
     reg [31:0] EIP_init;
 
     initial begin
-        #(CYCLE_TIME)
 
         global_set = 1;
         global_reset = 0;
-        
+        global_init = 0;
 
         #(CYCLE_TIME)
 
@@ -67,6 +66,10 @@ module TOP();
         global_init = 0;
         packet = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
         D_valid = 1'b1;
+
+        #(CYCLE_TIME)
+
+        $finish;
 
     end
 
@@ -444,9 +447,12 @@ module TOP();
                            BR_pred_T_NT_D_RrAg_latch_in
                         };
 
+    wire MEM_EX_Latch_RD; 
+    nand2$ n2002 (.out(D_RrAg_Latch_RD), .in0(valid_RrAg_MEM_latch_in), .in1(RrAg_stall_out));
+
     D_RrAg_Queued_Latches #(.M_WIDTH(m_size_D_RrAg), .N_WIDTH(n_size_D_RrAg), .Q_LENGTH(8)) q2 (
-        .m_din(m_din_D_RrAg), .n_din(n_din_D_RrAg), .new_m_vector(), .wr(valid_out_D_RrAg_latch_in), 
-        .rd(RrAg_stall_out), 
+        .m_din(m_din_D_RrAg), .n_din(n_din_D_RrAg), .new_m_vector(), 
+        .wr(valid_out_D_RrAg_latch_in), .rd(D_RrAg_Latch_RD), 
         .modify_vector(8'h0), .clr(global_reset), .clk(clk), .full(D_RrAg_Latches_full), .empty(D_RrAg_Latches_empty), .old_m_vector(/*TODO*/), 
             .dout({valid_out_D_RrAg_latch_out, latched_eip_D_RrAg_latch_out, is_imm_D_RrAg_latch_out, reg_addr1_D_RrAg_latch_out, reg_addr2_D_RrAg_latch_out, reg_addr3_D_RrAg_latch_out, reg_addr4_D_RrAg_latch_out,
             seg_addr1_D_RrAg_latch_out, seg_addr2_D_RrAg_latch_out, seg_addr3_D_RrAg_latch_out, seg_addr4_D_RrAg_latch_out,
@@ -520,10 +526,13 @@ module TOP();
         .BR_pred_target_out(BR_pred_target_RrAg_MEM_latch_in),
         .BR_pred_T_NT_out(BR_pred_T_NT_RrAg_MEM_latch_in)
     );
+    
+    wire RrAg_MEM_latch_LD;
+    nand2# 2000(.out(RrAg_MEM_latch_LD), .in0(valid_MEM_EX_latch_in), .in1(MEM_stall_out));
 
     RrAg_MEM_latch q4(
         //inputs
-        .ld_inv(MEM_stall_out), .clr(global_reset), // LD comes from MEM stalling 
+        .ld_inv(RrAg_MEM_latch_LD), .clr(global_reset), // LD comes from MEM stalling 
         .clk(clk),
         .valid_in(valid_RrAg_MEM_latch_in), .opsize_in(opsize_RrAg_MEM_latch_in),
         .mem_addr1_in(mem_addr1_RrAg_MEM_latch_in), .mem_addr2_in(mem_addr2_RrAg_MEM_latch_in), .mem_addr1_end_in(mem_addr1_end_RrAg_MEM_latch_in), .mem_addr2_end_in(mem_addr2_end_RrAg_MEM_latch_in),
@@ -712,10 +721,12 @@ module TOP();
                             FMASK_MEM_EX_latch_in, conditionals_MEM_EX_latch_in, isBR_MEM_EX_latch_in, is_fp_MEM_EX_latch_in, CS_MEM_EX_latch_in
                           };
     
+    wire MEM_EX_Latch_RD; 
+    nand2$ n2001 (.out(MEM_EX_Latch_RD), .in0(valid_out_EX_WB_latch_in), .in1(EX_stall_out));
 
     MEM_EX_Queued_Latches #(.M_WIDTH(m_size_MEM_EX), .N_WIDTH(n_size_MEM_EX), .Q_LENGTH(8)) q5 (
         .m_din(m_din_MEM_EX), .n_din(n_din_MEM_EX), .new_m_vector(/*TODO*/), 
-        .wr(valid_MEM_EX_latch_in), .rd(EX_stall_out),
+        .wr(valid_MEM_EX_latch_in), .rd(MEM_EX_Latch_RD),
         .modify_vector(8'b0), .clr(global_reset), .clk(clk), .full(MEM_EX_Latches_full), .empty(MEM_EX_Latches_empty), .old_m_vector(/*TODO*/), 
             .dout({
                 inst_ptcid_MEM_EX_latch_out, wake_MEM_EX_latch_out, op1_MEM_EX_latch_out, op2_MEM_EX_latch_out, op3_MEM_EX_latch_out, op4_MEM_EX_latch_out, 
@@ -776,7 +787,7 @@ module TOP();
         .CS(CS_MEM_EX_latch_out),
         
         //outputs:
-        .valid_out(),
+        .valid_out(valid_out_EX_WB_latch_in), //TODO: implement
         .EIP_out(),
         .latched_EIP_out(),
         .IE_out(),

@@ -9,10 +9,9 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
                                                                                output [M_WIDTH*Q_LENGTH-1:0] old_m_vector,
                                                                                output [M_WIDTH+N_WIDTH-1:0] dout);
 
-    inv1$ i0(.out(read_inv), .in(rd));
 
       queuenm #(M_WIDTH, N_WIDTH, Q_LENGTH) q0(.m_din(m_din), .n_din(n_din), 
-                .new_m_vector(new_m_vector), .wr(wr), .rd(read_inv), .modify_vector(modify_vector), 
+                .new_m_vector(new_m_vector), .wr(wr), .rd(rd), .modify_vector(modify_vector), 
                 .clr(clr), .clk(clk), .full(full), .empty(empty), .old_m_vector(old_m_vector), .dout(dout));                                                                 
 
     integer file, cyc_cnt;
