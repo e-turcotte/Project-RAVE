@@ -309,7 +309,7 @@ cacheBankNew even$(
     .needP1(),
     .oneSize_out()
 );
-mshr mshre(.pAddress(pAddr_e), .ptcid_in(7'b0), .rd_or_sw_in(1'b0), .alloc(mshr_e_write), .dealloc(),
+mshr mshre(.pAddress(pAddr_e), .ptcid_in(7'b0), .rd_or_sw_in(1'b0), .alloc(mshr_e_write), .dealloc(/*todo make signal for this*/),
            .clk(clk), .clr(reset),
            .ptcid_out(), .rd_or_sw_out(), .mshr_hit(mshr_e_hit), .mshr_full(mshr_e_full));
 
@@ -376,7 +376,7 @@ cacheBankNew odd$(
     .needP1(),
     .oneSize_out()
 );
-mshr mshro(.pAddress(pAddr_o), .ptcid_in(7'b0), .rd_or_sw_in(1'b0), .alloc(mshr_o_write), .dealloc(),
+mshr mshro(.pAddress(pAddr_o), .ptcid_in(7'b0), .rd_or_sw_in(1'b0), .alloc(mshr_o_write), .dealloc(/*todo make signal for this*/),
            .clk(clk), .clr(reset),
            .ptcid_out(), .rd_or_sw_out(), .mshr_hit(mshr_o_hit), .mshr_full(mshr_o_full));
     
