@@ -1,5 +1,5 @@
-module brq (input [87:0] req,
-            input [10:0] reqv,
+module brq (input [87:0] req_data,
+            input [10:0] req,
             input freeIE, freeIO, freeDE, freeDO, freeB0, freeB1, freeB2, freeB3, freeDMA,
             input pull,
             
@@ -13,9 +13,9 @@ module brq (input [87:0] req,
     wire [7:0] req_in;
     wire incoming_reqs;
 
-    arbiter a0(.in({reqv}), .out(arb_wr_vector));
-    muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(8)) m0(.in({req}), .sel(arb_wr_vector), .out(req_in));
-    orn #(.NUM_INPUTS(11)) g0(.in({reqv}), .out(incoming_reqs));
+    arbiter a0(.in({req}), .out(arb_wr_vector));
+    muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(8)) m0(.in({req_data}), .sel(arb_wr_vector), .out(req_in));
+    orn #(.NUM_INPUTS(11)) g0(.in({req}), .out(incoming_reqs));
 
     and2$ g1(.out(ack[10]), .in0(arb_wr_vector[10]), .in1(rld[0]));
     and2$ g2(.out(ack[9]), .in0(arb_wr_vector[9]), .in1(rld[0]));

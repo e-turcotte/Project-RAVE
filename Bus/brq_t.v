@@ -12,8 +12,8 @@ module TOP;
     wire [3:0] send_out, dest_out;
     reg clk;
 
-    brq m0(.req({4'hc,destDMA,4'h0,destIE,4'h1,destIO,4'h4,destDEr,4'h6,destDEw,4'h5,destDOr,4'h7,destDOw,4'h8,destB0,4'h9,destB1,4'ha,destB2,4'hb,destB3}),
-           .reqv({reqDMA,reqIE,reqIO,reqDEr,reqDEw,reqDOr,reqDOw,reqB0,reqB1,reqB2,reqB3}),
+    brq m0(.req_data({4'hc,destDMA,4'h0,destIE,4'h1,destIO,4'h4,destDEr,4'h6,destDEw,4'h5,destDOr,4'h7,destDOw,4'h8,destB0,4'h9,destB1,4'ha,destB2,4'hb,destB3}),
+           .req({reqDMA,reqIE,reqIO,reqDEr,reqDEw,reqDOr,reqDOw,reqB0,reqB1,reqB2,reqB3}),
            .freeIE(freeIE), .freeIO(freeIO), .freeDE(freeDE), .freeDO(freeDO),
            .freeB0(freeB0), .freeB1(freeB1), .freeB2(freeB2), .freeB3(freeB3),
            .freeDMA(freeDMA),

@@ -12,7 +12,10 @@ module TOP;
     reg clk;
 
     bau m0(.sender(sender), .dest(dest), .req_ready(req_ready),
-           .rel({releaseIE,releaseIO,releaseDEr,releaseDOr,releaseDEw,releaseDOw,releaseB0,releaseB1,releaseB2,releaseB3,releaseDMA}),
+           .relIE(releaseIE), .relIO(releaseIO),
+           .relDEr(releaseDEr), .relDEw(releaseDEw), .relDOr(releaseDOr), .relDOw(releaseDOw),
+           .relB0(releaseB0), .relB1(releaseB1), .relB2(releaseB2), .relB3(releaseB3),
+           .relDMA(releaseDMA),
            .clr(clr), .clk(clk),
            .pull(pull),
            .grantIE(grantIE), .grantIO(grantIO),

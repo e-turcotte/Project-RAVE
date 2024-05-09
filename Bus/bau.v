@@ -1,6 +1,6 @@
 module bau(input [3:0] sender, dest,
            input req_ready,
-           input [10:0] rel,
+           input relIE, relIO, relDEr, relDEw, relDOr, relDOw, relB0, relB1, relB2, relB3, relDMA,
            
            input clr, clk,
            
@@ -55,7 +55,7 @@ module bau(input [3:0] sender, dest,
 
     orn #(.NUM_INPUTS(11)) g28(.in({grantIE,grantIO,grantDEr,grantDOr,grantDEw,grantDOw,grantB0,grantB1,grantB2,grantB3,grantDMA}), .out(busy));
     inv1$ g29(.out(idle), .in(busy));
-    equaln #(.WIDTH(11)) g30(.a({grantIE,grantIO,grantDEr,grantDOr,grantDEw,grantDOw,grantB0,grantB1,grantB2,grantB3,grantDMA}), .b({rel}), .eq(releaseBUS));
+    equaln #(.WIDTH(11)) g30(.a({grantIE,grantIO,grantDEr,grantDOr,grantDEw,grantDOw,grantB0,grantB1,grantB2,grantB3,grantDMA}), .b({relIE,relIO,relDEr,relDOr,relDEw,relDOw,relB0,relB1,relB2,relB3,relDMA}), .eq(releaseBUS));
     or2$ g31(.out(pull), .in0(idle), .in1(releaseBUS));
 
 endmodule
