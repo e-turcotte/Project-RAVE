@@ -394,7 +394,7 @@ SER SER_e(
     .full_block(SER_full_e),
     .free_block(),
 
-    .release(SER_i$_release_e),
+    .releases(SER_i$_release_e),
     .req(SER_i$_req_e),
 
     .valid_bus(valid_bus),
@@ -421,7 +421,7 @@ SER SER_o(
     .full_block(SER_full_o),
     .free_block(),
 
-    .release(SER_i$_release_o),
+    .releases(SER_i$_release_o),
     .req(SER_i$_req_o),
 
     .valid_bus(valid_bus),
