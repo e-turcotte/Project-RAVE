@@ -1,35 +1,35 @@
-module brq (input [3:0] destIE, destIO, destDEr, destDEw, destDOr, destDOw, destB0, destB1, destB2, destB3, destDMA,
-            input reqIE, reqIO, reqDEr, reqDEw, reqDOr, reqDOw, reqB0, reqB1, reqB2, reqB3, reqDMA,
+module brq (input [87:0] req,
+            input [10:0] reqv,
             input freeIE, freeIO, freeDE, freeDO, freeB0, freeB1, freeB2, freeB3, freeDMA,
             input pull,
             
             input clk, clr,
             
-            output ackIE, ackIO, ackDEr, ackDEw, ackDOr, ackDOw, ackB0, ackB1, ackB2, ackB3, ackDMA,
+            output [10:0] ack,
             output req_ready,
-            output [3:0] send_out);
+            output [3:0] send_out, dest_out);
 
     wire [10:0] arb_wr_vector, arb_rd_vector;
     wire [7:0] req_in;
     wire incoming_reqs;
 
-    arbiter a0(.in({reqDMA,reqIE,reqIO,reqDEr,reqDEw,reqDOr,reqDOw,reqB0,reqB1,reqB2,reqB3}), .out(arb_wr_vector));
-    muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(8)) m0(.in({4'hc,destDMA,4'h2,destIE,4'h1,destIO,4'h6,destDEr,4'h6,destDEw,4'h5,destDOr,4'h5,destDOw,4'h8,destB0,4'h9,destB1,4'ha,destB2,4'hb,destB3}), .sel(arb_wr_vector), .out(req_in));
-    orn #(.NUM_INPUTS(11)) g0(.in({reqIE,reqIO,reqDEr,reqDEw,reqDOr,reqDOw,reqB0,reqB1,reqB2,reqB3,reqDMA}), .out(incoming_reqs));
+    arbiter a0(.in({reqv}), .out(arb_wr_vector));
+    muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(8)) m0(.in({req}), .sel(arb_wr_vector), .out(req_in));
+    orn #(.NUM_INPUTS(11)) g0(.in({reqv}), .out(incoming_reqs));
 
-    and2$ g1(.out(ackDMA), .in0(arb_wr_vector[10]), .in1(rld[0]));
-    and2$ g2(.out(ackIE), .in0(arb_wr_vector[9]), .in1(rld[0]));
-    and2$ g3(.out(ackIO), .in0(arb_wr_vector[8]), .in1(rld[0]));
-    and2$ g4(.out(ackDEr), .in0(arb_wr_vector[7]), .in1(rld[0])); 
-    and2$ g5(.out(ackDEw), .in0(arb_wr_vector[6]), .in1(rld[0]));
-    and2$ g6(.out(ackDOr), .in0(arb_wr_vector[5]), .in1(rld[0])); 
-    and2$ g7(.out(ackDOw), .in0(arb_wr_vector[4]), .in1(rld[0]));
-    and2$ g8(.out(ackB0), .in0(arb_wr_vector[3]), .in1(rld[0]));
-    and2$ g9(.out(ackB1), .in0(arb_wr_vector[2]), .in1(rld[0]));
-    and2$ g10(.out(ackB2), .in0(arb_wr_vector[1]), .in1(rld[0]));
-    and2$ g11(.out(ackB3), .in0(arb_wr_vector[0]), .in1(rld[0]));
+    and2$ g1(.out(ack[10]), .in0(arb_wr_vector[10]), .in1(rld[0]));
+    and2$ g2(.out(ack[9]), .in0(arb_wr_vector[9]), .in1(rld[0]));
+    and2$ g3(.out(ack[8]), .in0(arb_wr_vector[8]), .in1(rld[0]));
+    and2$ g4(.out(ack[7]), .in0(arb_wr_vector[7]), .in1(rld[0])); 
+    and2$ g5(.out(ack[6]), .in0(arb_wr_vector[6]), .in1(rld[0]));
+    and2$ g6(.out(ack[5]), .in0(arb_wr_vector[5]), .in1(rld[0])); 
+    and2$ g7(.out(ack[4]), .in0(arb_wr_vector[4]), .in1(rld[0]));
+    and2$ g8(.out(ack[3]), .in0(arb_wr_vector[3]), .in1(rld[0]));
+    and2$ g9(.out(ack[2]), .in0(arb_wr_vector[2]), .in1(rld[0]));
+    and2$ g10(.out(ack[1]), .in0(arb_wr_vector[1]), .in1(rld[0]));
+    and2$ g11(.out(ack[0]), .in0(arb_wr_vector[0]), .in1(rld[0]));
 
-    wire rempty [0:3], rld [0:10];
+    wire [0:10] rld;
     wire [8:0] rout [0:10];
 
     regn #(.WIDTH(9)) r0(.din({incoming_reqs,req_in}), .ld(rld[0]), .clr(clr), .clk(clk), .dout(rout[0]));
@@ -59,15 +59,15 @@ module brq (input [3:0] destIE, destIO, destDEr, destDEw, destDOr, destDOw, dest
             inv1$ g14(.out(invsubdom1), .in(rout[i][1]));
             inv1$ g15(.out(invsubdom0), .in(rout[i][0]));
 
-            andn #(.NUM_INPUTS(7)) g16(.in({rout[i][8],invdom1,invdom0,rout[i][1],invsubdom0,freeIE,pull}), .out(readyIE));
-            andn #(.NUM_INPUTS(7)) g17(.in({rout[i][8],invdom1,invdom0,invsubdom1,rout[i][0],freeIO,pull}), .out(readyIO));
-            andn #(.NUM_INPUTS(7)) g18(.in({rout[i][8],invdom1,rout[i][2],rout[i][1],invsubdom0,freeDE,pull}), .out(readyDE));
-            andn #(.NUM_INPUTS(7)) g19(.in({rout[i][8],invdom1,rout[i][2],invsubdom1,rout[i][0],freeDO,pull}), .out(readyDO));
-            andn #(.NUM_INPUTS(7)) g20(.in({rout[i][8],rout[i][3],invdom0,invsubdom1,invsubdom0,freeB0,pull}), .out(readyB0));
-            andn #(.NUM_INPUTS(7)) g21(.in({rout[i][8],rout[i][3],invdom0,invsubdom1,rout[i][0],freeB1,pull}), .out(readyB1));
-            andn #(.NUM_INPUTS(7)) g22(.in({rout[i][8],rout[i][3],invdom0,rout[i][1],invsubdom0,freeB2,pull}), .out(readyB2));
-            andn #(.NUM_INPUTS(7)) g23(.in({rout[i][8],rout[i][3],invdom0,rout[i][1],rout[i][0],freeB3,pull}), .out(readyB3));
-            andn #(.NUM_INPUTS(7)) g24(.in({rout[i][8],rout[i][3],rout[i][2],invsubdom1,invsubdom0,freeDMA,pull}), .out(readyDMA));
+            andn #(.NUM_INPUTS(7)) g16(.in({rout[i][8],     invdom1,    invdom0,       1'b1, invsubdom0,  freeIE, pull}), .out(readyIE));
+            andn #(.NUM_INPUTS(7)) g17(.in({rout[i][8],     invdom1,    invdom0,       1'b1, rout[i][0],  freeIO, pull}), .out(readyIO));
+            andn #(.NUM_INPUTS(7)) g18(.in({rout[i][8],     invdom1, rout[i][2],       1'b1, invsubdom0,  freeDE, pull}), .out(readyDE));
+            andn #(.NUM_INPUTS(7)) g19(.in({rout[i][8],     invdom1, rout[i][2],       1'b1, rout[i][0],  freeDO, pull}), .out(readyDO));
+            andn #(.NUM_INPUTS(7)) g20(.in({rout[i][8],  rout[i][3],    invdom0, invsubdom1, invsubdom0,  freeB0, pull}), .out(readyB0));
+            andn #(.NUM_INPUTS(7)) g21(.in({rout[i][8],  rout[i][3],    invdom0, invsubdom1, rout[i][0],  freeB1, pull}), .out(readyB1));
+            andn #(.NUM_INPUTS(7)) g22(.in({rout[i][8],  rout[i][3],    invdom0, rout[i][1], invsubdom0,  freeB2, pull}), .out(readyB2));
+            andn #(.NUM_INPUTS(7)) g23(.in({rout[i][8],  rout[i][3],    invdom0, rout[i][1], rout[i][0],  freeB3, pull}), .out(readyB3));
+            andn #(.NUM_INPUTS(7)) g24(.in({rout[i][8],  rout[i][3], rout[i][2], invsubdom1, invsubdom0, freeDMA, pull}), .out(readyDMA));
 
             orn #(.NUM_INPUTS(9)) g25(.in({readyIE,readyIO,readyDE,readyDO,readyB0,readyB1,readyB2,readyB3,readyDMA}), .out(ready_vector[i]));
             
@@ -78,6 +78,7 @@ module brq (input [3:0] destIE, destIO, destDEr, destDEw, destDOr, destDOw, dest
 
     arbiter a1(.in(ready_vector), .out(arb_rd_vector));
     muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(4)) m1(.in({rout[10][7:4],rout[9][7:4],rout[8][7:4],rout[7][7:4],rout[6][7:4],rout[5][7:4],rout[4][7:4],rout[3][7:4],rout[2][7:4],rout[1][7:4],rout[0][7:4]}), .sel(arb_rd_vector), .out(send_out));
+    muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(4)) m2(.in({rout[10][3:0],rout[9][3:0],rout[8][3:0],rout[7][3:0],rout[6][3:0],rout[5][3:0],rout[4][3:0],rout[3][3:0],rout[2][3:0],rout[1][3:0],rout[0][3:0]}), .sel(arb_rd_vector), .out(dest_out));
 
     orn #(.NUM_INPUTS(2)) g27(.in({invvalid[10],arb_rd_vector[10]}), .out(rld[10]));
     orn #(.NUM_INPUTS(4)) g28(.in({invvalid[10],invvalid[9],arb_rd_vector[10],arb_rd_vector[9]}), .out(rld[9]));
