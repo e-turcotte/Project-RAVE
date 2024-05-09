@@ -248,7 +248,7 @@ inv1$ inx(DES_full_ne, DES_full_e);
 
 wire mshr_e_hit, mshr_e_full, mshr_e_write;
 
-cacheBankNew even$(
+cacheBank even$(
     .clk(clk),
     .rst(rst), 
     .set(set),
@@ -315,7 +315,7 @@ mshr mshre(.pAddress(pAddr_e), .ptcid_in(7'b0), .rd_or_sw_in(1'b0), .alloc(mshr_
 
 wire mshr_o_hit, mshr_o_full, mshr_o_write;
 
-cacheBankNew odd$(
+cacheBank odd$(
     .clk(clk),
     .rst(rst), 
     .set(set),
