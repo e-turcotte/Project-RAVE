@@ -2,23 +2,26 @@ module TOP;
 
     localparam CYCLE_TIME = 2.0;
 
-    reg [3:0] sender;
+    reg [3:0] sender, dest;
     reg req_ready;
-    reg releaseIE, releaseIO, releaseDE, releaseDO, releaseB0, releaseB1, releaseB2, releaseB3, releaseDMA;
+    reg releaseIE, releaseIO, releaseDEr, releaseDEw, releaseDOr, releaseDOw, releaseB0, releaseB1, releaseB2, releaseB3, releaseDMA;
     reg clr;
     wire pull;
-    wire grantIE, grantIO, grantDE, grantDO, grantB0, grantB1, grantB2, grantB3, grantDMA;
+    wire grantIE, grantIO, grantDEr, grantDEw, grantDOr, grantDOw, grantB0, grantB1, grantB2, grantB3, grantDMA;
+    wire recvIE, recvIO, recvDE, recvDO, recvB0, recvB1, recvB2, recvB3, recvDMA;
     reg clk;
 
-    bau m0(.sender(sender), .req_ready(req_ready),
-           .releaseIE(releaseIE), .releaseIO(releaseIO), .releaseDE(releaseDE), .releaseDO(releaseDO),
-           .releaseB0(releaseB0), .releaseB1(releaseB1), .releaseB2(releaseB2), .releaseB3(releaseB3),
-           .releaseDMA(releaseDMA),
+    bau m0(.sender(sender), .dest(dest), .req_ready(req_ready),
+           .rel({releaseIE,releaseIO,releaseDEr,releaseDOr,releaseDEw,releaseDOw,releaseB0,releaseB1,releaseB2,releaseB3,releaseDMA}),
            .clr(clr), .clk(clk),
            .pull(pull),
-           .grantIE(grantIE), .grantIO(grantIO), .grantDE(grantDE), .grantDO(grantDO),
+           .grantIE(grantIE), .grantIO(grantIO),
+           .grantDEr(grantDEr), .grantDEw(grantDEw), .grantDOr(grantDOr), .grantDOw(grantDOw),
            .grantB0(grantB0), .grantB1(grantB1), .grantB2(grantB2), .grantB3(grantB3),
-           .grantDMA(grantDMA));
+           .grantDMA(grantDMA),
+           .recvIE(recvIE), .recvIO(recvIO), .recvDE(recvDE), .recvDO(recvDO),
+           .recvB0(recvB0), .recvB1(recvB1), .recvB2(recvB2), .recvB3(recvB3),
+           .recvDMA(recvDMA));
     
     
 
@@ -33,13 +36,14 @@ module TOP;
         #CYCLE_TIME;
         clr = 1'b1;
         req_ready = 1'b1;
-        sender = 4'h2;
+        sender = 4'h0; dest = 4'hc;
         
-        releaseIE = 1'b0; releaseIO = 1'b0; releaseDE = 1'b0; releaseDO = 1'b0;
-        releaseB0 = 1'b0; releaseB1 = 1'b0; releaseB2 = 1'b0; releaseB3 = 1'b0;
+        releaseIE =  1'b0; releaseIO =  1'b0;
+        releaseDEr = 1'b0; releaseDEw = 1'b0; releaseDOr = 1'b0; releaseDOw = 1'b0;
+        releaseB0 =  1'b0; releaseB1 =  1'b0; releaseB2 =  1'b0; releaseB3 =  1'b0;
         releaseDMA = 1'b0;
         #CYCLE_TIME;
-        sender = 4'hc;
+        sender = 4'hc; dest = 4'hb;
         #CYCLE_TIME;
         #CYCLE_TIME;
         #CYCLE_TIME;
@@ -48,12 +52,27 @@ module TOP;
         #CYCLE_TIME;
         releaseIE = 1'b0;
         #CYCLE_TIME;
+        #CYCLE_TIME;
+        req_ready = 1'b0;
+        #CYCLE_TIME;
+        #CYCLE_TIME;
+        releaseDMA = 1'b1;
+        #CYCLE_TIME;
+        releaseDMA = 1'b0;
+        #CYCLE_TIME;
+        #CYCLE_TIME;
+        #CYCLE_TIME;
+        #CYCLE_TIME;
+        #CYCLE_TIME;
+        #CYCLE_TIME;
 
         $finish;
     end
 
     always @(posedge clk) begin
-        $display("HELD BY %b", {grantIE,grantIO,grantDE,grantDO,grantB0,grantB1,grantB2,grantB3,grantDMA});
+        $display("SENT BY %b", {grantIE,grantIO,grantDEr,grantDOr,grantDEw,grantDOw,grantB0,grantB1,grantB2,grantB3,grantDMA});
+        $display("RECV BY %b", {recvIE , recvIO,  recvDE,  recvDO,  recvDE,  recvDO, recvB0, recvB1, recvB2, recvB3, recvDMA});
+        $display("\n");
     end
 
     initial begin
