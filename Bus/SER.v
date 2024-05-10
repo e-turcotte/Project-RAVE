@@ -25,16 +25,25 @@ module SER(
     output req,
 
     //to BUS output
-    inout valid_bus,
-    inout [14:0] pAdr_bus,
-    inout [31:0] data_bus,
-    inout [3:0]return_bus,
-    inout [3:0] dest_bus,
-    inout rw_bus,
-    inout [15:0] size_bus
+    inout [72:0] BUS
 ); 
 wire[3:0] state;
 
+wire valid_bus;
+wire [14:0] pAdr_bus;
+wire [31:0] data_bus;
+wire [3:0]  return_bus;
+wire [3:0]  dest_bus;
+wire        rw_bus;
+wire [15:0] size_bus;
+
+assign BUS[0] = valid_bus;
+assign BUS[15:1] = pAdr_bus;
+assign BUS[47:16] = data_bus;
+assign BUS[51:48] = return_bus;
+assign BUS[55:52] = dest_bus;
+assign BUS[56] = rw_bus  ;
+assign BUS[72:57] = size_bus;
 
 wire valid_tri; //done
 wire [14:0] pAdr_tri; //done

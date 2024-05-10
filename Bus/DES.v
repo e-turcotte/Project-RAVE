@@ -14,19 +14,29 @@ module DES #(parameter loc = 0) (
     output [15:0] size,
 
     //from bus input
-    inout valid_bus,
-    inout [14:0] pAdr_bus,
-    inout [31:0] data_bus,
-    inout [3:0]return_bus,
-    inout [3:0] dest_bus,
-    inout rw_bus,
-    inout [15:0] size_bus,
+    inout [72:0] BUS,
 
 
     input setReciever,
     //to bau output
     output free_bau
 );
+
+wire valid_bus;
+wire [14:0] pAdr_bus;
+wire [31:0] data_bus;
+wire [3:0]  return_bus;
+wire [3:0]  dest_bus;
+wire        rw_bus;
+wire [15:0] size_bus;
+
+assign valid_bus =  BUS[0];
+assign pAdr_bus =   BUS[15:1];
+assign data_bus =   BUS[47:16];
+assign return_bus = BUS[51:48];
+assign dest_bus =   BUS[55:52];
+assign rw_bus =     BUS[56];
+assign size_bus =   BUS[72:57];
 
 wire[3:0] location;
 assign location = loc;
