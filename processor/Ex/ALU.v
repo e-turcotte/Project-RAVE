@@ -518,8 +518,8 @@ module ADD_alu(
     wire[31:0] adderResult;
     wire[3:0] adder_af;
     wire nulls;
-    mux8_n #(32) m1(mux_res, OP2[31:0], 32'd2, 32'd4, 0, 32'd6, 32'hFFFF_FFFE, 32'hFFFF_FFFC, 0, MUX_ADDER_IMM[0],MUX_ADDER_IMM[1], MUX_ADDER_IMM[2]);
-    kogeAdder #(32) a1(adderResult, cf_out, OP1[31:0], mux_res, 1'b0);
+    //mux8_n #(32) m1(mux_res, OP2[31:0], 32'd2, 32'd4, 0, 32'd6, 32'hFFFF_FFFE, 32'hFFFF_FFFC, 0, MUX_ADDER_IMM[0],MUX_ADDER_IMM[1], MUX_ADDER_IMM[2]);
+    kogeAdder #(32) a1(adderResult, cf_out, OP1[31:0], OP2[31:0], 1'b0);
     
     kogeAdder #(4) a2(adder_af, nulls, mux_res[7:4], OP1[7:4], 1'b0);
     equaln #(4) e1(adder_af[3:0], adderResult[7:4], af_outn);
