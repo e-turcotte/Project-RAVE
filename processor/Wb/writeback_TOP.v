@@ -54,6 +54,9 @@ module writeback_TOP(
     output [3:0] final_IE_type
     );
 
+    assign inst_ptcid_out = inst_ptcid_in;
+
+
     mux2n #(16) mxn(res1, {{48{1'b0}},inp1[47:32]}, inp1, LD_EIP_CS);
     assign res2 = inp2;
     assign res3 = inp3;
