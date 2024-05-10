@@ -85,7 +85,7 @@ module rrag (input valid_in,
 
     genvar i;
     generate
-        for (i = 0; i < 13; i = i + 1) begin : sized_ld_dest_slices
+        for (i = 0; i < 14; i = i + 1) begin : sized_ld_dest_slices
             or4$ g1(.out(collated_dest_vector[i]), .in0(dest1_in[i]), .in1(dest2_in[i]), .in2(dest3_in[i]), .in3(dest4_in[i]));
         end
     endgenerate
@@ -137,10 +137,10 @@ module rrag (input valid_in,
     assign dest3_out = dest3_in;
     assign dest4_out = dest4_in;
 
-    assign re1_ld_out = res1_ld_in;
-    assign re2_ld_out = res2_ld_in;
-    assign re3_ld_out = res3_ld_in;
-    assign re4_ld_out = res4_ld_in;
+    assign res1_ld_out = res1_ld_in;
+    assign res2_ld_out = res2_ld_in;
+    assign res3_ld_out = res3_ld_in;
+    assign res4_ld_out = res4_ld_in;
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({regformem4,32'h00000000}), .sel(is_rep_in), .out(rep_num));
 
