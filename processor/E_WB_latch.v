@@ -15,7 +15,7 @@ module E_WB_latch (
             input [17:0] eflags_in,
             input [15:0] CS_in, 
             input [36:0] P_OP_in,
-            input res1_wb_in, res2_wb, res3_wb, res4_wb,
+            input res1_wb_in, res2_wb_in, res3_wb_in, res4_wb_in,
             input [63:0] res1_in, res2_in, res3_in, res4_in, //done
             input [127:0] res1_ptcinfo_in, res2_ptcinfo_in, res3_ptcinfo_in, res4_ptcinfo_in,
             input res1_is_reg_in, res2_is_reg_in, res3_is_reg_in, res4_is_reg_in, //done
@@ -51,7 +51,7 @@ module E_WB_latch (
             output BR_valid_out, //
             output BR_taken_out, //
             output BR_correct_out,  //
-            output [31:0] BR_FIP_out, BR_FIP_p1_out,
+            output [31:0] BR_FIP_out, BR_FIP_p1_out
         );
     
     integer file, cyc_cnt;
@@ -73,9 +73,9 @@ module E_WB_latch (
     regn #(.WIDTH(16))  r11(.din(CS_in), .ld(ld), .clr(clr), .clk(clk), .dout(CS_out));
     regn #(.WIDTH(37))  r12(.din(P_OP_in), .ld(ld), .clr(clr), .clk(clk), .dout(P_OP_out));
     regn #(.WIDTH(1))   r13(.din(res1_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_wb_out));
-    regn #(.WIDTH(1))   r14(.din(res2_wb), .ld(ld), .clr(clr), .clk(clk), .dout(res2_wb_out));
-    regn #(.WIDTH(1))   r15(.din(res3_wb), .ld(ld), .clr(clr), .clk(clk), .dout(res3_wb_out));
-    regn #(.WIDTH(1))   r16(.din(res4_wb), .ld(ld), .clr(clr), .clk(clk), .dout(res4_wb_out));
+    regn #(.WIDTH(1))   r14(.din(res2_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_wb_out));
+    regn #(.WIDTH(1))   r15(.din(res3_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_wb_out));
+    regn #(.WIDTH(1))   r16(.din(res4_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_wb_out));
     regn #(.WIDTH(64))  r17(.din(res1_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_out));
     regn #(.WIDTH(64))  r18(.din(res2_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_out));
     regn #(.WIDTH(64))  r19(.din(res3_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_out));
@@ -106,7 +106,7 @@ module E_WB_latch (
     regn #(.WIDTH(1))   r44(.din(BR_correct_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_correct_out));
     regn #(.WIDTH(32))  r45(.din(BR_FIP_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_FIP_out));
     regn #(.WIDTH(32))  r46(.din(BR_FIP_p1_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_FIP_p1_out));
-    
+
 
     always @(posedge clk) begin
         $fdisplay(file, "cycle number: %d", cyc_cnt);

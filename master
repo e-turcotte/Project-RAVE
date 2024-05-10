@@ -44,13 +44,14 @@ processor/Ex/EFLAG.v
 processor/Ex/SKIPGEN.v
 processor/Ex/ALU.v
 
-// processor/Wb/writeback_TOP.v
-// processor/Wb/bypassmech.v
-// processor/Wb/reg_wb_cell.v
+processor/Wb/writeback_TOP.v
+processor/Wb/bypassmech.v
+processor/Wb/reg_wb_cell.v
 
 processor/D_RrAg_Latches.v
 processor/RrAg_MEM_Latch.v
 processor/MEM_EX_Latches.v
+processor/E_WB_latch.v
 
 local-lib/nbitdevices/decodern.v
 local-lib/nbitdevices/equaln.v

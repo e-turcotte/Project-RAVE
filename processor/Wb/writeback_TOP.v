@@ -54,6 +54,9 @@ module writeback_TOP(
     output [3:0] final_IE_type
     );
 
+    assign inst_ptcid_out = inst_ptcid_in;
+
+
     mux2n #(16) mxn(res1, {{48{1'b0}},inp1[47:32]}, inp1, LD_EIP_CS);
     assign res2 = inp2;
     assign res3 = inp3;
@@ -127,8 +130,8 @@ module writeback_TOP(
 
     or3$ o2(LD_EIP_CS, P_OP[36], P_OP[35], P_OP[32]);
 
-    mux_tristate #(.SEL_WIDTH(4), .DATA_WIDTH(64)) t1(.in({inp1,inp2,inp3,inp4}), .sel({inp1_isMem,inp2_isMem,inp3_isMem,inp4_isMem}), .out(mem_data));
-    mux_tristate #(.SEL_WIDTH(4), .DATA_WIDTH(32)) t2(.in({inp1_dest,inp2_dest,inp3_dest,inp4_dest}), .sel({inp1_isMem,inp2_isMem,inp3_isMem,inp4_isMem}), .out(mem_addr));
+    muxnm_tristate #(.SEL_WIDTH(4), .DATA_WIDTH(64)) t1(.in({inp1,inp2,inp3,inp4}), .sel({inp1_isMem,inp2_isMem,inp3_isMem,inp4_isMem}), .out(mem_data));
+    muxnm_tristate #(.SEL_WIDTH(4), .DATA_WIDTH(32)) t2(.in({inp1_dest,inp2_dest,inp3_dest,inp4_dest}), .sel({inp1_isMem,inp2_isMem,inp3_isMem,inp4_isMem}), .out(mem_addr));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(2)) m0(.in({2'b11,ressize}), .sel(LD_EIP_CS), .out(memsize));
 
     mux2n #(32) m1(FIP_e   , {BR_FIP_in[31:4],4'd0}, {BR_FIP_p1_in, 4'd0}, BR_FIP_in[5]);

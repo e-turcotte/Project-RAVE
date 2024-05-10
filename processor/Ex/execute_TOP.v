@@ -86,6 +86,8 @@ module execute_TOP(
     output stall
 );
 
+    assign stall = fwd_stall;
+
     wire cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_val;
     wire af, cf, of, sf, pf, zf, df;
     assign EIP_out = EIP_in;
