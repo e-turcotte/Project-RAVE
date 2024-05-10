@@ -49,7 +49,8 @@
     reg [31:0] EIP_init;
 
     initial begin
-
+        D_valid = 1'b1;
+        packet = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
         global_reset = 0;
         global_set = 1;
         global_init = 0;
@@ -65,8 +66,6 @@
         // #(CYCLE_TIME)
 
         // global_init = 0;
-        packet = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
-        D_valid = 1'b1;
 
         #(CYCLE_TIME)
         #(CYCLE_TIME)
