@@ -114,7 +114,7 @@ module mem (input valid_in,
     assign res3_ld_out = res3_ld_in;
     assign res4_ld_out = res4_ld_in;
 
-    assign inst_ptcid_out = inst_ptcid_in;
+    assign inst_ptcid_out = inst_ptcid_in;  
     
     assign valid_out = valid_in;
     assign eip_out = eip_in;
