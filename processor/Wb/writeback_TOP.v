@@ -57,7 +57,7 @@ module writeback_TOP(
     assign inst_ptcid_out = inst_ptcid_in;
 
 
-    mux2n #(16) mxn(res1, {{48{1'b0}},inp1[47:32]}, inp1, LD_EIP_CS);
+    mux2n #(16) mxn(res1, inp1, {{48{1'b0}},inp1[47:32]}, LD_EIP_CS);
     assign res2 = inp2;
     assign res3 = inp3;
     assign res4 = inp4;
