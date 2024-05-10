@@ -109,10 +109,10 @@ module mem (input valid_in,
               .dest1_addr(dest1_addr), .dest2_addr(dest2_addr), .dest3_addr(dest3_addr), .dest4_addr(dest4_addr),
               .dest1_type({dest1_is_mem,dest1_is_seg,dest1_is_reg}), .dest2_type({dest2_is_mem,dest2_is_seg,dest2_is_reg}), .dest3_type({dest3_is_mem,dest3_is_seg,dest3_is_reg}), .dest4_type({dest4_is_mem,dest4_is_seg,dest4_is_reg}));
     
-    assign re1_ld_out = res1_ld_in;
-    assign re2_ld_out = res2_ld_in;
-    assign re3_ld_out = res3_ld_in;
-    assign re4_ld_out = res4_ld_in;
+    assign res1_ld_out = res1_ld_in;
+    assign res2_ld_out = res2_ld_in;
+    assign res3_ld_out = res3_ld_in;
+    assign res4_ld_out = res4_ld_in;
 
     assign inst_ptcid_out = inst_ptcid_in;
     
