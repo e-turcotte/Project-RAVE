@@ -570,12 +570,14 @@
         .is_imm_in(is_imm_D_RrAg_latch_out), .imm_in(imm_D_RrAg_latch_out), .mem1_rw_in(mem1_rw_D_RrAg_latch_out), .mem2_rw_in(mem2_rw_D_RrAg_latch_out), .latched_eip_in(latched_eip_D_RrAg_latch_out),
         .eip_in(eip_D_RrAg_latch_out), .IE_in(IE_D_RrAg_latch_out), .IE_type_in(IE_type_D_RrAg_latch_out), .BR_pred_target_in(BR_pred_target_D_RrAg_latch_out), .BR_pred_T_NT_in(BR_pred_T_NT_D_RrAg_latch_out),
         .wb_data1(res1_WB_RRAG_out), .wb_data2(res2_WB_RRAG_out), .wb_data3(res3_WB_RRAG_out), .wb_data4(res4_WB_RRAG_out), //TODO: connect from WB
-        .wb_segdata1(res1_WB_RRAG_out), .wb_segdata2(res2_WB_RRAG_out), .wb_segdata3(res3_WB_RRAG_out), .wb_segdata4(res4_WB_RRAG_out),
+        .wb_segdata1(res1_WB_RRAG_out[15:0]), .wb_segdata2(res2_WB_RRAG_out[15:0]), .wb_segdata3(res3_WB_RRAG_out[15:0]), .wb_segdata4(res4_WB_RRAG_out[15:0]),
         .wb_addr1(reg_addr_WB_RRAG_out[11:9]), .wb_addr2(reg_addr_WB_RRAG_out[8:6]), .wb_addr3(reg_addr_WB_RRAG_out[5:3]), .wb_addr4(reg_addr_WB_RRAG_out[2:0]),
         .wb_segaddr1(seg_addr_WB_RRAG_out[11:9]), .wb_segaddr2(seg_addr_WB_RRAG_out[8:6]), .wb_segaddr3(seg_addr_WB_RRAG_out[5:3]), .wb_segaddr4(seg_addr_WB_RRAG_out[2:0]),
         .wb_opsize(ressize_WB_RRAG_out), .wb_regld(reg_ld_WB_RRAG_out), .wb_segld(seg_ld_WB_RRAG_out), .wb_inst_ptcid(inst_ptcid_out_WB_RRAG_out),
         .fwd_stall(MEM_stall_out), //recieve from MEM
         .ptc_clear(1'b1), //TODO: from IDTR
+
+        
 
         //outputs
         .valid_out(valid_RrAg_MEM_latch_in), .stall(/*RrAg_stall_out*/), //send to D_RrAg_Queued_Latches
