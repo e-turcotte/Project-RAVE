@@ -12,8 +12,8 @@ module queuenm #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=16) (input [M_WIDTH-1:
     wire [Q_LENGTH-1:0] ptr_wr, new_ptr_wr, rot_ptr_wr, ptr_rd, new_ptr_rd, rot_ptr_rd;
     wire invfull, invempty, ldptr_wr, ldptr_rd;
 
-    regn #(.WIDTH(Q_LENGTH)) ptr_wr_reg(.din(new_ptr_wr), .ld(1'b1), .clr(1'b1), .clk(clk), .dout(ptr_wr));
-    regn #(.WIDTH(Q_LENGTH)) ptr_rd_reg(.din(new_ptr_rd), .ld(1'b1), .clr(1'b1), .clk(clk), .dout(ptr_rd));
+    ptr_regn #(.WIDTH(Q_LENGTH)) ptr_wr_reg(.din(new_ptr_wr), .ld(1'b1), .clr(1'b1), .clk(clk), .dout(ptr_wr));
+    ptr_regn #(.WIDTH(Q_LENGTH)) ptr_rd_reg(.din(new_ptr_rd), .ld(1'b1), .clr(1'b1), .clk(clk), .dout(ptr_rd));
 
     lrotn_fixed #(.WIDTH(Q_LENGTH), .ROT_AMNT(1)) s0(.in(ptr_wr), .out(rot_ptr_wr));
     lrotn_fixed #(.WIDTH(Q_LENGTH), .ROT_AMNT(1)) s1(.in(ptr_rd), .out(rot_ptr_rd));
