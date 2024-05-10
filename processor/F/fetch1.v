@@ -247,6 +247,7 @@ inv1$ invx(DES_full_ne, DES_full_e);
 inv1$ inx(DES_full_ne, DES_full_e);
 
 wire mshr_e_hit, mshr_e_full, mshr_e_write;
+wire [14:0] mshr_e_paddr;
 
 cacheBank even$(
     .clk(clk),
@@ -279,8 +280,8 @@ cacheBank even$(
 
     .AQ_READ(),
     .MSHR_valid(/*TODO*/),
-    .MSHR_pAddress(/*TODO*/),
-    .MSHR_write(),
+    .MSHR_pAddress(mshr_e_paddr),
+    .MSHR_write(mshr_e_write),
 
     .SER_valid0(1'b0),                  
     .SER_data0(),                   
@@ -309,11 +310,12 @@ cacheBank even$(
     .needP1(),
     .oneSize_out()
 );
-mshr mshre(.pAddress(pAddr_e), .ptcid_in(7'b0), .rd_or_sw_in(1'b0), .alloc(mshr_e_write), .dealloc(/*todo make signal for this*/),
+mshr mshre(.pAddress(mshr_e_paddr), .ptcid_in(7'b0), .rd_or_sw_in(1'b0), .alloc(mshr_e_write), .dealloc(/*todo make signal for this*/),
            .clk(clk), .clr(reset),
            .ptcid_out(), .rd_or_sw_out(), .mshr_hit(mshr_e_hit), .mshr_full(mshr_e_full));
 
 wire mshr_o_hit, mshr_o_full, mshr_o_write;
+wire [14:0] mshr_o_paddr;
 
 cacheBank odd$(
     .clk(clk),
@@ -346,7 +348,7 @@ cacheBank odd$(
 
     .AQ_READ(),
     .MSHR_valid(/*TODO*/),
-    .MSHR_pAddress(/*TODO*/),
+    .MSHR_pAddress(mshr_o_paddr),
     .MSHR_write(mshr_o_write),
 
     .SER_valid0(1'b0),                  
@@ -376,7 +378,7 @@ cacheBank odd$(
     .needP1(),
     .oneSize_out()
 );
-mshr mshro(.pAddress(pAddr_o), .ptcid_in(7'b0), .rd_or_sw_in(1'b0), .alloc(mshr_o_write), .dealloc(/*todo make signal for this*/),
+mshr mshro(.pAddress(mshr_o_paddr), .ptcid_in(7'b0), .rd_or_sw_in(1'b0), .alloc(mshr_o_write), .dealloc(/*todo make signal for this*/),
            .clk(clk), .clr(reset),
            .ptcid_out(), .rd_or_sw_out(), .mshr_hit(mshr_o_hit), .mshr_full(mshr_o_full));
     
