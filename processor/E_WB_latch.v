@@ -15,7 +15,7 @@ module E_WB_latch (
             input [17:0] eflags_in,
             input [15:0] CS_in, 
             input [36:0] P_OP_in,
-            input res1_wb_in, res2_wb, res3_wb, res4_wb,
+            input res1_wb_in, res2_wb_in, res3_wb_in, res4_wb_in,
             input [63:0] res1_in, res2_in, res3_in, res4_in, //done
             input [127:0] res1_ptcinfo_in, res2_ptcinfo_in, res3_ptcinfo_in, res4_ptcinfo_in,
             input res1_is_reg_in, res2_is_reg_in, res3_is_reg_in, res4_is_reg_in, //done
@@ -106,7 +106,7 @@ module E_WB_latch (
     regn #(.WIDTH(1))   r44(.din(BR_correct_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_correct_out));
     regn #(.WIDTH(32))  r45(.din(BR_FIP_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_FIP_out));
     regn #(.WIDTH(32))  r46(.din(BR_FIP_p1_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_FIP_p1_out));
-    
+
 
     always @(posedge clk) begin
         $fdisplay(file, "cycle number: %d", cyc_cnt);
