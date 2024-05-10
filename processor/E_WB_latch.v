@@ -73,9 +73,9 @@ module E_WB_latch (
     regn #(.WIDTH(16))  r11(.din(CS_in), .ld(ld), .clr(clr), .clk(clk), .dout(CS_out));
     regn #(.WIDTH(37))  r12(.din(P_OP_in), .ld(ld), .clr(clr), .clk(clk), .dout(P_OP_out));
     regn #(.WIDTH(1))   r13(.din(res1_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_wb_out));
-    regn #(.WIDTH(1))   r14(.din(res2_wb), .ld(ld), .clr(clr), .clk(clk), .dout(res2_wb_out));
-    regn #(.WIDTH(1))   r15(.din(res3_wb), .ld(ld), .clr(clr), .clk(clk), .dout(res3_wb_out));
-    regn #(.WIDTH(1))   r16(.din(res4_wb), .ld(ld), .clr(clr), .clk(clk), .dout(res4_wb_out));
+    regn #(.WIDTH(1))   r14(.din(res2_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_wb_out));
+    regn #(.WIDTH(1))   r15(.din(res3_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_wb_out));
+    regn #(.WIDTH(1))   r16(.din(res4_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_wb_out));
     regn #(.WIDTH(64))  r17(.din(res1_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_out));
     regn #(.WIDTH(64))  r18(.din(res2_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_out));
     regn #(.WIDTH(64))  r19(.din(res3_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_out));
