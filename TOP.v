@@ -830,7 +830,7 @@
 
     execute_TOP e1 (
         .clk(clk),
-        .fwd_stall(), //TODO: recieve from WB
+        .fwd_stall(fwd_stall_WB_EX_out), //TODO: recieve from WB
         .valid_in(valid_MEM_EX_latch_out),
         .latch_empty(MEM_EX_Latches_empty),
         .EIP_in(EIP_MEM_EX_latch_out),
@@ -921,7 +921,6 @@
         .clk(clk),
 
         .valid_in(valid_EX_WB_latch_in),
-        .fwd_stall(fwd_stall_WB_EX_out),
         .EIP_in(EIP_EX_WB_latch_in),
         .latched_EIP_in(), 
         .IE_in(IE_EX_WB_latch_in),
@@ -935,7 +934,7 @@
         .CS_in(CS_EX_WB_latch_in), 
         .P_OP_in(P_OP_EX_WB_latch_in),
 
-        .res1_wb_in(inp1_wb_EX_WB_latch_in), .res2_wb(inp2_wb_EX_WB_latch_in), .res3_wb(inp3_wb_EX_WB_latch_in), .res4_wb(inp4_wb_EX_WB_latch_in),
+        .res1_wb_in(inp1_wb_EX_WB_latch_in), .res2_wb_in(inp2_wb_EX_WB_latch_in), .res3_wb_in(inp3_wb_EX_WB_latch_in), .res4_wb_in(inp4_wb_EX_WB_latch_in),
         .res1_in(inp1_EX_WB_latch_in), .res2_in(inp2_EX_WB_latch_in), .res3_in(inp3_EX_WB_latch_in), .res4_in(inp4_EX_WB_latch_in), //done
         .res1_ptcinfo_in(inp1_ptcinfo_EX_WB_latch_in), .res2_ptcinfo_in(inp2_ptcinfo_EX_WB_latch_in), 
         .res3_ptcinfo_in(inp3_ptcinfo_EX_WB_latch_in), .res4_ptcinfo_in(inp4_ptcinfo_EX_WB_latch_in),
