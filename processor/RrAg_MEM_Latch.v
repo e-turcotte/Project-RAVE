@@ -212,7 +212,7 @@ module RrAg_MEM_latch (
         $fdisplay(file, "\t\t BR_pred_T_NT: %h", BR_pred_T_NT_out);
         
 		
-		$fdisplay("\n=================================================\n");    
+		$fdisplay(file, "\n=================================================\n");    
 	end
 
 endmodule
