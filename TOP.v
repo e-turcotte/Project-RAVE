@@ -1,4 +1,4 @@
-module TOP();
+ TOP();
     localparam CYCLE_TIME = 15.0;
     
     integer file;
@@ -977,50 +977,61 @@ module TOP();
     
 
     //TODO: implement BP_alias from out of decode to WB !!!!!!!!!!!
-    // writeback_TOP(
-    //     .clk(), .set(), rst(),
-    //     .valid_in(),
-    //     .EIP_in(),
-    //     .IE_in(),
-    //     .IE_type_in(),
-    //     .BR_pred_target_in(),
-    //     .BR_pred_T_NT_in(),
-    //     .BP_alias_in(), //TODO
-    //     .inst_ptcid_in(),
-    //     .inp1(), .inp2(), .inp3(), .inp4(),
-    //     .inp1_isReg(),  .inp2_isReg(), .inp3_isReg(),  .inp4_isReg(),
-    //     .inp1_isSeg(),  .inp2_isSeg(), .inp3_isSeg(),  .inp4_isSeg(),
-    //     .inp1_isMem(),  .inp2_isMem(), .inp3_isMem(),  .inp4_isMem(),  
-    //     .inp1_dest(), .inp2_dest(), .inp3_dest(), .inp4_dest(),
-    //     .inpsize(),
-    //     .inp1_wb(), .inp2_wb(), .inp3_wb(), .inp4_wb(),
-    //     .inp1_ptcinfo(), .inp2_ptcinfo(), .inp3_ptcinfo(), .inp4_ptcinfo(),
-    //     .BR_valid_in(), .BR_taken_in(), .BR_correct_in(),
-    //     .BR_FIP_in(), .BR_FIP_p1_in(),
-    //     .CS_in(),
-    //     .EFLAGS_in(),
-    //     .P_OP(),
-    //     .interrupt_in(),
-    //     .is_rep_in(),
+    writeback_TOP(
+        .clk(),
+        .valid_in(),
+        .EIP_in(),
+        .latched_EIP_in(),
+        .IE_in(),                           //interrupt or exception signal
+        .IE_type_in(),
+        .BR_pred_target_in(),
+        .BR_pred_T_NT_in(),
+        .BP_alias_in(),
+        .inst_ptcid_in(),
+        .set(), .rst(),
 
-    //     //output
-    //     .valid_out(),
-    //     .res1(), res2(), .res3(), .res4(), .mem_data(),
-    //     .res1_ptcinfo(), .res2_ptcinfo(), .res3_ptcinfo(), .res4_ptcinfo(),
-    //     .ressize(), .memsize(),
-    //     .reg_addr(), .seg_addr(),
-    //     .mem_addr(),
-    //     .reg_ld(), .seg_ld(),
-    //     .mem_ld(),
-    //     .inst_ptcid_out(),
-    //     .newFIP_e(), .newFIP_o(), .newEIP(), 
-    //     .BR_valid(), .BR_taken(), .BR_correct(),
-    //     .WB_BP_update_alias(), //TODO
-    //     .is_resteer(),
-    //     .CS_out(),
-    //     .final_IE_val(),
-    //     .final_IE_type()
-    // );
+        .inp1(), .inp2(), .inp3, .inp4(),
+        .inp1_isReg(),  .inp2_isReg(), .inp3_isReg(),  .inp4_isReg(),
+        .inp1_isSeg(),  .inp2_isSeg(), .inp3_isSeg(),  .inp4_isSeg(),
+        .inp1_isMem(),  .inp2_isMem(), .inp3_isMem(),  .inp4_isMem(),  
+        .inp1_dest(), .inp2_dest(), .inp3_dest(), .inp4_dest(),
+        .inpsize(),
+        .inp1_wb(), .inp2_wb(), .inp3_wb(), .inp4_wb(),
+        .inp1_ptcinfo(), .inp2_ptcinfo(), .inp3_ptcinfo(), .inp4_ptcinfo(),
+
+        .BR_valid_in(), .BR_taken_in(), .BR_correct_in(),
+        .BR_FIP_in(), .BR_FIP_p1_in(),
+        .CS_in(),
+        .EFLAGS_in(),
+        .P_OP(),
+
+        .interrupt_in(),
+
+        .wbaq_full(), .is_rep(),
+
+        .valid_out(),
+
+        .res1(), .res2(), .res3(), .res4(), .mem_data(), //done
+        .res1_ptcinfo(), .res2_ptcinfo(), .res3_ptcinfo(), .res4_ptcinfo(),
+        .ressize(), .memsize(),
+        .reg_addr(), .seg_addr(),
+        .mem_addr(), //done
+        .reg_ld(), .seg_ld(),
+        .mem_ld(),
+        .inst_ptcid_out(),
+
+        .newFIP_e(), .newFIP_o(), .newEIP(), //done 
+        .latched_EIP_out(),
+        .BR_valid(), .BR_taken(), .BR_correct(), //done
+        .WB_BP_update_alias(),
+        .is_resteer(),
+        .CS_out(), //done
+
+        .stall(),
+
+        .final_IE_val(),
+        .final_IE_type()
+    );
 
     ///////////////////////////////////////////////////////////
     //     Outputs from Ex that go into the EX_WB_Latch:    //  
@@ -1079,4 +1090,3 @@ module TOP();
     wire [36:0] P_OP_EX_WB_latch_out;
     wire is_rep_EX_WB_latch_out;
 
-endmodule
