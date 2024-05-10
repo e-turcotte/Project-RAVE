@@ -14,13 +14,13 @@ module DES #(parameter loc = 0) (
     output [15:0] size,
 
     //from bus input
-    input valid_bus,
-    input [14:0] pAdr_bus,
-    input [31:0] data_bus,
-    input [3:0]return_bus,
-    input [3:0] dest_bus,
-    input rw_bus,
-    input [15:0] size_bus,
+    inout valid_bus,
+    inout [14:0] pAdr_bus,
+    inout [31:0] data_bus,
+    inout [3:0]return_bus,
+    inout [3:0] dest_bus,
+    inout rw_bus,
+    inout [15:0] size_bus,
 
 
     input setReciever,
