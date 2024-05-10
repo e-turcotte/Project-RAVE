@@ -738,7 +738,7 @@ module TOP();
                           };
     
     wire MEM_EX_Latch_RD; 
-    nand2$ n2001 (.out(MEM_EX_Latch_RD), .in0(valid_out_EX_WB_latch_in), .in1(EX_stall_out));
+    nand2$ n2001 (.out(MEM_EX_Latch_RD), .in0(valid_EX_WB_latch_in), .in1(EX_stall_out));
 
     MEM_EX_Queued_Latches #(.M_WIDTH(m_size_MEM_EX), .N_WIDTH(n_size_MEM_EX), .Q_LENGTH(8)) q5 (
         .m_din(m_din_MEM_EX), .n_din(n_din_MEM_EX), .new_m_vector(/*TODO*/), 
@@ -803,51 +803,100 @@ module TOP();
         .CS(CS_MEM_EX_latch_out),
         
         //outputs:
-        .valid_out(valid_out_EX_WB_latch_in), //TODO: implement
-        .EIP_out(),
+        .valid_out(valid_EX_WB_latch_in), //TODO: implement
+        .EIP_out(EIP_EX_WB_latch_in),
         .latched_EIP_out(),
-        .IE_out(),
-        .IE_type_out(),
-        .BR_pred_target_out(),
-        .BR_pred_T_NT_out(),
-        .PTCID_out(),
-        .is_rep_out(),
+        .IE_out(IE_EX_WB_latch_in),
+        .IE_type_out(IE_type_EX_WB_latch_in),
+        .BR_pred_target_out(BR_pred_target_EX_WB_latch_in),
+        .BR_pred_T_NT_out(BR_pred_T_NT_EX_WB_latch_in),
+        .PTCID_out(inst_ptcid_EX_WB_latch_in),
+        .is_rep_out(is_rep_EX_WB_latch_in),
 
-        .eflags(),
-        .CS_out(),
-        .P_OP_out(),
+        .eflags(EFLAGS_EX_WB_latch_in),
+        .CS_out(CS_EX_WB_latch_in),
+        .P_OP_out(P_OP_EX_WB_latch_in),
         
-        .res1_wb(),         .res2_wb(),         .res3_wb(),         .res4_wb(),
-        .res1(),            .res2(),            .res3(),            .res4(),
-        .res1_ptcinfo(),    .res2_ptcinfo(),    .res3_ptcinfo(),    .res4_ptcinfo(),
-        .res1_is_reg_out(), .res2_is_reg_out(), .res3_is_reg_out(), .res4_is_reg_out(), 
-        .res1_is_seg_out(), .res2_is_seg_out(), .res3_is_seg_out(), .res4_is_seg_out(), 
-        .res1_is_mem_out(), .res2_is_mem_out(), .res3_is_mem_out(), .res4_is_mem_out(),
-        .res1_dest(),       .res2_dest(),       .res3_dest(),       .res4_dest(), 
-        .ressize(), 
+        .res1_wb(inp1_wb_EX_WB_latch_in),            .res2_wb(inp2_wb_EX_WB_latch_in),
+        .res3_wb(inp3_wb_EX_WB_latch_in),            .res4_wb(inp4_wb_EX_WB_latch_in),
+        .res1(inp1_EX_WB_latch_in),                  .res2(inp2_EX_WB_latch_in),            
+        .res3(inp3_EX_WB_latch_in),                  .res4(inp4_EX_WB_latch_in),
+        .res1_ptcinfo(inp1_ptcinfo_EX_WB_latch_in),  .res2_ptcinfo(inp2_ptcinfo_EX_WB_latch_in),    
+        .res3_ptcinfo(inp3_ptcinfo_EX_WB_latch_in),  .res4_ptcinfo(inp4_ptcinfo_EX_WB_latch_in),
+        .res1_is_reg_out(inp1_isReg_EX_WB_latch_in), .res2_is_reg_out(inp2_isReg_EX_WB_latch_in), 
+        .res3_is_reg_out(inp3_isReg_EX_WB_latch_in), .res4_is_reg_out(inp4_isReg_EX_WB_latch_in), 
+        .res1_is_seg_out(inp1_isSeg_EX_WB_latch_in), .res2_is_seg_out(inp2_isSeg_EX_WB_latch_in), 
+        .res3_is_seg_out(inp3_isSeg_EX_WB_latch_in), .res4_is_seg_out(inp4_isSeg_EX_WB_latch_in), 
+        .res1_is_mem_out(inp1_isMem_EX_WB_latch_in), .res2_is_mem_out(inp2_isMem_EX_WB_latch_in), 
+        .res3_is_mem_out(inp3_isMem_EX_WB_latch_in), .res4_is_mem_out(inp4_isMem_EX_WB_latch_in),
+        .res1_dest(inp1_dest_EX_WB_latch_in),        .res2_dest(inp2_dest_EX_WB_latch_in),       
+        .res3_dest(inp3_dest_EX_WB_latch_in),        .res4_dest(inp4_dest_EX_WB_latch_in), 
+        .ressize(inpsize_EX_WB_latch_in), 
 
-        .BR_valid(), 
-        .BR_taken(),
-        .BR_correct(), 
-        .BR_FIP(), 
-        .BR_FIP_p1(),
+        .BR_valid(BR_valid_EX_WB_latch_in), 
+        .BR_taken(BR_taken_EX_WB_latch_in),
+        .BR_correct(BR_correct_EX_WB_latch_in), 
+        .BR_FIP(BR_FIP_EX_WB_latch_in), 
+        .BR_FIP_p1(BR_FIP_p1_EX_WB_latch_in),
         .stall(/*EX_stall_out*/) //send stall to MEM_EX_Queued_Latches
     );
 
     assign EX_stall_out = 0;
     //TODO: stall signal is negative logic, so need to invert when passing to queued latches
 
+    E_WB_latch (
+        .ld(global_set), .clr(global_reset),
+        .clk(clk),
+        .valid_in(),
+        .latched_EIP_in(),
+        .res1_in(), .res2_in(), .res3_in(), .res4_in(), .mem_data_in(),
+        .res1_ptcinfo_in(), .res2_ptcinfo_in(), .res3_ptcinfo_in(), .res4_ptcinfo_in(),
+        .ressize_in(), .memsize_in(),
+        .reg_addr_in(), .seg_addr_in(),
+        .mem_addr_in(),
+        .reg_ld_in(), .seg_ld_in(),
+        .mem_ld_in(),
+        .inst_ptcid_in(),
+        .newFIP_e_in(), .newFIP_o_in(), .newEIP_in(),
+        .BR_valid_in(), .BR_taken_in(), .BR_correct_in(),
+        .BP_alias_in(),
+        .is_resteer_in(),
+        .CS_in(),
+        .stall_in(),
+        .final_IE_val_in(),
+        .final_IE_type_in(),
 
+        .valid_out(),
+        .latched_EIP_out(),
+        .res1_out(), .res2_out(), .res3_out(), .res4_out(), mem_data_out(),
+        .res1_ptcinfo_out(), .res2_ptcinfo_out(), .res3_ptcinfo_out(), .res4_ptcinfo_out(),
+        .ressize_ouT(), .memsize_out(),
+        .reg_addr_out(), .seg_addr_out(),
+        .mem_addr_out(),
+        .reg_ld_out(), .seg_ld_out(),
+        .mem_ld_out(),
+        .inst_ptcid_out(),
+        .newFIP_e_out(), .newFIP_o_out(), .newEIP_out(), 
+        .BR_valid_out(), .BR_taken_out(), .BR_correct_out(),
+        .BP_alias_out(),
+        .is_resteer_out(),
+        .CS_out(),
+        .stall_out(),
+        .final_IE_val_out(),
+        .final_IE_type_out()
+        );
+
+    //TODO: implement BP_alias from out of decode to WB !!!!!!!!!!!
     writeback_TOP(
-        .clk(),
+        .clk(), .set(), rst(),
         .valid_in(),
         .EIP_in(),
-        .IE_in(),                           //interrupt or exception sign
+        .IE_in(),
         .IE_type_in(),
         .BR_pred_target_in(),
         .BR_pred_T_NT_in(),
+        .BP_alias_in(), //TODO
         .inst_ptcid_in(),
-        .set(), rst(),
         .inp1(), .inp2(), .inp3(), .inp4(),
         .inp1_isReg(),  .inp2_isReg(), .inp3_isReg(),  .inp4_isReg(),
         .inp1_isSeg(),  .inp2_isSeg(), .inp3_isSeg(),  .inp4_isSeg(),
@@ -861,7 +910,83 @@ module TOP();
         .CS_in(),
         .EFLAGS_in(),
         .P_OP(),
+        .interrupt_in(),
+        .is_rep_in(),
+
+        //output
+        .valid_out(),
+        .res1(), res2(), .res3(), .res4(), .mem_data(),
+        .res1_ptcinfo(), .res2_ptcinfo(), .res3_ptcinfo(), .res4_ptcinfo(),
+        .ressize(), .memsize(),
+        .reg_addr(), .seg_addr(),
+        .mem_addr(),
+        .reg_ld(), .seg_ld(),
+        .mem_ld(),
+        .inst_ptcid_out(),
+        .newFIP_e(), .newFIP_o(), .newEIP(), 
+        .BR_valid(), .BR_taken(), .BR_correct(),
+        .WB_BP_update_alias(), //TODO
+        .is_resteer(),
+        .CS_out(),
+        .final_IE_val(),
+        .final_IE_type()
     );
 
-endmodule
+    ///////////////////////////////////////////////////////////
+    //     Outputs from Ex that go into the EX_WB_Latch:    //  
+    //////////////////////////////////////////////////////////
 
+    wire valid_EX_WB_latch_in;
+
+    wire [31:0] EIP_EX_WB_latch_in;
+    wire IE_EX_WB_latch_in;
+    wire [3:0] IE_type_EX_WB_latch_in;
+    wire [31:0] BR_pred_target_EX_WB_latch_in;
+    wire BR_pred_T_NT_EX_WB_latch_in;
+    wire [6:0] inst_ptcid_EX_WB_latch_in;
+
+    wire [63:0] inp1_EX_WB_latch_in, inp2_EX_WB_latch_in, inp3_EX_WB_latch_in, inp4_EX_WB_latch_in;
+    wire  inp1_isReg_EX_WB_latch_in,  inp2_isReg_EX_WB_latch_in, inp3_isReg_EX_WB_latch_in,  inp4_isReg_EX_WB_latch_in;
+    wire  inp1_isSeg_EX_WB_latch_in,  inp2_isSeg_EX_WB_latch_in, inp3_isSeg_EX_WB_latch_in,  inp4_isSeg_EX_WB_latch_in;
+    wire  inp1_isMem_EX_WB_latch_in,  inp2_isMem_EX_WB_latch_in, inp3_isMem_EX_WB_latch_in,  inp4_isMem_EX_WB_latch_in;
+    wire [31:0] inp1_dest_EX_WB_latch_in, inp2_dest_EX_WB_latch_in, inp3_dest_EX_WB_latch_in, inp4_dest_EX_WB_latch_in;
+    wire [1:0] inpsize_EX_WB_latch_in;
+    wire inp1_wb_EX_WB_latch_in, inp2_wb_EX_WB_latch_in, inp3_wb_EX_WB_latch_in, inp4_wb_EX_WB_latch_in;
+    wire [127:0] inp1_ptcinfo_EX_WB_latch_in, inp2_ptcinfo_EX_WB_latch_in, inp3_ptcinfo_EX_WB_latch_in, inp4_ptcinfo_EX_WB_latch_in;
+
+    wire BR_valid_EX_WB_latch_in, BR_taken_EX_WB_latch_in, BR_correct_EX_WB_latch_in;
+    wire[31:0] BR_FIP_EX_WB_latch_in, BR_FIP_p1_EX_WB_latch_in;
+    wire[15:0] CS_EX_WB_latch_in;
+    wire [17:0] EFLAGS_EX_WB_latch_in;
+    wire [36:0] P_OP_EX_WB_latch_in;
+    wire is_rep_EX_WB_latch_in;
+
+    ///////////////////////////////////////////////////////////
+    //     Outputs from EX_WB_Latch that go into the WB:    //  
+    //////////////////////////////////////////////////////////
+
+    wire valid_EX_WB_latch_out;
+    wire [31:0] EIP_EX_WB_latch_out;
+    wire IE_EX_WB_latch_out;
+    wire [3:0] IE_type_EX_WB_latch_out;
+    wire [31:0] BR_pred_target_EX_WB_latch_out;
+    wire BR_pred_T_NT_EX_WB_latch_out;
+    wire [6:0] inst_ptcid_EX_WB_latch_out;
+
+    wire [63:0] inp1_EX_WB_latch_out, inp2_EX_WB_latch_out, inp3_EX_WB_latch_out, inp4_EX_WB_latch_out;
+    wire  inp1_isReg_EX_WB_latch_out,  inp2_isReg_EX_WB_latch_out, inp3_isReg_EX_WB_latch_out,  inp4_isReg_EX_WB_latch_out;
+    wire  inp1_isSeg_EX_WB_latch_out,  inp2_isSeg_EX_WB_latch_out, inp3_isSeg_EX_WB_latch_out,  inp4_isSeg_EX_WB_latch_out;
+    wire  inp1_isMem_EX_WB_latch_out,  inp2_isMem_EX_WB_latch_out, inp3_isMem_EX_WB_latch_out,  inp4_isMem_EX_WB_latch_out;
+    wire [31:0] inp1_dest_EX_WB_latch_out, inp2_dest_EX_WB_latch_out, inp3_dest_EX_WB_latch_out, inp4_dest_EX_WB_latch_out;
+    wire [1:0] inpsize_EX_WB_latch_out;
+    wire inp1_wb_EX_WB_latch_out, inp2_wb_EX_WB_latch_out, inp3_wb_EX_WB_latch_out, inp4_wb_EX_WB_latch_out;
+    wire [127:0] inp1_ptcinfo_EX_WB_latch_out, inp2_ptcinfo_EX_WB_latch_out, inp3_ptcinfo_EX_WB_latch_out, inp4_ptcinfo_EX_WB_latch_out;
+
+    wire BR_valid_EX_WB_latch_out, BR_taken_EX_WB_latch_out, BR_correct_EX_WB_latch_out;
+    wire[31:0] BR_FIP_EX_WB_latch_out, BR_FIP_p1_EX_WB_latch_out;
+    wire[15:0] CS_EX_WB_latch_out;
+    wire [17:0] EFLAGS_EX_WB_latch_out;
+    wire [36:0] P_OP_EX_WB_latch_out;
+    wire is_rep_EX_WB_latch_out;
+
+endmodule
