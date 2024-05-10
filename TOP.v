@@ -50,6 +50,8 @@
 
     initial begin
 
+        #(CYCLE_TIME)
+        
         global_set = 1;
         global_reset = 0;
         global_init = 0;
