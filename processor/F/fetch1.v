@@ -131,9 +131,15 @@ module I$ (
 
     /////////////////////////////////////
     //SERDES IO
+
+    //SERDES GLOBAL
+    input clock_bus,
+
     //From bau input
     input SER_i$_grant_e,
     input SER_i$_grant_o,
+    input DES_i$_reciever_e,
+    input DES_i$_reciever_o,
     //to bau output
     
     output SER_i$_release_o,
@@ -148,13 +154,7 @@ module I$ (
     output DES_i$_free_e,
     
     //BUS
-    inout valid_bus,
-    inout [14:0] pAdr_bus,
-    inout [31:0] data_bus,
-    inout [3:0] return_bus,
-    inout [3:0] dest_bus,
-    inout rw_bus,
-    inout [15:0] size_bus,
+    inout [72:0] BUS;
 );
 wire DES_free_e, DES_free_o;
 wire [31:0] odd_access_address_VA, even_access_address_VA;
@@ -244,7 +244,10 @@ wire[14:0] pAddr_e, pAddr_o;
 mux2n #(15) (pAddr_e, pAddress_e, DES_pAdr_e, DES_full_e);
 mux2n #(15) (pAddr_o, pAddress_o, DES_pAdr_o, DES_full_o);
 inv1$ invx(DES_full_ne, DES_full_e);
-inv1$ inx(DES_full_ne, DES_full_e);
+inv1$ inx(DES_full_no, DES_full_o);
+
+regn #(1) r0(DES_full_e_notbuf, 1'b1, clk, rst, DES_full_e); 
+regn #(1) r0(DES_full_o_notbuf, 1'b1, clk, rst, DES_full_o); 
 
 wire mshr_e_hit, mshr_e_full, mshr_e_write;
 wire [14:0] mshr_e_paddr;
@@ -383,6 +386,10 @@ mshr mshro(.pAddress(mshr_o_paddr), .ptcid_in(7'b0), .rd_or_sw_in(1'b0), .alloc(
            .ptcid_out(), .rd_or_sw_out(), .mshr_hit(mshr_o_hit), .mshr_full(mshr_o_full));
     
 SER SER_e(
+    .clk_bus(clk_bus),
+    .clk_core(clk_core),
+    .set(set), .rst(rst),
+
     .valid_in(SER_valid_e),
     .pAdr_in(SER_pAddress_e),
     .dest_in(SER_dest__e),
@@ -399,17 +406,15 @@ SER SER_e(
     .releases(SER_i$_release_e),
     .req(SER_i$_req_e),
 
-    .valid_bus(valid_bus),
-    .pAdr_bus(pAdr_bus),
-    .data_bus(data_bus),
-    .return_bus(return_bus),
-    .dest_bus(dest_bus),
-    .rw_bus(rw_bus),
-    .size_bus(size_bus)
+    .BUS(BUS)
 );
 
 
 SER SER_o(
+    .clk_bus(clk_bus),
+    .clk_core(clk),
+    .set(set), .rst(rst),
+
     .valid_in(SER_valid_o),
     .pAdr_in(SER_pAddress_o),
     .dest_in(SER_dest_o;),
@@ -426,48 +431,39 @@ SER SER_o(
     .releases(SER_i$_release_o),
     .req(SER_i$_req_o),
 
-    .valid_bus(valid_bus),
-    .pAdr_bus(pAdr_bus),
-    .data_bus(data_bus),
-    .return_bus(return_bus),
-    .dest_bus(dest_bus),
-    .rw_bus(rw_bus),
-    .size_bus(size_bus)
+    .BUS(BUS)
 );
 
 DES DES_e(
     .read(DES_read_e),
+    .clk_bus(clk_bus),
+    .clk_core(clk),
+    .set(set), .rst(rst),
 
-    .valid_bus(valid_bus),
-    .pAdr_bus(pAdr_bus),
-    .data_bus(data_bus),
-    .return_bus(return_bus),
-    .dest_bus(dest_bus),
-    .rw_bus(rw_bus),
-    .size_bus(size_bus)
+    .BUS(BUS),
     
-    .full(DES_full_e),
+    .full(DES_full_e_notbuf),
     .pAdr(DES_pAdr_e),
     .data(DES_DATA_e),
     .return(DES_return_e),
     .dest(DES_dest_e),
     .rw(DES_rw_e),
     .size(DES_size_e),
-    .free_bau(DES_free_e)
+
+    .setReciever(DES_i$_reciever_e),
+    .free_bau(DES_i$_free_e)
 );
 
 DES DES_o(
+    .clk_bus(clk_bus),
+    .clk_core(clk_core),
+    .set(set), .rst(rst),
+
     .read(DES_read_o),
 
-    .valid_bus(valid_bus),
-    .pAdr_bus(pAdr_bus),
-    .data_bus(data_bus),
-    .return_bus(return_bus),
-    .dest_bus(dest_bus),
-    .rw_bus(rw_bus),
-    .size_bus(size_bus)
+    .BUS(BUS),
     
-    .full(DES_full_o),
+    .full(DES_full_o_notbuf),
     .pAdr(DES_pAdr_o),
     .data(DES_DATA_o),
     .return(DES_return_o),
@@ -475,7 +471,8 @@ DES DES_o(
     .rw(DES_rw_o),
     .size(DES_size_o),
     
-    .free_bau(DES_free_o)
+    .setReciever(DES_i$_reciever_o),
+    .free_bau(DES_i$_free_o)
 );
 
 endmodule
