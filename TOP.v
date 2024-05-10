@@ -55,21 +55,31 @@
         global_init = 0;
         #(CYCLE_TIME)
 
-        #(CYCLE_TIME)
+        // #(CYCLE_TIME)
 
         global_reset = 1;
-        global_set = 1;
-        global_init = 1;
-        EIP_init = 32'h0000_0000;
+        // global_set = 1;
+        // global_init = 1;
+        // EIP_init = 32'h0000_0000;
 
-        #(CYCLE_TIME)
+        // #(CYCLE_TIME)
 
-        global_init = 0;
+        // global_init = 0;
         packet = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
         D_valid = 1'b1;
 
         #(CYCLE_TIME)
-        global_init = 0;
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        $finish();
 
     end
 
