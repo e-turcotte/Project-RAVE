@@ -406,6 +406,20 @@
     wire [36:0] P_OP_EX_WB_latch_out;
     wire is_rep_EX_WB_latch_out;
 
+    ///////////////////////////////////////////////////////////
+    //     Outputs from WB that go everywhere:              //
+    //////////////////////////////////////////////////////////
+    wire fwd_stall_WB_EX_out;
+    wire [63:0] res1_WB_RRAG_out, res2_WB_RRAG_out, res3_WB_RRAG_out, res4_WB_RRAG_out, mem_data_WB_M_out; //done
+    wire [127:0] res1_ptcinfo_WB_RRAG_out, res2_ptcinfo_WB_RRAG_out, res3_ptcinfo_WB_RRAG_out, res4_ptcinfo_WB_RRAG_out;
+    wire [1:0] ressize_WB_RRAG_out, memsize_WB_M_out;
+    wire [11:0] reg_addr_WB_RRAG_out, seg_addr_WB_RRAG_out;
+    wire [31:0] mem_addr_WB_M_out; //done
+    wire [3:0] reg_ld_WB_RRAG_out, seg_ld_WB_RRAG_out;
+    wire mem_ld_WB_M_out;
+    wire [6:0] inst_ptcid_out_WB_RRAG_out;
+
+
     // bp_gshare bp (
     //     //inputs
     //     .clk(clk),
@@ -535,8 +549,7 @@
             mux_adder_D_RrAg_latch_out, mux_and_int_D_RrAg_latch_out, mux_shift_D_RrAg_latch_out, p_op_D_RrAg_latch_out, fmask_D_RrAg_latch_out, 
             conditionals_D_RrAg_latch_out, is_br_D_RrAg_latch_out, is_fp_D_RrAg_latch_out, imm_D_RrAg_latch_out, mem1_rw_D_RrAg_latch_out, 
             mem2_rw_D_RrAg_latch_out, eip_D_RrAg_latch_out, IE_D_RrAg_latch_out, IE_type_D_RrAg_latch_out, BR_pred_target_D_RrAg_latch_out, 
-            BR_pred_T_NT_D_RrAg_latch_out
-         })
+            BR_pred_T_NT_D_RrAg_latch_out})
             
         );
     
@@ -908,6 +921,7 @@
         .clk(clk),
 
         .valid_in(valid_EX_WB_latch_in),
+        .fwd_stall(fwd_stall_WB_EX_out),
         .EIP_in(EIP_EX_WB_latch_in),
         .latched_EIP_in(), 
         .IE_in(IE_EX_WB_latch_in),
@@ -1006,25 +1020,25 @@
 
         .BR_valid_in(BR_valid_EX_WB_latch_out), .BR_taken_in(BR_taken_EX_WB_latch_out), .BR_correct_in(BR_correct_EX_WB_latch_out),
         .BR_FIP_in(BR_FIP_EX_WB_latch_out), .BR_FIP_p1_in(BR_FIP_p1_EX_WB_latch_out),
-        
+
         .CS_in(CS_EX_WB_latch_out),
         .EFLAGS_in(EFLAGS_EX_WB_latch_out),
         .P_OP(P_OP_EX_WB_latch_out),
 
         .interrupt_in(),
 
-        .wbaq_full(), .is_rep(),
+        .wbaq_full(1'b0), .is_rep(is_rep_EX_WB_latch_out),
 
         .valid_out(),
 
-        .res1(), .res2(), .res3(), .res4(), .mem_data(), //done
-        .res1_ptcinfo(), .res2_ptcinfo(), .res3_ptcinfo(), .res4_ptcinfo(),
-        .ressize(), .memsize(),
-        .reg_addr(), .seg_addr(),
-        .mem_addr(), //done
-        .reg_ld(), .seg_ld(),
-        .mem_ld(),
-        .inst_ptcid_out(),
+        .res1(res1_WB_RRAG_out), .res2(res2_WB_RRAG_out), .res3(res3_WB_RRAG_out), .res4(res4_WB_RRAG_out), .mem_data(mem_data_WB_M_out), //done
+        .res1_ptcinfo(res1_ptcinfo_WB_RRAG_out), .res2_ptcinfo(res2_ptcinfo_WB_RRAG_out), .res3_ptcinfo(res3_ptcinfo_WB_RRAG_out), .res4_ptcinfo(res4_ptcinfo_WB_RRAG_out),
+        .ressize(ressize_WB_RRAG_out), .memsize(memsize_WB_M_out),
+        .reg_addr(reg_addr_WB_RRAG_out), .seg_addr(seg_addr_WB_RRAG_out),
+        .mem_addr(mem_addr_WB_M_out), //done
+        .reg_ld(reg_ld_WB_RRAG_out), .seg_ld(seg_ld_WB_RRAG_out),
+        .mem_ld(mem_ld_WB_M_out),
+        .inst_ptcid_out(inst_ptcid_out_WB_RRAG_out),
 
         .newFIP_e(), .newFIP_o(), .newEIP(), //done 
         .latched_EIP_out(),
@@ -1033,7 +1047,7 @@
         .is_resteer(),
         .CS_out(), //done
 
-        .stall(),
+        .stall(fwd_stall_WB_EX_out),
 
         .final_IE_val(),
         .final_IE_type()
