@@ -134,4 +134,6 @@ module mem (input valid_in,
     assign is_rep_out = is_rep_in;
     assign CS_out = CS_in;
 
+    assign opsize_out = opsize_in;
+
 endmodule
