@@ -12,8 +12,8 @@ module queuenm #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=16) (input [M_WIDTH-1:
     wire [Q_LENGTH-1:0] ptr_wr, new_ptr_wr, rot_ptr_wr, ptr_rd, new_ptr_rd, rot_ptr_rd;
     wire invfull, invempty, ldptr_wr, ldptr_rd;
 
-    ptr_regn #(.WIDTH(Q_LENGTH)) ptr_wr_reg(.din(new_ptr_wr), .ld(1'b1), .clr(1'b1), .clk(clk), .dout(ptr_wr));
-    ptr_regn #(.WIDTH(Q_LENGTH)) ptr_rd_reg(.din(new_ptr_rd), .ld(1'b1), .clr(1'b1), .clk(clk), .dout(ptr_rd));
+    ptr_regn #(.WIDTH(Q_LENGTH)) ptr_wr_reg(.din(rot_ptr_wr), .ld(ldptr_wr), .clr(clr), .clk(clk), .dout(ptr_wr));
+    ptr_regn #(.WIDTH(Q_LENGTH)) ptr_rd_reg(.din(rot_ptr_rd), .ld(ldptr_rd), .clr(clr), .clk(clk), .dout(ptr_rd));
 
     lrotn_fixed #(.WIDTH(Q_LENGTH), .ROT_AMNT(1)) s0(.in(ptr_wr), .out(rot_ptr_wr));
     lrotn_fixed #(.WIDTH(Q_LENGTH), .ROT_AMNT(1)) s1(.in(ptr_rd), .out(rot_ptr_rd));
@@ -25,10 +25,6 @@ module queuenm #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=16) (input [M_WIDTH-1:
     inv1$ g1(.out(invfull), .in(full));
     and2$ g2(.out(ldptr_rd), .in0(invempty), .in1(rd));
     and2$ g3(.out(ldptr_wr), .in0(invfull), .in1(wr));
-
-    muxnm_tree #(.SEL_WIDTH(2), .DATA_WIDTH(Q_LENGTH)) m0(.in({rot_ptr_rd,ptr_rd,{(Q_LENGTH-1){1'b0}},1'b1,{(Q_LENGTH-1){1'b0}},1'b1}), .sel({clr,ldptr_rd}), .out(new_ptr_rd));
-    muxnm_tree #(.SEL_WIDTH(2), .DATA_WIDTH(Q_LENGTH)) m1(.in({rot_ptr_wr,ptr_wr,{(Q_LENGTH-1){1'b0}},1'b1,{(Q_LENGTH-1){1'b0}},1'b1}), .sel({clr,ldptr_wr}), .out(new_ptr_wr));
-
 
     wire [(M_WIDTH+N_WIDTH)*Q_LENGTH-1:0] outs;
 
