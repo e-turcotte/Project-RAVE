@@ -51,7 +51,7 @@ module E_WB_latch (
             output BR_valid_out, //
             output BR_taken_out, //
             output BR_correct_out,  //
-            output [31:0] BR_FIP_out, BR_FIP_p1_out,
+            output [31:0] BR_FIP_out, BR_FIP_p1_out
         );
     
     integer file, cyc_cnt;
