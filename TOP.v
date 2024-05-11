@@ -80,7 +80,7 @@
         #(CYCLE_TIME)
 
         D_valid = 1'b1;
-        packet = 128'h83c3_ff00_0000_0000_0000_0000_0000_0000;
+        packet = 128'h6687_d300_0000_0000_0000_0000_0000_0000;
         #(CYCLE_TIME)
         D_valid = 1'b0;
         #(CYCLE_TIME)
@@ -93,7 +93,7 @@
         #(CYCLE_TIME)
 
         D_valid = 1'b1;
-        packet = 128'h660f_42c2_0000_0000_0000_0000_0000_0000;
+        packet = 128'h87da_0000_0000_0000_0000_0000_0000_0000;
         #(CYCLE_TIME)
         D_valid = 1'b0;
         #(CYCLE_TIME)
