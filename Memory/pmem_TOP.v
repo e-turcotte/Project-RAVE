@@ -69,17 +69,6 @@ module pmem_TOP (input [3:0] recvB,
         
         end
     endgenerate
-    
-    integer b, c, d;
-    initial begin
-        for (b = 0; b < 4; b = b + 1) begin
-            for (c = 0; c < 16; c = c + 1) begin
-                for (d = 0; d < 4; d = d + 1) begin
-                    $readmemh($sformatf("initfiles/pmem_b%dc%dd%d.init", b, c, d), banks[b].bnk.bank_slices[c].dram.cells[d].sram.mem); 
-                end
-            end
-        end
-    end
 
 endmodule
 
