@@ -85,7 +85,7 @@ module rrag (input valid_in,
 
     genvar i;
     generate
-        for (i = 0; i < 14; i = i + 1) begin : sized_ld_dest_slices
+        for (i = 0; i < 13; i = i + 1) begin : sized_ld_dest_slices
             or4$ g1(.out(collated_dest_vector[i]), .in0(dest1_in[i]), .in1(dest2_in[i]), .in2(dest3_in[i]), .in3(dest4_in[i]));
         end
     endgenerate

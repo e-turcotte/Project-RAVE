@@ -68,7 +68,7 @@ module regfile (input [255:0] din,
     mmxfile mf(.din(din), .ld(mmxld), .dest(mmxdest), .rd(rd_addr), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout(mmxouts), .ptcout(mmxptcs));
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(256)) m0(.in({mmxouts,{32{gprouts[127]}},gprouts[127:96],{32{gprouts[95]}},gprouts[95:64],{32{gprouts[63]}},gprouts[63:32],{32{gprouts[31]}},gprouts[31:0]}), .sel(usemmx), .out(dout));
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(512)) m1(.in({mmxptcs,{64{1'b0}},gprptcs[255:192],{64{1'b0}},gprptcs[191:128],{64{1'b0}},gprptcs[127:64],{64{1'b0}},gprptcs[63:0]}), .sel(rdsize[3]), .out(ptcout));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(512)) m1(.in({mmxptcs,{64{1'b0}},gprptcs[255:192],{64{1'b0}},gprptcs[191:128],{64{1'b0}},gprptcs[127:64],{64{1'b0}},gprptcs[63:0]}), .sel(usemmx), .out(ptcout));
 
     integer k, cyc_cnt;
     integer file;
