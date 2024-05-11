@@ -33,6 +33,7 @@ module execute_TOP(
     input [3:0] wake_in, //TODO: M, needs to be implemented - not implemented in TOP just yet
 
     input [31:0] dest1_addr, dest2_addr, dest3_addr, dest4_addr, //N
+    input [127:0] dest1_ptcinfo_in, dest2_ptcinfo_in, dest3_ptcinfo_in, dest4_ptcinfo_in, //N
     input res1_is_reg_in, res2_is_reg_in, res3_is_reg_in, res4_is_reg_in, //N
     input res1_is_seg_in, res2_is_seg_in, res3_is_seg_in, res4_is_seg_in, //N
     input res1_is_mem_in, res2_is_mem_in, res3_is_mem_in, res4_is_mem_in, //N
@@ -76,6 +77,7 @@ module execute_TOP(
     output res1_is_seg_out, res2_is_seg_out, res3_is_seg_out, res4_is_seg_out, //done
     output res1_is_mem_out, res2_is_mem_out, res3_is_mem_out, res4_is_mem_out, //done
     output [31:0] res1_dest, res2_dest, res3_dest, res4_dest, //
+    output [127:0] dest1_ptcinfo_out, dest2_ptcinfo_out, dest3_ptcinfo_out, dest4_ptcinfo_out,
     output [1:0] ressize, //done
         
     //BR Outputs
@@ -111,6 +113,7 @@ module execute_TOP(
     assign PTCID_out = PTCID_in;
     //assign res4 = op4;
     res4Handler r4H(op4, op2, opsize_in, isImm, P_OP[26], P_OP[24],P_OP[3], P_OP[34],P_OP[35], P_OP[28], P_OP[36], P_OP[15], res4 );
+    assign dest4_ptcinfo_out = dest4_ptcinfo_in;
     assign res4_is_reg_out = res4_is_reg_in;
     assign res4_is_seg_out = res4_is_seg_in;
     assign res4_is_mem_out = res4_is_mem_in;
@@ -120,6 +123,7 @@ module execute_TOP(
 
     //assign res3 = op3;
     res3Handler r3H(op3, opsize_in, P_OP[15], df, res3);
+    assign dest3_ptcinfo_out = dest3_ptcinfo_in;
     assign res3_is_reg_out = res3_is_reg_in;
     assign res3_is_seg_out = res3_is_seg_in;
     assign res3_is_mem_out = res3_is_mem_in;
@@ -127,21 +131,21 @@ module execute_TOP(
     assign res3_wb = res3_ld_in;
     assign res3_ptcinfo = op3_ptcinfo;
 
-    wire[31:0] res1_dest_out;
-
     //Handle RES1/RES2
     // mux4n #(64) mx1(res1_is_reg, op1_is_reg, op2_is_reg, op2_is_reg, op2_is_reg, swapCXC, P_OP[33]);
     // mux2n #(32) mx4(res1_dest, res1_dest_out, dest2_addr, P_OP[33]);
+    assign dest1_ptcinfo_out = dest1_ptcinfo_in;
     assign res1_is_reg_out = res1_is_reg_in;
     assign res1_is_seg_out = res1_is_seg_in;
     assign res1_is_mem_out = res1_is_mem_in;
-    assign res1_dest = res1_dest_out;
+    assign res1_dest = dest1_addr;
     assign res1_ptcinfo = op1_ptcinfo;
     
     // mux2n #(64) mx5(res2, res2_xchg, op2, P_OP[15]);
     // mux2n #(64) mx2(res2_is_reg, op2_is_reg, op1_is_reg, P_OP[33]);
     // mux2n #(32) mx3(res2_dest, dest2_addr, dest1_addr, P_OP[33]);
     res2Handler r2H(op1, op2, df, opsize_in, P_OP[15], P_OP[33], P_OP[35], P_OP[36], res2);
+    assign dest2_ptcinfo_out = dest2_ptcinfo_in;
     assign res2_is_reg_out = res2_is_reg_in;
     assign res2_is_seg_out = res2_is_seg_in;
     assign res2_is_mem_out = res2_is_mem_in;
@@ -149,7 +153,7 @@ module execute_TOP(
     assign res2_ptcinfo = op2_ptcinfo;
 
     //handle ALU
-    ALU_top a1(res1, res1_dest_out, res2_xchg, swapCXC, cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_inval, op1, op2, op3, dest1_addr, aluk, MUX_ADDER_IMM, MUX_AND_INT, MUX_SHIFT, P_OP[7], P_OP[2], P_OP[31],P_OP[29], P_OP[30], opsize_in,af,cf,of,zf, CS, EIP_in); 
+    ALU_top a1(res1, res2_xchg, swapCXC, cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_inval, op1, op2, op3, dest1_addr, aluk, MUX_ADDER_IMM, MUX_AND_INT, MUX_SHIFT, P_OP[7], P_OP[2], P_OP[31],P_OP[29], P_OP[30], opsize_in,af,cf,of,zf, CS, EIP_in); 
 
     //Handle eflags block
     wire[17:0] eflags_ld, eflags_rd;

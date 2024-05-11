@@ -19,6 +19,7 @@ module writeback_TOP(
     input [1:0] inpsize,
     input inp1_wb, inp2_wb, inp3_wb, inp4_wb,
     input [127:0] inp1_ptcinfo, inp2_ptcinfo, inp3_ptcinfo, inp4_ptcinfo,
+    input [127:0] dest1_ptcinfo, dest2_ptcinfo, dest3_ptcinfo, dest4_ptcinfo,
 
     input BR_valid_in, BR_taken_in, BR_correct_in,
     input[31:0] BR_FIP_in, BR_FIP_p1_in,

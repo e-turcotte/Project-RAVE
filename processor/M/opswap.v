@@ -13,6 +13,7 @@ module opswap (input [63:0] reg1_data, reg2_data, reg3_data, reg4_data,
                output [63:0] op1, op2, op3, op4,
                output [127:0] op1_ptcinfo, op2_ptcinfo, op3_ptcinfo, op4_ptcinfo,
                output [31:0] dest1_addr, dest2_addr, dest3_addr, dest4_addr,
+               output [127:0] dest1_ptcinfo, dest2_ptcinfo, dest3_ptcinfo, dest4_ptcinfo,
                output [2:0] dest1_type, dest2_type, dest3_type, dest4_type);
 
     wire [255:0] reg_datas, seg_datas;
@@ -53,6 +54,11 @@ module opswap (input [63:0] reg1_data, reg2_data, reg3_data, reg4_data,
     muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(128)) m6(.in(ptcs), .sel(op3_mux), .out(op3_ptcinfo));
     muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(128)) m7(.in(ptcs), .sel(op4_mux), .out(op4_ptcinfo));
 
+    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(128)) m8(.in(ptcs), .sel(dest1_mux), .out(dest1_ptcinfo));
+    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(128)) m9(.in(ptcs), .sel(dest2_mux), .out(dest2_ptcinfo));
+    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(128)) m10(.in(ptcs), .sel(dest3_mux), .out(dest3_ptcinfo));
+    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(128)) m11(.in(ptcs), .sel(dest4_mux), .out(dest4_ptcinfo));
+
     wire [127:0] reg_addrs, seg_addrs;
     wire [63:0] mem_addrs, eip_addrs;
     wire [31:0] imm_addr;
@@ -67,10 +73,10 @@ module opswap (input [63:0] reg1_data, reg2_data, reg3_data, reg4_data,
 
     assign addrs = {imm_addr,eip_addrs,mem_addrs,seg_addrs,reg_addrs};
 
-    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(32)) m8(.in(addrs), .sel(dest1_mux), .out(dest1_addr));
-    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(32)) m9(.in(addrs), .sel(dest2_mux), .out(dest2_addr));
-    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(32)) m10(.in(addrs), .sel(dest3_mux), .out(dest3_addr));
-    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(32)) m11(.in(addrs), .sel(dest4_mux), .out(dest4_addr));
+    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(32)) m12(.in(addrs), .sel(dest1_mux), .out(dest1_addr));
+    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(32)) m13(.in(addrs), .sel(dest2_mux), .out(dest2_addr));
+    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(32)) m14(.in(addrs), .sel(dest3_mux), .out(dest3_addr));
+    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(32)) m15(.in(addrs), .sel(dest4_mux), .out(dest4_addr));
 
     wire [11:0] reg_types, seg_types;
     wire [5:0] mem_types, eip_types;
@@ -86,9 +92,9 @@ module opswap (input [63:0] reg1_data, reg2_data, reg3_data, reg4_data,
 
     assign types = {imm_type,eip_types,mem_types,seg_types,reg_types};
 
-    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(3)) m12(.in(types), .sel(dest1_mux), .out(dest1_type));
-    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(3)) m13(.in(types), .sel(dest2_mux), .out(dest2_type));
-    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(3)) m14(.in(types), .sel(dest3_mux), .out(dest3_type));
-    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(3)) m15(.in(types), .sel(dest4_mux), .out(dest4_type));
+    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(3)) m16(.in(types), .sel(dest1_mux), .out(dest1_type));
+    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(3)) m17(.in(types), .sel(dest2_mux), .out(dest2_type));
+    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(3)) m18(.in(types), .sel(dest3_mux), .out(dest3_type));
+    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(3)) m19(.in(types), .sel(dest4_mux), .out(dest4_type));
 
 endmodule
