@@ -11,7 +11,7 @@
     localparam m_size_MEM_EX = 780;
     localparam n_size_MEM_EX = 335;
 
-    initial #500 $finish; //TODO: run for n ns
+    // initial #500 $finish; //TODO: run for n ns
 
     initial begin
         file = $fopen("debug.out", "w");
@@ -105,7 +105,7 @@
         #(CYCLE_TIME)
         #(CYCLE_TIME)
 
-        $finish();
+        $finish;
 
     end
 
