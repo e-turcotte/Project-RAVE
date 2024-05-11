@@ -437,10 +437,10 @@ orn #(3) o21(.in({temp22, temp23, temp24}), .out(w16_useR3));
 
 //32 bit mode
 wire w32_useR3;
-assign w32_useR3 = isSIB;
+andn #(2) a3adeqw6(.in({isSIB, mod_not_equal_11}), .out(w32_useR3));
 
 //combine the 16 and 32 bit versions with just mod == 11
-orn #(3) o22(.in({w16_useR3, w32_useR3, mod_equal_11}), .out(use_R3));
+orn #(3) o22(.in({w16_useR3, w32_useR3}), .out(use_R3));
 
 //all the logic to select the actual value of R2
 
