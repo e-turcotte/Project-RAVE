@@ -41,6 +41,13 @@ module fetch_2 (
     input wire [5:0] init_BIP,
     input wire is_init,
 
+    ////////////////////////////
+    // signals from IDTR     //  
+    ///////////////////////////
+
+    input wire [127:0] IDTR_packet,
+    input wire packet_select,
+
     /////////////////////////////
     //    output signals      //  
     ///////////////////////////
@@ -99,13 +106,20 @@ module fetch_2 (
         .valid_rotate(packet_out_valid)
     );
 
+    wire [127:0] packet_IBuff_out;
     rotate_I_Buff rib(
         .line_00_in(line_00),
         .line_01_in(line_01),
         .line_10_in(line_10),
         .line_11_in(line_11),
         .length_to_rotate(BIP_plus_length[5:0]),
-        .line_out(packet_out)
+        .line_out(packet_IBuff_out)
+    );
+
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(128)) m2(
+        .in({IDTR_packet, packet_IBuff_out}), 
+        .sel(packet_select), 
+        .out(packet_out)
     );
 
     assign old_BIP = latched_BIP;
