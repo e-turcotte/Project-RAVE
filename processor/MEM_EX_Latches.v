@@ -61,35 +61,40 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
             $fdisplay(file, "\n\t ==LATCH==: %d", latch_num);
             $fdisplay(file, "\t modifiable signals:");
 
-            $fdisplay(file, "\t\t PTC_ID: %b", all_outs[latch_num][1114:1008]);
-            $fdisplay(file, "\t\t wake: %b", all_outs[latch_num][1107:1104]);
-            $fdisplay(file, "\t\t op1_val: 0x%h", all_outs[latch_num][1103:1040]);
-            $fdisplay(file, "\t\t op2_val: 0x%h", all_outs[latch_num][1039:976]);
-            $fdisplay(file, "\t\t op3_val: 0x%h", all_outs[latch_num][975:912]);
-            $fdisplay(file, "\t\t op4_val: 0x%h\n", all_outs[latch_num][911:848]); 
+            $fdisplay(file, "\t\t PTC_ID: %b", all_outs[latch_num][1626:1620]);
+            $fdisplay(file, "\t\t wake: %b", all_outs[latch_num][1619:1616]);
+            $fdisplay(file, "\t\t op1_val: 0x%h", all_outs[latch_num][1615:1552]);
+            $fdisplay(file, "\t\t op2_val: 0x%h", all_outs[latch_num][1551:1488]);
+            $fdisplay(file, "\t\t op3_val: 0x%h", all_outs[latch_num][1487:1424]);
+            $fdisplay(file, "\t\t op4_val: 0x%h\n", all_outs[latch_num][1423:1360]); 
 
-            $fdisplay(file, "\t\t op1_ptcinfo: 0x%d", all_outs[latch_num][847:720]);
-            $fdisplay(file, "\t\t op2_ptcinfo: 0x%h", all_outs[latch_num][719:592]);
-            $fdisplay(file, "\t\t op3_ptcinfo: 0x%h", all_outs[latch_num][591:464]);
-            $fdisplay(file, "\t\t op4_ptcinfo: 0x%h", all_outs[latch_num][463:336]);
-            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][335]);
+            $fdisplay(file, "\t\t op1_ptcinfo: 0x%d", all_outs[latch_num][1359:1232]);
+            $fdisplay(file, "\t\t op2_ptcinfo: 0x%h", all_outs[latch_num][1231:1104]);
+            $fdisplay(file, "\t\t op3_ptcinfo: 0x%h", all_outs[latch_num][1103:976]);
+            $fdisplay(file, "\t\t op4_ptcinfo: 0x%h", all_outs[latch_num][975:848]);
+            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][847]);
             
             $fdisplay(file, "\n\t non-modifiable signals:");
 
-            $fdisplay(file, "\t\t is_rep: %d", all_outs[latch_num][334]);
-            $fdisplay(file, "\t\t is_imm: %d", all_outs[latch_num][333]);
-            $fdisplay(file, "\t\t eip: 0x%h", all_outs[latch_num][332:301]);
-            $fdisplay(file, "\t\t latched_eip: 0x%h", all_outs[latch_num][300:269]);
-            $fdisplay(file, "\t\t IE: %d", all_outs[latch_num][268]);
-            $fdisplay(file, "\t\t IE_type: %b", all_outs[latch_num][267:264]);
-            $fdisplay(file, "\t\t BR_pred_target: 0x%h", all_outs[latch_num][263:232]);
-            $fdisplay(file, "\t\t BR_pred_T_NT: %d", all_outs[latch_num][231]);
-            $fdisplay(file, "\t\t opsize: %b\n", all_outs[latch_num][230:229]); 
+            $fdisplay(file, "\t\t is_rep: %d", all_outs[latch_num][846]);
+            $fdisplay(file, "\t\t is_imm: %d", all_outs[latch_num][845]);
+            $fdisplay(file, "\t\t eip: 0x%h", all_outs[latch_num][844:813]);
+            $fdisplay(file, "\t\t latched_eip: 0x%h", all_outs[latch_num][812:781]);
+            $fdisplay(file, "\t\t IE: %d", all_outs[latch_num][780]);
+            $fdisplay(file, "\t\t IE_type: %b", all_outs[latch_num][779:776]);
+            $fdisplay(file, "\t\t BR_pred_target: 0x%h", all_outs[latch_num][775:744]);
+            $fdisplay(file, "\t\t BR_pred_T_NT: %d", all_outs[latch_num][743]);
+            $fdisplay(file, "\t\t opsize: %b\n", all_outs[latch_num][742:741]); 
 
-            $fdisplay(file, "\t\t dest1_addr: 0x%h", all_outs[latch_num][228:197]);
-            $fdisplay(file, "\t\t dest2_addr: 0x%h", all_outs[latch_num][196:165]);
-            $fdisplay(file, "\t\t dest3_addr: 0x%h", all_outs[latch_num][164:133]);
-            $fdisplay(file, "\t\t dest4_addr: 0x%h\n", all_outs[latch_num][132:101]); 
+            $fdisplay(file, "\t\t dest1_addr: 0x%h", all_outs[latch_num][740:709]);
+            $fdisplay(file, "\t\t dest2_addr: 0x%h", all_outs[latch_num][708:677]);
+            $fdisplay(file, "\t\t dest3_addr: 0x%h", all_outs[latch_num][676:645]);
+            $fdisplay(file, "\t\t dest4_addr: 0x%h\n", all_outs[latch_num][644:613]);
+
+            $fdisplay(file, "\t\t dest1_ptcinfo: 0x%h\n", all_outs[latch_num][612:485]);
+            $fdisplay(file, "\t\t dest2_ptcinfo: 0x%h\n", all_outs[latch_num][484:357]);
+            $fdisplay(file, "\t\t dest3_ptcinfo: 0x%h\n", all_outs[latch_num][356:229]);
+            $fdisplay(file, "\t\t dest4_ptcinfo: 0x%h\n", all_outs[latch_num][228:101]);
 
             $fdisplay(file, "\t\t dest1_is_reg: %d", all_outs[latch_num][100]);
             $fdisplay(file, "\t\t dest2_is_reg: %d", all_outs[latch_num][99]);
