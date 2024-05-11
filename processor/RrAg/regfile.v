@@ -189,6 +189,7 @@ module gprfile (input [127:0] din,
     wire [31:0] e_ptc [0:7];
     wire [7:0] h_in [0:7], l_in [0:7], h_out [0:7], l_out [0:7];
     wire [15:0] h_ptc [0:7], l_ptc[0:7];
+    wire e_ptcv [0:7], h_ptcv [0:7], l_ptcv [0:7];
     
 
     generate
@@ -221,7 +222,7 @@ module gprfile (input [127:0] din,
 
             muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(8)) m6(.in({din[103:96],din[71:64],din[39:32],din[7:0]}), .sel({ld[24+i],ld[16+i],ld[8+i],ld[i]}), .out(l_in[i]));
     
-            gpr r0(.din({e_in[i],h_in[i],l_in[i]}), .sized_ld(adjusted_sized_ld_vector[(i*3)+2:i*3]), .sized_dest(adjusted_sized_dest_vector[(i*3)+2:i*3]), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .loc(loc), .clr(clr), .ptcclr(ptcclr), .clk(clk), .e_dout(e_out[i]), .h_dout(h_out[i]), .l_dout(l_out[i]), .e_ptc(e_ptc[i]), .h_ptc(h_ptc[i]), .l_ptc(l_ptc[i]));
+            gpr r0(.din({e_in[i],h_in[i],l_in[i]}), .sized_ld(adjusted_sized_ld_vector[(i*3)+2:i*3]), .sized_dest(adjusted_sized_dest_vector[(i*3)+2:i*3]), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .loc(loc), .clr(clr), .ptcclr(ptcclr), .clk(clk), .e_dout(e_out[i]), .h_dout(h_out[i]), .l_dout(l_out[i]), .e_ptc(e_ptc[i]), .h_ptc(h_ptc[i]), .l_ptc(l_ptc[i]), .e_ptcv(e_ptcv[i]), .h_ptcv(h_ptcv[i]), .l_ptcv(l_ptcv[i]));
 
             wire notinuserd;
             nor3$ g5(.out(notinuserd), .in0(rdsize[2]), .in1(rdsize[1]), .in2(rdsize[0]));
@@ -242,7 +243,7 @@ module gprfile (input [127:0] din,
                 muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(64)) m10(.in({{64{1'b0}},ptc32[i],ptc16[i],ptc8h[i-4]}), .sel({notinuserd,rdsize}), .out(ptcs[(i*64)+63:i*64]));
             end
             muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m11(.in({out32[i],out16[i]}), .sel(addressingmode), .out(addrs[(i+1)*32-1:i*32]));
-            muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(4)) m12(.in({ptc32[i][62],ptc32[i][46],ptc32[i][30],ptc32[i][14],2'b00,ptc16[i][30],ptc16[i][14]}), .sel(addressingmode), .out(addr_ptcs[(i+1)*4-1:i*4]));
+            muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(4)) m12(.in({e_ptcv[i],e_ptcv[i],h_ptcv[i],l_ptcv[i],2'b00,h_ptcv[i],l_ptcv[i]}), .sel(addressingmode), .out(addr_ptcs[(i+1)*4-1:i*4]));
             or4$ g6(.out(addr_is_ptc[i]), .in0(addr_ptcs[i*4]), .in1(addr_ptcs[i*4+1]), .in2(addr_ptcs[i*4+2]), .in3(addr_ptcs[i*4+3]));
         end
     endgenerate
@@ -278,7 +279,8 @@ module gpr (input [31:0] din,
             output [15:0] e_dout,
             output [7:0] h_dout, l_dout,
             output [31:0] e_ptc,
-            output [15:0] h_ptc, l_ptc);
+            output [15:0] h_ptc, l_ptc,
+            output e_ptcv, h_ptcv, l_ptcv);
     
     regn #(.WIDTH(16)) e_section(.din(din[31:16]), .ld(sized_ld[2]), .clr(clr), .clk(clk), .dout(e_dout));
     regn #(.WIDTH(8)) h_section(.din(din[15:8]), .ld(sized_ld[1]), .clr(clr), .clk(clk), .dout(h_dout));
@@ -294,20 +296,23 @@ module gpr (input [31:0] din,
     equaln #(.WIDTH(7)) eq0(.a(data_ptcid), .b(id[2]), .eq(clearptc[2]));
     or2$ g1(.out(ptcld[2]), .in0(sized_dest[2]), .in1(clearptc[2]));
     regn #(.WIDTH(1)) e_ptcv(.din(sized_dest[2]), .ld(ptcld[2]), .clr(clr_ptc_signal), .clk(clk), .dout(v[2]));
-    assign e_ptc = {1'b0,v[2],id[2],1'b0,loc,3'b011,
-                    1'b0,v[2],id[2],1'b0,loc,3'b010};
+    assign e_ptc = {2'b01,id[2],1'b0,loc,3'b011,
+                    2'b01,id[2],1'b0,loc,3'b010};
+    assign e_ptcv = v[2];
 
     regn #(.WIDTH(7)) h_ptcid(.din(new_ptcid), .ld(sized_dest[1]), .clr(clr), .clk(clk), .dout(id[1]));
     equaln #(.WIDTH(7)) eq1(.a(data_ptcid), .b(id[1]), .eq(clearptc[1]));
     or2$ g2(.out(ptcld[1]), .in0(sized_dest[1]), .in1(clearptc[1]));
     regn #(.WIDTH(1)) h_ptcv(.din(sized_dest[1]), .ld(ptcld[1]), .clr(clr_ptc_signal), .clk(clk), .dout(v[1]));
-    assign h_ptc = {1'b0,v[1],id[1],1'b0,loc,3'b001};
+    assign h_ptc = {2'b01,id[1],1'b0,loc,3'b001};
+    assign h_ptcv = v[1];
 
     regn #(.WIDTH(7)) l_ptcid(.din(new_ptcid), .ld(sized_dest[0]), .clr(clr), .clk(clk), .dout(id[0]));
     equaln #(.WIDTH(7)) eq2(.a(data_ptcid), .b(id[0]), .eq(clearptc[0]));
     or2$ g3(.out(ptcld[0]), .in0(sized_dest[0]), .in1(clearptc[0]));
     regn #(.WIDTH(1)) l_ptcv(.din(sized_dest[0]), .ld(ptcld[0]), .clr(clr_ptc_signal), .clk(clk), .dout(v[0]));
-    assign l_ptc = {1'b0,v[0],id[0],1'b0,loc,3'b000};
+    assign l_ptc = {2'b01,id[0],1'b0,loc,3'b000};
+    assign l_ptcv = v[0];
 
 endmodule
 
@@ -382,13 +387,13 @@ module mmx (input [63:0] din,
     or2$ g0(.out(ptcld), .in0(dest), .in1(clearptc));
     and2$ g1(.out(clr_ptc_signal), .in0(clr), .in1(ptcclr));
     regn #(.WIDTH(1)) mm_ptcv(.din(dest), .ld(ptcld), .clr(clr_ptc_signal), .clk(clk), .dout(v));
-    assign mm_ptc = {1'b0,v,id,1'b0,loc,3'b111,
-                     1'b0,v,id,1'b0,loc,3'b110,
-                     1'b0,v,id,1'b0,loc,3'b101,
-                     1'b0,v,id,1'b0,loc,3'b100,
-                     1'b0,v,id,1'b0,loc,3'b011,
-                     1'b0,v,id,1'b0,loc,3'b010,
-                     1'b0,v,id,1'b0,loc,3'b001,
-                     1'b0,v,id,1'b0,loc,3'b000};
+    assign mm_ptc = {2'b01,id,1'b0,loc,3'b111,
+                     2'b01,id,1'b0,loc,3'b110,
+                     2'b01,id,1'b0,loc,3'b101,
+                     2'b01,id,1'b0,loc,3'b100,
+                     2'b01,id,1'b0,loc,3'b011,
+                     2'b01,id,1'b0,loc,3'b010,
+                     2'b01,id,1'b0,loc,3'b001,
+                     2'b01,id,1'b0,loc,3'b000};
 
 endmodule

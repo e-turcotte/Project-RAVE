@@ -79,43 +79,43 @@ module writeback_TOP(
 
     invn #(.NUM_INPUTS(7)) flip(.in(inst_ptcid_in), .out(flip_ptcid));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(7)) m3456789(.in({flip_ptcid,inst_ptcid_in}), .sel(is_rep), .out(ptctouse));
-    assign sreg_ptcs[3] = {2'b01,ptctouse,inp4_ptcinfo[118:115],3'b111,
-                           2'b01,ptctouse,inp4_ptcinfo[102:99],3'b110,
-                           2'b01,ptctouse,inp4_ptcinfo[86:83],3'b101,
-                           2'b01,ptctouse,inp4_ptcinfo[70:67],3'b100,
-                           2'b01,ptctouse,inp4_ptcinfo[54:51],3'b011,
-                           2'b01,ptctouse,inp4_ptcinfo[38:35],3'b010,
-                           2'b01,ptctouse,inp4_ptcinfo[22:19],3'b001,
-                           2'b01,ptctouse,inp4_ptcinfo[6:3],,3'b000};
-    assign sreg_ptcs[2] = {2'b01,inst_ptcid_in,inp3_ptcinfo[118:115],3'b111,
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[102:99],3'b110,
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[86:83],3'b101,
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[70:67],3'b100,
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[54:51],3'b011,
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[38:35],3'b010,
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[22:19],3'b001,
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[6:3],,3'b000};
-    assign sreg_ptcs[1] = {2'b01,inst_ptcid_in,inp2_ptcinfo[118:115],3'b111,
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[102:99],3'b110,
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[86:83],3'b101,
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[70:67],3'b100,
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[54:51],3'b011,
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[38:35],3'b010,
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[22:19],3'b001,
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[6:3],,3'b000};
-    assign sreg_ptcs[0] = {2'b01,inst_ptcid_in,inp1_ptcinfo[118:115],3'b111,
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[102:99],3'b110,
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[86:83],3'b101,
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[70:67],3'b100,
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[54:51],3'b011,
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[38:35],3'b010,
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[22:19],3'b001,
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[6:3],,3'b000};
+    assign sreg_ptcs[3] = {1'b0,inp4_wb,ptctouse,inp4_ptcinfo[118:112],
+                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[102:96],
+                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[86:80],
+                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[70:64],
+                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[54:48],
+                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[38:32],
+                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[22:16],
+                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[6:0]};
+    assign sreg_ptcs[2] = {1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[118:112],
+                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[102:96],
+                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[86:80],
+                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[70:64],
+                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[54:48],
+                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[38:32],
+                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[22:16],
+                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[6:0]};
+    assign sreg_ptcs[1] = {1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[118:112],
+                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[102:96],
+                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[86:80],
+                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[70:64],
+                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[54:48],
+                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[38:32],
+                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[22:16],
+                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[6:0]};
+    assign sreg_ptcs[0] = {1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[118:112],
+                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[102:96],
+                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[86:80],
+                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[70:64],
+                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[54:48],
+                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[38:32],
+                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[22:16],
+                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[6:0]};
 
     wire [3:0] notneedptc;
     wire invvalid;
     
-    inv1$ ghjgbnm(.out(invvalid), .in(valid_out));
+    inv1$ dvorak2(.out(invvalid), .in(valid_out));
     nor3$ qwerty(.out(notneedptc[3]), .in0(inp4_isReg), .in1(inp4_isSeg), .in2(inp4_isMem));
     muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(128)) mqwerty(.in({256'h0,sreg_ptcs[3],sreg_ptcs[3],inp4_ptcinfo}), .sel({invvalid,notneedptc[3],inp4_isReg,inp4_isSeg,inp4_isMem}), .out(res4_ptcinfo));
     nor3$ uiop(.out(notneedptc[2]), .in0(inp3_isReg), .in1(inp3_isSeg), .in2(inp3_isMem));
