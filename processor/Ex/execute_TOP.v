@@ -143,7 +143,7 @@ module execute_TOP(
     // mux2n #(32) mx3(res2_dest, dest2_addr, dest1_addr, P_OP[33]);
     res2Handler r2H(op1, op2, df, opsize_in, P_OP[15], P_OP[33], P_OP[35], P_OP[36], res2);
     assign res2_is_reg_out = res2_is_reg_in;
-    assign reg2_is_seg_out = res2_is_seg_in;
+    assign res2_is_seg_out = res2_is_seg_in;
     assign res2_is_mem_out = res2_is_mem_in;
     assign res2_dest = dest2_addr;
     assign res2_ptcinfo = op2_ptcinfo;
