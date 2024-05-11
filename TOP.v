@@ -50,52 +50,18 @@
 
     initial begin
         D_valid = 1'b1;
-        packet = 128'hbaef_bead_de00_0000_0000_0000_0000_0000;
+        packet = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
         global_reset = 0;
         global_set = 1;
         global_init = 0;
         #(CYCLE_TIME)
         global_reset = 1;
-        D_valid = 1'b0;
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
-        #(CYCLE_TIME)
-
-
-        D_valid = 1'b1;
-        packet = 128'hbbff_ffff_ff00_0000_0000_0000_0000_0000;
-        #(CYCLE_TIME)
-        D_valid = 1'b0;
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-
-        D_valid = 1'b1;
-        packet = 128'h6687_d300_0000_0000_0000_0000_0000_0000;
-        #(CYCLE_TIME)
-        D_valid = 1'b0;
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-
-        D_valid = 1'b1;
-        packet = 128'h87da_0000_0000_0000_0000_0000_0000_0000;
-        #(CYCLE_TIME)
-        D_valid = 1'b0;
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
