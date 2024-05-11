@@ -176,13 +176,13 @@ muxnm_tristate #(32,64) t1(aluRes, alukOH, ALU_OUT);
 
 
 wire [31:0] af_sel;
-assign af_sel = {sal_af, sar_af, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, or_af, not_af, daa_af, cmpxchng_af, std_af, cld_af, movA_af, movB_af, penc_af, add_af, and_af, 13'd0};
+assign af_sel = {13'd0, sal_af, sar_af, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, or_af, not_af, daa_af, cmpxchng_af, std_af, cld_af, movA_af, movB_af, penc_af, add_af, and_af};
 
 wire [31:0] cf_sel;
-assign cf_sel = {sal_cf, sar_cf, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, or_cf, not_cf, daa_cf, cmpxchng_cf, std_cf, cld_cf, movA_cf, movB_cf, penc_cf, add_cf, and_cf, 13'd0};
+assign cf_sel = {13'd0, sal_cf, sar_cf, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, or_cf, not_cf, daa_cf, cmpxchng_cf, std_cf, cld_cf, movA_cf, movB_cf, penc_cf, add_cf, and_cf};
 
 wire [31:0] of_sel;
-assign of_sel = {sal_of, sar_of, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, or_of, not_of, daa_of, cmpxchng_of, std_of, cld_of, movA_of, movB_of, penc_of, add_of, and_of, 13'd0};
+assign of_sel = {13'd0, sal_of, sar_of, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, or_of, not_of, daa_of, cmpxchng_of, std_of, cld_of, movA_of, movB_of, penc_of, add_of, and_of};
 
 muxnm_tristate #(32,1) t2(af_sel, alukOH, af_out);
 muxnm_tristate #(32,1) t3(cf_sel, alukOH, cf_out);
