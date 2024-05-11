@@ -80,38 +80,38 @@ module writeback_TOP(
 
     invn #(.NUM_INPUTS(7)) flip(.in(inst_ptcid_in), .out(flip_ptcid));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(7)) m3456789(.in({flip_ptcid,inst_ptcid_in}), .sel(is_rep), .out(ptctouse));
-    assign sreg_ptcs[3] = {1'b0,inp4_wb,ptctouse,inp4_ptcinfo[118:112],
-                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[102:96],
-                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[86:80],
-                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[70:64],
-                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[54:48],
-                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[38:32],
-                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[22:16],
-                           1'b0,inp4_wb,ptctouse,inp4_ptcinfo[6:0]};
-    assign sreg_ptcs[2] = {1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[118:112],
-                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[102:96],
-                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[86:80],
-                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[70:64],
-                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[54:48],
-                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[38:32],
-                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[22:16],
-                           1'b0,inp3_wb,inst_ptcid_in,inp3_ptcinfo[6:0]};
-    assign sreg_ptcs[1] = {1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[118:112],
-                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[102:96],
-                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[86:80],
-                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[70:64],
-                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[54:48],
-                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[38:32],
-                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[22:16],
-                           1'b0,inp2_wb,inst_ptcid_in,inp2_ptcinfo[6:0]};
-    assign sreg_ptcs[0] = {1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[118:112],
-                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[102:96],
-                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[86:80],
-                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[70:64],
-                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[54:48],
-                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[38:32],
-                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[22:16],
-                           1'b0,inp1_wb,inst_ptcid_in,inp1_ptcinfo[6:0]};
+    assign sreg_ptcs[3] = {dest4_ptcinfo[127:126],ptctouse,dest4_ptcinfo[118:112],
+                           dest4_ptcinfo[111:110],ptctouse,dest4_ptcinfo[102: 96],
+                           dest4_ptcinfo[ 95: 94],ptctouse,dest4_ptcinfo[ 86: 80],
+                           dest4_ptcinfo[ 79: 78],ptctouse,dest4_ptcinfo[ 70: 64],
+                           dest4_ptcinfo[ 63: 62],ptctouse,dest4_ptcinfo[ 54: 48],
+                           dest4_ptcinfo[ 47: 46],ptctouse,dest4_ptcinfo[ 38: 32],
+                           dest4_ptcinfo[ 31: 30],ptctouse,dest4_ptcinfo[ 22: 16],
+                           dest4_ptcinfo[ 15: 14],ptctouse,dest4_ptcinfo[  6:  0]};
+    assign sreg_ptcs[2] = {dest3_ptcinfo[127:126],ptctouse,dest3_ptcinfo[118:112],
+                           dest3_ptcinfo[111:110],ptctouse,dest3_ptcinfo[102: 96],
+                           dest3_ptcinfo[ 95: 94],ptctouse,dest3_ptcinfo[ 86: 80],
+                           dest3_ptcinfo[ 79: 78],ptctouse,dest3_ptcinfo[ 70: 64],
+                           dest3_ptcinfo[ 63: 62],ptctouse,dest3_ptcinfo[ 54: 48],
+                           dest3_ptcinfo[ 47: 46],ptctouse,dest3_ptcinfo[ 38: 32],
+                           dest3_ptcinfo[ 31: 30],ptctouse,dest3_ptcinfo[ 22: 16],
+                           dest3_ptcinfo[ 15: 14],ptctouse,dest3_ptcinfo[  6:  0]};
+    assign sreg_ptcs[1] = {dest2_ptcinfo[127:126],ptctouse,dest2_ptcinfo[118:112],
+                           dest2_ptcinfo[111:110],ptctouse,dest2_ptcinfo[102: 96],
+                           dest2_ptcinfo[ 95: 94],ptctouse,dest2_ptcinfo[ 86: 80],
+                           dest2_ptcinfo[ 79: 78],ptctouse,dest2_ptcinfo[ 70: 64],
+                           dest2_ptcinfo[ 63: 62],ptctouse,dest2_ptcinfo[ 54: 48],
+                           dest2_ptcinfo[ 47: 46],ptctouse,dest2_ptcinfo[ 38: 32],
+                           dest2_ptcinfo[ 31: 30],ptctouse,dest2_ptcinfo[ 22: 16],
+                           dest2_ptcinfo[ 15: 14],ptctouse,dest2_ptcinfo[  6:  0]};
+    assign sreg_ptcs[0] = {dest1_ptcinfo[127:126],ptctouse,dest1_ptcinfo[118:112],
+                           dest1_ptcinfo[111:110],ptctouse,dest1_ptcinfo[102: 96],
+                           dest1_ptcinfo[ 95: 94],ptctouse,dest1_ptcinfo[ 86: 80],
+                           dest1_ptcinfo[ 79: 78],ptctouse,dest1_ptcinfo[ 70: 64],
+                           dest1_ptcinfo[ 63: 62],ptctouse,dest1_ptcinfo[ 54: 48],
+                           dest1_ptcinfo[ 47: 46],ptctouse,dest1_ptcinfo[ 38: 32],
+                           dest1_ptcinfo[ 31: 30],ptctouse,dest1_ptcinfo[ 22: 16],
+                           dest1_ptcinfo[ 15: 14],ptctouse,dest1_ptcinfo[  6:  0]};
 
     wire [3:0] notneedptc;
     wire invvalid;
