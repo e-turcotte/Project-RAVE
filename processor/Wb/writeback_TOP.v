@@ -83,7 +83,7 @@ module writeback_TOP(
 
     genvar i;
     generate
-        for (i = 0; i < 128; i = i + 16) begin : ptc_boadcast_slices
+        for (i = 0; i < 8; i = i + 1) begin : ptc_boadcast_slices
 
             wire [3:0] valid_broadcast;
 
