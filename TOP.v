@@ -834,7 +834,7 @@
     );
     wire [63:0] op1_exdf, op2_exdf, op3_exdf, op4_exdf;
 
-    bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(4)) exdf(.prospective_data({res4_WB_RRAG_out,res3_WB_RRAG_out,res2_WB_RRAG_out,res1_WB_RRAG_out}), .prespective_ptc({res4_ptcinfo_WB_RRAG_out,res3_ptcinfo_WB_RRAG_out,res2_ptcinfo_WB_RRAG_out,res1_ptcinfo_WB_RRAG_out}),
+    bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(4)) exdf(.prospective_data({res4_WB_RRAG_out,res3_WB_RRAG_out,res2_WB_RRAG_out,res1_WB_RRAG_out}), .prospective_ptc({res4_ptcinfo_WB_RRAG_out,res3_ptcinfo_WB_RRAG_out,res2_ptcinfo_WB_RRAG_out,res1_ptcinfo_WB_RRAG_out}),
                                                            .operand_data({op4_MEM_EX_latch_out,op3_MEM_EX_latch_out,op2_MEM_EX_latch_out,op1_MEM_EX_latch_out}), .operand_ptc({op4_ptcinfo_MEM_EX_latch_out,op3_ptcinfo_MEM_EX_latch_out,op2_ptcinfo_MEM_EX_latch_out,op1_ptcinfo_MEM_EX_latch_out}),
                                                            .new_data({op4_exdf,op3_exdf,op2_exdf,op1_exdf}), .modify());
 
