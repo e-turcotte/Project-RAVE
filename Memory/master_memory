@@ -18,3 +18,4 @@ dramcell.v
 ../local-lib/buffer_bytes.v
 ../local-lib/pencoder32_5.v
 ../local-lib/nbitdevices/muxnm.v
+../local-lib/nbitdevices/gaten.v
