@@ -832,6 +832,11 @@
                 FMASK_MEM_EX_latch_out, conditionals_MEM_EX_latch_out, isBR_MEM_EX_latch_out, is_fp_MEM_EX_latch_out, CS_MEM_EX_latch_out }
              )
     );
+    wire [63:0] op1_exdf, op2_exdf, op3_exdf, op4_exdf;
+
+    bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(4)) exdf(.prospective_data({res4_WB_RRAG_out,res3_WB_RRAG_out,res2_WB_RRAG_out,res1_WB_RRAG_out}), .prespective_ptc({res4_ptcinfo_WB_RRAG_out,res3_ptcinfo_WB_RRAG_out,res2_ptcinfo_WB_RRAG_out,res1_ptcinfo_WB_RRAG_out}),
+                                                           .operand_data({op4_MEM_EX_latch_out,op3_MEM_EX_latch_out,op2_MEM_EX_latch_out,op1_MEM_EX_latch_out}), .operand_ptc({op4_ptcinfo_MEM_EX_latch_out,op3_ptcinfo_MEM_EX_latch_out,op2_ptcinfo_MEM_EX_latch_out,op1_ptcinfo_MEM_EX_latch_out}),
+                                                           .new_data({op4_exdf,op3_exdf,op3_exdf,op1_exdf,}), .modify());
 
     execute_TOP e1 (
         .clk(clk),
@@ -850,7 +855,7 @@
         .res1_ld_in(res1_ld_MEM_EX_latch_out), .res2_ld_in(res2_ld_MEM_EX_latch_out),
         .res3_ld_in(res3_ld_MEM_EX_latch_out), .res4_ld_in(res4_ld_MEM_EX_latch_out),
         .op1(op1_MEM_EX_latch_out), .op2(op2_MEM_EX_latch_out),
-        .op3(op2_MEM_EX_latch_out), .op4(op4_MEM_EX_latch_out),
+        .op3(op3_MEM_EX_latch_out), .op4(op4_MEM_EX_latch_out),
         .op1_ptcinfo(op1_ptcinfo_MEM_EX_latch_out), .op2_ptcinfo(op2_ptcinfo_MEM_EX_latch_out),
         .op3_ptcinfo(op3_ptcinfo_MEM_EX_latch_out), .op4_ptcinfo(op4_ptcinfo_MEM_EX_latch_out),
         .wake_in(wake_MEM_EX_latch_out),
