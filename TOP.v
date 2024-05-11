@@ -854,8 +854,8 @@
 
         .res1_ld_in(res1_ld_MEM_EX_latch_out), .res2_ld_in(res2_ld_MEM_EX_latch_out),
         .res3_ld_in(res3_ld_MEM_EX_latch_out), .res4_ld_in(res4_ld_MEM_EX_latch_out),
-        .op1(op1_MEM_EX_latch_out), .op2(op2_MEM_EX_latch_out),
-        .op3(op3_MEM_EX_latch_out), .op4(op4_MEM_EX_latch_out),
+        .op1(op1_exdf), .op2(op2_exdf),
+        .op3(op3_exdf), .op4(op4_exdf),
         .op1_ptcinfo(op1_ptcinfo_MEM_EX_latch_out), .op2_ptcinfo(op2_ptcinfo_MEM_EX_latch_out),
         .op3_ptcinfo(op3_ptcinfo_MEM_EX_latch_out), .op4_ptcinfo(op4_ptcinfo_MEM_EX_latch_out),
         .wake_in(wake_MEM_EX_latch_out),
