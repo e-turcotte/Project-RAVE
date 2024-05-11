@@ -115,7 +115,7 @@ module writeback_TOP(
     wire [3:0] notneedptc;
     wire invvalid;
     
-    inv1$ dvorak(.out(invvalid), .in(valid_out));
+    inv1$ dvorak2(.out(invvalid), .in(valid_out));
     nor3$ qwerty(.out(notneedptc[3]), .in0(inp4_isReg), .in1(inp4_isSeg), .in2(inp4_isMem));
     muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(128)) mqwerty(.in({256'h0,sreg_ptcs[3],sreg_ptcs[3],inp4_ptcinfo}), .sel({invvalid,notneedptc[3],inp4_isReg,inp4_isSeg,inp4_isMem}), .out(res4_ptcinfo));
     nor3$ uiop(.out(notneedptc[2]), .in0(inp3_isReg), .in1(inp3_isSeg), .in2(inp3_isMem));
