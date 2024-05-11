@@ -7,9 +7,11 @@ module dramcell (input [4:0] addr,
     inv1$ g0(.out(rd), .in(rw));
     assign wr = rw;
 
-    sram32x32$ sram0(.A(addr), .DIO(dio[31:0]), .OE(rd), .WR(wr), .CE(ce));
-    sram32x32$ sram1(.A(addr), .DIO(dio[63:32]), .OE(rd), .WR(wr), .CE(ce));
-    sram32x32$ sram2(.A(addr), .DIO(dio[95:64]), .OE(rd), .WR(wr), .CE(ce));
-    sram32x32$ sram3(.A(addr), .DIO(dio[127:96]), .OE(rd), .WR(wr), .CE(ce));
+    genvar i;
+    generate
+        for (i = 0; i < 4; i = i + 1) begin : cells
+            sram32x32$ sram(.A(addr), .DIO(dio[(i+1)*32-1:i*32]), .OE(rd), .WR(wr), .CE(ce));
+        end
+    endgenerate
 
 endmodule

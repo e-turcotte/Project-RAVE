@@ -5,7 +5,7 @@ module bus_TOP(input reqIE, reqIO, reqDEr, reqDEw, reqDOr, reqDOw, reqB0, reqB1,
 
                input clk, clr,
 
-               inout [ /*TODO*/ ] BUS,
+               inout [72:0] BUS,
 
                output ackIE, ackIO, ackDEr, ackDEw, ackDOr, ackDOw, ackB0, ackB1, ackB2, ackB3, ackDMA,
                output grantIE, grantIO, grantDEr, grantDEw, grantDOr, grantDOw, grantB0, grantB1, grantB2, grantB3, grantDMA,
