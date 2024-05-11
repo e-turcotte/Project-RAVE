@@ -79,38 +79,38 @@ module writeback_TOP(
 
     invn #(.NUM_INPUTS(7)) flip(.in(inst_ptcid_in), .out(flip_ptcid));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(7)) m3456789(.in({flip_ptcid,inst_ptcid_in}), .sel(is_rep), .out(ptctouse));
-    assign sreg_ptcs[3] = {2'b01,ptctouse,inp4_ptcinfo[118:112],
-                           2'b01,ptctouse,inp4_ptcinfo[102:96],
-                           2'b01,ptctouse,inp4_ptcinfo[86:80],
-                           2'b01,ptctouse,inp4_ptcinfo[70:64],
-                           2'b01,ptctouse,inp4_ptcinfo[54:48],
-                           2'b01,ptctouse,inp4_ptcinfo[38:32],
-                           2'b01,ptctouse,inp4_ptcinfo[22:16],
-                           2'b01,ptctouse,inp4_ptcinfo[6:0]};
-    assign sreg_ptcs[2] = {2'b01,inst_ptcid_in,inp3_ptcinfo[118:112],
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[102:96],
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[86:80],
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[70:64],
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[54:48],
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[38:32],
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[22:16],
-                           2'b01,inst_ptcid_in,inp3_ptcinfo[6:0]};
-    assign sreg_ptcs[1] = {2'b01,inst_ptcid_in,inp2_ptcinfo[118:112],
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[102:96],
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[86:80],
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[70:64],
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[54:48],
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[38:32],
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[22:16],
-                           2'b01,inst_ptcid_in,inp2_ptcinfo[6:0]};
-    assign sreg_ptcs[0] = {2'b01,inst_ptcid_in,inp1_ptcinfo[118:112],
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[102:96],
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[86:80],
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[70:64],
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[54:48],
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[38:32],
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[22:16],
-                           2'b01,inst_ptcid_in,inp1_ptcinfo[6:0]};
+    assign sreg_ptcs[3] = {2'b01,ptctouse,inp4_ptcinfo[118:115],3'b111,
+                           2'b01,ptctouse,inp4_ptcinfo[102:99],3'b110,
+                           2'b01,ptctouse,inp4_ptcinfo[86:83],3'b101,
+                           2'b01,ptctouse,inp4_ptcinfo[70:67],3'b100,
+                           2'b01,ptctouse,inp4_ptcinfo[54:51],3'b011,
+                           2'b01,ptctouse,inp4_ptcinfo[38:35],3'b010,
+                           2'b01,ptctouse,inp4_ptcinfo[22:19],3'b001,
+                           2'b01,ptctouse,inp4_ptcinfo[6:3],,3'b000};
+    assign sreg_ptcs[2] = {2'b01,inst_ptcid_in,inp3_ptcinfo[118:115],3'b111,
+                           2'b01,inst_ptcid_in,inp3_ptcinfo[102:99],3'b110,
+                           2'b01,inst_ptcid_in,inp3_ptcinfo[86:83],3'b101,
+                           2'b01,inst_ptcid_in,inp3_ptcinfo[70:67],3'b100,
+                           2'b01,inst_ptcid_in,inp3_ptcinfo[54:51],3'b011,
+                           2'b01,inst_ptcid_in,inp3_ptcinfo[38:35],3'b010,
+                           2'b01,inst_ptcid_in,inp3_ptcinfo[22:19],3'b001,
+                           2'b01,inst_ptcid_in,inp3_ptcinfo[6:3],,3'b000};
+    assign sreg_ptcs[1] = {2'b01,inst_ptcid_in,inp2_ptcinfo[118:115],3'b111,
+                           2'b01,inst_ptcid_in,inp2_ptcinfo[102:99],3'b110,
+                           2'b01,inst_ptcid_in,inp2_ptcinfo[86:83],3'b101,
+                           2'b01,inst_ptcid_in,inp2_ptcinfo[70:67],3'b100,
+                           2'b01,inst_ptcid_in,inp2_ptcinfo[54:51],3'b011,
+                           2'b01,inst_ptcid_in,inp2_ptcinfo[38:35],3'b010,
+                           2'b01,inst_ptcid_in,inp2_ptcinfo[22:19],3'b001,
+                           2'b01,inst_ptcid_in,inp2_ptcinfo[6:3],,3'b000};
+    assign sreg_ptcs[0] = {2'b01,inst_ptcid_in,inp1_ptcinfo[118:115],3'b111,
+                           2'b01,inst_ptcid_in,inp1_ptcinfo[102:99],3'b110,
+                           2'b01,inst_ptcid_in,inp1_ptcinfo[86:83],3'b101,
+                           2'b01,inst_ptcid_in,inp1_ptcinfo[70:67],3'b100,
+                           2'b01,inst_ptcid_in,inp1_ptcinfo[54:51],3'b011,
+                           2'b01,inst_ptcid_in,inp1_ptcinfo[38:35],3'b010,
+                           2'b01,inst_ptcid_in,inp1_ptcinfo[22:19],3'b001,
+                           2'b01,inst_ptcid_in,inp1_ptcinfo[6:3],,3'b000};
 
     wire [3:0] notneedptc;
     wire invvalid;
