@@ -1,6 +1,5 @@
 module ALU_top(
     output[63:0] ALU_OUT,
-    output [31:0] OP1_DEST,
     output[63:0] ALU_OUT_2,
     output swapCXC,
     output cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out,
@@ -91,7 +90,7 @@ assign pass1 = 64'd1;
 //aluk = 00111
 wire[63:0] cmpxchng_out;
  wire cmpxchng_af;wire cmpxchng_cf;wire cmpxchng_of;
-CMPXCHNG_alu a3(cmpxchng_out, OP1_DEST,swapCXC, cmpxchng_af, cmpxchng_cf, cmpxchng_of,  cmpxchng_zf, OP1, OP2, OP3,OP1_ORIG, CMPXCHNG_P_OP);
+CMPXCHNG_alu a3(cmpxchng_out, swapCXC, cmpxchng_af, cmpxchng_cf, cmpxchng_of,  cmpxchng_zf, OP1, OP2, OP3,OP1_ORIG, CMPXCHNG_P_OP);
 
 //do parity
 //aluk = 01000
@@ -427,7 +426,6 @@ endmodule
 
 module CMPXCHNG_alu(
     output[63:0] cmpxchng_out,
-    output [31:0] op1_dest,
     output swap,
     output cmpxchng_af,
     output cmpxchng_cf,
@@ -452,7 +450,7 @@ module CMPXCHNG_alu(
    
    and2$ andx(swap, op1_EQ_op3, cmpxchng_p_op);
    
-    mux2n #(32) m2(op1_dest, op1_orig, mux1_out, cmpxchng_p_op);   
+    mux2n #(32) m2(/*op1_dest*/, op1_orig, mux1_out, cmpxchng_p_op);   
     mux2n #(64) m3(cmpxchng_out, OP1, OP2, op1_EQ_op3);
    
     wire[31:0] not2;
