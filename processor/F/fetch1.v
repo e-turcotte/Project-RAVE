@@ -1,6 +1,6 @@
 module fetch_1 (
     input wire clk,
-    input wire reset,
+    input wire set, reset,
     input wire [31:0] init_addr,
     input wire is_init,
     input wire [27:0] BP_FIP_o,
@@ -13,18 +13,42 @@ module fetch_1 (
     input wire even_latch_was_loaded,
     input wire odd_latch_was_loaded,
 
-    output wire [127:0] even_line_out,
-    output wire [127:0] odd_line_out,
+    input wire [159:0] VP, PF,
+    input wire [7:0]MSHR_entry_V, MSHR_entry_P, MSHR_entry_RW, MSHR_entry_PCD,
 
-    output wire cache_miss_even,
-    output wire cache_miss_odd,
+    input wire clock_bus,
+    input wire SER_i$_grant_e,
+    input wire SER_i$_grant_o,
+    input wire DES_i$_reciever_e,
+    input wire DES_i$_reciever_o,
+
+    output wire protection_exception_e,
+    output wire TLB_MISS_EXCEPTION_e,    
+    output wire protection_exception_o,
+    output wire TLB_MISS_EXCEPTION_o,    
+
+    output wire [127:0] line_even_out,
+    output wire [127:0] line_odd_out,
+
+    output wire cache_miss_even_out,
+    output wire cache_miss_odd_out,
+
+    output wire evenW_out, //this signal is in case the cache is in the state where it is writing back to a line
+    output wire oddW_out, //  in which case it would not be outputing valid lines out
 
     output wire [1:0] FIP_o_lsb,
-    output wire [1:0] FIP_e_lsb
+    output wire [1:0] FIP_e_lsb,
+
+    output wire SER_i$_release_o,
+    output wire SER_i$_req_o,
+    output wire SER_i$_release_e,    
+    output wire SER_i$_req_e,
+    output wire DES_i$_free_o,
+    output wire DES_i$_free_e,
+
+    inout wire [72:0] BUS
     
 );
-
-wire cache_miss_even, cache_miss_odd;
 
 // CF priority arbitration
 wire [2:0] select_CF_mux;
@@ -36,7 +60,7 @@ andn #(2) a0(.in({not_is_init, is_resteer}), .out(select_CF_mux_1));
 wire not_is_resteer;
 inv1$ i1(.in(is_resteer), .out(not_is_resteer));
 andn #(3) a1(.in({not_is_init, not_is_resteer, is_BR_T_NT}), .out(select_CF_mux_0));
-select_CF_mux = {select_CF_mux_2, select_CF_mux_1, select_CF_mux_0};
+assign select_CF_mux = {select_CF_mux_2, select_CF_mux_1, select_CF_mux_0};
 
 wire is_CF;
 orn #(3) o0(.in({is_init, is_resteer, is_BR_T_NT}), .out(is_CF));
@@ -45,7 +69,7 @@ orn #(3) o0(.in({is_init, is_resteer, is_BR_T_NT}), .out(is_CF));
 wire [27:0] init_FIP_o, init_FIP_e;
 
 wire [31:0] init_addr_plus_1;
-kogeAdder #(.WIDTH(32)) a0(.SUM(init_addr_plus_1), .COUT(), .A({init_addr}), .B(32'd16), .CIN(1'b0));
+kogeAdder #(.WIDTH(32)) a02e35rwgsr(.SUM(init_addr_plus_1), .COUT(), .A({init_addr}), .B(32'd16), .CIN(1'b0));
 
 muxnm_tree #(.NUM_INPUTS(2), .DATA_WIDTH(28)) m0(.in({init_addr, init_addr_plus_1}), .sel(init_addr[4]), .out(init_FIP_o));
 muxnm_tree #(.NUM_INPUTS(2), .DATA_WIDTH(28)) m1(.in({init_addr_plus_1, init_addr}), .sel(init_addr[4]), .out(init_FIP_e));
@@ -58,19 +82,53 @@ assign ld_FIP_reg_even = even_latch_was_loaded;
 wire ld_FIP_reg_odd;
 assign ld_FIP_reg_odd = odd_latch_was_loaded;
 
-wire [27:0] FIP_o_access, FIP_e_access;
+wire [27:0] FIP_o;
+wire [27:0] FIP_e;
 
 select_address_ICache sel_odd(.clk(clk), .init_FIP(init_FIP_o), .BP_FIP(BP_FIP_o), .WB_FIP(WB_FIP_o), .sel_CF(select_CF_mux), .ld_FIP_reg(ld_FIP_reg_odd), 
-                                       .clr_FIP_reg(reset), .is_ctrl_flow(is_CF), .addr(FIP_o_access));
+                                       .clr_FIP_reg(reset), .is_ctrl_flow(is_CF), .output_addr(FIP_o));
 select_address_ICache sel_even(.clk(clk), .init_FIP(init_FIP_e), .BP_FIP(BP_FIP_e), .WB_FIP(WB_FIP_e), .sel_CF(select_CF_mux), .ld_FIP_reg(ld_FIP_reg_even), 
-                                       .clr_FIP_reg(reset), .is_ctrl_flow(is_CF), .addr(FIP_e_access));
+                                       .clr_FIP_reg(reset), .is_ctrl_flow(is_CF), .output_addr(FIP_e));
 
-assign FIP_o_lsb = FIP_o_access[5:4];
-assign FIP_e_lsb = FIP_e_access[5:4];
+assign FIP_o_lsb = FIP_o[5:4];
+assign FIP_e_lsb = FIP_e[5:4];
 
-wire cache_miss_even, cache_miss_odd;
-I$ cache(.FIP_o(FIP_o_access), .FIP_e(FIP_e_access), .line_even_out(even_line_out), .cache_miss_even(cache_miss_even), 
-            .line_odd_out(odd_line_out), .cache_miss_odd(cache_miss_odd));
+
+I$ icache(
+    .FIP_o(FIP_o),
+    .FIP_e(FIP_e),
+    .line_even_out(line_even_out),
+    .line_odd_out(line_odd_out),
+    .cache_miss_even(cache_miss_even_out),
+    .cache_miss_odd(cache_miss_odd_out),
+    .evenW(evenW_out),
+    .oddW(oddW_out),
+    .clk(clk),
+    .set(set),
+    .reset(reset),
+    .VP(VP),
+    .PF(PF),
+    .MSHR_entry_V(MSHR_entry_V),
+    .MSHR_entry_P(MSHR_entry_P),
+    .MSHR_entry_RW(MSHR_entry_RW),
+    .MSHR_entry_PCD(MSHR_entry_PCD),
+    .protection_exception_e(protection_exception_e),
+    .TLB_MISS_EXCEPTION_e(TLB_MISS_EXCEPTION_e),
+    .protection_exception_o(protection_exception_o),
+    .TLB_MISS_EXCEPTION_o(TLB_MISS_EXCEPTION_o),
+    .clock_bus(clock_bus),
+    .SER_i$_grant_e(SER_i$_grant_e),
+    .SER_i$_grant_o(SER_i$_grant_o),
+    .DES_i$_reciever_e(DES_i$_reciever_e),
+    .DES_i$_reciever_o(DES_i$_reciever_o),
+    .SER_i$_release_o(SER_i$_release_o),
+    .SER_i$_req_o(SER_i$_req_o),
+    .SER_i$_release_e(SER_i$_release_e),
+    .SER_i$_req_e(SER_i$_req_e),
+    .DES_i$_free_o(DES_i$_free_o),
+    .DES_i$_free_e(DES_i$_free_e),
+    .BUS(BUS)
+);
 
 
     
@@ -116,7 +174,7 @@ module I$ (
 
     ///////////////////////////////////////
     input clk,
-    input set, rst,
+    input set, reset,
 
     
     //////////////////////////////////////
@@ -154,15 +212,15 @@ module I$ (
     output DES_i$_free_e,
     
     //BUS
-    inout [72:0] BUS;
+    inout [72:0] BUS
 );
-wire DES_free_e, DES_free_o;
+
 wire [31:0] odd_access_address_VA, even_access_address_VA;
 assign odd_access_address_VA = {FIP_o[27:0], 4'b0000};
 assign even_access_address_VA = {FIP_e[27:0], 4'b0000};
 /*FILL OUT THESE SIGNALS*/
 
-wire DES_read_o,
+wire DES_read_o;
 wire DES_full_o;
 wire [14:0] DES_pAdr_o;
 wire [16*8-1:0]DES_DATA_o;
@@ -196,7 +254,7 @@ wire[15:0] SER_size_o;
 wire SER_rw_o;
 wire [2:0] SER_dest_o;
 
-wire SER_full_e, wire SER_full_o;
+wire SER_full_e, SER_full_o;
 
 wire[19:0] pf_e, pf_o;
 wire[14:0] pAddress_e, pAddress_o;
@@ -237,24 +295,24 @@ TLB tlb_odd(
     .hit(), //if page is valid, present and tag hit - 1 if hit
     .protection_exception(protection_exception_o) //if RW doesn't match entry_RW - 1 if exception
 );
-wire[16*8-1:0] DES_DATA_e, DES_DATA_o;
 
-
+wire DES_full_ne, DES_full_no;
 wire[14:0] pAddr_e, pAddr_o;
 mux2n #(15) (pAddr_e, pAddress_e, DES_pAdr_e, DES_full_e);
 mux2n #(15) (pAddr_o, pAddress_o, DES_pAdr_o, DES_full_o);
 inv1$ invx(DES_full_ne, DES_full_e);
 inv1$ inx(DES_full_no, DES_full_o);
 
-regn #(1) r0(DES_full_e_notbuf, 1'b1, clk, rst, DES_full_e); 
-regn #(1) r0(DES_full_o_notbuf, 1'b1, clk, rst, DES_full_o); 
+wire DES_full_e_notbuf, DES_full_o_notbuf;
+regn #(1) r0(DES_full_e_notbuf, 1'b1, clk, reset, DES_full_e); 
+regn #(1) r0asdfasf(DES_full_o_notbuf, 1'b1, clk, reset, DES_full_o); 
 
 wire mshr_e_hit, mshr_e_full, mshr_e_write;
 wire [14:0] mshr_e_paddr;
 
 cacheBank even$(
     .clk(clk),
-    .rst(rst), 
+    .rst(reset), 
     .set(set),
     .cache_id(4'b0000),
     .vAddress({FIP_e,4'd0}),
@@ -278,7 +336,7 @@ cacheBank even$(
     .MSHR_FULL(mshr_e_full),
     
     .SER1_FULL(SER_full_e),
-    .SER0_FULL(1'b),
+    .SER0_FULL(1'b0),
     .PCD_IN(1'b0),
 
     .AQ_READ(),
@@ -322,7 +380,7 @@ wire [14:0] mshr_o_paddr;
 
 cacheBank odd$(
     .clk(clk),
-    .rst(rst), 
+    .rst(reset), 
     .set(set),
     .cache_id(4'b0001),
     .vAddress({FIP_o,4'd0}),
@@ -346,7 +404,7 @@ cacheBank odd$(
     .MSHR_FULL(mshr_o_full),
     
     .SER1_FULL(SER_full_o),
-    .SER0_FULL(1'b),
+    .SER0_FULL(1'b0),
     .PCD_IN(1'b0),
 
     .AQ_READ(),
@@ -386,13 +444,13 @@ mshr mshro(.pAddress(mshr_o_paddr), .ptcid_in(7'b0), .rd_or_sw_in(1'b0), .alloc(
            .ptcid_out(), .rd_or_sw_out(), .mshr_hit(mshr_o_hit), .mshr_full(mshr_o_full));
     
 SER SER_e(
-    .clk_bus(clk_bus),
-    .clk_core(clk_core),
-    .set(set), .rst(rst),
+    .clk_bus(clock_bus),
+    .clk_core(clk),
+    .set(set), .rst(reset),
 
     .valid_in(SER_valid_e),
     .pAdr_in(SER_pAddress_e),
-    .dest_in(SER_dest__e),
+    .dest_in(SER_dest_e),
     .return_in(SER_return_e),
     .rw_in(SER_rw_e),
     .size_in(SER_size_e),
@@ -411,13 +469,13 @@ SER SER_e(
 
 
 SER SER_o(
-    .clk_bus(clk_bus),
+    .clk_bus(clock_bus),
     .clk_core(clk),
-    .set(set), .rst(rst),
+    .set(set), .rst(reset),
 
     .valid_in(SER_valid_o),
     .pAdr_in(SER_pAddress_o),
-    .dest_in(SER_dest_o;),
+    .dest_in(SER_dest_o),
     .return_in(SER_return_o),
     .rw_in(SER_rw_o),
     .size_in(SER_size_o),
@@ -436,9 +494,9 @@ SER SER_o(
 
 DES DES_e(
     .read(DES_read_e),
-    .clk_bus(clk_bus),
+    .clk_bus(clock_bus),
     .clk_core(clk),
-    .set(set), .rst(rst),
+    .set(set), .rst(reset),
 
     .BUS(BUS),
     
@@ -455,9 +513,9 @@ DES DES_e(
 );
 
 DES DES_o(
-    .clk_bus(clk_bus),
-    .clk_core(clk_core),
-    .set(set), .rst(rst),
+    .clk_bus(clock_bus),
+    .clk_core(clk),
+    .set(set), .rst(reset),
 
     .read(DES_read_o),
 
@@ -476,8 +534,3 @@ DES DES_o(
 );
 
 endmodule
-
-// module mux$(
-//     input w,
-//     input 
-// );
