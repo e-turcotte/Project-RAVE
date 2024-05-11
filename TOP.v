@@ -50,34 +50,55 @@
 
     initial begin
         D_valid = 1'b1;
-        packet = 128'h81ca_3930_0000_0000_0000_0000_0000_0000;
+        packet = 128'hbaef_bead_de00_0000_0000_0000_0000_0000;
         global_reset = 0;
         global_set = 1;
         global_init = 0;
         #(CYCLE_TIME)
-
-        // #(CYCLE_TIME)
-
         global_reset = 1;
-        // global_set = 1;
-        // global_init = 1;
-        // EIP_init = 32'h0000_0000;
+        D_valid = 1'b0;
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
 
-        // #(CYCLE_TIME)
 
-        // global_init = 0;
+        D_valid = 1'b1;
+        packet = 128'hbbff_ffff_7f00_0000_0000_0000_0000_0000;
+        #(CYCLE_TIME)
+        D_valid = 1'b0;
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
 
+        D_valid = 1'b1;
+        packet = 128'h83c3_0100_0000_0000_0000_0000_0000_0000;
+        #(CYCLE_TIME)
+        D_valid = 1'b0;
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
+
+        D_valid = 1'b1;
+        packet = 128'h660f_42c2_0000_0000_0000_0000_0000_0000;
+        #(CYCLE_TIME)
+        D_valid = 1'b0;
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
+        #(CYCLE_TIME)
+
         $finish();
 
     end
