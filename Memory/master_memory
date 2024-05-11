@@ -1,0 +1,16 @@
+/home/projects/courses/spring_22/ee382n19_16785/lib/time -v 
+/home/projects/courses/spring_22/ee382n19_16785/lib/lib1
+/home/projects/courses/spring_22/ee382n19_16785/lib/lib2
+/home/projects/courses/spring_22/ee382n19_16785/lib/lib3
+/home/projects/courses/spring_22/ee382n19_16785/lib/lib4
+/home/projects/courses/spring_22/ee382n19_16785/lib/lib5
+/home/projects/courses/spring_22/ee382n19_16785/lib/lib6
+
+
+pmem_TOP_t.v
+pmem_TOP.v
+bank.v
+dramcell.v
+../Bus/SER.v
+../Bus/DES.v
+../local-lib/nbitdevices/regn.v
