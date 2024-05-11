@@ -80,38 +80,24 @@ module writeback_TOP(
 
     invn #(.NUM_INPUTS(7)) flip(.in(inst_ptcid_in), .out(flip_ptcid));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(7)) m3456789(.in({flip_ptcid,inst_ptcid_in}), .sel(is_rep), .out(ptctouse));
-    assign sreg_ptcs[3] = {dest4_ptcinfo[127:126],ptctouse,dest4_ptcinfo[118:112],
-                           dest4_ptcinfo[111:110],ptctouse,dest4_ptcinfo[102: 96],
-                           dest4_ptcinfo[ 95: 94],ptctouse,dest4_ptcinfo[ 86: 80],
-                           dest4_ptcinfo[ 79: 78],ptctouse,dest4_ptcinfo[ 70: 64],
-                           dest4_ptcinfo[ 63: 62],ptctouse,dest4_ptcinfo[ 54: 48],
-                           dest4_ptcinfo[ 47: 46],ptctouse,dest4_ptcinfo[ 38: 32],
-                           dest4_ptcinfo[ 31: 30],ptctouse,dest4_ptcinfo[ 22: 16],
-                           dest4_ptcinfo[ 15: 14],ptctouse,dest4_ptcinfo[  6:  0]};
-    assign sreg_ptcs[2] = {dest3_ptcinfo[127:126],ptctouse,dest3_ptcinfo[118:112],
-                           dest3_ptcinfo[111:110],ptctouse,dest3_ptcinfo[102: 96],
-                           dest3_ptcinfo[ 95: 94],ptctouse,dest3_ptcinfo[ 86: 80],
-                           dest3_ptcinfo[ 79: 78],ptctouse,dest3_ptcinfo[ 70: 64],
-                           dest3_ptcinfo[ 63: 62],ptctouse,dest3_ptcinfo[ 54: 48],
-                           dest3_ptcinfo[ 47: 46],ptctouse,dest3_ptcinfo[ 38: 32],
-                           dest3_ptcinfo[ 31: 30],ptctouse,dest3_ptcinfo[ 22: 16],
-                           dest3_ptcinfo[ 15: 14],ptctouse,dest3_ptcinfo[  6:  0]};
-    assign sreg_ptcs[1] = {dest2_ptcinfo[127:126],ptctouse,dest2_ptcinfo[118:112],
-                           dest2_ptcinfo[111:110],ptctouse,dest2_ptcinfo[102: 96],
-                           dest2_ptcinfo[ 95: 94],ptctouse,dest2_ptcinfo[ 86: 80],
-                           dest2_ptcinfo[ 79: 78],ptctouse,dest2_ptcinfo[ 70: 64],
-                           dest2_ptcinfo[ 63: 62],ptctouse,dest2_ptcinfo[ 54: 48],
-                           dest2_ptcinfo[ 47: 46],ptctouse,dest2_ptcinfo[ 38: 32],
-                           dest2_ptcinfo[ 31: 30],ptctouse,dest2_ptcinfo[ 22: 16],
-                           dest2_ptcinfo[ 15: 14],ptctouse,dest2_ptcinfo[  6:  0]};
-    assign sreg_ptcs[0] = {dest1_ptcinfo[127:126],ptctouse,dest1_ptcinfo[118:112],
-                           dest1_ptcinfo[111:110],ptctouse,dest1_ptcinfo[102: 96],
-                           dest1_ptcinfo[ 95: 94],ptctouse,dest1_ptcinfo[ 86: 80],
-                           dest1_ptcinfo[ 79: 78],ptctouse,dest1_ptcinfo[ 70: 64],
-                           dest1_ptcinfo[ 63: 62],ptctouse,dest1_ptcinfo[ 54: 48],
-                           dest1_ptcinfo[ 47: 46],ptctouse,dest1_ptcinfo[ 38: 32],
-                           dest1_ptcinfo[ 31: 30],ptctouse,dest1_ptcinfo[ 22: 16],
-                           dest1_ptcinfo[ 15: 14],ptctouse,dest1_ptcinfo[  6:  0]};
+
+    genvar i;
+    generate
+        for (i = 0; i < 128; i = i + 16) begin : ptc_boadcast_slices
+
+            wire [3:0] valid_broadcast;
+
+            and2$ vb0(.out(valid_broadcast[0]), .in0(dest1_ptcinfo[i*16 + 14]), .in1(inp1_wb));
+            and2$ vb1(.out(valid_broadcast[1]), .in0(dest2_ptcinfo[i*16 + 14]), .in1(inp2_wb));
+            and2$ vb2(.out(valid_broadcast[2]), .in0(dest3_ptcinfo[i*16 + 14]), .in1(inp3_wb));
+            and2$ vb3(.out(valid_broadcast[3]), .in0(dest4_ptcinfo[i*16 + 14]), .in1(inp4_wb));
+
+            assign sreg_ptcs[3][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[3],ptctouse,dest4_ptcinfo[i*16 + 6:i*16]};
+            assign sreg_ptcs[2][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[2],ptctouse,dest3_ptcinfo[i*16 + 6:i*16]};
+            assign sreg_ptcs[1][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[1],ptctouse,dest2_ptcinfo[i*16 + 6:i*16]};
+            assign sreg_ptcs[0][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[0],ptctouse,dest1_ptcinfo[i*16 + 6:i*16]};
+        end
+    endgenerate
 
     wire [3:0] notneedptc;
     wire invvalid;
