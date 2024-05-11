@@ -11,7 +11,7 @@
     localparam m_size_MEM_EX = 780;
     localparam n_size_MEM_EX = 335;
 
-    initial #500 $finish; //TODO: run for n ns
+    // initial #500 $finish; //TODO: run for n ns
 
     initial begin
         file = $fopen("debug.out", "w");
@@ -67,9 +67,11 @@
 
 
         D_valid = 1'b1;
-        packet = 128'hbbff_ffff_7f00_0000_0000_0000_0000_0000;
+        packet = 128'hbbff_ffff_ff00_0000_0000_0000_0000_0000;
         #(CYCLE_TIME)
         D_valid = 1'b0;
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
@@ -78,9 +80,11 @@
         #(CYCLE_TIME)
 
         D_valid = 1'b1;
-        packet = 128'h83c3_0100_0000_0000_0000_0000_0000_0000;
+        packet = 128'h83c3_ff00_0000_0000_0000_0000_0000_0000;
         #(CYCLE_TIME)
         D_valid = 1'b0;
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
@@ -98,8 +102,10 @@
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
+        #(CYCLE_TIME)
+        #(CYCLE_TIME)
 
-        $finish();
+        $finish;
 
     end
 
@@ -471,7 +477,7 @@
         .reset(global_reset),
     
         // Signals from fetch_2
-        .valid_in(1'b1), //TODO: D_valid
+        .valid_in(D_valid), //TODO: D_valid
         .packet_in(packet),
         .IE_in(),
         .IE_type_in(),
