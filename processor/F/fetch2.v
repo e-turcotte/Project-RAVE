@@ -68,7 +68,7 @@ module fetch_2 (
 
     wire not_is_resteer;
     inv1$ i1(.in(is_resteer), .out(not_is_resteer));
-    andn #(3) a1(.in({not_is_init, not_is_resteer, is_BR}), .out(select_CF_mux_0));
+    andn #(3) a1(.in({not_is_init, not_is_resteer, is_BR_T_NT}), .out(select_CF_mux_0));
 
     wire [5:0] CF_BIP;
     muxnm_tristate #(.NUM_INPUTS(3), .DATA_WIDTH(6)) m0(
@@ -78,7 +78,7 @@ module fetch_2 (
     );
 
     wire is_CF, not_is_CF;
-    orn #(3) o0(.in({is_init, is_resteer, is_BR}), .out(is_CF));
+    orn #(3) o0(.in({is_init, is_resteer, is_BR_T_NT}), .out(is_CF));
     inv1$ i2(.in(is_CF), .out(not_is_CF));
 
     wire [5:0] latched_BIP, mux_BIP_to_load;
@@ -91,7 +91,7 @@ module fetch_2 (
 
     wire not_stall, ld_BIP;
     inv1$ i3(.in(stall), .out(not_stall));
-    andn #(2) a2(.in({not_stall, valid_rotate}), .out(ld_BIP));
+    andn #(2) a2(.in({not_stall, packet_out_valid}), .out(ld_BIP));
     
     regn #(.WIDTH(6)) BIP_reg(.din(mux_BIP_to_load), .ld(ld_BIP), .clk(clk), .clr(reset), .dout(latched_BIP));
 
