@@ -40,12 +40,12 @@ module regfile (input [255:0] din,
                 and3$ g3(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[0]));
                 and3$ g4(.out(mmxdest[i]), .in0(decodedrd[i]), .in1(usemmx), .in2(dest[0]));
                 and3$ g5(.out(gprdest[i]), .in0(decodedrd[i]), .in1(usegpr), .in2(dest[0]));
-            end else if (8 <= i < 16) begin
+            end else if (8 <= i && i < 16) begin
                 and3$ g6(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[1]));
                 and3$ g7(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[1]));
                 and3$ g8(.out(mmxdest[i]), .in0(decodedrd[i]), .in1(usemmx), .in2(dest[1]));
                 and3$ g9(.out(gprdest[i]), .in0(decodedrd[i]), .in1(usegpr), .in2(dest[1]));
-            end else if (16 <= i < 24) begin
+            end else if (16 <= i && i< 24) begin
                 and3$ g10(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[2]));
                 and3$ g11(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[2]));
                 and3$ g12(.out(mmxdest[i]), .in0(decodedrd[i]), .in1(usemmx), .in2(dest[2]));
