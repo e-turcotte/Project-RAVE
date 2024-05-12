@@ -128,7 +128,7 @@
     wire D_RrAg_Latches_empty, MEM_EX_Latches_empty; // AND with valid to get internal valid signals   
 
     ///////////////////////////////////////////////////////////
-    //    Outputs from F that go into the F_D_latch:     //  
+    //    Inputs from F that go into the F_D_latch:     //  
     //////////////////////////////////////////////////////////
     wire valid_F_D_latch_in;
     wire [127:0] packet_F_D_latch_in;
@@ -142,7 +142,7 @@
     ///////////////////////////////////////////////////////////
     //         Outputs from F_D_latch that go into D:       //  
     //////////////////////////////////////////////////////////
-    wire valid_F_D_latch_in;
+    wire valid_F_D_latch_out;
     wire [127:0] packet_F_D_latch_out;
     wire [5:0] BP_alias_F_D_latch_out;
     wire IE_F_D_latch_out;
@@ -684,7 +684,7 @@
         .BR_pred_target_in(BR_pred_target_F_D_latch_in),
         .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_in),
          //outputs
-        .valid_out(valid_F_D_latch_in),
+        .valid_out(valid_F_D_latch_out),
         .packet_out(packet_F_D_latch_out),
         .BP_alias_out(BP_alias_F_D_latch_out),
         .IE_out(IE_F_D_latch_out),
