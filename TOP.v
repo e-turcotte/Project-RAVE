@@ -54,6 +54,7 @@
     reg global_set;
     reg global_init;
     reg [31:0] EIP_init;
+    reg [31:0] IDTR_base;
 
     initial begin
         D_valid = 1'b1;
@@ -461,6 +462,18 @@
     wire [27:0] BP_FIP_e_BTB_out, BP_FIP_o_BTB_out;
     wire [5:0] BP_update_alias_out;
 
+    ////////////////////////////////////////////////////////////////
+    //     Outputs from IDTR that go to the everywhere:           //
+    ///////////////////////////////////////////////////////////////
+
+    wire [127:0] IDTR_packet_out;
+    wire IDTR_packet_select_out;
+    wire IDTR_PTC_out;
+    wire IDTR_is_POP_EFLAGS;
+    wire IDTR_LD_EIP_out;
+    wire IDTR_flush_pipe;
+    wire is_servicing_IE;
+
     /////////////////////////////////////////////////////////////////
     //                   offcoreBus inputs/outputs                //
     ///////////////////////////////////////////////////////////////
@@ -527,20 +540,20 @@
         .reset(global_reset),
         .enable(1b'1), //im not sure when it should be disabled but its here if u need
         .IE_in(final_IE_val),
-        .IE_type_in(),
-        .IDTR_base_address(final_IE_type),
+        .IE_type_in(final_IE_type),
+        .IDTR_base_address(IDTR_base),
         .EIP_WB(EIP_WB_out),
         .EFLAGS_WB(final_EFLAGS),
         .CS_WB(final_CS),
 
         .is_IRETD(),
-        .IDTR_packet_out(),
-        .packet_out_select(),
-        .flush_pipe(),
-        .PTC_clear(),
-        .LD_EIP(),
-        .is_POP_EFLAGS(),
-        .is_servicing_IE()
+        .IDTR_packet_out(IDTR_packet_out),
+        .packet_out_select(IDTR_packet_select_out),
+        .flush_pipe(IDTR_flush_pipe),
+        .PTC_clear(IDTR_PTC_clear),
+        .LD_EIP(IDTR_LD_EIP_out),
+        .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
+        .is_servicing_IE(is_servicing_IE),
     );
 
     bp_btb BPstuff(
@@ -758,9 +771,7 @@
         .wb_segaddr1(seg_addr_WB_RRAG_out[2:0]), .wb_segaddr2(seg_addr_WB_RRAG_out[5:3]), .wb_segaddr3(seg_addr_WB_RRAG_out[8:6]), .wb_segaddr4(seg_addr_WB_RRAG_out[11:9]),
         .wb_opsize(ressize_WB_RRAG_out), .wb_regld(reg_ld_WB_RRAG_out), .wb_segld(seg_ld_WB_RRAG_out), .wb_inst_ptcid(inst_ptcid_out_WB_RRAG_out),
         .fwd_stall(MEM_stall_out), //recieve from MEM
-        .ptc_clear(1'b1), //TODO: from IDTR
-
-        
+        .ptc_clear(IDTR_PTC_clear), //TODO: from IDTR      
 
         //outputs
         .valid_out(valid_RrAg_MEM_latch_in), .stall(/*RrAg_stall_out*/), //send to D_RrAg_Queued_Latches
@@ -822,7 +833,7 @@
         .mux_and_int_in(mux_and_int_RrAg_MEM_latch_in), .mux_shift_in(mux_shift_RrAg_MEM_latch_in),
         .p_op_in(p_op_RrAg_MEM_latch_in),
         .fmask_in(fmask_RrAg_MEM_latch_in),
-        .CS_in(CS_RrAg_MEM_latch_in), //TODO RN
+        .CS_in(CS_RrAg_MEM_latch_in),
         .conditionals_in(conditionals_RrAg_MEM_latch_in),
         .is_br_in(is_br_RrAg_MEM_latch_in), .is_fp_in(is_fp_RrAg_MEM_latch_in), .is_imm_in(is_imm_RrAg_MEM_latch_in),
         .imm_in(imm_RrAg_MEM_latch_in),
