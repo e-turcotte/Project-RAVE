@@ -19,57 +19,57 @@ module bus_TOP(input reqIE, reqIO, reqDEr, reqDEw, reqDOr, reqDOw, reqB0, reqB1,
         for (i = 0; i < 11; i = i + 1) begin : arb_order
             case (i)
                 9:  begin //I$ even read - 0x0
-                        assign reg_data[(i+1)*8-1:i*8] = {4'h0,destIE};
+                        assign req_data[(i+1)*8-1:i*8] = {4'h0,destIE};
                         assign req[i] = reqIE;
                         assign ackIE = ack[i];
                     end
                 8:  begin //I$ odd read - 0x1
-                        assign reg_data[(i+1)*8-1:i*8] = {4'h1,destIO};
+                        assign req_data[(i+1)*8-1:i*8] = {4'h1,destIO};
                         assign req[i] = reqIO;
                         assign ackIO = ack[i];
                     end
                 7:  begin //D$ even read - 0x4
-                        assign reg_data[(i+1)*8-1:i*8] = {4'h4,destDEr};
+                        assign req_data[(i+1)*8-1:i*8] = {4'h4,destDEr};
                         assign req[i] = reqDEr;
                         assign ackDEr = ack[i];
                     end
                 6:  begin //D$ odd read - 0x6
-                        assign reg_data[(i+1)*8-1:i*8] = {4'h6,destDEw};
+                        assign req_data[(i+1)*8-1:i*8] = {4'h6,destDEw};
                         assign req[i] = reqDEw;
                         assign ackDEw = ack[i];
                     end
                 5:  begin //D$ even write - 0x5
-                        assign reg_data[(i+1)*8-1:i*8] = {4'h5,destDOr};
+                        assign req_data[(i+1)*8-1:i*8] = {4'h5,destDOr};
                         assign req[i] = reqDOr;
                         assign ackDOr = ack[i];
                     end
                 4:  begin //D$ odd write - 0x7
-                        assign reg_data[(i+1)*8-1:i*8] = {4'h7,destDOw};
+                        assign req_data[(i+1)*8-1:i*8] = {4'h7,destDOw};
                         assign req[i] = reqDOw;
                         assign ackDOw = ack[i];
                     end
                 3:  begin //bank0 - 0x8
-                        assign reg_data[(i+1)*8-1:i*8] = {4'h8,destB0};
+                        assign req_data[(i+1)*8-1:i*8] = {4'h8,destB0};
                         assign req[i] = reqB0;
                         assign ackB0 = ack[i];
                     end
                 2:  begin //bank1 - 0x9
-                        assign reg_data[(i+1)*8-1:i*8] = {4'h9,destB1};
+                        assign req_data[(i+1)*8-1:i*8] = {4'h9,destB1};
                         assign req[i] = reqB1;
                         assign ackB1 = ack[i];
                     end
                 1:  begin //bank2 - 0xA
-                        assign reg_data[(i+1)*8-1:i*8] = {4'ha,destB2};
+                        assign req_data[(i+1)*8-1:i*8] = {4'ha,destB2};
                         assign req[i] = reqB2;
                         assign ackB2 = ack[i];
                     end
                 0:  begin //bank3 - 0xB
-                        assign reg_data[(i+1)*8-1:i*8] = {4'hb,destB3};
+                        assign req_data[(i+1)*8-1:i*8] = {4'hb,destB3};
                         assign req[i] = reqB3;
                         assign ackB3 = ack[i];
                     end
                 10: begin //DMA+IO - 0xC
-                        assign reg_data[(i+1)*8-1:i*8] = {4'hc,destDMA};
+                        assign req_data[(i+1)*8-1:i*8] = {4'hc,destDMA};
                         assign req[i] = reqDMA;
                         assign ackDMA = ack[i];
                     end
@@ -101,6 +101,6 @@ module bus_TOP(input reqIE, reqIO, reqDEr, reqDEw, reqDOr, reqDOw, reqB0, reqB1,
            .grantDMA(grantDMA),
            .recvIE(recvIE), .recvIO(recvIO), .recvDE(recvDE), .recvDO(recvDO),
            .recvB0(recvB0), .recvB1(recvB1), .recvB2(recvB2), .recvB3(recvB3),
-           .recvDMA(recvDMA))
+           .recvDMA(recvDMA));
 
 endmodule
