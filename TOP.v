@@ -636,7 +636,7 @@
         .is_BR_T_NT(is_BR_T_NT_BP_out),
 
         .init_addr(),
-        .is_init(),
+        .is_init(global_init),
 
         .IDTR_packet(IDTR_packet_out),
         .packet_select(IDTR_packet_select_out),
