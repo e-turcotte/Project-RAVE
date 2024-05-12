@@ -55,7 +55,7 @@ module fetch_TOP (
     input wire DES_i$_free_o,
     input wire DES_i$_free_e,
 
-    inout wire [73:0] BUS,
+    inout wire [72:0] BUS,
 
     ////////////////////////////////
     // signals from TLB stuff     //
