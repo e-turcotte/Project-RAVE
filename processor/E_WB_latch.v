@@ -22,6 +22,7 @@ module E_WB_latch (
             input res1_is_seg_in, res2_is_seg_in, res3_is_seg_in, res4_is_seg_in, //done
             input res1_is_mem_in, res2_is_mem_in, res3_is_mem_in, res4_is_mem_in, //done
             input [31:0] res1_dest_in, res2_dest_in, res3_dest_in, res4_dest_in, //
+            input [127:0] dest1_ptcinfo_in, dest2_ptcinfo_in, dest3_ptcinfo_in, dest4_ptcinfo_in,
             input [1:0] ressize_in, 
             input BR_valid_in,
             input BR_taken_in,
@@ -47,6 +48,7 @@ module E_WB_latch (
             output res1_is_seg_out, res2_is_seg_out, res3_is_seg_out, res4_is_seg_out,
             output res1_is_mem_out, res2_is_mem_out, res3_is_mem_out, res4_is_mem_out,
             output [31:0] res1_dest_out, res2_dest_out, res3_dest_out, res4_dest_out,
+            output [127:0] dest1_ptcinfo_out, dest2_ptcinfo_out, dest3_ptcinfo_out, dest4_ptcinfo_out,
             output [1:0] ressize_out,
             output BR_valid_out, //
             output BR_taken_out, //
@@ -100,12 +102,16 @@ module E_WB_latch (
     regn #(.WIDTH(32))  r38(.din(res2_dest_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_dest_out));
     regn #(.WIDTH(32))  r39(.din(res3_dest_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_dest_out));
     regn #(.WIDTH(32))  r40(.din(res4_dest_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_dest_out));
-    regn #(.WIDTH(2))   r41(.din(ressize_in), .ld(ld), .clr(clr), .clk(clk), .dout(ressize_out));
-    regn #(.WIDTH(1))   r42(.din(BR_valid_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_valid_out));
-    regn #(.WIDTH(1))   r43(.din(BR_taken_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_taken_out));
-    regn #(.WIDTH(1))   r44(.din(BR_correct_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_correct_out));
-    regn #(.WIDTH(32))  r45(.din(BR_FIP_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_FIP_out));
-    regn #(.WIDTH(32))  r46(.din(BR_FIP_p1_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_FIP_p1_out));
+    regn #(.WIDTH(128)) r41(.din(dest1_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(dest1_ptcinfo_out));
+    regn #(.WIDTH(128)) r42(.din(dest2_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(dest2_ptcinfo_out));
+    regn #(.WIDTH(128)) r43(.din(dest3_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(dest3_ptcinfo_out));
+    regn #(.WIDTH(128)) r44(.din(dest4_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(dest4_ptcinfo_out));
+    regn #(.WIDTH(2))   r45(.din(ressize_in), .ld(ld), .clr(clr), .clk(clk), .dout(ressize_out));
+    regn #(.WIDTH(1))   r46(.din(BR_valid_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_valid_out));
+    regn #(.WIDTH(1))   r47(.din(BR_taken_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_taken_out));
+    regn #(.WIDTH(1))   r48(.din(BR_correct_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_correct_out));
+    regn #(.WIDTH(32))  r49(.din(BR_FIP_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_FIP_out));
+    regn #(.WIDTH(32))  r50(.din(BR_FIP_p1_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_FIP_p1_out));
 
 
     always @(posedge clk) begin
@@ -154,6 +160,10 @@ module E_WB_latch (
         $fdisplay(file, "\t\t res2_dest: 0x%h", res2_dest_out);
         $fdisplay(file, "\t\t res3_dest: 0x%h", res3_dest_out);
         $fdisplay(file, "\t\t res4_dest: 0x%h", res4_dest_out);
+        $fdisplay(file, "\t\t dest1_ptcinfo: %b", dest1_ptcinfo_out);
+        $fdisplay(file, "\t\t dest2_ptcinfo: %b", dest2_ptcinfo_out);
+        $fdisplay(file, "\t\t dest3_ptcinfo: %b", dest3_ptcinfo_out);
+        $fdisplay(file, "\t\t dest4_ptcinfo: %b", dest4_ptcinfo_out);
         $fdisplay(file, "\t\t ressize: %b", ressize_out);
         $fdisplay(file, "\t\t BR_valid: %b", BR_valid_out);
         $fdisplay(file, "\t\t BR_taken: %b", BR_taken_out);

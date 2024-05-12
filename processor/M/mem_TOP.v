@@ -54,6 +54,7 @@ module mem (input valid_in,
             output [63:0] op1_val, op2_val, op3_val, op4_val,
             output [127:0] op1_ptcinfo, op2_ptcinfo, op3_ptcinfo, op4_ptcinfo,
             output [31:0] dest1_addr, dest2_addr, dest3_addr, dest4_addr,
+            output [127:0] dest1_ptcinfo, dest2_ptcinfo, dest3_ptcinfo, dest4_ptcinfo,
             output dest1_is_reg, dest2_is_reg, dest3_is_reg, dest4_is_reg,
             output dest1_is_seg, dest2_is_seg, dest3_is_seg, dest4_is_seg,
             output dest1_is_mem, dest2_is_mem, dest3_is_mem, dest4_is_mem,
@@ -107,6 +108,7 @@ module mem (input valid_in,
               .op1(op1_val), .op2(op2_val), .op3(op3_val), .op4(op4_val),
               .op1_ptcinfo(op1_ptcinfo), .op2_ptcinfo(op2_ptcinfo), .op3_ptcinfo(op3_ptcinfo), .op4_ptcinfo(op4_ptcinfo),
               .dest1_addr(dest1_addr), .dest2_addr(dest2_addr), .dest3_addr(dest3_addr), .dest4_addr(dest4_addr),
+              .dest1_ptcinfo(dest1_ptcinfo), .dest2_ptcinfo(dest2_ptcinfo), .dest3_ptcinfo(dest3_ptcinfo), .dest4_ptcinfo(dest4_ptcinfo),
               .dest1_type({dest1_is_mem,dest1_is_seg,dest1_is_reg}), .dest2_type({dest2_is_mem,dest2_is_seg,dest2_is_reg}), .dest3_type({dest3_is_mem,dest3_is_seg,dest3_is_reg}), .dest4_type({dest4_is_mem,dest4_is_seg,dest4_is_reg}));
     
     assign res1_ld_out = res1_ld_in;

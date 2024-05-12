@@ -13,6 +13,9 @@ module iBuff_latch (
     input wire cache_miss_even_fetch1,
     input wire cache_miss_odd_fetch1,
 
+    input wire evenW_fetch1,
+    input wire oddW_fetch1,
+
     input wire [5:0] new_BIP_fetch2,
     input wire [5:0] old_BIP_fetch2,
 
@@ -39,38 +42,41 @@ nor2$ n0(.out(ld_reg), .in0(cache_miss_even_fetch1), .in1(cache_miss_odd_fetch1)
 loadStateReg r0(.clk(clk), .reset(reset), .CF(CF), .ld_reg(ld_reg), .v_00(line_00_valid), .v_01(line_01_valid), .v_10(line_10_valid), .v_11(line_11_valid), 
                     .num_lines_to_ld(num_lines_to_ld_reg_out));
 
-
+wire invalidate_line_00, invalidate_line_01, invalidate_line_10, invalidate_line_11;
 wire ld_0, ld_1, ld_2, ld_3;
-ld_selector l0(.num_lines_to_ld_in(num_lines_to_ld_reg_out), .FIP_o(FIP_o_lsb_fetch1), .FIP_e(FIP_e_lsb_fetch1), .ld_0(ld_0), .ld_1(ld_1), .ld_2(ld_2), .ld_3(ld_3));
+ld_selector l0(.num_lines_to_ld_in(num_lines_to_ld_reg_out), .FIP_o(FIP_o_lsb_fetch1), .FIP_e(FIP_e_lsb_fetch1), .cache_miss_even(cache_miss_even_fetch1), 
+                .cache_miss_odd(cache_miss_odd_fetch1), .evenW(evenW_fetch1), .oddW(oddW_fetch1), .invalidate_line_00(invalidate_line_00), 
+                .invalidate_line_01(invalidate_line_01), .invalidate_line_10(invalidate_line_10), .invalidate_line_11(invalidate_line_11), 
+                .ld_0(ld_0), .ld_1(ld_1), .ld_2(ld_2), .ld_3(ld_3));
 orn #(2) o1123124(.out(even_latch_was_loaded), .in({ld_0, ld_2}));
 orn #(2) o1123125(.out(odd_latch_was_loaded), .in({ld_1, ld_3}));
 
-wire invalidate_line_00, invalidate_line_01, invalidate_line_10, invalidate_line_11;
-wire invalidate_line_00_activelow, invalidate_line_01_activelow, invalidate_line_10_activelow, invalidate_line_11_activelow;
 invalidate_selector i0(.new_BIP(new_BIP_fetch2), .old_BIP(old_BIP_fetch2), .invalidate_line_00(invalidate_line_00), .invalidate_line_01(invalidate_line_01), 
                         .invalidate_line_10(invalidate_line_10), .invalidate_line_11(invalidate_line_11));
-inv1$ i1(.out(invalidate_line_00_activelow), .in(invalidate_line_00));
-inv1$ i2(.out(invalidate_line_01_activelow), .in(invalidate_line_01));
-inv1$ i3(.out(invalidate_line_10_activelow), .in(invalidate_line_10));
-inv1$ i4(.out(invalidate_line_11_activelow), .in(invalidate_line_11));
 
 //maybe or the clr signal for each of the lines and valid bits with the reset and invalidate signals
 
-//line00 ///MIGHT HAVE TO MAKE THE INVALIDATE SIGNALS ACTIVE LOW
-regn #(.WIDTH(1)) valid1(.din(1'b1), .ld(ld_0), .clr(invalidate_line_00_activelow), .clk(clk), .dout(line_00_valid));
-regn #(.WIDTH(128)) line1(.din(line_even_fetch1), .ld(ld_0), .clr(invalidate_line_00_activelow), .clk(clk), .dout(line_00));
+wire valid_00_in, valid_01_in, valid_10_in, valid_11_in;
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m0(.in({1'b0, 1'b1}), .sel(invalidate_line_00), .out(valid_00_in));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m1(.in({1'b0, 1'b1}), .sel(invalidate_line_01), .out(valid_01_in));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m2(.in({1'b0, 1'b1}), .sel(invalidate_line_10), .out(valid_10_in));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m3(.in({1'b0, 1'b1}), .sel(invalidate_line_11), .out(valid_11_in));
+
+
+regn #(.WIDTH(1)) valid1(.din(valid_00_in), .ld(ld_0), .clr(reset), .clk(clk), .dout(line_00_valid));
+regn #(.WIDTH(128)) line1(.din(line_even_fetch1), .ld(ld_0), .clr(reset), .clk(clk), .dout(line_00));
 
 //line01
-regn #(.WIDTH(1)) valid2(.din(1'b1), .ld(ld_1), .clr(invalidate_line_01_activelow), .clk(clk), .dout(line_01_valid));
-regn #(.WIDTH(128)) line2(.din(line_odd_fetch1), .ld(ld_1), .clr(invalidate_line_01_activelow), .clk(clk), .dout(line_01));
+regn #(.WIDTH(1)) valid2(.din(valid_01_in), .ld(ld_1), .clr(reset), .clk(clk), .dout(line_01_valid));
+regn #(.WIDTH(128)) line2(.din(line_odd_fetch1), .ld(ld_1), .clr(reset), .clk(clk), .dout(line_01));
 
 //line10
-regn #(.WIDTH(1)) valid3(.din(1'b1), .ld(ld_2), .clr(invalidate_line_10_activelow), .clk(clk), .dout(line_10_valid));
-regn #(.WIDTH(128)) line3(.din(line_even_fetch1), .ld(ld_2), .clr(invalidate_line_10_activelow), .clk(clk), .dout(line_10));
+regn #(.WIDTH(1)) valid3(.din(valid_10_in), .ld(ld_2), .clr(reset), .clk(clk), .dout(line_10_valid));
+regn #(.WIDTH(128)) line3(.din(line_even_fetch1), .ld(ld_2), .clr(reset), .clk(clk), .dout(line_10));
 
 //line11
-regn #(.WIDTH(1)) valid4(.din(1'b1), .ld(ld_3), .clr(invalidate_line_11_activelow), .clk(clk), .dout(line_11_valid));
-regn #(.WIDTH(128)) line4(.din(line_odd_fetch1), .ld(ld_3), .clr(invalidate_line_11_activelow), .clk(clk), .dout(line_11));
+regn #(.WIDTH(1)) valid4(.din(valid_11_in), .ld(ld_3), .clr(reset), .clk(clk), .dout(line_11_valid));
+regn #(.WIDTH(128)) line4(.din(line_odd_fetch1), .ld(ld_3), .clr(reset), .clk(clk), .dout(line_11));
 
     
 endmodule
@@ -89,7 +95,8 @@ module loadStateReg (
 );
 
 wire move_to_even, move_to_odd, move_to_both; // 1.0 ns to get these
-next_num_Cache_line_to_load n0(.v_00(v_00), .v_01(v_01), .v_10(v_10), .v_11(v_11), .move_to_even(move_to_even), .move_to_odd(move_to_odd), .move_to_both(move_to_both));
+next_num_Cache_line_to_load n0(.v_00(v_00), .v_01(v_01), .v_10(v_10), .v_11(v_11), .move_to_even(move_to_even), 
+                                .move_to_odd(move_to_odd), .move_to_both(move_to_both));
 
 wire S1, S0; // 1.0 + 0.40 = 1.4 ns to get these
 
@@ -124,7 +131,7 @@ wire crossed_boundary;
 mag_comp8$ m0(.A(new_buff_offset), .B(old_buff_offset), .AGB(), .BGA(crossed_boundary));
 
 wire [3:0] check_line, check_line_bar;
-decoder2_4$ d0(.SEL(curr_line), .Y(check_line), .YBAR(check_line_bar));
+decoder2_4$ d0(.SEL(old_BIP[5:4]), .Y(check_line), .YBAR(check_line_bar));
 
 andn #(2) a0(.in({crossed_boundary, check_line[0]}), .out(invalidate_line_00));
 andn #(2) a1(.in({crossed_boundary, check_line[1]}), .out(invalidate_line_01));
@@ -137,6 +144,14 @@ module ld_selector (
     input wire [1:0] num_lines_to_ld_in,
     input wire [1:0] FIP_o,
     input wire [1:0] FIP_e,
+    input wire cache_miss_even,
+    input wire cache_miss_odd,
+    input wire evenW,
+    input wire oddW,
+    input wire invalidate_line_00,
+    input wire invalidate_line_01,
+    input wire invalidate_line_10,
+    input wire invalidate_line_11,
 
     output wire ld_0,
     output wire ld_1,
@@ -144,40 +159,42 @@ module ld_selector (
     output wire ld_3
 );
 
-wire [3:0] check_line, check_line_bar;
-wire check_line_00, check_line_01, check_line_10, check_line_11;
-decoder2_4$ d1(.SEL(curr_line), .Y(check_line), .YBAR(check_line_bar));
-assign check_line_00 = check_line[0];
-assign check_line_01 = check_line[1];
-assign check_line_10 = check_line[2];
-assign check_line_11 = check_line[3];
+wire [3:0] check_line_o, check_line_o_bar;
+wire check_line_00_o, check_line_01_o, check_line_10_o, check_line_11_o;
+decoder2_4$ d1(.SEL(FIP_o), .Y(check_line_o), .YBAR(check_line_o_bar));
+assign check_line_00_o = check_line_o[0]; // this should always be 0
+assign check_line_01_o = check_line_o[1]; 
+assign check_line_10_o = check_line_o[2]; // this should always be 0
+assign check_line_11_o = check_line_o[3]; 
 
+wire [3:0] check_line_e, check_line_e_bar;
+wire check_line_00_e, check_line_01_e, check_line_10_e, check_line_11_e;
+decoder2_4$ d2(.SEL(FIP_e), .Y(check_line_e), .YBAR(check_line_e_bar));
+assign check_line_00_e = check_line_e[0]; 
+assign check_line_01_e = check_line_e[1]; // this should always be 0
+assign check_line_10_e = check_line_e[2]; 
+assign check_line_11_e = check_line_e[3]; // this should always be 0
 
 wire [3:0] num_lines_to_ld_out;
-wire even_0, even_1, odd_0, odd_1;
-wire both_0, both_1, both_2, both_3;
+wire even, odd;
+wire both;
 wire both_00_01, both_01_10, both_10_11, both_11_00;
 wire even_00, even_10, odd_01, odd_11;
 
 decodern #(.INPUT_WIDTH(2)) d(.in(num_lines_to_ld_in), .out(num_lines_to_ld_out));
-assign even_0 = num_lines_to_ld_out[2];
-assign even_1 = num_lines_to_ld_out[2];
-assign odd_0 = num_lines_to_ld_out[1];
-assign odd_1 = num_lines_to_ld_out[1];
-assign both_0 = num_lines_to_ld_out[3];
-assign both_1 = num_lines_to_ld_out[3];
-assign both_2 = num_lines_to_ld_out[3];
-assign both_3 = num_lines_to_ld_out[3];
+assign even = num_lines_to_ld_out[2];
+assign odd = num_lines_to_ld_out[1];
+assign both = num_lines_to_ld_out[3];
 
-andn #(3) a0(.in({both_0, check_line_00, check_line_01}), .out(both_00_01));
-andn #(3) a1(.in({both_1, check_line_01, check_line_10}), .out(both_01_10));
-andn #(3) a2(.in({both_2, check_line_10, check_line_11}), .out(both_10_11));
-andn #(3) a3(.in({both_3, check_line_11, check_line_00}), .out(both_11_00));
+andn #(3) a0(.in({both, check_line_00_e, check_line_01_o}), .out(both_00_01));
+andn #(3) a1(.in({both, check_line_01_o, check_line_10_e}), .out(both_01_10));
+andn #(3) a2(.in({both, check_line_10_e, check_line_11_o}), .out(both_10_11));
+andn #(3) a3(.in({both, check_line_11_o, check_line_00_e}), .out(both_11_00));
 
-andn #(2) a4(.in({even_0, check_line_00}), .out(even_00));
-andn #(2) a5(.in({odd_0, check_line_01}), .out(odd_01));
-andn #(2) a6(.in({even_1, check_line_10}), .out(even_10));
-andn #(2) a7(.in({odd_1, check_line_11}), .out(odd_11));
+andn #(2) a4(.in({even, check_line_00_e}), .out(even_00));
+andn #(2) a5(.in({odd, check_line_01_o}), .out(odd_01));
+andn #(2) a6(.in({even, check_line_10_e}), .out(even_10));
+andn #(2) a7(.in({odd, check_line_11_o}), .out(odd_11));
 
 wire ld_no_check_00, ld_no_check_01, ld_no_check_10, ld_no_check_11;
 orn #(3) o0(.in({even_00, both_00_01, both_11_00}), .out(ld_no_check_00));
@@ -188,10 +205,24 @@ orn #(3) o3(.in({odd_11, both_10_11, both_11_00}), .out(ld_no_check_11));
 wire ld_nothing;
 inv1$ i4(.out(ld_nothing), .in(num_lines_to_ld_out[0]));
 
-andn #(2) a8(.in({ld_no_check_00, ld_nothing}), .out(ld_0));
-andn #(2) a9(.in({ld_no_check_01, ld_nothing}), .out(ld_1));
-andn #(2) a10(.in({ld_no_check_10, ld_nothing}), .out(ld_2));
-andn #(2) a11(.in({ld_no_check_11, ld_nothing}), .out(ld_3));
+wire not_cache_miss_even, not_cache_miss_odd;
+inv1$ i5(.out(not_cache_miss_even), .in(cache_miss_even));
+inv1$ i6(.out(not_cache_miss_odd), .in(cache_miss_odd));
+
+wire not_evenW, not_oddW;
+inv1$ i7(.out(not_evenW), .in(evenW));
+inv1$ i8(.out(not_oddW), .in(oddW));
+
+wire ld_0_no_invalid, ld_1_no_invalid, ld_2_no_invalid, ld_3_no_invalid;
+andn #(4) a8(.in({ld_no_check_00, ld_nothing, not_cache_miss_even, not_evenW}), .out(ld_0_no_invalid));
+andn #(4) a9(.in({ld_no_check_01, ld_nothing, not_cache_miss_odd, not_oddW}), .out(ld_1_no_invalid));
+andn #(4) a10(.in({ld_no_check_10, ld_nothing, not_cache_miss_even, not_evenW}), .out(ld_2_no_invalid));
+andn #(4) a11(.in({ld_no_check_11, ld_nothing, not_cache_miss_odd, not_oddW}), .out(ld_3_no_invalid));
+
+orn #(2) o4(.out(ld_0), .in({ld_0_no_invalid, invalidate_line_00}));
+orn #(2) o5(.out(ld_1), .in({ld_1_no_invalid, invalidate_line_01}));
+orn #(2) o6(.out(ld_2), .in({ld_2_no_invalid, invalidate_line_10}));
+orn #(2) o7(.out(ld_3), .in({ld_3_no_invalid, invalidate_line_11}));
 
 
 endmodule

@@ -9,7 +9,7 @@
     localparam n_size_D_RrAg = 396;
     
     localparam m_size_MEM_EX = 780;
-    localparam n_size_MEM_EX = 335;
+    localparam n_size_MEM_EX = 847;
 
     // initial #500 $finish; //TODO: run for n ns
 
@@ -299,6 +299,7 @@
     wire [63:0]  op1_MEM_EX_latch_in, op2_MEM_EX_latch_in, op3_MEM_EX_latch_in, op4_MEM_EX_latch_in;
     wire [127:0] op1_ptcinfo_MEM_EX_latch_in, op2_ptcinfo_MEM_EX_latch_in, op3_ptcinfo_MEM_EX_latch_in, op4_ptcinfo_MEM_EX_latch_in;
     wire [31:0]  dest1_addr_MEM_EX_latch_in, dest2_addr_MEM_EX_latch_in, dest3_addr_MEM_EX_latch_in, dest4_addr_MEM_EX_latch_in;
+    wire [127:0] dest1_ptcinfo_MEM_EX_latch_in, dest2_ptcinfo_MEM_EX_latch_in, dest3_ptcinfo_MEM_EX_latch_in, dest4_ptcinfo_MEM_EX_latch_in;
     wire         res1_is_reg_MEM_EX_latch_in, res2_is_reg_MEM_EX_latch_in, res3_is_reg_MEM_EX_latch_in, res4_is_reg_MEM_EX_latch_in;
     wire         res1_is_seg_MEM_EX_latch_in, res2_is_seg_MEM_EX_latch_in, res3_is_seg_MEM_EX_latch_in, res4_is_seg_MEM_EX_latch_in;
     wire         res1_is_mem_MEM_EX_latch_in, res2_is_mem_MEM_EX_latch_in, res3_is_mem_MEM_EX_latch_in, res4_is_mem_MEM_EX_latch_in;
@@ -334,6 +335,7 @@
     wire [63:0]  op1_MEM_EX_latch_out, op2_MEM_EX_latch_out, op3_MEM_EX_latch_out, op4_MEM_EX_latch_out;
     wire [127:0] op1_ptcinfo_MEM_EX_latch_out, op2_ptcinfo_MEM_EX_latch_out, op3_ptcinfo_MEM_EX_latch_out, op4_ptcinfo_MEM_EX_latch_out;
     wire [31:0]  dest1_addr_MEM_EX_latch_out, dest2_addr_MEM_EX_latch_out, dest3_addr_MEM_EX_latch_out, dest4_addr_MEM_EX_latch_out;
+    wire [127:0] dest1_ptcinfo_MEM_EX_latch_out, dest2_ptcinfo_MEM_EX_latch_out, dest3_ptcinfo_MEM_EX_latch_out, dest4_ptcinfo_MEM_EX_latch_out;
     wire         res1_is_reg_MEM_EX_latch_out, res2_is_reg_MEM_EX_latch_out, res3_is_reg_MEM_EX_latch_out, res4_is_reg_MEM_EX_latch_out;
     wire         res1_is_seg_MEM_EX_latch_out, res2_is_seg_MEM_EX_latch_out, res3_is_seg_MEM_EX_latch_out, res4_is_seg_MEM_EX_latch_out;
     wire         res1_is_mem_MEM_EX_latch_out, res2_is_mem_MEM_EX_latch_out, res3_is_mem_MEM_EX_latch_out, res4_is_mem_MEM_EX_latch_out;
@@ -373,6 +375,7 @@
     wire [1:0] inpsize_EX_WB_latch_in;
     wire inp1_wb_EX_WB_latch_in, inp2_wb_EX_WB_latch_in, inp3_wb_EX_WB_latch_in, inp4_wb_EX_WB_latch_in;
     wire [127:0] inp1_ptcinfo_EX_WB_latch_in, inp2_ptcinfo_EX_WB_latch_in, inp3_ptcinfo_EX_WB_latch_in, inp4_ptcinfo_EX_WB_latch_in;
+    wire [127:0] dest1_ptcinfo_EX_WB_latch_in, dest2_ptcinfo_EX_WB_latch_in, dest3_ptcinfo_EX_WB_latch_in, dest4_ptcinfo_EX_WB_latch_in;
 
     wire BR_valid_EX_WB_latch_in, BR_taken_EX_WB_latch_in, BR_correct_EX_WB_latch_in;
     wire[31:0] BR_FIP_EX_WB_latch_in, BR_FIP_p1_EX_WB_latch_in;
@@ -401,6 +404,7 @@
     wire [1:0] inpsize_EX_WB_latch_out;
     wire inp1_wb_EX_WB_latch_out, inp2_wb_EX_WB_latch_out, inp3_wb_EX_WB_latch_out, inp4_wb_EX_WB_latch_out;
     wire [127:0] inp1_ptcinfo_EX_WB_latch_out, inp2_ptcinfo_EX_WB_latch_out, inp3_ptcinfo_EX_WB_latch_out, inp4_ptcinfo_EX_WB_latch_out;
+    wire [127:0] dest1_ptcinfo_EX_WB_latch_out, dest2_ptcinfo_EX_WB_latch_out, dest3_ptcinfo_EX_WB_latch_out, dest4_ptcinfo_EX_WB_latch_out;
 
     wire BR_valid_EX_WB_latch_out, BR_taken_EX_WB_latch_out, BR_correct_EX_WB_latch_out;
     wire[31:0] BR_FIP_EX_WB_latch_out, BR_FIP_p1_EX_WB_latch_out;
@@ -772,6 +776,10 @@
         .dest2_addr(dest2_addr_MEM_EX_latch_in),
         .dest3_addr(dest3_addr_MEM_EX_latch_in),
         .dest4_addr(dest4_addr_MEM_EX_latch_in),
+        .dest1_ptcinfo(dest1_ptcinfo_MEM_EX_latch_in),
+        .dest2_ptcinfo(dest2_ptcinfo_MEM_EX_latch_in),
+        .dest3_ptcinfo(dest3_ptcinfo_MEM_EX_latch_in),
+        .dest4_ptcinfo(dest4_ptcinfo_MEM_EX_latch_in),
         .dest1_is_reg(res1_is_reg_MEM_EX_latch_in),
         .dest2_is_reg(res2_is_reg_MEM_EX_latch_in),
         .dest3_is_reg(res3_is_reg_MEM_EX_latch_in),
@@ -803,7 +811,8 @@
 
     assign n_din_MEM_EX = { is_rep_MEM_EX_latch_in, is_imm_MEM_EX_latch_in, EIP_MEM_EX_latch_in, latched_eip_MEM_EX_latch_in, IE_MEM_EX_latch_in, 
                             IE_type_MEM_EX_latch_in, BR_pred_target_MEM_EX_latch_in, BR_pred_T_NT_MEM_EX_latch_in,
-                            opsize_MEM_EX_latch_in, dest1_addr_MEM_EX_latch_in, dest2_addr_MEM_EX_latch_in, dest3_addr_MEM_EX_latch_in, dest4_addr_MEM_EX_latch_in, 
+                            opsize_MEM_EX_latch_in, dest1_addr_MEM_EX_latch_in, dest2_addr_MEM_EX_latch_in, dest3_addr_MEM_EX_latch_in, dest4_addr_MEM_EX_latch_in,
+                            dest1_ptcinfo_MEM_EX_latch_in, dest2_ptcinfo_MEM_EX_latch_in, dest3_ptcinfo_MEM_EX_latch_in, dest4_ptcinfo_MEM_EX_latch_in,
                             res1_is_reg_MEM_EX_latch_in, res2_is_reg_MEM_EX_latch_in, res3_is_reg_MEM_EX_latch_in, res4_is_reg_MEM_EX_latch_in,
                             res1_is_seg_MEM_EX_latch_in, res2_is_seg_MEM_EX_latch_in, res3_is_seg_MEM_EX_latch_in, res4_is_seg_MEM_EX_latch_in,
                             res1_is_mem_MEM_EX_latch_in, res2_is_mem_MEM_EX_latch_in, res3_is_mem_MEM_EX_latch_in, res4_is_mem_MEM_EX_latch_in,
@@ -824,6 +833,7 @@
                 op1_ptcinfo_MEM_EX_latch_out, op2_ptcinfo_MEM_EX_latch_out, op3_ptcinfo_MEM_EX_latch_out, op4_ptcinfo_MEM_EX_latch_out,
                 valid_MEM_EX_latch_out, is_rep_MEM_EX_latch_out, is_imm_MEM_EX_latch_out, EIP_MEM_EX_latch_out, latched_eip_MEM_EX_latch_out, IE_MEM_EX_latch_out, IE_type_MEM_EX_latch_out, BR_pred_target_MEM_EX_latch_out, BR_pred_T_NT_MEM_EX_latch_out,
                 opsize_MEM_EX_latch_out, dest1_addr_MEM_EX_latch_out, dest2_addr_MEM_EX_latch_out, dest3_addr_MEM_EX_latch_out, dest4_addr_MEM_EX_latch_out, 
+                dest1_ptcinfo_MEM_EX_latch_out, dest2_ptcinfo_MEM_EX_latch_out, dest3_ptcinfo_MEM_EX_latch_out, dest4_ptcinfo_MEM_EX_latch_out,
                 res1_is_reg_MEM_EX_latch_out, res2_is_reg_MEM_EX_latch_out, res3_is_reg_MEM_EX_latch_out, res4_is_reg_MEM_EX_latch_out,
                 res1_is_seg_MEM_EX_latch_out, res2_is_seg_MEM_EX_latch_out, res3_is_seg_MEM_EX_latch_out, res4_is_seg_MEM_EX_latch_out,
                 res1_is_mem_MEM_EX_latch_out, res2_is_mem_MEM_EX_latch_out, res3_is_mem_MEM_EX_latch_out, res4_is_mem_MEM_EX_latch_out,
@@ -861,6 +871,8 @@
         .wake_in(wake_MEM_EX_latch_out),
         .dest1_addr(dest1_addr_MEM_EX_latch_out), .dest2_addr(dest2_addr_MEM_EX_latch_out), 
         .dest3_addr(dest3_addr_MEM_EX_latch_out), .dest4_addr(dest4_addr_MEM_EX_latch_out),
+        .dest1_ptcinfo_in(dest1_ptcinfo_MEM_EX_latch_out), .dest2_ptcinfo_in(dest2_ptcinfo_MEM_EX_latch_out),
+        .dest3_ptcinfo_in(dest3_ptcinfo_MEM_EX_latch_out), .dest4_ptcinfo_in(dest4_ptcinfo_MEM_EX_latch_out),
         .res1_is_reg_in(res1_is_reg_MEM_EX_latch_out), .res2_is_reg_in(res2_is_reg_MEM_EX_latch_out),
         .res3_is_reg_in(res3_is_reg_MEM_EX_latch_out), .res4_is_reg_in(res4_is_reg_MEM_EX_latch_out),
         .res1_is_seg_in(res1_is_seg_MEM_EX_latch_out), .res2_is_seg_in(res2_is_seg_MEM_EX_latch_out),
@@ -911,6 +923,8 @@
         .res3_is_mem_out(inp3_isMem_EX_WB_latch_in), .res4_is_mem_out(inp4_isMem_EX_WB_latch_in),
         .res1_dest(inp1_dest_EX_WB_latch_in),        .res2_dest(inp2_dest_EX_WB_latch_in),       
         .res3_dest(inp3_dest_EX_WB_latch_in),        .res4_dest(inp4_dest_EX_WB_latch_in), 
+        .dest1_ptcinfo_out(dest1_ptcinfo_EX_WB_latch_in), .dest2_ptcinfo_out(dest2_ptcinfo_EX_WB_latch_in),
+        .dest3_ptcinfo_out(dest3_ptcinfo_EX_WB_latch_in), .dest4_ptcinfo_out(dest4_ptcinfo_EX_WB_latch_in),
         .ressize(inpsize_EX_WB_latch_in), 
 
         .BR_valid(BR_valid_EX_WB_latch_in), 
@@ -956,6 +970,8 @@
         .res3_is_mem_in(inp3_isMem_EX_WB_latch_in), .res4_is_mem_in(inp4_isMem_EX_WB_latch_in), //done
         .res1_dest_in(inp1_dest_EX_WB_latch_in), .res2_dest_in(inp2_dest_EX_WB_latch_in), 
         .res3_dest_in(inp3_dest_EX_WB_latch_in), .res4_dest_in(inp4_dest_EX_WB_latch_in), //
+        .dest1_ptcinfo_in(dest1_ptcinfo_EX_WB_latch_in), .dest2_ptcinfo_in(dest2_ptcinfo_EX_WB_latch_in),
+        .dest3_ptcinfo_in(dest3_ptcinfo_EX_WB_latch_in), .dest4_ptcinfo_in(dest4_ptcinfo_EX_WB_latch_in),
         .ressize_in(inpsize_EX_WB_latch_in), 
 
         .BR_valid_in(BR_valid_EX_WB_latch_in),
@@ -990,6 +1006,8 @@
         .res3_is_mem_out(inp3_isMem_EX_WB_latch_out), .res4_is_mem_out(inp4_isMem_EX_WB_latch_out), //done
         .res1_dest_out(inp1_dest_EX_WB_latch_out), .res2_dest_out(inp2_dest_EX_WB_latch_out), 
         .res3_dest_out(inp3_dest_EX_WB_latch_out), .res4_dest_out(inp4_dest_EX_WB_latch_out), //
+        .dest1_ptcinfo_out(dest1_ptcinfo_EX_WB_latch_out), .dest2_ptcinfo_out(dest2_ptcinfo_EX_WB_latch_out),
+        .dest3_ptcinfo_out(dest3_ptcinfo_EX_WB_latch_out), .dest4_ptcinfo_out(dest4_ptcinfo_EX_WB_latch_out),
         .ressize_out(inpsize_EX_WB_latch_out), 
 
         .BR_valid_out(BR_valid_EX_WB_latch_out),
@@ -1017,6 +1035,8 @@
         .inp1(inp1_EX_WB_latch_out), .inp2(inp2_EX_WB_latch_out), .inp3(inp3_EX_WB_latch_out), .inp4(inp4_EX_WB_latch_out),
         .inp1_ptcinfo(inp1_ptcinfo_EX_WB_latch_out), .inp2_ptcinfo(inp2_ptcinfo_EX_WB_latch_out), 
         .inp3_ptcinfo(inp3_ptcinfo_EX_WB_latch_out), .inp4_ptcinfo(inp4_ptcinfo_EX_WB_latch_out),
+        .dest1_ptcinfo(dest1_ptcinfo_EX_WB_latch_out), .dest2_ptcinfo(dest2_ptcinfo_EX_WB_latch_out),
+        .dest3_ptcinfo(dest3_ptcinfo_EX_WB_latch_out), .dest4_ptcinfo(dest4_ptcinfo_EX_WB_latch_out),
         .inp1_isReg(inp1_isReg_EX_WB_latch_out),  .inp2_isReg(inp2_isReg_EX_WB_latch_out), 
         .inp3_isReg(inp3_isReg_EX_WB_latch_out),  .inp4_isReg(inp4_isReg_EX_WB_latch_out),
         .inp1_isSeg(inp1_isSeg_EX_WB_latch_out),  .inp2_isSeg(inp2_isSeg_EX_WB_latch_out), 
