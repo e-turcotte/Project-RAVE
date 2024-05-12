@@ -16,7 +16,8 @@ module IDTR (
     output flush_pipe,
     output PTC_clear,
     output LD_EIP,
-    output is_POP_EFLAGS
+    output is_POP_EFLAGS,
+    output servicing_IE
 );
 
 //type encoding:
@@ -43,15 +44,15 @@ module IDTR (
     muxnm_tristate #(.NUM_INPUTS(3), .DATA_WIDTH(32)) m1(.in({interrupt_vect, page_fault_vect, protection_vect}), .sel(IE_type_internal), .out(vector_out)); 
     lshfn_fixed #(.WIDTH(32), .SHF_AMNT(3)) s1(.in(vector_out), .shf_val(3'b0), .out(vector_out_shifted));
 
-    kogeAdder #(.WIDTH(32)) a1(.A(IDTR_base_address), .B(vector_out_shifted), .CIN(1'b0), .SUM(IDT_entry_address), .COUT());
-    kogeAdder #(.WIDTH(32)) a2(.A(IDT_entry_address), .B(32'h4), .CIN(1'b0), .SUM(IDT_entry_address4), .COUT());
+    kogeAdder #(.WIDTH(32)) a2(.A(IDTR_base_address), .B(vector_out_shifted), .CIN(1'b0), .SUM(IDT_entry_address), .COUT());
+    kogeAdder #(.WIDTH(32)) a3(.A(IDT_entry_address), .B(32'h4), .CIN(1'b0), .SUM(IDT_entry_address4), .COUT());
 
     wire [10:0] IDTR_packet_select;
     wire LD_info_regs;
 
     IDTR_FSM fsm(.clk(clk), .set(1'b1), .reset(reset), .enable(enable), .IE(IE_in), .is_IRETD(is_IRETD), 
                  .IDTR_packet_select(IDTR_packet_select), .packet_out_select(packet_out_select), .flush_pipe(flush_pipe), 
-                 .PTC_clear(PTC_clear), .LD_EIP(LD_EIP), .is_POP_EFLAGS(is_POP_EFLAGS), .LD_info_regs(LD_info_regs));
+                 .PTC_clear(PTC_clear), .LD_EIP(LD_EIP), .is_POP_EFLAGS(is_POP_EFLAGS), .LD_info_regs(LD_info_regs), .servicing_IE(servicing_IE));
 
     wire [31:0] IDT_entry_internal, IDT_entry4_internal, EFLAGS_internal, CS_internal, EIP_internal;
 
@@ -108,7 +109,8 @@ module IDTR_FSM (
     output PTC_clear,
     output LD_EIP,
     output is_POP_EFLAGS,
-    output LD_info_regs
+    output LD_info_regs,
+    output servicing_IE
 );
 
     wire [3:0] NS, CS, notCS;
@@ -202,6 +204,11 @@ module IDTR_FSM (
 
     //LD_info_regs
     andn #(.NUM_INPUTS(3)) a39(.out(LD_info_regs), .in( {notCS[3:1]} ));
+
+    //servicing_IE
+    wire not_servicing_IE;
+    andn #(.NUM_INPUTS(4)) a40(.out(not_servicing_IE), .in( { notCS[3:0] } ));
+    inv1$ i2(.out(servicing_IE), .in(not_servicing_IE));
 
 endmodule
 

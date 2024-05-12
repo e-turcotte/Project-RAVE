@@ -32,7 +32,7 @@ module fetch_2 (
     /////////////////////////////
     //    signals from BP     //  
     ///////////////////////////
-    input wire [5:0] BP_BIP,
+    input wire [5:0] BP_BIP, //from BTB
     input wire is_BR_T_NT,
 
     ////////////////////////////

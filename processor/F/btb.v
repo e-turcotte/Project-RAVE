@@ -1,22 +1,22 @@
 module branch_target_buff(
-    input wire clk,
-    input wire [31:0] EIP_fetch, //used to lookup
-    input wire [31:0] EIP_WB, //EIP of BR instr, passed from F
-    input wire [31:0] FIP_E_WB, 
-    input wire [31:0] FIP_O_WB, 
-    input wire [31:0] target_WB, //update, from WB
-    input wire LD, //is_BR, valid bit from WB latch
-    input wire flush, //flush on context switch
+    input clk,
+    input [31:0] EIP_fetch, //used to lookup
+    input [31:0] EIP_WB, //EIP of BR instr, passed from F
+    input [31:0] FIP_E_WB, 
+    input [31:0] FIP_O_WB, 
+    input [31:0] target_WB, //update, from WB
+    input LD, //is_BR, valid bit from WB latch
+    input reset,
 
-    output wire [31:0] FIP_E_target,
-    output wire [31:0] FIP_O_target,
-    output wire [31:0] EIP_target,
-    output wire miss,
-    output wire hit
+    output [31:0] FIP_E_target,
+    output [31:0] FIP_O_target,
+    output [31:0] EIP_target,
+    output miss,
+    output hit
     );
 
-    wire flush_not;
-    inv1$ i0(.out(flush_not), .in(flush));
+    wire reset_not;
+    inv1$ i0(.out(reset_not), .in(reset));
 
     //a BTB entry includes: 26 bit tag, 32 bit (each) FIP_O, FIP_E, target
 
@@ -54,25 +54,25 @@ module branch_target_buff(
 
             regn #(.WIDTH(32)) tag_reg (.din(tag_write), 
                                         .ld(ld_reg[i]), 
-                                        .clr(flush_not), 
+                                        .clr(reset_not), 
                                         .clk(clk), 
                                         .dout(tag_store_out_unpacked[i*32 + 31 : i*32]));
                                     
             regn #(.WIDTH(32)) target_reg (.din(target_WB), 
                                            .ld(ld_reg[i]), 
-                                           .clr(flush_not), 
+                                           .clr(reset_not), 
                                            .clk(clk), 
                                            .dout(target_store_out_unpacked[i*32 + 31 : i*32]));
 
             regn #(.WIDTH(32)) FIP_E_reg (.din(FIP_E_WB),
                                             .ld(ld_reg[i]), 
-                                            .clr(flush_not), 
+                                            .clr(reset_not), 
                                             .clk(clk), 
                                             .dout(FIP_E_store_out_unpacked[i*32 + 31 : i*32]));                
             
             regn #(.WIDTH(32)) FIP_O_reg (.din(FIP_O_WB),
                                             .ld(ld_reg[i]), 
-                                            .clr(flush_not), 
+                                            .clr(reset_not), 
                                             .clk(clk), 
                                             .dout(FIP_O_store_out_unpacked[i*32 + 31 : i*32]));
 
