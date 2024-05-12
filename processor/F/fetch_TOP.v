@@ -33,6 +33,13 @@ module fetch_TOP (
     input wire [31:0] init_addr,
     input wire is_init,
 
+    ////////////////////////////
+    // signals from IDTR     //  
+    ///////////////////////////
+
+    input wire [127:0] IDTR_packet,
+    input wire packet_select,
+
     /////////////////////////////
     //    output signals      //  
     ///////////////////////////
@@ -114,6 +121,8 @@ module fetch_TOP (
         .is_BR_T_NT(is_BR_T_NT), 
         .init_BIP(6'd0), 
         .is_init(is_init), 
+        .IDTR_packet(IDTR_packet),
+        .packet_select(packet_select),
         .packet_out(packet_out), 
         .packet_out_valid(packet_out_valid),
         .old_BIP(old_BIP),

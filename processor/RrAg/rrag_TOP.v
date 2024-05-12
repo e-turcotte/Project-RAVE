@@ -29,6 +29,7 @@ module rrag (input valid_in,
              input [3:0] IE_type_in,
              input [31:0] BR_pred_target_in,
              input BR_pred_T_NT_in,
+             input [5:0] BP_alias_in,
 
              input [63:0] wb_data1, wb_data2, wb_data3, wb_data4,
              input [15:0] wb_segdata1, wb_segdata2, wb_segdata3, wb_segdata4,
@@ -54,7 +55,8 @@ module rrag (input valid_in,
              output res1_ld_out, res2_ld_out, res3_ld_out, res4_ld_out,
              output [31:0] rep_num,
              output is_rep_out,
-             
+
+             output [5:0] BP_alias_out,
              output [4:0] aluk_out,
              output [2:0] mux_adder_out,
              output mux_and_int_out, mux_shift_out,
@@ -172,6 +174,7 @@ module rrag (input valid_in,
     assign BR_pred_T_NT_out = BR_pred_T_NT_in;
     assign is_rep_out = is_rep_in;
     assign opsize_out = opsize_in;
+    assign BP_alias_out = BP_alias_in;
 
     wire mem1_use, mem2_use, rm_ptc, sib_ptc, actualsib_ptc, mem1_ptc, mem2_ptc, mem1_stall, mem2_stall;
 

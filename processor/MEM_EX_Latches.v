@@ -132,19 +132,20 @@ endmodule
 //  for reference, these are the outputs from MEM coming into the latch:
 
     //modifiable signals:
-    //  [6:0] ptcid              //[1114:1008]
-    //  [3:0] wake               //[1107:1104]
-    //  [63:0] op1_val           //[1103:1040]
-    //  [63:0] op2_val           //[1039:976]
-    //  [63:0] op3_val           //[975:912]
-    //  [63:0] op4_val           //[911:848]
-    //  [127:0] op1_ptcinfo      //[847:720]
-    //  [127:0] op2_ptcinfo      //[719:592]
-    //  [127:0] op3_ptcinfo      //[591:464]
-    //  [127:0] op4_ptcinfo      //[463:336]
-    //  valid_out                //[335]
+    //  [6:0] ptcid              //[1120:1014]
+    //  [3:0] wake               //[1113:1110]
+    //  [63:0] op1_val           //[1109:1046]
+    //  [63:0] op2_val           //[1045:982]
+    //  [63:0] op3_val           //[981:918]
+    //  [63:0] op4_val           //[917:854]
+    //  [127:0] op1_ptcinfo      //[853:726]
+    //  [127:0] op2_ptcinfo      //[725:598]
+    //  [127:0] op3_ptcinfo      //[597:470]
+    //  [127:0] op4_ptcinfo      //[469:342]
+    //  valid_out                //[341]
 
     //non-modifiable signals:
+    //BP_alias                      //[340:335]
     //  is_rep                      //[334]
     //  is_imm                      //[333]
     //  [31:0] eip_out              //[332:301]

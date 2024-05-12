@@ -38,6 +38,7 @@ module mem (input valid_in,
             input [3:0] IE_type_in,
             input [31:0] BR_pred_target_in,
             input BR_pred_T_NT_in,
+            input [5:0] BP_alias_in,
 
             input clr,
             input clk,
@@ -49,6 +50,7 @@ module mem (input valid_in,
             output [3:0] IE_type_out,
             output [31:0] BR_pred_target_out,
             output BR_pred_T_NT_out,
+            output [5:0] BP_alias_out,
             
             output [1:0] opsize_out,
             output [63:0] op1_val, op2_val, op3_val, op4_val,
@@ -135,6 +137,7 @@ module mem (input valid_in,
     assign is_imm_out = is_imm_in;
     assign is_rep_out = is_rep_in;
     assign CS_out = CS_in;
+    assign BP_alias_out = BP_alias_in;
 
     assign opsize_out = opsize_in;
 

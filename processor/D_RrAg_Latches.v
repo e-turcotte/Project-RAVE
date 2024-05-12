@@ -58,9 +58,10 @@ module D_RrAg_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
             $fdisplay(file, "\n\t ==LATCH==: %d", latch_num);
             $fdisplay(file, "\t modifiable signals:");
 
-            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][366]);
+            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][402]);
 
             $fdisplay(file, "\n\t non-modifiable signals:");
+            $fdisplay(file, "\t\t BP_alias: %d", all_outs[latch_num][401:396]);
             $fdisplay(file, "\t\t latched EIP: %d", all_outs[latch_num][395:364]);
             $fdisplay(file, "\t\t is_imm: %d", all_outs[latch_num][363]);
             $fdisplay(file, "\t\t reg_addr1: %b", all_outs[latch_num][362:360]);
@@ -123,10 +124,12 @@ endmodule
 //  for reference, these are the outputs from MEM coming into the latch:
 
 //modifiable signals:
-//          valid_out               [364]
+//          valid_out               [402]
 
 //non-modifiable signals:
 
+//          BP_alias                [401:396]
+//          latched_eip             [395:364]
 //          is_imm                  [363]
 // [2:0]    reg_addr1               [362:361]
 // [2:0]    reg_addr2               [360:358]

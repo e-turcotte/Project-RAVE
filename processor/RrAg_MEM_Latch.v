@@ -34,6 +34,7 @@ module RrAg_MEM_latch (
         input [3:0]   IE_type_in,
         input [31:0]  BR_pred_target_in,
         input         BR_pred_T_NT_in,
+        input         BP_alias_in, 
 
         output         valid_out,
         output [1:0]   opsize_out,
@@ -65,7 +66,8 @@ module RrAg_MEM_latch (
         output         IE_out,
         output [3:0]   IE_type_out,
         output [31:0]  BR_pred_target_out,
-        output         BR_pred_T_NT_out
+        output         BR_pred_T_NT_out,
+        output         BP_alias_out
 
         );
     
@@ -140,6 +142,7 @@ module RrAg_MEM_latch (
     regn #(.WIDTH(4))   r64 (.din(IE_type_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_type_out));
     regn #(.WIDTH(32))  r65 (.din(BR_pred_target_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_target_out));
     regn #(.WIDTH(1))   r66 (.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
+    regn #(.WIDTH(1))   r67 (.din(BP_alias_in), .ld(ld), .clr(clr), .clk(clk), .dout(BP_alias_out));
  
     always @(posedge clk) begin
         $fdisplay(file, "cycle number: %d", cyc_cnt);
@@ -210,7 +213,7 @@ module RrAg_MEM_latch (
         $fdisplay(file, "\t\t IE_type: %b", IE_type_out);
         $fdisplay(file, "\t\t BR_pred_target: 0x%h", BR_pred_target_out);
         $fdisplay(file, "\t\t BR_pred_T_NT: %h", BR_pred_T_NT_out);
-        
+        $fdisplay(file, "\t\t BP_alias: %h", BP_alias_out);
 		
 		$fdisplay(file, "\n=================================================\n");    
 	end
