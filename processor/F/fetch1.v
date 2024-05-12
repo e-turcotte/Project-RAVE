@@ -373,9 +373,11 @@ cacheBank even$(
     .needP1(),
     .oneSize_out()
 );
-mshr mshre(.pAddress(mshr_e_paddr), .ptcid_in(7'b0), .rd_or_sw_in(1'b0), .alloc(mshr_e_write), .dealloc(/*todo make signal for this*/),
+mshr mshre(.pAddress(mshr_e_paddr), .ptcid_in(7'b0), .qentry_slot_in(), .rdsw_in(1'b0),
+           .alloc(mshr_e_write), .dealloc(/*todo make signal for this*/),
            .clk(clk), .clr(reset),
-           .ptcid_out(), .rd_or_sw_out(), .mshr_hit(mshr_e_hit), .mshr_full(mshr_e_full));
+           .ptcid_out(), .qentry_slots_out(), .wake_vector_out(),
+           .mshr_hit(mshr_e_hit), .mshr_full(mshr_e_full));
 
 wire mshr_o_hit, mshr_o_full, mshr_o_write;
 wire [14:0] mshr_o_paddr;
@@ -441,9 +443,11 @@ cacheBank odd$(
     .needP1(),
     .oneSize_out()
 );
-mshr mshro(.pAddress(mshr_o_paddr), .ptcid_in(7'b0), .rd_or_sw_in(1'b0), .alloc(mshr_o_write), .dealloc(/*todo make signal for this*/),
+mshr mshro(.pAddress(mshr_o_paddr), .ptcid_in(7'b0), .qentry_slot_in(), .rdsw_in(1'b0),
+           .alloc(mshr_o_write), .dealloc(/*todo make signal for this*/),
            .clk(clk), .clr(reset),
-           .ptcid_out(), .rd_or_sw_out(), .mshr_hit(mshr_o_hit), .mshr_full(mshr_o_full));
+           .ptcid_out(), .qentry_slots_out(), .wake_vector_out(),
+           .mshr_hit(mshr_o_hit), .mshr_full(mshr_o_full));
     
 SER SER_e(
     .clk_bus(clock_bus),
