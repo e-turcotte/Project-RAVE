@@ -76,7 +76,7 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
             
             $fdisplay(file, "\n\t non-modifiable signals:");
             
-            $fdisplay(file, "\t\t BP_alias: %b", all_outs[latchnum][852:847]);
+            $fdisplay(file, "\t\t BP_alias: %b", all_outs[latch_num][852:847]);
             $fdisplay(file, "\t\t is_rep: %d", all_outs[latch_num][846]);
             $fdisplay(file, "\t\t is_imm: %d", all_outs[latch_num][845]);
             $fdisplay(file, "\t\t eip: 0x%h", all_outs[latch_num][844:813]);
