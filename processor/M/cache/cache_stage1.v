@@ -61,9 +61,12 @@ metaStore ms(.clk(clk), .r(r), .rst(rst), .set(set), .valid(valid_out), .way(way
 wayGeneration wg(.LRU(LRU), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid_in), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS2));
 
 
+and2$ aser0(ser1_stall, SER1_FULL, ex_clr);
+and2$ aser1(ser0_stall, SER0_FULL, ex_wb);
+
 //Stall generation
 and4$ a4(stall1, PTC[0], PTC[1], PTC[2], PTC[3]);
-or2$ o1(stall2, SER1_FULL, SER0_FULL);
+or2$ o1(stall2, ser1_stall, ser0_stall);
 or3$ o2(stall_pos, stall1, stall2, MSHR_FULL);
 and2$ a5(stall, stall_pos, MISS);
 inv1$ inv2(stalln, stall);
