@@ -32,7 +32,7 @@ module BRLOGIC(
     
     and3$ x1(takenCor , pred_taken, taken,match32);
     
-    xnor2$ x2(notTakenCor, taken, pred_taken);
+    xnor2$ x2(notTakenCor, taken, pred_taken); //TODO: i think this should be a NOR
     
     or2$ a5(correct, notTakenCor, takenCor);
     
