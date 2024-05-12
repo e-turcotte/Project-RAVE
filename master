@@ -8,12 +8,13 @@
 
 TOP.v
 
-// processor/F/fetch_TOP.v
-// processor/F/fetch1.v
-// processor/F/fetch2.v
-// processor/F/btb.v
-// processor/F/bp_gshare.v
-// processor/F/I_Buff.v
+processor/F/fetch_TOP.v
+processor/F/fetch1.v
+processor/F/fetch2.v
+processor/F/btb.v
+processor/F/bp_gshare.v
+processor/F/I_Buff.v
+processor/IDTR.v
 
 processor/D/decode_TOP.v
 processor/D/addressing_d.v
@@ -52,6 +53,23 @@ processor/D_RrAg_Latches.v
 processor/RrAg_MEM_Latch.v
 processor/MEM_EX_Latches.v
 processor/E_WB_latch.v
+
+offcoreBus/offcoreBus_TOP.v
+Bus/bus_TOP.v
+Bus/bau.v
+Bus/brq.v
+
+Memory/pmem_TOP.v
+Memory/bank.v
+Memory/dramcell.v
+
+IO/IO_top.v
+IO/DMA.v
+IO/kb.v
+IO/disc.v
+
+Bus/SER.v
+Bus/DES.v
 
 local-lib/nbitdevices/decodern.v
 local-lib/nbitdevices/equaln.v
