@@ -5,6 +5,7 @@ module fetch_TOP (
     input wire clk,
     input wire set,
     input wire reset,
+    input wire bus_clk,
     
     ////////////////////////////
     // signals from decode   //  
@@ -111,7 +112,7 @@ module fetch_TOP (
         .TLB_entry_RW(TLB_entry_RW), 
         .TLB_entry_PCD(TLB_entry_PCD),
 
-        .clock_bus(),
+        .clock_bus(bus_clk),
         .SER_i$_grant_e(SER_i$_grant_e),
         .SER_i$_grant_o(SER_i$_grant_o),
         .DES_i$_reciever_e(DES_i$_reciever_e),

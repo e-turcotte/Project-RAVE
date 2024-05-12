@@ -621,6 +621,7 @@
         .clk(clk),
         .set(global_set),
         .reset(global_reset),
+        .bus_clk(bus_clk),
 
         .D_length(D_length_D_F_out),
         .stall(D_stall_out),
