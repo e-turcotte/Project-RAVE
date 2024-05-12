@@ -453,7 +453,7 @@ module CMPXCHNG_alu(
    
    and2$ andx(swap, op1_EQ_op3, cmpxchng_p_op);
    
-    mux2n #(32) m2(/*op1_dest*/, op1_orig, mux1_out, cmpxchng_p_op);   
+    // mux2n #(32) m2(/*op1_dest*/, op1_orig, mux1_out, cmpxchng_p_op);   
     mux2n #(64) m3(cmpxchng_out, OP1, OP2, op1_EQ_op3);
    
     wire[31:0] not2;
