@@ -44,10 +44,12 @@ module writeback_TOP(
 
     output [31:0] newFIP_e, newFIP_o, newEIP, //done 
     output [31:0] latched_EIP_out,
+    output [31:0] EIP_out,
     output BR_valid, BR_taken, BR_correct, //done
     output [5:0] WB_BP_update_alias,
     output is_resteer,
     output [15:0] CS_out, //done
+    output [17:0] EFLAGS_out,
 
     output stall,
 
@@ -114,6 +116,8 @@ module writeback_TOP(
     
     
     assign CS_out = CS_in;
+    assign EFLAGS_out = EFLAGS_in;
+    assign EIP_out = EIP_in;
 
     wire LD_EIP_CS;
 

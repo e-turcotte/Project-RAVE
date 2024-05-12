@@ -435,8 +435,12 @@
     wire [6:0] inst_ptcid_out_WB_RRAG_out;
     wire [5:0] WB_BP_update_alias;
     wire [27:0] newFIP_e_WB_out, newFIP_o_WB_out;
-    wire [31:0] newEIP_WB_out, latched_eip_WB_out;
+    wire [31:0] newEIP_WB_out, latched_EIP_WB_out, EIP_WB_out;
     wire is_resteer_WB_out;
+    wire final_IE_val;
+    wire [3:0] final_IE_type;
+    wire [17:0] final_EFLAGS;
+    wire [15:0] final_CS;
 
     ////////////////////////////////////////////////////////////////
     //     Outputs from BP that go to the everywhere in frontend://
@@ -445,6 +449,27 @@
     wire is_BR_T_NT_out;
     wire bp_prediction;
     wire [27:0] BP_FIP_e_BTB_out, BP_FIP_o_BTB_out;
+
+    IE_handler IDTR(
+        .clk(clk),
+        .reset(global_reset),
+        .enable(1b'1), //im not sure when it should be disabled but its here if u need
+        .IE_in(final_IE_val),
+        .IE_type_in(),
+        .IDTR_base_address(final_IE_type),
+        .EIP_WB(EIP_WB_out),
+        .EFLAGS_WB(final_EFLAGS),
+        .CS_WB(final_CS),
+
+        .is_IRETD(),
+        .IDTR_packet_out(),
+        .packet_out_select(),
+        .flush_pipe(),
+        .PTC_clear(),
+        .LD_EIP(),
+        .is_POP_EFLAGS(),
+        .is_servicing_IE()
+    );
 
 
     // bp_gshare bp (
@@ -465,7 +490,7 @@
     // branch_target_buff buff(
     //     .clk(clk),
     //     .EIP_fetch(eip_D_RrAg_latch_in), //this should be eip + length from decode
-    //     .EIP_WB(latched_eip_WB_out),
+    //     .EIP_WB(latched_EIP_WB_out),
     //     .FIP_E_WB(newFIP_e_WB_out),
     //     .FIP_O_WB(newFIP_o_WB_out),
     //     .target_WB(newEIP_WB_out),
@@ -541,7 +566,7 @@
         .reset(global_reset),
     
         // Signals from fetch_2
-        .valid_in(D_valid), //TODO: D_valid
+        .valid_in(F_valid), //TODO:
         .packet_in(packet),
         .IE_in(),
         .IE_type_in(),
@@ -1138,7 +1163,6 @@
     );
     
 
-    //TODO: implement BP_alias from out of decode to WB !!!!!!!!!!!
     writeback_TOP wb_inst(
         .clk(clk),
         .valid_in(valid_EX_WB_latch_out),
@@ -1181,27 +1205,30 @@
 
         .valid_out(),
 
-        .res1(res1_WB_RRAG_out), .res2(res2_WB_RRAG_out), .res3(res3_WB_RRAG_out), .res4(res4_WB_RRAG_out), .mem_data(mem_data_WB_M_out), //done
+        .res1(res1_WB_RRAG_out), .res2(res2_WB_RRAG_out), .res3(res3_WB_RRAG_out), .res4(res4_WB_RRAG_out), .mem_data(mem_data_WB_M_out),
         .res1_ptcinfo(res1_ptcinfo_WB_RRAG_out), .res2_ptcinfo(res2_ptcinfo_WB_RRAG_out), .res3_ptcinfo(res3_ptcinfo_WB_RRAG_out), .res4_ptcinfo(res4_ptcinfo_WB_RRAG_out),
         .ressize(ressize_WB_RRAG_out), .memsize(memsize_WB_M_out),
         .reg_addr(reg_addr_WB_RRAG_out), .seg_addr(seg_addr_WB_RRAG_out),
-        .mem_addr(mem_addr_WB_M_out), //done
+        .mem_addr(mem_addr_WB_M_out),
         .reg_ld(reg_ld_WB_RRAG_out), .seg_ld(seg_ld_WB_RRAG_out),
         .mem_ld(mem_ld_WB_M_out),
         .inst_ptcid_out(inst_ptcid_out_WB_RRAG_out),
 
-        .newFIP_e(newFIP_e_WB_out), .newFIP_o(newFIP_o_WB_out), .newEIP(newEIP_WB_out), //done 
-        .latched_EIP_out(latched_eip_WB_out), //done
-        .BR_valid(), .BR_taken(), .BR_correct(), //done
+        .newFIP_e(newFIP_e_WB_out), .newFIP_o(newFIP_o_WB_out), .newEIP(newEIP_WB_out), 
+        .latched_EIP_out(latched_EIP_WB_out),
+        .EIP_out(EIP_WB_out),
+        .BR_valid(), .BR_taken(), .BR_correct(),
         .is_resteer(is_resteer_WB_out),
-        .CS_out(), //done
+        .CS_out(final_CS),
+        .EFLAGS_out(final_EFLAGS),
+        
 
         .WB_BP_update_alias(WB_BP_update_alias),
 
         .stall(fwd_stall_WB_EX_out),
 
-        .final_IE_val(),
-        .final_IE_type()
+        .final_IE_val(final_IE_val),
+        .final_IE_type(final_IE_type)
     );
 
  endmodule

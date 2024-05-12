@@ -161,10 +161,10 @@ endmodule
     //  [31:0] dest2_addr        //[196:165]
     //  [31:0] dest3_addr        //[164:133]
     //  [31:0] dest4_addr        //[132:101]
-    //  [1227:0] dest1_ptcinfo      //im not changing those numbers
-    //  [1227:0] dest2_ptcinfo      //im not changing those numbers
-    //  [1227:0] dest3_ptcinfo      //im not changing those numbers
-    //  [1227:0] dest4_ptcinfo      //im not changing those numbers
+    //  [127:0] dest1_ptcinfo      //im not changing those numbers
+    //  [127:0] dest2_ptcinfo      //im not changing those numbers
+    //  [127:0] dest3_ptcinfo      //im not changing those numbers
+    //  [127:0] dest4_ptcinfo      //im not changing those numbers
     //  dest1_is_reg             //[100]
     //  dest2_is_reg             //[99]
     //  dest3_is_reg             //[98]
