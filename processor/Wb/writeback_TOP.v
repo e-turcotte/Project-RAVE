@@ -137,7 +137,7 @@ module writeback_TOP(
     assign BR_valid = BR_valid_in;
     assign BR_taken = BR_taken_in;
     assign BR_correct = BR_correct_in;
-    inv1$ g0(.out(is_resteer), .in(BR_correct_in));
+    nor2$ g0(.out(is_resteer), .in0(BR_correct_in), .in1(invvalid));
     assign latched_EIP_out = latched_EIP_in;
     assign WB_BP_update_alias = BP_alias_in;
 

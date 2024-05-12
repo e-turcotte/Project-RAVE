@@ -22,7 +22,7 @@ module cacheaqsys (input [14:0] rd_pAddress_e, rd_pAddress_o, sw_pAddress_e, sw_
                    output fromBUS,
                    output [16*8-1:0] mask_e, mask_o,
                    output [6:0] ptcid,
-                   output odd_is_greater,
+                   output odd_is_greater, needP1,
                    output [2:0] onesize,
                    output pcd,
 

@@ -13,6 +13,8 @@ module decode_TOP(
     input wire IE_in,
     input wire [3:0] IE_type_in,
     input wire [5:0] BP_alias_in,
+    input wire [31:0] BR_pred_target_in,
+    input wire BR_pred_T_NT_in,
 
     ////////////////////////////
     //     signals from BP   //
@@ -450,8 +452,8 @@ module decode_TOP(
     assign eip_out = EIP_plus_length;
     assign IE_out = IE_in;
     assign IE_type_out = IE_type_in;
-    assign BR_pred_target_out = BP_EIP;
-    assign BR_pred_T_NT_out = is_BR_T_NT;
+    assign BR_pred_target_out = BR_pred_target_in;
+    assign BR_pred_T_NT_out = BR_pred_T_NT_in;
 
     assign D_length = instruction_length;
     assign stall_out = queue_full_stall;
