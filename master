@@ -14,7 +14,7 @@ processor/F/fetch2.v
 processor/F/btb.v
 processor/F/bp_gshare.v
 processor/F/I_Buff.v
-processor/IDTR.v
+processor/F/IDTR.v
 
 processor/D/decode_TOP.v
 processor/D/addressing_d.v
