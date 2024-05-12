@@ -49,7 +49,7 @@ module F_D_latch (
         $fdisplay(file, "\t\t BR_pred_target: 0x%h", BR_pred_target_out);
         $fdisplay(file, "\t\t BR_pred_T_NT: %b", BR_pred_T_NT_out);
                 
-		$fdisplay("\n=================================================\n");    
+		$fdisplay(file, "\n=================================================\n");    
 	end
 
 endmodule
