@@ -525,7 +525,7 @@
     IE_handler IDTR(
         .clk(clk),
         .reset(global_reset),
-        .enable(1b'1), //im not sure when it should be disabled but its here if u need
+        .enable(1'b1), //im not sure when it should be disabled but its here if u need
         .IE_in(final_IE_val),
         .IE_type_in(),
         .IDTR_base_address(final_IE_type),
