@@ -5,6 +5,7 @@ module inputAlign(
     input r,w,sw,
     input valid_in,
     input fromBUS, sizeOVR,
+    input PTC_ID_in,
 
     //TLB SIGNALS
     input clk,
@@ -35,9 +36,14 @@ module inputAlign(
     
     output needP1,
 
-    output[2:0] oneSize
+    output[2:0] oneSize,
    
+    output[16*8-1:0] PTC_out,
+
+    output [3:0]wake_init_vector,
+    output PTC_ID_out
 );
+assign PTC_ID_out = PTC_ID_in
 wire[3:0] shift2;
 assign address1[6:4] = vAddress1[6:4];
 assign address1[3:0] = 4'd0;
@@ -283,4 +289,76 @@ module rShf16(
             end
         end 
     endgenerate
+
+
+
+
+    wire[255:0] PTC0_shift;
+wire[255:0] PTC_out1;
+//Generate PTCout
+wire[16*16-1:0] PTC0, PTC1;
+generate
+    for(i = 0; i < 16; i = i + 1) begin : zero
+        assign PTC0[i*16+3:i*16] = i;
+        
+        assign PTC0[i*16+14:i*16+4] = pAddress0[14:4];
+        
+        assign PTC1[i*16+3:i*16] = i;
+        assign PTC1[i*16+14:i*16+4] = pAddress1[14:4];
+    end
+endgenerate 
+
+generate
+    for(i = 0; i < 15; i = i + 1) begin : zerox
+rShf16 rshfx(
+    {
+        PTC0[240+i], PTC0[224+i], PTC0[208+i],
+        PTC0[192+i], PTC0[176+i], PTC0[160+i], PTC0[144+i],
+        PTC0[128+i], PTC0[112+i], PTC0[96+i], PTC0[80+i],
+        PTC0[64+i], PTC0[48+i], PTC0[32+i], PTC0[16+i],
+        PTC0[i]
+    },
+    pAddress0[3:0],
+    {
+        PTC0_shift[240+i], PTC0_shift[224+i], PTC0_shift[208+i],
+        PTC0_shift[192+i], PTC0_shift[176+i], PTC0_shift[160+i], PTC0_shift[144+i],
+        PTC0_shift[128+i], PTC0_shift[112+i], PTC0_shift[96+i], PTC0_shift[80+i],
+        PTC0_shift[64+i], PTC0_shift[48+i], PTC0_shift[32+i], PTC0_shift[16+i],
+        PTC0_shift[i]
+    }
+);
+    end
+endgenerate
+
+
+
+    wire[127:0] preVAL;
+    wire [127:0]PTCDATA;
+    mux8_n #(128) breakup2(
+        PTCDATA, 
+        PTC0_shift[127:0], 
+        {PTC0[15:0], PTC0_shift[111:0]}, 
+        {PTC0[31:0], PTC0_shift[95:0]},
+        {PTC0[47:0], PTC0_shift[79:0]},
+        {PTC0[63:0], PTC0_shift[63:0]},
+        {PTC0[79:0], PTC0_shift[47:0]},
+        {PTC0[95:0], PTC0_shift[31:0]},
+        {PTC0[111:0],PTC0_shift[15:0]}, 
+        pAddress0[0], pAddress0[1], pAddress0[2]
+    );
+
+    wire[127:0] PTC_outx;
+    mux2n #(128) chosePath(PTC_outx, PTC0_shift[127:0], PTCDATA[127:0] , E_needP1 );
+
+    mux4n #(128) mxptc(PTC_out, {112'd0, PTC_outx[15:0]}, {96'd0, PTC_outx[31:0]}, {64'd0,PTC_outx[63:0]}, PTC_outx, size_in[0], size_in[1] );
+   
+   mux8n #(4) wake(wake_init_vector,4'1110, 4'b1010, 4'b1011, 4'b1010, 4'b1101, 4'b0101, 4'b0111, 4'b0101   ,needP1, pAddress0[4], sw);
+   
+   /*4 bits
+   0: ER
+   1: ESW
+   2: OR
+   3  OSW
+
+   */
 endmodule

@@ -60,15 +60,18 @@ module cacheBank (
     output [31:0] EX_vAddress,
     output [14:0] EX_pAddress,
     output [1:0] EX_size,
-    output EX_wake,
+    output [1:0] EX_wake,
     output oddIsGreater,
 
     output cache_stall,
     output cache_miss,
     output needP1,
-    output [2:0]oneSize_out
+    output [2:0]oneSize_out,
+
+    output PTC_ID_out
 
 );
+assign PTC_ID_out = PTC_ID_IN;
 assign oneSize_out = oneSize;
 
 
@@ -168,6 +171,7 @@ assign EX_data = cache_line;
 assign EX_vAddress = vAddress;
 assign EX_pAddress = pAddress;
 assign EX_size = size;
-assign EX_wake = HIT;
+
+mux2n #(2) mxWake(EX_wake, 2'b01, 2'b10, sw);
 
 endmodule
