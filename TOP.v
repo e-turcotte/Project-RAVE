@@ -607,10 +607,10 @@
         .TLB_MISS_EXCEPTION_o(),
         .VP(),
         .PF(),
-        .MSHR_entry_V(),
-        .MSHR_entry_P(),
-        .MSHR_entry_RW(),
-        .MSHR_entry_PCD(),
+        .TLB_entry_V(),
+        .TLB_entry_P(),
+        .TLB_entry_RW(),
+        .TLB_entry_PCD(),
 
         .packet_out(),
         .packet_out_valid()

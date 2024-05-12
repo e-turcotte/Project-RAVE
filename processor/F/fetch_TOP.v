@@ -66,10 +66,10 @@ module fetch_TOP (
     input wire TLB_MISS_EXCEPTION_o,
     input wire [159:0] VP,
     input wire [159:0] PF,
-    input wire [7:0] MSHR_entry_V,
-    input wire [7:0] MSHR_entry_P,
-    input wire [7:0] MSHR_entry_RW,
-    input wire [7:0] MSHR_entry_PCD,
+    input wire [7:0] TLB_entry_V,
+    input wire [7:0] TLB_entry_P,
+    input wire [7:0] TLB_entry_RW,
+    input wire [7:0] TLB_entry_PCD,
 
     /////////////////////////////
     //    output signals      //  
