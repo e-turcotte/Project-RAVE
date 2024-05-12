@@ -691,6 +691,15 @@
         .BR_pred_T_NT_out(BR_pred_T_NT_RrAg_MEM_latch_out)
     );
 
+    wire [63:0] reg1_memdf, reg2_memdf, reg3_memdf, reg4_memdf, seg1_memdf, seg2_memdf, seg3_memdf, seg4_memdf;
+
+    bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(4)) memdf(.prospective_data({res4_WB_RRAG_out,res3_WB_RRAG_out,res2_WB_RRAG_out,res1_WB_RRAG_out}), .prospective_ptc({res4_ptcinfo_WB_RRAG_out,res3_ptcinfo_WB_RRAG_out,res2_ptcinfo_WB_RRAG_out,res1_ptcinfo_WB_RRAG_out}),
+                                                            .operand_data({reg4_RrAg_MEM_latch_out,reg3_RrAg_MEM_latch_out,reg2_RrAg_MEM_latch_out,reg1_RrAg_MEM_latch_out,
+                                                                           seg4_RrAg_MEM_latch_out,seg3_RrAg_MEM_latch_out,seg2_RrAg_MEM_latch_out,seg1_RrAg_MEM_latch_out}),
+                                                            .operand_ptc({ptc_r4_RrAg_MEM_latch_out,ptc_r3_RrAg_MEM_latch_out,ptc_r2_RrAg_MEM_latch_out,ptc_r1_RrAg_MEM_latch_out,
+                                                                          ptc_s4_RrAg_MEM_latch_out,ptc_s3_RrAg_MEM_latch_out,ptc_s2_RrAg_MEM_latch_out,ptc_s1_RrAg_MEM_latch_out}),
+                                                            .new_data({reg4_memdf,reg3_memdf,reg2_memdf,reg1_memdf,seg4_memdf,seg3_memdf,seg2_memdf,seg1_memdf}), .modify());
+
     mem m1 (
         //inputs
         .valid_in(valid_RrAg_MEM_latch_out),
@@ -700,10 +709,10 @@
         .mem_addr2(mem_addr2_RrAg_MEM_latch_out),
         .mem_addr1_end(mem_addr1_end_RrAg_MEM_latch_out),
         .mem_addr2_end(mem_addr2_end_RrAg_MEM_latch_out),
-        .reg1(reg1_RrAg_MEM_latch_out),
-        .reg2(reg2_RrAg_MEM_latch_out),
-        .reg3(reg3_RrAg_MEM_latch_out),
-        .reg4(reg4_RrAg_MEM_latch_out),
+        .reg1(reg1_memdf),
+        .reg2(reg2_memdf),
+        .reg3(reg3_memdf),
+        .reg4(reg4_memdf),
         .ptc_r1(ptc_r1_RrAg_MEM_latch_out),
         .ptc_r2(ptc_r2_RrAg_MEM_latch_out),
         .ptc_r3(ptc_r3_RrAg_MEM_latch_out),
@@ -712,10 +721,10 @@
         .reg2_orig(reg2_orig_RrAg_MEM_latch_out),
         .reg3_orig(reg3_orig_RrAg_MEM_latch_out),
         .reg4_orig(reg4_orig_RrAg_MEM_latch_out),
-        .seg1(seg1_RrAg_MEM_latch_out),
-        .seg2(seg2_RrAg_MEM_latch_out),
-        .seg3(seg3_RrAg_MEM_latch_out),
-        .seg4(seg4_RrAg_MEM_latch_out),
+        .seg1(seg1_memdf),
+        .seg2(seg2_memdf),
+        .seg3(seg3_memdf),
+        .seg4(seg4_memdf),
         .ptc_s1(ptc_s1_RrAg_MEM_latch_out),
         .ptc_s2(ptc_s2_RrAg_MEM_latch_out),
         .ptc_s3(ptc_s3_RrAg_MEM_latch_out),
@@ -824,6 +833,8 @@
     wire MEM_EX_Latch_RD; 
     nand2$ n2001 (.out(MEM_EX_Latch_RD), .in0(valid_EX_WB_latch_in), .in1(EX_stall_out));
 
+    //TODO: bypass mech for MEM-EX latch
+
     MEM_EX_Queued_Latches #(.M_WIDTH(m_size_MEM_EX), .N_WIDTH(n_size_MEM_EX), .Q_LENGTH(8)) q5 (
         .m_din(m_din_MEM_EX), .n_din(n_din_MEM_EX), .new_m_vector(/*TODO*/), 
         .wr(valid_MEM_EX_latch_in), .rd(MEM_EX_Latch_RD),
@@ -842,6 +853,7 @@
                 FMASK_MEM_EX_latch_out, conditionals_MEM_EX_latch_out, isBR_MEM_EX_latch_out, is_fp_MEM_EX_latch_out, CS_MEM_EX_latch_out }
              )
     );
+
     wire [63:0] op1_exdf, op2_exdf, op3_exdf, op4_exdf;
 
     bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(4)) exdf(.prospective_data({res4_WB_RRAG_out,res3_WB_RRAG_out,res2_WB_RRAG_out,res1_WB_RRAG_out}), .prospective_ptc({res4_ptcinfo_WB_RRAG_out,res3_ptcinfo_WB_RRAG_out,res2_ptcinfo_WB_RRAG_out,res1_ptcinfo_WB_RRAG_out}),
