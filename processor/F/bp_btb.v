@@ -7,10 +7,10 @@ module bp_btb(
     input prev_is_BR,
     input LD,
 
-    input [31:0] EIP_WB, //EIP of BR instr, passed from F
+    input [31:0] btb_update_eip_WB, //EIP of BR instr, passed from D
     input [31:0] FIP_E_WB, 
     input [31:0] FIP_O_WB, 
-    input [31:0] target_WB, //update, from WB
+    input [31:0] EIP_WB, //update, from WB
 
     output prediction,
     output [5:0] BP_update_alias_out,
@@ -25,10 +25,10 @@ module bp_btb(
     branch_target_buff btb(
         .clk(clk),
         .EIP_fetch(eip), //this should be eip + length from decode
-        .EIP_WB(EIP_WB),
+        .EIP_WB(btb_update_eip_WB),
         .FIP_E_WB(FIP_E_WB),
         .FIP_O_WB(FIP_O_WB),
-        .target_WB(target_WB),
+        .target_WB(EIP_WB),
         .LD(LD),
         .reset(reset),
 
@@ -39,6 +39,8 @@ module bp_btb(
         .hit(btb_hit)
         );
 
+    wire bp_prediction;
+
     bp_gshare bp(
         .clk(clk),
         .reset(reset),
@@ -48,10 +50,8 @@ module bp_btb(
         .prev_is_BR(prev_is_BR),
         .LD(LD),
         .prediction(bp_prediction),
-        .BP_alias(BP_alias)
+        .BP_alias(BP_update_alias_out)
     );
-
-    wire bp_prediction;
     andn #(2) a0( .in({bp_prediction, btb_hit}), .out(prediction));
 
 
