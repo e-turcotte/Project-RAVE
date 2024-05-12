@@ -674,7 +674,7 @@
 
     F_D_latch f1(
         .clk(clk),
-        .reset(global_reset),
+        .clr(global_reset),
 
         .valid_in(valid_F_D_latch_in),
         .packet_in(packet_F_D_latch_in),
