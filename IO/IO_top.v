@@ -58,7 +58,7 @@ module IO_top(
 SER ioSER(
     .clk_core(),
     .clk_bus(clk_bus),
-    .rst(rst)
+    .rst(rst),
     .set(set),
     .valid_in(valid_s),
     .pAdr_in(pAdr_s),
@@ -90,7 +90,7 @@ DES ioDES(
     .rw(rw_d),
     .size(size_d),
     .BUS(BUS),
-    .SetReciever(setReciever_io),
+    .setReciever(setReciever_io),
     .free_bau(free_bau)
 );
 
@@ -107,7 +107,7 @@ kb kb1(
     .clk(clk_bus),
     .rst(rst),
     .data_kb(data_kb),
-    .read_kb(read_kb),
+    .read_kb(read_kb)
 );
 
 DMA DMA1 (

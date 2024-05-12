@@ -3,7 +3,7 @@ module kb(
     input rst,
 
     output reg[7:0] data_kb,
-    input read_kb,
+    input read_kb
 
 
 );
@@ -21,7 +21,7 @@ always @(posedge clk) begin
     end
     else begin
         data_kb <= chars[7:0];          
-        if(read_kb) chars >> 8;  
+        if(read_kb) chars <= {8'd0, chars[59:8]};  
     end
 end
 
