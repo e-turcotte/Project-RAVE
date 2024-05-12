@@ -502,6 +502,7 @@
     wire IDTR_LD_EIP_out;
     wire IDTR_flush_pipe;
     wire is_servicing_IE;
+    wire IDTR_PTC_clear;
 
     /////////////////////////////////////////////////////////////////
     //                   offcoreBus inputs/outputs                //
@@ -582,7 +583,7 @@
         .PTC_clear(IDTR_PTC_clear),
         .LD_EIP(IDTR_LD_EIP_out),
         .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
-        .is_servicing_IE(is_servicing_IE),
+        .is_servicing_IE(is_servicing_IE)
     );
 
     bp_btb BPstuff(
