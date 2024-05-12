@@ -991,7 +991,7 @@
     wire [6:0] old_inst_ptcid [0:7];
     wire [3:0] old_wake [0:7], new_wake [0:7];
     wire [255:0] old_ops [0:7], new_ops [0:7];
-    wire [512:0] old_op_ptcinfos [0:7],
+    wire [512:0] old_op_ptcinfos [0:7];
     wire old_valid [0:7], new_valid [0:7];
 
     wire [m_size_MEM_EX-1:0] new_m_M_EX, old_m_M_EX;
