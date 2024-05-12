@@ -12,6 +12,7 @@ module decode_TOP(
     input wire [127:0] packet_in, //16 bytes
     input wire IE_in,
     input wire [3:0] IE_type_in,
+    input wire [5:0] BP_alias_in,
 
     ////////////////////////////
     //     signals from BP   //
@@ -50,6 +51,7 @@ module decode_TOP(
     output [1:0] reg3_shfamnt_out,
     output usereg2_out, usereg3_out,
     output rep_out,
+    output [5:0] BP_alias_out,
 
     output [4:0] aluk_out,
     output [2:0] mux_adder_out,
@@ -456,6 +458,9 @@ module decode_TOP(
     assign isImm_out = isImm;
 
     assign latched_eip_out = latched_EIP;
+
+
+    assign BP_alias_out = BP_alias_in;
 
 
 
