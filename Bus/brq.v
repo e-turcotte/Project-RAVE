@@ -12,7 +12,7 @@ module brq (input [87:0] req_data,
     wire [10:0] arb_wr_vector, arb_rd_vector;
     wire [7:0] req_in;
     wire incoming_reqs;
-
+    wire [0:10] rld;
     arbiter a0(.in({req}), .out(arb_wr_vector));
     muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(8)) m0(.in({req_data}), .sel(arb_wr_vector), .out(req_in));
     orn #(.NUM_INPUTS(11)) g0(.in({req}), .out(incoming_reqs));
@@ -29,7 +29,7 @@ module brq (input [87:0] req_data,
     and2$ g10(.out(ack[1]), .in0(arb_wr_vector[1]), .in1(rld[0]));
     and2$ g11(.out(ack[0]), .in0(arb_wr_vector[0]), .in1(rld[0]));
 
-    wire [0:10] rld;
+    
     wire [8:0] rout [10:0];
 
     regn #(.WIDTH(9)) r0(.din({incoming_reqs,req_in}), .ld(rld[0]), .clr(clr), .clk(clk), .dout(rout[0]));
