@@ -656,7 +656,7 @@
         .TLB_entry_PCD(),
 
         .packet_out(),
-        .packet_out_valid()
+        .packet_valid_out()
     );
 
     decode_TOP d0(
