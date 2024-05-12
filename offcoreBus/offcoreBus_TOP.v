@@ -63,7 +63,7 @@ pmem_TOP  pmem(
     .recvB({recvB3, recvB2, recvB1,recvB0}),
     .grantB({grantB3, grantB2, grantB1,grantB0}),
     .ackB({ackB3, ackB2, ackB1,ackB0}),
-    .bus_clk(bus_clk),
+    .bus_clk(clk_bus),
     .clr(rst),
     .BUS(BUS),
 
