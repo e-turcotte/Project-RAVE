@@ -25,7 +25,7 @@ module execute_TOP(
     input set, rst,                        
     input [6:0] PTCID_in,
     input res1_ld_in, res2_ld_in, res3_ld_in, res4_ld_in, //N
-    
+    input [5:0] BP_alias_in,
 
 
     input[63:0] op1, op2, op3, op4, //M
@@ -65,6 +65,7 @@ module execute_TOP(
     output BR_pred_T_NT_out,
     output [6:0] PTCID_out,
     output is_rep_out,
+    output [5:0] BP_alias_out,
 
     output[17:0] eflags,
     output[15:0] CS_out, 
@@ -151,6 +152,7 @@ module execute_TOP(
     assign res2_is_mem_out = res2_is_mem_in;
     assign res2_dest = dest2_addr;
     assign res2_ptcinfo = op2_ptcinfo;
+    assign BP_alias_out = BP_alias_in;
 
     //handle ALU
     ALU_top a1(res1, res2_xchg, swapCXC, cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_inval, op1, op2, op3, dest1_addr, aluk, MUX_ADDER_IMM, MUX_AND_INT, MUX_SHIFT, P_OP[7], P_OP[2], P_OP[31],P_OP[29], P_OP[30], opsize_in,af,cf,of,zf, CS, EIP_in); 
