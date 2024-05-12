@@ -114,6 +114,8 @@
     ///////////////////////////////////////////////////////////
     //    Outputs from D that go into the D_RrAg_latch:     //  
     //////////////////////////////////////////////////////////
+    //output to go to fetch
+    wire [7:0] D_length_D_F_out;
 
     wire        valid_out_D_RrAg_latch_in;
     wire [2:0]  reg_addr1_D_RrAg_latch_in;
@@ -451,7 +453,7 @@
     //     Outputs from BP that go to the everywhere in frontend://
     ///////////////////////////////////////////////////////////////
     wire [31:0] BP_EIP_BTB_out;
-    wire is_BR_T_NT_out;
+    wire is_BR_T_NT_BP_out;
     wire [27:0] BP_FIP_e_BTB_out, BP_FIP_o_BTB_out;
     wire [5:0] BP_update_alias_out;
 
@@ -530,7 +532,7 @@
         .FIP_O_WB(newFIP_o_WB_out), 
         .EIP_WB(newEIP_WB_out), //update, from WB
 
-        .prediction(is_BR_T_NT_out),
+        .prediction(is_BR_T_NT_BP_out),
         .BP_update_alias_out(BP_update_alias_out),
 
         .FIP_E_target(BP_FIP_e_BTB_out),
@@ -539,22 +541,22 @@
     );
 
     fetch_TOP f0(
-        .clk(),
-        .set(),
-        .reset(),
+        .clk(clk),
+        .set(global_set),
+        .reset(global_reset),
 
-        .D_length(),
-        .stall(),
+        .D_length(D_length_D_F_out),
+        .stall(D_stall_out),
 
-        .WB_FIP_o(),
-        .WB_FIP_e(),
-        .WB_BIP(),
-        .resteer(),
+        .WB_FIP_o(newFIP_o_WB_out),
+        .WB_FIP_e(newFIP_e_WB_out),
+        .WB_BIP(newEIP_WB_out[5:0]),
+        .resteer(is_resteer_WB_out),
 
-        .BP_FIP_o(),
-        .BP_FIP_e(),
-        .BP_BIP(),
-        .is_BR_T_NT(),
+        .BP_FIP_o(BP_FIP_o_BTB_out),
+        .BP_FIP_e(BP_FIP_e_BTB_out),
+        .BP_BIP(BP_EIP_BTB_out[5:0]),
+        .is_BR_T_NT(is_BR_T_NT_BP_out),
 
         .init_addr(),
         .is_init(),
@@ -602,7 +604,7 @@
     
         // Signals from BP
         .BP_EIP(BP_EIP_BTB_out),
-        .is_BR_T_NT(is_BR_T_NT_out),
+        .is_BR_T_NT(is_BR_T_NT_BP_out),
     
         // Writeback signals
         .WB_EIP(newEIP_WB_out),
@@ -668,7 +670,7 @@
     
         // Outputs to fetch_2
         .stall_out(D_stall_out), //TODO: send to fetch_2
-        .D_length()
+        .D_length(D_length_D_F_out)
     );
     
     wire [m_size_D_RrAg-1:0] m_din_D_RrAg;
