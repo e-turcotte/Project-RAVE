@@ -95,8 +95,8 @@ assign FIP_e_lsb = FIP_e[5:4];
 
 
 I$ icache(
-    .FIP_o(FIP_o),
-    .FIP_e(FIP_e),
+    .FIP_o({FIP_o, 4'b0}),
+    .FIP_e({FIP_e, 4'b0}),
     .line_even_out(line_even_out),
     .line_odd_out(line_odd_out),
     .cache_miss_even(cache_miss_even_out),
@@ -160,8 +160,8 @@ endmodule
 
 
 module I$ (
-    input wire [27:0] FIP_o,
-    input wire [27:0] FIP_e,
+    input wire [31:0] FIP_o,
+    input wire [31:0] FIP_e,
     
     output wire [127:0] line_even_out,
     output wire [127:0] line_odd_out,
@@ -373,6 +373,7 @@ cacheBank even$(
     .needP1(),
     .oneSize_out()
 );
+assign evenW = DES_full_e;
 mshr mshre(.pAddress(mshr_e_paddr), .ptcid_in(7'b0), .qentry_slot_in(), .rdsw_in(1'b0),
            .alloc(mshr_e_write), .dealloc(/*todo make signal for this*/),
            .clk(clk), .clr(reset),
@@ -443,6 +444,7 @@ cacheBank odd$(
     .needP1(),
     .oneSize_out()
 );
+assign oddW = DES_full_o;
 mshr mshro(.pAddress(mshr_o_paddr), .ptcid_in(7'b0), .qentry_slot_in(), .rdsw_in(1'b0),
            .alloc(mshr_o_write), .dealloc(/*todo make signal for this*/),
            .clk(clk), .clr(reset),
