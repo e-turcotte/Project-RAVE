@@ -8,11 +8,30 @@
 
 TOP.v
 
+processor/M/cache/adrSwap.v
+processor/M/cache/cache_stage1.v
+processor/M/cache/cacheaq.v
+processor/M/cache/cacheBankNew.v
+processor/M/cache/dataStore.v
+processor/M/cache/inputAlign.v
+processor/M/cache/LRU_FSM.v
+processor/M/cache/LRU_FSM1.v
+processor/M/cache/LRU_FSM2.v
+processor/M/cache/LRU_FSM3.v
+processor/M/cache/metaStore.v
+processor/M/cache/mshr.v
+processor/M/cache/outputAlign.v
+processor/M/cache/PTCVDFSM.v
+processor/M/cache/pulseGen.v
+processor/M/cache/tagStore.v
+processor/M/cache/wayGeneration.v
+
 processor/F/fetch_TOP.v
 processor/F/fetch1.v
 processor/F/fetch2.v
 processor/F/btb.v
 processor/F/bp_gshare.v
+processor/F/bp_btb.v
 processor/F/I_Buff.v
 processor/F/IDTR.v
 
