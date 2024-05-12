@@ -373,6 +373,7 @@ cacheBank even$(
     .needP1(),
     .oneSize_out()
 );
+assign evenW = DES_full_e;
 mshr mshre(.pAddress(mshr_e_paddr), .ptcid_in(7'b0), .qentry_slot_in(), .rdsw_in(1'b0),
            .alloc(mshr_e_write), .dealloc(/*todo make signal for this*/),
            .clk(clk), .clr(reset),
@@ -443,6 +444,7 @@ cacheBank odd$(
     .needP1(),
     .oneSize_out()
 );
+assign oddW = DES_full_o;
 mshr mshro(.pAddress(mshr_o_paddr), .ptcid_in(7'b0), .qentry_slot_in(), .rdsw_in(1'b0),
            .alloc(mshr_o_write), .dealloc(/*todo make signal for this*/),
            .clk(clk), .clr(reset),
