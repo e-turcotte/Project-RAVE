@@ -95,6 +95,33 @@ module mem (input valid_in,
     //assign IE_type_out[3:2] = IE_type_in[3:2];                                          //pass along
     //or4$ g2(.out(IE_out), .in1(IE_in), .in2(prot_seg), .in3(TLB_miss), .in4(TLB_prot));   //update IE_out
 
+    wire [31:0] mem1, nextmem1, regmem1, mem2, nextmem2, regmem2, incdec;
+    wire isrepreg;
+
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m0(.in({32'h0000_0001,32'hffff_ffff}), .sel(), .out(incdec));
+
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regmem1,mem_addr1}), .sel(isrepreg), .out(mem1));
+    kogeAdder #(.WIDTH(32)) add0(.SUM(nextmem1), .COUT(), .A(mem1), .B(incdec), .CIN(1'b0));
+    regn #(.WIDTH(32)) r0(.din(nextmem1), .ld(1'b1), .clr(clr), .clk(clk), .dout(regmem1));
+
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({regmem2,mem_addr2}), .sel(isrepreg), .out(mem2));
+    kogeAdder #(.WIDTH(32)) add1(.SUM(nextmem2), .COUT(), .A(mem2), .B(incdec), .CIN(1'b0));
+    regn #(.WIDTH(32)) r1(.din(nextmem2), .ld(1'b1), .clr(clr), .clk(clk), .dout(regmem2));
+
+    regn #(.WIDTH(1)) r2(.din(is_rep_in), .ld(1'b1), .clr(clr), .clk(clk), .dout(isrepreg));
+
+    wire [31:0] cnt, nextcnt, cntreg;
+
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({,}), .sel(isrepreg), .out(cnt));
+    kogeAdder #(.WIDTH(32)) add2(.SUM(nextcnt), .COUT(), .A(cnt), .B(32'hffff_ffff), .CIN(1'b0));
+    regn #(.WIDTH(32)) r4(.din(nextcnt), .ld(1'b1), .clr(clr), .clk(clk), .dout(cntreg));
+
+    wire rep_stall, cntnotzero;
+
+    orn #(.NUM_INPUTS(32)) or0(.in(nextcnt), .out(cntnotzero));
+    and2$ g0(.out(rep_stall), .in0(cntnotzero), .in1(is_rep_in));
+
+
     opswap os(.reg1_data(reg1), .reg2_data(reg2), .reg3_data(reg3), .reg4_data(reg4),
               .reg1_addr(reg1_orig), .reg2_addr(reg2_orig), .reg3_addr(reg3_orig), .reg4_addr(reg4_orig),
               .reg1_ptc(ptc_r1), .reg2_ptc(ptc_r2), .reg3_ptc(ptc_r3), .reg4_ptc(ptc_r4),
