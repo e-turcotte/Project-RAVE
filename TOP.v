@@ -62,6 +62,35 @@
         global_reset = 0;
         global_set = 1;
         global_init = 0;
+        IDTR_base = 32'h02000000;
+
+        //initialize TLB
+        VP_0 = 20'h00000;
+		VP_1 = 20'h02000;
+		VP_2 = 20'h04000;
+		VP_3 = 20'h0b000;
+		VP_4 = 20'h0c000;
+		VP_5 = 20'h0a000;
+		VP_6 = 20'h06000;
+		VP_7 = 20'h03000;
+
+		PF_0 = 20'h00000;
+		PF_1 = 20'h00002;
+		PF_2 = 20'h00005;
+		PF_3 = 20'h00004;
+		PF_4 = 20'h00007;
+		PF_5 = 20'h00005;
+		PF_6 = 20'h00006;
+		PF_7 = 20'h00003;
+
+		entry_v = 8'b10111111;
+		entry_P = 8'b11110111;
+		entry_RW= 8'b11010101;
+		entry_PCD = 8'b00000011;
+
+		VP = {VP_7, VP_6, VP_5, VP_4, VP_3, VP_2, VP_1, VP_0};
+		PF = {PF_7, PF_6, PF_5, PF_4, PF_3, PF_2, PF_1, PF_0};
+
         #(CYCLE_TIME)
         global_reset = 1;
         #(CYCLE_TIME)
