@@ -690,7 +690,7 @@
         .IE_out(IE_F_D_latch_out),
         .IE_type_out(IE_type_F_D_latch_out),
         .BR_pred_target_out(BR_pred_target_F_D_latch_out),
-        .BR_pred_T_NT_out(BR_pred_T_NT_F_D_latch_out),
+        .BR_pred_T_NT_out(BR_pred_T_NT_F_D_latch_out)
     
     );
 
