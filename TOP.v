@@ -1,8 +1,10 @@
  module TOP();
     localparam CYCLE_TIME = 15.0;
+    localparam CYCLE_TIME_BUS = CYCLE_TIME / 2.0;
     
     integer file;
     reg clk;
+    reg bus_clk;
     integer cycle_number;
 
     localparam m_size_D_RrAg = 1;
@@ -18,6 +20,11 @@
         cycle_number = 0;
         $vcdplusfile("processor.dump.vpd");
         $vcdpluson(0, TOP); 
+    end
+
+    initial begin
+        bus_clk = 1'b1;
+        forever #(CYCLE_TIME_BUS) bus_clk = ~bus_clk;
     end
 
     initial begin
@@ -107,6 +114,8 @@
     ///////////////////////////////////////////////////////////
     //    Outputs from D that go into the D_RrAg_latch:     //  
     //////////////////////////////////////////////////////////
+    //output to go to fetch
+    wire [7:0] D_length_D_F_out;
 
     wire        valid_out_D_RrAg_latch_in;
     wire [2:0]  reg_addr1_D_RrAg_latch_in;
@@ -425,6 +434,7 @@
     //     Outputs from WB that go everywhere:              //
     //////////////////////////////////////////////////////////
     wire fwd_stall_WB_EX_out;
+    wire is_valid_WB_out;
     wire [63:0] res1_WB_RRAG_out, res2_WB_RRAG_out, res3_WB_RRAG_out, res4_WB_RRAG_out, mem_data_WB_M_out; //done
     wire [127:0] res1_ptcinfo_WB_RRAG_out, res2_ptcinfo_WB_RRAG_out, res3_ptcinfo_WB_RRAG_out, res4_ptcinfo_WB_RRAG_out;
     wire [1:0] ressize_WB_RRAG_out, memsize_WB_M_out;
@@ -437,6 +447,7 @@
     wire [27:0] newFIP_e_WB_out, newFIP_o_WB_out;
     wire [31:0] newEIP_WB_out, latched_EIP_WB_out, EIP_WB_out;
     wire is_resteer_WB_out;
+    wire BR_valid_WB_BP_out, BR_taken_WB_BP_out, BR_correct_WB_BP_out;
     wire final_IE_val;
     wire [3:0] final_IE_type;
     wire [17:0] final_EFLAGS;
@@ -446,9 +457,70 @@
     //     Outputs from BP that go to the everywhere in frontend://
     ///////////////////////////////////////////////////////////////
     wire [31:0] BP_EIP_BTB_out;
-    wire is_BR_T_NT_out;
-    wire bp_prediction;
+    wire is_BR_T_NT_BP_out;
     wire [27:0] BP_FIP_e_BTB_out, BP_FIP_o_BTB_out;
+    wire [5:0] BP_update_alias_out;
+
+    /////////////////////////////////////////////////////////////////
+    //                   offcoreBus inputs/outputs                //
+    ///////////////////////////////////////////////////////////////
+    wire freeIE, freeIO, freeDE, freeDO, reqIE, reqIO, reqDEr, reqDEw, 
+        reqDOr, reqDOw, relIE, relIO, relDEr, relDEw, relDOr, relDOw;
+    wire [3:0] destIE, destIO, destDEr, destDEw, destDOr, destDOw;
+    wire [72:0] BUS;
+    wire ackIE, ackIO, ackDEr, ackDEw, ackDOr, ackDOw, grantIE, grantIO, 
+        grantDEr, grantDEw, grantDOr, grantDOw, recvIE, recvIO, recvDE, recvDO;
+
+
+    offcoreBus_TOP offcoreBus(
+        .clk(clk),
+        .rst(global_reset),
+        .set(global_set),
+        .clk_bus(bus_clk),
+        
+        .freeIE(freeIE),
+        .freeIO(freeIO),
+        .freeDE(freeDE),
+        .freeDO(freeDO),
+        .reqIE(reqIE),
+        .reqIO(reqIO),
+        .reqDEr(reqDEr),
+        .reqDEw(reqDEw),
+        .reqDOr(reqDOr), 
+        .reqDOw(reqDOw),
+        .relIE(relIE),
+        .relIO(relIO), 
+        .relDEr(relDEr), 
+        .relDEw(relDEw), 
+        .relDOr(relDOr), 
+        .relDOw(relDOw),
+
+        .destIE(destIE), 
+        .destIO(destIO), 
+        .destDEr(destDEr),
+        .destDEw(destDEw), 
+        .destDOr(destDOr), 
+        .destDOw(destDOw),
+
+        .BUS(BUS),
+
+        .ackIE(ackIE), 
+        .ackIO(ackIO), 
+        .ackDEr(ackDEr), 
+        .ackDEw(ackDEw), 
+        .ackDOr(ackDOr), 
+        .ackDOw(ackDOw),
+        .grantIE(grantIE), 
+        .grantIO(grantIO), 
+        .grantDEr(grantDEr), 
+        .grantDEw(grantDEw), 
+        .grantDOr(grantDOr), 
+        .grantDOw(grantDOw),
+        .recvIE(recvIE), 
+        .recvIO(recvIO), 
+        .recvDE(recvDE), 
+        .recvDO(recvDO)
+    );
 
     IE_handler IDTR(
         .clk(clk),
@@ -471,94 +543,78 @@
         .is_servicing_IE()
     );
 
+    bp_btb BPstuff(
+        .clk(clk),
+        .reset(global_reset),
+        .eip(latched_eip_D_RrAg_latch_in),
+        .prev_BR_result(BR_taken_WB_BP_out),
+        .prev_BR_alias(WB_BP_update_alias),
+        .prev_is_BR(BR_valid_WB_BP_out),
+        .LD(is_valid_WB_out),
 
-    // bp_gshare bp (
-    //     //input
-    //     .clk(clk),
-    //     .reset(global_reset),
-    //     .eip(latched_eip_D_RrAg_latch_in),
-    //     .prev_BR_result(),
-    //     .prev_BR_alias(WB_BP_update_alias),
-    //     .prev_is_BR(),
-    //     .LD(),
-    //     //outputs
-    //     .prediction(bp_prediction),
-    //     .BP_alias()
-    // );
+        .btb_update_eip_WB(latched_eip_WB_out), //EIP of BR instr, passed from D
+        .FIP_E_WB(newFIP_e_WB_out), 
+        .FIP_O_WB(newFIP_o_WB_out), 
+        .EIP_WB(newEIP_WB_out), //update, from WB
 
-    // wire btb_hit;
-    // branch_target_buff buff(
-    //     .clk(clk),
-    //     .EIP_fetch(eip_D_RrAg_latch_in), //this should be eip + length from decode
-    //     .EIP_WB(latched_EIP_WB_out),
-    //     .FIP_E_WB(newFIP_e_WB_out),
-    //     .FIP_O_WB(newFIP_o_WB_out),
-    //     .target_WB(newEIP_WB_out),
-    //     .LD(),
-    //     .flush(),
+        .prediction(is_BR_T_NT_BP_out),
+        .BP_update_alias_out(BP_update_alias_out),
 
-    //     .FIP_E_target(BP_FIP_e_BTB_out),
-    //     .FIP_O_target(BP_FIP_o_BTB_out),
-    //     .EIP_target(BP_EIP_BTB_out),
-    //     .miss(),
-    //     .hit(btb_hit)
-    // );
+        .FIP_E_target(BP_FIP_e_BTB_out),
+        .FIP_O_target(BP_FIP_o_BTB_out),
+        .EIP_target(BP_EIP_BTB_out)
+    );
 
-    // andn #(2) sajkdfjiwe(
-    //     .in({bp_prediction, btb_hit}),
-    //     .out(is_BR_T_NT_out)
-    // );
+    fetch_TOP f0(
+        .clk(clk),
+        .set(global_set),
+        .reset(global_reset),
 
-    // fetch_TOP f0(
-    //     .clk(),
-    //     .set(),
-    //     .reset(),
+        .D_length(D_length_D_F_out),
+        .stall(D_stall_out),
 
-    //     .D_length(),
-    //     .stall(),
+        .WB_FIP_o(newFIP_o_WB_out),
+        .WB_FIP_e(newFIP_e_WB_out),
+        .WB_BIP(newEIP_WB_out[5:0]),
+        .resteer(is_resteer_WB_out),
 
-    //     .WB_FIP_o(),
-    //     .WB_FIP_e(),
-    //     .WB_BIP(),
-    //     .resteer(),
+        .BP_FIP_o(BP_FIP_o_BTB_out),
+        .BP_FIP_e(BP_FIP_e_BTB_out),
+        .BP_BIP(BP_EIP_BTB_out[5:0]),
+        .is_BR_T_NT(is_BR_T_NT_BP_out),
 
-    //     .BP_FIP_o(),
-    //     .BP_FIP_e(),
-    //     .BP_BIP(),
-    //     .is_BR_T_NT(),
+        .init_addr(),
+        .is_init(),
 
-    //     .init_addr(),
-    //     .is_init(),
+        .IDTR_packet(),
+        .packet_select(),
 
-    //     .IDTR_packet(),
-    //     .packet_select(),
+        .SER_i$_grant_e(grantIE),
+        .SER_i$_grant_o(grantIO),
+        .SER_i$_release_o(relIO),
+        .SER_i$_req_o(reqIO),
+        .SER_i$_release_e(relIE),
+        .SER_i$_req_e(reqIE),
+        .DES_i$_reciever_e(recvIE),
+        .DES_i$_reciever_o(recvIO),
+        .DES_i$_free_o(freeIO),
+        .DES_i$_free_e(freeIE),
+        .BUS(BUS),
 
-    //     .SER_i$_grant_e(),
-    //     .SER_i$_grant_o(),
-    //     .SER_i$_release_o(),
-    //     .SER_i$_req_o(),
-    //     .SER_i$_release_e(),
-    //     .SER_i$_req_e(),
-    //     .DES_i$_reciever_e(),
-    //     .DES_i$_reciever_o(),
-    //     .DES_i$_free_o(),
-    //     .DES_i$_free_e(),
-    //     .BUS(),
+        .protection_exception_e(),
+        .TLB_MISS_EXCEPTION_e(),
+        .protection_exception_o(),
+        .TLB_MISS_EXCEPTION_o(),
+        .VP(),
+        .PF(),
+        .MSHR_entry_V(),
+        .MSHR_entry_P(),
+        .MSHR_entry_RW(),
+        .MSHR_entry_PCD(),
 
-    //     .protection_exception_e(),
-    //     .TLB_MISS_EXCEPTION_e(),
-    //     .protection_exception_o(),
-    //     .TLB_MISS_EXCEPTION_o(),
-    //     .VP(),
-    //     .PF(),
-    //     .MSHR_entry_V(),
-    //     .MSHR_entry_P(),
-    //     .MSHR_entry_RW(),
-    //     .MSHR_entry_PCD(),
-
-    //     .packet_out(),
-    //     .packet_out_valid()
-    // );
+        .packet_out(),
+        .packet_out_valid()
+    );
 
     decode_TOP d0(
         // Clock and Reset
@@ -573,7 +629,7 @@
     
         // Signals from BP
         .BP_EIP(BP_EIP_BTB_out),
-        .is_BR_T_NT(is_BR_T_NT_out),
+        .is_BR_T_NT(is_BR_T_NT_BP_out),
     
         // Writeback signals
         .WB_EIP(newEIP_WB_out),
@@ -639,7 +695,7 @@
     
         // Outputs to fetch_2
         .stall_out(D_stall_out), //TODO: send to fetch_2
-        .D_length()
+        .D_length(D_length_D_F_out)
     );
     
     wire [m_size_D_RrAg-1:0] m_din_D_RrAg;
@@ -1203,7 +1259,7 @@
 
         .wbaq_full(1'b0), .is_rep(is_rep_EX_WB_latch_out),
 
-        .valid_out(),
+        .valid_out(is_valid_WB_out),
 
         .res1(res1_WB_RRAG_out), .res2(res2_WB_RRAG_out), .res3(res3_WB_RRAG_out), .res4(res4_WB_RRAG_out), .mem_data(mem_data_WB_M_out),
         .res1_ptcinfo(res1_ptcinfo_WB_RRAG_out), .res2_ptcinfo(res2_ptcinfo_WB_RRAG_out), .res3_ptcinfo(res3_ptcinfo_WB_RRAG_out), .res4_ptcinfo(res4_ptcinfo_WB_RRAG_out),
@@ -1214,10 +1270,10 @@
         .mem_ld(mem_ld_WB_M_out),
         .inst_ptcid_out(inst_ptcid_out_WB_RRAG_out),
 
-        .newFIP_e(newFIP_e_WB_out), .newFIP_o(newFIP_o_WB_out), .newEIP(newEIP_WB_out), 
-        .latched_EIP_out(latched_EIP_WB_out),
+        .newFIP_e(newFIP_e_WB_out), .newFIP_o(newFIP_o_WB_out), .newEIP(newEIP_WB_out), //done 
+        .latched_EIP_out(latched_eip_WB_out), //done
         .EIP_out(EIP_WB_out),
-        .BR_valid(), .BR_taken(), .BR_correct(),
+        .BR_valid(BR_valid_WB_BP_out), .BR_taken(BR_taken_WB_BP_out), .BR_correct(BR_correct_WB_BP_out), //done
         .is_resteer(is_resteer_WB_out),
         .CS_out(final_CS),
         .EFLAGS_out(final_EFLAGS),
