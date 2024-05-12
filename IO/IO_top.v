@@ -24,13 +24,13 @@ module IO_top(
  //DES
     wire read_d;
 
-    reg full_d;
-    reg [14:0] pAdr_d;
-    reg [127:0] data_d;
-    reg [3:0]return_d;
-    reg [3:0] dest_d;
-    reg rw_d;
-    reg [15:0] size_d;
+    wire full_d;
+    wire [14:0] pAdr_d;
+    wire [127:0] data_d;
+    wire [3:0]return_d;
+    wire [3:0] dest_d;
+    wire rw_d;
+    wire [15:0] size_d;
     //SE;
     wire valid_s;
     wire [14:0] pAdr_s;
@@ -40,8 +40,8 @@ module IO_top(
     wire rw_s;
     wire [15:0] size_s;
     
-    reg full_block_s;
-    reg free_block_s;
+    wire full_block_s;
+    wire free_block_s;
     //DIS;
     wire [127:0] data_disc;
     wire finished_disc;

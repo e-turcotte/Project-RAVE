@@ -30,7 +30,7 @@ module brq (input [87:0] req_data,
     and2$ g11(.out(ack[0]), .in0(arb_wr_vector[0]), .in1(rld[0]));
 
     wire [0:10] rld;
-    wire [8:0] rout [0:10];
+    wire [8:0] rout [10:0];
 
     regn #(.WIDTH(9)) r0(.din({incoming_reqs,req_in}), .ld(rld[0]), .clr(clr), .clk(clk), .dout(rout[0]));
     regn #(.WIDTH(9)) r1(.din(rout[0]), .ld(rld[1]), .clr(clr), .clk(clk), .dout(rout[1]));
