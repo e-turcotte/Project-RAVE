@@ -23,7 +23,6 @@
 ../Bus/brq.v
 ../Bus/bus_TOP.v
 
-../local-lib/nbitdevices/equaln.v
 ../local-lib/nbitdevices/regn.v
 ../local-lib/nbitdevices/decodern.v
 ../local-lib/buffer_bytes.v
