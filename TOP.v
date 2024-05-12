@@ -128,18 +128,27 @@
     wire D_RrAg_Latches_empty, MEM_EX_Latches_empty; // AND with valid to get internal valid signals   
 
     ///////////////////////////////////////////////////////////
-    //    Outputs from F that go into the F_D_latch:     //  
+    //    Inputs from F that go into the F_D_latch:     //  
     //////////////////////////////////////////////////////////
-    
-    wire [127:0] packet_out_F_D_latch_in;
-    wire packet_out_valid_F_D_latch_in;
+    wire valid_F_D_latch_in;
+    wire [127:0] packet_F_D_latch_in;
+    wire [5:0] BP_alias_F_D_latch_in;
+    wire IE_F_D_latch_in;
+    wire [3:0] IE_type_F_D_latch_in;
+    wire [31:0] BR_pred_target_F_D_latch_in;
+    wire BR_pred_T_NT_F_D_latch_in;
+
 
     ///////////////////////////////////////////////////////////
     //         Outputs from F_D_latch that go into D:       //  
     //////////////////////////////////////////////////////////
-    
-    wire [127:0] packet_out_F_D_latch_out;
-    wire packet_out_valid_F_D_latch_out;
+    wire valid_F_D_latch_out;
+    wire [127:0] packet_F_D_latch_out;
+    wire [5:0] BP_alias_F_D_latch_out;
+    wire IE_F_D_latch_out;
+    wire [3:0] IE_type_F_D_latch_out;
+    wire [31:0] BR_pred_target_F_D_latch_out;
+    wire BR_pred_T_NT_F_D_latch_out;
 
     ///////////////////////////////////////////////////////////
     //    Outputs from D that go into the D_RrAg_latch:     //  
@@ -502,6 +511,7 @@
     wire IDTR_LD_EIP_out;
     wire IDTR_flush_pipe;
     wire is_servicing_IE;
+    wire IDTR_PTC_clear;
 
     /////////////////////////////////////////////////////////////////
     //                   offcoreBus inputs/outputs                //
@@ -582,7 +592,7 @@
         .PTC_clear(IDTR_PTC_clear),
         .LD_EIP(IDTR_LD_EIP_out),
         .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
-        .is_servicing_IE(is_servicing_IE),
+        .is_servicing_IE(is_servicing_IE)
     );
 
     bp_btb BPstuff(
@@ -628,8 +638,8 @@
         .init_addr(),
         .is_init(),
 
-        .IDTR_packet(),
-        .packet_select(),
+        .IDTR_packet(IDTR_packet_out),
+        .packet_select(IDTR_packet_select_out),
 
         .SER_i$_grant_e(grantIE),
         .SER_i$_grant_o(grantIO),
@@ -647,15 +657,41 @@
         .TLB_MISS_EXCEPTION_e(),
         .protection_exception_o(),
         .TLB_MISS_EXCEPTION_o(),
-        .VP(),
-        .PF(),
-        .TLB_entry_V(),
-        .TLB_entry_P(),
-        .TLB_entry_RW(),
-        .TLB_entry_PCD(),
+        .VP(VP),
+        .PF(PF),
+        .TLB_entry_V(entry_v),
+        .TLB_entry_P(entry_P),
+        .TLB_entry_RW(entry_RW),
+        .TLB_entry_PCD(entry_PCD),
 
-        .packet_out(),
-        .packet_out_valid()
+        .packet_out(packet_F_D_latch_in),
+        .packet_valid_out(valid_F_D_latch_in),
+        .is_BR_T_NT_out(BR_pred_T_NT_F_D_latch_in),
+        .BP_target_out(BR_pred_target_F_D_latch_in),
+        .BP_update_alias_out(BP_alias_F_D_latch_in)
+
+    );
+
+    F_D_latch f1(
+        .clk(clk),
+        .clr(global_reset),
+
+        .valid_in(valid_F_D_latch_in),
+        .packet_in(packet_F_D_latch_in),
+        .BP_alias_in(BP_alias_F_D_latch_in),
+        .IE_in(1'b1), //TODO: IE_F_D_latch_in, hardcoded for now as no IE
+        .IE_type_in(4'b0), //TODO: IE_type_F_D_latch_in
+        .BR_pred_target_in(BR_pred_target_F_D_latch_in),
+        .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_in),
+         //outputs
+        .valid_out(valid_F_D_latch_out),
+        .packet_out(packet_F_D_latch_out),
+        .BP_alias_out(BP_alias_F_D_latch_out),
+        .IE_out(IE_F_D_latch_out),
+        .IE_type_out(IE_type_F_D_latch_out),
+        .BR_pred_target_out(BR_pred_target_F_D_latch_out),
+        .BR_pred_T_NT_out(BR_pred_T_NT_F_D_latch_out)
+    
     );
 
     decode_TOP d0(
@@ -664,11 +700,15 @@
         .reset(global_reset),
     
         // Signals from fetch_2
-        .valid_in(F_valid), //TODO:
-        .packet_in(packet),
-        .IE_in(),
-        .IE_type_in(),
-    
+        .valid_in(valid_F_D_latch_in),
+        .packet_in(packet_F_D_latch_out),
+
+        .IE_in(IE_F_D_latch_out),
+        .IE_type_in(IE_type_F_D_latch_out),
+        .BP_alias_in(BP_alias_F_D_latch_out),
+        .BR_pred_target_in(BR_pred_target_F_D_latch_out),
+        .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_out),
+
         // Signals from BP
         .BP_EIP(BP_EIP_BTB_out),
         .is_BR_T_NT(is_BR_T_NT_BP_out),

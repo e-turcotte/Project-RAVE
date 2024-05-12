@@ -91,7 +91,7 @@ wire valid;
 //nor3$ nor1(valid, valid_in_n,stall, AQ_isEMPTY);
 assign AQ_READ = valid;
 
-
+wire stall;
 assign offset = pAddress[3:0];
 assign index = pAddress[6:5];
 assign tag_in = pAddress[14:7];

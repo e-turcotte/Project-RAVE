@@ -55,7 +55,7 @@ module fetch_TOP (
     input wire DES_i$_free_o,
     input wire DES_i$_free_e,
 
-    inout wire [73:0] BUS,
+    inout wire [72:0] BUS,
 
     ////////////////////////////////
     // signals from TLB stuff     //
@@ -75,7 +75,12 @@ module fetch_TOP (
     //    output signals      //  
     ///////////////////////////
     output wire [127:0] packet_out,
-    output wire packet_out_valid
+    output wire packet_valid_out,
+    output wire is_BR_T_NT_out,
+    output wire [31:0] BP_target_out,
+    output wire [5:0] BP_update_alias_out
+
+
 );
 
     wire even_latch_was_loaded, odd_latch_was_loaded;
@@ -193,7 +198,7 @@ module fetch_TOP (
         .IDTR_packet(IDTR_packet),
         .packet_select(packet_select),
         .packet_out(packet_out), 
-        .packet_out_valid(packet_out_valid),
+        .packet_out_valid(packet_valid_out),
         .old_BIP(old_BIP),
         .new_BIP(new_BIP)
     );

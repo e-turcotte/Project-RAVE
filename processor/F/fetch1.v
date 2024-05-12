@@ -71,8 +71,8 @@ wire [27:0] init_FIP_o, init_FIP_e;
 wire [31:0] init_addr_plus_1;
 kogeAdder #(.WIDTH(32)) a02e35rwgsr(.SUM(init_addr_plus_1), .COUT(), .A({init_addr}), .B(32'd16), .CIN(1'b0));
 
-muxnm_tree #(.NUM_INPUTS(2), .DATA_WIDTH(28)) m0(.in({init_addr, init_addr_plus_1}), .sel(init_addr[4]), .out(init_FIP_o));
-muxnm_tree #(.NUM_INPUTS(2), .DATA_WIDTH(28)) m1(.in({init_addr_plus_1, init_addr}), .sel(init_addr[4]), .out(init_FIP_e));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(28)) m0(.in({init_addr, init_addr_plus_1}), .sel(init_addr[4]), .out(init_FIP_o));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(28)) m1(.in({init_addr_plus_1, init_addr}), .sel(init_addr[4]), .out(init_FIP_e));
 
 // ld_FIP reg even calculation
 wire ld_FIP_reg_even;
@@ -198,6 +198,8 @@ module I$ (
     input SER_i$_grant_o,
     input DES_i$_reciever_e,
     input DES_i$_reciever_o,
+    input SER_i$_ack_e,
+    input SER_i$_ack_o,
     //to bau output
     
     output SER_i$_release_o,
@@ -298,8 +300,8 @@ TLB tlb_odd(
 
 wire DES_full_ne, DES_full_no;
 wire[14:0] pAddr_e, pAddr_o;
-mux2n #(15) (pAddr_e, pAddress_e, DES_pAdr_e, DES_full_e);
-mux2n #(15) (pAddr_o, pAddress_o, DES_pAdr_o, DES_full_o);
+mux2n #(15) sadasd(pAddr_e, pAddress_e, DES_pAdr_e, DES_full_e);
+mux2n #(15) dsfse(pAddr_o, pAddress_o, DES_pAdr_o, DES_full_o);
 inv1$ invx(DES_full_ne, DES_full_e);
 inv1$ inx(DES_full_no, DES_full_o);
 
@@ -464,7 +466,9 @@ SER SER_e(
     .releases(SER_i$_release_e),
     .req(SER_i$_req_e),
 
-    .BUS(BUS)
+    .BUS(BUS),
+
+    .ack(SER_i$_ack_e)
 );
 
 
@@ -489,7 +493,9 @@ SER SER_o(
     .releases(SER_i$_release_o),
     .req(SER_i$_req_o),
 
-    .BUS(BUS)
+    .BUS(BUS),
+
+    .ack(SER_i$_ack_o)
 );
 
 DES DES_e(
