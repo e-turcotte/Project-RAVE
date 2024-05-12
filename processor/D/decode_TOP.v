@@ -68,6 +68,8 @@ module decode_TOP(
     output [31:0] eip_out,
     output IE_out,
     output [3:0] IE_type_out,
+    output [31:0] BR_pred_target_out,
+    output BR_pred_T_NT_out,
     output isImm_out,
 
     ////////////////////////////
