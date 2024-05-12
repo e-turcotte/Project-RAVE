@@ -125,8 +125,7 @@ kb kb1(
     .rst(rst),
     .data_kb(data_kb),
     .read_kb(read_kb),
-    .valid_in_kb(valid_in_kb),
-    .data_in_kb(data_in_kb)
+
 );
 
 DMA DMA1 (

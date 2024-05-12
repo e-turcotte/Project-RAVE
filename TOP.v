@@ -434,37 +434,105 @@
     wire mem_ld_WB_M_out;
     wire [6:0] inst_ptcid_out_WB_RRAG_out;
     wire [5:0] WB_BP_update_alias;
+    wire [27:0] newFIP_e_WB_out, newFIP_o_WB_out;
+    wire [31:0] newEIP_WB_out, latched_eip_WB_out;
+    wire is_resteer_WB_out;
+
+    ////////////////////////////////////////////////////////////////
+    //     Outputs from BP that go to the everywhere in frontend://
+    ///////////////////////////////////////////////////////////////
+    wire [31:0] BP_EIP_BTB_out;
+    wire is_BR_T_NT_out;
+    wire bp_prediction;
+    wire [27:0] BP_FIP_e_BTB_out, BP_FIP_o_BTB_out;
 
 
     // bp_gshare bp (
-    //     //inputs
+    //     //input
     //     .clk(clk),
     //     .reset(global_reset),
-    //     .eip(),
+    //     .eip(latched_eip_D_RrAg_latch_in),
     //     .prev_BR_result(),
     //     .prev_BR_alias(WB_BP_update_alias),
-    //     .prev_is_BR,
+    //     .prev_is_BR(),
     //     .LD(),
     //     //outputs
-    //     .prediction(),
+    //     .prediction(bp_prediction),
     //     .BP_alias()
     // );
 
+    // wire btb_hit;
     // branch_target_buff buff(
     //     .clk(clk),
-    //     .EIP_fetch(),
-    //     .EIP_WB(),
-    //     .FIP_E_WB(),
-    //     .FIP_O_WB(),
-    //     .target_WB(),
+    //     .EIP_fetch(eip_D_RrAg_latch_in), //this should be eip + length from decode
+    //     .EIP_WB(latched_eip_WB_out),
+    //     .FIP_E_WB(newFIP_e_WB_out),
+    //     .FIP_O_WB(newFIP_o_WB_out),
+    //     .target_WB(newEIP_WB_out),
     //     .LD(),
     //     .flush(),
 
-    //     .FIP_E_target(),
-    //     .FIP_O_target(),
-    //     .EIP_target(),
+    //     .FIP_E_target(BP_FIP_e_BTB_out),
+    //     .FIP_O_target(BP_FIP_o_BTB_out),
+    //     .EIP_target(BP_EIP_BTB_out),
     //     .miss(),
-    //     .hit()
+    //     .hit(btb_hit)
+    // );
+
+    // andn #(2) sajkdfjiwe(
+    //     .in({bp_prediction, btb_hit}),
+    //     .out(is_BR_T_NT_out)
+    // );
+
+    // fetch_TOP f0(
+    //     .clk(),
+    //     .set(),
+    //     .reset(),
+
+    //     .D_length(),
+    //     .stall(),
+
+    //     .WB_FIP_o(),
+    //     .WB_FIP_e(),
+    //     .WB_BIP(),
+    //     .resteer(),
+
+    //     .BP_FIP_o(),
+    //     .BP_FIP_e(),
+    //     .BP_BIP(),
+    //     .is_BR_T_NT(),
+
+    //     .init_addr(),
+    //     .is_init(),
+
+    //     .IDTR_packet(),
+    //     .packet_select(),
+
+    //     .SER_i$_grant_e(),
+    //     .SER_i$_grant_o(),
+    //     .SER_i$_release_o(),
+    //     .SER_i$_req_o(),
+    //     .SER_i$_release_e(),
+    //     .SER_i$_req_e(),
+    //     .DES_i$_reciever_e(),
+    //     .DES_i$_reciever_o(),
+    //     .DES_i$_free_o(),
+    //     .DES_i$_free_e(),
+    //     .BUS(),
+
+    //     .protection_exception_e(),
+    //     .TLB_MISS_EXCEPTION_e(),
+    //     .protection_exception_o(),
+    //     .TLB_MISS_EXCEPTION_o(),
+    //     .VP(),
+    //     .PF(),
+    //     .MSHR_entry_V(),
+    //     .MSHR_entry_P(),
+    //     .MSHR_entry_RW(),
+    //     .MSHR_entry_PCD(),
+
+    //     .packet_out(),
+    //     .packet_out_valid()
     // );
 
     decode_TOP d0(
@@ -479,12 +547,12 @@
         .IE_type_in(),
     
         // Signals from BP
-        .BP_EIP(),
-        .is_BR_T_NT(),
+        .BP_EIP(BP_EIP_BTB_out),
+        .is_BR_T_NT(is_BR_T_NT_out),
     
         // Writeback signals
-        .WB_EIP(),
-        .is_resteer(),
+        .WB_EIP(newEIP_WB_out),
+        .is_resteer(is_resteer_WB_out),
     
         // Init signals
         .init_EIP(EIP_init),
@@ -716,7 +784,7 @@
         .IE_out(IE_RrAg_MEM_latch_out),
         .IE_type_out(IE_type_RrAg_MEM_latch_out),
         .BR_pred_target_out(BR_pred_target_RrAg_MEM_latch_out),
-        .BR_pred_T_NT_out(BR_pred_T_NT_RrAg_MEM_latch_out)
+        .BR_pred_T_NT_out(BR_pred_T_NT_RrAg_MEM_latch_out),
         .BP_alias_out(BP_alias_RrAg_MEM_latch_out)
     );
 
@@ -1122,11 +1190,10 @@
         .mem_ld(mem_ld_WB_M_out),
         .inst_ptcid_out(inst_ptcid_out_WB_RRAG_out),
 
-        .newFIP_e(), .newFIP_o(), .newEIP(), //done 
-        .latched_EIP_out(),
+        .newFIP_e(newFIP_e_WB_out), .newFIP_o(newFIP_o_WB_out), .newEIP(newEIP_WB_out), //done 
+        .latched_EIP_out(latched_eip_WB_out), //done
         .BR_valid(), .BR_taken(), .BR_correct(), //done
-        .WB_BP_update_alias(),
-        .is_resteer(),
+        .is_resteer(is_resteer_WB_out),
         .CS_out(), //done
 
         .WB_BP_update_alias(WB_BP_update_alias),
