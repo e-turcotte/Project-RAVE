@@ -1,31 +1,54 @@
 module d$(
     //GLOBAL
     input clk,
-    input clk_bus
+    input clk_bus,
     input rst,
     input set,
 
+    //SERDES for W AQ
+    inout [72:0] BUS,
+    //BAU-DES
+    input [1:0] setReciever_d,
+    output [1:0]free_bau_d,
+
+    //BAU-SER
+    input [3:0] grant_d,
+    input [3:0] ack_d,
+    output [3:0]releases_d,
+    output [3:0] req_d,
     
+    //R SW AQ
     input[31:0] M1, M2, WB1,
     input[1:0] M1_RW, M2_RW,
     input valid_RSW,
     input sizeOVR,
     input PTC_ID_in,
 
+    //W AQ
     input[16*8-1:0] wb_data,
     input[31:0] wb_adr,
     input[1:0] wb_size,
+    input wb_valid,
 
-    
+    //MSHR handler
+    input [159:0] VP, PF,
+    input[7:0] entry_V, entry_P, entry_RW, entry_PCD,
+    output TLB_miss, protection_exception, TLB_hit,PCD_out,
+
+    //DESIRED pre D$
     output [127:0]ptc_info_r,
     output [127:0]ptc_info_sw,
-
     output [3:0]wake_init_vector_r,
     output [3:0]wake_init_vector_sw,
+
+    //Post D$ outputs
     output [3:0]wake,
     output [6:0]PTC_ID_out,
     output cache_valid,
     output [127:0] data
+
+    //MSHR outputs:
+    //TODO: 
 
 );
 
@@ -39,7 +62,7 @@ rdIA rdIA (
     .w(w_r),
     .sw(sw_r),
     .valid_in(valid_in_r),
-    .fromBUS(fromBUS_r),
+    .fromBUS(1'b0),
     .sizeOVR(sizeOVR_r),
     
     .PTC_ID_in(PTC_ID_in_r),
@@ -212,8 +235,8 @@ cacheaqsys cacheaqsys_inst (
     .bus_valid_e(bus_valid_e),
     .bus_valid_o(bus_valid_o),
 
-    .wb_mask_e(maskE_wb),
-    .wb_mask_o(maskO_wb),
+    .wb_mask_e(128'hFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF),
+    .wb_mask_o(128'hFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF),
 
     .rd_ptcid(PCD_out_r),
     .sw_ptcid(PCD_out_sw),

@@ -1,0 +1,938 @@
+{
+    "timeunit": [
+        "timeunit",
+        "H0Y6L",
+        "module",
+        1
+    ],
+    "dff8$": [
+        "dff80x24",
+        "jQsNd",
+        "module",
+        2
+    ],
+    "dff16$": [
+        "dff160x24",
+        "SCu9C",
+        "module",
+        3
+    ],
+    "jkff8$": [
+        "jkff80x24",
+        "JgZKg",
+        "module",
+        4
+    ],
+    "jkff16$": [
+        "jkff160x24",
+        "pQavA",
+        "module",
+        5
+    ],
+    "buffer$": [
+        "buffer0x24",
+        "FNzcy",
+        "module",
+        6
+    ],
+    "buffer8$": [
+        "buffer80x24",
+        "QFH1S",
+        "module",
+        7
+    ],
+    "buffer16$": [
+        "buffer160x24",
+        "vJF8R",
+        "module",
+        8
+    ],
+    "bufferH16$": [
+        "bufferH160x24",
+        "bxTVL",
+        "module",
+        9
+    ],
+    "bufferH4096$": [
+        "bufferH40960x24",
+        "z87Iw",
+        "module",
+        10
+    ],
+    "bufferHInv16$": [
+        "bufferHInv160x24",
+        "hb0rt",
+        "module",
+        11
+    ],
+    "bufferHInv64$": [
+        "bufferHInv640x24",
+        "YYuYM",
+        "module",
+        12
+    ],
+    "bufferHInv256$": [
+        "bufferHInv2560x24",
+        "dDgCy",
+        "module",
+        13
+    ],
+    "bufferHInv1024$": [
+        "bufferHInv10240x24",
+        "IgGNx",
+        "module",
+        14
+    ],
+    "bufferHInv4096$": [
+        "bufferHInv40960x24",
+        "cBWb4",
+        "module",
+        15
+    ],
+    "latch$": [
+        "latch0x24",
+        "s37Em",
+        "module",
+        16
+    ],
+    "latch8$": [
+        "latch80x24",
+        "nG9Qp",
+        "module",
+        17
+    ],
+    "latch16$": [
+        "latch160x24",
+        "svdej",
+        "module",
+        18
+    ],
+    "tristateL$": [
+        "tristateL0x24",
+        "FnCvq",
+        "module",
+        19
+    ],
+    "tristate8L$": [
+        "tristate8L0x24",
+        "F2ANb",
+        "module",
+        20
+    ],
+    "tristate16L$": [
+        "tristate16L0x24",
+        "dSMzD",
+        "module",
+        21
+    ],
+    "tristateH$": [
+        "tristateH0x24",
+        "N5Ba1",
+        "module",
+        22
+    ],
+    "tristate8H$": [
+        "tristate8H0x24",
+        "xws7j",
+        "module",
+        23
+    ],
+    "tristate16H$": [
+        "tristate16H0x24",
+        "PQH7a",
+        "module",
+        24
+    ],
+    "tristate_bus_driver1$": [
+        "tristate_bus_driver10x24",
+        "VZaFA",
+        "module",
+        25
+    ],
+    "tristate_bus_driver8$": [
+        "tristate_bus_driver80x24",
+        "qL8KW",
+        "module",
+        26
+    ],
+    "tristate_bus_driver16$": [
+        "tristate_bus_driver160x24",
+        "s8L2V",
+        "module",
+        27
+    ],
+    "dff16b$": [
+        "dff16b0x24",
+        "zTBIE",
+        "module",
+        28
+    ],
+    "dff32b$": [
+        "dff32b0x24",
+        "MxKy0",
+        "module",
+        29
+    ],
+    "reg64e$": [
+        "reg64e0x24",
+        "HLtSR",
+        "module",
+        30
+    ],
+    "reg32e$": [
+        "reg32e0x24",
+        "d2Yfq",
+        "module",
+        31
+    ],
+    "ioreg8$": [
+        "ioreg80x24",
+        "KEhV6",
+        "module",
+        32
+    ],
+    "ioreg16$": [
+        "ioreg160x24",
+        "nvHk0",
+        "module",
+        33
+    ],
+    "regfile$": [
+        "regfile0x24",
+        "cRE6w",
+        "module",
+        34
+    ],
+    "regfile8x8$": [
+        "regfile8x80x24",
+        "VIY5Q",
+        "module",
+        35
+    ],
+    "ram8b8w$": [
+        "ram8b8w0x24",
+        "HG4gk",
+        "module",
+        36
+    ],
+    "ram16b8w$": [
+        "ram16b8w0x24",
+        "cn0fQ",
+        "module",
+        37
+    ],
+    "ram8b4w$": [
+        "ram8b4w0x24",
+        "WaEiL",
+        "module",
+        38
+    ],
+    "rom4b32w$": [
+        "rom4b32w0x24",
+        "qJmpA",
+        "module",
+        39
+    ],
+    "rom32b32w$": [
+        "rom32b32w0x24",
+        "bhE0p",
+        "module",
+        40
+    ],
+    "rom64b32w$": [
+        "rom64b32w0x24",
+        "IIw1F",
+        "module",
+        41
+    ],
+    "mux2$": [
+        "mux20x24",
+        "gbBs9",
+        "module",
+        42
+    ],
+    "mux3$": [
+        "mux30x24",
+        "E9zVK",
+        "module",
+        43
+    ],
+    "mux4$": [
+        "mux40x24",
+        "tp1u2",
+        "module",
+        44
+    ],
+    "mux2_8$": [
+        "mux2_80x24",
+        "RtsUf",
+        "module",
+        45
+    ],
+    "mux2_16$": [
+        "mux2_160x24",
+        "Pm8aL",
+        "module",
+        46
+    ],
+    "mux3_8$": [
+        "mux3_80x24",
+        "dQyFv",
+        "module",
+        47
+    ],
+    "mux3_16$": [
+        "mux3_160x24",
+        "zdbpw",
+        "module",
+        48
+    ],
+    "mux4_8$": [
+        "mux4_80x24",
+        "hGaEL",
+        "module",
+        49
+    ],
+    "mux4_16$": [
+        "mux4_160x24",
+        "GgUtG",
+        "module",
+        50
+    ],
+    "decoder2_4$": [
+        "decoder2_40x24",
+        "QC4rD",
+        "module",
+        51
+    ],
+    "decoder3_8$": [
+        "decoder3_80x24",
+        "CBrar",
+        "module",
+        52
+    ],
+    "syn_cntr8$": [
+        "syn_cntr80x24",
+        "CMdWC",
+        "module",
+        53
+    ],
+    "pencoder8_3v$": [
+        "pencoder8_3v0x24",
+        "x8y1J",
+        "module",
+        54
+    ],
+    "pencoder8_3$": [
+        "pencoder8_30x24",
+        "KDHaM",
+        "module",
+        55
+    ],
+    "mag_comp8$": [
+        "mag_comp80x24",
+        "DasqW",
+        "module",
+        56
+    ],
+    "mag_comp4$": [
+        "mag_comp40x24",
+        "quacJ",
+        "module",
+        57
+    ],
+    "alu4$": [
+        "alu40x24",
+        "AjRvi",
+        "module",
+        58
+    ],
+    "sram128x8$": [
+        "sram128x80x24",
+        "FtFWT",
+        "module",
+        59
+    ],
+    "sram32x8$": [
+        "sram32x80x24",
+        "PWhQb",
+        "module",
+        60
+    ],
+    "sram32x16$": [
+        "sram32x160x24",
+        "KVibP",
+        "module",
+        61
+    ],
+    "sram32x32$": [
+        "sram32x320x24",
+        "iC8DI",
+        "module",
+        62
+    ],
+    "cache_tb": [
+        "cache_tb",
+        "nGxCG",
+        "module",
+        156
+    ],
+    "PTCVDFSM": [
+        "PTCVDFSM",
+        "hY3va",
+        "module",
+        64
+    ],
+    "LRU_FSM_0000": [
+        "LRU_FSM_0000",
+        "mBjBL",
+        "module",
+        65
+    ],
+    "LRU_FSM1_0000": [
+        "LRU_FSM1_0000",
+        "LVt9Q",
+        "module",
+        66
+    ],
+    "LRU_FSM2_0000": [
+        "LRU_FSM2_0000",
+        "tNaGG",
+        "module",
+        67
+    ],
+    "LRU_FSM3_0000": [
+        "LRU_FSM3_0000",
+        "mCK4Q",
+        "module",
+        68
+    ],
+    "dataStore_0000": [
+        "dataStore_0000",
+        "tSF4Q",
+        "module",
+        155
+    ],
+    "tagStore_0000": [
+        "tagStore_0000",
+        "NN4DC",
+        "module",
+        154
+    ],
+    "wayGeneration_0000": [
+        "wayGeneration_0000",
+        "b7Jsk",
+        "module",
+        141
+    ],
+    "outputAlign_0000": [
+        "outputAlign_0000",
+        "LyNI0",
+        "module",
+        128
+    ],
+    "lShf16_0000": [
+        "lShf16_0000",
+        "DPW3I",
+        "module",
+        73
+    ],
+    "rShf16_0000": [
+        "rShf16_0000",
+        "APZcb",
+        "module",
+        74
+    ],
+    "pulseGen": [
+        "pulseGen",
+        "HZpuC",
+        "module",
+        152
+    ],
+    "adrSwap": [
+        "adrSwap",
+        "J9Zkv",
+        "module",
+        76
+    ],
+    "cacheBank": [
+        "cacheBank",
+        "GL9LP",
+        "module",
+        75
+    ],
+    "TLB_0000": [
+        "TLB_0000",
+        "Q2aNe",
+        "module",
+        77
+    ],
+    "pencoder32_5": [
+        "pencoder32_5",
+        "KNmh6",
+        "module",
+        78
+    ],
+    "mux8_n_0000": [
+        "mux8_n_0000",
+        "gAmDW",
+        "module",
+        79
+    ],
+    "mux8_n_0002": [
+        "mux8_n_0002",
+        "LnbB8",
+        "module",
+        80
+    ],
+    "mux2n_0001": [
+        "mux2n_0001",
+        "p6kZu",
+        "module",
+        81
+    ],
+    "mux2n_0002": [
+        "mux2n_0002",
+        "Gy2YV",
+        "module",
+        127
+    ],
+    "mux2n_0003": [
+        "mux2n_0003",
+        "FLDy0",
+        "module",
+        83
+    ],
+    "mux2n_0004": [
+        "mux2n_0004",
+        "zk6bZ",
+        "module",
+        117
+    ],
+    "mux2n_0005": [
+        "mux2n_0005",
+        "gGfpi",
+        "module",
+        85
+    ],
+    "mux2n_0006": [
+        "mux2n_0006",
+        "aI3kt",
+        "module",
+        86
+    ],
+    "mux2n_0008": [
+        "mux2n_0008",
+        "T6QHv",
+        "module",
+        112
+    ],
+    "reverseBits_0001": [
+        "reverseBits_0001",
+        "TAqkg",
+        "module",
+        88
+    ],
+    "equaln_0000": [
+        "equaln_0000",
+        "FcwT0",
+        "module",
+        89
+    ],
+    "equaln_0001": [
+        "equaln_0001",
+        "YVVN8",
+        "module",
+        90
+    ],
+    "equaln_0002": [
+        "equaln_0002",
+        "mLqz6",
+        "module",
+        91
+    ],
+    "equaln_0003": [
+        "equaln_0003",
+        "buw0d",
+        "module",
+        92
+    ],
+    "kogeAdder": [
+        "kogeAdder",
+        "Qi0d7",
+        "module",
+        93
+    ],
+    "kogeAdder_0000": [
+        "kogeAdder_0000",
+        "Bv1Qp",
+        "module",
+        94
+    ],
+    "grey_cell": [
+        "grey_cell",
+        "F4S4j",
+        "module",
+        95
+    ],
+    "black_cell": [
+        "black_cell",
+        "e1E7F",
+        "module",
+        96
+    ],
+    "pg_cell": [
+        "pg_cell",
+        "VVRc7",
+        "module",
+        97
+    ],
+    "invn": [
+        "invn",
+        "y3xAx",
+        "module",
+        98
+    ],
+    "andn_0001": [
+        "andn_0001",
+        "vh1Sd",
+        "module",
+        99
+    ],
+    "andn_0001_0000": [
+        "andn_0001_0000",
+        "TmVFE",
+        "module",
+        100
+    ],
+    "andn_0001_0001": [
+        "andn_0001_0001",
+        "EbDyt",
+        "module",
+        101
+    ],
+    "decodern_0000": [
+        "decodern_0000",
+        "GgREn",
+        "module",
+        102
+    ],
+    "decodern_0002": [
+        "decodern_0002",
+        "hFRDa",
+        "module",
+        126
+    ],
+    "bufferH16_8b$": [
+        "bufferH16_8b0x24",
+        "k6zpw",
+        "module",
+        104
+    ],
+    "bufferH64_8b$": [
+        "bufferH64_8b0x24",
+        "idrK6",
+        "module",
+        105
+    ],
+    "bufferH256_nb$_0000": [
+        "bufferH256_nb0x24_0000",
+        "SNwJD",
+        "module",
+        106
+    ],
+    "bufferH256_nb$_0001": [
+        "bufferH256_nb0x24_0001",
+        "v6ew9",
+        "module",
+        107
+    ],
+    "bufferH256_nb$_0002": [
+        "bufferH256_nb0x24_0002",
+        "kSbID",
+        "module",
+        108
+    ],
+    "bufferH1024_nb$_0000": [
+        "bufferH1024_nb0x24_0000",
+        "MZcLh",
+        "module",
+        109
+    ],
+    "bufferH4096_12b$": [
+        "bufferH4096_12b0x24",
+        "NPZaB",
+        "module",
+        110
+    ],
+    "muxnm_tree": [
+        "muxnm_tree",
+        "Jgtcd",
+        "module",
+        111
+    ],
+    "muxnm_tristate_0001": [
+        "muxnm_tristate_0001",
+        "jEdas",
+        "module",
+        84
+    ],
+    "muxnm_tristate_0002": [
+        "muxnm_tristate_0002",
+        "PgHxQ",
+        "module",
+        118
+    ],
+    "muxnm_tristate_0003": [
+        "muxnm_tristate_0003",
+        "W8Gh6",
+        "module",
+        114
+    ],
+    "muxnm_tristate_0004": [
+        "muxnm_tristate_0004",
+        "AG6Dd",
+        "module",
+        115
+    ],
+    "muxnm_tristate_0005": [
+        "muxnm_tristate_0005",
+        "rTrsx",
+        "module",
+        153
+    ],
+    "muxnm_tristate_0006": [
+        "muxnm_tristate_0006",
+        "jA1Ny",
+        "module",
+        116
+    ],
+    "muxnm_tristate_0008": [
+        "muxnm_tristate_0008",
+        "RRLMW",
+        "module",
+        113
+    ],
+    "muxnm_tristate_0009": [
+        "muxnm_tristate_0009",
+        "nGpvE",
+        "module",
+        119
+    ],
+    "muxn1_tristate_0000": [
+        "muxn1_tristate_0000",
+        "gBNws",
+        "module",
+        120
+    ],
+    "muxn1_tristate_0001": [
+        "muxn1_tristate_0001",
+        "yevW1",
+        "module",
+        121
+    ],
+    "muxn1_tristate_0002": [
+        "muxn1_tristate_0002",
+        "qhJrG",
+        "module",
+        122
+    ],
+    "muxn1_tristate_0003": [
+        "muxn1_tristate_0003",
+        "CIwmT",
+        "module",
+        123
+    ],
+    "satAdder": [
+        "satAdder",
+        "hnPi5",
+        "module",
+        124
+    ],
+    "mux4n_0000": [
+        "mux4n_0000",
+        "fB7ds",
+        "module",
+        125
+    ],
+    "mux4n_0001": [
+        "mux4n_0001",
+        "sYmCK",
+        "module",
+        72
+    ],
+    "mux4n_0002": [
+        "mux4n_0002",
+        "xrzu2",
+        "module",
+        103
+    ],
+    "regn_0000": [
+        "regn_0000",
+        "n9Viz",
+        "module",
+        82
+    ],
+    "regn_0001": [
+        "regn_0001",
+        "H4hmU",
+        "module",
+        71
+    ],
+    "regn_0002": [
+        "regn_0002",
+        "SjgVg",
+        "module",
+        70
+    ],
+    "rshfn_variable": [
+        "rshfn_variable",
+        "CaCYr",
+        "module",
+        129
+    ],
+    "lshfn_variable": [
+        "lshfn_variable",
+        "NGs9d",
+        "module",
+        130
+    ],
+    "rrotn_variable": [
+        "rrotn_variable",
+        "W39y7",
+        "module",
+        131
+    ],
+    "lrotn_variable": [
+        "lrotn_variable",
+        "gT8tt",
+        "module",
+        132
+    ],
+    "nand2$": [
+        "nand20x24",
+        "GnPnt",
+        "module",
+        133
+    ],
+    "nand3$": [
+        "nand30x24",
+        "icZA4",
+        "module",
+        134
+    ],
+    "nand4$": [
+        "nand40x24",
+        "pMIy1",
+        "module",
+        135
+    ],
+    "and2$": [
+        "and20x24",
+        "VFdkN",
+        "module",
+        136
+    ],
+    "and3$": [
+        "and30x24",
+        "Z9uSW",
+        "module",
+        137
+    ],
+    "and4$": [
+        "and40x24",
+        "mm9mm",
+        "module",
+        138
+    ],
+    "nor2$": [
+        "nor20x24",
+        "qziQy",
+        "module",
+        139
+    ],
+    "nor3$": [
+        "nor30x24",
+        "KYk6D",
+        "module",
+        140
+    ],
+    "nor4$": [
+        "nor40x24",
+        "w39hk",
+        "module",
+        69
+    ],
+    "or2$": [
+        "or20x24",
+        "HYgzw",
+        "module",
+        63
+    ],
+    "or3$": [
+        "or30x24",
+        "PshGg",
+        "module",
+        157
+    ],
+    "xor2$": [
+        "xor20x24",
+        "FtB0q",
+        "module",
+        142
+    ],
+    "xnor2$": [
+        "xnor20x24",
+        "i48Ip",
+        "module",
+        143
+    ],
+    "inv1$": [
+        "inv10x24",
+        "NYIg8",
+        "module",
+        144
+    ],
+    "dff$": [
+        "dff0x24",
+        "SD5jH",
+        "module",
+        145
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module",
+        146
+    ],
+    "latch_sr": [
+        "latch_sr",
+        "H4YNa",
+        "udp",
+        147
+    ],
+    "table_imux2": [
+        "table_imux2",
+        "BYmPi",
+        "udp",
+        148
+    ],
+    "table_imux3": [
+        "table_imux3",
+        "pIp1i",
+        "udp",
+        149
+    ],
+    "table_imux4": [
+        "table_imux4",
+        "i5D5s",
+        "udp",
+        150
+    ],
+    "table_dffq": [
+        "table_dffq",
+        "abmDd",
+        "udp",
+        151
+    ]
+}
