@@ -12,12 +12,12 @@ module F_D_latch (
         input BR_pred_T_NT_in,
 
         output valid_out,
-        output [127:0] packet_out
-        output [5:0] BP_alias_out
+        output [127:0] packet_out,
+        output [5:0] BP_alias_out,
         output IE_out,
         output [3:0] IE_type_out,
         output [31:0] BR_pred_target_out,
-        output BR_pred_T_NT_out,
+        output BR_pred_T_NT_out
         );
     
     integer file, cyc_cnt;
