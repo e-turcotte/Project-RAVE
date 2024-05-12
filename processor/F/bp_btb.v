@@ -13,7 +13,7 @@ module bp_btb(
     input [31:0] target_WB, //update, from WB
 
     output prediction,
-    output [5:0] BP_alias
+    output [5:0] BP_update_alias_out,
 
     output [31:0] FIP_E_target,
     output [31:0] FIP_O_target,
@@ -47,9 +47,11 @@ module bp_btb(
         .prev_BR_alias(prev_BR_alias),
         .prev_is_BR(prev_is_BR),
         .LD(LD),
-        .prediction(prediction),
+        .prediction(bp_prediction),
         .BP_alias(BP_alias)
     );
+
+    andn #(2) a0( .in({bp_prediction, btb_hit}), .out(is_BR_T_NT_out));
 
 
 endmodule
