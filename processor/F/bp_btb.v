@@ -18,8 +18,8 @@ module bp_btb(
     output [31:0] FIP_E_target,
     output [31:0] FIP_O_target,
     output [31:0] EIP_target,
-    output miss,
-    output hit
+    output btb_miss,
+    output btb_hit
 );
 
     branch_target_buff btb(
@@ -35,8 +35,8 @@ module bp_btb(
         .FIP_E_target(FIP_E_target),
         .FIP_O_target(FIP_O_target),
         .EIP_target(EIP_target),
-        .miss(miss),
-        .hit(hit)
+        .miss(btb_miss),
+        .hit(btb_hit)
         );
 
     bp_gshare bp(
@@ -51,7 +51,8 @@ module bp_btb(
         .BP_alias(BP_alias)
     );
 
-    andn #(2) a0( .in({bp_prediction, btb_hit}), .out(is_BR_T_NT_out));
+    wire bp_prediction;
+    andn #(2) a0( .in({bp_prediction, btb_hit}), .out(prediction));
 
 
 endmodule
