@@ -14,7 +14,7 @@ module fetch_1 (
     input wire odd_latch_was_loaded,
 
     input wire [159:0] VP, PF,
-    input wire [7:0]MSHR_entry_V, MSHR_entry_P, MSHR_entry_RW, MSHR_entry_PCD,
+    input wire [7:0]TLB_entry_V, TLB_entry_P, TLB_entry_RW, TLB_entry_PCD,
 
     input wire clock_bus,
     input wire SER_i$_grant_e,
@@ -108,10 +108,10 @@ I$ icache(
     .reset(reset),
     .VP(VP),
     .PF(PF),
-    .MSHR_entry_V(MSHR_entry_V),
-    .MSHR_entry_P(MSHR_entry_P),
-    .MSHR_entry_RW(MSHR_entry_RW),
-    .MSHR_entry_PCD(MSHR_entry_PCD),
+    .TLB_entry_V(TLB_entry_V),
+    .TLB_entry_P(TLB_entry_P),
+    .TLB_entry_RW(TLB_entry_RW),
+    .TLB_entry_PCD(TLB_entry_PCD),
     .protection_exception_e(protection_exception_e),
     .TLB_MISS_EXCEPTION_e(TLB_MISS_EXCEPTION_e),
     .protection_exception_o(protection_exception_o),
@@ -180,7 +180,7 @@ module I$ (
     //////////////////////////////////////
     //TLB I/O
     input [159:0] VP, PF,
-    input [7:0]MSHR_entry_V, MSHR_entry_P, MSHR_entry_RW, MSHR_entry_PCD,
+    input [7:0]TLB_entry_V, TLB_entry_P, TLB_entry_RW, TLB_entry_PCD,
 
     output protection_exception_e,
     output TLB_MISS_EXCEPTION_e,
@@ -268,10 +268,10 @@ TLB tlb_even(
     .is_mem_request(1'b1), //if 1, then we are doing a memory request, else - no prot exception should be thrown
     .VP(VP), //unpacked, do wire concatenation in TOP
     .PF(PF),
-    .entry_v(MSHR_entry_V),
-    .entry_P(MSHR_entry_P),
-    .entry_RW(MSHR_entry_RW), //read or write (im guessing 0 is read only)
-    .entry_PCD(MSHR_entry_PCD), //PCD disable - 1 means this entry is disabled for normal mem accesses since it is for MMIO
+    .entry_v(TLB_entry_V),
+    .entry_P(TLB_entry_P),
+    .entry_RW(TLB_entry_RW), //read or write (im guessing 0 is read only)
+    .entry_PCD(TLB_entry_PCD), //PCD disable - 1 means this entry is disabled for normal mem accesses since it is for MMIO
     .PF_out(pf_e),
     .PCD_out(),
     .miss(TLB_MISS_EXCEPTION_e),
@@ -285,10 +285,10 @@ TLB tlb_odd(
     .is_mem_request(1'b1), //if 1, then we are doing a memory request, else - no prot exception should be thrown
     .VP(VP), //unpacked, do wire concatenation in TOP
     .PF(PF),
-    .entry_v(MSHR_entry_V),
-    .entry_P(MSHR_entry_P),
-    .entry_RW(MSHR_entry_RW), //read or write (im guessing 0 is read only)
-    .entry_PCD(MSHR_entry_PCD), //PCD disable - 1 means this entry is disabled for normal mem accesses since it is for MMIO
+    .entry_v(TLB_entry_V),
+    .entry_P(TLB_entry_P),
+    .entry_RW(TLB_entry_RW), //read or write (im guessing 0 is read only)
+    .entry_PCD(TLB_entry_PCD), //PCD disable - 1 means this entry is disabled for normal mem accesses since it is for MMIO
     .PF_out(pf_o),
     .PCD_out(),
     .miss(TLB_MISS_EXCEPTION_o),

@@ -101,10 +101,10 @@ module fetch_TOP (
 
         .VP(VP), 
         .PF(PF),
-        .MSHR_entry_V(MSHR_entry_V), 
-        .MSHR_entry_P(MSHR_entry_P), 
-        .MSHR_entry_RW(MSHR_entry_RW), 
-        .MSHR_entry_PCD(MSHR_entry_PCD),
+        .TLB_entry_V(TLB_entry_V), 
+        .TLB_entry_P(TLB_entry_P), 
+        .TLB_entry_RW(TLB_entry_RW), 
+        .TLB_entry_PCD(TLB_entry_PCD),
 
         .clock_bus(),
         .SER_i$_grant_e(SER_i$_grant_e),
