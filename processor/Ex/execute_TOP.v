@@ -215,7 +215,7 @@ endmodule
 
 module res3Handler(
     input[63:0] op3,
-    input[63:0] op2
+    input[63:0] op2,
     input[1:0] size,
     input swapCXC,
     input P_OP_CXC,
