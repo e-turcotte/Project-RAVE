@@ -16,7 +16,7 @@ module mshr (input [14:0] pAddress,
     assign wake_vector_in[1] = rdsw_in;
     inv1$ g0(.out(wake_vector_in[0]), .in(rdsw_in));
     
-    wire [127:0] issued_reqs, change_reqs;
+    wire [383:0] issued_reqs, change_reqs;
     wire [7:0] update_vector, invalidation_vector, match_vector, hit_vector;
 
     wire [14:0] dealloc_paddr;
@@ -50,7 +50,7 @@ module mshr (input [14:0] pAddress,
             or2$ g9(.out(change_reqs[i*24 + 1]), .in0(issued_reqs[i*24 + 1]), .in1(qentry_slot_in[1]));
             or2$ g10(.out(change_reqs[i*24 + 0]), .in0(issued_reqs[i*24 + 0]), .in1(qentry_slot_in[0]));
 
-            or2$ g11(.out(update_vector[i]), .in0(invalidation_vector[i]), .in1(hit_vector[i]))
+            or2$ g11(.out(update_vector[i]), .in0(invalidation_vector[i]), .in1(hit_vector[i]));
         end
     endgenerate
 
