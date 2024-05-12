@@ -9,7 +9,7 @@
     localparam n_size_D_RrAg = 402;
     
     localparam m_size_MEM_EX = 780;
-    localparam n_size_MEM_EX = 341; //old before BP alias was 847 - where did I get that from?
+    localparam n_size_MEM_EX = 853; //old before BP alias was 847 - where did I get that from?
 
     // initial #500 $finish; //TODO: run for n ns
 
@@ -864,12 +864,19 @@
     wire MEM_EX_Latch_RD; 
     nand2$ n2001 (.out(MEM_EX_Latch_RD), .in0(valid_EX_WB_latch_in), .in1(EX_stall_out));
 
-    //TODO: bypass mech for MEM-EX latch
+    wire [6:0] old_inst_ptcid [0:7], new_inst_ptcid [0:7];
+    wire [3:0] old_wake [0:7], new_wake [0:7];
+    wire [63:0] old_op1 [0:7], old_op2 [0:7], old_op3 [0:7], old_op4 [0:7], new_op1 [0:7], new_op2 [0:7], new_op3 [0:7], new_op4 [0:7];
+    wire [127:0] old_op1_ptcinfo [0:7],
+
+    bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(4)) exdf(.prospective_data({}), .prospective_ptc({}),
+                                                           .operand_data({}), .operand_ptc({}),
+                                                           .new_data({}), .modify());
 
     MEM_EX_Queued_Latches #(.M_WIDTH(m_size_MEM_EX), .N_WIDTH(n_size_MEM_EX), .Q_LENGTH(8)) q5 (
-        .m_din(m_din_MEM_EX), .n_din(n_din_MEM_EX), .new_m_vector(/*TODO*/), 
+        .m_din(m_din_MEM_EX), .n_din(n_din_MEM_EX), .new_m_vector(new_m_vector), 
         .wr(valid_MEM_EX_latch_in), .rd(MEM_EX_Latch_RD),
-        .modify_vector(8'b0), .clr(global_reset), .clk(clk), .full(MEM_EX_Latches_full), .empty(MEM_EX_Latches_empty), .old_m_vector(/*TODO*/), 
+        .modify_vector(), .clr(global_reset), .clk(clk), .full(MEM_EX_Latches_full), .empty(MEM_EX_Latches_empty), .old_m_vector(old_m_vector), 
             .dout({
                 inst_ptcid_MEM_EX_latch_out, wake_MEM_EX_latch_out, op1_MEM_EX_latch_out, op2_MEM_EX_latch_out, op3_MEM_EX_latch_out, op4_MEM_EX_latch_out, 
                 op1_ptcinfo_MEM_EX_latch_out, op2_ptcinfo_MEM_EX_latch_out, op3_ptcinfo_MEM_EX_latch_out, op4_ptcinfo_MEM_EX_latch_out,
