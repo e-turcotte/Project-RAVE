@@ -68,6 +68,7 @@ processor/Wb/writeback_TOP.v
 processor/Wb/bypassmech.v
 processor/Wb/reg_wb_cell.v
 
+processor/F_D_Latches.v
 processor/D_RrAg_Latches.v
 processor/RrAg_MEM_Latch.v
 processor/MEM_EX_Latches.v
