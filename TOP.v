@@ -665,7 +665,7 @@
         .TLB_entry_PCD(entry_PCD),
 
         .packet_out(packet_F_D_latch_in),
-        .packet_out_valid(valid_F_D_latch_in),
+        .packet_valid_out(valid_F_D_latch_in),
         .is_BR_T_NT_out(BR_pred_T_NT_F_D_latch_in),
         .BP_target_out(BR_pred_target_F_D_latch_in),
         .BP_update_alias_out(BP_alias_F_D_latch_in)
