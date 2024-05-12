@@ -122,7 +122,7 @@ module execute_TOP(
     assign res4_ptcinfo = op4_ptcinfo;
 
     //assign res3 = op3;
-    res3Handler r3H(op3, opsize_in, P_OP[15], df, res3);
+    res3Handler r3H(op3,op2, opsize_in, swapCXC, P_OP[7], P_OP[15], df, res3);
     assign dest3_ptcinfo_out = dest3_ptcinfo_in;
     assign res3_is_reg_out = res3_is_reg_in;
     assign res3_is_seg_out = res3_is_seg_in;
@@ -165,7 +165,7 @@ module execute_TOP(
     assign P_OP_out = P_OP;
     //Handle skipGen
     wire skip;
-    SKIPGEN s1(skip, P_OP[6], P_OP[11], P_OP[12], cf, zf, conditionals);
+    SKIPGEN s1(skip, 1'b0, P_OP[11], P_OP[12], cf, zf, conditionals);
     inv1$ i1(skip_n, skip);
     and2$ a2(valid_out, valid_internal, skip_n);
 
@@ -213,18 +213,25 @@ endmodule
 
 module res3Handler(
     input[63:0] op3,
+    input[63:0] op2
     input[1:0] size,
-    // input sizeOVR, 
+    input swapCXC,
+    input P_OP_CXC,
     input P_OP_MOVS,
     input df,
     output[63:0] res3
 );
+    wire[31:0] res3a;
     wire[31:0] add1;
     wire[31:0] addResults;
     mux8_n #(32) mx(add1, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], df );
     kogeAdder #(32) add0(addResults, dc, op3[31:0], add1, 1'b0 );
 
-    mux2n #(32) m0(res3[31:0], op3[31:0], addResults, P_OP_MOVS);
+    mux2n #(32) m0(res3a[31:0], op3[31:0], addResults, P_OP_MOVS);
+    
+    inv1$ invSw(swapCXCn, swapCXC);
+
+    mux4n #(32) m1(res3[31:0], op3[31:0], op3[31:0], op3[31:0], op2[31:0], swapCXCn, P_OP_CXC);
     assign res3[63:32] = op3[63:32];
 endmodule
 

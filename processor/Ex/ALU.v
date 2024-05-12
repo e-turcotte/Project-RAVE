@@ -163,14 +163,17 @@ nand2$ o12(isSHF,sal_cc_val , SAL_P_OP);
 nand2$ a12(cc_inval, cc_val, isSHF);
 
 //aluk = 10011
+wire[63:0] cmovc_out;
+mux2n #(64) mxCMC(cmovc_out, OP1, OP2, cf);
+
 wire [63:0] ptr_out;
 
 
 wire[31:0] alukOH;
-decodern #(5) d2(aluk, alukOH);
+decodern #(5) d2(aluk, alukOH); 
 
-wire[1215:0] aluRes;
-assign aluRes = {sal_out, sar_out, punpckhw_out, punpckhbw_out,packssdw_out, packsswb_out, paddd_out, paddw_out, or_out,notA_out, daa_out, cmpxchng_out, pass1, pass0, passA, passB, penc_out,add_out,and_out};
+wire[1279:0] aluRes;
+assign aluRes = {cmovc_out, sal_out, sar_out, punpckhw_out, punpckhbw_out,packssdw_out, packsswb_out, paddd_out, paddw_out, or_out,notA_out, daa_out, cmpxchng_out, pass1, pass0, passA, passB, penc_out,add_out,and_out};
 muxnm_tristate #(32,64) t1(aluRes, alukOH, ALU_OUT);
 
 
