@@ -61,9 +61,8 @@
         // packet = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
         global_reset = 0;
         global_set = 1;
-        global_init = 0;
         IDTR_base = 32'h02000000;
-
+        global_init = 0;
         //initialize TLB
         VP_0 = 20'h00000;
 		VP_1 = 20'h02000;
