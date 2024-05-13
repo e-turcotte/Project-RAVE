@@ -62,7 +62,7 @@
         global_reset = 0;
         global_set = 1;
         IDTR_base = 32'h02000000;
-
+        global_init = 0;
         //initialize TLB
         VP_0 = 20'h00000;
 		VP_1 = 20'h02000;
@@ -92,10 +92,7 @@
 
         #(CYCLE_TIME)
         global_reset = 1;
-        global_init = 1;
-        EIP_init = 32'h00000000;
         #(CYCLE_TIME)
-        global_init = 0;
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)

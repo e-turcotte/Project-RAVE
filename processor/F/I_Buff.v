@@ -104,7 +104,7 @@ orn #(3) o0(.in({CF, move_to_both, move_to_even}), .out(S1));
 orn #(3) o1(.in({CF, move_to_both, move_to_odd}), .out(S0));
 
 wire [1:0] reg_out;
-regn #(.WIDTH(2)) r0(.din({S1,S0}), .ld(ld_reg), .clr(reset), .clk(clk), .dout(reg_out));
+regn_with_set #(.WIDTH(2)) r0(.din({S1,S0}), .ld(ld_reg), .clr(reset), .clk(clk), .dout(reg_out));
 
 wire not_CF;
 inv1$ i0(.out(not_CF), .in(CF));
