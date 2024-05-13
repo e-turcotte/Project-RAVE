@@ -144,7 +144,7 @@ cache_stage1 cs1(.clk(clk),
 
 
 //Handle MSHR
-inv1$ msn(MSHR_MISS, MSHR_HIT)
+inv1$ msn(MSHR_MISS, MSHR_HIT);
 assign MSHR_pAddress = pAddress;
 and2$ msh(MSHR_alloc, valid, MISS, MSHR_MISS); 
 assign MSHR_rdsw = sw;
