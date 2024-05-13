@@ -55,6 +55,8 @@ module fetch_TOP (
     input wire DES_i$_reciever_o,
     input wire DES_i$_free_o,
     input wire DES_i$_free_e,
+    output wire [3:0] SER_dest_o,
+    output wire [3:0] SER_dest_e,
 
     inout wire [72:0] BUS,
 
@@ -141,6 +143,8 @@ module fetch_TOP (
         .SER_i$_req_e(SER_i$_req_e),
         .DES_i$_free_o(DES_i$_free_o),
         .DES_i$_free_e(DES_i$_free_e),
+        .SER_dest_o(SER_dest_o),
+        .SER_dest_e(SER_dest_e),
 
         .BUS(BUS)
     );
