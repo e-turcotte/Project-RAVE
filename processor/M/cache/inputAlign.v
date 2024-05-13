@@ -246,7 +246,7 @@ muxnm_tristate #(8, 16*8) mxt({
  
      mux4n #(128) mxptc(PTC_out, {112'd0, PTC_outx[15:0]}, {96'd0, PTC_outx[31:0]}, {64'd0,PTC_outx[63:0]}, PTC_outx, size_in[0], size_in[1] );
     
-    mux8n #(4) wake(wake_init_vector,4'b1110, 4'b1010, 4'b1011, 4'b1010, 4'b1101, 4'b0101, 4'b0111, 4'b0101   ,needP1, pAddress0[4], sw);
+    mux8_n #(4) wake(wake_init_vector,4'b1110, 4'b1010, 4'b1011, 4'b1010, 4'b1101, 4'b0101, 4'b0111, 4'b0101   ,needP1, pAddress0[4], sw);
     
     /*4 bits
     0: ER

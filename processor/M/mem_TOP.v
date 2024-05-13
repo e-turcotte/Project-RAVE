@@ -122,15 +122,15 @@ module mem (input valid_in,
     and2$ g0(.out(rep_stall), .in0(cntnotzero), .in1(is_rep_in));
 
 
-    d$ dcache(.clk(clk), .clk_bus(), .rst(clr), .set(1'b1), .BUS(),
-              .setReciver_d(), .free_bau_d(), .grant_d(), .ack_d(), .releases_d(), .req_d(),
-              .M1(mem1), .M2(mem2), .WB1(), .M1_RW(mem1_rw), .M2_RW(mem2_rw), .valid_RSW(), .sizeOVR(), .PTC_ID_in(inst_ptcid_in),
-              .wb_data(), .wb_adr(), .wb_size(), .wb_valid(),
-              .VP(VP_in), .PF(PF_in),
-              .entry_V(), .entry_P(), .entry_RW(), .entryPCD(),
-              .TLB_miss(), .protection_exception(), .TLB_hit(), .PCD_out(),
-              .ptc_info_r(), .ptc_info_sw(), .wake_init_vector_r(), .wake_init_vector_sw(),
-              .wake(), .PTC_ID_out(), .cache_valid(), .data());
+    // d$ dcache(.clk(clk), .clk_bus(), .rst(clr), .set(1'b1), .BUS(),
+    //           .setReciver_d(), .free_bau_d(), .grant_d(), .ack_d(), .releases_d(), .req_d(),
+    //           .M1(mem1), .M2(mem2), .WB1(), .M1_RW(mem1_rw), .M2_RW(mem2_rw), .valid_RSW(), .sizeOVR(), .PTC_ID_in(inst_ptcid_in),
+    //           .wb_data(), .wb_adr(), .wb_size(), .wb_valid(),
+    //           .VP(VP_in), .PF(PF_in),
+    //           .entry_V(), .entry_P(), .entry_RW(), .entryPCD(),
+    //           .TLB_miss(), .protection_exception(), .TLB_hit(), .PCD_out(),
+    //           .ptc_info_r(), .ptc_info_sw(), .wake_init_vector_r(), .wake_init_vector_sw(),
+    //           .wake(), .PTC_ID_out(), .cache_valid(), .data());
 
 
     opswap os(.reg1_data(reg1), .reg2_data(reg2), .reg3_data(reg3), .reg4_data(reg4),
