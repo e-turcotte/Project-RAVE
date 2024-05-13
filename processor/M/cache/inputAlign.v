@@ -348,7 +348,7 @@ endgenerate
     );
 
     wire[127:0] PTC_outx;
-    mux2n #(128) chosePath(PTC_outx, PTC0_shift[127:0], PTCDATA[127:0] , E_needP1 );
+    mux2n #(128) chosePath(PTC_outx, PTC0_shift[127:0], PTCDATA[127:0] , needP1 );
 
     mux4n #(128) mxptc(PTC_out, {112'd0, PTC_outx[15:0]}, {96'd0, PTC_outx[31:0]}, {64'd0,PTC_outx[63:0]}, PTC_outx, size_in[0], size_in[1] );
    

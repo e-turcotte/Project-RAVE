@@ -591,7 +591,7 @@ dff$ desDO(bus_valid_o, bus_valid_o_nobuf,clk, set,rst);
 DES DD_O(
     .read(bus_valid_o),
     .clk_bus(clk_bus),
-    .clk_core(),
+    .clk_core(clk),
     .rst(rst),
     .set(set),
     .full(bus_valid_o_nobuf),
