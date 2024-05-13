@@ -127,7 +127,7 @@ module mem (input valid_in,
               .M1(mem1), .M2(mem2), .WB1(), .M1_RW(mem1_rw), .M2_RW(mem2_rw), .valid_RSW(), .sizeOVR(), .PTC_ID_in(inst_ptcid_in),
               .wb_data(), .wb_adr(), .wb_size(), .wb_valid(),
               .VP(VP_in), .PF(PF_in),
-              .entry_V(), .entry_P(), entry_RW(), .entryPCD(),
+              .entry_V(), .entry_P(), .entry_RW(), .entryPCD(),
               .TLB_miss(), .protection_exception(), .TLB_hit(), .PCD_out(),
               .ptc_info_r(), .ptc_info_sw(), .wake_init_vector_r(), .wake_init_vector_sw(),
               .wake(), .PTC_ID_out(), .cache_valid(), .data());
