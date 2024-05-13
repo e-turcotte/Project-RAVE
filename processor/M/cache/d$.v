@@ -7,6 +7,7 @@ module d$(
 
     //SERDES for W AQ
     inout [72:0] BUS,
+    
     //BAU-DES
     input [1:0] setReciever_d,
     output [1:0]free_bau_d,
@@ -24,13 +25,25 @@ module d$(
     input sizeOVR,
     input PTC_ID_in,
 
-    //W AQ
-    input[16*8-1:0] wb_data,
-    input[31:0] wb_adr,
-    input[1:0] wb_size,
-    input wb_valid,
+    //Exceptions:
+    output TLB_miss_wb,
+    output TLB_pe_wb,
+    output TLB_hit_wb,
+    output TLB_miss_r,
+    output TLB_pe_r,
+    output TLB_hit_r,
+    output TLB_miss_sw,
+    output TLB_pe_sw,
+    output TLB_hit_sw,
 
-    //MSHR handler
+    //W AQ
+    input[16*8-1:0] data_in_wb,
+    input[31:0] address_in_wb,
+    input[1:0] size_in_wb,
+    input valid_in_wb,
+    input PTC_ID_in_wb,
+
+    //TLB handler
     input [159:0] VP, PF,
     input[7:0] entry_V, entry_P, entry_RW, entry_PCD,
     output TLB_miss, protection_exception, TLB_hit,PCD_out,
@@ -41,18 +54,259 @@ module d$(
     output [3:0]wake_init_vector_r,
     output [3:0]wake_init_vector_sw,
 
+    //AQ outputs
+    output aq_isempty, rdaq_isfull, swaq_isfull, wbaq_isfull,
+    
+
     //Post D$ outputs
     output [3:0]wake,
     output [6:0]PTC_ID_out,
     output cache_valid,
-    output [127:0] data
+    output [127:0] data,
+    output stall, 
+
 
     //MSHR outputs:
-    //TODO: 
+    //TODO:
+
+    input [7:0] qentry_slot_in_e,
+    output [6:0] ptcid_out_e,
+    output [7:0] qentry_slots_out_e,
+    output [1:0] wake_vector_out_e,
+    output mshr_hit_e, mshr_full_e,
+
+    input [7:0] qentry_slot_in_e,
+    output [6:0] ptcid_out_o,
+    output [7:0] qentry_slots_out_o,
+    output [1:0] wake_vector_out_o,
+    output mshr_hit_o, mshr_full_o,
+    ); 
 
 );
 
+    wire grantDEr, grantDEw, grantDOr, grantDOw;
+    wire ackDEr, ackDEw, ackDOr, ackDOw;
+    wire relDEr, relDEw, relDOr, relDOw;
+    wire reqDEr, reqDEw, reqDOr, reqDOw;
+    assign setReciever_d = {recvDO, recvDE}    ;
+    assign free_bau_d =    {freeDO, freeDE};
+    assign grant_d = {grantDEr, grantDEw, grantDOr, grantDOw};
+    assign ack_d = {ackDEr, ackDEw, ackDOr, ackDOw};
+    assign releases_d = {relDEr, relDEw, relDOr, relDOw};
+    assign req_d = {reqDEr, reqDEw, reqDOr, reqDOw};
+
+or2$ sta(stall, cache_stall_e, cache_miss_o);
+assign PTC_ID_out = PTC_ID_out_e;
+assign data = data_out;
+assign cache_valid = valid_out;
 wire [3:0] returnLoc_o,returnLoc_e;
+   wire [31:0] address_in_r;
+   wire [127:0] data_in_r;
+   wire size_in_r;
+   wire r_r;
+   wire w_r;
+   wire sw_r;
+   wire valid_in_r;
+   wire sizeOVR_r;
+   wire [6:0] PTC_ID_in_r;
+   wire [6:0]PTC_ID_out_r;
+   wire oddIsGreater_r;
+   wire needP1_r;
+   wire [2:0] oneSize_out_r;
+   wire [31:0]vAddressE_r;
+   wire [14:0]addressE_r;
+   wire [127:0]dataE_r;
+   wire [1:0]sizeE_r;
+   wire rE_r;
+   wire wE_r;
+   wire swE_r;
+   wire validE_r;
+   wire fromBUSE_r;
+   wire [127:0]maskE_r;
+   wire [31:0]vAddressO_r;
+   wire [14:0]addressO_r;
+   wire [127:0] dataO_r;
+   wire [1:0] sizeO_r;
+   wire rO_r;
+   wire wO_r;
+   wire swO_r;
+   wire validO_r;
+   wire fromBUSO_r;
+   wire [127:0]maskO_r;
+   wire PCD_out_r;
+   wire [31:0] address_in_sw;
+   wire [127:0] data_in_sw;
+   wire size_in_sw;
+   wire r_sw;
+   wire w_sw;
+   wire sw_sw;
+   wire valid_in_sw;
+   wire sizeOVR_sw;
+   wire [6:0] PTC_ID_in_sw;
+   wire [6:0]PTC_ID_out_sw;
+   wire oddIsGreater_sw;
+   wire needP1_sw;
+   wire [2:0] oneSize_out_sw;
+   wire [31:0]vAddressE_sw;
+   wire [14:0]addressE_sw;
+   wire [127:0]dataE_sw;
+   wire [1:0]sizeE_sw;
+   wire rE_sw;
+   wire wE_sw;
+   wire swE_sw;
+   wire validE_sw;
+   wire fromBUSE_sw;
+   wire [127:0]maskE_sw;
+   wire [31:0]vAddressO_sw;
+   wire [14:0]addressO_sw;
+   wire [127:0] dataO_sw;
+   wire [1:0] sizeO_sw;
+   wire rO_sw;
+   wire wO_sw;
+   wire swO_sw;
+   wire validO_sw;
+   wire fromBUSO_sw;
+   wire [127:0]maskO_sw;
+   wire PCD_out_sw;
+   wire [31:0] address_in_wb;
+   wire [127:0] data_in_wb;
+   wire size_in_wb;
+   wire r_wb;
+   wire w_wb;
+   wire sw_wb;
+   wire valid_in_wb;
+   wire sizeOVR_wb;
+   wire [6:0] PTC_ID_in_wb;
+   wire [6:0]PTC_ID_out_wb;
+   wire oddIsGreater_wb;
+   wire needP1_wb;
+   wire [2:0] oneSize_out_wb;
+   wire [31:0]vAddressE_wb;
+   wire [14:0]addressE_wb;
+   wire [127:0]dataE_wb;
+   wire [1:0]sizeE_wb;
+   wire rE_wb;
+   wire wE_wb;
+   wire swE_wb;
+   wire validE_wb;
+   wire fromBUSE_wb;
+   wire [127:0]maskE_wb;
+   wire [31:0]vAddressO_wb;
+   wire [14:0]addressO_wb;
+   wire [127:0] dataO_wb;
+   wire [1:0] sizeO_wb;
+   wire rO_wb;
+   wire wO_wb;
+   wire swO_wb;
+   wire validO_wb;
+   wire fromBUSO_wb;
+   wire [127:0]maskO_wb;
+   wire PCD_out_wb;
+
+    wire [14:0] pAddress_e_$, pAddress_o_$;
+    wire [16*8-1:0] data_e_$, data_o_$;
+    wire [1:0] size_e_$, size_o_$;
+    wire r_$, w_$, sw_$;
+    wire valid_e_$, valid_o_$;
+    wire fromBUS_$;
+    wire [16*8-1:0] mask_e_$, mask_o_$;
+    wire [6:0] ptcid_$;
+    wire odd_is_greater_$, needP1_$;
+    wire [2:0] onesize_$;
+    wire pcd_$;
+
+    wire MSHR_HIT_e;
+    wire MSHR_FULL_e;
+    wire SER1_FULL_e;
+    wire SER0_FULL_e;
+    wire read_e;
+    
+    wire MSHR_alloc_e;
+    wire MSHR_dealloc_e;
+    wire MSHR_rdsw_e;
+    wire [14:0] MSHR_pAddress_e;
+    wire [6:0] MSHR_ptcid_e;
+
+    wire SER_valid0_e;
+    wire [127:0] SER_data0_e;
+    wire [14:0]SER_pAddress0_e;
+    wire [3:0]SER_return0_e;
+    wire [15:0]SER_size0_e;
+    wire SER_rw0_e;
+    wire [3:0]SER_dest0_e;
+    wire SER_valid1_e;
+    wire [14:0]SER_pAddress1_e;
+    wire [3:0]SER_return1_e;
+    wire [15:0]SER_size1_e;
+    wire SER_rw1_e;
+    wire [3:0]SER_dest1_e;
+    wire EX_valid_e;
+    wire [127:0]EX_data_e;
+    wire [31:0]EX_vAddress_e;
+    wire [14:0]EX_pAddress_e;
+    wire [1:0]EX_size_e;
+    wire [1:0]EX_wake_e;
+    wire oddIsGreater_e;
+    wire cache_stall_e;
+    wire cache_miss_e;
+    wire needP1_out_e;
+    wire [2:0]oneSize_out_e;
+    wire [6:0]PTC_ID_out_e;
+
+    wire MSHR_HIT_o;
+    wire MSHR_FULL_o;
+    wire SER1_FULL_o;
+    wire SER0_FULL_o;
+    wire read_o;
+
+    wire MSHR_alloc_o;
+    wire MSHR_dealloc_o;
+    wire MSHR_rdsw_o;
+    wire [14:0] MSHR_pAddress_o;
+    wire [6:0] MSHR_ptcid_o;
+    
+    wire SER_valid0_o;
+    wire [127:0] SER_data0_o;
+    wire [14:0]SER_pAddress0_o;
+    wire [3:0]SER_return0_o;
+    wire [15:0]SER_size0_o;
+    wire SER_rw0_o;
+    wire [3:0]SER_dest0_o;
+    wire SER_valid1_o;
+    wire [14:0]SER_pAddress1_o;
+    wire [3:0]SER_return1_o;
+    wire [15:0]SER_size1_o;
+    wire SER_rw1_o;
+    wire [3:0]SER_dest1_o;
+    wire EX_valid_o;
+    wire [127:0]EX_data_o;
+    wire [31:0]EX_vAddress_o;
+    wire [14:0]EX_pAddress_o;
+    wire [1:0]EX_size_o;
+    wire [1:0]EX_wake_o;
+    wire oddIsGreater_o;
+    wire cache_stall_o;
+    wire cache_miss_o;
+    wire needP1_out_o;
+    wire [2:0]oneSize_out_o;
+    wire [6:0]PTC_ID_out_o;
+
+    wire bus_valid_e;
+    wire bus_valid_e_nobuf;
+    wire [14:0] bus_pAddress_e;
+    wire [127:0] bus_data_e;
+    wire [3:0] returnLoc_e;
+    wire recvDE;
+    wire freeDE;
+
+    wire bus_valid_o;
+    wire bus_valid_o_nobuf;
+    wire [14:0] bus_pAddress_o;
+    wire [127:0] bus_data_o;
+    wire [3:0] returnLoc_o;
+    wire recvDO;
+    wire freeDO;
+
 
 IA_AS rdIA (
     .address_in(address_in_r),
@@ -74,7 +328,11 @@ IA_AS rdIA (
     .entry_RW(entry_RW),
     .entry_PCD(entry_PCD),
 
-    .PTC_out(PTC_out_r),
+    .TLB_miss(TLB_miss_r),
+    .protection_exception(TLB_pe_r),
+    .TLB_hit(TLB_hit_r),
+
+    .PTC_out(ptc_info_r),
     .wake_init_vector(wake_init_vector_r),
     .PTC_ID_out(PTC_ID_out_r),
     .oddIsGreater(oddIsGreater_r),
@@ -123,7 +381,11 @@ IA_AS swIA (
     .entry_RW(entry_RW),
     .entry_PCD(entry_PCD),
 
-    .PTC_out(PTC_out_sw),
+    .TLB_miss(TLB_miss_sw),
+    .protection_exception(TLB_pe_sw),
+    .TLB_hit(TLB_hit_sw),
+    
+    .PTC_out(ptc_info_sw),
     .wake_init_vector(wake_init_vector_sw),
     .PTC_ID_out(PTC_ID_out_sw),
     .oddIsGreater(oddIsGreater_sw),
@@ -156,11 +418,11 @@ IA_AS wbIA (
     .address_in(address_in_wb),
     .data_in(data_in_wb),
     .size_in(size_in_wb),
-    .r(r_wb),
-    .w(w_wb),
-    .sw(sw_wb),
+    .r(1'b0),
+    .w(1'b1),
+    .sw(1'b0),
     .valid_in(valid_in_wb),
-    .fromBUS(fromBUS_wb),
+    .fromBUS(1'b0),
     .sizeOVR(sizeOVR_wb),
     .PTC_ID_in(PTC_ID_in_wb),
     .clk(clk_wb),
@@ -170,6 +432,10 @@ IA_AS wbIA (
     .entry_P(entry_P_wb),
     .entry_RW(entry_RW_wb),
     .entry_PCD(entry_PCD_wb),
+
+    .TLB_miss(TLB_miss_wb),
+    .protection_exception(TLB_pe_wb),
+    .TLB_hit(TLB_hit_wb),
 
     .PTC_out(PTC_out_wb),
     .wake_init_vector(wake_init_vector_wb),
@@ -200,7 +466,7 @@ IA_AS wbIA (
     .PCD_out(PCD_out_wb)
 );
 
-
+or2$ rd(read, read_e, read_o);
 cacheaqsys cacheaqsys_inst (
     .rd_pAddress_e (addressE_r),
     .rd_pAddress_o (addressO_r),
@@ -209,16 +475,14 @@ cacheaqsys cacheaqsys_inst (
     .wb_pAddress_e (addressE_wb),
     .wb_pAddress_o (addressO_wb),
 
-////////////////////////
+
     .bus_pAddress_e(bus_pAddress_e),
     .bus_pAddress_o(bus_pAddress_o),
-/////////////////////////////////
     .wb_data_e(dataE_wb),
     .wb_data_o(dataO_wb),
-/////////////////////////
     .bus_data_e(bus_data_e),
     .bus_data_o(bus_data_o),
- ///////////////////////////////////////   
+    
     .rd_size_e(sizeE_r),
     .rd_size_o(sizeO_r),
     .sw_size_e(sizeE_sw),
@@ -256,10 +520,10 @@ cacheaqsys cacheaqsys_inst (
     .sw_pcd(PCD_out_sw),
     .wb_pcd(PCD_out_wb),
 
-//////////////////////////////////
+
     .bus_pcd(bus_pcd),
     .bus_isempty(bus_isempty),
-////////////////////////////////
+
 
     .read(read),
     .rd_write(rd_write),
@@ -316,8 +580,8 @@ cacheBank bankE (
     .needP1_in(needP1_in),
     .oneSize(onesize_$),
 
-    .MSHR_HIT(MSHR_HIT_e),
-    .MSHR_FULL(MSHR_FULL_e),
+    .MSHR_HIT(mshr_hit_e),
+    .MSHR_FULL(mshr_full_e),
     .SER1_FULL(SER1_FULL_e),
     .SER0_FULL(SER0_FULL_e),
 
@@ -325,9 +589,11 @@ cacheBank bankE (
 
     .AQ_READ(read_e),
 
-    .MSHR_valid(MSHR_valid_e),
-    .MSHR_write(MSHR_write_e),
-    .MSHR_pAddress(MSHR_pAddress_e),
+    .MSHR_alloc(MSHR_alloc_e);
+    .MSHR_dealloc(MSHR_dealloc_e);
+    .MSHR_rdsw(MSHR_rdsw_e);
+    .MSHR_pAddress(MSHR_pAddress_e);
+    .MSHR_ptcid(MSHR_ptcid_e);
 
     .SER_valid0(SER_valid0_e),
     .SER_data0(SER_data0_e),
@@ -379,8 +645,8 @@ cacheBank bankO (
     .needP1_in(needP1_in),
     .oneSize(onesize_$),
 
-    .MSHR_HIT(MSHR_HIT_o),
-    .MSHR_FULL(MSHR_FULL_o),
+    .MSHR_HIT(mshr_hit_o),
+    .MSHR_FULL(mshr_full_o),
     .SER1_FULL(SER1_FULL_o),
     .SER0_FULL(SER0_FULL_o),
 
@@ -388,9 +654,11 @@ cacheBank bankO (
 
     .AQ_READ(read_o),
 
-    .MSHR_valid(MSHR_valid_o),
-    .MSHR_write(MSHR_write_o),
-    .MSHR_pAddress(MSHR_pAddress_o),
+    .MSHR_alloc(MSHR_alloc_o);
+    .MSHR_dealloc(MSHR_dealloc_o);
+    .MSHR_rdsw(MSHR_rdsw_o);
+    .MSHR_pAddress(MSHR_pAddress_o);
+    .MSHR_ptcid(MSHR_ptcid_o);
 
     .SER_valid0(SER_valid0_o),
     .SER_data0(SER_data0_o),
@@ -449,30 +717,38 @@ outputAlign oA (
 );
 
 mshr mshrE ( 
-            pAddress(),
-            ptcid_in(),
-            rd_or_sw_in(),
-            alloc, dealloc(),
-            .clk(clk),
-            .clr(rst),
-            .ptcid_out(),
-            .rd_or_sw_out(),
-            .mshr_hit(),
-            .mshr_full()
+    .pAddress(MSHR_pAddress_e),
+    .ptcid_in(MSHR_ptcid_e),
+    .qentry_slot_in(qentry_slot_in_e),
+    .rdsw_in(MSHR_rdsw_e),
+    .alloc(MSHR_alloc_e),
+    .dealloc(MSHR_dealloc_e),
+    .clk(clk),
+    .clr(rst),
+    .ptcid_out(ptcid_out_e),
+    .qentry_slots_out(qentry_slots_out_e),
+    .wake_vector_out(wake_vector_out_e),
+    .mshr_hit(mshr_hit_e),
+    .mshr_full(mshr_full_e)
 );
 
 mshr mshrO ( 
-            pAddress(),
-            ptcid_in(),
-            rd_or_sw_in(),
-            alloc, dealloc(),
-            .clk(),
-            .clr(),
-            .ptcid_out(),
-            .rd_or_sw_out(),
-            .mshr_hit(),
-            .mshr_full()
+    .pAddress(MSHR_pAddress_o),
+    .ptcid_in(MSHR_ptcid_o),
+    .qentry_slot_in(qentry_slot_in_o),
+    .rdsw_in(MSHR_rdsw_o),
+    .alloc(MSHR_alloc_o),
+    .dealloc(MSHR_dealloc_o),
+    .clk(clk),
+    .clr(rst),
+    .ptcid_out(ptcid_out_o),
+    .qentry_slots_out(qentry_slots_out_o),
+    .wake_vector_out(wake_vector_out_o),
+    .mshr_hit(mshr_hit_o),
+    .mshr_full(mshr_full_o)
 );
+
+
 
 SER DS_E_R(
     .clk_core(),
@@ -543,8 +819,8 @@ DES DD_E(
     .free_bau(freeDE)
 );
   
-SER DS_O_R(
-    .clk_core(),
+SER DS_O_W(
+    .clk_core(clk),
     .clk_bus(clk_bus),
     .rst(rst),
     .set(set),
@@ -564,8 +840,8 @@ SER DS_O_R(
     .BUS(BUS)
 );  
 
-SER DS_O_W(
-    .clk_core(),
+SER DS_O_r(
+    .clk_core(clk),
     .clk_bus(clk_bus),
     .rst(rst),
     .set(set),
@@ -608,3 +884,24 @@ DES DD_O(
 
 
 endmodule 
+
+
+/*
+
+.read(bus_valid_e),
+    .clk_bus(clk_bus),
+    .clk_core(),
+    .rst(rst),
+    .set(set),
+    .full(bus_valid_e_nobuf),
+    .pAdr(bus_pAddress_e),
+    .data(bus_data_e),
+    .return(returnLoc_e),
+    .dest(),
+    .rw(1'b1),
+    .size(),
+    .BUS(BUS),
+    .setReciever(recvDE),
+    .free_bau(freeDE)
+
+*/
