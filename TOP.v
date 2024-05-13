@@ -61,8 +61,6 @@
         // packet = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
         global_reset = 0;
         global_set = 1;
-        global_init = 1;
-        EIP_init = 32'h00000000;
         IDTR_base = 32'h02000000;
 
         //initialize TLB
@@ -94,8 +92,10 @@
 
         #(CYCLE_TIME)
         global_reset = 1;
-        global_init = 0;
+        global_init = 1;
+        EIP_init = 32'h00000000;
         #(CYCLE_TIME)
+        global_init = 0;
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
