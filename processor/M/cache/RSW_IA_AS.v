@@ -14,8 +14,12 @@ module IA_AS(
 
     output [16*8-1:0] PTC_out,
     output  [3:0]wake_init_vector,
-    output  PTC_ID_out,
+    output  [6:0]PTC_ID_out,
 
+    output TLB_miss,
+    output protection_exception,
+    output TLB_hit,
+    
     output oddIsGreater,
     output needP1,
     output[2:0] oneSize_out,
@@ -84,9 +88,11 @@ inputAlign IA(
     .entry_P,(entry_P),
     .entry_RW,(entry_RW),
     .entry_PCD(entry_PCD),
+
     .TLB_miss(TLB_miss),
     .protection_exception(protection_exception),
     .TLB_hit(TLB_hit),
+
     .PCD_out(PCD_out),
     .vAddress0(vAddress0),
     .address0(address0),

@@ -29,11 +29,14 @@ module cacheBank (
     //output to AQ
     output AQ_READ,
 
-    //output to MSHR
-    output MSHR_valid,
-    output MSHR_write,
+    //output to MSHR  
+    output MSHR_alloc,
+    output MSHR_dealloc,
+    output MSHR_rdsw,
     output [14:0] MSHR_pAddress,
-    
+    output [6:0] MSHR_ptcid,
+
+
     //output to SERDES
     //SER0 only for extracts, not reads
     output SER_valid0,
@@ -141,10 +144,12 @@ cache_stage1 cs1(.clk(clk),
 
 
 //Handle MSHR
-and2$ an1(MSHR_valid1, valid, MISS);
-or2$ mshr(MSHR_write,MSHR_valid1, checkVal);
+inv1$ msn(MSHR_MISS, MSHR_HIT)
 assign MSHR_pAddress = pAddress;
-assign MSHR_valid = valid; 
+and2$ msh(MSHR_alloc, valid, MISS, MSHR_MISS); 
+assign MSHR_rdsw = sw;
+and2$ mshD(MSHR_dealloc, valid, fromBUS);
+assign MSHR_ptcid = PTC_ID_IN;
 
 //Handle SERDES
 mux2n #(128) datasel(SER_data0, cache_line, data, PCD_IN);

@@ -41,7 +41,7 @@ module inputAlign(
     output[16*8-1:0] PTC_out,
 
     output [3:0]wake_init_vector,
-    output PTC_ID_out
+    output [6:0]PTC_ID_out
 );
 assign PTC_ID_out = PTC_ID_in;
 wire[3:0] shift2;
