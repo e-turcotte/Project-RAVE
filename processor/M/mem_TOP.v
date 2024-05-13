@@ -112,7 +112,7 @@ module mem (input valid_in,
 
     wire [31:0] cnt, nextcnt, cntreg;
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({,}), .sel(isrepreg), .out(cnt));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({cntreg,reg3}), .sel(isrepreg), .out(cnt));
     kogeAdder #(.WIDTH(32)) add2(.SUM(nextcnt), .COUT(), .A(cnt), .B(32'hffff_ffff), .CIN(1'b0));
     regn #(.WIDTH(32)) r4(.din(nextcnt), .ld(1'b1), .clr(clr), .clk(clk), .dout(cntreg));
 
@@ -120,6 +120,17 @@ module mem (input valid_in,
 
     orn #(.NUM_INPUTS(32)) or0(.in(nextcnt), .out(cntnotzero));
     and2$ g0(.out(rep_stall), .in0(cntnotzero), .in1(is_rep_in));
+
+
+    d$ dcache(.clk(clk), .clk_bus(), .rst(clr), .set(1'b1), .BUS(),
+              .setReciver_d(), .free_bau_d(), .grant_d(), .ack_d(), .releases_d(), .req_d(),
+              .M1(mem1), .M2(mem2), .WB1(), .M1_RW(mem1_rw), .M2_RW(mem2_rw), .valid_RSW(), .sizeOVR(), .PTC_ID_in(inst_ptcid_in),
+              .wb_data(), .wb_adr(), .wb_size(), .wb_valid(),
+              .VP(VP_in), .PF(PF_in),
+              .entry_V(), .entry_P(), entry_RW(), .entryPCD(),
+              .TLB_miss(), .protection_exception(), .TLB_hit(), .PCD_out(),
+              .ptc_info_r(), .ptc_info_sw(), .wake_init_vector_r(), .wake_init_vector_sw(),
+              .wake(), .PTC_ID_out(), .cache_valid(), .data());
 
 
     opswap os(.reg1_data(reg1), .reg2_data(reg2), .reg3_data(reg3), .reg4_data(reg4),
