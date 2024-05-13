@@ -45,6 +45,8 @@ module fetch_1 (
     output wire SER_i$_req_e,
     output wire DES_i$_free_o,
     output wire DES_i$_free_e,
+    output wire [3:0] SER_dest_o,
+    output wire [3:0] SER_dest_e,
 
     inout wire [72:0] BUS
     
@@ -125,6 +127,8 @@ I$ icache(
     .SER_i$_req_o(SER_i$_req_o),
     .SER_i$_release_e(SER_i$_release_e),
     .SER_i$_req_e(SER_i$_req_e),
+    .SER_dest_o(SER_dest_o),
+    .SER_dest_e(SER_dest_e),
     .DES_i$_free_o(DES_i$_free_o),
     .DES_i$_free_e(DES_i$_free_e),
     .BUS(BUS)
@@ -206,6 +210,8 @@ module I$ (
     output SER_i$_req_o,
     output SER_i$_release_e,
     output SER_i$_req_e,
+    output wire [3:0] SER_dest_o,
+    output wire [3:0] SER_dest_e,
     
     //DES_o
     output DES_i$_free_o,
@@ -247,14 +253,14 @@ wire[14:0] SER_pAddress_e;
 wire[2:0] SER_return_e;
 wire[15:0] SER_size_e;
 wire SER_rw_e;
-wire [2:0] SER_dest_e;
+
 
 wire SER_valid_o;
 wire[14:0] SER_pAddress_o;
 wire[2:0] SER_return_o;
 wire[15:0] SER_size_o;
 wire SER_rw_o;
-wire [2:0] SER_dest_o;
+
 
 wire SER_full_e, SER_full_o;
 
