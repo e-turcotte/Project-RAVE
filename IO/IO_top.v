@@ -91,7 +91,7 @@ DES ioDES(
     .size(size_d),
     .BUS(BUS),
     .setReciever(setReciever_io),
-    .free_bau(free_bau)
+    .free_bau(free_bau_io)
 );
 
 disc disc1(
