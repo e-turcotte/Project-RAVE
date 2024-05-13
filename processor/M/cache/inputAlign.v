@@ -301,10 +301,10 @@ generate
     for(i = 0; i < 16; i = i + 1) begin : zero
         assign PTC0[i*16+3:i*16] = i;
         
-        assign PTC0[i*16+14:i*16+4] = pAddress0[14:4];
+        assign PTC0[i*16+14:i*16+4] = Address0[14:4];
         
         assign PTC1[i*16+3:i*16] = i;
-        assign PTC1[i*16+14:i*16+4] = pAddress1[14:4];
+        assign PTC1[i*16+14:i*16+4] = Address1[14:4];
     end
 endgenerate 
 
@@ -352,7 +352,7 @@ endgenerate
 
     mux4n #(128) mxptc(PTC_out, {112'd0, PTC_outx[15:0]}, {96'd0, PTC_outx[31:0]}, {64'd0,PTC_outx[63:0]}, PTC_outx, size_in[0], size_in[1] );
    
-   mux8n #(4) wake(wake_init_vector,4'1110, 4'b1010, 4'b1011, 4'b1010, 4'b1101, 4'b0101, 4'b0111, 4'b0101   ,needP1, pAddress0[4], sw);
+   mux8n #(4) wake(wake_init_vector,4'b1110, 4'b1010, 4'b1011, 4'b1010, 4'b1101, 4'b0101, 4'b0111, 4'b0101   ,needP1, pAddress0[4], sw);
    
    /*4 bits
    0: ER
