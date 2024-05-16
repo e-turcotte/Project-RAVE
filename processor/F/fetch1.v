@@ -348,9 +348,9 @@ cacheBank even$(
     .PCD_IN(1'b0),
 
     .AQ_READ(),
-    .MSHR_valid(/*TODO*/),
+    //.MSHR_valid(/*TODO*/),
     .MSHR_pAddress(mshr_e_paddr),
-    .MSHR_write(mshr_e_write),
+    //.MSHR_write(mshr_e_write),
 
     .SER_valid0(1'b0),                  
     .SER_data0(),                   
@@ -419,9 +419,9 @@ cacheBank odd$(
     .PCD_IN(1'b0),
 
     .AQ_READ(),
-    .MSHR_valid(/*TODO*/),
+    //.MSHR_valid(/*TODO*/),
     .MSHR_pAddress(mshr_o_paddr),
-    .MSHR_write(mshr_o_write),
+    //.MSHR_write(mshr_o_write),
 
     .SER_valid0(1'b0),                  
     .SER_data0(),                   
