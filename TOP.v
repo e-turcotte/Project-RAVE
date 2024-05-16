@@ -539,10 +539,10 @@
         .freeDO(freeDO),
         .reqIE(reqIE),
         .reqIO(reqIO),
-        .reqDEr(reqDEr),
-        .reqDEw(reqDEw),
-        .reqDOr(reqDOr), 
-        .reqDOw(reqDOw),
+        .reqDEr(1'b0),//tied to 0 for testing
+        .reqDEw(1'b0),//tied to 0 for testing
+        .reqDOr(1'b0),//tied to 0 for testing
+        .reqDOw(1'b0),//tied to 0 for testing
         .relIE(relIE),
         .relIO(relIO), 
         .relDEr(relDEr), 
