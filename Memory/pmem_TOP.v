@@ -53,7 +53,7 @@ module pmem_TOP (input [3:0] recvB,
             bufferH16$ b0(.out(buf_des_full[i]), .in(des_full[i]));
             //inv1$ g0(.out(bnk_en[i]), .in(buf_des_full[i]));
             and2$ g1(.out(undelay_rw[i]), .in0(des_rw[i]), .in1(buf_des_full[i]));
-            pmem_delays35ns del35(.undelay_sig(undelay_rw[i]), .delay_sig(delay_rw[i]));
+            pmem_delay35ns del35(.undelay_sig(undelay_rw[i]), .delay_sig(delay_rw[i]));
             nand2$ g2(.out(rw[i]), .in0(delay_rw[i]), .in1(buf_des_full[i]));
             pmem_delay110ns del110(.undelay_sig(buf_des_full[i]), .delay_sig(delay_des_full[i]));
             and3$ g3(.out(des_read[i]), .in0(buf_des_full[i]), .in1(delay_des_full[i]), .in2(ser_empty[i]));
@@ -336,7 +336,7 @@ endmodule
 
 
 
-module pmem_delays35ns(input undelay_sig,
+module pmem_delay35ns(input undelay_sig,
                        output delay_sig);
 
     genvar i;
@@ -352,7 +352,7 @@ module pmem_delays35ns(input undelay_sig,
 
 endmodule
 
-module pmem_delays110ns(input undelay_sig,
+module pmem_delay110ns(input undelay_sig,
                        output delay_sig);
 
     genvar i;
