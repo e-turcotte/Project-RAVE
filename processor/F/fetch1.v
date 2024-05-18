@@ -229,7 +229,7 @@ wire [31:0] odd_access_address_VA, even_access_address_VA;
 assign odd_access_address_VA = {FIP_o[27:0], 4'b0000};
 assign even_access_address_VA = {FIP_e[27:0], 4'b0000};
 /*FILL OUT THESE SIGNALS*/
-
+wire[3:0] SER_dest_e, SER_dest_o;
 wire DES_read_o;
 wire DES_full_o;
 wire [14:0] DES_pAdr_o;
@@ -381,7 +381,7 @@ cacheBank even$(
     .needP1(),
     .oneSize_out()
 );
-wire[3:0] SER_dest_e, SER_dest_o;
+
 assign evenW = DES_full_e;
 mshr mshre(.pAddress(mshr_e_paddr), .ptcid_in(7'b0), .qentry_slot_in(), .rdsw_in(1'b0),
            .alloc(mshr_e_write), .dealloc(/*todo make signal for this*/),
