@@ -168,7 +168,7 @@ and2$ andSER(SER_valid11, ex_clr, w_not);
 and2$ andser1(SER_valid12, w_not, PCD_IN);
 or2$ andSER21(SER_valid1, SER_valid11, SER_valid12 );
 assign SER_return1 = cache_id;
-assign SER_size1 = 16'h0001;
+assign SER_size1 = 16'h1000;
 assign SER_rw1 = 1'b0;
 mux2n #(4)  abcde(SER_dest1,{2'b10,pAddress[5],pAddress[4]}, 4'b1100, PCD_IN);
 
