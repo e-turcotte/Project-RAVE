@@ -129,8 +129,6 @@ I$ icache(
     .SER_i$_req_e(SER_i$_req_e),
     .destIO(destIO),
     .destIE(destIE),
-    .destIO(destIO),
-    .destIE(destIE),
     .BUS(BUS)
 );
 
@@ -252,7 +250,7 @@ wire DES_free_e;
 
 wire SER_valid_e;
 wire[14:0] SER_pAddress_e;
-wire[2:0] SER_return_e;
+wire[3:0] SER_return_e;
 wire[15:0] SER_size_e;
 wire SER_rw_e;
 
