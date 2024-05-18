@@ -42,10 +42,10 @@ module cacheBank (
     output SER_valid0,
     output[16*8-1:0] SER_data0,
     output[14:0] SER_pAddress0,
-    output[2:0] SER_return0,
+    output[3:0] SER_return0,
     output[15:0] SER_size0,
     output SER_rw0,
-    output [2:0] SER_dest0,
+    output [3:0] SER_dest0,
 
     //SER1 only used for reads, not extracts
     output SER_valid1,
@@ -53,7 +53,7 @@ module cacheBank (
     output[2:0] SER_return1,
     output[15:0] SER_size1,
     output SER_rw1,
-    output SER_dest1,
+    output [3:0] SER_dest1,
 
     
 
