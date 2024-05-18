@@ -482,7 +482,7 @@ SER SER_e(
 
     .releases(SER_i$_release_e),
     .req(SER_i$_req_e),
-    .dest_bau(destIO),
+    .dest_bau(destIE),
     .BUS(BUS),
 
     .ack(SER_i$_ack_e)
