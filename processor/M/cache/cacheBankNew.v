@@ -176,7 +176,7 @@ assign EX_data = cache_line;
 assign EX_vAddress = vAddress;
 assign EX_pAddress = pAddress;
 assign EX_size = size;
-
-mux2n #(2) mxWake(EX_wake, 2'b01, 2'b10, sw);
+wire [1:0] EX_wake2;
+mux2n #(2) mxWake(EX_wake2, 2'b01, 2'b10, sw);
 
 endmodule
