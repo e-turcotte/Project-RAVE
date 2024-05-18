@@ -17,7 +17,7 @@ always @(posedge clk) begin
     if(!rst) begin
         data_kb <= 0;
         state <= 0;
-        chars<= 60'h41_7368_6572_2077_6173_2068_6572_6521;
+        chars<= 120'h41_7368_6572_2077_6173_2068_6572_6521;
     end
     else begin
         data_kb <= chars[7:0];          
