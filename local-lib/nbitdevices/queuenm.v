@@ -9,7 +9,7 @@ module queuenm #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=16) (input [M_WIDTH-1:
                                                                output [M_WIDTH*Q_LENGTH-1:0] old_m_vector,
                                                                output [M_WIDTH+N_WIDTH-1:0] dout);
     
-    wire [Q_LENGTH-1:0] ptr_wr, new_ptr_wr, rot_ptr_wr, ptr_rd, new_ptr_rd, rot_ptr_rd;
+    wire [Q_LENGTH-1:0] ptr_wr, rot_ptr_wr, ptr_rd, rot_ptr_rd;
     wire invfull, invempty, ldptr_wr, ldptr_rd;
 
     ptr_regn #(.WIDTH(Q_LENGTH)) ptr_wr_reg(.din(rot_ptr_wr), .ld(ldptr_wr), .clr(clr), .clk(clk), .dout(ptr_wr));
