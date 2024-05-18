@@ -271,8 +271,8 @@ assign pAddress_o = {pf_o[2:0], FIP_o[11:0]};
 
 TLB tlb_even(
     .clk(clk),
-    .address(FIP_e[31:12]), //used to lookup
-    .RW_in(0),
+    .address(FIP_e), //used to lookup
+    .RW_in(1'b0),
     .is_mem_request(1'b1), //if 1, then we are doing a memory request, else - no prot exception should be thrown
     .VP(VP), //unpacked, do wire concatenation in TOP
     .PF(PF),
@@ -288,8 +288,8 @@ TLB tlb_even(
 );
 TLB tlb_odd(
     .clk(clk),
-    .address(FIP_e[31:12]), //used to lookup
-    .RW_in(0),
+    .address(FIP_o), //used to lookup
+    .RW_in(1'b0),
     .is_mem_request(1'b1), //if 1, then we are doing a memory request, else - no prot exception should be thrown
     .VP(VP), //unpacked, do wire concatenation in TOP
     .PF(PF),
@@ -323,7 +323,7 @@ cacheBank even$(
     .rst(reset), 
     .set(set),
     .cache_id(4'b0000),
-    .vAddress({FIP_e,4'd0}),
+    .vAddress(FIP_e),
     .pAddress(pAddr_e),
     .data(DES_DATA_e),
     .size(2'b00),
@@ -352,7 +352,7 @@ cacheBank even$(
     .MSHR_pAddress(mshr_e_paddr),
     //.MSHR_write(mshr_e_write),
 
-    .SER_valid0(1'b0),                  
+    .SER_valid0(),                  
     .SER_data0(),                   
     .SER_pAddress0(),                   
     .SER_return0(),                 
@@ -371,11 +371,11 @@ cacheBank even$(
     .EX_data(line_even_out),
     .EX_pAddress(),
     .EX_size(),
-    .EX_wake(cache_miss_even),
+    .EX_wake(),
 
     .oddIsGreater(),
     .cache_stall(),
-    .cache_miss(),
+    .cache_miss(cache_miss_even),
     .needP1(),
     .oneSize_out()
 );
@@ -395,7 +395,7 @@ cacheBank odd$(
     .rst(reset), 
     .set(set),
     .cache_id(4'b0001),
-    .vAddress({FIP_o,4'd0}),
+    .vAddress(FIP_o),
     .pAddress(pAddr_o),
     .data(DES_DATA_o),
     .size(2'b00),
@@ -424,7 +424,7 @@ cacheBank odd$(
     .MSHR_pAddress(mshr_o_paddr),
     //.MSHR_write(mshr_o_write),
 
-    .SER_valid0(1'b0),                  
+    .SER_valid0(),                  
     .SER_data0(),                   
     .SER_pAddress0(),                   
     .SER_return0(),                 
@@ -443,11 +443,11 @@ cacheBank odd$(
     .EX_data(line_odd_out),
     .EX_pAddress(),
     .EX_size(),
-    .EX_wake(cache_miss_odd),
+    .EX_wake(),
 
     .oddIsGreater(),
     .cache_stall(),
-    .cache_miss(),
+    .cache_miss(cache_miss_odd),
     .needP1(),
     .oneSize_out()
 );
