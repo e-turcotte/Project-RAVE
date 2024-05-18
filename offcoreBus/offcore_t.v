@@ -47,8 +47,6 @@ module DES #(parameter loc = 0) (
     .BUS(),
     .setReciever(),
     .free_bau(),
-
-    
 );
 
 

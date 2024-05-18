@@ -54,9 +54,10 @@ IO_top io(
     //BAU-SE(),
     .grant_io(grantDMA),
     .ack_io(ackDMA),
-
+        
     .releases_io(relDMA),
-    .req_io(reqDMA)
+    .req_io(reqDMA),
+    .dest_io(destDMA)
 );
 
 pmem_TOP  pmem(

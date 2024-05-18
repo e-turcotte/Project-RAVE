@@ -26,6 +26,7 @@ module SER(
 
     //to BUS output
     inout [72:0] BUS
+    output[3:0] dest_bau,
 ); 
 wire[3:0] state;
 
@@ -44,6 +45,7 @@ assign BUS[51:48] = return_bus;
 assign BUS[55:52] = dest_bus;
 assign BUS[56] = rw_bus  ;
 assign BUS[72:57] = size_bus;
+assign dest_bau = dest_tri;
 
 wire valid_tri; //done
 wire [14:0] pAdr_tri; //done

@@ -14,7 +14,8 @@ module IO_top(
     input grant_io,
     input ack_io,
     output releases_io,
-    output req_io
+    output req_io,
+    output [3:0] dest_io
 );
 
 
@@ -73,7 +74,8 @@ SER ioSER(
     .ack(ack_io),
     .releases(releases_io),
     .req(req_io),
-    .BUS(BUS)
+    .BUS(BUS),
+    .dest_bau(dest_io)
 );  
 
 DES ioDES(

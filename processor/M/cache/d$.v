@@ -68,9 +68,7 @@ module d$(
     output stall, 
 
 
-    //MSHR outputs:
-    //TODO:
-
+    //MSHR outputs
     input [7:0] qentry_slot_in_e,
     output [6:0] ptcid_out_e,
     output [7:0] qentry_slots_out_e,
@@ -84,7 +82,7 @@ module d$(
     output mshr_hit_o, mshr_full_o,
     ); 
 
-);
+
 
     wire grantDEr, grantDEw, grantDOr, grantDOw;
     wire ackDEr, ackDEw, ackDOr, ackDOw;
@@ -104,7 +102,7 @@ assign cache_valid = valid_out;
 wire [3:0] returnLoc_o,returnLoc_e;
    wire [31:0] address_in_r;
    wire [127:0] data_in_r;
-   wire size_in_r;
+   wire [1:0]size_in_r;
    wire r_r;
    wire w_r;
    wire sw_r;
@@ -136,9 +134,10 @@ wire [3:0] returnLoc_o,returnLoc_e;
    wire fromBUSO_r;
    wire [127:0]maskO_r;
    wire PCD_out_r;
+
    wire [31:0] address_in_sw;
    wire [127:0] data_in_sw;
-   wire size_in_sw;
+   wire [1:0]size_in_sw;
    wire r_sw;
    wire w_sw;
    wire sw_sw;
@@ -171,7 +170,7 @@ wire [3:0] returnLoc_o,returnLoc_e;
    wire [127:0]maskO_sw;
    wire PCD_out_sw;
 
-   
+
    wire [31:0] address_in_wb;
    wire [127:0] data_in_wb;
    wire size_in_wb;
@@ -311,14 +310,34 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire recvDO;
     wire freeDO;
 
+SW_R_SWP u_SW_R_SWP (
+        .M1(M1),
+        .M2(M2),
+        .M1_RW(M1_RW),
+        .M2_RW(M2_RW),
+        .valid_rsw(valid_rsw),
+        .sizeOvr(sizeOvr),
+        .PTC_ID_in(PTC_ID_in),
+        
+        .address_in_r(address_in_r),
+        .size_in_r(size_in_r),
+        .valid_in_r(valid_in_r),
+        .sizeOVR_r(sizeOVR_r),
+        .PTC_ID_in_r(PTC_ID_in_r),
+        .address_in_sw(address_in_sw),
+        .size_in_sw(size_in_sw),
+        .valid_in_sw(valid_in_sw),
+        .sizeOVR_sw(sizeOVR_sw),
+        .PTC_ID_in_sw(PTC_ID_in_sw)
+    );
 
 IA_AS rdIA (
     .address_in(address_in_r),
-    .data_in(data_in_r),
+    .data_in(128'd0),
     .size_in(size_in_r),
-    .r(r_r),
-    .w(w_r),
-    .sw(sw_r),
+    .r(1'b1),
+    .w(1'b0),
+    .sw(1'b0),
     .valid_in(valid_in_r),
     .fromBUS(1'b0),
     .sizeOVR(sizeOVR_r),
@@ -367,13 +386,13 @@ IA_AS rdIA (
 
 IA_AS swIA (
     .address_in(address_in_sw),
-    .data_in(data_in_sw),
+    .data_in(128'd0),
     .size_in(size_in_sw),
-    .r(r_sw),
-    .w(w_sw),
-    .sw(sw_sw),
+    .r(1'b0),
+    .w(1'b0),
+    .sw(1'b1),
     .valid_in(valid_in_sw),
-    .fromBUS(fromBUS_sw),
+    .fromBUS(1'b0),
     .sizeOVR(sizeOVR_sw),
     .PTC_ID_in(PTC_ID_in_sw),
 
