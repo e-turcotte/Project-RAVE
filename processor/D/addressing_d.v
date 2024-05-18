@@ -440,7 +440,7 @@ wire w32_useR3;
 andn #(2) a3adeqw6(.in({isSIB, mod_not_equal_11}), .out(w32_useR3));
 
 //combine the 16 and 32 bit versions with just mod == 11
-orn #(3) o22(.in({w16_useR3, w32_useR3}), .out(use_R3));
+orn #(2) o22(.in({w16_useR3, w32_useR3}), .out(use_R3));
 
 //all the logic to select the actual value of R2
 

@@ -68,7 +68,7 @@ wire is_CF;
 orn #(3) o0(.in({is_init, is_resteer, is_BR_T_NT}), .out(is_CF));
 
 // init FIP addr calculation
-wire [27:0] init_FIP_o, init_FIP_e;
+wire [31:0] init_FIP_o, init_FIP_e;
 
 wire [31:0] init_addr_plus_1;
 kogeAdder #(.WIDTH(32)) a02e35rwgsr(.SUM(init_addr_plus_1), .COUT(), .A({init_addr}), .B(32'd16), .CIN(1'b0));
