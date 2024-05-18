@@ -106,6 +106,7 @@
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
+        #1000
 
         $finish;
 
