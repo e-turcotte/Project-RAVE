@@ -25,8 +25,8 @@ module SER(
     output req,
 
     //to BUS output
-    inout [72:0] BUS
-    output[3:0] dest_bau,
+    inout [72:0] BUS,
+    output[3:0] dest_bau
 ); 
 wire[3:0] state;
 
