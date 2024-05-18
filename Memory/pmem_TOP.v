@@ -357,7 +357,7 @@ module pmem_delay110ns(input undelay_sig,
 
     genvar i;
     generate
-        wire [13:0] delay_wires;
+        wire [21:0] delay_wires;
         assign delay_wires[0] = undelay_sig;
         assign delay_sig = delay_wires[6];
 
