@@ -17,13 +17,15 @@ module d$(
     input [3:0] ack_d,
     output [3:0]releases_d,
     output [3:0] req_d,
-    
+    output [15:0] dest_d,
+
     //R SW AQ
-    input[31:0] M1, M2, WB1,
+    input[63:0] data_m1, data_m2,
+    input[31:0] M1, M2,
     input[1:0] M1_RW, M2_RW,
     input valid_RSW,
     input sizeOVR,
-    input PTC_ID_in,
+    input [6:0]PTC_ID_in,
 
     //Exceptions:
     output TLB_miss_wb,
@@ -168,6 +170,8 @@ wire [3:0] returnLoc_o,returnLoc_e;
    wire fromBUSO_sw;
    wire [127:0]maskO_sw;
    wire PCD_out_sw;
+
+   
    wire [31:0] address_in_wb;
    wire [127:0] data_in_wb;
    wire size_in_wb;
@@ -318,8 +322,8 @@ IA_AS rdIA (
     .valid_in(valid_in_r),
     .fromBUS(1'b0),
     .sizeOVR(sizeOVR_r),
-    
     .PTC_ID_in(PTC_ID_in_r),
+
     .clk(clk),
     .VP(VP),
     .PF(PF),
@@ -769,6 +773,7 @@ SER DS_E_R(
     .releases(relDEr),
     .req(reqDEr),
     .BUS(BUS)
+    .dest_bau(dest_d[3:0])
 );  
 
 SER DS_E_W(
@@ -789,7 +794,8 @@ SER DS_E_W(
     .ack(ackDEw),
     .releases(relDEw),
     .req(reqDEw),
-    .BUS(BUS)
+    .BUS(BUS),
+    .dest_bau(dest_d[7:4])
 ); 
 inv1$ invDESe(desE_empty, bus_valid_e);
 inv1$ invDESo(desE_empty, bus_valid_o);
@@ -837,7 +843,8 @@ SER DS_O_W(
     .ack(ackDOw),
     .releases(relDOw),
     .req(reqDOw),
-    .BUS(BUS)
+    .BUS(BUS),
+    .dest_bau(dest_d[15:12])
 );  
 
 SER DS_O_r(
@@ -858,7 +865,8 @@ SER DS_O_r(
     .ack(ackDOr),
     .releases(relDOr),
     .req(reqDOr),
-    .BUS(BUS)
+    .BUS(BUS),
+    .dest_bau(dest_d[11:8])
 );  
 
 dff$ desDO(bus_valid_o, bus_valid_o_nobuf,clk, set,rst);
