@@ -17,7 +17,7 @@ module pmem_TOP (input [3:0] recvB,
     wire [511:0] din;
     wire [511:0] dout;
 
-    wire [3:0] des_full, buf_des_full, delay_des_full;
+    wire [3:0] des_full, buf_des_full;
     wire [3:0] des_read, delay_des_read, ser_read;
     wire [3:0] des_rw, undelay_rw, delay_rw;
     wire [3:0] ser_empty;
@@ -38,7 +38,7 @@ module pmem_TOP (input [3:0] recvB,
                 default: assign bnkid = 4'h0;
             endcase
 
-            DES #(.loc(8)) d(.read(delay_des_read[i]), .clk_bus(bus_clk), .clk_core(), .rst(clr), .set(1'b1),
+            DES #(.loc(8)) d(.read(des_read[i]), .clk_bus(bus_clk), .clk_core(), .rst(clr), .set(1'b1),
                              .full(des_full[i]), .pAdr(addr[(i+1)*15-1:i*15]), .data(din[(i+1)*128-1:i*128]),
                              .return(send[3:0]), .dest(), .rw(des_rw[i]),
                              .size(),
@@ -56,7 +56,7 @@ module pmem_TOP (input [3:0] recvB,
 
             bank bnk(.addr(addr[(i+1)*15-1:i*15+6]), .rw(rw[i]), .bnk_en(buf_des_full[i]), .din(din[(i+1)*128-1:i*128]), .dout(dout[(i+1)*128-1:i*128]));
 
-            and3$ g4(.out(ser_read[i]), .in0(delay_des_read[i]), .in1(rw[i]), .in2(des_full));
+            and3$ g4(.out(ser_read[i]), .in0(des_read[i]), .in1(rw[i]), .in2(des_full));
 
             SER s(.clk_core(), .clk_bus(bus_clk), .rst(clr), .set(1'b1),
                   .valid_in(ser_read[i]), .pAdr_in(addr[(i+1)*15-1:i*15]), .data_in(dout[(i+1)*128-1:i*128]),
