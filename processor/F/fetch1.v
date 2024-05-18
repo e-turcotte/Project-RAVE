@@ -226,7 +226,16 @@ module I$ (
     //BUS
     inout [72:0] BUS
 );
-
+wire MSHR_alloc_e;
+wire MSHR_dealloc_e;
+wire MSHR_rdsw_e;
+wire [14:0] MSHR_pAddress_e;
+wire [6:0] MSHR_ptcid_e;
+wire MSHR_alloc_o;
+wire MSHR_dealloc_o;
+wire MSHR_rdsw_o;
+wire [14:0] MSHR_pAddress_o;
+wire [6:0] MSHR_ptcid_o;
 wire [31:0] odd_access_address_VA, even_access_address_VA;
 assign odd_access_address_VA = {FIP_o[27:0], 4'b0000};
 assign even_access_address_VA = {FIP_e[27:0], 4'b0000};
@@ -353,7 +362,11 @@ cacheBank even$(
 
     .AQ_READ(),
     //.MSHR_valid(/*TODO*/),
-    .MSHR_pAddress(mshr_e_paddr),
+     .MSHR_alloc(MSHR_alloc_e),
+    .MSHR_dealloc(MSHR_dealloc_e),
+    .MSHR_rdsw(MSHR_rdsw_e),
+    .MSHR_pAddress(MSHR_pAddress_e),
+    .MSHR_ptcid(MSHR_ptcid_e),
     //.MSHR_write(mshr_e_write),
 
     .SER_valid0(),                  
@@ -383,10 +396,13 @@ cacheBank even$(
     .needP1(),
     .oneSize_out()
 );
+    
 
+    
+   
 assign evenW = DES_full_e;
-mshr mshre(.pAddress(mshr_e_paddr), .ptcid_in(7'b0), .qentry_slot_in(), .rdsw_in(1'b0),
-           .alloc(mshr_e_write), .dealloc(/*todo make signal for this*/),
+mshr mshre(.pAddress(MSHR_pAddress_e), .ptcid_in(MSHR_ptcid_e), .qentry_slot_in(), .rdsw_in(1'b0),
+           .alloc(MSHR_alloc_e), .dealloc(MSHR_dealloc_e),
            .clk(clk), .clr(reset),
            .ptcid_out(), .qentry_slots_out(), .wake_vector_out(),
            .mshr_hit(mshr_e_hit), .mshr_full(mshr_e_full));
@@ -425,7 +441,11 @@ cacheBank odd$(
 
     .AQ_READ(),
     //.MSHR_valid(/*TODO*/),
-    .MSHR_pAddress(mshr_o_paddr),
+    .MSHR_alloc(MSHR_alloc_o),
+    .MSHR_dealloc(MSHR_dealloc_o),
+    .MSHR_rdsw(MSHR_rdsw_o),
+    .MSHR_pAddress(MSHR_pAddress_o),
+    .MSHR_ptcid(MSHR_ptcid_o),
     //.MSHR_write(mshr_o_write),
 
     .SER_valid0(),                  
@@ -455,9 +475,11 @@ cacheBank odd$(
     .needP1(),
     .oneSize_out()
 );
+
+
 assign oddW = DES_full_o;
-mshr mshro(.pAddress(mshr_o_paddr), .ptcid_in(7'b0), .qentry_slot_in(), .rdsw_in(1'b0),
-           .alloc(mshr_o_write), .dealloc(/*todo make signal for this*/),
+mshr mshro(.pAddress(MSHR_pAddress_o), .ptcid_in(MSHR_ptcid_o), .qentry_slot_in(), .rdsw_in(1'b0),
+           .alloc(MSHR_alloc_o), .dealloc(MSHR_dealloc_o),
            .clk(clk), .clr(reset),
            .ptcid_out(), .qentry_slots_out(), .wake_vector_out(),
            .mshr_hit(mshr_o_hit), .mshr_full(mshr_o_full));
