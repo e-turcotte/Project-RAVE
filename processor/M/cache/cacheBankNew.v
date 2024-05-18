@@ -1,7 +1,7 @@
 module cacheBank (
     input clk,
     input rst, set,
-    input [2:0] cache_id,
+    input [3:0] cache_id,
     //Input from AQ
     input  [31:0] vAddress,
     input [14:0] pAddress,
@@ -50,7 +50,7 @@ module cacheBank (
     //SER1 only used for reads, not extracts
     output SER_valid1,
     output[14:0] SER_pAddress1,
-    output[2:0] SER_return1,
+    output[3:0] SER_return1,
     output[15:0] SER_size1,
     output SER_rw1,
     output [3:0] SER_dest1,
