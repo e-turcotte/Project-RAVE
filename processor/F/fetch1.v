@@ -215,6 +215,8 @@ module I$ (
     
     //DES_o
     output DES_i$_free_o,
+    output [3:0] destIE,
+    output [3:0] destIO,
 
     //DES_e
     output DES_i$_free_e,
