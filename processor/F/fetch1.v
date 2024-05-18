@@ -381,6 +381,7 @@ cacheBank even$(
     .needP1(),
     .oneSize_out()
 );
+wire[3:0] SER_dest_e, SER_dest_o;
 assign evenW = DES_full_e;
 mshr mshre(.pAddress(mshr_e_paddr), .ptcid_in(7'b0), .qentry_slot_in(), .rdsw_in(1'b0),
            .alloc(mshr_e_write), .dealloc(/*todo make signal for this*/),
