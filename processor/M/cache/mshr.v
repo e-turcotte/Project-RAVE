@@ -6,7 +6,7 @@ module mshr (input [14:0] pAddress,
 
              input clk, clr,
              
-             output [6:0] ptcid_out,
+             output [6:0] ptcid_out, //TODO: not tied to anything fix before finishing MEM
              output [7:0] qentry_slots_out,
              output [1:0] wake_vector_out,
              output mshr_hit, mshr_full);
