@@ -438,7 +438,7 @@ cacheBank odd$(
 
     .SER_valid1(SER_valid_o),         
     .SER_pAddress1(SER_pAddress_o),   
-    .SER_return1(SER_dest_o),         
+    .SER_return1(SER_return_o),         
     .SER_size1(SER_size_o),           
     .SER_rw1(SER_rw_o),               
     .SER_dest1(SER_dest_o),           
