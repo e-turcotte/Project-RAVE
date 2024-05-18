@@ -17,13 +17,9 @@ module pmem_TOP (input [3:0] recvB,
     wire [511:0] din;
     wire [511:0] dout;
 
-    wire [3:0] des_full;
-    wire [3:0] buf_des_full;
-    wire [3:0] delay_des_full;
-    wire [3:0] des_read, ser_read;
-    wire [3:0] des_rw;
-    wire [3:0] undelay_rw;
-    wire [3:0] delay_rw;
+    wire [3:0] des_full, buf_des_full, delay_des_full;
+    wire [3:0] des_read, delay_des_read, ser_read;
+    wire [3:0] des_rw, undelay_rw, delay_rw;
     wire [3:0] ser_empty;
 
     wire [15:0] send;
@@ -42,7 +38,7 @@ module pmem_TOP (input [3:0] recvB,
                 default: assign bnkid = 4'h0;
             endcase
 
-            DES #(.loc(8)) d(.read(des_read[i]), .clk_bus(bus_clk), .clk_core(), .rst(clr), .set(1'b1),
+            DES #(.loc(8)) d(.read(delay_des_read[i]), .clk_bus(bus_clk), .clk_core(), .rst(clr), .set(1'b1),
                              .full(des_full[i]), .pAdr(addr[(i+1)*15-1:i*15]), .data(din[(i+1)*128-1:i*128]),
                              .return(send[3:0]), .dest(), .rw(des_rw[i]),
                              .size(),
@@ -55,8 +51,9 @@ module pmem_TOP (input [3:0] recvB,
             and2$ g1(.out(undelay_rw[i]), .in0(des_rw[i]), .in1(buf_des_full[i]));
             pmem_delay35ns del35(.undelay_sig(undelay_rw[i]), .delay_sig(delay_rw[i]));
             nand2$ g2(.out(rw[i]), .in0(delay_rw[i]), .in1(buf_des_full[i]));
-            pmem_delay110ns del110(.undelay_sig(buf_des_full[i]), .delay_sig(delay_des_full[i]));
+            pmem_delay70ns del70_0(.undelay_sig(buf_des_full[i]), .delay_sig(delay_des_full[i]));
             and3$ g3(.out(des_read[i]), .in0(buf_des_full[i]), .in1(delay_des_full[i]), .in2(ser_empty[i]));
+            pmem_delay70ns del70_1(.undelay_sig(des_read[i]), .delay_sig(delay_des_read[i]));
 
             bank bnk(.addr(addr[(i+1)*15-1:i*15+6]), .rw(rw[i]), .bnk_en(buf_des_full[i]), .din(din[(i+1)*128-1:i*128]), .dout(dout[(i+1)*128-1:i*128]));
 
@@ -352,16 +349,16 @@ module pmem_delay35ns(input undelay_sig,
 
 endmodule
 
-module pmem_delay110ns(input undelay_sig,
+module pmem_delay70ns(input undelay_sig,
                        output delay_sig);
 
     genvar i;
     generate
-        wire [21:0] delay_wires;
+        wire [13:0] delay_wires;
         assign delay_wires[0] = undelay_sig;
         assign delay_sig = delay_wires[6];
 
-        for (i = 1; i < 22; i = i + 1) begin : rw0_delay
+        for (i = 1; i < 14; i = i + 1) begin : rw0_delay
             tristate_bus_driver1$ t0(.enbar(1'b0), .in(delay_wires[i-1]), .out(delay_wires[i]));
         end
     endgenerate
