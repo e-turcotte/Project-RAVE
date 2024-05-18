@@ -366,7 +366,7 @@ cacheBank even$(
 
     .SER_valid1(SER_valid_e),         
     .SER_pAddress1(SER_pAddress_e),   
-    .SER_return1(SER_dest_e),         
+    .SER_return1(SER_return_e),         
     .SER_size1(SER_size_e),           
     .SER_rw1(SER_rw_e),               
     .SER_dest1(SER_dest_e),           
