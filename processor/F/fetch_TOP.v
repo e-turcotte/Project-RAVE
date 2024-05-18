@@ -144,7 +144,7 @@ module fetch_TOP (
         .DES_i$_free_o(DES_i$_free_o),
         .DES_i$_free_e(DES_i$_free_e),
         .destIO(SER_dest_o),
-        .desIE(SER_dest_e),
+        .destIE(SER_dest_e),
 
         .BUS(BUS)
     );
