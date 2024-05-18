@@ -17,8 +17,8 @@ module pmem_TOP (input [3:0] recvB,
     wire [511:0] din;
     wire [511:0] dout;
 
-    wire [3:0] des_full, buf_des_full;
-    wire [3:0] des_read, delay_des_read, ser_read;
+    wire [3:0] des_full, buf_des_full, delay_des_full;
+    wire [3:0] des_read, ser_read;
     wire [3:0] des_rw, undelay_rw, delay_rw;
     wire [3:0] ser_empty;
 
