@@ -340,7 +340,7 @@ module delay #(parameter DELAY_AMNT=35) (input undelay_sig,
     generate
         wire [(DELAY_AMNT/5)-1:0] delay_wires;
 
-        assign delay_wires = undelay_sig;
+        assign delay_wires[0] = undelay_sig;
         assign delay_sig = delay_wires[(DELAY_AMNT/5)-1];
 
         for (i = 0; i < DELAY_AMNT/5; i = i + 1) begin : delay_slices
