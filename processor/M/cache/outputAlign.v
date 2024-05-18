@@ -70,7 +70,7 @@ module outputSwap(
     input [31:0] E_vAddress,                                    
     input [14:0] E_pAddress,                                    
     input [1:0] E_size,                                 
-    input E_wake,                                   
+    input [1:0]E_wake,                                   
     input E_cache_stall,                                    
     input E_cache_miss,                                 
     input E_oddIsGreater,                                   
@@ -81,7 +81,7 @@ module outputSwap(
     input [31:0] O_vAddress,                                    
     input [14:0] O_pAddress,                                    
     input [1:0]  O_size,                                    
-    input O_wake,                                   
+    input [1:0]O_wake,                                   
     input O_cache_stall,                                    
     input O_cache_miss,                                 
     input O_oddIsGreater,                                   
@@ -92,7 +92,7 @@ module outputSwap(
     output [31:0] vAddress0,                                    
     output [14:0] pAddress0,                                    
     output [1:0] size0,                                 
-    output wake0,                                   
+    output [1:0]wake0,                                   
     output cache_stall0,                                    
     output cache_miss0,                                 
     output oddIsGreater0,                                   
@@ -103,15 +103,15 @@ module outputSwap(
     output [31:0] vAddress1,                                    
     output [14:0] pAddress1,                                    
     output [1:0]  size1,                                    
-    output wake1,                                   
+    output [1:0] wake1,                                   
     output cache_stall1,                                    
     output cache_miss1,                                 
     output oddIsGreater1,                                   
     output needP11                                  
 );                                  
 inv1$ ix(evenIsGreater, E_oddIsGreater);
-muxnm_tristate #(2, 183) ax({E_valid,E_data,E_vAddress,E_pAddress,E_size,E_wake,E_cache_stall,E_cache_miss,E_oddIsGreater,E_needP1,O_valid,O_data,O_vAddress,O_pAddress,O_size,O_wake,O_cache_stall,O_cache_miss,O_oddIsGreater,O_needP1},{evenIsGreater, E_oddIsGreater},{valid0, data0, vAddress0,pAddress0, size0,wake0,cache_stall0,cache_miss0,oddIsGreater0,needP10});
-muxnm_tristate #(2, 183) ex({E_valid,E_data,E_vAddress,E_pAddress,E_size,E_wake,E_cache_stall,E_cache_miss,E_oddIsGreater,E_needP1,O_valid,O_data,O_vAddress,O_pAddress,O_size,O_wake,O_cache_stall,O_cache_miss,O_oddIsGreater,O_needP1},{E_oddIsGreater,evenIsGreater},{valid1, data1, vAddress1,pAddress1, size1,wake1,cache_stall1,cache_miss1,oddIsGreater1,needP11});
+muxnm_tristate #(2, 184) ax({E_valid,E_data,E_vAddress,E_pAddress,E_size,E_wake,E_cache_stall,E_cache_miss,E_oddIsGreater,E_needP1,O_valid,O_data,O_vAddress,O_pAddress,O_size,O_wake,O_cache_stall,O_cache_miss,O_oddIsGreater,O_needP1},{evenIsGreater, E_oddIsGreater},{valid0, data0, vAddress0,pAddress0, size0,wake0,cache_stall0,cache_miss0,oddIsGreater0,needP10});
+muxnm_tristate #(2, 184) ex({E_valid,E_data,E_vAddress,E_pAddress,E_size,E_wake,E_cache_stall,E_cache_miss,E_oddIsGreater,E_needP1,O_valid,O_data,O_vAddress,O_pAddress,O_size,O_wake,O_cache_stall,O_cache_miss,O_oddIsGreater,O_needP1},{E_oddIsGreater,evenIsGreater},{valid1, data1, vAddress1,pAddress1, size1,wake1,cache_stall1,cache_miss1,oddIsGreater1,needP11});
 
 endmodule
 

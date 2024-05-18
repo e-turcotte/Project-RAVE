@@ -156,19 +156,22 @@ mux2n #(128) datasel(SER_data0, cache_line, data, PCD_IN);
 mux2n #(15) addressSel(SER_pAddress0, extAddress, pAddress[14:0], PCD_IN);
 or2$ orSER(SER_valid0, ex_wb, checkVal);
 inv1$ inv123(w_not, w);
-and2$ andwp(checkVal, PCD_IN, w_not);
+and2$ andwp(checkVal, PCD_IN, w);
 assign SER_return0 = cache_id;
 assign SER_size0 = 16'h8000;
 mux2n #(1)  cba(SER_rw0, 1'b1, w, PCD_IN);
-mux2n #(3)  abc(SER_dest0,{1'b0,pAddress[5],pAddress[4]}, 3'b110, PCD_IN);
+mux2n #(4)  abc(SER_dest0,{2'b10,pAddress[5],pAddress[4]}, 4'b1100, PCD_IN);
 
 assign SER_pAddress1 = {pAddress[14:0]};
-assign SER_valid1 = ex_clr;
-and2$ andSER(SER_valid1, ex_clr, w_not);
+//assign SER_valid1 = ex_clr;
+and2$ andSER(SER_valid11, ex_clr, w_not);
+and2$ andser1(SER_valid12, w_not, PCD_IN);
+or2$ andSER21(ser_valid1, SER_valid11, SER_valid12 );
 assign SER_return1 = cache_id;
 assign SER_size1 = 16'h0001;
 assign SER_rw1 = 1'b0;
-assign SER_dest1 = {1'b0,pAddress[5],pAddress[4]};
+mux2n #(4)  abcde(SER_dest1,{2'b10,pAddress[5],pAddress[4]}, 4'b1100, PCD_IN);
+
 
 //Handle outputAlign
 assign EX_valid = valid; 
