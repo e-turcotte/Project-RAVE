@@ -73,8 +73,8 @@ wire [27:0] init_FIP_o, init_FIP_e;
 wire [31:0] init_addr_plus_1;
 kogeAdder #(.WIDTH(32)) a02e35rwgsr(.SUM(init_addr_plus_1), .COUT(), .A({init_addr}), .B(32'd16), .CIN(1'b0));
 
-muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(28)) m0(.in({init_addr, init_addr_plus_1}), .sel(init_addr[4]), .out(init_FIP_o));
-muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(28)) m1(.in({init_addr_plus_1, init_addr}), .sel(init_addr[4]), .out(init_FIP_e));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m0(.in({init_addr, init_addr_plus_1}), .sel(init_addr[4]), .out(init_FIP_o));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({init_addr_plus_1, init_addr}), .sel(init_addr[4]), .out(init_FIP_e));
 
 // ld_FIP reg even calculation
 wire ld_FIP_reg_even;
