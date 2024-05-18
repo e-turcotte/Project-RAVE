@@ -87,9 +87,9 @@ assign ld_FIP_reg_odd = odd_latch_was_loaded;
 wire [27:0] FIP_o;
 wire [27:0] FIP_e;
 
-select_address_ICache sel_odd(.clk(clk), .init_FIP(init_FIP_o), .BP_FIP(BP_FIP_o), .WB_FIP(WB_FIP_o), .sel_CF(select_CF_mux), .ld_FIP_reg(ld_FIP_reg_odd), 
+select_address_ICache #(.PARITY(1)) sel_odd(.clk(clk), .init_FIP(init_FIP_o), .BP_FIP(BP_FIP_o), .WB_FIP(WB_FIP_o), .sel_CF(select_CF_mux), .ld_FIP_reg(ld_FIP_reg_odd), 
                                        .clr_FIP_reg(reset), .is_ctrl_flow(is_CF), .output_addr(FIP_o));
-select_address_ICache sel_even(.clk(clk), .init_FIP(init_FIP_e), .BP_FIP(BP_FIP_e), .WB_FIP(WB_FIP_e), .sel_CF(select_CF_mux), .ld_FIP_reg(ld_FIP_reg_even), 
+select_address_ICache #(.PARITY(0)) sel_even(.clk(clk), .init_FIP(init_FIP_e), .BP_FIP(BP_FIP_e), .WB_FIP(WB_FIP_e), .sel_CF(select_CF_mux), .ld_FIP_reg(ld_FIP_reg_even), 
                                        .clr_FIP_reg(reset), .is_ctrl_flow(is_CF), .output_addr(FIP_e));
 
 assign FIP_o_lsb = FIP_o[5:4];
@@ -136,7 +136,7 @@ I$ icache(
     
 endmodule
 
-module select_address_ICache (
+module select_address_ICache #(parameter PARITY = 0)(
    input wire clk,
    input wire [27:0] init_FIP,
    input wire [27:0] BP_FIP,
@@ -154,7 +154,7 @@ wire [27:0] FIP_reg_data_out;
 
 muxnm_tristate #(.NUM_INPUTS(3), .DATA_WIDTH(28)) m0(.in({init_FIP, WB_FIP, BP_FIP}), .sel(sel_CF), .out(ctrl_flow_addr));
 kogeAdder #(.WIDTH(32)) a0(.SUM(addr_plus_2), .COUT(), .A({4'b0000, output_addr}), .B(32'd2), .CIN(1'b0));
-regn #(.WIDTH(28)) r0(.din(addr_plus_2[27:0]), .ld(ld_FIP_reg), .clr(clr_FIP_reg), .clk(clk), .dout(FIP_reg_data_out));
+regn_with_set_lsb #(.PARITY(PARITY), .WIDTH(28)) r0(.din(addr_plus_2[27:0]), .ld(ld_FIP_reg), .clr(clr_FIP_reg), .clk(clk), .dout(FIP_reg_data_out));
 
 muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(28)) m1(.in({ctrl_flow_addr, FIP_reg_data_out}), .sel(is_ctrl_flow), .out(output_addr));
     
