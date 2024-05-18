@@ -16,12 +16,13 @@ module mshr (input [14:0] pAddress,
     assign wake_vector_in[1] = rdsw_in;
     inv1$ g0(.out(wake_vector_in[0]), .in(rdsw_in));
     
-    wire [383:0] issued_reqs, change_reqs;
+    wire [191:0] issued_reqs, change_reqs;
     wire [7:0] update_vector, invalidation_vector, match_vector, hit_vector;
 
     wire [14:0] dealloc_paddr;
-    wire [6:0] dealloc_qentries;
-    wire dealloc_wake, dealloc_valid;
+    wire [7:0] dealloc_qentries;
+    wire [1:0] dealloc_wake;
+    wire dealloc_valid;
 
     queuenm #(.M_WIDTH(24), .N_WIDTH(2), .Q_LENGTH(8)) q0(.m_din({1'b1,pAddress,qentry_slot_in}), .n_din({wake_vector_in}),
                                                           .new_m_vector(change_reqs), .wr(alloc), .rd(dealloc),

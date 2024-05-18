@@ -403,7 +403,7 @@ cacheBank even$(
     
    
 assign evenW = DES_full_e;
-mshr mshre(.pAddress(MSHR_pAddress_e), .ptcid_in(MSHR_ptcid_e), .qentry_slot_in(), .rdsw_in(1'b0),
+mshr mshre(.pAddress(MSHR_pAddress_e), .ptcid_in(MSHR_ptcid_e), .qentry_slot_in(8'h00), .rdsw_in(1'b0),
            .alloc(MSHR_alloc_e), .dealloc(MSHR_dealloc_e),
            .clk(clk), .clr(reset),
            .ptcid_out(), .qentry_slots_out(), .wake_vector_out(),

@@ -112,7 +112,7 @@ module mem (input valid_in,
 
     wire [31:0] cnt, nextcnt, cntreg;
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({cntreg,reg3}), .sel(isrepreg), .out(cnt));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({cntreg,reg3[31:0]}), .sel(isrepreg), .out(cnt));
     kogeAdder #(.WIDTH(32)) add2(.SUM(nextcnt), .COUT(), .A(cnt), .B(32'hffff_ffff), .CIN(1'b0));
     regn #(.WIDTH(32)) r4(.din(nextcnt), .ld(1'b1), .clr(clr), .clk(clk), .dout(cntreg));
 
