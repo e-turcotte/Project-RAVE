@@ -72,42 +72,7 @@ module pmem_TOP (input [3:0] recvB,
         end
     endgenerate
 
-endmodule
-
-
-
-
-module pmem_delays35ns(input undelay_sig,
-                       output delay_sig);
-
-    genvar i;
-    generate
-        wire [6:0] delay_wires;
-        assign delay_wires[0] = undelay_sig;
-        assign delay_sig = delay_wires[6];
-
-        for (i = 1; i < 7; i = i + 1) begin : rw0_delay
-            tristate_bus_driver1$ t0(.enbar(1'b0), .in(delay_wires[i-1]), .out(delay_wires[i]));
-        end
-    endgenerate
-
-endmodule
-
-module pmem_delays110ns(input undelay_sig,
-                       output delay_sig);
-
-    genvar i;
-    generate
-        wire [13:0] delay_wires;
-        assign delay_wires[0] = undelay_sig;
-        assign delay_sig = delay_wires[6];
-
-        for (i = 1; i < 22; i = i + 1) begin : rw0_delay
-            tristate_bus_driver1$ t0(.enbar(1'b0), .in(delay_wires[i-1]), .out(delay_wires[i]));
-        end
-    endgenerate
-
-initial begin
+    initial begin
         $readmemh("Memory/initfiles/pmem_b0c0d0.init", banks[0].bnk.bank_slices[0].dram.cells[0].sram.mem);
         $readmemh("Memory/initfiles/pmem_b0c0d1.init", banks[0].bnk.bank_slices[0].dram.cells[1].sram.mem);
         $readmemh("Memory/initfiles/pmem_b0c0d2.init", banks[0].bnk.bank_slices[0].dram.cells[2].sram.mem);
@@ -365,5 +330,40 @@ initial begin
         $readmemh("Memory/initfiles/pmem_b3c15d3.init", banks[3].bnk.bank_slices[15].dram.cells[3].sram.mem);
         $readmemh("Memory/initfiles/pmem_b3c15d2.init", banks[3].bnk.bank_slices[15].dram.cells[2].sram.mem);
     end
+
+endmodule
+
+
+
+
+module pmem_delays35ns(input undelay_sig,
+                       output delay_sig);
+
+    genvar i;
+    generate
+        wire [6:0] delay_wires;
+        assign delay_wires[0] = undelay_sig;
+        assign delay_sig = delay_wires[6];
+
+        for (i = 1; i < 7; i = i + 1) begin : rw0_delay
+            tristate_bus_driver1$ t0(.enbar(1'b0), .in(delay_wires[i-1]), .out(delay_wires[i]));
+        end
+    endgenerate
+
+endmodule
+
+module pmem_delays110ns(input undelay_sig,
+                       output delay_sig);
+
+    genvar i;
+    generate
+        wire [13:0] delay_wires;
+        assign delay_wires[0] = undelay_sig;
+        assign delay_sig = delay_wires[6];
+
+        for (i = 1; i < 22; i = i + 1) begin : rw0_delay
+            tristate_bus_driver1$ t0(.enbar(1'b0), .in(delay_wires[i-1]), .out(delay_wires[i]));
+        end
+    endgenerate
 
 endmodule
