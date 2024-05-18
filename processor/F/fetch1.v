@@ -45,8 +45,8 @@ module fetch_1 (
     output wire SER_i$_req_e,
     output wire DES_i$_free_o,
     output wire DES_i$_free_e,
-    output wire [3:0] SER_dest_o,
-    output wire [3:0] SER_dest_e,
+    output wire [3:0] destIE,
+    output wire [3:0] destIO,
 
     inout wire [72:0] BUS
     
@@ -129,8 +129,8 @@ I$ icache(
     .SER_i$_req_e(SER_i$_req_e),
     .SER_dest_o(SER_dest_o),
     .SER_dest_e(SER_dest_e),
-    .DES_i$_free_o(DES_i$_free_o),
-    .DES_i$_free_e(DES_i$_free_e),
+    .destIO(destIO),
+    .destIE(destIE),
     .BUS(BUS)
 );
 
@@ -205,13 +205,13 @@ module I$ (
     input SER_i$_ack_e,
     input SER_i$_ack_o,
     //to bau output
-    
+   
     output SER_i$_release_o,
     output SER_i$_req_o,
     output SER_i$_release_e,
     output SER_i$_req_e,
-    output wire [3:0] SER_dest_o,
-    output wire [3:0] SER_dest_e,
+    // output wire [3:0] SER_dest_o,
+    // output wire [3:0] SER_dest_e,
     
     //DES_o
     output DES_i$_free_o,
@@ -257,7 +257,7 @@ wire SER_rw_e;
 
 wire SER_valid_o;
 wire[14:0] SER_pAddress_o;
-wire[2:0] SER_return_o;
+wire[3:0] SER_return_o;
 wire[15:0] SER_size_o;
 wire SER_rw_o;
 
@@ -477,7 +477,7 @@ SER SER_e(
 
     .releases(SER_i$_release_e),
     .req(SER_i$_req_e),
-
+    .dest_bau(destIO),
     .BUS(BUS),
 
     .ack(SER_i$_ack_e)
@@ -506,7 +506,7 @@ SER SER_o(
     .req(SER_i$_req_o),
 
     .BUS(BUS),
-
+    .dest_bau(destIO),
     .ack(SER_i$_ack_o)
 );
 
@@ -546,6 +546,7 @@ DES DES_o(
     .dest(DES_dest_o),
     .rw(DES_rw_o),
     .size(DES_size_o),
+    
     
     .setReciever(DES_i$_reciever_o),
     .free_bau(DES_i$_free_o)
