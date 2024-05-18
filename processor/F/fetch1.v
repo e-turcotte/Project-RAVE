@@ -344,8 +344,10 @@ cacheBank even$(
     .needP1_in(1'b0),
     .oneSize(3'b0),
 
-    .MSHR_HIT(mshr_e_hit),
-    .MSHR_FULL(mshr_e_full),
+    // .MSHR_HIT(mshr_e_hit),
+    .MSHR_HIT(1'b0),
+    // .MSHR_FULL(mshr_e_full),
+    .MSHR_FULL(1'b0),
     
     .SER1_FULL(SER_full_e),
     .SER0_FULL(1'b0),
@@ -416,8 +418,10 @@ cacheBank odd$(
     .needP1_in(1'b0),
     .oneSize(3'b0),
 
-    .MSHR_HIT(mshr_o_hit),
-    .MSHR_FULL(mshr_o_full),
+    // .MSHR_HIT(mshr_o_hit),
+    .MSHR_HIT(1'b0),
+    // .MSHR_FULL(mshr_o_full),
+    .MSHR_FULL(1'b0),
     
     .SER1_FULL(SER_full_o),
     .SER0_FULL(1'b0),
