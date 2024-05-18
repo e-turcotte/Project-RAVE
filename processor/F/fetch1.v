@@ -127,8 +127,8 @@ I$ icache(
     .SER_i$_req_o(SER_i$_req_o),
     .SER_i$_release_e(SER_i$_release_e),
     .SER_i$_req_e(SER_i$_req_e),
-    .SER_dest_o(SER_dest_o),
-    .SER_dest_e(SER_dest_e),
+    .destIO(destIO),
+    .destIE(destIE),
     .destIO(destIO),
     .destIE(destIE),
     .BUS(BUS)
