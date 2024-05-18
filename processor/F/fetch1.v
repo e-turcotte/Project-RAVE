@@ -21,6 +21,8 @@ module fetch_1 (
     input wire SER_i$_grant_o,
     input wire DES_i$_reciever_e,
     input wire DES_i$_reciever_o,
+    input wire SER_i$_ack_e,
+    input wire SER_i$_ack_o,
 
     output wire protection_exception_e,
     output wire TLB_MISS_EXCEPTION_e,    
@@ -123,6 +125,8 @@ I$ icache(
     .SER_i$_grant_o(SER_i$_grant_o),
     .DES_i$_reciever_e(DES_i$_reciever_e),
     .DES_i$_reciever_o(DES_i$_reciever_o),
+    .SER_i$_ack_e(SER_i$_ack_e),
+    .SER_i$_ack_o(SER_i$_ack_o),
     .SER_i$_release_o(SER_i$_release_o),
     .SER_i$_req_o(SER_i$_req_o),
     .SER_i$_release_e(SER_i$_release_e),

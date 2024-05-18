@@ -53,6 +53,8 @@ module fetch_TOP (
     input wire SER_i$_req_e,
     input wire DES_i$_reciever_e,
     input wire DES_i$_reciever_o,
+    input wire SER_i$_ack_e,
+    input wire SER_i$_ack_o,
     input wire DES_i$_free_o,
     input wire DES_i$_free_e,
     output wire [3:0] SER_dest_o,
@@ -119,6 +121,8 @@ module fetch_TOP (
         .SER_i$_grant_o(SER_i$_grant_o),
         .DES_i$_reciever_e(DES_i$_reciever_e),
         .DES_i$_reciever_o(DES_i$_reciever_o),
+        .SER_i$_ack_e(SER_i$_ack_e),
+        .SER_i$_ack_o(SER_i$_ack_o),
 
         .protection_exception_e(protection_exception_e),
         .TLB_MISS_EXCEPTION_e(TLB_MISS_EXCEPTION_e),    

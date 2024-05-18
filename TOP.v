@@ -653,6 +653,8 @@
         .SER_i$_req_e(reqIE),
         .DES_i$_reciever_e(recvIE),
         .DES_i$_reciever_o(recvIO),
+        .SER_i$_ack_e(ackIE),
+        .SER_i$_ack_o(ackIO),
         .DES_i$_free_o(freeIO),
         .DES_i$_free_e(freeIE),
         .SER_dest_o(I$_SER_dest_o),
