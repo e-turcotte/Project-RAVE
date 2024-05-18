@@ -1,6 +1,6 @@
 module cache_stage1(
     input clk,rst, set,
-    input [2:0] cache_id,
+    input [3:0] cache_id,
     
     input  [31:0] vAddress_in,
     input [14:0] pAddress_in,
@@ -58,7 +58,7 @@ assign extAddress = {tag_read, index,4'b0};
 
 tagStore ts(.isW(w), .PTC(PTC) ,.tagData_out_hit(tag_hit), .valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(tWrite), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
 metaStore ms(.clk(clk), .r(r), .rst(rst), .set(set), .valid(valid_out), .way(way), .index(index), .wb(w), .sw(sw), .ex(ex_clr), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
-wayGeneration wg(.LRU(LRU), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid_in), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS2));
+wayGeneration wg(.LRU(LRU),.valid_in(valid_in), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid_in), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS2));
 
 
 and2$ aser0(ser1_stall, SER1_FULL, ex_clr);
