@@ -27,7 +27,7 @@ module fetch_TOP (
     input wire [27:0] BP_FIP_o,
     input wire [27:0] BP_FIP_e,
     input wire [5:0] BP_BIP,
-    input wire [27:0] is_BR_T_NT,
+    input wire is_BR_T_NT,
 
     ////////////////////////////
     // signals from init     //  
@@ -143,8 +143,8 @@ module fetch_TOP (
         .SER_i$_req_e(SER_i$_req_e),
         .DES_i$_free_o(DES_i$_free_o),
         .DES_i$_free_e(DES_i$_free_e),
-        .SER_dest_o(SER_dest_o),
-        .SER_dest_e(SER_dest_e),
+        .destIO(SER_dest_o),
+        .desIE(SER_dest_e),
 
         .BUS(BUS)
     );
