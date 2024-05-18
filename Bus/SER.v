@@ -37,6 +37,7 @@ wire [3:0]  return_bus;
 wire [3:0]  dest_bus;
 wire        rw_bus;
 wire [15:0] size_bus;
+wire [3:0] dest_tri; //done
 
 assign BUS[0] = valid_bus;
 assign BUS[15:1] = pAdr_bus;
@@ -51,7 +52,7 @@ wire valid_tri; //done
 wire [14:0] pAdr_tri; //done
 wire [31:0] data_tri;//done
 wire [3:0]return_tri;//done
-wire [3:0] dest_tri; //done
+
 wire rw_tri; //done
 wire [3:0] size_tri; //done
 
