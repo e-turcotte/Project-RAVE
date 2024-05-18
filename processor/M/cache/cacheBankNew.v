@@ -166,7 +166,7 @@ assign SER_pAddress1 = {pAddress[14:0]};
 //assign SER_valid1 = ex_clr;
 and2$ andSER(SER_valid11, ex_clr, w_not);
 and2$ andser1(SER_valid12, w_not, PCD_IN);
-or2$ andSER21(ser_valid1, SER_valid11, SER_valid12 );
+or2$ andSER21(SER_valid1, SER_valid11, SER_valid12 );
 assign SER_return1 = cache_id;
 assign SER_size1 = 16'h0001;
 assign SER_rw1 = 1'b0;
