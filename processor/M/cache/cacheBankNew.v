@@ -180,6 +180,7 @@ assign EX_vAddress = vAddress;
 assign EX_pAddress = pAddress;
 assign EX_size = size;
 wire [1:0] EX_wake2;
-mux2n #(2) mxWake(EX_wake2, 2'b01, 2'b10, sw);
+
+mux2n #(2) mxWake(EX_wake, {HIT,1'b1}, {1'b1,HIT}, sw);
 
 endmodule

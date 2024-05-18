@@ -27,6 +27,8 @@ module outputAlign(
     output valid_out,
     output [3:0] wake
 );
+wire[1:0] wake1, wake0;
+assign wake[3:0] = {wake1, wake0};
 wire valid0;wire [16*8-1:0] data0;wire [31:0] vAddress0;wire [14:0] pAddress0;wire [1:0] size0;wire cache_stall0;wire cache_miss0;wire oddIsGreater0;wire needP10;wire valid1;wire [16*8-1:0] data1;wire [31:0] vAddress1;wire [14:0] pAddress1;wire [1:0]  size1;wire cache_stall1;wire cache_miss1;wire oddIsGreater1;wire needP11;
 
 and2$ val4(val1, valid1, needP10);
@@ -57,6 +59,7 @@ mux4n #(64) finals(data_out, {{56{sext}},preSext[7:0]},{{48{sext}},preSext[15:0]
 // assign wake0 = valid0;
 // assign wake1 = valid1;
 
+//TODO: GENERATE WAKE BITS
 
 
 
