@@ -55,8 +55,8 @@ module fetch_TOP (
     input wire DES_i$_reciever_o,
     input wire SER_i$_ack_e,
     input wire SER_i$_ack_o,
-    input wire DES_i$_free_o,
-    input wire DES_i$_free_e,
+    output wire DES_i$_free_o,
+    output wire DES_i$_free_e,
     output wire [3:0] SER_dest_o,
     output wire [3:0] SER_dest_e,
 

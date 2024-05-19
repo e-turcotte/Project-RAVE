@@ -37,7 +37,7 @@ module mshr (input [14:0] pAddress,
     generate
         for (i = 0; i < 8; i = i + 1) begin : m_slices
             equaln #(.WIDTH(15)) eq0(.a(dealloc_paddr), .b(issued_reqs[i*24 + 22:i*24 + 8]), .eq(match_vector_recv[i]));
-            and2$ g1(.out(invalidation_vector[i]), .in0(match_vector_recv[i]), .in1(issued_reqs[i*24 + 23]));
+            and3$ g1(.out(invalidation_vector[i]), .in0(match_vector_recv[i]), .in1(issued_reqs[i*24 + 23]), .in2(dealloc));
             equaln #(.WIDTH(15)) eq1(.a(pAddress), .b(issued_reqs[i*24 + 22:i*24 + 8]), .eq(match_vector_send[i]));
             and2$ g2(.out(hit_vector[i]), .in0(match_vector_send[i]), .in1(issued_reqs[i*24 + 23]));
 
