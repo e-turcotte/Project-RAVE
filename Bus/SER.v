@@ -132,6 +132,7 @@ tristate_bus_drivern #(4)  b6(state[3], return_tri,return_bus);
 tristate_bus_drivern #(4)  b3(state[3],   dest_tri,  dest_bus);
 tristate_bus_drivern #(1)  b4(state[3],     rw_tri,    rw_bus);
 tristate_bus_drivern #(4)  b5(state[3],   size_tri[3:0],  size_bus[3:0]);
+tristate_bus_drivern #(12)  b7(state[3],   12'd0,  BUS[72:61]);
 assign size_bus[15:4] = 12'bz;
 endmodule
 

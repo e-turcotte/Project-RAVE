@@ -344,7 +344,7 @@ cacheBank even$(
     .w(DES_full_e),
     .sw(1'b0),
     .valid_in(1'b1),
-    .fromBUS(1'b1), 
+    .fromBUS(DES_full_e), 
     .mask(128'hFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF),
     
     .AQ_isEMPTY(1'b0),
@@ -353,11 +353,11 @@ cacheBank even$(
     .needP1_in(1'b0),
     .oneSize(3'b0),
 
-    // .MSHR_HIT(mshr_e_hit),
-    .MSHR_HIT(1'b0),
-    // .MSHR_FULL(mshr_e_full),
-    .MSHR_FULL(1'b0),
-    
+    .MSHR_HIT(mshr_e_hit),
+    // .MSHR_HIT(1'b0),
+    .MSHR_FULL(mshr_e_full),
+    // .MSHR_FULL(1'b0),
+    // 
     .SER1_FULL(SER_full_e),
     .SER0_FULL(1'b0),
     .PCD_IN(1'b0),
@@ -425,7 +425,7 @@ cacheBank odd$(
     .w(DES_full_o),
     .sw(1'b0),
     .valid_in(1'b1),
-    .fromBUS(1'b1), 
+    .fromBUS(DES_full_o), 
     .mask(128'hFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF),
     
     .AQ_isEMPTY(1'b0),
@@ -434,10 +434,10 @@ cacheBank odd$(
     .needP1_in(1'b0),
     .oneSize(3'b0),
 
-    // .MSHR_HIT(mshr_o_hit),
-    .MSHR_HIT(1'b0),
-    // .MSHR_FULL(mshr_o_full),
-    .MSHR_FULL(1'b0),
+    .MSHR_HIT(mshr_o_hit),
+    // .MSHR_HIT(1'b0),
+    .MSHR_FULL(mshr_o_full),
+    // .MSHR_FULL(1'b0),
     
     .SER1_FULL(SER_full_o),
     .SER0_FULL(1'b0),
