@@ -961,11 +961,13 @@
 
     wire [63:0] reg1_memdf, reg2_memdf, reg3_memdf, reg4_memdf, seg1_memdf, seg2_memdf, seg3_memdf, seg4_memdf;
 
-    bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(4)) memdf(.prospective_data({res4_WB_RRAG_out,res3_WB_RRAG_out,res2_WB_RRAG_out,res1_WB_RRAG_out}), .prospective_ptc({res4_ptcinfo_WB_RRAG_out,res3_ptcinfo_WB_RRAG_out,res2_ptcinfo_WB_RRAG_out,res1_ptcinfo_WB_RRAG_out}),
+    bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(8)) memdf(.prospective_data({res4_WB_RRAG_out,res3_WB_RRAG_out,res2_WB_RRAG_out,res1_WB_RRAG_out}), .prospective_ptc({res4_ptcinfo_WB_RRAG_out,res3_ptcinfo_WB_RRAG_out,res2_ptcinfo_WB_RRAG_out,res1_ptcinfo_WB_RRAG_out}),
                                                             .operand_data({reg4_RrAg_MEM_latch_out,reg3_RrAg_MEM_latch_out,reg2_RrAg_MEM_latch_out,reg1_RrAg_MEM_latch_out,
-                                                                           seg4_RrAg_MEM_latch_out,seg3_RrAg_MEM_latch_out,seg2_RrAg_MEM_latch_out,seg1_RrAg_MEM_latch_out}),
+                                                                           48'h000000000000,seg4_RrAg_MEM_latch_out,48'h000000000000,seg3_RrAg_MEM_latch_out,
+                                                                           48'h000000000000,seg2_RrAg_MEM_latch_out,48'h000000000000,seg1_RrAg_MEM_latch_out}),
                                                             .operand_ptc({ptc_r4_RrAg_MEM_latch_out,ptc_r3_RrAg_MEM_latch_out,ptc_r2_RrAg_MEM_latch_out,ptc_r1_RrAg_MEM_latch_out,
-                                                                          ptc_s4_RrAg_MEM_latch_out,ptc_s3_RrAg_MEM_latch_out,ptc_s2_RrAg_MEM_latch_out,ptc_s1_RrAg_MEM_latch_out}),
+                                                                          96'h000000000000000000000000,ptc_s4_RrAg_MEM_latch_out,96'h000000000000000000000000,ptc_s3_RrAg_MEM_latch_out,
+                                                                          96'h000000000000000000000000,ptc_s2_RrAg_MEM_latch_out,96'h000000000000000000000000,ptc_s1_RrAg_MEM_latch_out}),
                                                             .new_data({reg4_memdf,reg3_memdf,reg2_memdf,reg1_memdf,seg4_memdf,seg3_memdf,seg2_memdf,seg1_memdf}), .modify());
 
     mem m1 (
@@ -989,10 +991,10 @@
         .reg2_orig(reg2_orig_RrAg_MEM_latch_out),
         .reg3_orig(reg3_orig_RrAg_MEM_latch_out),
         .reg4_orig(reg4_orig_RrAg_MEM_latch_out),
-        .seg1(seg1_memdf),
-        .seg2(seg2_memdf),
-        .seg3(seg3_memdf),
-        .seg4(seg4_memdf),
+        .seg1(seg1_memdf[15:0]),
+        .seg2(seg2_memdf[15:0]),
+        .seg3(seg3_memdf[15:0]),
+        .seg4(seg4_memdf[15:0]),
         .ptc_s1(ptc_s1_RrAg_MEM_latch_out),
         .ptc_s2(ptc_s2_RrAg_MEM_latch_out),
         .ptc_s3(ptc_s3_RrAg_MEM_latch_out),
@@ -1106,10 +1108,10 @@
     wire [6:0] old_inst_ptcid [0:7];
     wire [3:0] old_wake [0:7], new_wake [0:7];
     wire [255:0] old_ops [0:7], new_ops [0:7];
-    wire [512:0] old_op_ptcinfos [0:7];
+    wire [511:0] old_op_ptcinfos [0:7];
     wire old_valid [0:7], new_valid [0:7];
 
-    wire [m_size_MEM_EX-1:0] new_m_M_EX, old_m_M_EX;
+    wire [m_size_MEM_EX*8-1:0] new_m_M_EX, old_m_M_EX;
     wire [7:0] modify_M_EX_latch;
 
     wire [6:0] cache_ptcid;
@@ -1128,12 +1130,12 @@
 
             assign new_m_M_EX = {old_inst_ptcid[i],new_wake[i],new_ops[i],old_op_ptcinfos[i],new_valid[i]};
 
-            wire [7:0] mod_vect;
+            wire [3:0] mod_vect;
 
             //TODO: add bus values to prospect list
             bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(4)) mexqdf(.prospective_data({res4_WB_RRAG_out,res3_WB_RRAG_out,res2_WB_RRAG_out,res1_WB_RRAG_out}), .prospective_ptc({res4_ptcinfo_WB_RRAG_out,res3_ptcinfo_WB_RRAG_out,res2_ptcinfo_WB_RRAG_out,res1_ptcinfo_WB_RRAG_out}),
                                                                      .operand_data({old_ops[i]}), .operand_ptc({old_op_ptcinfos[i]}),
-                                                                        .new_data({new_ops[i]}), .modify(mod_vect));
+                                                                     .new_data({new_ops[i]}), .modify(mod_vect));
 
             equaln #(.WIDTH(7)) eq123(.a(old_inst_ptcid[i]), .b(cache_ptcid), .eq(cache_qslot[i]));
 
@@ -1151,7 +1153,7 @@
             or3$ gx2(.out(new_wake[i][2]), .in0(old_wake[i][2]), .in1(guarded_cache_wake[i][2]), .in2(guarded_mshr_wake[i][2]));
             or3$ gx3(.out(new_wake[i][3]), .in0(old_wake[i][3]), .in1(guarded_cache_wake[i][3]), .in2(guarded_mshr_wake[i][3]));
 
-            orn #(.NUM_INPUTS(8)) or0(.in(mod_vect), .out(modify_M_EX_latch[i]));
+            orn #(.NUM_INPUTS(4)) or0(.in(mod_vect), .out(modify_M_EX_latch[i]));
         end
     endgenerate
 
