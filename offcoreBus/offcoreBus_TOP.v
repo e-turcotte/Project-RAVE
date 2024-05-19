@@ -67,7 +67,7 @@ pmem_TOP  pmem(
     .bus_clk(clk_bus),
     .clr(rst),
     .BUS(BUS),
-
+    .destB({destB3, destB2, destB1, destB0}),
     .freeB({freeB3, freeB2, freeB1,freeB0}),
     .relB({relB3, relB2, relB1,relB0}),
     .reqB({reqB3, reqB2, reqB1,reqB0})

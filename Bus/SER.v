@@ -55,11 +55,11 @@ wire [3:0]return_tri;//done
 
 wire rw_tri; //done
 wire [3:0] size_tri; //done
-
+wire state0_inp;
 //Full/free
 assign free_block = state[0];
 inv1$ invFull(full_block, free_block);
-assign releases = size_tri[0];
+
 assign req = state[1];
 
 //Handle the loading of data
@@ -121,7 +121,7 @@ regn #(1) r9 (state1_in, state1_ld, rst, clk_bus, state[1]);
 
 mux2$ g0(.outb(state0_in), .in0(state[0]), .in1(state0_inp), .s0(state0_ld));
 dff$ g1(.clk(clk_bus), .d(state0_in), .q(state[0]), .qbar(), .r(1'b1), .s(rst));
-
+assign releases = state0_inp;
 ///////////////////
 //Tristate Handler
 ///////////////////

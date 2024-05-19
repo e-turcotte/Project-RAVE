@@ -9,7 +9,9 @@ module pmem_TOP (input [3:0] recvB,
                  
                  output [3:0] freeB,
                  output [3:0] relB,
-                 output [3:0] reqB);
+                 output [3:0] reqB,
+                 output [15:0] destB
+                 );
 
     wire [59:0] addr;
     wire [3:0] rw;
@@ -63,6 +65,7 @@ module pmem_TOP (input [3:0] recvB,
                   .valid_in(ser_read[i]), .pAdr_in(addr[(i+1)*15-1:i*15]), .data_in(dout[(i+1)*128-1:i*128]),
                   .dest_in(send[3:0]), .return_in(bnkid), .rw_in(1'b1),
                   .size_in(16'h8000),
+                  .dest_bau(destB[i*4+3:i*4]),
                   .full_block(), .free_block(ser_empty[i]),
                   .grant(grantB[i]), .ack(ackB[i]), .releases(relB[i]), .req(reqB[i]), .BUS(BUS));
         
