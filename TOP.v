@@ -536,8 +536,8 @@
         
         .freeIE(freeIE),
         .freeIO(freeIO),
-        .freeDE(freeDE),
-        .freeDO(freeDO),
+        .freeDE(1'b1),
+        .freeDO(1'b1),
         .reqIE(reqIE),
         .reqIO(reqIO),
         .reqDEr(1'b0),//tied to 0 for testing
@@ -546,36 +546,36 @@
         .reqDOw(1'b0),//tied to 0 for testing
         .relIE(relIE),
         .relIO(relIO), 
-        .relDEr(relDEr), 
-        .relDEw(relDEw), 
-        .relDOr(relDOr), 
-        .relDOw(relDOw),
+        .relDEr(1'b0), 
+        .relDEw(1'b0), 
+        .relDOr(1'b0), 
+        .relDOw(1'b0),
 
         .destIE(I$_SER_dest_e), 
         .destIO(I$_SER_dest_o), 
-        .destDEr(destDEr),
-        .destDEw(destDEw), 
-        .destDOr(destDOr), 
-        .destDOw(destDOw),
+        .destDEr(4'd0),
+        .destDEw(4'd0), 
+        .destDOr(4'd0), 
+        .destDOw(4'd0),
 
         .BUS(BUS),
 
         .ackIE(ackIE), 
         .ackIO(ackIO), 
-        .ackDEr(ackDEr), 
-        .ackDEw(ackDEw), 
-        .ackDOr(ackDOr), 
-        .ackDOw(ackDOw),
+        .ackDEr(1'd0), 
+        .ackDEw(1'd0), 
+        .ackDOr(1'd0), 
+        .ackDOw(1'd0),
         .grantIE(grantIE), 
         .grantIO(grantIO), 
-        .grantDEr(grantDEr), 
-        .grantDEw(grantDEw), 
-        .grantDOr(grantDOr), 
-        .grantDOw(grantDOw),
+        .grantDEr(1'd0), 
+        .grantDEw(1'd0), 
+        .grantDOr(1'd0), 
+        .grantDOw(1'd0),
         .recvIE(recvIE), 
         .recvIO(recvIO), 
-        .recvDE(recvDE), 
-        .recvDO(recvDO)
+        .recvDE(1'd0), 
+        .recvDO(1'd0)
     );
 
     IE_handler IDTR(
