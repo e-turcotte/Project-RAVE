@@ -31,18 +31,30 @@ module brq (input [87:0] req_data,
 
     
     wire [8:0] rout [10:0];
+    wire [9:0] valid_pass;
+
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) mr0(.in({1'b0,rout[0][8]}), .sel(arb_rd_vector[0]), .out(valid_pass[0]));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) mr1(.in({1'b0,rout[1][8]}), .sel(arb_rd_vector[1]), .out(valid_pass[1]));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) mr2(.in({1'b0,rout[2][8]}), .sel(arb_rd_vector[2]), .out(valid_pass[2]));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) mr3(.in({1'b0,rout[3][8]}), .sel(arb_rd_vector[3]), .out(valid_pass[3]));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) mr4(.in({1'b0,rout[4][8]}), .sel(arb_rd_vector[4]), .out(valid_pass[4]));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) mr5(.in({1'b0,rout[5][8]}), .sel(arb_rd_vector[5]), .out(valid_pass[5]));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) mr6(.in({1'b0,rout[6][8]}), .sel(arb_rd_vector[6]), .out(valid_pass[6]));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) mr7(.in({1'b0,rout[7][8]}), .sel(arb_rd_vector[7]), .out(valid_pass[7]));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) mr8(.in({1'b0,rout[8][8]}), .sel(arb_rd_vector[8]), .out(valid_pass[8]));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) mr9(.in({1'b0,rout[9][8]}), .sel(arb_rd_vector[9]), .out(valid_pass[9]));
 
     regn #(.WIDTH(9)) r0(.din({incoming_reqs,req_in}), .ld(rld[0]), .clr(clr), .clk(clk), .dout(rout[0]));
-    regn #(.WIDTH(9)) r1(.din(rout[0]), .ld(rld[1]), .clr(clr), .clk(clk), .dout(rout[1]));
-    regn #(.WIDTH(9)) r2(.din(rout[1]), .ld(rld[2]), .clr(clr), .clk(clk), .dout(rout[2]));
-    regn #(.WIDTH(9)) r3(.din(rout[2]), .ld(rld[3]), .clr(clr), .clk(clk), .dout(rout[3]));
-    regn #(.WIDTH(9)) r4(.din(rout[3]), .ld(rld[4]), .clr(clr), .clk(clk), .dout(rout[4]));
-    regn #(.WIDTH(9)) r5(.din(rout[4]), .ld(rld[5]), .clr(clr), .clk(clk), .dout(rout[5]));
-    regn #(.WIDTH(9)) r6(.din(rout[5]), .ld(rld[6]), .clr(clr), .clk(clk), .dout(rout[6]));
-    regn #(.WIDTH(9)) r7(.din(rout[6]), .ld(rld[7]), .clr(clr), .clk(clk), .dout(rout[7]));
-    regn #(.WIDTH(9)) r8(.din(rout[7]), .ld(rld[8]), .clr(clr), .clk(clk), .dout(rout[8]));
-    regn #(.WIDTH(9)) r9(.din(rout[8]), .ld(rld[9]), .clr(clr), .clk(clk), .dout(rout[9]));
-    regn #(.WIDTH(9)) r10(.din(rout[9]), .ld(rld[10]), .clr(clr), .clk(clk), .dout(rout[10]));
+    regn #(.WIDTH(9)) r1(.din({valid_pass[0],rout[0][7:0]}), .ld(rld[1]), .clr(clr), .clk(clk), .dout(rout[1]));
+    regn #(.WIDTH(9)) r2(.din({valid_pass[1],rout[1][7:0]}), .ld(rld[2]), .clr(clr), .clk(clk), .dout(rout[2]));
+    regn #(.WIDTH(9)) r3(.din({valid_pass[2],rout[2][7:0]}), .ld(rld[3]), .clr(clr), .clk(clk), .dout(rout[3]));
+    regn #(.WIDTH(9)) r4(.din({valid_pass[3],rout[3][7:0]}), .ld(rld[4]), .clr(clr), .clk(clk), .dout(rout[4]));
+    regn #(.WIDTH(9)) r5(.din({valid_pass[4],rout[4][7:0]}), .ld(rld[5]), .clr(clr), .clk(clk), .dout(rout[5]));
+    regn #(.WIDTH(9)) r6(.din({valid_pass[5],rout[5][7:0]}), .ld(rld[6]), .clr(clr), .clk(clk), .dout(rout[6]));
+    regn #(.WIDTH(9)) r7(.din({valid_pass[6],rout[6][7:0]}), .ld(rld[7]), .clr(clr), .clk(clk), .dout(rout[7]));
+    regn #(.WIDTH(9)) r8(.din({valid_pass[7],rout[7][7:0]}), .ld(rld[8]), .clr(clr), .clk(clk), .dout(rout[8]));
+    regn #(.WIDTH(9)) r9(.din({valid_pass[8],rout[8][7:0]}), .ld(rld[9]), .clr(clr), .clk(clk), .dout(rout[9]));
+    regn #(.WIDTH(9)) r10(.din({valid_pass[9],rout[9][7:0]}), .ld(rld[10]), .clr(clr), .clk(clk), .dout(rout[10]));
 
     wire [10:0] ready_vector;
     wire [10:0] invvalid;
