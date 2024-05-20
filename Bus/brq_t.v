@@ -89,17 +89,17 @@ module TOP;
     end
 
     always @(posedge clk) begin
-        $display("R10: 0x%h", m0.rout[10]);
-        $display("R9:  0x%h", m0.rout[9]);
-        $display("R8:  0x%h", m0.rout[8]);
-        $display("R7:  0x%h", m0.rout[7]);
-        $display("R6:  0x%h", m0.rout[6]);
-        $display("R5:  0x%h", m0.rout[5]);
-        $display("R4:  0x%h", m0.rout[4]);
-        $display("R3:  0x%h", m0.rout[3]);
-        $display("R2:  0x%h", m0.rout[2]);
-        $display("R1:  0x%h", m0.rout[1]);
-        $display("R0:  0x%h", m0.rout[0]);
+        $display("BRQ10: 0x%h", m0.rout[10]);
+        $display("BRQ9:  0x%h", m0.rout[9]);
+        $display("BRQ8:  0x%h", m0.rout[8]);
+        $display("BRQ7:  0x%h", m0.rout[7]);
+        $display("BRQ6:  0x%h", m0.rout[6]);
+        $display("BRQ5:  0x%h", m0.rout[5]);
+        $display("BRQ4:  0x%h", m0.rout[4]);
+        $display("BRQ3:  0x%h", m0.rout[3]);
+        $display("BRQ2:  0x%h", m0.rout[2]);
+        $display("BRQ1:  0x%h", m0.rout[1]);
+        $display("BRQ0:  0x%h", m0.rout[0]);
         $display("\n");
     end
 

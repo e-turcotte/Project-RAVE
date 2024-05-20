@@ -103,4 +103,31 @@ module bus_TOP(input reqIE, reqIO, reqDEr, reqDEw, reqDOr, reqDOw, reqB0, reqB1,
            .recvB0(recvB0), .recvB1(recvB1), .recvB2(recvB2), .recvB3(recvB3),
            .recvDMA(recvDMA));
 
+    integer cyc_cnt;
+    integer file;
+
+    initial begin
+        cyc_cnt = 0;
+        file = $fopen("bus.out", "w");
+    end
+
+    always @(posedge clk) begin
+        $fdisplay(file, "bus cycle number: %d", cyc_cnt);
+        cyc_cnt = cyc_cnt + 1;
+
+        $fdisplay(file, "BUS GRANT VECTOR: %b", {grantIE,grantIO,grantDEr,grantDOr,grantDEw,grantDOw,grantB0,grantB1,grantB2,grantB3,grantDMA})
+        $fdisplay(file, "BRQ10: 0x%h", q0.rout[10]);
+        $fdisplay(file, "BRQ9:  0x%h", q0.rout[9]);
+        $fdisplay(file, "BRQ8:  0x%h", q0.rout[8]);
+        $fdisplay(file, "BRQ7:  0x%h", q0.rout[7]);
+        $fdisplay(file, "BRQ6:  0x%h", q0.rout[6]);
+        $fdisplay(file, "BRQ5:  0x%h", q0.rout[5]);
+        $fdisplay(file, "BRQ4:  0x%h", q0.rout[4]);
+        $fdisplay(file, "BRQ3:  0x%h", q0.rout[3]);
+        $fdisplay(file, "BRQ2:  0x%h", q0.rout[2]);
+        $fdisplay(file, "BRQ1:  0x%h", q0.rout[1]);
+        $fdisplay(file, "BRQ0:  0x%h", q0.rout[0]);
+        $fdisplay(file, "\n");
+    end
+
 endmodule
