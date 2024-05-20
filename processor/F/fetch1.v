@@ -131,6 +131,8 @@ I$ icache(
     .SER_i$_req_o(SER_i$_req_o),
     .SER_i$_release_e(SER_i$_release_e),
     .SER_i$_req_e(SER_i$_req_e),
+    .DES_i$_free_o(DES_i$_free_o),
+    .DES_i$_free_e(DES_i$_free_e),
     .destIO(destIO),
     .destIE(destIE),
     .BUS(BUS)
