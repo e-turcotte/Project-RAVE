@@ -115,7 +115,7 @@ module bus_TOP(input reqIE, reqIO, reqDEr, reqDEw, reqDOr, reqDOw, reqB0, reqB1,
         $fdisplay(file, "bus cycle number: %d", cyc_cnt);
         cyc_cnt = cyc_cnt + 1;
 
-        $fdisplay(file, "BUS GRANT VECTOR: %b", {grantIE,grantIO,grantDEr,grantDOr,grantDEw,grantDOw,grantB0,grantB1,grantB2,grantB3,grantDMA})
+        $fdisplay(file, "BUS GRANT VECTOR: %b", {grantIE,grantIO,grantDEr,grantDOr,grantDEw,grantDOw,grantB0,grantB1,grantB2,grantB3,grantDMA});
         $fdisplay(file, "BRQ10: 0x%h", q0.rout[10]);
         $fdisplay(file, "BRQ9:  0x%h", q0.rout[9]);
         $fdisplay(file, "BRQ8:  0x%h", q0.rout[8]);
