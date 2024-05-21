@@ -55,10 +55,13 @@ assign tag_in = pAddress_in[14:7];
 
 assign extAddress = {tag_read, index,4'b0};
 
-
+or2$ mvswr(smalls, r, sw); //TODO: Possible i$ d$ change
+nand3$ mvW(meta_validW, smalls, MSHR_MISS, valid_out);
+nand2$ mvR(meta_validR, HIT, valid_out);
+nand2$  mvVal(meta_valid, meta_validR, meta_validW);
 tagStore ts(.isW(w), .PTC(PTC) ,.tagData_out_hit(tag_hit), .valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(tWrite), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
-metaStore ms(.clk(clk), .r(r), .rst(rst), .set(set), .valid(valid_out), .way(way), .index(index), .wb(w), .sw(sw), .ex(ex_clr), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
-wayGeneration wg(.LRU(LRU),.valid_in(valid_in), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid_in), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS2));
+metaStore ms(.clk(clk), .r(r), .rst(rst), .set(set), .valid(meta_valid), .way(way), .index(index), .wb(w), .sw(sw), .ex(ex_clr), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
+wayGeneration wg(.LRU(LRU),.valid_in(valid_in), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS2));
 
 
 and2$ aser0(ser1_stall, SER1_FULL, ex_clr);
@@ -92,7 +95,9 @@ regn #(4) r1(.din(way), .ld(1'b1), .clr(rst), .clk(clkn), .dout(way_out));
 // regn #(8) r2(.din(tag_in), .ld(1'b1), .clr(rst), .clk(clkn), .dout(tag_data_in));
 regn #(8) r3(.din(tag_in), .ld(1'b1), .clr(rst), .clk(clkn), .dout(tag_data_read));
 
-pulseGen pgT(clk, writeTag_out, tWrite);
+and2$ twhope(tWrite, MSHR_MISS, tWrite2); //TODO: MAKE SURE IT DOESNT BREAK ANYTHING
+
+pulseGen pgT(clk, writeTag_out, tWrite2);
 pulseGen pgD(clk, writeData_out, dWrite);
 
 

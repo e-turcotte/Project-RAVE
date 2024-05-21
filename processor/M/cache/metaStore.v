@@ -2,7 +2,7 @@ module metaStore(
     input clk,    
     input rst, set,
     input valid,
-
+    
     input[3:0] way,
     input[1:0] index,
 
