@@ -94,8 +94,8 @@ select_address_ICache #(.PARITY(1)) sel_odd(.clk(clk), .init_FIP(init_FIP_o[31:4
 select_address_ICache #(.PARITY(0)) sel_even(.clk(clk), .init_FIP(init_FIP_e[31:4]), .BP_FIP(BP_FIP_e), .WB_FIP(WB_FIP_e), .sel_CF(select_CF_mux), .ld_FIP_reg(ld_FIP_reg_even), 
                                        .clr_FIP_reg(reset), .is_ctrl_flow(is_CF), .output_addr(FIP_e));
 
-assign FIP_o_lsb = FIP_o[5:4];
-assign FIP_e_lsb = FIP_e[5:4];
+assign FIP_o_lsb = FIP_o[1:0];
+assign FIP_e_lsb = FIP_e[1:0];
 
 
 I$ icache(
