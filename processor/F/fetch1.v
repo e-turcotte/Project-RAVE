@@ -327,8 +327,8 @@ inv1$ invx(DES_full_ne, DES_full_e);
 inv1$ inx(DES_full_no, DES_full_o);
 
 wire DES_full_e_notbuf, DES_full_o_notbuf;
-regn #(1) r0(DES_full_e_notbuf, 1'b1, clk, reset, DES_full_e); 
-regn #(1) r0asdfasf(DES_full_o_notbuf, 1'b1, clk, reset, DES_full_o); 
+regn #(1) r0(DES_full_e_notbuf, 1'b1, reset, clk, DES_full_e); 
+regn #(1) r0asdfasf(DES_full_o_notbuf, 1'b1, reset, clk, DES_full_o); 
 
 wire mshr_e_hit, mshr_e_full, mshr_e_write;
 wire [14:0] mshr_e_paddr;
@@ -548,7 +548,7 @@ DES DES_e(
     .clk_core(clk),
     .set(set), .rst(reset),
 
-    .read(DES_full_e),
+    .read(DES_full_e_notbuf),
 
     .BUS(BUS),
     
@@ -569,7 +569,7 @@ DES DES_o(
     .clk_core(clk),
     .set(set), .rst(reset),
 
-    .read(DES_full_o),
+    .read(DES_full_o_notbuf),
 
     .BUS(BUS),
     
