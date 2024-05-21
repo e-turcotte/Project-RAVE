@@ -544,10 +544,11 @@ SER SER_o(
 );
 
 DES DES_e(
-    .read(DES_read_e),
     .clk_bus(clock_bus),
     .clk_core(clk),
     .set(set), .rst(reset),
+
+    .read(DES_full_e),
 
     .BUS(BUS),
     
@@ -568,7 +569,7 @@ DES DES_o(
     .clk_core(clk),
     .set(set), .rst(reset),
 
-    .read(DES_read_o),
+    .read(DES_full_o),
 
     .BUS(BUS),
     
