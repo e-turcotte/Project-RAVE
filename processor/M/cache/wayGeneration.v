@@ -9,7 +9,6 @@ module wayGeneration(
     input missMSHR,
     input valid,
     input PCD_in,
-
     output ex_wb, ex_clr, stall, 
     output[3:0] way, 
     output D_out, V_out, PTC_out,
