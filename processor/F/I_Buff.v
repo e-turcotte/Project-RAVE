@@ -244,19 +244,34 @@ inv1$ i1(.out(not_v_01), .in(v_01));
 inv1$ i2(.out(not_v_10), .in(v_10));
 inv1$ i3(.out(not_v_11), .in(v_11));
 
-wire any_evens_avail, any_odds_avail; // 0.15 + 0.35 = 0.5 for each of these
-orn #(2) o0(.in({not_v_00, not_v_10}), .out(any_evens_avail));
-orn #(2) o1(.in({not_v_01, not_v_11}), .out(any_odds_avail));
+// wire any_evens_avail, any_odds_avail; // 0.15 + 0.35 = 0.5 for each of these
+// orn #(2) o0(.in({not_v_00, not_v_10}), .out(any_evens_avail));
+// orn #(2) o1(.in({not_v_01, not_v_11}), .out(any_odds_avail));
 
-wire all_odds_not_avail, all_evens_not_avail; // 0.5 + 0.4 for each of these
-andn #(3) a0(.in({v_00, v_10, any_evens_avail}), .out(move_to_even));
-andn #(3) a1(.in({v_01, v_11, any_odds_avail}), .out(move_to_odd));
+// wire all_odds_not_avail, all_evens_not_avail; // 0.5 + 0.4 for each of these
+// andn #(3) a0(.in({v_00, v_10, any_evens_avail}), .out(move_to_even));
+// andn #(3) a1(.in({v_01, v_11, any_odds_avail}), .out(move_to_odd));
 
 wire buff_00_01, buff_01_10, buff_10_11, buff_11_00; // 0.15 + 0.35 = 0.5 for each of these
 andn #(2) a4(.in({not_v_00, not_v_01}), .out(buff_00_01));
 andn #(2) a5(.in({not_v_01, not_v_10}), .out(buff_01_10));
 andn #(2) a6(.in({not_v_10, not_v_11}), .out(buff_10_11));
 andn #(2) a7(.in({not_v_11, not_v_00}), .out(buff_11_00));
+
+wire not_buff_00_01, not_buff_01_10, not_buff_10_11, not_buff_11_00;
+inv1$ i4(.out(not_buff_00_01), .in(buff_00_01));
+inv1$ i5(.out(not_buff_01_10), .in(buff_01_10));
+inv1$ i6(.out(not_buff_10_11), .in(buff_10_11));
+inv1$ i7(.out(not_buff_11_00), .in(buff_11_00));
+
+wire even_00, even_10, odd_01, odd_11;
+andn #(3) a8(.in({v_00, not_buff_00_01, not_buff_11_00}), .out(even_00));
+andn #(3) a9(.in({v_10, not_buff_01_10, not_buff_10_11}), .out(even_10));
+andn #(3) a10(.in({v_01, not_buff_00_01, not_buff_01_10}), .out(odd_01));
+andn #(3) a11(.in({v_11, not_buff_11_00, not_buff_10_11}), .out(odd_11));
+
+orn #(2) o2wer(.out(move_to_even), .in({even_00, even_10}));
+orn #(2) o3(.out(move_to_odd), .in({odd_01, odd_11}));
 
 //prob < 0.5 + 0.5 for this
 orn #(4) o2(.in({buff_00_01, buff_01_10, buff_10_11, buff_11_00}), .out(move_to_both));
