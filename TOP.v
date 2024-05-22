@@ -682,7 +682,11 @@
 
     );
 
+    wire F_D_latch_LD;
+    inv1$ eddiesmassivetushy(.out(F_D_latch_LD), .in(D_stall_out));
+
     F_D_latch f1(
+        .ld(F_D_latch_LD),
         .clk(clk),
         .clr(global_reset),
 
