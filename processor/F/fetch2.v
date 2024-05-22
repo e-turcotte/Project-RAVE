@@ -135,15 +135,16 @@ module fetch_2 (
     
 endmodule
 
-module reverse_bit_vector (
+module reverse_bit_vector_by_bytes (
     input wire [127:0] in,
     output wire [127:0] out
 );
 
 genvar i;
 generate
-    for(i = 0; i < 128; i = i + 1)begin
-        assign out[i] = in[127-i];
+
+    for(i = 0; i < 16; i = i + 1)begin
+        assign out[8*(i+1)-1:8*i] = in[128-8*i-1:128-8*(i+1)];
     end
 endgenerate
     
