@@ -122,7 +122,7 @@ cache_stage1 cs1(.clk(clk),
   .r(r), 
   .w(w), 
   .sw(sw),
-  .valid_in(valid_in),
+  .valid_in1(valid_in),
   .fromBUS(fromBUS),
   .PTC_ID_IN(PTC_ID_IN),
   .data_in(data),
@@ -146,7 +146,7 @@ cache_stage1 cs1(.clk(clk),
 //Handle MSHR
 inv1$ msn(MSHR_MISS, MSHR_HIT);
 assign MSHR_pAddress = pAddress;
-and3$ msh(MSHR_alloc, valid_in, MISS, MSHR_MISS); //TODO: was and2$ msh(MSHR_alloc, valid, MISS, MSHR_MISS);  not really sure if I fixed this correctly
+and4$ msh(MSHR_alloc, valid_in, rst, MISS, MSHR_MISS); //TODO: was and2$ msh(MSHR_alloc, valid, MISS, MSHR_MISS);  not really sure if I fixed this correctly
 assign MSHR_rdsw = sw;
 and2$ mshD(MSHR_dealloc, valid_in, fromBUS);
 assign MSHR_ptcid = PTC_ID_IN;
@@ -166,9 +166,9 @@ mux2n #(4)  abc(SER_dest0,{2'b10,pAddress[5],pAddress[4]}, 4'b1100, PCD_IN);
 
 assign SER_pAddress1 = {pAddress[14:0]};
 //assign SER_valid1 = ex_clr;
-and2$ andSER(SER_valid11, ex_clr, w_not);
-and2$ andser1(SER_valid12, w_not, PCD_IN);
-or2$ andSER21(SER_valid1, SER_valid11, SER_valid12 );
+nand3$ andSER(SER_valid11, ex_clr, w_not,rst);
+nand3$ andser1(SER_valid12, w_not, PCD_IN,rst);
+nand2$ andSER21(SER_valid1, SER_valid11, SER_valid12 );
 assign SER_return1 = cache_id;
 assign SER_size1 = 16'h1000;
 assign SER_rw1 = 1'b0;

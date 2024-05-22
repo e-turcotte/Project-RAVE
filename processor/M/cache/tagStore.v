@@ -35,7 +35,7 @@ wire [3:0] buf1, buf2, buf3, buf4, buf5, buf6, buf7, buf8, buf9, buf10, buf11, b
 generate
     for(i = 0; i <4; i =  i+1) begin : writeGen
         inv1$ in(way_n[i], way[i]);
-        or3$ orin(write[i], w, valid_n, way_n[i]);
+        or3$ orin(write[i], w, valid_n, way_n[i]); //TODO:LOOK AT PLZ
         bufferH16$ b16(w_v[i], write[i]);;
     end
 endgenerate

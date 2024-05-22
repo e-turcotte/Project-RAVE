@@ -5,7 +5,7 @@ module cache_stage1(
     input  [31:0] vAddress_in,
     input [14:0] pAddress_in,
     input  r,w,sw,
-    input  valid_in,
+    input  valid_in1,
     input  fromBUS, 
     input  [6:0] PTC_ID_IN,
     input [16*8-1:0] data_in,
@@ -31,6 +31,7 @@ module cache_stage1(
 
 );
 
+and2$ valchk(valid_in, valid_in1, rst);
 
 wire[1:0] index; wire stall1, stall2, stall3;
 wire[16*8*4-1:0] data_dump;
@@ -56,10 +57,11 @@ assign tag_in = pAddress_in[14:7];
 assign extAddress = {tag_read, index,4'b0};
 
 or2$ mvswr(smalls, r, sw); //TODO: Possible i$ d$ change
-nand3$ mvW(meta_validW, smalls, MSHR_MISS, valid_out);
-nand2$ mvR(meta_validR, HIT, valid_out);
-nand2$  mvVal(meta_valid, meta_validR, meta_validW);
-tagStore ts(.isW(w), .PTC(PTC) ,.tagData_out_hit(tag_hit), .valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(tWrite), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
+nand4$ mvW(meta_validW, smalls, MSHR_MISS, valid_out,rst);
+nand3$ mvR(meta_validR, HIT, valid_out,rst);
+nand2$  mvVal(meta_validt, meta_validR, meta_validW);
+or2$ plzw(meta_valid, meta_validt, fromBUS);
+tagStore ts(.isW(w), .PTC(PTC) ,.tagData_out_hit(tag_hit), .valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(~(~tWrite & rst)), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
 metaStore ms(.clk(clk), .r(r), .rst(rst), .set(set), .valid(meta_valid), .way(way), .index(index), .wb(w), .sw(sw), .ex(ex_clr), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
 wayGeneration wg(.LRU(LRU),.valid_in(valid_in), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS2));
 
@@ -95,10 +97,10 @@ regn #(4) r1(.din(way), .ld(1'b1), .clr(rst), .clk(clkn), .dout(way_out));
 // regn #(8) r2(.din(tag_in), .ld(1'b1), .clr(rst), .clk(clkn), .dout(tag_data_in));
 regn #(8) r3(.din(tag_in), .ld(1'b1), .clr(rst), .clk(clkn), .dout(tag_data_read));
 
-and2$ twhope(tWrite, MSHR_MISS, tWrite2); //TODO: MAKE SURE IT DOESNT BREAK ANYTHING
+//and2$ twhope(tWrite, MSHR_MISS, tWrite2); //TODO: MAKE SURE IT DOESNT BREAK ANYTHING
 
-pulseGen pgT(clk, writeTag_out, tWrite2);
-pulseGen pgD(clk, writeData_out, dWrite);
+pulseGen pgT(clk, writeTag_out, rst, tWrite);
+pulseGen pgD(clk, writeData_out,rst, dWrite);
 
 
 dataStore ds(.clk(clk), 
