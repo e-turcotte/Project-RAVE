@@ -107,10 +107,10 @@ module fetch_2 (
     );
 
     wire [127:0] line_00_reverse, line_01_reverse, line_10_reverse, line_11_reverse;
-    reverse_bit_vector rbv0(.in(line_00), .out(line_00_reverse));
-    reverse_bit_vector rbv1(.in(line_01), .out(line_01_reverse));
-    reverse_bit_vector rbv2(.in(line_10), .out(line_10_reverse));
-    reverse_bit_vector rbv3(.in(line_11), .out(line_11_reverse));
+    reverse_bit_vector_by_bytes rbv0(.in(line_00), .out(line_00_reverse));
+    reverse_bit_vector_by_bytes rbv1(.in(line_01), .out(line_01_reverse));
+    reverse_bit_vector_by_bytes rbv2(.in(line_10), .out(line_10_reverse));
+    reverse_bit_vector_by_bytes rbv3(.in(line_11), .out(line_11_reverse));
 
     wire [127:0] packet_IBuff_out;
     rotate_I_Buff rib(
@@ -142,7 +142,6 @@ module reverse_bit_vector_by_bytes (
 
 genvar i;
 generate
-
     for(i = 0; i < 16; i = i + 1)begin
         assign out[8*(i+1)-1:8*i] = in[128-8*i-1:128-8*(i+1)];
     end
