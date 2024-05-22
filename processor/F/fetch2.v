@@ -106,25 +106,46 @@ module fetch_2 (
         .valid_rotate(packet_out_valid)
     );
 
+    wire [127:0] line_00_reverse, line_01_reverse, line_10_reverse, line_11_reverse;
+    reverse_bit_vector_by_bytes rbv0(.in(line_00), .out(line_00_reverse));
+    reverse_bit_vector_by_bytes rbv1(.in(line_01), .out(line_01_reverse));
+    reverse_bit_vector_by_bytes rbv2(.in(line_10), .out(line_10_reverse));
+    reverse_bit_vector_by_bytes rbv3(.in(line_11), .out(line_11_reverse));
+
     wire [127:0] packet_IBuff_out;
     rotate_I_Buff rib(
-        .line_00_in(line_00),
-        .line_01_in(line_01),
-        .line_10_in(line_10),
-        .line_11_in(line_11),
+        .line_00_in(line_00_reverse),
+        .line_01_in(line_01_reverse),
+        .line_10_in(line_10_reverse),
+        .line_11_in(line_11_reverse),
         .length_to_rotate(BIP_plus_length[5:0]),
         .line_out(packet_IBuff_out)
     );
+    assign packet_out = packet_IBuff_out;
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(128)) m2(
-        .in({IDTR_packet, packet_IBuff_out}), 
-        .sel(packet_select), 
-        .out(packet_out)
-    );
+    // muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(128)) m2(
+    //     .in({IDTR_packet, packet_IBuff_out}), 
+    //     .sel(packet_select), 
+    //     .out(packet_out)
+    // );
 
     assign old_BIP = latched_BIP;
     assign new_BIP = BIP_plus_length[5:0];
 
+    
+endmodule
+
+module reverse_bit_vector_by_bytes (
+    input wire [127:0] in,
+    output wire [127:0] out
+);
+
+genvar i;
+generate
+    for(i = 0; i < 16; i = i + 1)begin
+        assign out[8*(i+1)-1:8*i] = in[128-8*i-1:128-8*(i+1)];
+    end
+endgenerate
     
 endmodule
 

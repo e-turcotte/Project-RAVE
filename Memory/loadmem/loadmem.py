@@ -15,7 +15,7 @@ def printinitfile(mem):
                 f = open(filename, "w")
                 addr = bank*16 + chip*2048 + dram*4
                 for i in range(0, 32):
-                    f.write(mem[addr] + mem[addr+1] + mem[addr+2] + mem[addr+3] + "\n")
+                    f.write(mem[addr+3] + mem[addr+2] + mem[addr+1] + mem[addr+0] + "\n")
                     addr += 64
 
 
