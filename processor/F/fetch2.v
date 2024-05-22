@@ -115,12 +115,13 @@ module fetch_2 (
         .length_to_rotate(BIP_plus_length[5:0]),
         .line_out(packet_IBuff_out)
     );
+    assign packet_out = packet_IBuff_out;
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(128)) m2(
-        .in({IDTR_packet, packet_IBuff_out}), 
-        .sel(packet_select), 
-        .out(packet_out)
-    );
+    // muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(128)) m2(
+    //     .in({IDTR_packet, packet_IBuff_out}), 
+    //     .sel(packet_select), 
+    //     .out(packet_out)
+    // );
 
     assign old_BIP = latched_BIP;
     assign new_BIP = BIP_plus_length[5:0];
