@@ -14,13 +14,32 @@ module mem (input valid_in,
             input res1_ld_in, res2_ld_in, res3_ld_in, res4_ld_in,
             input [31:0] rep_num,
             input        is_rep_in,
+            input memsizeOVR,
+
+            input clk_bus,
+            inout [72:0] BUS,
+            input [1:0] setReciver_d,
+            output [1:0] free_bau_d,
+            input [3:0] grant_d, ack_d,
+            output [3:0] releases_d, req_d,
+            output [15:0] dest_d,
+
+            input [63:0] wb_memdata,
+            input [31:0] wb_memaddr,
+            input [1:0] wb_size,
+            input wb_valid, wb_ptcid,
+            output wbaq_isfull,
 
             input [159:0] VP_in,                  
             input [159:0] PF_in,
-            input [7:0] entry_v_in,
+            input [7:0] entry_V_in,
             input [7:0] entry_P_in,
             input [7:0] entry_RW_in,
             input [7:0] entry_PCD_in,
+
+            input [7:0] qentry_slot_in_e, qentry_slot_in_o,
+            output [6:0] ptcid_out_e, ptcid_out_o,
+            output [7:0] qentry_slots_out_e, qentry_slots_out_o,
             
             input [4:0] aluk_in,
             input [2:0] mux_adder_in,
@@ -71,29 +90,13 @@ module mem (input valid_in,
             output [1:0] conditionals_out,
             output is_br_out, is_fp_out, is_imm_out, is_rep_out,
             output [15:0] CS_out,
-            output [3:0] wake_out, //TODO: needs to be implemented
+
+            output [3:0] wake_init_out, wake_cahce_out, wake_mshr_out,
+            output [6:0] cache_ptcid_out,
+            output cache_valid_out,
+            output [127:0] cahce_ptcinfo_out,
             output stall
             );
-
-            /*TODO*/
-            assign stall = 1'b0;
-
-    //wire TLB_prot, TLB_miss, TLB_hit;
-    //TLB tlb(.clk(clk), .address(/*TODO*/), .RW_in(/*TODO*/), is_mem_request(/*TODO*/), .VP(VP_in), .PF(PF_in),  //TODO: finish signals
-    //        .entry_v(entry_v_in), .entry_P(entry_P_in), .entry_RW(entry_RW_in), .entry_PCD(entry_PCD_in),
-    //        .PF_out(/*TODO*/), .miss(TLB_miss), .hit(TLB_hit), .protection_exception(TLB_prot));                   
-
-
-    //exception and interrupt checking:
-    //wire RA_gt_SS, RA_lt_SS, EQ, prot_seg;  //related to checking prot exception for seg_size
-
-    //mag_comp32 mag(.A(read_address_end_size), .B({12'b0, seg_size}), .AGB(RA_gt_SS), .BGA(RA_lt_SS), .EQ(EQ));
-    //or2$ g0(.out(prot_seg), .in0(EQ), .in1(RA_gt_SS));                                    //if read_address_end_size >= seg_size
-    
-    //or2$ g1(.out(IE_type_out[0]), .in0(prot_seg), .in1(TLB_prot));                        //update protection exception
-    //assign IE_type_out[1] = TLB_miss;                                                   //update page fault exception
-    //assign IE_type_out[3:2] = IE_type_in[3:2];                                          //pass along
-    //or4$ g2(.out(IE_out), .in1(IE_in), .in2(prot_seg), .in3(TLB_miss), .in4(TLB_prot));   //update IE_out
 
     wire [31:0] mem1, nextmem1, regmem1, mem2, nextmem2, regmem2, incdec;
     wire isrepreg;
@@ -121,17 +124,38 @@ module mem (input valid_in,
     orn #(.NUM_INPUTS(32)) or0(.in(nextcnt), .out(cntnotzero));
     and2$ g0(.out(rep_stall), .in0(cntnotzero), .in1(is_rep_in));
 
+    wire r_is_m1, sw_is_m1;
+    wire TLB_miss, prot_exc;
+    wire rdaq_isfull, swaq_isfull;
+    wire [127:0] ptc_info_r, ptc_info_sw;
+    wire [3:0] wake_init_r, wake_init_sw;
+    wire cache_stall;
 
-    // d$ dcache(.clk(clk), .clk_bus(), .rst(clr), .set(1'b1), .BUS(),
-    //           .setReciver_d(), .free_bau_d(), .grant_d(), .ack_d(), .releases_d(), .req_d(),
-    //           .M1(mem1), .M2(mem2), .WB1(), .M1_RW(mem1_rw), .M2_RW(mem2_rw), .valid_RSW(), .sizeOVR(), .PTC_ID_in(inst_ptcid_in),
-    //           .wb_data(), .wb_adr(), .wb_size(), .wb_valid(),
-    //           .VP(VP_in), .PF(PF_in),
-    //           .entry_V(), .entry_P(), .entry_RW(), .entryPCD(),
-    //           .TLB_miss(), .protection_exception(), .TLB_hit(), .PCD_out(),
-    //           .ptc_info_r(), .ptc_info_sw(), .wake_init_vector_r(), .wake_init_vector_sw(),
-    //           .wake(), .PTC_ID_out(), .cache_valid(), .data());
+    assign wake_init_out = {wake_init_sw[3],wake_init_r[2],wake_init_sw[1],wake_init_r[0]};
 
+    d$ dcache(.clk(clk), .clk_bus(clk_bus), .rst(clr), .set(1'b1), .BUS(BUS),
+              .setReciver_d(setReciever_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d)
+              .data_m1(), .data_m2(), .M1(mem1), .M2(mem2), .M1_RW(mem1_rw), .M2_RW(mem2_rw), .valid_RSW(valid_in), .sizeOVR(memsizeOVR), .PTC_ID_in(inst_ptcid_in),
+              .TLB_miss_wb(), .TLB_pe_wb(), .TLB_hit_wb(),
+              .TLB_miss_r(), .TLB_pe_r(), .TLB_hit_r(),
+              .TLB_miss_sw(), .TLB_pe_sw(), .TLB_hit_sw(),
+              .data_in_wb({64'h0000000000000000,wb_memdata}), .address_in_wb(wb_memaddr), .size_in_wb(wb_size), valid_in_wb(wb_valid), .PTC_ID_in_wb(wb_ptcid),
+              .r_is_m1(r_is_m1), .sw_is_m1(sw_is_m1),
+              .VP(VP_in), .PF(PF_in),
+              .entry_V(entry_V_in), .entry_P(entry_P_in), .entry_RW(entry_RW_in), .entry_PCD(entry_PCD_in),
+              .TLB_miss(TLB_miss), .protection_exception(prot_exc), .TLB_hit(), .PCD_out(),
+              .ptc_info_r(ptc_info_r), .ptc_info_sw(ptc_info_sw), .wake_init_vector_r(wake_init_r), .wake_init_vector_sw(wake_init_sw),
+              .aq_is_empty(), .rdaq_isfull(rdaq_isfull), .swaq_isfull(swaq_isfull), .wbaq_isfull(wbaq_isfull),
+              .wake(wake_cache_out), .PTC_ID_out(cache_ptcid_out), .cache_valid(cache_valid_out), .data(cache_data_out), .stall(cache_stall),
+              .qentry_slot_in_e(qentry_slot_in_e), .ptcid_out_e(ptcid_out_e), .qentry_slots_out_e(qentry_slot_in_e), .wake_vector_out_e(wake_mshr_out[1:0]), .mshr_hit_e(), .mshr_full_e(),
+              .qentry_slot_in_o(qentry_slot_in_o), .ptcid_out_o(ptcid_out_o), .qentry_slots_out_o(qentry_slot_in_o), .wake_vector_out_o(wake_mshr_out[3:2]), .mshr_hit_o(), .mshr_full_o());
+
+    or2$ g1(.out(stall), .in0(rep_stall), .in1(cache_stall));
+
+    wire [127:0] m1_ptc, m2_ptc;
+
+    muxnm_trisate #(.NUM_INPUTS(2), .DATA_WIDTH(128)) m0(.in({ptc_info_r,ptc_info_sw}), .sel({r_is_m1,sw_is_m1}), .out(m1_ptc));
+    muxnm_trisate #(.NUM_INPUTS(2), .DATA_WIDTH(128)) m1(.in({ptc_info_r,ptc_info_sw}), .sel({sw_is_m1,r_is_m1}), .out(m2_ptc));
 
     opswap os(.reg1_data(reg1), .reg2_data(reg2), .reg3_data(reg3), .reg4_data(reg4),
               .reg1_addr(reg1_orig), .reg2_addr(reg2_orig), .reg3_addr(reg3_orig), .reg4_addr(reg4_orig),
@@ -139,9 +163,9 @@ module mem (input valid_in,
               .seg1_data(seg1), .seg2_data(seg2), .seg3_data(seg3), .seg4_data(seg4),
               .seg1_addr(seg1_orig), .seg2_addr(seg2_orig), .seg3_addr(seg3_orig), .seg4_addr(seg4_orig),
               .seg1_ptc(ptc_s1), .seg2_ptc(ptc_s2), .seg3_ptc(ptc_s3), .seg4_ptc(ptc_s4),
-              .mem1_data(), .mem2_data(),
-              .mem1_addr(), .mem2_addr(),
-              .mem1_ptc(), .mem2_ptc(),
+              .mem1_data(64'h0000000000000000), .mem2_data(64'h0000000000000000),
+              .mem1_addr(mem1), .mem2_addr(mem2),
+              .mem1_ptc(m1_ptc), .mem2_ptc(m2_ptc),
               .eip_data(eip_in), .imm(imm),
               .op1_mux(op1_sel), .op2_mux(op2_sel), .op3_mux(op3_sel), .op4_mux(op4_sel),
               .dest1_mux(dest1_sel), .dest2_mux(dest2_sel), .dest3_mux(dest3_sel), .dest4_mux(dest4_sel),
@@ -150,6 +174,12 @@ module mem (input valid_in,
               .dest1_addr(dest1_addr), .dest2_addr(dest2_addr), .dest3_addr(dest3_addr), .dest4_addr(dest4_addr),
               .dest1_ptcinfo(dest1_ptcinfo), .dest2_ptcinfo(dest2_ptcinfo), .dest3_ptcinfo(dest3_ptcinfo), .dest4_ptcinfo(dest4_ptcinfo),
               .dest1_type({dest1_is_mem,dest1_is_seg,dest1_is_reg}), .dest2_type({dest2_is_mem,dest2_is_seg,dest2_is_reg}), .dest3_type({dest3_is_mem,dest3_is_seg,dest3_is_reg}), .dest4_type({dest4_is_mem,dest4_is_seg,dest4_is_reg}));
+    
+    //TODO:
+    //or2$ g1(.out(IE_type_out[0]), .in0(prot_seg), .in1(TLB_prot));                        //update protection exception
+    //assign IE_type_out[1] = TLB_miss;                                                   //update page fault exception
+    //assign IE_type_out[3:2] = IE_type_in[3:2];                                          //pass along
+    //or4$ g2(.out(IE_out), .in1(IE_in), .in2(prot_seg), .in3(TLB_miss), .in4(TLB_prot));   //update IE_out
     
     assign res1_ld_out = res1_ld_in;
     assign res2_ld_out = res2_ld_in;
