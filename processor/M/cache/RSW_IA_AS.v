@@ -44,28 +44,28 @@ module IA_AS(
 
     output PCD_out
 );
-    wire TLB_miss, protection_exception, TLB_hit,PCD_out,
+    
 
-    wire [31:0] vAddress0,
-    wire[14:0] address0,
-    wire[16*8-1:0] data0,
-    wire [1:0] size0,
-    wire r0,w0,sw0,
-    wire valid0,
-    wire fromBUS0,
-    wire [16*8-1:0] mask0,
+    wire [31:0] vAddress0;
+    wire[14:0] address0;
+    wire[16*8-1:0] data0;
+    wire [1:0] size0;
+    wire r0,w0,sw0;
+    wire valid0;
+    wire fromBUS0;
+    wire [16*8-1:0] mask0;
 
-    wire [31:0] vAddress1,
-    wire[14:0] address1,
-    wire[16*8-1:0] data1,
-    wire [1:0] size1,
-    wire r1,w1,sw1,
-    wire valid1,
-    wire fromBUS1, 
-    wire [16*8-1:0] mask1,
-    wire needP1,
+    wire [31:0] vAddress1;
+    wire[14:0] address1;
+    wire[16*8-1:0] data1;
+    wire [1:0] size1;
+    wire r1,w1,sw1;
+    wire valid1;
+    wire fromBUS1;
+    wire [16*8-1:0] mask1;
 
-    wire[2:0] oneSize,
+
+    wire[2:0] oneSize;
    
     
 
@@ -82,11 +82,11 @@ inputAlign IA(
     .PTC_ID_in(PTC_ID_in),
 
     .clk(clk),
-    .VP,(VP),
+    .VP(VP),
     .PF(PF),
     .entry_V(entry_V),
-    .entry_P,(entry_P),
-    .entry_RW,(entry_RW),
+    .entry_P(entry_P),
+    .entry_RW(entry_RW),
     .entry_PCD(entry_PCD),
 
     .TLB_miss(TLB_miss),
@@ -132,7 +132,7 @@ adrSwap AS(
     .valid0(valid0),
     .fromBUS0(fromBUS0),
     .mask0(mask0),
-    .PCD_in(PCD_in),
+    .PCD_in(PCD_out),
     .vAddress1(vAddress1),
     .address1(address1),
     .data1(data1),
@@ -143,10 +143,10 @@ adrSwap AS(
     .valid1(valid1),
     .fromBUS1(fromBUS1),
     .mask1(mask1),
-    .needP1_in(needP1_in),
+    .needP1_in(needP1),
     .oneSize(oneSize),
     .oddIsGreater(oddIsGreater),
-    .needP1(needP1),
+    .needP1(needP1_dc),
     .oneSize_out(oneSize_out),
     .vAddressE(vAddressE),
     .addressE(addressE),
