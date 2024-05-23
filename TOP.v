@@ -714,7 +714,7 @@
         .reset(global_reset),
     
         // Signals from fetch_2
-        .valid_in(valid_F_D_latch_in),
+        .valid_in(valid_F_D_latch_out),
         .packet_in(packet_F_D_latch_out),
 
         .IE_in(IE_F_D_latch_out),
