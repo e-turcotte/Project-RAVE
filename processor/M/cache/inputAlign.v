@@ -177,7 +177,7 @@ wire[15:0] shift1_buf;
 // endgenerate
 
 wire[7:0] size_dec;
-decodern #(3)  dcx(shift2,size_dec);
+decodern #(3)  dcx(shift2[2:0],size_dec);
 muxnm_tristate #(8, 16*8) mxt({
 {56'd0,data_in[16*8-1:56]},
 {48'd0,data_in[16*8-1:48]},
@@ -255,7 +255,6 @@ muxnm_tristate #(8, 16*8) mxt({
     1: ESW
     2: OR
     3  OSW
- 
     */
 
 endmodule
