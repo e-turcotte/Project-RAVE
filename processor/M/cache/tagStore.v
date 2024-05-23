@@ -6,6 +6,7 @@ input [3:0] way,
 input [7:0] tag_in,
 input [3:0]V,
 input [3:0] PTC,
+input w_unpulsed,
 input w,
 input r,
 input isW,
@@ -46,7 +47,7 @@ generate
         equaln #(8) e(tag_in, data[i*8+7: i*8], hit1[i]);
         and2$ plz(hmm[i], PTC[i], isW);
         or2$ plz2(boabw[i], V[i], hmm[i]);
-        and2$ andV(hit[i], hit1[i], boabw[i]);
+        and3$ andV(hit[i], hit1[i], boabw[i], w_unpulsed);
     end
 endgenerate
 
