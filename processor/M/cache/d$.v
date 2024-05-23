@@ -26,6 +26,8 @@ module d$(
     input valid_RSW,
     input sizeOVR,
     input [6:0]PTC_ID_in,
+    output r_is_m1,
+    output sw_is_m1,
 
     //Exceptions:
     output TLB_miss_wb,
@@ -75,30 +77,21 @@ module d$(
     output [1:0] wake_vector_out_e,
     output mshr_hit_e, mshr_full_e,
 
-    input [7:0] qentry_slot_in_e,
+    input [7:0] qentry_slot_in_o,
     output [6:0] ptcid_out_o,
     output [7:0] qentry_slots_out_o,
     output [1:0] wake_vector_out_o,
-    output mshr_hit_o, mshr_full_o,
+    output mshr_hit_o, mshr_full_o
     ); 
 
 
-
+    wire freeDO, freeDE;
     wire grantDEr, grantDEw, grantDOr, grantDOw;
     wire ackDEr, ackDEw, ackDOr, ackDOw;
     wire relDEr, relDEw, relDOr, relDOw;
     wire reqDEr, reqDEw, reqDOr, reqDOw;
-    assign setReciever_d = {recvDO, recvDE}    ;
-    assign free_bau_d =    {freeDO, freeDE};
-    assign grant_d = {grantDEr, grantDEw, grantDOr, grantDOw};
-    assign ack_d = {ackDEr, ackDEw, ackDOr, ackDOw};
-    assign releases_d = {relDEr, relDEw, relDOr, relDOw};
-    assign req_d = {reqDEr, reqDEw, reqDOr, reqDOw};
+    // assign setReciever_d = {recvDO, recvDE}    ;
 
-or2$ sta(stall, cache_stall_e, cache_miss_o);
-assign PTC_ID_out = PTC_ID_out_e;
-assign data = data_out;
-assign cache_valid = valid_out;
 wire [3:0] returnLoc_o,returnLoc_e;
    wire [31:0] address_in_r;
    wire [127:0] data_in_r;
@@ -171,15 +164,13 @@ wire [3:0] returnLoc_o,returnLoc_e;
    wire PCD_out_sw;
 
 
-   wire [31:0] address_in_wb;
-   wire [127:0] data_in_wb;
-   wire size_in_wb;
+
    wire r_wb;
    wire w_wb;
    wire sw_wb;
-   wire valid_in_wb;
+
    wire sizeOVR_wb;
-   wire [6:0] PTC_ID_in_wb;
+ 
    wire [6:0]PTC_ID_out_wb;
    wire oddIsGreater_wb;
    wire needP1_wb;
@@ -298,7 +289,7 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire bus_valid_e_nobuf;
     wire [14:0] bus_pAddress_e;
     wire [127:0] bus_data_e;
-    wire [3:0] returnLoc_e;
+
     wire recvDE;
     wire freeDE;
 
@@ -306,9 +297,20 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire bus_valid_o_nobuf;
     wire [14:0] bus_pAddress_o;
     wire [127:0] bus_data_o;
-    wire [3:0] returnLoc_o;
-    wire recvDO;
-    wire freeDO;
+
+    assign free_bau_d =    {freeDO, freeDE};
+    assign recvDO = setReciever_d[1];
+    assign recvDE = setReciever_d[0];
+
+    assign grant_d = {grantDEr, grantDEw, grantDOr, grantDOw};
+    assign ack_d = {ackDEr, ackDEw, ackDOr, ackDOw};
+    assign releases_d = {relDEr, relDEw, relDOr, relDOw};
+    assign req_d = {reqDEr, reqDEw, reqDOr, reqDOw};
+
+    or2$ sta(stall, cache_stall_e, cache_miss_o);
+    assign PTC_ID_out = PTC_ID_out_e;
+    assign data = data_out;
+    assign cache_valid = valid_out;
 
 SW_R_SWP u_SW_R_SWP (
         .M1(M1),
@@ -611,12 +613,11 @@ cacheBank bankE (
     .PCD_IN(pcd_$),
 
     .AQ_READ(read_e),
-
-    .MSHR_alloc(MSHR_alloc_e);
-    .MSHR_dealloc(MSHR_dealloc_e);
-    .MSHR_rdsw(MSHR_rdsw_e);
-    .MSHR_pAddress(MSHR_pAddress_e);
-    .MSHR_ptcid(MSHR_ptcid_e);
+    .MSHR_alloc(MSHR_alloc_e),
+    .MSHR_dealloc(MSHR_dealloc_e),
+    .MSHR_rdsw(MSHR_rdsw_e),
+    .MSHR_pAddress(MSHR_pAddress_e),
+    .MSHR_ptcid(MSHR_ptcid_e),
 
     .SER_valid0(SER_valid0_e),
     .SER_data0(SER_data0_e),
@@ -677,11 +678,11 @@ cacheBank bankO (
 
     .AQ_READ(read_o),
 
-    .MSHR_alloc(MSHR_alloc_o);
-    .MSHR_dealloc(MSHR_dealloc_o);
-    .MSHR_rdsw(MSHR_rdsw_o);
-    .MSHR_pAddress(MSHR_pAddress_o);
-    .MSHR_ptcid(MSHR_ptcid_o);
+    .MSHR_alloc(MSHR_alloc_o),
+    .MSHR_dealloc(MSHR_dealloc_o),
+    .MSHR_rdsw(MSHR_rdsw_o),
+    .MSHR_pAddress(MSHR_pAddress_o),
+    .MSHR_ptcid(MSHR_ptcid_o),
 
     .SER_valid0(SER_valid0_o),
     .SER_data0(SER_data0_o),
@@ -791,7 +792,7 @@ SER DS_E_R(
     .ack(ackDEr),
     .releases(relDEr),
     .req(reqDEr),
-    .BUS(BUS)
+    .BUS(BUS),
     .dest_bau(dest_d[3:0])
 );  
 
