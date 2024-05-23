@@ -45,7 +45,7 @@ module disc(
     end
 
     initial begin
-        $readmemh("disc.init", discMem);
+        $readmemh("IO/disc.init", discMem);
         // for(i = 0; i < 256; i = i + 1) begin
         //     $display("hmm = %0h" ,discMem[i]);
         // end
