@@ -1157,14 +1157,14 @@
             or3$ gx2(.out(new_wake[i][2]), .in0(old_wake[i][2]), .in1(guarded_cache_wake[i][2]), .in2(guarded_mshr_wake[i][2]));
             or3$ gx3(.out(new_wake[i][3]), .in0(old_wake[i][3]), .in1(guarded_cache_wake[i][3]), .in2(guarded_mshr_wake[i][3]));
 
-            orn #(.NUM_INPUTS(4)) or0(.in(mod_vect), .out(modify_M_EX_latch[i]));
+            orn #(.NUM_INPUTS(6)) or0(.in({mod_vect,cache_qslot[i],mshr_qslot[i]}), .out(modify_M_EX_latch[i]));
         end
     endgenerate
 
     MEM_EX_Queued_Latches #(.M_WIDTH(m_size_MEM_EX), .N_WIDTH(n_size_MEM_EX), .Q_LENGTH(8)) q5 (
         .m_din(m_din_MEM_EX), .n_din(n_din_MEM_EX), .new_m_vector(new_m_vector), 
         .wr(valid_MEM_EX_latch_in), .rd(MEM_EX_Latch_RD),
-        .modify_vector(), .clr(global_reset), .clk(clk), .full(MEM_EX_Latches_full), .empty(MEM_EX_Latches_empty), .old_m_vector(old_m_M_EX), 
+        .modify_vector(modify_M_EX_latch), .clr(global_reset), .clk(clk), .full(MEM_EX_Latches_full), .empty(MEM_EX_Latches_empty), .old_m_vector(old_m_M_EX), 
             .dout({
                 inst_ptcid_MEM_EX_latch_out, wake_MEM_EX_latch_out, op1_MEM_EX_latch_out, op2_MEM_EX_latch_out, op3_MEM_EX_latch_out, op4_MEM_EX_latch_out, 
                 op1_ptcinfo_MEM_EX_latch_out, op2_ptcinfo_MEM_EX_latch_out, op3_ptcinfo_MEM_EX_latch_out, op4_ptcinfo_MEM_EX_latch_out,

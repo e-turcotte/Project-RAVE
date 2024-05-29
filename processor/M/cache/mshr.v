@@ -30,7 +30,7 @@ module mshr (input [14:0] pAddress,
                                                           .full(mshr_full), .empty(), .old_m_vector(issued_reqs),
                                                           .dout({dealloc_valid,dealloc_paddr,dealloc_qentries,dealloc_wake}));
 
-    assign qentry_slots_out = dealloc_qentries;
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(8)) m0(.in({dealloc_qentries,8'h00}), .sel(dealloc), .out(qentry_slots_out));
     assign wake_vector_out = dealloc_wake;
 
     genvar i;
@@ -41,7 +41,7 @@ module mshr (input [14:0] pAddress,
             equaln #(.WIDTH(15)) eq1(.a(pAddress), .b(issued_reqs[i*24 + 22:i*24 + 8]), .eq(match_vector_send[i]));
             and2$ g2(.out(hit_vector[i]), .in0(match_vector_send[i]), .in1(issued_reqs[i*24 + 23]));
 
-            muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m0(.in({1'b0,issued_reqs[i*24 + 23]}), .sel(invalidation_vector[i]), .out(change_reqs[i*24 + 23]));
+            muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m1(.in({1'b0,issued_reqs[i*24 + 23]}), .sel(invalidation_vector[i]), .out(change_reqs[i*24 + 23]));
             assign change_reqs[i*24 + 22:i*24 + 8] = issued_reqs[i*24 + 22:i*24 + 8];
             or2$ g3(.out(change_reqs[i*24 + 7]), .in0(issued_reqs[i*24 + 7]), .in1(qentry_slot_in[7]));
             or2$ g4(.out(change_reqs[i*24 + 6]), .in0(issued_reqs[i*24 + 6]), .in1(qentry_slot_in[6]));
