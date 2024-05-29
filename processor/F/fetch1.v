@@ -97,14 +97,17 @@ select_address_ICache #(.PARITY(0)) sel_even(.clk(clk), .init_FIP(init_FIP_e[31:
 assign FIP_o_lsb = FIP_o[1:0];
 assign FIP_e_lsb = FIP_e[1:0];
 
+wire icache_miss_even_out, icache_miss_odd_out;
+orn #(1) odsad1(.in({icache_miss_even_out, evenW_out}), .out(cache_miss_even_out));
+orn #(1) odsad2(.in({icache_miss_odd_out, oddW_out}), .out(cache_miss_odd_out)); //TODO: check if this is correct
 
 I$ icache(
     .FIP_o({FIP_o, 4'b0}),
     .FIP_e({FIP_e, 4'b0}),
     .line_even_out(line_even_out),
     .line_odd_out(line_odd_out),
-    .cache_miss_even(cache_miss_even_out),
-    .cache_miss_odd(cache_miss_odd_out),
+    .cache_miss_even(icache_miss_even_out),
+    .cache_miss_odd(icache_miss_odd_out),
     .evenW(evenW_out),
     .oddW(oddW_out),
     .clk(clk),

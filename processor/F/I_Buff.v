@@ -202,8 +202,8 @@ orn #(3) o1(.in({odd_01, both_00_01, both_01_10}), .out(ld_no_check_01));
 orn #(3) o2(.in({even_10, both_01_10, both_10_11}), .out(ld_no_check_10));
 orn #(3) o3(.in({odd_11, both_10_11, both_11_00}), .out(ld_no_check_11));
 
-wire ld_nothing;
-inv1$ i4(.out(ld_nothing), .in(num_lines_to_ld_out[0]));
+wire not_ld_nothing;
+inv1$ i4(.out(not_ld_nothing), .in(num_lines_to_ld_out[0]));
 
 wire not_cache_miss_even, not_cache_miss_odd;
 inv1$ i5(.out(not_cache_miss_even), .in(cache_miss_even));
@@ -214,12 +214,12 @@ inv1$ i7(.out(not_evenW), .in(evenW));
 inv1$ i8(.out(not_oddW), .in(oddW));
 
 wire ld_0_no_invalid, ld_1_no_invalid, ld_2_no_invalid, ld_3_no_invalid;
-andn #(4) a8(.in({ld_no_check_00, ld_nothing, not_cache_miss_even, not_evenW}), .out(ld_0_no_invalid));
-andn #(4) a9(.in({ld_no_check_01, ld_nothing, not_cache_miss_odd, not_oddW}), .out(ld_1_no_invalid));
-andn #(4) a10(.in({ld_no_check_10, ld_nothing, not_cache_miss_even, not_evenW}), .out(ld_2_no_invalid));
-andn #(4) a11(.in({ld_no_check_11, ld_nothing, not_cache_miss_odd, not_oddW}), .out(ld_3_no_invalid));
+andn #(4) a8(.in({ld_no_check_00, not_ld_nothing, not_cache_miss_even, not_evenW}), .out(ld_0_no_invalid));
+andn #(4) a9(.in({ld_no_check_01, not_ld_nothing, not_cache_miss_odd, not_oddW}), .out(ld_1_no_invalid));
+andn #(4) a10(.in({ld_no_check_10, not_ld_nothing, not_cache_miss_even, not_evenW}), .out(ld_2_no_invalid));
+andn #(4) a11(.in({ld_no_check_11, not_ld_nothing, not_cache_miss_odd, not_oddW}), .out(ld_3_no_invalid));
 
-orn #(2) o4(.out(ld_0), .in({ld_0_no_invalid, invalidate_line_00}));
+orn #(2) o4(.out(ld_0), .in({ld_0_no_invalid, invalidate_line_00})); //TODO: lets separate the invalidate signals from the ld signals
 orn #(2) o5(.out(ld_1), .in({ld_1_no_invalid, invalidate_line_01}));
 orn #(2) o6(.out(ld_2), .in({ld_2_no_invalid, invalidate_line_10}));
 orn #(2) o7(.out(ld_3), .in({ld_3_no_invalid, invalidate_line_11}));
