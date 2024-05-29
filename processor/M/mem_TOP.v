@@ -91,7 +91,7 @@ module mem (input valid_in,
             output is_br_out, is_fp_out, is_imm_out, is_rep_out,
             output [15:0] CS_out,
 
-            output [3:0] wake_init_out, wake_cahce_out, wake_mshr_out,
+            output [3:0] wake_init_out, wake_cache_out, wake_mshr_out,
             output [6:0] cache_ptcid_out,
             output cache_valid_out,
             output [127:0] cahce_ptcinfo_out,

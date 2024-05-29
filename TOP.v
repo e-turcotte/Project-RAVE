@@ -1020,8 +1020,16 @@
         .res3_ld_in(res3_ld_RrAg_MEM_latch_out), .res4_ld_in(res4_ld_RrAg_MEM_latch_out),
         .rep_num(rep_num_RrAg_MEM_latch_out),
         .is_rep_in(is_rep_RrAg_MEM_latch_out),
+        .memsizeOVR(), //TODO:
+        .clk_bus(), //TODO:
+        .BUS(), //TODO:
+        .setReceiver_d(), .free_bau_d(), .grant_d(), .ack_d(), .releases_d(), .req_d(), .dest_d(), //TODO:
+        .wb_memdata(), .wb_memaddr(), .wb_size(), .wb_valid(), .wb_ptcid(), .wbaq_isfull(), //TODO:
         .VP_in(VP), .PF_in(PF),
         .entry_v_in(entry_v), .entry_P_in(entry_P), .entry_RW_in(entry_RW), .entry_PCD_in(entry_PCD),
+        .qentry_slot_in_e(), .qentry_slot_in_o(), //TODO:
+        .ptcid_out_e(), .ptcid_out_o(), //TODO:
+        .qentry_slot_out_e(), .qentry_slot_out_o(), //TODO:
         .aluk_in(aluk_RrAg_MEM_latch_out), .mux_adder_in(mux_adder_RrAg_MEM_latch_out), 
         .mux_and_int_in(mux_and_int_RrAg_MEM_latch_out), .mux_shift_in(mux_shift_RrAg_MEM_latch_out),
         .p_op_in(p_op_RrAg_MEM_latch_out), .fmask_in(fmask_RrAg_MEM_latch_out),
@@ -1044,11 +1052,6 @@
         .BR_pred_T_NT_out(BR_pred_T_NT_MEM_EX_latch_in),
         .BP_alias_out(BP_alias_MEM_EX_latch_in),
         .opsize_out(opsize_MEM_EX_latch_in),
-        .res1_ld_out(res1_ld_MEM_EX_latch_in),
-        .res2_ld_out(res2_ld_MEM_EX_latch_in),
-        .res3_ld_out(res3_ld_MEM_EX_latch_in),
-        .res4_ld_out(res4_ld_MEM_EX_latch_in),
-        .inst_ptcid_out(inst_ptcid_MEM_EX_latch_in), 
         .op1_val(op1_MEM_EX_latch_in),
         .op2_val(op2_MEM_EX_latch_in),
         .op3_val(op3_MEM_EX_latch_in),
@@ -1075,13 +1078,19 @@
         .dest4_is_seg(res4_is_seg_MEM_EX_latch_in),
         .dest1_is_mem(res1_is_mem_MEM_EX_latch_in), .dest2_is_mem(res2_is_mem_MEM_EX_latch_in), 
         .dest3_is_mem(res3_is_mem_MEM_EX_latch_in), .dest4_is_mem(res4_is_mem_MEM_EX_latch_in),
+        .res1_ld_out(res1_ld_MEM_EX_latch_in),
+        .res2_ld_out(res2_ld_MEM_EX_latch_in),
+        .res3_ld_out(res3_ld_MEM_EX_latch_in),
+        .res4_ld_out(res4_ld_MEM_EX_latch_in),
+        .inst_ptcid_out(inst_ptcid_MEM_EX_latch_in), 
         .aluk_out(aluk_MEM_EX_latch_in), .mux_adder_out(MUX_ADDER_IMM_MEM_EX_latch_in), 
         .mux_and_int_out(MUX_AND_INT_MEM_EX_latch_in), .mux_shift_out(MUX_SHIFT_MEM_EX_latch_in),
         .p_op_out(P_OP_MEM_EX_latch_in), .fmask_out(FMASK_MEM_EX_latch_in), .conditionals_out(conditionals_MEM_EX_latch_in), 
         .is_br_out(isBR_MEM_EX_latch_in), .is_fp_out(is_fp_MEM_EX_latch_in), .is_imm_out(is_imm_MEM_EX_latch_in), 
         .is_rep_out(is_rep_MEM_EX_latch_in), 
         .CS_out(CS_MEM_EX_latch_in),
-        .wake_out(wake_MEM_EX_latch_in),
+        .wake_init_out(), .wake_cache_out(), .wake_mshr_out(), //TODO:
+        .cache_ptcid_out(), .cache_valid_out(), .cache_ptcinfo_out(), //TODO:
         .stall(MEM_stall_out) //send to RrAg and RrAg_MEM_latch
     );        
         
