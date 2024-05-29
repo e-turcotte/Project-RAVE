@@ -18,7 +18,7 @@ module mem (input valid_in,
 
             input clk_bus,
             inout [72:0] BUS,
-            input [1:0] setReciver_d,
+            input [1:0] setReceiver_d,
             output [1:0] free_bau_d,
             input [3:0] grant_d, ack_d,
             output [3:0] releases_d, req_d,
@@ -94,7 +94,7 @@ module mem (input valid_in,
             output [3:0] wake_init_out, wake_cache_out, wake_mshr_out,
             output [6:0] cache_ptcid_out,
             output cache_valid_out,
-            output [127:0] cahce_ptcinfo_out,
+            output [127:0] cache_ptcinfo_out,
             output stall
             );
 
@@ -134,7 +134,7 @@ module mem (input valid_in,
     assign wake_init_out = {wake_init_sw[3],wake_init_r[2],wake_init_sw[1],wake_init_r[0]};
 
     d$ dcache(.clk(clk), .clk_bus(clk_bus), .rst(clr), .set(1'b1), .BUS(BUS),
-              .setReciver_d(setReciever_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d),
+              .setReciever_d(setReceiver_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d),
               .data_m1(), .data_m2(), .M1(mem1), .M2(mem2), .M1_RW(mem1_rw), .M2_RW(mem2_rw),
               .opsize(opsize), .valid_RSW(valid_in), .sizeOVR(memsizeOVR), .PTC_ID_in(inst_ptcid_in), .r_is_m1(r_is_m1), .sw_is_m1(sw_is_m1),
               .TLB_miss_wb(), .TLB_pe_wb(), .TLB_hit_wb(),
