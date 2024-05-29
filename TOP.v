@@ -1026,10 +1026,10 @@
         .setReceiver_d(), .free_bau_d(), .grant_d(), .ack_d(), .releases_d(), .req_d(), .dest_d(), //TODO:
         .wb_memdata(), .wb_memaddr(), .wb_size(), .wb_valid(), .wb_ptcid(), .wbaq_isfull(), //TODO:
         .VP_in(VP), .PF_in(PF),
-        .entry_v_in(entry_v), .entry_P_in(entry_P), .entry_RW_in(entry_RW), .entry_PCD_in(entry_PCD),
+        .entry_V_in(entry_v), .entry_P_in(entry_P), .entry_RW_in(entry_RW), .entry_PCD_in(entry_PCD),
         .qentry_slot_in_e(), .qentry_slot_in_o(), //TODO:
         .ptcid_out_e(), .ptcid_out_o(), //TODO:
-        .qentry_slot_out_e(), .qentry_slot_out_o(), //TODO:
+        .qentry_slots_out_e(), .qentry_slots_out_o(), //TODO:
         .aluk_in(aluk_RrAg_MEM_latch_out), .mux_adder_in(mux_adder_RrAg_MEM_latch_out), 
         .mux_and_int_in(mux_and_int_RrAg_MEM_latch_out), .mux_shift_in(mux_shift_RrAg_MEM_latch_out),
         .p_op_in(p_op_RrAg_MEM_latch_out), .fmask_in(fmask_RrAg_MEM_latch_out),
