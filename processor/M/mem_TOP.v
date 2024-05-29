@@ -134,7 +134,7 @@ module mem (input valid_in,
     assign wake_init_out = {wake_init_sw[3],wake_init_r[2],wake_init_sw[1],wake_init_r[0]};
 
     d$ dcache(.clk(clk), .clk_bus(clk_bus), .rst(clr), .set(1'b1), .BUS(BUS),
-              .setReciver_d(setReciever_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d)
+              .setReciver_d(setReciever_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d),
               .data_m1(), .data_m2(), .M1(mem1), .M2(mem2), .M1_RW(mem1_rw), .M2_RW(mem2_rw),
               .opsize(opsize), .valid_RSW(valid_in), .sizeOVR(memsizeOVR), .PTC_ID_in(inst_ptcid_in), .r_is_m1(r_is_m1), .sw_is_m1(sw_is_m1),
               .TLB_miss_wb(), .TLB_pe_wb(), .TLB_hit_wb(),
