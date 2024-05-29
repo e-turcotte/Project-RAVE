@@ -528,185 +528,185 @@
         grantDEr, grantDEw, grantDOr, grantDOw, recvIE, recvIO, recvDE, recvDO;
 
 
-    offcoreBus_TOP offcoreBus(
-        .clk(clk),
-        .rst(global_reset),
-        .set(global_set),
-        .clk_bus(bus_clk),
+    // offcoreBus_TOP offcoreBus(
+    //     .clk(clk),
+    //     .rst(global_reset),
+    //     .set(global_set),
+    //     .clk_bus(bus_clk),
         
-        .freeIE(freeIE),
-        .freeIO(freeIO),
-        .freeDE(1'b1),
-        .freeDO(1'b1),
-        .reqIE(reqIE),
-        .reqIO(reqIO),
-        .reqDEr(1'b0),//tied to 0 for testing
-        .reqDEw(1'b0),//tied to 0 for testing
-        .reqDOr(1'b0),//tied to 0 for testing
-        .reqDOw(1'b0),//tied to 0 for testing
-        .relIE(relIE),
-        .relIO(relIO), 
-        .relDEr(1'b0), 
-        .relDEw(1'b0), 
-        .relDOr(1'b0), 
-        .relDOw(1'b0),
+    //     .freeIE(freeIE),
+    //     .freeIO(freeIO),
+    //     .freeDE(1'b1),
+    //     .freeDO(1'b1),
+    //     .reqIE(reqIE),
+    //     .reqIO(reqIO),
+    //     .reqDEr(1'b0),//tied to 0 for testing
+    //     .reqDEw(1'b0),//tied to 0 for testing
+    //     .reqDOr(1'b0),//tied to 0 for testing
+    //     .reqDOw(1'b0),//tied to 0 for testing
+    //     .relIE(relIE),
+    //     .relIO(relIO), 
+    //     .relDEr(1'b0), 
+    //     .relDEw(1'b0), 
+    //     .relDOr(1'b0), 
+    //     .relDOw(1'b0),
 
-        .destIE(I$_SER_dest_e), 
-        .destIO(I$_SER_dest_o), 
-        .destDEr(4'd0),
-        .destDEw(4'd0), 
-        .destDOr(4'd0), 
-        .destDOw(4'd0),
+    //     .destIE(I$_SER_dest_e), 
+    //     .destIO(I$_SER_dest_o), 
+    //     .destDEr(4'd0),
+    //     .destDEw(4'd0), 
+    //     .destDOr(4'd0), 
+    //     .destDOw(4'd0),
 
-        .BUS(BUS),
+    //     .BUS(BUS),
 
-        .ackIE(ackIE), 
-        .ackIO(ackIO), 
-        .ackDEr(1'd0), 
-        .ackDEw(1'd0), 
-        .ackDOr(1'd0), 
-        .ackDOw(1'd0),
-        .grantIE(grantIE), 
-        .grantIO(grantIO), 
-        .grantDEr(1'd0), 
-        .grantDEw(1'd0), 
-        .grantDOr(1'd0), 
-        .grantDOw(1'd0),
-        .recvIE(recvIE), 
-        .recvIO(recvIO), 
-        .recvDE(1'd0), 
-        .recvDO(1'd0)
-    );
+    //     .ackIE(ackIE), 
+    //     .ackIO(ackIO), 
+    //     .ackDEr(1'd0), 
+    //     .ackDEw(1'd0), 
+    //     .ackDOr(1'd0), 
+    //     .ackDOw(1'd0),
+    //     .grantIE(grantIE), 
+    //     .grantIO(grantIO), 
+    //     .grantDEr(1'd0), 
+    //     .grantDEw(1'd0), 
+    //     .grantDOr(1'd0), 
+    //     .grantDOw(1'd0),
+    //     .recvIE(recvIE), 
+    //     .recvIO(recvIO), 
+    //     .recvDE(1'd0), 
+    //     .recvDO(1'd0)
+    // );
 
-    IE_handler IDTR(
-        .clk(clk),
-        .reset(global_reset),
-        .enable(1'b1), //im not sure when it should be disabled but its here if u need
-        .IE_in(final_IE_val),
-        .IE_type_in(final_IE_type),
-        .IDTR_base_address(IDTR_base),
-        .EIP_WB(EIP_WB_out),
-        .EFLAGS_WB(final_EFLAGS),
-        .CS_WB(final_CS),
+    // IE_handler IDTR(
+    //     .clk(clk),
+    //     .reset(global_reset),
+    //     .enable(1'b1), //im not sure when it should be disabled but its here if u need
+    //     .IE_in(final_IE_val),
+    //     .IE_type_in(final_IE_type),
+    //     .IDTR_base_address(IDTR_base),
+    //     .EIP_WB(EIP_WB_out),
+    //     .EFLAGS_WB(final_EFLAGS),
+    //     .CS_WB(final_CS),
 
-        .is_IRETD(),
-        .IDTR_packet_out(IDTR_packet_out),
-        .packet_out_select(IDTR_packet_select_out),
-        .flush_pipe(IDTR_flush_pipe),
-        .PTC_clear(IDTR_PTC_clear),
-        .LD_EIP(IDTR_LD_EIP_out),
-        .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
-        .is_servicing_IE(is_servicing_IE)
-    );
+    //     .is_IRETD(),
+    //     .IDTR_packet_out(IDTR_packet_out),
+    //     .packet_out_select(IDTR_packet_select_out),
+    //     .flush_pipe(IDTR_flush_pipe),
+    //     .PTC_clear(IDTR_PTC_clear),
+    //     .LD_EIP(IDTR_LD_EIP_out),
+    //     .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
+    //     .is_servicing_IE(is_servicing_IE)
+    // );
 
-    bp_btb BPstuff(
-        .clk(clk),
-        .reset(global_reset),
-        .eip(latched_eip_D_RrAg_latch_in),
-        .prev_BR_result(BR_taken_WB_BP_out),
-        .prev_BR_alias(WB_BP_update_alias),
-        .prev_is_BR(BR_valid_WB_BP_out),
-        .LD(is_valid_WB_out),
+    // bp_btb BPstuff(
+    //     .clk(clk),
+    //     .reset(global_reset),
+    //     .eip(latched_eip_D_RrAg_latch_in),
+    //     .prev_BR_result(BR_taken_WB_BP_out),
+    //     .prev_BR_alias(WB_BP_update_alias),
+    //     .prev_is_BR(BR_valid_WB_BP_out),
+    //     .LD(is_valid_WB_out),
 
-        .btb_update_eip_WB(latched_eip_WB_out), //EIP of BR instr, passed from D
-        .FIP_E_WB(newFIP_e_WB_out), 
-        .FIP_O_WB(newFIP_o_WB_out), 
-        .EIP_WB(newEIP_WB_out), //update, from WB
+    //     .btb_update_eip_WB(latched_eip_WB_out), //EIP of BR instr, passed from D
+    //     .FIP_E_WB(newFIP_e_WB_out), 
+    //     .FIP_O_WB(newFIP_o_WB_out), 
+    //     .EIP_WB(newEIP_WB_out), //update, from WB
 
-        .prediction(is_BR_T_NT_BP_out),
-        .BP_update_alias_out(BP_update_alias_out),
+    //     .prediction(is_BR_T_NT_BP_out),
+    //     .BP_update_alias_out(BP_update_alias_out),
 
-        .FIP_E_target(BP_FIP_e_BTB_out),
-        .FIP_O_target(BP_FIP_o_BTB_out),
-        .EIP_target(BP_EIP_BTB_out)
-    );
+    //     .FIP_E_target(BP_FIP_e_BTB_out),
+    //     .FIP_O_target(BP_FIP_o_BTB_out),
+    //     .EIP_target(BP_EIP_BTB_out)
+    // );
 
-    fetch_TOP f0(
-        .clk(clk),
-        .set(global_set),
-        .reset(global_reset),
-        .bus_clk(bus_clk),
+    // fetch_TOP f0(
+    //     .clk(clk),
+    //     .set(global_set),
+    //     .reset(global_reset),
+    //     .bus_clk(bus_clk),
 
-        .D_length(D_length_D_F_out),
-        .stall(D_stall_out),
+    //     .D_length(D_length_D_F_out),
+    //     .stall(D_stall_out),
 
-        .WB_FIP_o(newFIP_o_WB_out),
-        .WB_FIP_e(newFIP_e_WB_out),
-        .WB_BIP(newEIP_WB_out[5:0]),
-        .resteer(1'b0),//is_resteer_WB_out
+    //     .WB_FIP_o(newFIP_o_WB_out),
+    //     .WB_FIP_e(newFIP_e_WB_out),
+    //     .WB_BIP(newEIP_WB_out[5:0]),
+    //     .resteer(1'b0),//is_resteer_WB_out
 
-        .BP_FIP_o(BP_FIP_o_BTB_out),
-        .BP_FIP_e(BP_FIP_e_BTB_out),
-        .BP_BIP(BP_EIP_BTB_out[5:0]),
-        .is_BR_T_NT(1'b0), //is_BR_T_NT_BP_out
+    //     .BP_FIP_o(BP_FIP_o_BTB_out),
+    //     .BP_FIP_e(BP_FIP_e_BTB_out),
+    //     .BP_BIP(BP_EIP_BTB_out[5:0]),
+    //     .is_BR_T_NT(1'b0), //is_BR_T_NT_BP_out
 
-        .init_addr(),
-        .is_init(global_init),
+    //     .init_addr(),
+    //     .is_init(global_init),
 
-        .IDTR_packet(IDTR_packet_out),
-        .packet_select(IDTR_packet_select_out),
+    //     .IDTR_packet(IDTR_packet_out),
+    //     .packet_select(IDTR_packet_select_out),
 
-        .SER_i$_grant_e(grantIE),
-        .SER_i$_grant_o(grantIO),
-        .SER_i$_release_o(relIO),
-        .SER_i$_req_o(reqIO),
-        .SER_i$_release_e(relIE),
-        .SER_i$_req_e(reqIE),
-        .DES_i$_reciever_e(recvIE),
-        .DES_i$_reciever_o(recvIO),
-        .SER_i$_ack_e(ackIE),
-        .SER_i$_ack_o(ackIO),
-        .DES_i$_free_o(freeIO),
-        .DES_i$_free_e(freeIE),
-        .SER_dest_o(I$_SER_dest_o),
-        .SER_dest_e(I$_SER_dest_e),
+    //     .SER_i$_grant_e(grantIE),
+    //     .SER_i$_grant_o(grantIO),
+    //     .SER_i$_release_o(relIO),
+    //     .SER_i$_req_o(reqIO),
+    //     .SER_i$_release_e(relIE),
+    //     .SER_i$_req_e(reqIE),
+    //     .DES_i$_reciever_e(recvIE),
+    //     .DES_i$_reciever_o(recvIO),
+    //     .SER_i$_ack_e(ackIE),
+    //     .SER_i$_ack_o(ackIO),
+    //     .DES_i$_free_o(freeIO),
+    //     .DES_i$_free_e(freeIE),
+    //     .SER_dest_o(I$_SER_dest_o),
+    //     .SER_dest_e(I$_SER_dest_e),
 
-        .BUS(BUS),
+    //     .BUS(BUS),
 
-        .protection_exception_e(),
-        .TLB_MISS_EXCEPTION_e(),
-        .protection_exception_o(),
-        .TLB_MISS_EXCEPTION_o(),
-        .VP(VP),
-        .PF(PF),
-        .TLB_entry_V(entry_v),
-        .TLB_entry_P(entry_P),
-        .TLB_entry_RW(entry_RW),
-        .TLB_entry_PCD(entry_PCD),
+    //     .protection_exception_e(),
+    //     .TLB_MISS_EXCEPTION_e(),
+    //     .protection_exception_o(),
+    //     .TLB_MISS_EXCEPTION_o(),
+    //     .VP(VP),
+    //     .PF(PF),
+    //     .TLB_entry_V(entry_v),
+    //     .TLB_entry_P(entry_P),
+    //     .TLB_entry_RW(entry_RW),
+    //     .TLB_entry_PCD(entry_PCD),
 
-        .packet_out(packet_F_D_latch_in),
-        .packet_valid_out(valid_F_D_latch_in),
-        .is_BR_T_NT_out(BR_pred_T_NT_F_D_latch_in),
-        .BP_target_out(BR_pred_target_F_D_latch_in),
-        .BP_update_alias_out(BP_alias_F_D_latch_in)
+    //     .packet_out(packet_F_D_latch_in),
+    //     .packet_valid_out(valid_F_D_latch_in),
+    //     .is_BR_T_NT_out(BR_pred_T_NT_F_D_latch_in),
+    //     .BP_target_out(BR_pred_target_F_D_latch_in),
+    //     .BP_update_alias_out(BP_alias_F_D_latch_in)
 
-    );
+    // );
 
-    wire F_D_latch_LD;
-    inv1$ eddiesmassivetushy(.out(F_D_latch_LD), .in(D_stall_out));
+    // wire F_D_latch_LD;
+    // inv1$ eddiesmassivetushy(.out(F_D_latch_LD), .in(D_stall_out));
 
-    F_D_latch f1(
-        .ld(F_D_latch_LD),
-        .clk(clk),
-        .clr(global_reset),
+    // F_D_latch f1(
+    //     .ld(F_D_latch_LD),
+    //     .clk(clk),
+    //     .clr(global_reset),
 
-        .valid_in(valid_F_D_latch_in),
-        .packet_in(packet_F_D_latch_in),
-        .BP_alias_in(BP_alias_F_D_latch_in),
-        .IE_in(1'b1), //TODO: IE_F_D_latch_in, hardcoded for now as no IE
-        .IE_type_in(4'b0), //TODO: IE_type_F_D_latch_in
-        .BR_pred_target_in(BR_pred_target_F_D_latch_in),
-        .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_in),
-         //outputs
-        .valid_out(valid_F_D_latch_out),
-        .packet_out(packet_F_D_latch_out),
-        .BP_alias_out(BP_alias_F_D_latch_out),
-        .IE_out(IE_F_D_latch_out),
-        .IE_type_out(IE_type_F_D_latch_out),
-        .BR_pred_target_out(BR_pred_target_F_D_latch_out),
-        .BR_pred_T_NT_out(BR_pred_T_NT_F_D_latch_out)
+    //     .valid_in(valid_F_D_latch_in),
+    //     .packet_in(packet_F_D_latch_in),
+    //     .BP_alias_in(BP_alias_F_D_latch_in),
+    //     .IE_in(1'b1), //TODO: IE_F_D_latch_in, hardcoded for now as no IE
+    //     .IE_type_in(4'b0), //TODO: IE_type_F_D_latch_in
+    //     .BR_pred_target_in(BR_pred_target_F_D_latch_in),
+    //     .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_in),
+    //      //outputs
+    //     .valid_out(valid_F_D_latch_out),
+    //     .packet_out(packet_F_D_latch_out),
+    //     .BP_alias_out(BP_alias_F_D_latch_out),
+    //     .IE_out(IE_F_D_latch_out),
+    //     .IE_type_out(IE_type_F_D_latch_out),
+    //     .BR_pred_target_out(BR_pred_target_F_D_latch_out),
+    //     .BR_pred_T_NT_out(BR_pred_T_NT_F_D_latch_out)
     
-    );
+    // );
 
     decode_TOP d0(
         // Clock and Reset
