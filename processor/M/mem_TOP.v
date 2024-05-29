@@ -133,22 +133,22 @@ module mem (input valid_in,
 
     assign wake_init_out = {wake_init_sw[3],wake_init_r[2],wake_init_sw[1],wake_init_r[0]};
 
-    // d$ dcache(.clk(clk), .clk_bus(clk_bus), .rst(clr), .set(1'b1), .BUS(BUS),
-    //           .setReciver_d(setReciever_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d),
-    //           .data_m1(), .data_m2(), .M1(mem1), .M2(mem2), .M1_RW(mem1_rw), .M2_RW(mem2_rw),
-    //           .opsize(opsize), .valid_RSW(valid_in), .sizeOVR(memsizeOVR), .PTC_ID_in(inst_ptcid_in), .r_is_m1(r_is_m1), .sw_is_m1(sw_is_m1),
-    //           .TLB_miss_wb(), .TLB_pe_wb(), .TLB_hit_wb(),
-    //           .TLB_miss_r(), .TLB_pe_r(), .TLB_hit_r(),
-    //           .TLB_miss_sw(), .TLB_pe_sw(), .TLB_hit_sw(),
-    //           .data_in_wb({64'h0000000000000000,wb_memdata}), .address_in_wb(wb_memaddr), .size_in_wb(wb_size), valid_in_wb(wb_valid), .PTC_ID_in_wb(wb_ptcid),
-    //           .VP(VP_in), .PF(PF_in),
-    //           .entry_V(entry_V_in), .entry_P(entry_P_in), .entry_RW(entry_RW_in), .entry_PCD(entry_PCD_in),
-    //           .TLB_miss(TLB_miss), .protection_exception(prot_exc), .TLB_hit(), .PCD_out(),
-    //           .ptc_info_r(ptc_info_r), .ptc_info_sw(ptc_info_sw), .wake_init_vector_r(wake_init_r), .wake_init_vector_sw(wake_init_sw),
-    //           .aq_is_empty(), .rdaq_isfull(rdaq_isfull), .swaq_isfull(swaq_isfull), .wbaq_isfull(wbaq_isfull),
-    //           .wake(wake_cache_out), .PTC_ID_out(cache_ptcid_out), .cache_valid(cache_valid_out), .data(cache_data_out), .stall(cache_stall),
-    //           .qentry_slot_in_e(qentry_slot_in_e), .ptcid_out_e(ptcid_out_e), .qentry_slots_out_e(qentry_slot_in_e), .wake_vector_out_e(wake_mshr_out[1:0]), .mshr_hit_e(), .mshr_full_e(),
-    //           .qentry_slot_in_o(qentry_slot_in_o), .ptcid_out_o(ptcid_out_o), .qentry_slots_out_o(qentry_slot_in_o), .wake_vector_out_o(wake_mshr_out[3:2]), .mshr_hit_o(), .mshr_full_o());
+    d$ dcache(.clk(clk), .clk_bus(clk_bus), .rst(clr), .set(1'b1), .BUS(BUS),
+              .setReciver_d(setReciever_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d),
+              .data_m1(), .data_m2(), .M1(mem1), .M2(mem2), .M1_RW(mem1_rw), .M2_RW(mem2_rw),
+              .opsize(opsize), .valid_RSW(valid_in), .sizeOVR(memsizeOVR), .PTC_ID_in(inst_ptcid_in), .r_is_m1(r_is_m1), .sw_is_m1(sw_is_m1),
+              .TLB_miss_wb(), .TLB_pe_wb(), .TLB_hit_wb(),
+              .TLB_miss_r(), .TLB_pe_r(), .TLB_hit_r(),
+              .TLB_miss_sw(), .TLB_pe_sw(), .TLB_hit_sw(),
+              .data_in_wb({64'h0000000000000000,wb_memdata}), .address_in_wb(wb_memaddr), .size_in_wb(wb_size), valid_in_wb(wb_valid), .PTC_ID_in_wb(wb_ptcid),
+              .VP(VP_in), .PF(PF_in),
+              .entry_V(entry_V_in), .entry_P(entry_P_in), .entry_RW(entry_RW_in), .entry_PCD(entry_PCD_in),
+              .TLB_miss(TLB_miss), .protection_exception(prot_exc), .TLB_hit(), .PCD_out(),
+              .ptc_info_r(ptc_info_r), .ptc_info_sw(ptc_info_sw), .wake_init_vector_r(wake_init_r), .wake_init_vector_sw(wake_init_sw),
+              .aq_is_empty(), .rdaq_isfull(rdaq_isfull), .swaq_isfull(swaq_isfull), .wbaq_isfull(wbaq_isfull),
+              .wake(wake_cache_out), .PTC_ID_out(cache_ptcid_out), .cache_valid(cache_valid_out), .data(cache_data_out), .stall(cache_stall),
+              .qentry_slot_in_e(qentry_slot_in_e), .ptcid_out_e(ptcid_out_e), .qentry_slots_out_e(qentry_slot_in_e), .wake_vector_out_e(wake_mshr_out[1:0]), .mshr_hit_e(), .mshr_full_e(),
+              .qentry_slot_in_o(qentry_slot_in_o), .ptcid_out_o(ptcid_out_o), .qentry_slots_out_o(qentry_slot_in_o), .wake_vector_out_o(wake_mshr_out[3:2]), .mshr_hit_o(), .mshr_full_o());
 
     or2$ g1(.out(stall), .in0(rep_stall), .in1(cache_stall));
 
