@@ -98,8 +98,8 @@ assign FIP_o_lsb = FIP_o[1:0];
 assign FIP_e_lsb = FIP_e[1:0];
 
 wire icache_miss_even_out, icache_miss_odd_out;
-orn #(1) odsad1(.in({icache_miss_even_out, evenW_out}), .out(cache_miss_even_out));
-orn #(1) odsad2(.in({icache_miss_odd_out, oddW_out}), .out(cache_miss_odd_out)); //TODO: check if this is correct
+orn #(2) odsad1(.in({icache_miss_even_out, evenW_out}), .out(cache_miss_even_out));
+orn #(2) odsad2(.in({icache_miss_odd_out, oddW_out}), .out(cache_miss_odd_out)); //TODO: check if this is correct
 
 I$ icache(
     .FIP_o({FIP_o, 4'b0}),
