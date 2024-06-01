@@ -729,7 +729,7 @@
     
         // Writeback signals
         .WB_EIP(newEIP_WB_out),
-        .is_resteer(is_resteer_WB_out),
+        .is_resteer(1'b0), /*is_resteer_WB_out*/
     
         // Init signals
         .init_EIP(EIP_init),
