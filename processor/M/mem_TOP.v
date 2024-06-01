@@ -154,8 +154,8 @@ module mem (input valid_in,
 
     wire [127:0] m1_ptc, m2_ptc;
 
-    muxnm_trisate #(.NUM_INPUTS(2), .DATA_WIDTH(128)) m0(.in({ptc_info_r,ptc_info_sw}), .sel({r_is_m1,sw_is_m1}), .out(m1_ptc));
-    muxnm_trisate #(.NUM_INPUTS(2), .DATA_WIDTH(128)) m1(.in({ptc_info_r,ptc_info_sw}), .sel({sw_is_m1,r_is_m1}), .out(m2_ptc));
+    muxnm_trisate #(.NUM_INPUTS(2), .DATA_WIDTH(128)) masdfag0(.in({ptc_info_r,ptc_info_sw}), .sel({r_is_m1,sw_is_m1}), .out(m1_ptc));
+    muxnm_trisate #(.NUM_INPUTS(2), .DATA_WIDTH(128)) mfasfad1(.in({ptc_info_r,ptc_info_sw}), .sel({sw_is_m1,r_is_m1}), .out(m2_ptc));
 
     opswap os(.reg1_data(reg1), .reg2_data(reg2), .reg3_data(reg3), .reg4_data(reg4),
               .reg1_addr(reg1_orig), .reg2_addr(reg2_orig), .reg3_addr(reg3_orig), .reg4_addr(reg4_orig),
