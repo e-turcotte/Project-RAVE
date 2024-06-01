@@ -730,7 +730,7 @@
 
         // Signals from BP
         .BP_EIP(BP_EIP_BTB_out),
-        .is_BR_T_NT(is_BR_T_NT_BP_out),
+        .is_BR_T_NT(1'b0),
     
         // Writeback signals
         .WB_EIP(newEIP_WB_out),
