@@ -45,8 +45,7 @@ loadStateReg r0(.clk(clk), .reset(reset), .CF(CF), .ld_reg(ld_reg), .v_00(line_0
 wire invalidate_line_00, invalidate_line_01, invalidate_line_10, invalidate_line_11;
 wire ld_0, ld_1, ld_2, ld_3;
 ld_selector l0(.num_lines_to_ld_in(num_lines_to_ld_reg_out), .FIP_o(FIP_o_lsb_fetch1), .FIP_e(FIP_e_lsb_fetch1), .cache_miss_even(cache_miss_even_fetch1), 
-                .cache_miss_odd(cache_miss_odd_fetch1), .evenW(evenW_fetch1), .oddW(oddW_fetch1), .invalidate_line_00(invalidate_line_00), 
-                .invalidate_line_01(invalidate_line_01), .invalidate_line_10(invalidate_line_10), .invalidate_line_11(invalidate_line_11), 
+                .cache_miss_odd(cache_miss_odd_fetch1), .evenW(evenW_fetch1), .oddW(oddW_fetch1),
                 .ld_0(ld_0), .ld_1(ld_1), .ld_2(ld_2), .ld_3(ld_3));
 orn #(2) o1123124(.out(even_latch_was_loaded), .in({ld_0, ld_2}));
 orn #(2) o1123125(.out(odd_latch_was_loaded), .in({ld_1, ld_3}));
@@ -63,19 +62,19 @@ muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m2(.in({1'b0, 1'b1}), .sel(invalidat
 muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m3(.in({1'b0, 1'b1}), .sel(invalidate_line_11), .out(valid_11_in));
 
 
-regn #(.WIDTH(1)) valid1(.din(valid_00_in), .ld(ld_0), .clr(reset), .clk(clk), .dout(line_00_valid));
+regn #(.WIDTH(1)) valid1(.din(valid_00_in), .ld(invalidate_line_00), .clr(reset), .clk(clk), .dout(line_00_valid));
 regn #(.WIDTH(128)) line1(.din(line_even_fetch1), .ld(ld_0), .clr(reset), .clk(clk), .dout(line_00));
 
 //line01
-regn #(.WIDTH(1)) valid2(.din(valid_01_in), .ld(ld_1), .clr(reset), .clk(clk), .dout(line_01_valid));
+regn #(.WIDTH(1)) valid2(.din(valid_01_in), .ld(invalidate_line_01), .clr(reset), .clk(clk), .dout(line_01_valid));
 regn #(.WIDTH(128)) line2(.din(line_odd_fetch1), .ld(ld_1), .clr(reset), .clk(clk), .dout(line_01));
 
 //line10
-regn #(.WIDTH(1)) valid3(.din(valid_10_in), .ld(ld_2), .clr(reset), .clk(clk), .dout(line_10_valid));
+regn #(.WIDTH(1)) valid3(.din(valid_10_in), .ld(invalidate_line_10), .clr(reset), .clk(clk), .dout(line_10_valid));
 regn #(.WIDTH(128)) line3(.din(line_even_fetch1), .ld(ld_2), .clr(reset), .clk(clk), .dout(line_10));
 
 //line11
-regn #(.WIDTH(1)) valid4(.din(valid_11_in), .ld(ld_3), .clr(reset), .clk(clk), .dout(line_11_valid));
+regn #(.WIDTH(1)) valid4(.din(valid_11_in), .ld(invalidate_line_11), .clr(reset), .clk(clk), .dout(line_11_valid));
 regn #(.WIDTH(128)) line4(.din(line_odd_fetch1), .ld(ld_3), .clr(reset), .clk(clk), .dout(line_11));
 
     
@@ -148,10 +147,6 @@ module ld_selector (
     input wire cache_miss_odd,
     input wire evenW,
     input wire oddW,
-    input wire invalidate_line_00,
-    input wire invalidate_line_01,
-    input wire invalidate_line_10,
-    input wire invalidate_line_11,
 
     output wire ld_0,
     output wire ld_1,
@@ -213,16 +208,10 @@ wire not_evenW, not_oddW;
 inv1$ i7(.out(not_evenW), .in(evenW));
 inv1$ i8(.out(not_oddW), .in(oddW));
 
-wire ld_0_no_invalid, ld_1_no_invalid, ld_2_no_invalid, ld_3_no_invalid;
-andn #(4) a8(.in({ld_no_check_00, not_ld_nothing, not_cache_miss_even, not_evenW}), .out(ld_0_no_invalid));
-andn #(4) a9(.in({ld_no_check_01, not_ld_nothing, not_cache_miss_odd, not_oddW}), .out(ld_1_no_invalid));
-andn #(4) a10(.in({ld_no_check_10, not_ld_nothing, not_cache_miss_even, not_evenW}), .out(ld_2_no_invalid));
-andn #(4) a11(.in({ld_no_check_11, not_ld_nothing, not_cache_miss_odd, not_oddW}), .out(ld_3_no_invalid));
-
-orn #(2) o4(.out(ld_0), .in({ld_0_no_invalid, invalidate_line_00})); //TODO: lets separate the invalidate signals from the ld signals
-orn #(2) o5(.out(ld_1), .in({ld_1_no_invalid, invalidate_line_01}));
-orn #(2) o6(.out(ld_2), .in({ld_2_no_invalid, invalidate_line_10}));
-orn #(2) o7(.out(ld_3), .in({ld_3_no_invalid, invalidate_line_11}));
+andn #(4) a8(.in({ld_no_check_00, not_ld_nothing, not_cache_miss_even, not_evenW}), .out(ld_0));
+andn #(4) a9(.in({ld_no_check_01, not_ld_nothing, not_cache_miss_odd, not_oddW}), .out(ld_1));
+andn #(4) a10(.in({ld_no_check_10, not_ld_nothing, not_cache_miss_even, not_evenW}), .out(ld_2));
+andn #(4) a11(.in({ld_no_check_11, not_ld_nothing, not_cache_miss_odd, not_oddW}), .out(ld_3));
 
 
 endmodule
