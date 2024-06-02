@@ -46,6 +46,7 @@ wire invalidate_line_00, invalidate_line_01, invalidate_line_10, invalidate_line
 wire ld_0, ld_1, ld_2, ld_3;
 ld_selector l0(.num_lines_to_ld_in(num_lines_to_ld_reg_out), .FIP_o(FIP_o_lsb_fetch1), .FIP_e(FIP_e_lsb_fetch1), .cache_miss_even(cache_miss_even_fetch1), 
                 .cache_miss_odd(cache_miss_odd_fetch1), .evenW(evenW_fetch1), .oddW(oddW_fetch1),
+                .cache_miss_odd(cache_miss_odd_fetch1), .evenW(evenW_fetch1), .oddW(oddW_fetch1),
                 .ld_0(ld_0), .ld_1(ld_1), .ld_2(ld_2), .ld_3(ld_3));
 orn #(2) o1123124(.out(even_latch_was_loaded), .in({ld_0, ld_2}));
 orn #(2) o1123125(.out(odd_latch_was_loaded), .in({ld_1, ld_3}));
