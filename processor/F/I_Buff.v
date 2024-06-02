@@ -61,20 +61,25 @@ muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m1(.in({1'b0, 1'b1}), .sel(invalidat
 muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m2(.in({1'b0, 1'b1}), .sel(invalidate_line_10), .out(valid_10_in));
 muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m3(.in({1'b0, 1'b1}), .sel(invalidate_line_11), .out(valid_11_in));
 
+wire ld_valid_00, ld_valid_01, ld_valid_10, ld_valid_11;
+orn #(2) osd4(.out(ld_valid_00), .in({ld_0, invalidate_line_00}));
+orn #(2) oagsl5(.out(ld_valid_01), .in({ld_1, invalidate_line_01}));
+orn #(2) oflkw6(.out(ld_valid_10), .in({ld_2, invalidate_line_10}));
+orn #(2) ofjknsl7(.out(ld_valid_11), .in({ld_3, invalidate_line_11}));
 
-regn #(.WIDTH(1)) valid1(.din(valid_00_in), .ld(invalidate_line_00), .clr(reset), .clk(clk), .dout(line_00_valid));
+regn #(.WIDTH(1)) valid1(.din(valid_00_in), .ld(ld_valid_00), .clr(reset), .clk(clk), .dout(line_00_valid));
 regn #(.WIDTH(128)) line1(.din(line_even_fetch1), .ld(ld_0), .clr(reset), .clk(clk), .dout(line_00));
 
 //line01
-regn #(.WIDTH(1)) valid2(.din(valid_01_in), .ld(invalidate_line_01), .clr(reset), .clk(clk), .dout(line_01_valid));
+regn #(.WIDTH(1)) valid2(.din(valid_01_in), .ld(ld_valid_01), .clr(reset), .clk(clk), .dout(line_01_valid));
 regn #(.WIDTH(128)) line2(.din(line_odd_fetch1), .ld(ld_1), .clr(reset), .clk(clk), .dout(line_01));
 
 //line10
-regn #(.WIDTH(1)) valid3(.din(valid_10_in), .ld(invalidate_line_10), .clr(reset), .clk(clk), .dout(line_10_valid));
+regn #(.WIDTH(1)) valid3(.din(valid_10_in), .ld(ld_valid_10), .clr(reset), .clk(clk), .dout(line_10_valid));
 regn #(.WIDTH(128)) line3(.din(line_even_fetch1), .ld(ld_2), .clr(reset), .clk(clk), .dout(line_10));
 
 //line11
-regn #(.WIDTH(1)) valid4(.din(valid_11_in), .ld(invalidate_line_11), .clr(reset), .clk(clk), .dout(line_11_valid));
+regn #(.WIDTH(1)) valid4(.din(valid_11_in), .ld(ld_valid_11), .clr(reset), .clk(clk), .dout(line_11_valid));
 regn #(.WIDTH(128)) line4(.din(line_odd_fetch1), .ld(ld_3), .clr(reset), .clk(clk), .dout(line_11));
 
     
