@@ -974,6 +974,10 @@
                                                                           96'h000000000000000000000000,ptc_s2_RrAg_MEM_latch_out,96'h000000000000000000000000,ptc_s1_RrAg_MEM_latch_out}),
                                                             .new_data({reg4_memdf,reg3_memdf,reg2_memdf,reg1_memdf,seg4_memdf,seg3_memdf,seg2_memdf,seg1_memdf}), .modify());
 
+    wire [3:0] init_wake, cache_wake, mshr_wake;
+    wire [6:0] cache_ptcid, mshr_ptcid_e, mshr_ptcid_o;
+    wire [7:0] mshr_qslot_e_in, mshr_qslot_e_out, mshr_qslot_o_in, mshr_qslot_o_out;
+
     mem m1 (
         //inputs
         .valid_in(valid_RrAg_MEM_latch_out),
@@ -1021,15 +1025,15 @@
         .rep_num(rep_num_RrAg_MEM_latch_out),
         .is_rep_in(is_rep_RrAg_MEM_latch_out),
         .memsizeOVR(), //TODO:
-        .clk_bus(), //TODO:
-        .BUS(), //TODO:
-        .setReceiver_d(), .free_bau_d(), .grant_d(), .ack_d(), .releases_d(), .req_d(), .dest_d(), //TODO:
-        .wb_memdata(), .wb_memaddr(), .wb_size(), .wb_valid(), .wb_ptcid(), .wbaq_isfull(), //TODO:
+        .clk_bus(bus_clk),
+        .BUS(BUS),
+        .setReceiver_d({recvDO,recvDE}), .free_bau_d({freeDO,freeDO}), .grant_d(), .ack_d(), .releases_d(), .req_d(), .dest_d(), //TODO:
+        .wb_memdata(), .wb_memaddr(mem_addr_WB_M_out), .wb_size(memsize_WB_M_out), .wb_valid(mem_ld_WB_M_out), .wb_ptcid(inst_ptcid_out_WB_RRAG_out), .wbaq_isfull(), //TODO:
         .VP_in(VP), .PF_in(PF),
         .entry_V_in(entry_v), .entry_P_in(entry_P), .entry_RW_in(entry_RW), .entry_PCD_in(entry_PCD),
-        .qentry_slot_in_e(), .qentry_slot_in_o(), //TODO:
-        .ptcid_out_e(), .ptcid_out_o(), //TODO:
-        .qentry_slots_out_e(), .qentry_slots_out_o(), //TODO:
+        .qentry_slot_in_e(mshr_qslot_e_in), .qentry_slot_in_o(mshr_qslot_o_in),
+        .ptcid_out_e(mshr_ptcid_e), .ptcid_out_o(mshr_ptcid_o),
+        .qentry_slots_out_e(mshr_qslot_e_out), .qentry_slots_out_o(mshr_qslot_o_out),
         .aluk_in(aluk_RrAg_MEM_latch_out), .mux_adder_in(mux_adder_RrAg_MEM_latch_out), 
         .mux_and_int_in(mux_and_int_RrAg_MEM_latch_out), .mux_shift_in(mux_shift_RrAg_MEM_latch_out),
         .p_op_in(p_op_RrAg_MEM_latch_out), .fmask_in(fmask_RrAg_MEM_latch_out),
@@ -1089,8 +1093,8 @@
         .is_br_out(isBR_MEM_EX_latch_in), .is_fp_out(is_fp_MEM_EX_latch_in), .is_imm_out(is_imm_MEM_EX_latch_in), 
         .is_rep_out(is_rep_MEM_EX_latch_in), 
         .CS_out(CS_MEM_EX_latch_in),
-        .wake_init_out(), .wake_cache_out(), .wake_mshr_out(), //TODO:
-        .cache_ptcid_out(), .cache_valid_out(), .cache_ptcinfo_out(), //TODO:
+        .wake_init_out(init_wake), .wake_cache_out(cache_wake), .wake_mshr_out(mshr_wake),
+        .cache_ptcid_out(cache_ptcid), .cache_valid_out(), .cache_ptcinfo_out(), //TODO:
         .stall(MEM_stall_out) //send to RrAg and RrAg_MEM_latch
     );        
         
@@ -1127,9 +1131,8 @@
     wire [m_size_MEM_EX*8-1:0] new_m_M_EX, old_m_M_EX;
     wire [7:0] modify_M_EX_latch;
 
-    wire [6:0] cache_ptcid;
-    wire [7:0] cache_qslot, mshr_qslot;
-    wire [3:0] cache_wake, mshr_wake, guarded_cache_wake [0:7], guarded_mshr_wake [0:7];
+    wire [7:0] cache_qslot;
+    wire [3:0] guarded_cache_wake [0:7], guarded_mshr_wake [0:7];
 
     genvar i, j;
     generate
@@ -1141,7 +1144,7 @@
             assign old_op_ptcinfos[i] = old_m_M_EX[i*m_size_MEM_EX + 512:i*m_size_MEM_EX + 1];
             assign old_valid[i] = old_m_M_EX[i*m_size_MEM_EX];
 
-            assign new_m_M_EX = {old_inst_ptcid[i],new_wake[i],new_ops[i],old_op_ptcinfos[i],new_valid[i]};
+            assign new_m_M_EX[m_size_MEM_EX*(i+1)-1:m_size_MEM_EX*i0] = {old_inst_ptcid[i],new_wake[i],new_ops[i],old_op_ptcinfos[i],new_valid[i]};
 
             wire [3:0] mod_vect;
 
@@ -1151,22 +1154,24 @@
                                                                      .new_data({new_ops[i]}), .modify(mod_vect));
 
             equaln #(.WIDTH(7)) eq123(.a(old_inst_ptcid[i]), .b(cache_ptcid), .eq(cache_qslot[i]));
+            equaln #(.WIDTH(7)) eq456(.a(old_inst_ptcid[i]), .b(mshr_ptcid_e), .eq(mshr_qslot_e_in[i]));
+            equaln #(.WIDTH(7)) eq789(.a(old_inst_ptcid[i]), .b(mshr_ptcid_o), .eq(mshr_qslot_o_in[i]));
 
             and2$ gabc(.out(guarded_cache_wake[i][0]), .in0(cache_qslot[i]), .in1(cache_wake[0]));
             and2$ gdef(.out(guarded_cache_wake[i][1]), .in0(cache_qslot[i]), .in1(cache_wake[1]));
             and2$ gghi(.out(guarded_cache_wake[i][2]), .in0(cache_qslot[i]), .in1(cache_wake[2]));
             and2$ gjkl(.out(guarded_cache_wake[i][3]), .in0(cache_qslot[i]), .in1(cache_wake[3]));
-            and2$ gmno(.out(guarded_mshr_wake[i][0]), .in0(mshr_qslot[i]), .in1(mshr_wake[0]));
-            and2$ gpqr(.out(guarded_mshr_wake[i][1]), .in0(mshr_qslot[i]), .in1(mshr_wake[1]));
-            and2$ gstu(.out(guarded_mshr_wake[i][2]), .in0(mshr_qslot[i]), .in1(mshr_wake[2]));
-            and2$ gvwx(.out(guarded_mshr_wake[i][3]), .in0(mshr_qslot[i]), .in1(mshr_wake[3]));
+            and2$ gmno(.out(guarded_mshr_wake[i][0]), .in0(mshr_qslot_e_out[i]), .in1(mshr_wake[0]));
+            and2$ gpqr(.out(guarded_mshr_wake[i][1]), .in0(mshr_qslot_e_out[i]), .in1(mshr_wake[1]));
+            and2$ gstu(.out(guarded_mshr_wake[i][2]), .in0(mshr_qslot_o_out[i]), .in1(mshr_wake[2]));
+            and2$ gvwx(.out(guarded_mshr_wake[i][3]), .in0(mshr_qslot_o_out[i]), .in1(mshr_wake[3]));
 
             or3$ gx0(.out(new_wake[i][0]), .in0(old_wake[i][0]), .in1(guarded_cache_wake[i][0]), .in2(guarded_mshr_wake[i][0]));
             or3$ gx1(.out(new_wake[i][1]), .in0(old_wake[i][1]), .in1(guarded_cache_wake[i][1]), .in2(guarded_mshr_wake[i][1]));
             or3$ gx2(.out(new_wake[i][2]), .in0(old_wake[i][2]), .in1(guarded_cache_wake[i][2]), .in2(guarded_mshr_wake[i][2]));
             or3$ gx3(.out(new_wake[i][3]), .in0(old_wake[i][3]), .in1(guarded_cache_wake[i][3]), .in2(guarded_mshr_wake[i][3]));
 
-            orn #(.NUM_INPUTS(6)) or0(.in({mod_vect,cache_qslot[i],mshr_qslot[i]}), .out(modify_M_EX_latch[i]));
+            orn #(.NUM_INPUTS(7)) or0(.in({mod_vect,cache_qslot[i],mshr_qslot_e_out[i],mshr_qslot_o_out[i]}), .out(modify_M_EX_latch[i]));
         end
     endgenerate
 
