@@ -1144,7 +1144,7 @@
             assign old_op_ptcinfos[i] = old_m_M_EX[i*m_size_MEM_EX + 512:i*m_size_MEM_EX + 1];
             assign old_valid[i] = old_m_M_EX[i*m_size_MEM_EX];
 
-            assign new_m_M_EX[m_size_MEM_EX*(i+1)-1:m_size_MEM_EX*i0] = {old_inst_ptcid[i],new_wake[i],new_ops[i],old_op_ptcinfos[i],new_valid[i]};
+            assign new_m_M_EX[m_size_MEM_EX*(i+1)-1:m_size_MEM_EX*i] = {old_inst_ptcid[i],new_wake[i],new_ops[i],old_op_ptcinfos[i],new_valid[i]};
 
             wire [3:0] mod_vect;
 
