@@ -56,6 +56,9 @@
     reg [31:0] EIP_init;
     reg [31:0] IDTR_base;
 
+    wire valid_F_D_latch_in;
+    wire [127:0] packet_F_D_latch_in;
+
     initial begin
         // D_valid = 1'b1;
         // packet = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
@@ -86,6 +89,9 @@
 		entry_P = 8'b11110111;
 		entry_RW= 8'b11010101;
 		entry_PCD = 8'b00000011;
+
+        valid_F_D_latch_out = 1'b1;
+        packet_F_D_latch_out = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
 
 		VP = {VP_7, VP_6, VP_5, VP_4, VP_3, VP_2, VP_1, VP_0};
 		PF = {PF_7, PF_6, PF_5, PF_4, PF_3, PF_2, PF_1, PF_0};
@@ -130,8 +136,7 @@
     ///////////////////////////////////////////////////////////
     //    Inputs from F that go into the F_D_latch:     //  
     //////////////////////////////////////////////////////////
-    wire valid_F_D_latch_in;
-    wire [127:0] packet_F_D_latch_in;
+    
     wire [5:0] BP_alias_F_D_latch_in;
     wire IE_F_D_latch_in;
     wire [3:0] IE_type_F_D_latch_in;
