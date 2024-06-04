@@ -56,8 +56,8 @@
     reg [31:0] EIP_init;
     reg [31:0] IDTR_base;
 
-    wire valid_F_D_latch_out;
-    wire [127:0] packet_F_D_latch_out;
+    reg valid_F_D_latch_out;
+    reg [127:0] packet_F_D_latch_out;
 
     initial begin
         // D_valid = 1'b1;
