@@ -56,8 +56,8 @@
     reg [31:0] EIP_init;
     reg [31:0] IDTR_base;
 
-    wire valid_F_D_latch_in;
-    wire [127:0] packet_F_D_latch_in;
+    wire valid_F_D_latch_out;
+    wire [127:0] packet_F_D_latch_out;
 
     initial begin
         // D_valid = 1'b1;
@@ -91,7 +91,7 @@
 		entry_PCD = 8'b00000011;
 
         valid_F_D_latch_out = 1'b1;
-        packet_F_D_latch_out = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
+        packet_F_D_latch_out = 128'h00000000000000000000000000000000;
 
 		VP = {VP_7, VP_6, VP_5, VP_4, VP_3, VP_2, VP_1, VP_0};
 		PF = {PF_7, PF_6, PF_5, PF_4, PF_3, PF_2, PF_1, PF_0};
@@ -136,7 +136,8 @@
     ///////////////////////////////////////////////////////////
     //    Inputs from F that go into the F_D_latch:     //  
     //////////////////////////////////////////////////////////
-    
+    wire valid_F_D_latch_in;
+    wire [127:0] packet_F_D_latch_in;
     wire [5:0] BP_alias_F_D_latch_in;
     wire IE_F_D_latch_in;
     wire [3:0] IE_type_F_D_latch_in;
@@ -151,8 +152,7 @@
     ///////////////////////////////////////////////////////////
     //         Outputs from F_D_latch that go into D:       //  
     //////////////////////////////////////////////////////////
-    wire valid_F_D_latch_out;
-    wire [127:0] packet_F_D_latch_out;
+    
     wire [5:0] BP_alias_F_D_latch_out;
     wire IE_F_D_latch_out;
     wire [3:0] IE_type_F_D_latch_out;
