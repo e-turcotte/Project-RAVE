@@ -1032,7 +1032,7 @@
         .memsizeOVR(), //TODO:
         .clk_bus(bus_clk),
         .BUS(BUS),
-        .setReceiver_d({recvDO,recvDE}), .free_bau_d({freeDO,freeDO}), .grant_d(), .ack_d(), .releases_d(), .req_d(), .dest_d(), //TODO:
+        .setReceiver_d({recvDO,recvDE}), .free_bau_d({freeDO,freeDO}), .grant_d({grantDEr,grantDEw,grantDOr,grantDOw}), .ack_d({ackDEr,ackDEw,ackDOr,ackDOw}), .releases_d({relDEr,relDEw,relDOr,relDOw}), .req_d({reqDEr,reqDEw,reqDOr,reqDOw}), .dest_d({destDOw,destDOr,destDEw,destDEr}),
         .wb_memdata(), .wb_memaddr(mem_addr_WB_M_out), .wb_size(memsize_WB_M_out), .wb_valid(mem_ld_WB_M_out), .wb_ptcid(inst_ptcid_out_WB_RRAG_out), .wbaq_isfull(), //TODO:
         .VP_in(VP), .PF_in(PF),
         .entry_V_in(entry_v), .entry_P_in(entry_P), .entry_RW_in(entry_RW), .entry_PCD_in(entry_PCD),
