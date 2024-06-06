@@ -1099,7 +1099,7 @@
         .is_rep_out(is_rep_MEM_EX_latch_in), 
         .CS_out(CS_MEM_EX_latch_in),
         .wake_init_out(init_wake), .wake_cache_out(cache_wake), .wake_mshr_out(mshr_wake),
-        .cache_ptcid_out(cache_ptcid), .cache_valid_out(), .cache_ptcinfo_out(), //TODO:
+        .cache_ptcid_out(cache_ptcid), .cache_valid_out(), .cache_data_out(), .cache_ptcinfo_out(), //TODO:
         .stall(MEM_stall_out) //send to RrAg and RrAg_MEM_latch
     );        
         

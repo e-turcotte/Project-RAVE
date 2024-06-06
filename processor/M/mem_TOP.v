@@ -94,7 +94,8 @@ module mem (input valid_in,
             output [3:0] wake_init_out, wake_cache_out, wake_mshr_out,
             output [6:0] cache_ptcid_out,
             output cache_valid_out,
-            output [127:0] cache_ptcinfo_out,
+            output [127:0] cache_data_out,
+            output [255:0] cache_ptcinfo_out,
             output stall
             );
 
@@ -136,7 +137,7 @@ module mem (input valid_in,
     d$ dcache(.clk(clk), .clk_bus(clk_bus), .rst(clr), .set(1'b1), .BUS(BUS),
               .setReciever_d(setReceiver_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d),
               .data_m1(), .data_m2(), .M1(mem1), .M2(mem2), .M1_RW(mem1_rw), .M2_RW(mem2_rw),
-              .opsize(opsize), .valid_RSW(valid_in), .sizeOVR(memsizeOVR), .PTC_ID_in(inst_ptcid_in), .r_is_m1(r_is_m1), .sw_is_m1(sw_is_m1),
+              .opsize(opsize_in), .valid_RSW(valid_in), .sizeOVR(memsizeOVR), .PTC_ID_in(inst_ptcid_in), .r_is_m1(r_is_m1), .sw_is_m1(sw_is_m1),
               .TLB_miss_wb(), .TLB_pe_wb(), .TLB_hit_wb(),
               .TLB_miss_r(), .TLB_pe_r(), .TLB_hit_r(),
               .TLB_miss_sw(), .TLB_pe_sw(), .TLB_hit_sw(),
