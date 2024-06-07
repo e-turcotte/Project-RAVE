@@ -196,11 +196,12 @@ muxnm_tristate #(8, 16*8) mxt({
  generate
      for(i = 0; i < 16; i = i + 1) begin : zero
          assign PTC0[i*16+3:i*16] = i;
-         
          assign PTC0[i*16+14:i*16+4] = address0[14:4];
+         assign PTC0[i*16+15] = 1'b1;
          
          assign PTC1[i*16+3:i*16] = i;
          assign PTC1[i*16+14:i*16+4] = address1[14:4];
+         assign PTC1[i*16+15] = 1'b1;
      end
  endgenerate 
  

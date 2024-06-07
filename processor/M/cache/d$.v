@@ -915,8 +915,10 @@ generate
      for(i = 0; i < 16; i = i + 1) begin : cacheline_bus_in
          assign cacheline_e_bus_in_ptcinfo[i*16+3:i*16] = i;
          assign cacheline_e_bus_in_ptcinfo[i*16+14:i*16+4] = bus_pAddress_e[14:4];
+         assign cacheline_e_bus_in_ptcinfo[i*16+15] = 1'b1;
          assign cacheline_o_bus_in_ptcinfo[i*16+3:i*16] = i;
          assign cacheline_o_bus_in_ptcinfo[i*16+14:i*16+4] = bus_pAddress_o[14:4];
+         assign cacheline_o_bus_in_ptcinfo[i*16+15] = 1'b1;
      end
 endgenerate
 
