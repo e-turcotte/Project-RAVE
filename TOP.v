@@ -1106,7 +1106,7 @@
         .CS_out(CS_MEM_EX_latch_in),
         .wake_init_out(init_wake), .wake_cache_out(cache_wake), .wake_mshr_out(mshr_wake),
         .cache_ptcid_out(cache_ptcid), .cache_valid_out(cache_out_valid), .cache_data_out(cache_out_data), .cache_ptcinfo_out(cache_out_ptcinfo),
-        .stall(MEM_stall_out) //send to RrAg and RrAg_MEM_latch
+        .stall(MEM_stall_out), //send to RrAg and RrAg_MEM_latch
         .cacheline_e_bus_in_data(cacheline_e_bus_in_data), .cacheline_o_bus_in_data(cacheline_o_bus_in_data),
         .cacheline_e_bus_in_ptcinfo(cacheline_e_bus_in_ptcinfo), .cacheline_o_bus_in_ptcinfo(cacheline_o_bus_in_ptcinfo)
     );        

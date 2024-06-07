@@ -96,7 +96,7 @@ module mem (input valid_in,
             output cache_valid_out,
             output [127:0] cache_data_out,
             output [127:0] cache_ptcinfo_out,
-            output stall
+            output stall,
 
             output [127:0] cacheline_e_bus_in_data, cacheline_o_bus_in_data,
             output [255:0] cacheline_e_bus_in_ptcinfo, cacheline_o_bus_in_ptcinfo
