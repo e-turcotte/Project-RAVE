@@ -147,7 +147,7 @@ module mem (input valid_in,
               .TLB_miss(TLB_miss), .protection_exception(prot_exc), .TLB_hit(), .PCD_out(),
               .ptc_info_r(ptc_info_r), .ptc_info_sw(ptc_info_sw), .wake_init_vector_r(wake_init_r), .wake_init_vector_sw(wake_init_sw),
               .aq_isempty(), .rdaq_isfull(rdaq_isfull), .swaq_isfull(swaq_isfull), .wbaq_isfull(wbaq_isfull),
-              .wake(wake_cache_out), .PTC_ID_out(cache_ptcid_out), .cache_valid(cache_valid_out), .data(cache_data_out), .stall(cache_stall),
+              .wake(wake_cache_out), .PTC_ID_out(cache_ptcid_out), .cache_valid(cache_valid_out), .data(cache_data_out), .stall(cache_stall), .ptcinfo_out(cache_ptcinfo_out),
               .qentry_slot_in_e(qentry_slot_in_e), .ptcid_out_e(ptcid_out_e), .qentry_slots_out_e(qentry_slot_in_e), .wake_vector_out_e(wake_mshr_out[1:0]), .mshr_hit_e(), .mshr_full_e(),
               .qentry_slot_in_o(qentry_slot_in_o), .ptcid_out_o(ptcid_out_o), .qentry_slots_out_o(qentry_slot_in_o), .wake_vector_out_o(wake_mshr_out[3:2]), .mshr_hit_o(), .mshr_full_o());
 
