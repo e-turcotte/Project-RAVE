@@ -91,7 +91,7 @@
 		entry_PCD = 8'b00000011;
 
         valid_F_D_latch_out = 1'b1;
-        packet_F_D_latch_out = 128'h00000000000000000000000000000000;
+        packet_F_D_latch_out = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
 
 		VP = {VP_7, VP_6, VP_5, VP_4, VP_3, VP_2, VP_1, VP_0};
 		PF = {PF_7, PF_6, PF_5, PF_4, PF_3, PF_2, PF_1, PF_0};
@@ -859,7 +859,7 @@
         .wb_segaddr1(seg_addr_WB_RRAG_out[2:0]), .wb_segaddr2(seg_addr_WB_RRAG_out[5:3]), .wb_segaddr3(seg_addr_WB_RRAG_out[8:6]), .wb_segaddr4(seg_addr_WB_RRAG_out[11:9]),
         .wb_opsize(ressize_WB_RRAG_out), .wb_regld(reg_ld_WB_RRAG_out), .wb_segld(seg_ld_WB_RRAG_out), .wb_inst_ptcid(inst_ptcid_out_WB_RRAG_out),
         .fwd_stall(MEM_stall_out), //recieve from MEM
-        .ptc_clear(1'b1), //TODO: from IDTR      
+        .ptc_clear(clr), //TODO: from IDTR      
 
         //outputs
         .valid_out(valid_RrAg_MEM_latch_in), .stall(/*RrAg_stall_out*/), //send to D_RrAg_Queued_Latches
