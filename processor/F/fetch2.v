@@ -98,7 +98,7 @@ module fetch_2 (
     kogeAdder #(.WIDTH(8)) a4(.A({2'b0, latched_BIP}), .B({D_length}), .CIN(1'b0), .SUM(BIP_plus_length), .COUT());
 
     check_valid_rotate cvr(
-        .curr_line(BIP_plus_length[5:4]),
+        .curr_line(latched_BIP[5:4]),
         .valid_00(line_00_valid),
         .valid_01(line_01_valid),
         .valid_10(line_10_valid),
