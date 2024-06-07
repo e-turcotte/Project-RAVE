@@ -286,7 +286,8 @@ module gpr (input [31:0] din,
     regn #(.WIDTH(8)) h_section(.din(din[15:8]), .ld(sized_ld[1]), .clr(clr), .clk(clk), .dout(h_dout));
     regn #(.WIDTH(8)) l_section(.din(din[7:0]), .ld(sized_ld[0]), .clr(clr), .clk(clk), .dout(l_dout));
 
-    wire clearptc [0:2], ptcld [0:2], clr_ptc_signal;
+    wire [2:0] clearptc, ptcld;
+    wire clr_ptc_signal;
     wire v [0:2];
     wire [6:0] id [0:2];
 
