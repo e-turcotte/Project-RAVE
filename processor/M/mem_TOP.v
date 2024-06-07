@@ -95,8 +95,11 @@ module mem (input valid_in,
             output [6:0] cache_ptcid_out,
             output cache_valid_out,
             output [127:0] cache_data_out,
-            output [255:0] cache_ptcinfo_out,
+            output [127:0] cache_ptcinfo_out,
             output stall
+
+            output [127:0] cacheline_e_bus_in_data, cacheline_o_bus_in_data,
+            output [255:0] cacheline_e_bus_in_ptcinfo, cacheline_o_bus_in_ptcinfo
             );
 
     wire [31:0] mem1, nextmem1, regmem1, mem2, nextmem2, regmem2, incdec;
@@ -149,7 +152,8 @@ module mem (input valid_in,
               .aq_isempty(), .rdaq_isfull(rdaq_isfull), .swaq_isfull(swaq_isfull), .wbaq_isfull(wbaq_isfull),
               .wake(wake_cache_out), .PTC_ID_out(cache_ptcid_out), .cache_valid(cache_valid_out), .data(cache_data_out), .stall(cache_stall), .ptcinfo_out(cache_ptcinfo_out),
               .qentry_slot_in_e(qentry_slot_in_e), .ptcid_out_e(ptcid_out_e), .qentry_slots_out_e(qentry_slot_in_e), .wake_vector_out_e(wake_mshr_out[1:0]), .mshr_hit_e(), .mshr_full_e(),
-              .qentry_slot_in_o(qentry_slot_in_o), .ptcid_out_o(ptcid_out_o), .qentry_slots_out_o(qentry_slot_in_o), .wake_vector_out_o(wake_mshr_out[3:2]), .mshr_hit_o(), .mshr_full_o());
+              .qentry_slot_in_o(qentry_slot_in_o), .ptcid_out_o(ptcid_out_o), .qentry_slots_out_o(qentry_slot_in_o), .wake_vector_out_o(wake_mshr_out[3:2]), .mshr_hit_o(), .mshr_full_o(),
+              .cacheline_e_bus_in_data(cacheline_e_bus_in_data), .cacheline_o_bus_in_data(cacheline_o_bus_in_data), .cacheline_e_bus_in_ptcinfo(cacheline_e_bus_in_ptcinfo), .cacheline_o_bus_in_ptcinfo(cacheline_o_bus_in_ptcinfo));
 
     or2$ g1(.out(stall), .in0(rep_stall), .in1(cache_stall));
 

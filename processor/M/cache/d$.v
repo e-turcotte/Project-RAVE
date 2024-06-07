@@ -83,7 +83,10 @@ module d$(
     output [6:0] ptcid_out_o,
     output [7:0] qentry_slots_out_o,
     output [1:0] wake_vector_out_o,
-    output mshr_hit_o, mshr_full_o
+    output mshr_hit_o, mshr_full_o,
+
+    output [127:0] cacheline_e_bus_in_data, cacheline_o_bus_in_data,
+    output [255:0] cacheline_e_bus_in_ptcinfo, cacheline_o_bus_in_ptcinfo
     ); 
 
 
@@ -838,7 +841,7 @@ DES DD_E(
     .BUS(BUS),
     .setReciever(recvDE),
     .free_bau(freeDE)
-);
+); 
   
 SER DS_O_W(
     .clk_core(clk),
@@ -904,6 +907,18 @@ DES DD_O(
     .setReciever(recvDO),
     .free_bau(freeDO)
 );
+
+assign cacheline_e_bus_in_data = bus_data_e;
+assign cacheline_o_bus_in_data = bus_data_o;
+genvar i;
+generate
+     for(i = 0; i < 16; i = i + 1) begin : cacheline_bus_in
+         assign cacheline_e_bus_in_ptcinfo[i*16+3:i*16] = i;
+         assign cacheline_e_bus_in_ptcinfo[i*16+14:i*16+4] = bus_pAddress_e[14:4];
+         assign cacheline_o_bus_in_ptcinfo[i*16+3:i*16] = i;
+         assign cacheline_o_bus_in_ptcinfo[i*16+14:i*16+4] = bus_pAddress_o[14:4];
+     end
+endgenerate
 
     assign free_bau_d =    {freeDO, freeDE};
     assign recvDO = setReciever_d[1];

@@ -489,7 +489,7 @@
     wire [11:0] reg_addr_WB_RRAG_out, seg_addr_WB_RRAG_out;
     wire [31:0] mem_addr_WB_M_out; //done
     wire [3:0] reg_ld_WB_RRAG_out, seg_ld_WB_RRAG_out;
-    wire mem_ld_WB_M_out;
+    wire mem_ld_WB_M_out, wbaq_isfull_WB_M_in;
     wire [6:0] inst_ptcid_out_WB_RRAG_out;
     wire [5:0] WB_BP_update_alias;
     wire [27:0] newFIP_e_WB_out, newFIP_o_WB_out;
@@ -978,10 +978,16 @@
                                                                           96'h000000000000000000000000,ptc_s4_RrAg_MEM_latch_out,96'h000000000000000000000000,ptc_s3_RrAg_MEM_latch_out,
                                                                           96'h000000000000000000000000,ptc_s2_RrAg_MEM_latch_out,96'h000000000000000000000000,ptc_s1_RrAg_MEM_latch_out}),
                                                             .new_data({reg4_memdf,reg3_memdf,reg2_memdf,reg1_memdf,seg4_memdf,seg3_memdf,seg2_memdf,seg1_memdf}), .modify());
-
+    
     wire [3:0] init_wake, cache_wake, mshr_wake;
     wire [6:0] cache_ptcid, mshr_ptcid_e, mshr_ptcid_o;
     wire [7:0] mshr_qslot_e_in, mshr_qslot_e_out, mshr_qslot_o_in, mshr_qslot_o_out;
+    
+    wire cache_out_valid;
+    wire [63:0] cache_out_data;
+    wire [127:0] cache_out_ptcinfo;
+    wire [127:0] cacheline_e_bus_in_data, cacheline_o_bus_in_data;
+    wire [255:0] cacheline_e_bus_in_ptcinfo, cacheline_o_bus_in_ptcinfo;
 
     mem m1 (
         //inputs
@@ -1033,7 +1039,7 @@
         .clk_bus(bus_clk),
         .BUS(BUS),
         .setReceiver_d({recvDO,recvDE}), .free_bau_d({freeDO,freeDE}), .grant_d({grantDEr,grantDEw,grantDOr,grantDOw}), .ack_d({ackDEr,ackDEw,ackDOr,ackDOw}), .releases_d({relDEr,relDEw,relDOr,relDOw}), .req_d({reqDEr,reqDEw,reqDOr,reqDOw}), .dest_d({destDOw,destDOr,destDEw,destDEr}),
-        .wb_memdata(), .wb_memaddr(mem_addr_WB_M_out), .wb_size(memsize_WB_M_out), .wb_valid(mem_ld_WB_M_out), .wb_ptcid(inst_ptcid_out_WB_RRAG_out), .wbaq_isfull(), //TODO:
+        .wb_memdata(mem_data_WB_M_out), .wb_memaddr(mem_addr_WB_M_out), .wb_size(memsize_WB_M_out), .wb_valid(mem_ld_WB_M_out), .wb_ptcid(inst_ptcid_out_WB_RRAG_out), .wbaq_isfull(wbaq_isfull_WB_M_in),
         .VP_in(VP), .PF_in(PF),
         .entry_V_in(entry_v), .entry_P_in(entry_P), .entry_RW_in(entry_RW), .entry_PCD_in(entry_PCD),
         .qentry_slot_in_e(mshr_qslot_e_in), .qentry_slot_in_o(mshr_qslot_o_in),
@@ -1099,8 +1105,10 @@
         .is_rep_out(is_rep_MEM_EX_latch_in), 
         .CS_out(CS_MEM_EX_latch_in),
         .wake_init_out(init_wake), .wake_cache_out(cache_wake), .wake_mshr_out(mshr_wake),
-        .cache_ptcid_out(cache_ptcid), .cache_valid_out(), .cache_data_out(), .cache_ptcinfo_out(), //TODO:
+        .cache_ptcid_out(cache_ptcid), .cache_valid_out(cache_out_valid), .cache_data_out(cache_out_data), .cache_ptcinfo_out(cache_out_ptcinfo),
         .stall(MEM_stall_out) //send to RrAg and RrAg_MEM_latch
+        .cacheline_e_bus_in_data(cacheline_e_bus_in_data), .cacheline_o_bus_in_data(cacheline_o_bus_in_data),
+        .cacheline_e_bus_in_ptcinfo(cacheline_e_bus_in_ptcinfo), .cacheline_o_bus_in_ptcinfo(cacheline_o_bus_in_ptcinfo)
     );        
         
     
@@ -1139,8 +1147,14 @@
     wire [7:0] cache_qslot;
     wire [3:0] guarded_cache_wake [0:7], guarded_mshr_wake [0:7];
 
+    wire [127:0] guarded_cache_out_ptcinfo;
+
     genvar i, j;
     generate
+        for (j = 0; j < 127; j = j + 1) begin: M_EX_cacheline_ptcinfo_validation
+            and2$ g21345678654(.out(guarded_cache_out_ptcinfo[i]), .in0(cache_out_ptcinfo), .in1(cache_out_valid));
+        end
+        
         for (i = 0; i < 8; i = i + 1) begin : M_EX_q_modifiers
 
             assign old_inst_ptcid[i] = old_m_M_EX[i*m_size_MEM_EX + 779:i*m_size_MEM_EX + 773];
@@ -1154,7 +1168,8 @@
             wire [3:0] mod_vect;
 
             //TODO: add bus values to prospect list
-            bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(4)) mexqdf(.prospective_data({res4_WB_RRAG_out,res3_WB_RRAG_out,res2_WB_RRAG_out,res1_WB_RRAG_out}), .prospective_ptc({res4_ptcinfo_WB_RRAG_out,res3_ptcinfo_WB_RRAG_out,res2_ptcinfo_WB_RRAG_out,res1_ptcinfo_WB_RRAG_out}),
+            bypassmech #(.NUM_PROSPECTS(9), .NUM_OPERANDS(4)) mexqdf(.prospective_data({res4_WB_RRAG_out,res3_WB_RRAG_out,res2_WB_RRAG_out,res1_WB_RRAG_out,cache_out_data,cacheline_e_bus_in_data,cacheline_o_bus_in_data}),
+                                                                     .prospective_ptc({res4_ptcinfo_WB_RRAG_out,res3_ptcinfo_WB_RRAG_out,res2_ptcinfo_WB_RRAG_out,res1_ptcinfo_WB_RRAG_out,guarded_cache_out_ptcinfo,cacheline_e_bus_in_ptcinfo,cacheline_o_bus_in_ptcinfo}),
                                                                      .operand_data({old_ops[i]}), .operand_ptc({old_op_ptcinfos[i]}),
                                                                      .new_data({new_ops[i]}), .modify(mod_vect));
 
@@ -1415,7 +1430,7 @@
 
         .interrupt_in(),
 
-        .wbaq_full(1'b0), .is_rep(is_rep_EX_WB_latch_out),
+        .wbaq_full(wbaq_isfull_WB_M_in), .is_rep(is_rep_EX_WB_latch_out),
 
         .valid_out(is_valid_WB_out),
 
