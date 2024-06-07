@@ -102,21 +102,21 @@ module regfile (input [255:0] din,
         
         $fdisplay(file, "[===MMX VALUES===]");
         k = 0;
-        $fdisplay(file, "MM0 = 0x%h   PTC:%b", {8{mf.ptcvs[0]}});
+        $fdisplay(file, "MM0 = 0x%h   PTC:%b", mf.outs[63:0], {8{mf.ptcvs[0]}});
         k = 1;
-        $fdisplay(file, "MM1 = 0x%h   PTC:%b", {8{mf.ptcvs[1]}});
+        $fdisplay(file, "MM1 = 0x%h   PTC:%b", mf.outs[127:64], {8{mf.ptcvs[1]}});
         k = 2;
-        $fdisplay(file, "MM2 = 0x%h   PTC:%b", {8{mf.ptcvs[2]}});
+        $fdisplay(file, "MM2 = 0x%h   PTC:%b", mf.outs[191:128], {8{mf.ptcvs[2]}});
         k = 3;
-        $fdisplay(file, "MM3 = 0x%h   PTC:%b", {8{mf.ptcvs[3]}});
+        $fdisplay(file, "MM3 = 0x%h   PTC:%b", mf.outs[255:192], {8{mf.ptcvs[3]}});
         k = 4;
-        $fdisplay(file, "MM4 = 0x%h   PTC:%b", {8{mf.ptcvs[4]}});
+        $fdisplay(file, "MM4 = 0x%h   PTC:%b", mf.outs[319:256], {8{mf.ptcvs[4]}});
         k = 5;
-        $fdisplay(file, "MM5 = 0x%h   PTC:%b", {8{mf.ptcvs[5]}});
+        $fdisplay(file, "MM5 = 0x%h   PTC:%b", mf.outs[383:320], {8{mf.ptcvs[5]}});
         k = 6;
-        $fdisplay(file, "MM6 = 0x%h   PTC:%b", {8{mf.ptcvs[6]}});
+        $fdisplay(file, "MM6 = 0x%h   PTC:%b", mf.outs[447:384], {8{mf.ptcvs[6]}});
         k = 7;
-        $fdisplay(file, "MM7 = 0x%h   PTC:%b", {8{mf.ptcvs[7]}});
+        $fdisplay(file, "MM7 = 0x%h   PTC:%b", mf.outs[511:448], {8{mf.ptcvs[7]}});
 
         $fdisplay(file, "\n");
     end
