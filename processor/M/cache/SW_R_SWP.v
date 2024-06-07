@@ -26,10 +26,11 @@ assign PTC_ID_in_sw = PTC_ID_in;
 assign PTC_ID_in_r = PTC_ID_in;
 nor2$ swselalt(swSel, M1_RW[1], M2_RW[1]);
 nor2$ rselalt(rSel, M1_RW[0], M2_RW[0]);
+nor2$ sels(Sel, M1_RW[1], M1_RW[0]);
 muxnm_tristate #(3, 32) mx0({M2, M1, 32'd0}, {M2_RW[1],M1_RW[1],swSel},address_in_sw);
 muxnm_tristate #(3, 32) mx1({M2, M1, 32'd0}, {M2_RW[0],M1_RW[0],rSel},address_in_r);
 
-muxnm_tristate #(3, 2) mx2({2'b10, 2'b01, 2'd0}, {M1_RW[1],M1_RW[0], swSel},{sw_is_m1, r_is_m1});
+muxnm_tristate #(3, 2) mx2({2'b10, 2'b01, 2'd0}, {M1_RW[1],M1_RW[0], Sel},{sw_is_m1, r_is_m1});
 
 assign sizeOVR_sw = sizeOvr;
 assign sizeOVR_r = sizeOvr;
