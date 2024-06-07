@@ -105,7 +105,7 @@ inputAlign IA(
     .fromBUS0(fromBUS0),
     .mask0(mask0),
     .vAddress1(vAddress1),
-    .address1(address0),
+    .address1(address1),
     .data1(data1),
     .size1(size1),
     .r1(r1),

@@ -554,7 +554,7 @@
         .relDEr(relDEr), 
         .relDEw(relDEw), 
         .relDOr(relDOr), 
-        .relDOw(relDow),
+        .relDOw(relDOw),
 
         .destIE(1'b0), 
         .destIO(1'b0), 
