@@ -221,7 +221,7 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire MSHR_rdsw_e;
     wire [14:0] MSHR_pAddress_e;
     wire [6:0] MSHR_ptcid_e;
-
+    wire [3:0] wake_init_vector_wb;
     wire SER_valid0_e;
     wire [127:0] SER_data0_e;
     wire [14:0]SER_pAddress0_e;
@@ -247,7 +247,7 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire needP1_out_e;
     wire [2:0]oneSize_out_e;
     wire [6:0]PTC_ID_out_e;
-
+    wire [127:0] PTC_out_wb;
     wire MSHR_HIT_o;
     wire MSHR_FULL_o;
     wire SER1_FULL_o;
@@ -292,7 +292,7 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire [127:0] bus_data_e;
 
     wire recvDE, recvDO;
-
+    wire[63:0] data_out;
 
     wire bus_valid_o;
     wire bus_valid_o_nobuf;
@@ -901,12 +901,24 @@ DES DD_O(
     .free_bau(freeDO)
 );
 
-  assign free_bau_d =    {freeDO, freeDE};
+    assign free_bau_d =    {freeDO, freeDE};
     assign recvDO = setReciever_d[1];
     assign recvDE = setReciever_d[0];
 
-    assign grant_d = {grantDEr, grantDEw, grantDOr, grantDOw};
-    assign ack_d = {ackDEr, ackDEw, ackDOr, ackDOw};
+    //assign grant_d = {grantDEr, grantDEw, grantDOr, grantDOw};
+    assign grantDEr = grant_d[3];
+    assign grantDEw = grant_d[2];
+    assign grantDOr = grant_d[1];
+    assign grantDOw = grant_d[0];
+
+    assign ackDEr = ack_d[3];
+    assign ackDEw = ack_d[2];
+    assign ackDOr = ack_d[1];
+    assign ackDOw = ack_d[0];
+
+
+
+    //assign ack_d = {ackDEr, ackDEw, ackDOr, ackDOw};
     assign releases_d = {relDEr, relDEw, relDOr, relDOw};
     assign req_d = {reqDEr, reqDEw, reqDOr, reqDOw};
 

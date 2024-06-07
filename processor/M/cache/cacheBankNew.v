@@ -71,7 +71,7 @@ module cacheBank (
     output needP1,
     output [2:0]oneSize_out,
 
-    output PTC_ID_out
+    output [6:0]PTC_ID_out
 
 );
 assign PTC_ID_out = PTC_ID_IN;
