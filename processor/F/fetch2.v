@@ -91,14 +91,18 @@ module fetch_2 (
 
     wire not_stall, ld_BIP;
     inv1$ i3(.in(stall), .out(not_stall));
-    andn #(2) a2(.in({not_stall, packet_out_valid}), .out(ld_BIP));
+    wire packet_out_valid_latched;
+    regn #(.WIDTH(1)) scrappy_fix_to_get_delayed_valid_for_decode_so_i_dont_have_to_refactor(.din(packet_out_valid), 
+                                                                .ld(not_stall), .clk(clk), .clr(reset), .dout(packet_out_valid_latched));
+
+    andn #(2) a2(.in({not_stall, packet_out_valid_latched}), .out(ld_BIP));
     
     regn #(.WIDTH(6)) BIP_reg(.din(mux_BIP_to_load), .ld(ld_BIP), .clk(clk), .clr(reset), .dout(latched_BIP));
 
     kogeAdder #(.WIDTH(8)) a4(.A({2'b0, latched_BIP}), .B({D_length}), .CIN(1'b0), .SUM(BIP_plus_length), .COUT());
 
     check_valid_rotate cvr(
-        .curr_line(latched_BIP[5:4]),
+        .curr_line(BIP_plus_length[5:4]),
         .valid_00(line_00_valid),
         .valid_01(line_01_valid),
         .valid_10(line_10_valid),
