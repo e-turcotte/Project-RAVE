@@ -69,6 +69,7 @@ module d$(
     output cache_valid,
     output [127:0] data,
     output stall, 
+    output [127:0] ptcinfo_out,
 
 
     //MSHR outputs
@@ -536,6 +537,8 @@ cacheaqsys cacheaqsys_inst (
     .sw_pcd(PCD_out_sw),
     .wb_pcd(PCD_out_wb),
 
+    .rd_ptcinfo(ptc_info_r),
+    .sw_ptcinfo(ptc_info_sw),
 
     .bus_pcd(bus_pcd),
     .bus_isempty(bus_isempty),
@@ -572,7 +575,8 @@ cacheaqsys cacheaqsys_inst (
     .aq_isempty(aq_isempty),
     .rdaq_isfull(rdaq_isfull),
     .swaq_isfull(swaq_isfull),
-    .wbaq_isfull(wbaq_isfull)
+    .wbaq_isfull(wbaq_isfull),
+    .ptcinfo(ptcinfo_out)
 );
 
 cacheBank bankE (
