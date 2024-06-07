@@ -533,76 +533,76 @@
         grantDEr, grantDEw, grantDOr, grantDOw, recvIE, recvIO, recvDE, recvDO;
 
 
-    // offcoreBus_TOP offcoreBus(
-    //     .clk(clk),
-    //     .rst(global_reset),
-    //     .set(global_set),
-    //     .clk_bus(bus_clk),
+    offcoreBus_TOP offcoreBus(
+        .clk(clk),
+        .rst(global_reset),
+        .set(global_set),
+        .clk_bus(bus_clk),
         
-    //     .freeIE(freeIE),
-    //     .freeIO(freeIO),
-    //     .freeDE(1'b1),
-    //     .freeDO(1'b1),
-    //     .reqIE(reqIE),
-    //     .reqIO(reqIO),
-    //     .reqDEr(1'b0),//tied to 0 for testing
-    //     .reqDEw(1'b0),//tied to 0 for testing
-    //     .reqDOr(1'b0),//tied to 0 for testing
-    //     .reqDOw(1'b0),//tied to 0 for testing
-    //     .relIE(relIE),
-    //     .relIO(relIO), 
-    //     .relDEr(1'b0), 
-    //     .relDEw(1'b0), 
-    //     .relDOr(1'b0), 
-    //     .relDOw(1'b0),
+        .freeIE(1'b0),
+        .freeIO(1'b0),
+        .freeDE(freeDE),
+        .freeDO(freeDO),
+        .reqIE(1'b0),
+        .reqIO(1'b0),
+        .reqDEr(reqDEr),//tied to 0 for testing
+        .reqDEw(reqDEw),//tied to 0 for testing
+        .reqDOr(reqDOr),//tied to 0 for testing
+        .reqDOw(reqDOw),//tied to 0 for testing
+        .relIE(1'b0),
+        .relIO(1'b0), 
+        .relDEr(relDEr), 
+        .relDEw(relDEw), 
+        .relDOr(relDOr), 
+        .relDOw(relDow),
 
-    //     .destIE(I$_SER_dest_e), 
-    //     .destIO(I$_SER_dest_o), 
-    //     .destDEr(4'd0),
-    //     .destDEw(4'd0), 
-    //     .destDOr(4'd0), 
-    //     .destDOw(4'd0),
+        .destIE(1'b0), 
+        .destIO(1'b0), 
+        .destDEr(destDEr),
+        .destDEw(destDEw), 
+        .destDOr(destDOr), 
+        .destDOw(destDOw),
 
-    //     .BUS(BUS),
+        .BUS(BUS),
 
-    //     .ackIE(ackIE), 
-    //     .ackIO(ackIO), 
-    //     .ackDEr(1'd0), 
-    //     .ackDEw(1'd0), 
-    //     .ackDOr(1'd0), 
-    //     .ackDOw(1'd0),
-    //     .grantIE(grantIE), 
-    //     .grantIO(grantIO), 
-    //     .grantDEr(1'd0), 
-    //     .grantDEw(1'd0), 
-    //     .grantDOr(1'd0), 
-    //     .grantDOw(1'd0),
-    //     .recvIE(recvIE), 
-    //     .recvIO(recvIO), 
-    //     .recvDE(1'd0), 
-    //     .recvDO(1'd0)
-    // );
+        .ackIE(1'b0), 
+        .ackIO(1'b0), 
+        .ackDEr(ackDEr), 
+        .ackDEw(ackDEw), 
+        .ackDOr(ackDOr), 
+        .ackDOw(ackDOw),
+        .grantIE(1'b0), 
+        .grantIO(1'b0), 
+        .grantDEr(grantDEr), 
+        .grantDEw(grantDEw), 
+        .grantDOr(grantDOr), 
+        .grantDOw(grantDOw),
+        .recvIE(1'b0), 
+        .recvIO(1'b0), 
+        .recvDE(recvDE), 
+        .recvDO(recvDO)
+    );
 
-    // IE_handler IDTR(
-    //     .clk(clk),
-    //     .reset(global_reset),
-    //     .enable(1'b1), //im not sure when it should be disabled but its here if u need
-    //     .IE_in(final_IE_val),
-    //     .IE_type_in(final_IE_type),
-    //     .IDTR_base_address(IDTR_base),
-    //     .EIP_WB(EIP_WB_out),
-    //     .EFLAGS_WB(final_EFLAGS),
-    //     .CS_WB(final_CS),
+    IE_handler IDTR(
+        .clk(clk),
+        .reset(global_reset),
+        .enable(1'b1), //im not sure when it should be disabled but its here if u need
+        .IE_in(final_IE_val),
+        .IE_type_in(final_IE_type),
+        .IDTR_base_address(IDTR_base),
+        .EIP_WB(EIP_WB_out),
+        .EFLAGS_WB(final_EFLAGS),
+        .CS_WB(final_CS),
 
-    //     .is_IRETD(),
-    //     .IDTR_packet_out(IDTR_packet_out),
-    //     .packet_out_select(IDTR_packet_select_out),
-    //     .flush_pipe(IDTR_flush_pipe),
-    //     .PTC_clear(IDTR_PTC_clear),
-    //     .LD_EIP(IDTR_LD_EIP_out),
-    //     .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
-    //     .is_servicing_IE(is_servicing_IE)
-    // );
+        .is_IRETD(),
+        .IDTR_packet_out(IDTR_packet_out),
+        .packet_out_select(IDTR_packet_select_out),
+        .flush_pipe(IDTR_flush_pipe),
+        .PTC_clear(IDTR_PTC_clear),
+        .LD_EIP(IDTR_LD_EIP_out),
+        .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
+        .is_servicing_IE(is_servicing_IE)
+    );
 
     // bp_btb BPstuff(
     //     .clk(clk),
@@ -1029,10 +1029,10 @@
         .res3_ld_in(res3_ld_RrAg_MEM_latch_out), .res4_ld_in(res4_ld_RrAg_MEM_latch_out),
         .rep_num(rep_num_RrAg_MEM_latch_out),
         .is_rep_in(is_rep_RrAg_MEM_latch_out),
-        .memsizeOVR(), //TODO:
+        .memsizeOVR(1'b0), //TODO:
         .clk_bus(bus_clk),
         .BUS(BUS),
-        .setReceiver_d({recvDO,recvDE}), .free_bau_d({freeDO,freeDO}), .grant_d({grantDEr,grantDEw,grantDOr,grantDOw}), .ack_d({ackDEr,ackDEw,ackDOr,ackDOw}), .releases_d({relDEr,relDEw,relDOr,relDOw}), .req_d({reqDEr,reqDEw,reqDOr,reqDOw}), .dest_d({destDOw,destDOr,destDEw,destDEr}),
+        .setReceiver_d({recvDO,recvDE}), .free_bau_d({freeDO,freeDE}), .grant_d({grantDEr,grantDEw,grantDOr,grantDOw}), .ack_d({ackDEr,ackDEw,ackDOr,ackDOw}), .releases_d({relDEr,relDEw,relDOr,relDOw}), .req_d({reqDEr,reqDEw,reqDOr,reqDOw}), .dest_d({destDOw,destDOr,destDEw,destDEr}),
         .wb_memdata(), .wb_memaddr(mem_addr_WB_M_out), .wb_size(memsize_WB_M_out), .wb_valid(mem_ld_WB_M_out), .wb_ptcid(inst_ptcid_out_WB_RRAG_out), .wbaq_isfull(), //TODO:
         .VP_in(VP), .PF_in(PF),
         .entry_V_in(entry_v), .entry_P_in(entry_P), .entry_RW_in(entry_RW), .entry_PCD_in(entry_PCD),
