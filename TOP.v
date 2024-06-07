@@ -88,7 +88,7 @@
 		entry_v = 8'b10111111;
 		entry_P = 8'b11110111;
 		entry_RW= 8'b11010101;
-		entry_PCD = 8'b00000011;
+		entry_PCD = 8'b11000000;
 
         valid_F_D_latch_out = 1'b1;
         packet_F_D_latch_out = 128'h0300_0000_0000_0000_0000_0000_0000_0000;
