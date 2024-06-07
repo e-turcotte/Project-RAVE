@@ -84,39 +84,39 @@ module regfile (input [255:0] din,
 
         $fdisplay(file, "[===GPR VALUES===]");
         k = 0;
-        $fdisplay(file, "EAX = 0x%h   PTC:%b", {gf.e_out[0],gf.h_out[0],gf.l_out[0]}, {gf.e_ptc[0][30],gf.e_ptc[0][14],gf.h_ptc[0][14],gf.l_ptc[0][14]});
+        $fdisplay(file, "EAX = 0x%h   PTC:%b", {gf.e_out[0],gf.h_out[0],gf.l_out[0]}, {gf.e_ptcv[0],gf.e_ptcv[0],gf.h_ptcv[0],gf.l_ptcv[0]});
         k = 1;
-        $fdisplay(file, "ECX = 0x%h   PTC:%b", {gf.e_out[1],gf.h_out[1],gf.l_out[1]}, {gf.e_ptc[1][30],gf.e_ptc[1][14],gf.h_ptc[1][14],gf.l_ptc[1][14]});
+        $fdisplay(file, "ECX = 0x%h   PTC:%b", {gf.e_out[1],gf.h_out[1],gf.l_out[1]}, {gf.e_ptcv[1],gf.e_ptcv[1],gf.h_ptcv[1],gf.l_ptcv[1]});
         k = 2;
-        $fdisplay(file, "EDX = 0x%h   PTC:%b", {gf.e_out[2],gf.h_out[2],gf.l_out[2]}, {gf.e_ptc[2][30],gf.e_ptc[2][14],gf.h_ptc[2][14],gf.l_ptc[2][14]});
+        $fdisplay(file, "EDX = 0x%h   PTC:%b", {gf.e_out[2],gf.h_out[2],gf.l_out[2]}, {gf.e_ptcv[2],gf.e_ptcv[2],gf.h_ptcv[2],gf.l_ptcv[2]});
         k = 3;
-        $fdisplay(file, "EBX = 0x%h   PTC:%b", {gf.e_out[3],gf.h_out[3],gf.l_out[3]}, {gf.e_ptc[3][30],gf.e_ptc[3][14],gf.h_ptc[3][14],gf.l_ptc[3][14]});
+        $fdisplay(file, "EBX = 0x%h   PTC:%b", {gf.e_out[3],gf.h_out[3],gf.l_out[3]}, {gf.e_ptcv[3],gf.e_ptcv[3],gf.h_ptcv[3],gf.l_ptcv[3]});
         k = 4;
-        $fdisplay(file, "ESP = 0x%h   PTC:%b", {gf.e_out[4],gf.h_out[4],gf.l_out[4]}, {gf.e_ptc[4][30],gf.e_ptc[4][14],gf.h_ptc[4][14],gf.l_ptc[4][14]});
+        $fdisplay(file, "ESP = 0x%h   PTC:%b", {gf.e_out[4],gf.h_out[4],gf.l_out[4]}, {gf.e_ptcv[4],gf.e_ptcv[4],gf.h_ptcv[4],gf.l_ptcv[4]});
         k = 5;
-        $fdisplay(file, "EBP = 0x%h   PTC:%b", {gf.e_out[5],gf.h_out[5],gf.l_out[5]}, {gf.e_ptc[5][30],gf.e_ptc[5][14],gf.h_ptc[5][14],gf.l_ptc[5][14]});
+        $fdisplay(file, "EBP = 0x%h   PTC:%b", {gf.e_out[5],gf.h_out[5],gf.l_out[5]}, {gf.e_ptcv[5],gf.e_ptcv[5],gf.h_ptcv[5],gf.l_ptcv[5]});
         k = 6;
-        $fdisplay(file, "ESI = 0x%h   PTC:%b", {gf.e_out[6],gf.h_out[6],gf.l_out[6]}, {gf.e_ptc[6][30],gf.e_ptc[6][14],gf.h_ptc[6][14],gf.l_ptc[6][14]});
+        $fdisplay(file, "ESI = 0x%h   PTC:%b", {gf.e_out[6],gf.h_out[6],gf.l_out[6]}, {gf.e_ptcv[6],gf.e_ptcv[6],gf.h_ptcv[6],gf.l_ptcv[6]});
         k = 7;
-        $fdisplay(file, "EDI = 0x%h   PTC:%b", {gf.e_out[7],gf.h_out[7],gf.l_out[7]}, {gf.e_ptc[7][30],gf.e_ptc[7][14],gf.h_ptc[7][14],gf.l_ptc[7][14]});
+        $fdisplay(file, "EDI = 0x%h   PTC:%b", {gf.e_out[7],gf.h_out[7],gf.l_out[7]}, {gf.e_ptcv[7],gf.e_ptcv[7],gf.h_ptcv[7],gf.l_ptcv[7]});
         
         $fdisplay(file, "[===MMX VALUES===]");
         k = 0;
-        $fdisplay(file, "MM0 = 0x%h   PTC:%b", mf.outs[63:0], {mf.ptcs[(k*128)+126],mf.ptcs[(k*128)+110],mf.ptcs[(k*128)+94],mf.ptcs[(k*128)+78],mf.ptcs[(k*128)+62],mf.ptcs[(k*128)+46],mf.ptcs[(k*128)+30],mf.ptcs[(k*128)+14]});
+        $fdisplay(file, "MM0 = 0x%h   PTC:%b", {8{mf.ptcvs[0]}});
         k = 1;
-        $fdisplay(file, "MM1 = 0x%h   PTC:%b", mf.outs[127:64], {mf.ptcs[(k*128)+126],mf.ptcs[(k*128)+110],mf.ptcs[(k*128)+94],mf.ptcs[(k*128)+78],mf.ptcs[(k*128)+62],mf.ptcs[(k*128)+46],mf.ptcs[(k*128)+30],mf.ptcs[(k*128)+14]});
+        $fdisplay(file, "MM1 = 0x%h   PTC:%b", {8{mf.ptcvs[1]}});
         k = 2;
-        $fdisplay(file, "MM2 = 0x%h   PTC:%b", mf.outs[191:128], {mf.ptcs[(k*128)+126],mf.ptcs[(k*128)+110],mf.ptcs[(k*128)+94],mf.ptcs[(k*128)+78],mf.ptcs[(k*128)+62],mf.ptcs[(k*128)+46],mf.ptcs[(k*128)+30],mf.ptcs[(k*128)+14]});
+        $fdisplay(file, "MM2 = 0x%h   PTC:%b", {8{mf.ptcvs[2]}});
         k = 3;
-        $fdisplay(file, "MM3 = 0x%h   PTC:%b", mf.outs[255:192], {mf.ptcs[(k*128)+126],mf.ptcs[(k*128)+110],mf.ptcs[(k*128)+94],mf.ptcs[(k*128)+78],mf.ptcs[(k*128)+62],mf.ptcs[(k*128)+46],mf.ptcs[(k*128)+30],mf.ptcs[(k*128)+14]});
+        $fdisplay(file, "MM3 = 0x%h   PTC:%b", {8{mf.ptcvs[3]}});
         k = 4;
-        $fdisplay(file, "MM4 = 0x%h   PTC:%b", mf.outs[319:256], {mf.ptcs[(k*128)+126],mf.ptcs[(k*128)+110],mf.ptcs[(k*128)+94],mf.ptcs[(k*128)+78],mf.ptcs[(k*128)+62],mf.ptcs[(k*128)+46],mf.ptcs[(k*128)+30],mf.ptcs[(k*128)+14]});
+        $fdisplay(file, "MM4 = 0x%h   PTC:%b", {8{mf.ptcvs[4]}});
         k = 5;
-        $fdisplay(file, "MM5 = 0x%h   PTC:%b", mf.outs[383:320], {mf.ptcs[(k*128)+126],mf.ptcs[(k*128)+110],mf.ptcs[(k*128)+94],mf.ptcs[(k*128)+78],mf.ptcs[(k*128)+62],mf.ptcs[(k*128)+46],mf.ptcs[(k*128)+30],mf.ptcs[(k*128)+14]});
+        $fdisplay(file, "MM5 = 0x%h   PTC:%b", {8{mf.ptcvs[5]}});
         k = 6;
-        $fdisplay(file, "MM6 = 0x%h   PTC:%b", mf.outs[447:384], {mf.ptcs[(k*128)+126],mf.ptcs[(k*128)+110],mf.ptcs[(k*128)+94],mf.ptcs[(k*128)+78],mf.ptcs[(k*128)+62],mf.ptcs[(k*128)+46],mf.ptcs[(k*128)+30],mf.ptcs[(k*128)+14]});
+        $fdisplay(file, "MM6 = 0x%h   PTC:%b", {8{mf.ptcvs[6]}});
         k = 7;
-        $fdisplay(file, "MM7 = 0x%h   PTC:%b", mf.outs[511:448], {mf.ptcs[(k*128)+126],mf.ptcs[(k*128)+110],mf.ptcs[(k*128)+94],mf.ptcs[(k*128)+78],mf.ptcs[(k*128)+62],mf.ptcs[(k*128)+46],mf.ptcs[(k*128)+30],mf.ptcs[(k*128)+14]});
+        $fdisplay(file, "MM7 = 0x%h   PTC:%b", {8{mf.ptcvs[7]}});
 
         $fdisplay(file, "\n");
     end
@@ -330,6 +330,7 @@ module mmxfile (input [255:0] din,
 
     wire [511:0] ins, outs;
     wire [1023:0] ptcs;
+    wire [7:0] ptcvs;
     wire [7:0] ld_vector, dest_vector;
 
     genvar i;
@@ -352,7 +353,7 @@ module mmxfile (input [255:0] din,
             muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(64)) m0(.in(din), .sel({ld[24+i],ld[16+i],ld[8+i],ld[i]}), .out(ins[(i+1)*64-1:i*64]));
             or4$ g0(.out(ld_vector[i]), .in0(ld[i]), .in1(ld[8+i]), .in2(ld[16+i]), .in3(ld[24+i]));
             or4$ g1(.out(dest_vector[i]), .in0(dest[i]), .in1(dest[8+i]), .in2(dest[16+i]), .in3(dest[24+i]));
-            mmx r0(.din(ins[(i+1)*64-1:i*64]), .ld(ld_vector[i]), .dest(dest_vector[i]), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .loc(loc), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout(outs[(i+1)*64-1:i*64]), .mm_ptc(ptcs[(i+1)*128-1:i*128]));
+            mmx r0(.din(ins[(i+1)*64-1:i*64]), .ld(ld_vector[i]), .dest(dest_vector[i]), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .loc(loc), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout(outs[(i+1)*64-1:i*64]), .mm_ptc(ptcs[(i+1)*128-1:i*128]), .mm_ptcvout(ptcvs[i]));
         end
     endgenerate
 
@@ -375,7 +376,8 @@ module mmx (input [63:0] din,
             input clr, ptcclr,
             input clk,
             output [63:0] dout,
-            output [127:0] mm_ptc);
+            output [127:0] mm_ptc,
+            output mm_ptcvout);
     
     regn #(.WIDTH(64)) mm(.din(din), .ld(ld), .clr(clr), .clk(clk), .dout(dout));
     
@@ -396,5 +398,6 @@ module mmx (input [63:0] din,
                      2'b01,id,1'b0,loc,3'b010,
                      2'b01,id,1'b0,loc,3'b001,
                      2'b01,id,1'b0,loc,3'b000};
+    assign mm_ptcvout = v; //for printout purposes, dont actually need
 
 endmodule
