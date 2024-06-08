@@ -824,7 +824,12 @@ equaln #(4) e13(returnLoc_o, 4'b1100, oPCD);
 nand2$ opcdvale(valPCDe, ePCD, bus_valid_e);
 nand2$ opcdvalo(valPCDo, oPCD, bus_valid_o);
 nand2$ buspcd(bus_pcd, valPCDe, valPCDo);
-dff$ desDE(clk,bus_valid_e_nobuf, bus_valid_e, dcxx , rst,set);
+
+dff$ desDE(clk,bus_valid_e_nobuf, bus_valid_ex, dcxx , rst,set);
+dff$ desDO(clk,bus_valid_o_nobuf, bus_valid_ox, dcxxo , rst,set);
+and2$ asssd(bus_valid_e, bus_valid_e_nobuf,bus_valid_ex);
+and2$ asssde(bus_valid_o, bus_valid_o_nobuf,bus_valid_ox);
+
 DES DD_E(
     .read(bus_valid_e),
     .clk_bus(clk_bus),
@@ -887,7 +892,6 @@ SER DS_O_r(
     .dest_bau(dest_d[11:8])
 );  
 
-dff$ desDO(clk,bus_valid_o_nobuf, bus_valid_o, dcxxo , rst,set);
 
 
 DES DD_O(
