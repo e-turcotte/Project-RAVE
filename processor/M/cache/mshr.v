@@ -31,29 +31,29 @@ module mshr (input [14:0] pAddress,
                                                           .dout({dealloc_valid,dealloc_paddr,dealloc_qentries,dealloc_wake}));
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(8)) m0(.in({dealloc_qentries,8'h00}), .sel(dealloc), .out(qentry_slots_out));
-    and2$ g0(.out(wake_vector_out[0]), .in0(dealloc_wake[0]), .in1(dealloc));
-    and2$ g1(.out(wake_vector_out[1]), .in0(dealloc_wake[1]), .in1(dealloc));
+    and2$ g1(.out(wake_vector_out[0]), .in0(dealloc_wake[0]), .in1(dealloc));
+    and2$ g2(.out(wake_vector_out[1]), .in0(dealloc_wake[1]), .in1(dealloc));
 
     genvar i;
     generate
         for (i = 0; i < 8; i = i + 1) begin : m_slices
             equaln #(.WIDTH(15)) eq0(.a(dealloc_paddr), .b(issued_reqs[i*24 + 22:i*24 + 8]), .eq(match_vector_recv[i]));
-            and3$ g1(.out(invalidation_vector[i]), .in0(match_vector_recv[i]), .in1(issued_reqs[i*24 + 23]), .in2(dealloc));
+            and3$ g3(.out(invalidation_vector[i]), .in0(match_vector_recv[i]), .in1(issued_reqs[i*24 + 23]), .in2(dealloc));
             equaln #(.WIDTH(15)) eq1(.a(pAddress), .b(issued_reqs[i*24 + 22:i*24 + 8]), .eq(match_vector_send[i]));
-            and2$ g2(.out(hit_vector[i]), .in0(match_vector_send[i]), .in1(issued_reqs[i*24 + 23]));
+            and2$ g4(.out(hit_vector[i]), .in0(match_vector_send[i]), .in1(issued_reqs[i*24 + 23]));
 
             muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m1(.in({1'b0,issued_reqs[i*24 + 23]}), .sel(invalidation_vector[i]), .out(change_reqs[i*24 + 23]));
             assign change_reqs[i*24 + 22:i*24 + 8] = issued_reqs[i*24 + 22:i*24 + 8];
-            or2$ g3(.out(change_reqs[i*24 + 7]), .in0(issued_reqs[i*24 + 7]), .in1(qentry_slot_in[7]));
-            or2$ g4(.out(change_reqs[i*24 + 6]), .in0(issued_reqs[i*24 + 6]), .in1(qentry_slot_in[6]));
-            or2$ g5(.out(change_reqs[i*24 + 5]), .in0(issued_reqs[i*24 + 5]), .in1(qentry_slot_in[5]));
-            or2$ g6(.out(change_reqs[i*24 + 4]), .in0(issued_reqs[i*24 + 4]), .in1(qentry_slot_in[4]));
-            or2$ g7(.out(change_reqs[i*24 + 3]), .in0(issued_reqs[i*24 + 3]), .in1(qentry_slot_in[3]));
-            or2$ g8(.out(change_reqs[i*24 + 2]), .in0(issued_reqs[i*24 + 2]), .in1(qentry_slot_in[2]));
-            or2$ g9(.out(change_reqs[i*24 + 1]), .in0(issued_reqs[i*24 + 1]), .in1(qentry_slot_in[1]));
-            or2$ g10(.out(change_reqs[i*24 + 0]), .in0(issued_reqs[i*24 + 0]), .in1(qentry_slot_in[0]));
+            or2$ g5(.out(change_reqs[i*24 + 7]), .in0(issued_reqs[i*24 + 7]), .in1(qentry_slot_in[7]));
+            or2$ g6(.out(change_reqs[i*24 + 6]), .in0(issued_reqs[i*24 + 6]), .in1(qentry_slot_in[6]));
+            or2$ g7(.out(change_reqs[i*24 + 5]), .in0(issued_reqs[i*24 + 5]), .in1(qentry_slot_in[5]));
+            or2$ g8(.out(change_reqs[i*24 + 4]), .in0(issued_reqs[i*24 + 4]), .in1(qentry_slot_in[4]));
+            or2$ g9(.out(change_reqs[i*24 + 3]), .in0(issued_reqs[i*24 + 3]), .in1(qentry_slot_in[3]));
+            or2$ g10(.out(change_reqs[i*24 + 2]), .in0(issued_reqs[i*24 + 2]), .in1(qentry_slot_in[2]));
+            or2$ g11(.out(change_reqs[i*24 + 1]), .in0(issued_reqs[i*24 + 1]), .in1(qentry_slot_in[1]));
+            or2$ g12(.out(change_reqs[i*24 + 0]), .in0(issued_reqs[i*24 + 0]), .in1(qentry_slot_in[0]));
 
-            or2$ g11(.out(update_vector[i]), .in0(invalidation_vector[i]), .in1(hit_vector[i]));
+            or2$ g13(.out(update_vector[i]), .in0(invalidation_vector[i]), .in1(hit_vector[i]));
         end
     endgenerate
 
