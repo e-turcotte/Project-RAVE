@@ -81,8 +81,8 @@ wire [DATA_WIDTH-1:0] mux1_out, mux2_out;
 genvar i;
 generate
     for(i = 0; i < DATA_WIDTH; i=i+1) begin : nmux
-        mux2$ m(mux1_out[i], A[i], B[i], C[i],D[i], S0, S1);
-        mux2$ mn(mux2_out[i], E[i], F[i], G[i], H[i], S0, S1);
+        mux4$ m(mux1_out[i], A[i], B[i], C[i],D[i], S0, S1);
+        mux4$ mn(mux2_out[i], E[i], F[i], G[i], H[i], S0, S1);
     end
 endgenerate
 
