@@ -8,6 +8,9 @@
 
 TOP.v
 
+processor/M/cache/d$.v
+processor/M/cache/RSW_IA_AS.v
+processor/M/cache/SW_R_SWP.v
 processor/M/cache/adrSwap.v
 processor/M/cache/cache_stage1.v
 processor/M/cache/cacheaq.v
