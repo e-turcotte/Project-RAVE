@@ -1,6 +1,8 @@
 module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
                                                 input [127:0] cache_out_ptcinfo,
                                                 input cache_out_valid,
+                                                input [3:0] cache_wake,
+                                                
                                                 input [3:0] mshr_wake,
                                                 input [6:0] mshr_ptcid_e, mshr_ptcid_o,
                                                 input [7:0] mshr_qslot_e_in, mshr_qslot_o_in, mshr_qslot_e_out, mshr_qslot_o_out,

@@ -25,6 +25,7 @@ processor/M/cache/PTCVDFSM.v
 processor/M/cache/pulseGen.v
 processor/M/cache/tagStore.v
 processor/M/cache/wayGeneration.v
+processor/M/cache/latchconnections.v
 
 processor/F/fetch_TOP.v
 processor/F/fetch1.v
