@@ -611,7 +611,7 @@ cacheBank bankE (
     .PCD_IN(pcd_$),
 
     .AQ_READ(read_e),
-    .MSHR_alloc(MSHR_alloc_e & ~MSHR_dealloc_e),
+    .MSHR_alloc(MSHR_alloc_e ),
     .MSHR_dealloc(MSHR_dealloc_e),
     .MSHR_rdsw(MSHR_rdsw_e),
     .MSHR_pAddress(MSHR_pAddress_e),
@@ -676,7 +676,7 @@ cacheBank bankO (
 
     .AQ_READ(read_o),
 
-    .MSHR_alloc(MSHR_alloc_o & ~MSHR_dealloc_o),
+    .MSHR_alloc(MSHR_alloc_o ),
     .MSHR_dealloc(MSHR_dealloc_o),
     .MSHR_rdsw(MSHR_rdsw_o),
     .MSHR_pAddress(MSHR_pAddress_o),
@@ -826,7 +826,7 @@ nand2$ opcdvalo(valPCDo, oPCD, bus_valid_o);
 nand2$ buspcd(bus_pcd, valPCDe, valPCDo);
 dff$ desDE(clk,bus_valid_e_nobuf, bus_valid_e, dcxx , rst,set);
 DES DD_E(
-    .read(bus_valid_e),
+    .read(bus_valid_e & bus_valid_e_nobuf),
     .clk_bus(clk_bus),
     .clk_core(),
     .rst(rst),
@@ -891,7 +891,7 @@ dff$ desDO(clk,bus_valid_o_nobuf, bus_valid_o, dcxxo , rst,set);
 
 
 DES DD_O(
-    .read(bus_valid_o),
+    .read(bus_valid_o & bus_valid_o_nobuf),
     .clk_bus(clk_bus),
     .clk_core(clk),
     .rst(rst),
@@ -915,8 +915,8 @@ generate
      for(i = 0; i < 16; i = i + 1) begin : cacheline_bus_in
         wire [3:0] cachelineoffs;
         assign cachelineoffs = i;
-        muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) busemux(.in({1'b1,bus_pAddress_e[14:4],cachelineoffs,16'h0000}), .sel(bus_valid_e_nobuf), .out(cacheline_e_bus_in_ptcinfo[(i+1)*16-1:i*16]));
-        muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) busomux(.in({1'b1,bus_pAddress_o[14:4],cachelineoffs,16'h0000}), .sel(bus_valid_o_nobuf), .out(cacheline_o_bus_in_ptcinfo[(i+1)*16-1:i*16]));
+        muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) busemux(.in({1'b1,bus_pAddress_e[14:4],cachelineoffs,16'h0000}), .sel(bus_valid_e_nobuf & bus_valid_e), .out(cacheline_e_bus_in_ptcinfo[(i+1)*16-1:i*16]));
+        muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) busomux(.in({1'b1,bus_pAddress_o[14:4],cachelineoffs,16'h0000}), .sel(bus_valid_o_nobuf & bus_valid_o), .out(cacheline_o_bus_in_ptcinfo[(i+1)*16-1:i*16]));
      end
 endgenerate
 
