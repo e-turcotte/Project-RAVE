@@ -12,8 +12,7 @@ module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
                                                 input [7:0] modify_M_EX_latch,
                                                 
                                                 input [63:0] wb_res1, wb_res2, wb_res3, wb_res4,
-                                                input [127:0] wb_res1_ptcinfo, wb_res2_ptcinfo, wb_res3_ptcinfo, wb_res4_ptcinfo,
-                                                );
+                                                input [127:0] wb_res1_ptcinfo, wb_res2_ptcinfo, wb_res3_ptcinfo, wb_res4_ptcinfo);
 
     wire [6:0] old_inst_ptcid [0:7];
     wire [3:0] old_wake [0:7], new_wake [0:7];
