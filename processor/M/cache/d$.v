@@ -744,7 +744,7 @@ mshr mshrE (
     .qentry_slot_in(qentry_slot_in_e),
     .rdsw_in(MSHR_rdsw_e),
     .alloc(MSHR_alloc_e),
-    .dealloc(MSHR_dealloc_e),
+    .dealloc(MSHR_dealloc_e & bus_valid_e_nobuf),
     .clk(clk),
     .clr(rst),
     .ptcid_out(ptcid_out_e),
@@ -760,7 +760,7 @@ mshr mshrO (
     .qentry_slot_in(qentry_slot_in_o),
     .rdsw_in(MSHR_rdsw_o),
     .alloc(MSHR_alloc_o),
-    .dealloc(MSHR_dealloc_o),
+    .dealloc(MSHR_dealloc_o & bus_valid_o_nobuf),
     .clk(clk),
     .clr(rst),
     .ptcid_out(ptcid_out_o),
@@ -826,7 +826,7 @@ nand2$ opcdvalo(valPCDo, oPCD, bus_valid_o);
 nand2$ buspcd(bus_pcd, valPCDe, valPCDo);
 dff$ desDE(clk,bus_valid_e_nobuf, bus_valid_e, dcxx , rst,set);
 DES DD_E(
-    .read(bus_valid_e & bus_valid_e_nobuf),
+    .read(bus_valid_e),
     .clk_bus(clk_bus),
     .clk_core(),
     .rst(rst),
@@ -891,7 +891,7 @@ dff$ desDO(clk,bus_valid_o_nobuf, bus_valid_o, dcxxo , rst,set);
 
 
 DES DD_O(
-    .read(bus_valid_o & bus_valid_o_nobuf),
+    .read(bus_valid_o ),
     .clk_bus(clk_bus),
     .clk_core(clk),
     .rst(rst),
