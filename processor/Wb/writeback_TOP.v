@@ -59,6 +59,7 @@ module writeback_TOP(
 
     assign inst_ptcid_out = inst_ptcid_in;
 
+    wire LD_EIP_CS;
 
     mux2n #(64) mxn(res1, inp1, {{48{1'b0}},inp1[47:32]}, LD_EIP_CS);
     assign res2 = inp2;
@@ -127,8 +128,6 @@ module writeback_TOP(
     assign CS_out = CS_in;
     assign EFLAGS_out = EFLAGS_in;
     assign EIP_out = EIP_in;
-
-    wire LD_EIP_CS;
 
     or3$ o2(LD_EIP_CS, P_OP[36], P_OP[35], P_OP[32]);
 

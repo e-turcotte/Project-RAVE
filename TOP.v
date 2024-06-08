@@ -139,10 +139,6 @@
     wire BR_pred_T_NT_F_D_latch_in;
 
 
-     wire [3:0] I$_SER_dest_o;
-     wire [3:0] I$_SER_dest_e;
-
-
     ///////////////////////////////////////////////////////////
     //         Outputs from F_D_latch that go into D:       //  
     //////////////////////////////////////////////////////////
@@ -658,8 +654,8 @@
         .SER_i$_ack_o(ackIO),
         .DES_i$_free_o(freeIO),
         .DES_i$_free_e(freeIE),
-        .SER_dest_o(I$_SER_dest_o),
-        .SER_dest_e(I$_SER_dest_e),
+        .SER_dest_o(destIO),
+        .SER_dest_e(destIE),
 
         .BUS(BUS),
 
