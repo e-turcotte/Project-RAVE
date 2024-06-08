@@ -5,7 +5,7 @@ module IA_AS(
     input r,w,sw,
     input valid_in,
     input fromBUS, sizeOVR,
-    input PTC_ID_in,
+    input [6:0] PTC_ID_in,
 
     //TLB SIGNALS
     input clk,

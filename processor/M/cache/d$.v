@@ -46,7 +46,7 @@ module d$(
     input[31:0] address_in_wb,
     input[1:0] size_in_wb,
     input valid_in_wb,
-    input PTC_ID_in_wb,
+    input [6:0] PTC_ID_in_wb,
 
     //TLB handler
     input [159:0] VP, PF,
