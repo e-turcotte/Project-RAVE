@@ -40,6 +40,8 @@ module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
             assign old_op_ptcinfos[i] = old_m_M_EX[i*MSIZE + 512:i*MSIZE + 1];
             assign old_valid[i] = old_m_M_EX[i*MSIZE];
 
+            assign new_valid[i] = old_valid[i]; //TODO:
+
             assign new_m_M_EX[MSIZE*(i+1)-1:MSIZE*i] = {old_inst_ptcid[i],new_wake[i],new_ops[i],old_op_ptcinfos[i],new_valid[i]};
 
             wire [3:0] mod_vect;
