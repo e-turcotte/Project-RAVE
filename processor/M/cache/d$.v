@@ -913,8 +913,10 @@ assign cacheline_o_bus_in_data = bus_data_o;
 genvar i;
 generate
      for(i = 0; i < 16; i = i + 1) begin : cacheline_bus_in
-        muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) busemux(.in({1'b1,bus_pAddress_e[14:4],i,16'h0000}), .sel(bus_valid_e_nobuf), .out(cacheline_e_bus_in_ptcinfo[(i+1)*16-1:i*16]));
-        muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) busomux(.in({1'b1,bus_pAddress_o[14:4],i,16'h0000}), .sel(bus_valid_o_nobuf), .out(cacheline_o_bus_in_ptcinfo[(i+1)*16-1:i*16]));
+        wire [3:0] cachelineoffs;
+        assign cachelineoffs = i;
+        muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) busemux(.in({1'b1,bus_pAddress_e[14:4],cachelineoffs,16'h0000}), .sel(bus_valid_e_nobuf), .out(cacheline_e_bus_in_ptcinfo[(i+1)*16-1:i*16]));
+        muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) busomux(.in({1'b1,bus_pAddress_o[14:4],cachelineoffs,16'h0000}), .sel(bus_valid_o_nobuf), .out(cacheline_o_bus_in_ptcinfo[(i+1)*16-1:i*16]));
      end
 endgenerate
 
