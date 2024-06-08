@@ -1140,7 +1140,7 @@
 
     latchconnections #(.MSIZE(m_size_MEM_EX)) mexlc(.cache_out_data(cache_out_data), .cache_out_ptcinfo(cache_out_ptcinfo), .cache_out_valid(cache_out_valid), .cache_wake(cache_wake), .cache_ptcid(cache_ptcid),
                                                     .mshr_wake(mshr_wake), .mshr_ptcid_e(mshr_ptcid_e), .mshr_ptcid_o(mshr_ptcid_o),
-                                                    .mshr_qslot_e_in(mshr_qslot_e_in), .mshr_qslot_o_in(mshr_qslot_o_in), .mshr_qslot_e_out(), .mshr_qslot_o_out(),
+                                                    .mshr_qslot_e_in(mshr_qslot_e_in), .mshr_qslot_o_in(mshr_qslot_o_in), .mshr_qslot_e_out(mshr_qslot_e_out), .mshr_qslot_o_out(mshr_qslot_o_out),
                                                     .cacheline_e_bus_in_data(cacheline_e_bus_in_data), .cacheline_o_bus_in_data(cacheline_o_bus_in_data),
                                                     .cacheline_e_bus_in_ptcinfo(cacheline_e_bus_in_ptcinfo), .cacheline_o_bus_in_ptcinfo(cacheline_o_bus_in_ptcinfo),
                                                     .new_m_M_EX(new_m_M_EX), .old_m_M_EX(old_m_M_EX), .modify_M_EX_latch(modify_M_EX_latch),
