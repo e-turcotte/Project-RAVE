@@ -534,25 +534,25 @@
         .set(global_set),
         .clk_bus(bus_clk),
         
-        .freeIE(1'b0),
-        .freeIO(1'b0),
+        .freeIE(freeIE),
+        .freeIO(freeIO),
         .freeDE(freeDE),
         .freeDO(freeDO),
-        .reqIE(1'b0),
-        .reqIO(1'b0),
+        .reqIE(reqIE),
+        .reqIO(reqIO),
         .reqDEr(reqDEr),//tied to 0 for testing
         .reqDEw(reqDEw),//tied to 0 for testing
         .reqDOr(reqDOr),//tied to 0 for testing
         .reqDOw(reqDOw),//tied to 0 for testing
-        .relIE(1'b0),
-        .relIO(1'b0), 
+        .relIE(relIE),
+        .relIO(relIO), 
         .relDEr(relDEr), 
         .relDEw(relDEw), 
         .relDOr(relDOr), 
         .relDOw(relDOw),
 
-        .destIE(1'b0), 
-        .destIO(1'b0), 
+        .destIE(destIE), 
+        .destIO(destIO), 
         .destDEr(destDEr),
         .destDEw(destDEw), 
         .destDOr(destDOr), 
@@ -560,20 +560,20 @@
 
         .BUS(BUS),
 
-        .ackIE(1'b0), 
-        .ackIO(1'b0), 
+        .ackIE(ackIE), 
+        .ackIO(ackIO), 
         .ackDEr(ackDEr), 
         .ackDEw(ackDEw), 
         .ackDOr(ackDOr), 
         .ackDOw(ackDOw),
-        .grantIE(1'b0), 
-        .grantIO(1'b0), 
+        .grantIE(grantIE), 
+        .grantIO(grantIO), 
         .grantDEr(grantDEr), 
         .grantDEw(grantDEw), 
         .grantDOr(grantDOr), 
         .grantDOw(grantDOw),
-        .recvIE(1'b0), 
-        .recvIO(1'b0), 
+        .recvIE(recvIE), 
+        .recvIO(recvIO), 
         .recvDE(recvDE), 
         .recvDO(recvDO)
     );
