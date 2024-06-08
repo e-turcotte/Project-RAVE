@@ -611,7 +611,7 @@ cacheBank bankE (
     .PCD_IN(pcd_$),
 
     .AQ_READ(read_e),
-    .MSHR_alloc(MSHR_alloc_e),
+    .MSHR_alloc(MSHR_alloc_e & ~MSHR_dealloc_e),
     .MSHR_dealloc(MSHR_dealloc_e),
     .MSHR_rdsw(MSHR_rdsw_e),
     .MSHR_pAddress(MSHR_pAddress_e),
@@ -676,7 +676,7 @@ cacheBank bankO (
 
     .AQ_READ(read_o),
 
-    .MSHR_alloc(MSHR_alloc_o),
+    .MSHR_alloc(MSHR_alloc_o & ~MSHR_dealloc_o),
     .MSHR_dealloc(MSHR_dealloc_o),
     .MSHR_rdsw(MSHR_rdsw_o),
     .MSHR_pAddress(MSHR_pAddress_o),
