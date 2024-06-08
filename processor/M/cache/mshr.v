@@ -31,7 +31,8 @@ module mshr (input [14:0] pAddress,
                                                           .dout({dealloc_valid,dealloc_paddr,dealloc_qentries,dealloc_wake}));
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(8)) m0(.in({dealloc_qentries,8'h00}), .sel(dealloc), .out(qentry_slots_out));
-    assign wake_vector_out = dealloc_wake;
+    and2$ g0(.out(wake_vector_out[0]), .in0(dealloc_wake[0]), .in1(dealloc));
+    and2$ g1(.out(wake_vector_out[1]), .in0(dealloc_wake[1]), .in1(dealloc));
 
     genvar i;
     generate
