@@ -59,4 +59,6 @@ module mshr (input [14:0] pAddress,
 
     orn #(.NUM_INPUTS(8)) g12(.in(hit_vector), .out(mshr_hit));
 
+    assign ptcid_out = ptcid_in;
+
 endmodule
