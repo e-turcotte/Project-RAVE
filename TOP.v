@@ -56,9 +56,6 @@
     reg [31:0] EIP_init;
     reg [31:0] IDTR_base;
 
-    reg valid_F_D_latch_out;
-    reg [127:0] packet_F_D_latch_out;
-
     initial begin
         // D_valid = 1'b1;
         // packet = 128'h0432_0000_0000_0000_0000_0000_0000_0000;
@@ -89,9 +86,6 @@
 		entry_P = 8'b11110111;
 		entry_RW= 8'b11010101;
 		entry_PCD = 8'b11000000;
-
-        valid_F_D_latch_out = 1'b1;
-        packet_F_D_latch_out = 128'h0300_0000_0000_0000_0000_0000_0000_0000;
 
 		VP = {VP_7, VP_6, VP_5, VP_4, VP_3, VP_2, VP_1, VP_0};
 		PF = {PF_7, PF_6, PF_5, PF_4, PF_3, PF_2, PF_1, PF_0};
@@ -152,7 +146,8 @@
     ///////////////////////////////////////////////////////////
     //         Outputs from F_D_latch that go into D:       //  
     //////////////////////////////////////////////////////////
-    
+    wire valid_F_D_latch_out;
+    wire [127:0] packet_F_D_latch_out;
     wire [5:0] BP_alias_F_D_latch_out;
     wire IE_F_D_latch_out;
     wire [3:0] IE_type_F_D_latch_out;
@@ -604,114 +599,114 @@
         .is_servicing_IE(is_servicing_IE)
     );
 
-    // bp_btb BPstuff(
-    //     .clk(clk),
-    //     .reset(global_reset),
-    //     .eip(latched_eip_D_RrAg_latch_in),
-    //     .prev_BR_result(BR_taken_WB_BP_out),
-    //     .prev_BR_alias(WB_BP_update_alias),
-    //     .prev_is_BR(BR_valid_WB_BP_out),
-    //     .LD(is_valid_WB_out),
+    bp_btb BPstuff(
+        .clk(clk),
+        .reset(global_reset),
+        .eip(latched_eip_D_RrAg_latch_in),
+        .prev_BR_result(BR_taken_WB_BP_out),
+        .prev_BR_alias(WB_BP_update_alias),
+        .prev_is_BR(BR_valid_WB_BP_out),
+        .LD(is_valid_WB_out),
 
-    //     .btb_update_eip_WB(latched_eip_WB_out), //EIP of BR instr, passed from D
-    //     .FIP_E_WB(newFIP_e_WB_out), 
-    //     .FIP_O_WB(newFIP_o_WB_out), 
-    //     .EIP_WB(newEIP_WB_out), //update, from WB
+        .btb_update_eip_WB(latched_eip_WB_out), //EIP of BR instr, passed from D
+        .FIP_E_WB(newFIP_e_WB_out), 
+        .FIP_O_WB(newFIP_o_WB_out), 
+        .EIP_WB(newEIP_WB_out), //update, from WB
 
-    //     .prediction(is_BR_T_NT_BP_out),
-    //     .BP_update_alias_out(BP_update_alias_out),
+        .prediction(is_BR_T_NT_BP_out),
+        .BP_update_alias_out(BP_update_alias_out),
 
-    //     .FIP_E_target(BP_FIP_e_BTB_out),
-    //     .FIP_O_target(BP_FIP_o_BTB_out),
-    //     .EIP_target(BP_EIP_BTB_out)
-    // );
+        .FIP_E_target(BP_FIP_e_BTB_out),
+        .FIP_O_target(BP_FIP_o_BTB_out),
+        .EIP_target(BP_EIP_BTB_out)
+    );
 
-    // fetch_TOP f0(
-    //     .clk(clk),
-    //     .set(global_set),
-    //     .reset(global_reset),
-    //     .bus_clk(bus_clk),
+    fetch_TOP f0(
+        .clk(clk),
+        .set(global_set),
+        .reset(global_reset),
+        .bus_clk(bus_clk),
 
-    //     .D_length(D_length_D_F_out),
-    //     .stall(D_stall_out),
+        .D_length(D_length_D_F_out),
+        .stall(D_stall_out),
 
-    //     .WB_FIP_o(newFIP_o_WB_out),
-    //     .WB_FIP_e(newFIP_e_WB_out),
-    //     .WB_BIP(newEIP_WB_out[5:0]),
-    //     .resteer(1'b0),//is_resteer_WB_out
+        .WB_FIP_o(newFIP_o_WB_out),
+        .WB_FIP_e(newFIP_e_WB_out),
+        .WB_BIP(newEIP_WB_out[5:0]),
+        .resteer(1'b0),//is_resteer_WB_out
 
-    //     .BP_FIP_o(BP_FIP_o_BTB_out),
-    //     .BP_FIP_e(BP_FIP_e_BTB_out),
-    //     .BP_BIP(BP_EIP_BTB_out[5:0]),
-    //     .is_BR_T_NT(1'b0), //is_BR_T_NT_BP_out
+        .BP_FIP_o(BP_FIP_o_BTB_out),
+        .BP_FIP_e(BP_FIP_e_BTB_out),
+        .BP_BIP(BP_EIP_BTB_out[5:0]),
+        .is_BR_T_NT(1'b0), //is_BR_T_NT_BP_out
 
-    //     .init_addr(),
-    //     .is_init(global_init),
+        .init_addr(),
+        .is_init(global_init),
 
-    //     .IDTR_packet(IDTR_packet_out),
-    //     .packet_select(IDTR_packet_select_out),
+        .IDTR_packet(IDTR_packet_out),
+        .packet_select(IDTR_packet_select_out),
 
-    //     .SER_i$_grant_e(grantIE),
-    //     .SER_i$_grant_o(grantIO),
-    //     .SER_i$_release_o(relIO),
-    //     .SER_i$_req_o(reqIO),
-    //     .SER_i$_release_e(relIE),
-    //     .SER_i$_req_e(reqIE),
-    //     .DES_i$_reciever_e(recvIE),
-    //     .DES_i$_reciever_o(recvIO),
-    //     .SER_i$_ack_e(ackIE),
-    //     .SER_i$_ack_o(ackIO),
-    //     .DES_i$_free_o(freeIO),
-    //     .DES_i$_free_e(freeIE),
-    //     .SER_dest_o(I$_SER_dest_o),
-    //     .SER_dest_e(I$_SER_dest_e),
+        .SER_i$_grant_e(grantIE),
+        .SER_i$_grant_o(grantIO),
+        .SER_i$_release_o(relIO),
+        .SER_i$_req_o(reqIO),
+        .SER_i$_release_e(relIE),
+        .SER_i$_req_e(reqIE),
+        .DES_i$_reciever_e(recvIE),
+        .DES_i$_reciever_o(recvIO),
+        .SER_i$_ack_e(ackIE),
+        .SER_i$_ack_o(ackIO),
+        .DES_i$_free_o(freeIO),
+        .DES_i$_free_e(freeIE),
+        .SER_dest_o(I$_SER_dest_o),
+        .SER_dest_e(I$_SER_dest_e),
 
-    //     .BUS(BUS),
+        .BUS(BUS),
 
-    //     .protection_exception_e(),
-    //     .TLB_MISS_EXCEPTION_e(),
-    //     .protection_exception_o(),
-    //     .TLB_MISS_EXCEPTION_o(),
-    //     .VP(VP),
-    //     .PF(PF),
-    //     .TLB_entry_V(entry_v),
-    //     .TLB_entry_P(entry_P),
-    //     .TLB_entry_RW(entry_RW),
-    //     .TLB_entry_PCD(entry_PCD),
+        .protection_exception_e(),
+        .TLB_MISS_EXCEPTION_e(),
+        .protection_exception_o(),
+        .TLB_MISS_EXCEPTION_o(),
+        .VP(VP),
+        .PF(PF),
+        .TLB_entry_V(entry_v),
+        .TLB_entry_P(entry_P),
+        .TLB_entry_RW(entry_RW),
+        .TLB_entry_PCD(entry_PCD),
 
-    //     .packet_out(packet_F_D_latch_in),
-    //     .packet_valid_out(valid_F_D_latch_in),
-    //     .is_BR_T_NT_out(BR_pred_T_NT_F_D_latch_in),
-    //     .BP_target_out(BR_pred_target_F_D_latch_in),
-    //     .BP_update_alias_out(BP_alias_F_D_latch_in)
+        .packet_out(packet_F_D_latch_in),
+        .packet_valid_out(valid_F_D_latch_in),
+        .is_BR_T_NT_out(BR_pred_T_NT_F_D_latch_in),
+        .BP_target_out(BR_pred_target_F_D_latch_in),
+        .BP_update_alias_out(BP_alias_F_D_latch_in)
 
-    // );
+    );
 
-    // wire F_D_latch_LD;
-    // inv1$ eddiesmassivetushy(.out(F_D_latch_LD), .in(D_stall_out));
+    wire F_D_latch_LD;
+    inv1$ eddiesmassivetushy(.out(F_D_latch_LD), .in(D_stall_out));
 
-    // F_D_latch f1(
-    //     .ld(F_D_latch_LD),
-    //     .clk(clk),
-    //     .clr(global_reset),
+    F_D_latch f1(
+        .ld(F_D_latch_LD),
+        .clk(clk),
+        .clr(global_reset),
 
-    //     .valid_in(valid_F_D_latch_in),
-    //     .packet_in(packet_F_D_latch_in),
-    //     .BP_alias_in(BP_alias_F_D_latch_in),
-    //     .IE_in(1'b1), //TODO: IE_F_D_latch_in, hardcoded for now as no IE
-    //     .IE_type_in(4'b0), //TODO: IE_type_F_D_latch_in
-    //     .BR_pred_target_in(BR_pred_target_F_D_latch_in),
-    //     .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_in),
-    //      //outputs
-    //     .valid_out(valid_F_D_latch_out),
-    //     .packet_out(packet_F_D_latch_out),
-    //     .BP_alias_out(BP_alias_F_D_latch_out),
-    //     .IE_out(IE_F_D_latch_out),
-    //     .IE_type_out(IE_type_F_D_latch_out),
-    //     .BR_pred_target_out(BR_pred_target_F_D_latch_out),
-    //     .BR_pred_T_NT_out(BR_pred_T_NT_F_D_latch_out)
+        .valid_in(valid_F_D_latch_in),
+        .packet_in(packet_F_D_latch_in),
+        .BP_alias_in(BP_alias_F_D_latch_in),
+        .IE_in(1'b1), //TODO: IE_F_D_latch_in, hardcoded for now as no IE
+        .IE_type_in(4'b0), //TODO: IE_type_F_D_latch_in
+        .BR_pred_target_in(BR_pred_target_F_D_latch_in),
+        .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_in),
+         //outputs
+        .valid_out(valid_F_D_latch_out),
+        .packet_out(packet_F_D_latch_out),
+        .BP_alias_out(BP_alias_F_D_latch_out),
+        .IE_out(IE_F_D_latch_out),
+        .IE_type_out(IE_type_F_D_latch_out),
+        .BR_pred_target_out(BR_pred_target_F_D_latch_out),
+        .BR_pred_T_NT_out(BR_pred_T_NT_F_D_latch_out)
     
-    // );
+    );
 
     decode_TOP d0(
         // Clock and Reset
