@@ -206,7 +206,7 @@ muxnm_tristate #(8, 16*8) mxt({
  endgenerate 
  
  generate
-     for(i = 0; i < 15; i = i + 1) begin : zerox
+     for(i = 0; i < 16; i = i + 1) begin : zerox
  rShf16 rshfx(
      {
          PTC0[240+i], PTC0[224+i], PTC0[208+i],
