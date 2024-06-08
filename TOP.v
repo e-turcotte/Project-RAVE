@@ -1394,7 +1394,7 @@
 
     writeback_TOP wb_inst(
         .clk(clk),
-        .valid_in(valid_EX_WB_latch_out),
+        .valid_in(1'b0 /*valid_EX_WB_latch_out*/),
         .EIP_in(EIP_EX_WB_latch_out),
         .latched_EIP_in(),
         .IE_in(IE_EX_WB_latch_out),                           //interrupt or exception signal
