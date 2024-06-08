@@ -35,7 +35,7 @@ module opswap (input [63:0] reg1_data, reg2_data, reg3_data, reg4_data,
     muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(64)) m2(.in(datas), .sel(op3_mux), .out(op3));
     muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(64)) m3(.in(datas), .sel(op4_mux), .out(op4));
 
-    wire [512:0] reg_ptcs, seg_ptcs;
+    wire [511:0] reg_ptcs, seg_ptcs;
     wire [255:0] mem_ptcs, eip_ptcs;
     wire [127:0] imm_ptc;
 

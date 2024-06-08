@@ -1152,7 +1152,7 @@
     genvar i, j;
     generate
         for (j = 0; j < 127; j = j + 1) begin: M_EX_cacheline_ptcinfo_validation
-            and2$ g21345678654(.out(guarded_cache_out_ptcinfo[j]), .in0(cache_out_ptcinfo), .in1(cache_out_valid));
+            and2$ g21345678654(.out(guarded_cache_out_ptcinfo[j]), .in0(cache_out_ptcinfo[j]), .in1(cache_out_valid));
         end
         
         for (i = 0; i < 8; i = i + 1) begin : M_EX_q_modifiers
