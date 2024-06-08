@@ -27,7 +27,8 @@ module mem (input valid_in,
             input [63:0] wb_memdata,
             input [31:0] wb_memaddr,
             input [1:0] wb_size,
-            input wb_valid, wb_ptcid,
+            input wb_valid,
+            input [6:0] wb_ptcid,
             output wbaq_isfull,
 
             input [159:0] VP_in,                  
@@ -94,7 +95,7 @@ module mem (input valid_in,
             output [3:0] wake_init_out, wake_cache_out, wake_mshr_out,
             output [6:0] cache_ptcid_out,
             output cache_valid_out,
-            output [127:0] cache_data_out,
+            output [63:0] cache_data_out,
             output [127:0] cache_ptcinfo_out,
             output stall,
 
@@ -137,6 +138,8 @@ module mem (input valid_in,
 
     assign wake_init_out = {wake_init_sw[3],wake_init_r[2],wake_init_sw[1],wake_init_r[0]};
 
+    wire [127:0] data_out;
+
     d$ dcache(.clk(clk), .clk_bus(clk_bus), .rst(clr), .set(1'b1), .BUS(BUS),
               .setReciever_d(setReceiver_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d),
               .data_m1(), .data_m2(), .M1(mem1), .M2(mem2), .M1_RW(mem1_rw), .M2_RW(mem2_rw),
@@ -150,10 +153,12 @@ module mem (input valid_in,
               .TLB_miss(TLB_miss), .protection_exception(prot_exc), .TLB_hit(), .PCD_out(),
               .ptc_info_r(ptc_info_r), .ptc_info_sw(ptc_info_sw), .wake_init_vector_r(wake_init_r), .wake_init_vector_sw(wake_init_sw),
               .aq_isempty(), .rdaq_isfull(rdaq_isfull), .swaq_isfull(swaq_isfull), .wbaq_isfull(wbaq_isfull),
-              .wake(wake_cache_out), .PTC_ID_out(cache_ptcid_out), .cache_valid(cache_valid_out), .data(cache_data_out), .stall(cache_stall), .ptcinfo_out(cache_ptcinfo_out),
-              .qentry_slot_in_e(qentry_slot_in_e), .ptcid_out_e(ptcid_out_e), .qentry_slots_out_e(qentry_slot_out_e), .wake_vector_out_e(wake_mshr_out[1:0]), .mshr_hit_e(), .mshr_full_e(),
-              .qentry_slot_in_o(qentry_slot_in_o), .ptcid_out_o(ptcid_out_o), .qentry_slots_out_o(qentry_slot_out_o), .wake_vector_out_o(wake_mshr_out[3:2]), .mshr_hit_o(), .mshr_full_o(),
+              .wake(wake_cache_out), .PTC_ID_out(cache_ptcid_out), .cache_valid(cache_valid_out), .data(data_out), .stall(cache_stall), .ptcinfo_out(cache_ptcinfo_out),
+              .qentry_slot_in_e(qentry_slot_in_e), .ptcid_out_e(ptcid_out_e), .qentry_slots_out_e(qentry_slots_out_e), .wake_vector_out_e(wake_mshr_out[1:0]), .mshr_hit_e(), .mshr_full_e(),
+              .qentry_slot_in_o(qentry_slot_in_o), .ptcid_out_o(ptcid_out_o), .qentry_slots_out_o(qentry_slots_out_o), .wake_vector_out_o(wake_mshr_out[3:2]), .mshr_hit_o(), .mshr_full_o(),
               .cacheline_e_bus_in_data(cacheline_e_bus_in_data), .cacheline_o_bus_in_data(cacheline_o_bus_in_data), .cacheline_e_bus_in_ptcinfo(cacheline_e_bus_in_ptcinfo), .cacheline_o_bus_in_ptcinfo(cacheline_o_bus_in_ptcinfo));
+
+    assign cache_data_out = data_out[63:0]; //TODO: why is data out 128bits
 
     or2$ g1(.out(stall), .in0(rep_stall), .in1(cache_stall));
 
