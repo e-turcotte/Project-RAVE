@@ -65,8 +65,8 @@ mux2n  # (3)  mx4(S3, S30, m[5:3], s3_s);
 and4$ a3(r1_s, isMOD, m1, m2, R1_MOD_OVR);
 mux2n  # (3)  mx5(R1, R10, m[5:3], r1_s);
 
-nor2$ ors2(isMEM1, B2[7], B2[6]);
-nor2$ ors1(isMEM2, B3[7], B3[6]);
+and2$ ors2(isMEM1, B2[7], B2[6]);
+and2$ ors1(isMEM2, B3[7], B3[6]);
 mux2n #(1) mc12(isMEM, isMEM1, isMEM2, isDouble);
 and3$ a4(d1_s, dest1_mux0[8], OP_MOD_OVR[0], isMEM);
 and3$ a5(op1_s, dest1_mux0[8], OP_MOD_OVR[0], isMEM);
