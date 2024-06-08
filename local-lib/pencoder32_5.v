@@ -80,9 +80,9 @@ module mux8_n #(parameter DATA_WIDTH = 32)(
 wire [DATA_WIDTH-1:0] mux1_out, mux2_out;
 genvar i;
 generate
-    for(i = 0; i < DATA_WIDTH/16; i=i+1) begin : nmux
-        mux4_16$ m(mux1_out[16*i+15:16*i], A[16*i+15:16*i], B[16*i+15:16*i], C[16*i+15:16*i],D[16*i+15:16*i], S0, S1);
-        mux4_16$ mn(mux2_out[16*i+15:16*i], E[16*i+15:16*i], F[16*i+15:16*i], G[16*i+15:16*i], H[16*i+15:16*i], S0, S1);
+    for(i = 0; i < DATA_WIDTH; i=i+1) begin : nmux
+        mux4$ m(mux1_out[i], A[i], B[i], C[i],D[i], S0, S1);
+        mux4$ mn(mux2_out[i], E[i], F[i], G[i], H[i], S0, S1);
     end
 endgenerate
 
