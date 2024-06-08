@@ -76,6 +76,15 @@ module writeback_TOP(
     and3$ g105(.out(seg_ld[2]), .in0(inp3_isSeg), .in1(valid_out), .in2(inp3_wb));
     and3$ g106(.out(seg_ld[1]), .in0(inp2_isSeg), .in1(valid_out), .in2(inp2_wb));
     and3$ g107(.out(seg_ld[0]), .in0(inp1_isSeg), .in1(valid_out), .in2(inp1_wb));
+    wire [3:0] partialmem_ld;
+    muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(64)) t1(.in({inp4,inp3,inp2,inp1}), .sel(partialmem_ld), .out(mem_data));
+    muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(32)) t2(.in({inp4_dest,inp3_dest,inp2_dest,inp1_dest}), .sel(partialmem_ld), .out(mem_addr));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(2)) m0(.in({2'b11,ressize}), .sel(LD_EIP_CS), .out(memsize));
+    and3$ memg104(.out(partialmem_ld[3]), .in0(inp4_isMem), .in1(valid_out), .in2(inp4_wb));
+    and3$ memg105(.out(partialmem_ld[2]), .in0(inp3_isMem), .in1(valid_out), .in2(inp3_wb));
+    and3$ memg106(.out(partialmem_ld[1]), .in0(inp2_isMem), .in1(valid_out), .in2(inp2_wb));
+    and3$ memg107(.out(partialmem_ld[0]), .in0(inp1_isMem), .in1(valid_out), .in2(inp1_wb));
+    or4$ memg108(.out(mem_ld), .in0(partialmem_ld[0]), .in1(partialmem_ld[1]), .in2(partialmem_ld[2]), .in3(partialmem_ld[3]));
 
     wire [127:0] sreg_ptcs [0:3];
     wire [6:0] flip_ptcid, ptctouse;
@@ -123,10 +132,6 @@ module writeback_TOP(
 
     or3$ o2(LD_EIP_CS, P_OP[36], P_OP[35], P_OP[32]);
 
-    muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(64)) t1(.in({inp1,inp2,inp3,inp4}), .sel({inp1_isMem,inp2_isMem,inp3_isMem,inp4_isMem}), .out(mem_data));
-    muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(32)) t2(.in({inp1_dest,inp2_dest,inp3_dest,inp4_dest}), .sel({inp1_isMem,inp2_isMem,inp3_isMem,inp4_isMem}), .out(mem_addr));
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(2)) m0(.in({2'b11,ressize}), .sel(LD_EIP_CS), .out(memsize));
-
     mux2n #(32) m1(newFIP_e   , {BR_FIP_in[31:4],4'd0}, {BR_FIP_p1_in[31:4], 4'd0}, BR_FIP_in[5]);
     mux2n #(32) m2(newFIP_o, {BR_FIP_p1_in[31:4], 4'd0}, {BR_FIP_in[31:4],4'd0}, BR_FIP_in[5]);
 
@@ -141,10 +146,8 @@ module writeback_TOP(
     assign latched_EIP_out = latched_EIP_in;
     assign WB_BP_update_alias = BP_alias_in;
 
-    wire might_mem_ld, invstall;
+    wire invstall;
 
-    or4$ o94(.out(might_mem_ld), .in0(inp1_isMem), .in1(inp1_isMem), .in2(inp2_isMem), .in3(inp3_isMem));
-    and2$ g108(.out(mem_ld), .in0(might_mem_ld), .in1(valid_out));
     and2$ a94(.out(stall), .in0(wbaq_full), .in1(mem_ld)); 
     inv1$ i92(.out(invstall), .in(stall));
     and2$ asd(.out(valid_out), .in0(valid_in), .in1(invstall));
