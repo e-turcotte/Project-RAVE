@@ -1149,12 +1149,11 @@
 
     wire [127:0] guarded_cache_out_ptcinfo;
 
-    genvar i, j;
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(128)) m1fhgcvbhj(.in({cache_out_ptcinfo,128'h0}), .sel(cache_out_valid), .out(guarded_cache_out_ptcinfo));
+
+    genvar i;
     generate
-        for (j = 0; j < 127; j = j + 1) begin: M_EX_cacheline_ptcinfo_validation
-            and2$ g21345678654(.out(guarded_cache_out_ptcinfo[j]), .in0(cache_out_ptcinfo[j]), .in1(cache_out_valid));
-        end
-        
+                
         for (i = 0; i < 8; i = i + 1) begin : M_EX_q_modifiers
 
             assign old_inst_ptcid[i] = old_m_M_EX[i*m_size_MEM_EX + 779:i*m_size_MEM_EX + 773];
