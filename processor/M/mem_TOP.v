@@ -105,7 +105,7 @@ module mem (input valid_in,
     wire [31:0] mem1, nextmem1, regmem1, mem2, nextmem2, regmem2, incdec;
     wire isrepreg;
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m0(.in({32'h0000_0001,32'hffff_ffff}), .sel(), .out(incdec));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m0(.in({32'h0000_0001,32'hffff_ffff}), .sel(/*TODO:*/), .out(incdec));
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regmem1,mem_addr1}), .sel(isrepreg), .out(mem1));
     kogeAdder #(.WIDTH(32)) add0(.SUM(nextmem1), .COUT(), .A(mem1), .B(incdec), .CIN(1'b0));
