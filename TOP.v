@@ -808,7 +808,7 @@
                         };
 
     wire D_RrAg_Latch_RD; 
-    nand2$ n2002 (.out(D_RrAg_Latch_RD), .in0(valid_RrAg_MEM_latch_in), .in1(RrAg_stall_out));
+    inv1$ n2002 (.out(D_RrAg_Latch_RD), .in(RrAg_stall_out));
 
     D_RrAg_Queued_Latches #(.M_WIDTH(m_size_D_RrAg), .N_WIDTH(n_size_D_RrAg), .Q_LENGTH(8)) q2 (
         .m_din(m_din_D_RrAg), .n_din(n_din_D_RrAg), .new_m_vector(), 
@@ -1124,7 +1124,7 @@
                           };
     
     wire MEM_EX_Latch_RD; 
-    nand2$ n2001 (.out(MEM_EX_Latch_RD), .in0(valid_EX_WB_latch_in), .in1(EX_stall_out));
+    inv1$ n2001 (.out(MEM_EX_Latch_RD), .in(EX_stall_out));
 
     wire [m_size_MEM_EX*8-1:0] new_m_M_EX, old_m_M_EX;
     wire [7:0] modify_M_EX_latch;
