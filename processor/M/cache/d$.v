@@ -945,7 +945,7 @@ endgenerate
     assign releases_d = {relDEr, relDEw, relDOr, relDOw};
     assign req_d = {reqDEr, reqDEw, reqDOr, reqDOw};
 
-    or2$ sta(stall, cache_stall_e, cache_miss_o);
+    or2$ sta(stall, cache_stall_e, cache_stall_o);
     assign PTC_ID_out = PTC_ID_out_e;
     assign data = data_out;
     nor2$ norss(cache_valid,valid_out, w_$);
