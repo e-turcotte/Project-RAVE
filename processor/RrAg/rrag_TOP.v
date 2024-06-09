@@ -79,7 +79,7 @@ module rrag (input valid_in,
     inv1$ g0(.out(invstall), .in(stall));
 
     inv1$ i0(.out(invempty), .in(latch_empty));
-    and2$ g9(.out(valid_out), .in0(valid_in), .in1(invempty));
+    and3$ g9(.out(valid_out), .in0(valid_in), .in1(invempty), in2(invstall));
 
     ptc_generator ptcgen(.next(invstall), .clr(clr), .clk(clk), .ptcid(inst_ptcid));
 
@@ -176,7 +176,7 @@ module rrag (input valid_in,
     assign opsize_out = opsize_in;
     assign BP_alias_out = BP_alias_in;
 
-    wire mem1_use, mem2_use, rm_ptc, sib_ptc, actualsib_ptc, mem1_ptc, mem2_ptc, mem1_stall, mem2_stall;
+    wire mem1_use, mem2_use, sib_ptc, actualsib_ptc, mem1_stall, mem2_stall;
 
     or2$ g2(.out(mem1_use), .in0(mem1_rw_in[1]), .in1(mem1_rw_in[0]));
     or2$ g3(.out(mem2_use), .in0(mem2_rw_in[1]), .in1(mem2_rw_in[0]));
