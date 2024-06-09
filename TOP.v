@@ -828,7 +828,6 @@
             
         );
     
-    assign RrAg_stall_out = 0;
     rrag r1 (
         //inputs
         .valid_in(valid_out_D_RrAg_latch_out), .reg_addr1(reg_addr1_D_RrAg_latch_out), .reg_addr2(reg_addr2_D_RrAg_latch_out), .reg_addr3(reg_addr3_D_RrAg_latch_out), .reg_addr4(reg_addr4_D_RrAg_latch_out),
@@ -853,7 +852,7 @@
         .ptc_clear(1'b1), //TODO: from IDTR      
 
         //outputs
-        .valid_out(valid_RrAg_MEM_latch_in), .stall(/*RrAg_stall_out*/), //send to D_RrAg_Queued_Latches
+        .valid_out(valid_RrAg_MEM_latch_in), .stall(RrAg_stall_out), //send to D_RrAg_Queued_Latches
         .opsize_out(opsize_RrAg_MEM_latch_in),
         .mem_addr1(mem_addr1_RrAg_MEM_latch_in), .mem_addr2(mem_addr2_RrAg_MEM_latch_in), .mem_addr1_end(mem_addr1_end_RrAg_MEM_latch_in), .mem_addr2_end(mem_addr2_end_RrAg_MEM_latch_in),
         .reg1(reg1_RrAg_MEM_latch_in), .reg2(reg2_RrAg_MEM_latch_in), .reg3(reg3_RrAg_MEM_latch_in), .reg4(reg4_RrAg_MEM_latch_in),
