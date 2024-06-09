@@ -79,7 +79,7 @@ module rrag (input valid_in,
     inv1$ g0(.out(invstall), .in(stall));
 
     inv1$ i0(.out(invempty), .in(latch_empty));
-    and3$ g9(.out(valid_out), .in0(valid_in), .in1(invempty), in2(invstall));
+    and3$ g9(.out(valid_out), .in0(valid_in), .in1(invempty), .in2(invstall));
 
     ptc_generator ptcgen(.next(invstall), .clr(clr), .clk(clk), .ptcid(inst_ptcid));
 
