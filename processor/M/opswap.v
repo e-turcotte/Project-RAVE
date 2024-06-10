@@ -83,7 +83,7 @@ module opswap (input [63:0] reg1_data, reg2_data, reg3_data, reg4_data,
     wire [2:0] imm_type;
 
     assign reg_types = {3'b001,3'b001,3'b001,3'b001};
-    assign seg_types = {3'b010,3'b010,3'b010,3'b001};
+    assign seg_types = {3'b010,3'b010,3'b010,3'b010};
     assign mem_types = {3'b100,3'b100};
     assign eip_types = 6'b000000;
     assign imm_type = 3'b000;
