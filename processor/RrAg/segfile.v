@@ -91,10 +91,10 @@ module segfile (input [63:0] base_in,
         cyc_cnt = cyc_cnt + 1;
 
         $fdisplay(file, "[===SEGR VALUES===]");
-        $fdisplay(file, "CS = 0x%h, lim:0x%h   PTC:%b", base_outs[15:0], lim_outs[19:0], {ptc_outs[30],ptc_outs[14]});
-        $fdisplay(file, "DS = 0x%h, lim:0x%h   PTC:%b", base_outs[31:16], lim_outs[39:20], {ptc_outs[62],ptc_outs[46]});
+        $fdisplay(file, "ES = 0x%h, lim:0x%h   PTC:%b", base_outs[15:0], lim_outs[19:0], {ptc_outs[30],ptc_outs[14]});
+        $fdisplay(file, "CS = 0x%h, lim:0x%h   PTC:%b", base_outs[31:16], lim_outs[39:20], {ptc_outs[62],ptc_outs[46]});
         $fdisplay(file, "SS = 0x%h, lim:0x%h   PTC:%b", base_outs[47:32], lim_outs[59:40], {ptc_outs[94],ptc_outs[78]});
-        $fdisplay(file, "ES = 0x%h, lim:0x%h   PTC:%b", base_outs[63:48], lim_outs[79:60], {ptc_outs[126],ptc_outs[110]});
+        $fdisplay(file, "DS = 0x%h, lim:0x%h   PTC:%b", base_outs[63:48], lim_outs[79:60], {ptc_outs[126],ptc_outs[110]});
         $fdisplay(file, "FS = 0x%h, lim:0x%h   PTC:%b", base_outs[79:64], lim_outs[99:80], {ptc_outs[158],ptc_outs[142]});
         $fdisplay(file, "GS = 0x%h, lim:0x%h   PTC:%b", base_outs[95:80], lim_outs[119:100], {ptc_outs[190],ptc_outs[174]});
     
