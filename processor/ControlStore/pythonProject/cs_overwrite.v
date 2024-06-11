@@ -73,14 +73,14 @@ and2$ ors2(isMEM1, B2[7], B2[6]);
 and2$ ors1(isMEM2, B3[7], B3[6]);
 mux2n #(1) mc12(isMEM, isMEM1, isMEM2, isDouble);
 and3$ a4(d1_s, dest1_mux0[8], OP_MOD_OVR[0], isMEM);
-and3$ a5(op1_s, dest1_mux0[8], OP_MOD_OVR[0], isMEM);
+and3$ a5(op1_s, op1_mux0[8], OP_MOD_OVR[0], isMEM);
 and3$ a6(d2_s, dest2_mux0[8], OP_MOD_OVR[1], isMEM);
-and3$ a7(op2_s, dest2_mux0[8], OP_MOD_OVR[1], isMEM);
+and3$ a7(op2_s, op2_mux0[8], OP_MOD_OVR[1], isMEM);
 
-mux2n  # (13) mx6(dest1_mux, dest1_mux0, 13'h0002, d1_s);
-mux2n  # (13) mx7(dest2_mux, dest2_mux0, 13'h0002, d2_s);
-mux2n  # (13) mx8(op1_mux, op1_mux0, 13'h0002, op1_s);
-mux2n  #(13) mx9(op2_mux, op2_mux0, 13'h0002, op2_s);
+mux2n  # (13) mx6(dest1_mux, dest1_mux0, {6'd0,S3_MOD_OVR ,2'd0, 2'd0,opmodovr,1'b0}, d1_s);
+mux2n  # (13) mx7(dest2_mux, dest2_mux0, {6'd0,S3_MOD_OVR ,2'd0, 2'd0,opmodovr,1'b0}, d2_s);
+mux2n  # (13) mx8(op1_mux, op1_mux0, {6'd0,S3_MOD_OVR ,2'd0, 2'd0,opmodovr,1'b0}, op1_s); //{    6'd0,S3_MOD_OVR ,2'd0, 2'd0,opmodovr,1'b0}
+mux2n  #(13) mx9(op2_mux, op2_mux0, {6'd0,S3_MOD_OVR ,2'd0, 2'd0,opmodovr,1'b0}, op2_s);
 mux2n #(3) mx10(R2, R20, m[2:0], m1rw_s);
 wire [2:0] s_out; 
  muxnm_tristate #(8,3) mxtr( {3'd7, 3'd6, 3'd5, 3'd4, 3'd3, 3'd2,3'd1, 3'd0},{2'b00, segSEL}, s_out );
