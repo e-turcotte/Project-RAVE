@@ -111,12 +111,15 @@ def main():
             row[10] = "1'b1"
         else:
             row[10] = "1'b0"
-
-        if ("r/m8" in row[1] and "r8" in row[1]) or ("r/m32" in row[1] and "r32" in row[1]) or ("m64" in row[1] ):
+        
+        
+        if ("r/m8" in row[1] and "r8" in row[1]) or ("r/m16" in row[1] and "Sreg" in row[1]) or ("r/m32" in row[1] and "r32" in row[1]) or ("m64" in row[1] ):
             row[40] = "1'b1"
         else:
             row[40] = "1'b0"
-
+        if("r/m16" in row[1]):
+            if("Sreg" in row[1]):
+                print(row[40])
         if(len(asm) > 1 and (("r/m8" in asm[1]) or ("r/m32" in asm[1]) or ("r/m16" in asm[1]) or ("m64" in asm[1]))): #if MODRM first operand, overwrite OP1 to either MOD or REG mux select
             row[43] = "2'b01"
         elif (len(asm) > 2 and (("r/m8" in asm[2]) or ("r/m32" in asm[2]) or  ("r/m16" in asm[2])or ("m64" in asm[2]))): #if MODRM second operand, overwrite OP1 to either MOD or REG mux select

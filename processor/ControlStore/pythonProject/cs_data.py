@@ -61,66 +61,66 @@ def generateVerilog(rows, fields):
             wireCnt += 1
         file.write("\nendmodule")
 
-    with open("cs_select.v","w") as file:
-        input = genInput2(rows,fields) + "input [7:0] B1, B2, B3"
-        output = "output[226:0] chosen,\n"
-        file.write("module cs_select(\n" + output + "\n" + input + ");\n\n")
-        eCNT = 0
-        wCNT = 0
-        for row in rows:
-            equals = genEqual(row, fields, eCNT, wCNT, "B1", "B2", "B3")
-            file.write(equals + "\n")
-            wCNT += 1
-            eCNT += 1
+    # with open("cs_select.v","w") as file:
+    #     input = genInput2(rows,fields) + "input [7:0] B1, B2, B3"
+    #     output = "output[226:0] chosen,\n"
+    #     file.write("module cs_select(\n" + output + "\n" + input + ");\n\n")
+    #     eCNT = 0
+    #     wCNT = 0
+    #     for row in rows:
+    #         equals = genEqual(row, fields, eCNT, wCNT, "B1", "B2", "B3")
+    #         file.write(equals + "\n")
+    #         wCNT += 1
+    #         eCNT += 1
 
-        buf, tri, dCat, sCat = genTriM(eCNT, "chosen", str(0))
-        file.write(buf)
-        file.write(dCat)
-        file.write(sCat)
-        file.write(tri)
-        file.write("\nendmodule")
+    #     buf, tri, dCat, sCat = genTriM(eCNT, "chosen", str(0))
+    #     file.write(buf)
+    #     file.write(dCat)
+    #     file.write(sCat)
+    #     file.write(tri)
+    #     file.write("\nendmodule")
 
-    with open("cs_top.v","w") as file:
-        input = "input[7:0] B1, B2, B3, B4, B5, B6,\n input isREP, isSIZE, isSEG,\n input[3:0] prefSize, \n input[5:0] segSEL "
-        output = genOutput2(rows,fields)
-        file.write("module cs_top(\n" + output + "\n" + input + ");\n\n")
-        wires = genWire2(fields, rows)
-        file.write(wires)
-        w = genW()
+    # with open("cs_top.v","w") as file:
+    #     input = "input[7:0] B1, B2, B3, B4, B5, B6,\n input isREP, isSIZE, isSEG,\n input[3:0] prefSize, \n input[5:0] segSEL "
+    #     output = genOutput2(rows,fields)
+    #     file.write("module cs_top(\n" + output + "\n" + input + ");\n\n")
+    #     wires = genWire2(fields, rows)
+    #     file.write(wires)
+    #     w = genW()
 
-        file.write("cs_data cs1("+w+");\n")
+    #     file.write("cs_data cs1("+w+");\n")
 
-        file.write("wire[226:0] chosen, chosen1, chosen2, chosen3, chosen4;\n ")
-        file.write("wire[23:0] chosen5;\n")
+    #     file.write("wire[226:0] chosen, chosen1, chosen2, chosen3, chosen4;\n ")
+    #     file.write("wire[23:0] chosen5;\n")
 
-        file.write("cs_select css1(" + w + ", .chosen(chosen1), .B1(B1), .B2(B2), .B3(B3));\n")
-        file.write("cs_select css2(" + w + ", .chosen(chosen2), .B1(B2), .B2(B3), .B3(B4));\n")
-        file.write("cs_select css3(" + w + ", .chosen(chosen3), .B1(B3), .B2(B4), .B3(B5));\n")
-        file.write("cs_select css4(" + w + ", .chosen(chosen4), .B1(B4), .B2(B5), .B3(B6));\n")
-        file.write("muxnm_tristate #(4, 24) mxt420({{B6,B5,B4}, {B5, B4, B3}, {B4,B3,B2}, {B3,B2,B1}}, prefSize,chosen5);\n")
-        file.write("muxnm_tristate #(4, 227) mxt69({chosen4, chosen3, chosen2,chosen1}, prefSize,chosen);\n")
-        file.write("cs_overwrite cso1("+genOUT(fieldList)+" .chosen(chosen), .B1(chosen5[7:0]), .B2(chosen5[15:8]), .B3(chosen5[23:16]), .isREP(isREP), .isSIZE(isSIZE), .isSEG(isSEG), .prefSize(prefSize), .segSEL(segSEL));\n\n")
-        file.write("//cs_top cst1("+genOUT(fieldList)+");")
+    #     file.write("cs_select css1(" + w + ", .chosen(chosen1), .B1(B1), .B2(B2), .B3(B3));\n")
+    #     file.write("cs_select css2(" + w + ", .chosen(chosen2), .B1(B2), .B2(B3), .B3(B4));\n")
+    #     file.write("cs_select css3(" + w + ", .chosen(chosen3), .B1(B3), .B2(B4), .B3(B5));\n")
+    #     file.write("cs_select css4(" + w + ", .chosen(chosen4), .B1(B4), .B2(B5), .B3(B6));\n")
+    #     file.write("muxnm_tristate #(4, 24) mxt420({{B6,B5,B4}, {B5, B4, B3}, {B4,B3,B2}, {B3,B2,B1}}, prefSize,chosen5);\n")
+    #     file.write("muxnm_tristate #(4, 227) mxt69({chosen4, chosen3, chosen2,chosen1}, prefSize,chosen);\n")
+    #     file.write("cs_overwrite cso1("+genOUT(fieldList)+" .chosen(chosen), .B1(chosen5[7:0]), .B2(chosen5[15:8]), .B3(chosen5[23:16]), .isREP(isREP), .isSIZE(isSIZE), .isSEG(isSEG), .prefSize(prefSize), .segSEL(segSEL));\n\n")
+    #     file.write("//cs_top cst1("+genOUT(fieldList)+");")
 
-        file.write("\nendmodule")
-
-
-
-    with open("cs_overwrite.v", "w") as file:
-
-        input = "input [226:0] chosen,\n input isREP, isSIZE, isSEG,\n input[3:0] prefSize, \n input[5:0] segSEL"
-        output = genOutput2(rows, fields)
-        file.write("module cs_overwrite(\n" + output + "\n" + input + ",\ninput [7:0] B1, B2, B3);\nwire[7:0] m;\n")
-        wires = genWires(rows, fields, 0)
-        file.write(wires + "\n")
-        file.write("inv1$ inv1(size_n, isSIZE);\ninv1$ inv2(size1_n, size0[1]);\nnand3$ n1(size_s, size_n, size1_n, size[0]);\nmux2n #(2)mx12(size, size0, 2'b01, size_s);\n")
-        csAdapt = genBranchOut(fieldList, 0, "chosen")
+    #     file.write("\nendmodule")
 
 
-        file.write(csAdapt)
-        override = "mux2n  # (8) m1x(m, B2, B3, isDouble);\nmux2$ mx1(m1, B2[6], B3[6], isDouble);\nmux2$ mx2(m2, B2[7], B3[7], isDouble);\nand3$ a1(m1rw_s, isMOD, m1, m2);\nmux2n  # (2) mx3(M1_RW, M1_RW0, 2'b00, m1rw_s);\nand4$ a2(s3_s, isMOD, m1, m2, S3_MOD_OVR);\nmux2n  # (3)  mx4(S3, S30, m[5:3], s3_s);\nand4$ a3(r1_s, isMOD, m1, m2, R1_MOD_OVR);\nmux2n  # (3)  mx5(R1, R10, m[5:3], r1_s);\nand2$ a4(d1_s, dest1_mux0[8], OP_MOD_OVR[0]);\nand2$ a5(op1_s, dest1_mux0[8], OP_MOD_OVR[0]);\nand2$ a6(d2_s, dest2_mux0[8], OP_MOD_OVR[1]);\nand2$ a7(op2_s, dest2_mux0[8], OP_MOD_OVR[1]);\nmux2n  # (13) mx6(dest1_mux, dest1_mux0, 13'h0002, d1_s);\nmux2n  # (13) mx7(dest2_mux, dest2_mux0, 13'h0002, d2_s);\nmux2n  # (13) mx8(op1_mux, op1_mux0, 13'h0002, op1_s);\nmux2n  #(13) mx9(op2_mux, op2_mux0, 13'h0002, op2_s);\nmux2n #(3) mx10(R2, R20, m[2:0], m1rw_s);\nwire [2:0] s_out; \n muxnm_tristate #(8,3) mxtr( {3'd7, 3'd6, 3'd5, 3'd4, 3'd3, 3'd2,3'd1, 3'd0},{2'b00, segSEL}, s_out );\nand2$(seg_sel, isMOD0, isSEG); \n mux2n #(3) mx11(S1, S10, s_out, seg_sel);"
-        file.write(override)
-        file.write("\nendmodule")
+
+    # with open("cs_overwrite.v", "w") as file:
+
+    #     input = "input [226:0] chosen,\n input isREP, isSIZE, isSEG,\n input[3:0] prefSize, \n input[5:0] segSEL"
+    #     output = genOutput2(rows, fields)
+    #     file.write("module cs_overwrite(\n" + output + "\n" + input + ",\ninput [7:0] B1, B2, B3);\nwire[7:0] m;\n")
+    #     wires = genWires(rows, fields, 0)
+    #     file.write(wires + "\n")
+    #     file.write("inv1$ inv1(size_n, isSIZE);\ninv1$ inv2(size1_n, size0[1]);\nnand3$ n1(size_s, size_n, size1_n, size[0]);\nmux2n #(2)mx12(size, size0, 2'b01, size_s);\n")
+    #     csAdapt = genBranchOut(fieldList, 0, "chosen")
+
+
+    #     file.write(csAdapt)
+    #     override = "mux2n  # (8) m1x(m, B2, B3, isDouble);\nmux2$ mx1(m1, B2[6], B3[6], isDouble);\nmux2$ mx2(m2, B2[7], B3[7], isDouble);\nand3$ a1(m1rw_s, isMOD, m1, m2);\nmux2n  # (2) mx3(M1_RW, M1_RW0, 2'b00, m1rw_s);\nand4$ a2(s3_s, isMOD, m1, m2, S3_MOD_OVR);\nmux2n  # (3)  mx4(S3, S30, m[5:3], s3_s);\nand4$ a3(r1_s, isMOD, m1, m2, R1_MOD_OVR);\nmux2n  # (3)  mx5(R1, R10, m[5:3], r1_s);\nand2$ a4(d1_s, dest1_mux0[8], OP_MOD_OVR[0]);\nand2$ a5(op1_s, dest1_mux0[8], OP_MOD_OVR[0]);\nand2$ a6(d2_s, dest2_mux0[8], OP_MOD_OVR[1]);\nand2$ a7(op2_s, dest2_mux0[8], OP_MOD_OVR[1]);\nmux2n  # (13) mx6(dest1_mux, dest1_mux0, 13'h0002, d1_s);\nmux2n  # (13) mx7(dest2_mux, dest2_mux0, 13'h0002, d2_s);\nmux2n  # (13) mx8(op1_mux, op1_mux0, 13'h0002, op1_s);\nmux2n  #(13) mx9(op2_mux, op2_mux0, 13'h0002, op2_s);\nmux2n #(3) mx10(R2, R20, m[2:0], m1rw_s);\nwire [2:0] s_out; \n muxnm_tristate #(8,3) mxtr( {3'd7, 3'd6, 3'd5, 3'd4, 3'd3, 3'd2,3'd1, 3'd0},{2'b00, segSEL}, s_out );\nand2$(seg_sel, isMOD0, isSEG); \n mux2n #(3) mx11(S1, S10, s_out, seg_sel);"
+    #     file.write(override)
+    #     file.write("\nendmodule")
 
 # def genModOverwrite(row, unqID):
 def genW():
