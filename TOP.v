@@ -368,7 +368,6 @@
 
     wire         isBR_MEM_EX_latch_in, is_fp_MEM_EX_latch_in, is_imm_MEM_EX_latch_in, is_rep_MEM_EX_latch_in;
     wire [15:0]  CS_MEM_EX_latch_in;
-    wire [3:0]   wake_MEM_EX_latch_in;
     wire [6:0]   inst_ptcid_MEM_EX_latch_in;
     
 
@@ -1105,7 +1104,7 @@
     wire [m_size_MEM_EX-1:0] m_din_MEM_EX;
     wire [n_size_MEM_EX-1:0] n_din_MEM_EX;
 
-    assign m_din_MEM_EX = { inst_ptcid_MEM_EX_latch_in, wake_MEM_EX_latch_in, op1_MEM_EX_latch_in, op2_MEM_EX_latch_in, op3_MEM_EX_latch_in, op4_MEM_EX_latch_in, 
+    assign m_din_MEM_EX = { inst_ptcid_MEM_EX_latch_in, init_wake, op1_MEM_EX_latch_in, op2_MEM_EX_latch_in, op3_MEM_EX_latch_in, op4_MEM_EX_latch_in, 
                             op1_ptcinfo_MEM_EX_latch_in, op2_ptcinfo_MEM_EX_latch_in, op3_ptcinfo_MEM_EX_latch_in, op4_ptcinfo_MEM_EX_latch_in,
                             valid_MEM_EX_latch_in
                           };
