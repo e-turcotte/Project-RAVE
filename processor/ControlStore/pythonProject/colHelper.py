@@ -58,7 +58,7 @@ def ADD(row,op,asm):
     row[23] =  zzz     # R4 - FREE
     row[27] =   CS    # S4 - CS
 
-    row[41] = zz if version == 0 else oo if version == 1 or version == 2 else oz  # M1_RW
+    row[41] = zz if version == 0 else zo if version == 1 or version == 2 else oz  # M1_RW
     row[42] = zz  # M2_RW
 
     #OPERAND SWAP LOGIC
@@ -96,7 +96,7 @@ def AND(row,op,asm):
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = zz if version == 0 else oo if version == 1 or version == 2 else oz  # M1_RW
+    row[41] = zz if version == 0 else zo if version == 1 or version == 2 else oz  # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
@@ -332,7 +332,7 @@ def CMPXCHG(row,op,asm):
     row[23] = EAX  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = oo  # M1_RW
+    row[41] = zo  # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
@@ -571,7 +571,7 @@ def MOV(row,op,asm):
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = zz if version == 4 else oz if version == 1 or version == 3 else oo  # M1_RW
+    row[41] = zz if version == 4 else oz if version == 1 or version == 3 else zo  # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
@@ -612,7 +612,7 @@ def MOVQ(row,op,asm):
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = oo if version == 0 else oz  # M1_RW
+    row[41] = zo if version == 0 else oz  # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
@@ -690,7 +690,7 @@ def NOT(row,op,asm):
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = oo  # M1_RW
+    row[41] = zo  # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
@@ -730,7 +730,7 @@ def OR(row,op,asm):
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = zz if version == 0 else oo if version == 1 or version == 2 else oz  # M1_RW
+    row[41] = zz if version == 0 else zo if version == 1 or version == 2 else oz  # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
@@ -1134,7 +1134,7 @@ def SAL(row,op,asm):
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = oo   # M1_RW
+    row[41] = zo   # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
@@ -1174,7 +1174,7 @@ def SAR(row,op,asm):
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = oo  # M1_RW
+    row[41] = zo  # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
@@ -1253,7 +1253,7 @@ def XCHG(row,op,asm):
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = zz if version == 0 else  oo  # M1_RW
+    row[41] = zz if version == 0 else  zo  # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
