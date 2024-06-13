@@ -116,13 +116,13 @@ module writeback_TOP(
     
     inv1$ dvorak2(.out(invvalid), .in(valid_out));
     nor3$ qwerty(.out(notneedptc[3]), .in0(inp4_isReg), .in1(inp4_isSeg), .in2(inp4_isMem));
-    muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(128)) mqwerty(.in({256'h0,sreg_ptcs[3],sreg_ptcs[3],inp4_ptcinfo}), .sel({invvalid,notneedptc[3],inp4_isReg,inp4_isSeg,inp4_isMem}), .out(res4_ptcinfo));
+    muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(128)) mqwerty(.in({256'h0,sreg_ptcs[3],sreg_ptcs[3],inp4_ptcinfo}), .sel({invvalid,notneedptc[3],reg_ld[3],seg_ld[3],partialmem_ld[3]}), .out(res4_ptcinfo));
     nor3$ uiop(.out(notneedptc[2]), .in0(inp3_isReg), .in1(inp3_isSeg), .in2(inp3_isMem));
-    muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(128)) muiop(.in({256'h0,sreg_ptcs[2],sreg_ptcs[2],inp3_ptcinfo}), .sel({invvalid,notneedptc[2],inp3_isReg,inp3_isSeg,inp3_isMem}), .out(res3_ptcinfo));
+    muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(128)) muiop(.in({256'h0,sreg_ptcs[2],sreg_ptcs[2],inp3_ptcinfo}), .sel({invvalid,notneedptc[2],reg_ld[2],seg_ld[2],partialmem_ld[2]}), .out(res3_ptcinfo));
     nor3$ dvorak(.out(notneedptc[1]), .in0(inp2_isReg), .in1(inp2_isSeg), .in2(inp2_isMem));
-    muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(128)) mdvorak(.in({256'h0,sreg_ptcs[1],sreg_ptcs[1],inp2_ptcinfo}), .sel({invvalid,notneedptc[1],inp2_isReg,inp2_isSeg,inp2_isMem}), .out(res2_ptcinfo));
+    muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(128)) mdvorak(.in({256'h0,sreg_ptcs[1],sreg_ptcs[1],inp2_ptcinfo}), .sel({invvalid,notneedptc[1],reg_ld[1],seg_ld[1],partialmem_ld[1]}), .out(res2_ptcinfo));
     nor3$ zxcvb(.out(notneedptc[0]), .in0(inp1_isReg), .in1(inp1_isSeg), .in2(inp1_isMem));
-    muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(128)) mzxcvb(.in({256'h0,sreg_ptcs[0],sreg_ptcs[0],inp1_ptcinfo}), .sel({invvalid,notneedptc[0],inp1_isReg,inp1_isSeg,inp1_isMem}), .out(res1_ptcinfo));
+    muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(128)) mzxcvb(.in({256'h0,sreg_ptcs[0],sreg_ptcs[0],inp1_ptcinfo}), .sel({invvalid,notneedptc[0],reg_ld[0],seg_ld[0],partialmem_ld[0]}), .out(res1_ptcinfo));
     
     
     assign CS_out = CS_in;
