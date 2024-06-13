@@ -250,7 +250,7 @@ muxnm_tristate #(8, 16*8) mxt({
      mux4n #(128) mxptc(PTC_out, {112'd0, PTC_outx[15:0]}, {96'd0, PTC_outx[31:0]}, {64'd0,PTC_outx[63:0]}, PTC_outx, size_in[0], size_in[1] );
     wire[3:0] wake_init_vector1;
     mux8_n #(4) wake(wake_init_vector1,4'b1110, 4'b1010, 4'b1011, 4'b1010, 4'b1101, 4'b0101, 4'b0111, 4'b0101   ,needP1, pAddress0[4], sw);
-    mux2_n #(4) wakesa(wake_init_vector, 4'b1111,wake_init_vector1, valid_in );
+    mux2n #(4) wakesa(wake_init_vector, 4'b1111,wake_init_vector1, valid_in );
     /*4 bits
     0: ER
     1: ESW
