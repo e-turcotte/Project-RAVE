@@ -55,7 +55,7 @@ module segfile (input [63:0] base_in,
             and2$ g6(.out(markdest[2]), .in0(decodedrd[2][i]), .in1(dest[2]));
             and2$ g7(.out(markdest[3]), .in0(decodedrd[3][i]), .in1(dest[3]));
 
-            muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(16)) m0(.in(base_in), .sel({decodedld[3][i],decodedld[2][i],decodedld[1][i],decodedld[0][i]}), .out(base_ins[(i+1)*16-1:i*16]));
+            muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(16)) m0(.in(base_in), .sel({ld[3],ld[2],ld[1],ld[0]}), .out(base_ins[(i+1)*16-1:i*16]));
             or4$ g8(.out(ld_vector[i]), .in0(ld[3]), .in1(ld[2]), .in2(ld[1]), .in3(ld[0]));
             or4$ g9(.out(dest_vector[i]), .in0(markdest[3]), .in1(markdest[2]), .in2(markdest[1]), .in3(markdest[0]));
             seg s0(.base_in(base_ins[(i+1)*16-1:i*16]), .lim_in(lim_ins[(i+1)*20-1:i*20]), .ld(ld_vector[i]), .dest(dest_vector[i]), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .loc(loc), .clr(clr), .ptcclr(ptcclr), .clk(clk), .base_out(base_outs[(i+1)*16-1:i*16]), .lim_out(lim_outs[(i+1)*20-1:i*20]), .ptc_out(ptc_outs[(i+1)*32-1:i*32]));
