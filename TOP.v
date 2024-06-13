@@ -1122,8 +1122,9 @@
                             FMASK_MEM_EX_latch_in, conditionals_MEM_EX_latch_in, isBR_MEM_EX_latch_in, is_fp_MEM_EX_latch_in, CS_MEM_EX_latch_in
                           };
     
-    wire MEM_EX_Latch_RD; 
-    inv1$ n2001 (.out(MEM_EX_Latch_RD), .in(EX_stall_out));
+    wire MEM_EX_Latch_RD, exinvstall; 
+    inv1$ n2001 (.out(exinvstall), .in(EX_stall_out));
+    andn #(.NUM_INPUTS(5)) n20000034(.in({wake_MEM_EX_latch_out,exinvstall}), .out(MEM_EX_Latch_RD));
 
     wire [m_size_MEM_EX*8-1:0] new_m_M_EX, old_m_M_EX;
     wire [7:0] modify_M_EX_latch;
@@ -1156,6 +1157,10 @@
              )
     );
 
+    wire expostwakevalid;
+
+    andn #(.NUM_INPUTS(5)) n20000034(.in({wake_MEM_EX_latch_out,valid_MEM_EX_latch_out}), .out(expostwakevalid));
+
     wire [63:0] op1_exdf, op2_exdf, op3_exdf, op4_exdf;
 
     bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(4)) exdf(.prospective_data({res4_WB_RRAG_out,res3_WB_RRAG_out,res2_WB_RRAG_out,res1_WB_RRAG_out}), .prospective_ptc({res4_ptcinfo_WB_RRAG_out,res3_ptcinfo_WB_RRAG_out,res2_ptcinfo_WB_RRAG_out,res1_ptcinfo_WB_RRAG_out}),
@@ -1165,7 +1170,7 @@
     execute_TOP e1 (
         .clk(clk),
         .fwd_stall(fwd_stall_WB_EX_out), //TODO: recieve from WB
-        .valid_in(valid_MEM_EX_latch_out),
+        .valid_in(expostwakevalid),
         .latch_empty(MEM_EX_Latches_empty),
         .EIP_in(EIP_MEM_EX_latch_out),
         .latched_EIP_in(latched_eip_MEM_EX_latch_out),
