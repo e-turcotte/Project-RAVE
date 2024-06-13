@@ -1159,7 +1159,7 @@
 
     wire expostwakevalid;
 
-    andn #(.NUM_INPUTS(5)) n20000034(.in({wake_MEM_EX_latch_out,valid_MEM_EX_latch_out}), .out(expostwakevalid));
+    andn #(.NUM_INPUTS(5)) n20000035(.in({wake_MEM_EX_latch_out,valid_MEM_EX_latch_out}), .out(expostwakevalid));
 
     wire [63:0] op1_exdf, op2_exdf, op3_exdf, op4_exdf;
 
