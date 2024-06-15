@@ -49,7 +49,9 @@ module D_RrAg_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
 
         $fdisplay(file, "\t Queue values: ");
         $fdisplay(file, "\t read: %b", rd);
+        $fdisplay(file, "\t rd_ptr: %b", q0.ptr_rd);
         $fdisplay(file, "\t write: %b", wr);
+        $fdisplay(file, "\t wr_ptr: %b", q0.ptr_wr);
         $fdisplay(file, "\t clear: %b", clr);
         $fdisplay(file, "\t full: %b", full);
         $fdisplay(file, "\t empty: %b", empty);
