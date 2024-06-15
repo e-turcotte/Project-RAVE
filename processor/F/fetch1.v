@@ -333,6 +333,12 @@ wire DES_full_e_notbuf, DES_full_o_notbuf;
 regn #(1) r0(DES_full_e_notbuf, 1'b1, reset, clk, DES_full_e); 
 regn #(1) r0asdfasf(DES_full_o_notbuf, 1'b1, reset, clk, DES_full_o); 
 
+// dff$ desDE(clk,bus_valid_e_nobuf, bus_valid_ex, dcxx , rst,set);
+// dff$ desDO(clk,bus_valid_o_nobuf, bus_valid_ox, dcxxo , rst,set);
+// and2$ asssd(DES_full_e, DES_full_e_notbuf,DES_full_ex);
+// and2$ asssde(DES_full_o, DES_full_o_notbuf,DES_full_ox);
+
+
 wire mshr_e_hit, mshr_e_full, mshr_e_write;
 wire [14:0] mshr_e_paddr;
 
