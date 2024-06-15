@@ -349,7 +349,7 @@ module delay #(parameter DELAY_AMNT=35) (input undelay_sig,
         for (i = 1; i < DELAY_AMNT/5; i = i + 1) begin : delay_slices
             tristate_bus_driver1$ t0(.enbar(1'b0), .in(delay_wires[i-1]), .out(delay_wires[i]));
 
-            tristate_bus_driver1$ t0(.enbar(1'b0), .in(delay_sel[i-1]), .out(delay_sel[i]));
+            tristate_bus_driver1$ t1(.enbar(1'b0), .in(delay_sel[i-1]), .out(delay_sel[i]));
         end
 
         mux2$ m0(.outb(delay_sig), .in0(1'b0), .in1(delay_wires[(DELAY_AMNT/5)-1]), .s0(delay_sel[(DELAY_AMNT/5)-1]));
