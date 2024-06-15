@@ -57,7 +57,7 @@ module pmem_TOP (input [3:0] recvB,
             delay #(.DELAY_AMNT(70)) d1(.undelay_sig(buf_des_full[i]), .delay_sig(delay_des_full[i]));
             and3$ g3(.out(des_read[i]), .in0(buf_des_full[i]), .in1(delay_des_full[i]), .in2(ser_empty[i]));
             delay #(.DELAY_AMNT(70)) d2(.undelay_sig(des_read[i]), .delay_sig(delay_des_read[i]));
-            delay #(.DELAY_AMNT(70)) d3(.undealy_sig(undelay_freeB[i]), .delay_sig(freeB[i]));
+            delay #(.DELAY_AMNT(70)) d3(.undelay_sig(undelay_freeB[i]), .delay_sig(freeB[i]));
 
             bank bnk(.addr(addr[(i+1)*15-1:i*15+6]), .rw(rw[i]), .bnk_en(buf_des_full[i]), .din(din[(i+1)*128-1:i*128]), .dout(dout[(i+1)*128-1:i*128]));
 
