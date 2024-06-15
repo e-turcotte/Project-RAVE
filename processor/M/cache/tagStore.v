@@ -47,7 +47,7 @@ generate
         equaln #(8) e(tag_in, data[i*8+7: i*8], hit1[i]);
         and2$ plz(hmm[i], PTC[i], isW);
         or2$ plz2(boabw[i], V[i], hmm[i]);
-        and3$ andV(hit[i], hit1[i], boabw[i], w_unpulsed);
+        and2$ andV(hit[i], hit1[i], boabw[i]);
     end
 endgenerate
 

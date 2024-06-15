@@ -1,12 +1,11 @@
 module cache_stage1(
     input clk,rst, set,
     input [3:0] cache_id,
-    
+    input fromBUS,
     input  [31:0] vAddress_in,
     input [14:0] pAddress_in,
     input  r,w,sw,
     input  valid_in1,
-    input  fromBUS, 
     input  [6:0] PTC_ID_IN,
     input [16*8-1:0] data_in,
     input [16*8-1:0] mask_in,
@@ -60,7 +59,7 @@ or2$ mvswr(smalls, r, sw); //TODO: Possible i$ d$ change
 nand4$ mvW(meta_validW, smalls, MSHR_MISS, valid_out,rst);
 nand3$ mvR(meta_validR, HIT, valid_out,rst);
 nand2$  mvVal(meta_validt, meta_validR, meta_validW);
-or2$ plzw(meta_valid, meta_validt, fromBUS);
+or2$ plzw(meta_valid, meta_validt, fromBUS & valid_in);
 tagStore ts(.isW(w), .w_unpulsed((~(~writeTag_out & rst))), .PTC(PTC) ,.tagData_out_hit(tag_hit), .valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(~(~tWrite & rst)), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
 metaStore ms(.clk(clk), .r(r), .rst(rst), .set(set), .valid(meta_valid), .way(way_out), .index(index), .wb(w), .sw(sw), .ex(ex_clr_buf), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
 wayGeneration wg(.LRU(LRU),.valid_in(valid_in), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid_in), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS2));

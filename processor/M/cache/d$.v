@@ -949,9 +949,24 @@ endgenerate
     assign PTC_ID_out = PTC_ID_out_e;
     assign data = data_out;
     nor2$ norss(cache_valid,valid_out, w_$);
-endmodule 
+ 
+// intitial begin
+//   file = $fopen("d_cache.out", "w");
+//         if (file == 0) begin
+//             $display("Error: Could not open file.");
+//             $finish;
+//         end
+// end
 
+// always @(posedge clock)
+// begin 
+//     $fwrite(file, "submodule2.sig2 = %0h\n", u2.bankE.cs1.ts.);
+//     for (i = 0; i < N; i = i + 1) begin
+//             $fwrite(file, "tagGen[%0d].r.DOUT = %0h\n", i, u2.bankE.cs1.ts.data[i*8 + 7: i*8]);
+//     end  
+// end
 
+endmodule
 /*
 
 .read(bus_valid_e),
