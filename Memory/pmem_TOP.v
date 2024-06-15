@@ -62,10 +62,10 @@ module pmem_TOP (input [3:0] recvB,
 
             bank bnk(.addr(addr[(i+1)*15-1:i*15+6]), .rw(rw[i]), .bnk_en(buf_des_full[i]), .din(din[(i+1)*128-1:i*128]), .dout(dout[(i+1)*128-1:i*128]));
 
-            and3$ g4(.out(ser_read[i]), .in0(delay_des_read[i]), .in1(rw[i]), .in2(des_full[i]));
+            //and3$ g4(.out(ser_read[i]), .in0(delay_des_read[i]), .in1(rw[i]), .in2(buf_des_full[i]));
 
             SER s(.clk_core(), .clk_bus(bus_clk), .rst(clr), .set(1'b1),
-                  .valid_in(ser_read[i]), .pAdr_in(addr[(i+1)*15-1:i*15]), .data_in(dout[(i+1)*128-1:i*128]),
+                  .valid_in(delay_des_read[i]), .pAdr_in(addr[(i+1)*15-1:i*15]), .data_in(dout[(i+1)*128-1:i*128]),
                   .dest_in(send[i*4+3: i * 4]), .return_in(bnkid), .rw_in(1'b1),
                   .size_in(16'h8000),
                   .dest_bau(destB[i*4+3:i*4]),
