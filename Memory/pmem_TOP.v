@@ -51,11 +51,11 @@ module pmem_TOP (input [3:0] recvB,
             bufferH16$ b0(.out(buf_des_full[i]), .in(des_full[i]));
             //inv1$ g0(.out(bnk_en[i]), .in(buf_des_full[i]));
             and2$ g1(.out(undelay_rw[i]), .in0(des_rw[i]), .in1(buf_des_full[i]));
-            delay #(.DELAY_AMNT(35)) d0(.undelay_sig(undelay_rw[i]), .delay_sig(delay_rw[i]));
+            delay #(.DELAY_AMNT(35)) d0(.undelay_sig(undelay_rw[i]), .clk(bus_clk), .clr(clr), .delay_sig(delay_rw[i]));
             nand2$ g2(.out(rw[i]), .in0(delay_rw[i]), .in1(buf_des_full[i]));
-            delay #(.DELAY_AMNT(70)) d1(.undelay_sig(buf_des_full[i]), .delay_sig(delay_des_full[i]));
+            delay #(.DELAY_AMNT(70)) d1(.undelay_sig(buf_des_full[i]), .clk(bus_clk), .clr(clr), .delay_sig(delay_des_full[i]));
             and3$ g3(.out(des_read[i]), .in0(buf_des_full[i]), .in1(delay_des_full[i]), .in2(ser_empty[i]));
-            delay #(.DELAY_AMNT(70)) d2(.undelay_sig(des_read[i]), .delay_sig(delay_des_read[i]));
+            delay #(.DELAY_AMNT(70)) d2(.undelay_sig(des_read[i]), .clk(bus_clk), .clr(clr), .delay_sig(delay_des_read[i]));
 
             bank bnk(.addr(addr[(i+1)*15-1:i*15+6]), .rw(rw[i]), .bnk_en(buf_des_full[i]), .din(din[(i+1)*128-1:i*128]), .dout(dout[(i+1)*128-1:i*128]));
 
@@ -337,14 +337,20 @@ endmodule
 
 
 module delay #(parameter DELAY_AMNT=35) (input undelay_sig,
+                                         input clk, clr,
                                          output delay_sig);
+
+    wire guard;
+
+    regn #(.WIDTH(1)) delayguard(.din(1'b1), .ld(undelay_sig), .clr(clr), .clk(clk), .dout(guard));
 
     genvar i;
     generate
         wire [(DELAY_AMNT/5)-1:0] delay_wires;
 
         assign delay_wires[0] = undelay_sig;
-        assign delay_sig = delay_wires[(DELAY_AMNT/5)-1];
+
+        and2$ g0(.out(delay_sig), .in0(guard), .in1(delay_wires[(DELAY_AMNT/5)-1]));
 
         for (i = 1; i < DELAY_AMNT/5; i = i + 1) begin : delay_slices
             tristate_bus_driver1$ t0(.enbar(1'b0), .in(delay_wires[i-1]), .out(delay_wires[i]));
