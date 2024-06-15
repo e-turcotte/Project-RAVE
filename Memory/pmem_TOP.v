@@ -25,13 +25,15 @@ module pmem_TOP (input [3:0] recvB,
     wire [3:0] ser_empty;
 
     wire [15:0] send;
+    wire [3:0] des_pulse;    
+    wire [3:0] des_pulse_del;
 
     genvar i;
     generate
         for (i = 0; i < 4; i = i + 1) begin : banks
 
             wire [3:0] bnkid;
-
+            
             case (i)
                 0: assign bnkid = 4'h8;
                 1: assign bnkid = 4'h9;
@@ -40,14 +42,15 @@ module pmem_TOP (input [3:0] recvB,
                 default: assign bnkid = 4'h0;
             endcase
 
-            DES #(.loc(8)) d(.read(delay_des_read[i]), .clk_bus(bus_clk), .clk_core(), .rst(clr), .set(1'b1),
+            DES #(.loc(8)) d(.read(des_pulse_del[i]), .clk_bus(bus_clk), .clk_core(), .rst(clr), .set(1'b1),
                              .full(des_full[i]), .pAdr(addr[(i+1)*15-1:i*15]), .data(din[(i+1)*128-1:i*128]),
                              .return(send[i*4+3:i*4]), .dest(), .rw(des_rw[i]),
                              .size(),
                              .BUS(BUS),
                              .setReciever(recvB[i]),
                              .free_bau(freeB[i]));
-
+            pulGen pg1(des_read[i], des_pulse[i]);
+            delay #(.DELAY_AMNT(60)) ds2(.undelay_sig(des_pulse[i]), .delay_sig(des_pulse_del[i]));
             bufferH16$ b0(.out(buf_des_full[i]), .in(des_full[i]));
             //inv1$ g0(.out(bnk_en[i]), .in(buf_des_full[i]));
             and2$ g1(.out(undelay_rw[i]), .in0(des_rw[i]), .in1(buf_des_full[i]));
@@ -351,4 +354,16 @@ module delay #(parameter DELAY_AMNT=35) (input undelay_sig,
         end
     endgenerate
 
+endmodule
+
+module pulGen (
+    input in,
+    output out
+);
+begin 
+    wire in_del;
+    delay #(.DELAY_AMNT(15)) d0(.undelay_sig(in[i]), .delay_sig(in_delay));
+    inv1$ in1(in_delay_n, in_delay);
+    and2$ n0(out, in, in_delay_n);
+end
 endmodule
