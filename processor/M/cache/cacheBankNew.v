@@ -2,6 +2,7 @@ module cacheBank (
     input clk,
     input rst, set,
     input [3:0] cache_id,
+    
     //Input from AQ
     input  [31:0] vAddress,
     input [14:0] pAddress,
@@ -183,6 +184,6 @@ assign EX_pAddress = pAddress;
 assign EX_size = size;
 wire [1:0] EX_wake2;
 
-mux2n #(2) mxWake(EX_wake, {HIT,1'b1}, {1'b1,HIT}, sw);
+mux2n #(2) mxWake(EX_wake, {1'b0, HIT}, {HIT,1'b0}, sw);
 
 endmodule
