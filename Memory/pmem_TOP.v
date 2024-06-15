@@ -20,7 +20,7 @@ module pmem_TOP (input [3:0] recvB,
     wire [511:0] dout;
 
     wire [3:0] des_full, buf_des_full, delay_des_full;
-    wire [3:0] des_read, delay_des_read, inv_delay_des_read, ser_read;
+    wire [3:0] des_read, delay_des_read, inv_des_read, inv_delay_des_read, ser_read;
     wire [3:0] des_rw, undelay_rw, delay_rw;
     wire [3:0] ser_empty;
     wire [3:0] des_freeB;
@@ -57,12 +57,13 @@ module pmem_TOP (input [3:0] recvB,
             delay #(.DELAY_AMNT(70)) d1(.undelay_sig(buf_des_full[i]), .delay_sig(delay_des_full[i]));
             and3$ g3(.out(des_read[i]), .in0(buf_des_full[i]), .in1(delay_des_full[i]), .in2(ser_empty[i]));
             delay #(.DELAY_AMNT(70)) d2(.undelay_sig(des_read[i]), .delay_sig(delay_des_read[i]));
-            inv1$ g4(.out(inv_delay_des_read[i]), .in(delay_des_read[i]));
-            and2$ g5(.out(freeB[i]), .in0(des_freeB[i]), .in1(inv_delay_des_read[i]));
+            inv1$ g4(.out(inv_des_read[i]), .in(des_read[i]));
+            inv1$ g5(.out(inv_delay_des_read[i]), .in(delay_des_read[i]));
+            and3$ g6(.out(freeB[i]), .in0(des_freeB[i]), .in1(inv_des_read[i]), .in2(inv_delay_des_read[i]));
 
             bank bnk(.addr(addr[(i+1)*15-1:i*15+6]), .rw(rw[i]), .bnk_en(buf_des_full[i]), .din(din[(i+1)*128-1:i*128]), .dout(dout[(i+1)*128-1:i*128]));
 
-            and3$ g6(.out(ser_read[i]), .in0(delay_des_read[i]), .in1(rw[i]), .in2(des_full[i]));
+            and3$ g7(.out(ser_read[i]), .in0(delay_des_read[i]), .in1(rw[i]), .in2(des_full[i]));
 
             SER s(.clk_core(), .clk_bus(bus_clk), .rst(clr), .set(1'b1),
                   .valid_in(ser_read[i]), .pAdr_in(addr[(i+1)*15-1:i*15]), .data_in(dout[(i+1)*128-1:i*128]),
