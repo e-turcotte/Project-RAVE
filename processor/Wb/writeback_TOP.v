@@ -54,9 +54,10 @@ module writeback_TOP(
     output stall,
 
     output final_IE_val,
-    output [3:0] final_IE_type
+    output [3:0] final_IE_type,
+    output halts
     );
-
+    and2$ halc(halts, P_OP[9], valid_in);
     assign inst_ptcid_out = inst_ptcid_in;
 
     wire LD_EIP_CS;

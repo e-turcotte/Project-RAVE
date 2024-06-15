@@ -66,7 +66,9 @@ mux2n  # (2) mx3(M1_RW, M1_RW0, 2'b00, m1rw_s);
 // mux2n  # (2) mx33(M2_RW, M2_RW0, 2'b00, m2rw_s);
 and4$ a2(s3_s, isMOD, m1, m2, S3_MOD_OVR);
 mux2n  # (3)  mx4(S3, S30, m[5:3], s3_s);
-and4$ a3(r1_s, isMOD, m1, m2, R1_MOD_OVR);
+and2$ a3(r1_s, isMOD, R1_MOD_OVR);
+// and4$ a3(r1_s, isMOD, m1, m2, R1_MOD_OVR);
+
 mux2n  # (3)  mx5(R1, R10, m[5:3], r1_s);
 
 and2$ ors2(isMEM1, B2[7], B2[6]);
@@ -84,6 +86,6 @@ mux2n  #(13) mx9(op2_mux, op2_mux0, 13'h0002, op2_s);
 mux2n #(3) mx10(R2, R20, m[2:0], m1rw_s);
 wire [2:0] s_out; 
  muxnm_tristate #(8,3) mxtr( {3'd7, 3'd6, 3'd5, 3'd4, 3'd3, 3'd2,3'd1, 3'd0},{2'b00, segSEL}, s_out );
-and2$ a8(seg_sel, isMOD0, isSEG); 
+and2$ a8(seg_sel, isMOD, isSEG); 
  mux2n #(3) mx11(S1, S10, s_out, seg_sel);
 endmodule

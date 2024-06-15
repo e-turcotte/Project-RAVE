@@ -1403,7 +1403,8 @@
         .stall(fwd_stall_WB_EX_out),
 
         .final_IE_val(final_IE_val),
-        .final_IE_type(final_IE_type)
+        .final_IE_type(final_IE_type),
+        .halts(halts)
     );
 
  endmodule
