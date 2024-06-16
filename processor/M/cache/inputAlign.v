@@ -234,13 +234,13 @@ muxnm_tristate #(8, 16*8) mxt({
      mux8_n #(128) breakup2(
          PTCDATA, 
          PTC0_shift[127:0], 
-         {PTC0[15:0], PTC0_shift[111:0]}, 
-         {PTC0[31:0], PTC0_shift[95:0]},
-         {PTC0[47:0], PTC0_shift[79:0]},
-         {PTC0[63:0], PTC0_shift[63:0]},
-         {PTC0[79:0], PTC0_shift[47:0]},
-         {PTC0[95:0], PTC0_shift[31:0]},
-         {PTC0[111:0],PTC0_shift[15:0]}, 
+         {PTC1[15:0], PTC0_shift[111:0]}, 
+         {PTC1[31:0], PTC0_shift[95:0]},
+         {PTC1[47:0], PTC0_shift[79:0]},
+         {PTC1[63:0], PTC0_shift[63:0]},
+         {PTC1[79:0], PTC0_shift[47:0]},
+         {PTC1[95:0], PTC0_shift[31:0]},
+         {PTC1[111:0],PTC0_shift[15:0]}, 
          pAddress0[0], pAddress0[1], pAddress0[2]
      );
  
