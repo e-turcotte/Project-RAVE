@@ -10,11 +10,13 @@ input w_unpulsed,
 input w,
 input r,
 input isW,
+input isSW,
 
 output[7:0] tag_out, 
 output[3:0] hit,
 output[31:0] tag_dump,
-output[7:0] tagData_out_hit
+output[7:0] tagData_out_hit,
+output[3:0] way_sw
 
 
 );
@@ -48,6 +50,7 @@ generate
         and2$ plz(hmm[i], PTC[i], isW);
         or2$ plz2(boabw[i], V[i], hmm[i]);
         and2$ andV(hit[i], hit1[i], boabw[i]);
+        and2$ asher(way_sw[i], isSW, PTC[i]);
     end
 endgenerate
 

@@ -76,7 +76,9 @@ mux4n #(4) mxn5(sizeAdd2[3:0], 4'h0, 4'h1,4'h3, 4'h7, size_in[0], size_in[1]);
 assign baseSize = sizeAdd;
 //assign oneSize = sizeAdd[2:0];//shift2[2:0];
 //TODO: Verify it works plz
-kogeAdder #(4) a4(addRes, valid1_t, address_in[3:0], sizeAdd2, 1'b0);
+kogeAdder #(4) a4(addRes, valid1_t2, address_in[3:0], sizeAdd, 1'b0);
+kogeAdder #(4) a45(dcxxx, valid1_t, address_in[3:0], sizeAdd2, 1'b0);
+
 mux2n #(2) mx1(size0, size_in, 2'b11, sizeOVR);
 assign needP1 = valid1;
 
