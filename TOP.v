@@ -854,10 +854,10 @@
         .valid_out(valid_RrAg_MEM_latch_in), .stall(RrAg_stall_out), //send to D_RrAg_Queued_Latches
         .opsize_out(opsize_RrAg_MEM_latch_in),
         .mem_addr1(mem_addr1_RrAg_MEM_latch_in), .mem_addr2(mem_addr2_RrAg_MEM_latch_in), .mem_addr1_end(mem_addr1_end_RrAg_MEM_latch_in), .mem_addr2_end(mem_addr2_end_RrAg_MEM_latch_in),
-        .reg1(reg1_RrAg_MEM_latch_in), .reg2(reg2_RrAg_MEM_latch_in), .reg3(reg3_RrAg_MEM_latch_in), .reg4(reg4_RrAg_MEM_latch_in),
+        .reg1(reg1_rragdf), .reg2(reg2_rragdf), .reg3(reg3_rragdf), .reg4(reg4_rragdf),
         .ptc_r1(ptc_r1_RrAg_MEM_latch_in), .ptc_r2(ptc_r2_RrAg_MEM_latch_in), .ptc_r3(ptc_r3_RrAg_MEM_latch_in), .ptc_r4(ptc_r4_RrAg_MEM_latch_in),
         .reg1_orig(reg1_orig_RrAg_MEM_latch_in), .reg2_orig(reg2_orig_RrAg_MEM_latch_in), .reg3_orig(reg3_orig_RrAg_MEM_latch_in), .reg4_orig(reg4_orig_RrAg_MEM_latch_in),
-        .seg1(seg1_RrAg_MEM_latch_in), .seg2(seg2_RrAg_MEM_latch_in), .seg3(seg3_RrAg_MEM_latch_in), .seg4(seg4_RrAg_MEM_latch_in),
+        .seg1(seg1_rragdf), .seg2(seg2_rragdf), .seg3(seg3_rragdf), .seg4(seg4_rragdf),
         .ptc_s1(ptc_s1_RrAg_MEM_latch_in), .ptc_s2(ptc_s2_RrAg_MEM_latch_in), .ptc_s3(ptc_s3_RrAg_MEM_latch_in), .ptc_s4(ptc_s4_RrAg_MEM_latch_in),
         .seg1_orig(seg1_orig_RrAg_MEM_latch_in), .seg2_orig(seg2_orig_RrAg_MEM_latch_in), .seg3_orig(seg3_orig_RrAg_MEM_latch_in), .seg4_orig(seg4_orig_RrAg_MEM_latch_in),
         .inst_ptcid(inst_ptcid_RrAg_MEM_latch_in),
@@ -883,6 +883,14 @@
         .BR_pred_target_out(BR_pred_target_RrAg_MEM_latch_in),
         .BR_pred_T_NT_out(BR_pred_T_NT_RrAg_MEM_latch_in)
     );
+
+    bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(8)) rragdf(.prospective_data({res4_WB_RRAG_out,res3_WB_RRAG_out,res2_WB_RRAG_out,res1_WB_RRAG_out}), .prospective_ptc({res4_ptcinfo_WB_RRAG_out,res3_ptcinfo_WB_RRAG_out,res2_ptcinfo_WB_RRAG_out,res1_ptcinfo_WB_RRAG_out}),
+                                                             .operand_data({reg4_rragdf,reg3_rragdf,reg2_rragdf,reg1_rragdf,
+                                                                            48'h000000000000,seg4_rragdf,48'h000000000000,seg3_rragdf,48'h000000000000,seg2_rragdf,48'h000000000000,seg1_rragdf}),
+                                                             .operand_ptc({ptc_r4_RrAg_MEM_latch_in,ptc_r3_RrAg_MEM_latch_in,ptc_r2_RrAg_MEM_latch_in,ptc_r1_RrAg_MEM_latch_in,
+                                                                           96'h000000000000000000000000,ptc_s4_RrAg_MEM_latch_in,96'h000000000000000000000000,ptc_s3_RrAg_MEM_latch_in,
+                                                                           96'h000000000000000000000000,ptc_s2_RrAg_MEM_latch_in,96'h000000000000000000000000,ptc_s1_RrAg_MEM_latch_in}),
+                                                             .new_data({reg4_RrAg_MEM_latch_in,reg3_RrAg_MEM_latch_in,reg2_RrAg_MEM_latch_in,reg1_RrAg_MEM_latch_in,seg4_RrAg_MEM_latch_in,seg3_RrAg_MEM_latch_in,seg2_RrAg_MEM_latch_in,seg1_RrAg_MEM_latch_in}), .modify());
     
     wire RrAg_MEM_latch_LD;
     nand2$ n2000(.out(RrAg_MEM_latch_LD), .in0(valid_MEM_EX_latch_in), .in1(MEM_stall_out));
