@@ -353,14 +353,13 @@ module delay #(parameter DELAY_AMNT=35) (input undelay_sig,
 
 endmodule
 
-module pulGen (
-    input in,
-    output out
-);
-begin 
+module pulGen (input in,
+               output out);
+    
     wire in_del;
+    
     delay #(.DELAY_AMNT(15)) d0(.undelay_sig(in), .delay_sig(in_delay));
     inv1$ in1(in_delay_n, in_delay);
     and2$ n0(out, in, in_delay_n);
-end
+
 endmodule
