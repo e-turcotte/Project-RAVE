@@ -160,7 +160,7 @@ module mem (input valid_in,
 
     assign cache_data_out = data_out[63:0]; //TODO: why is data out 128bits
 
-    or2$ g1(.out(stall), .in0(rep_stall), .in1(cache_stall));
+    or3$ g1(.out(stall), .in0(rep_stall), .in1(cache_stall), .in2(fwd_stall));
 
     wire [127:0] m1_ptc, m2_ptc;
 
