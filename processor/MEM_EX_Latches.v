@@ -70,7 +70,7 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
             $fdisplay(file, "\t\t op3_val: 0x%h", all_outs[latch_num][1493:1430]);
             $fdisplay(file, "\t\t op4_val: 0x%h\n", all_outs[latch_num][1429:1366]); 
 
-            $fdisplay(file, "\t\t op1_ptcinfo: 0x%d", all_outs[latch_num][1365:1238]);
+            $fdisplay(file, "\t\t op1_ptcinfo: 0x%h", all_outs[latch_num][1365:1238]);
             $fdisplay(file, "\t\t op2_ptcinfo: 0x%h", all_outs[latch_num][1237:1110]);
             $fdisplay(file, "\t\t op3_ptcinfo: 0x%h", all_outs[latch_num][1106:982]);
             $fdisplay(file, "\t\t op4_ptcinfo: 0x%h", all_outs[latch_num][981:854]);
