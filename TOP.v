@@ -827,7 +827,8 @@
             
         );
 
-        wire [63:0] reg1_rragdf, reg2_rragdf, reg3_rragdf, reg4_rragdf, seg1_rragdf, seg2_rragdf, seg3_rragdf, seg4_rragdf;
+        wire [63:0] reg1_rragdf, reg2_rragdf, reg3_rragdf, reg4_rragdf;
+        wire [15:0] seg1_rragdf, seg2_rragdf, seg3_rragdf, seg4_rragdf;
     
     rrag r1 (
         //inputs
@@ -886,13 +887,15 @@
         .BR_pred_T_NT_out(BR_pred_T_NT_RrAg_MEM_latch_in)
     );
 
+    wire [47:0] dummy_zero_collector;
+
     bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(8)) rragdf(.prospective_data({res4_WB_RRAG_out,res3_WB_RRAG_out,res2_WB_RRAG_out,res1_WB_RRAG_out}), .prospective_ptc({res4_ptcinfo_WB_RRAG_out,res3_ptcinfo_WB_RRAG_out,res2_ptcinfo_WB_RRAG_out,res1_ptcinfo_WB_RRAG_out}),
                                                              .operand_data({reg4_rragdf,reg3_rragdf,reg2_rragdf,reg1_rragdf,
                                                                             48'h000000000000,seg4_rragdf,48'h000000000000,seg3_rragdf,48'h000000000000,seg2_rragdf,48'h000000000000,seg1_rragdf}),
                                                              .operand_ptc({ptc_r4_RrAg_MEM_latch_in,ptc_r3_RrAg_MEM_latch_in,ptc_r2_RrAg_MEM_latch_in,ptc_r1_RrAg_MEM_latch_in,
                                                                            96'h000000000000000000000000,ptc_s4_RrAg_MEM_latch_in,96'h000000000000000000000000,ptc_s3_RrAg_MEM_latch_in,
                                                                            96'h000000000000000000000000,ptc_s2_RrAg_MEM_latch_in,96'h000000000000000000000000,ptc_s1_RrAg_MEM_latch_in}),
-                                                             .new_data({reg4_RrAg_MEM_latch_in,reg3_RrAg_MEM_latch_in,reg2_RrAg_MEM_latch_in,reg1_RrAg_MEM_latch_in,seg4_RrAg_MEM_latch_in,seg3_RrAg_MEM_latch_in,seg2_RrAg_MEM_latch_in,seg1_RrAg_MEM_latch_in}), .modify());
+                                                             .new_data({reg4_RrAg_MEM_latch_in,reg3_RrAg_MEM_latch_in,reg2_RrAg_MEM_latch_in,reg1_RrAg_MEM_latch_in,dummy_zero_collector,seg4_RrAg_MEM_latch_in,dummy_zero_collector,seg3_RrAg_MEM_latch_in,dummy_zero_collector,seg2_RrAg_MEM_latch_in,dummy_zero_collector,seg1_RrAg_MEM_latch_in}), .modify());
     
     wire RrAg_MEM_latch_LD;
     nand2$ n2000(.out(RrAg_MEM_latch_LD), .in0(valid_MEM_EX_latch_in), .in1(MEM_stall_out));
