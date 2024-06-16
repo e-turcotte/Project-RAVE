@@ -826,6 +826,8 @@
             BR_pred_T_NT_D_RrAg_latch_out})
             
         );
+
+        wire [63:0] reg1_rragdf, reg2_rragdf, reg3_rragdf, reg4_rragdf, seg1_rragdf, seg2_rragdf, seg3_rragdf, seg4_rragdf;
     
     rrag r1 (
         //inputs
