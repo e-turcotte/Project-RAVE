@@ -29,6 +29,13 @@ module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(128)) m1fhgcvbhj(.in({cache_out_ptcinfo,128'h0}), .sel(cache_out_valid), .out(guarded_cache_out_ptcinfo));
 
+    wire [63:0] fwd_cache_data;
+    wire cache_mod_vect;
+
+    bypassmech #(.NUM_PROSPECTS(4), .NUM_OPERANDS(1)) cacheoutdf(.prospective_data({wb_res4,wb_res3,wb_res2,wb_res1}), .prospective_ptc({wb_res4_ptcinfo,wb_res3_ptcinfo,wb_res2_ptcinfo,wb_res1_ptcinfo}),
+                                                                 .operand_data(cache_out_data), .operand_ptc({guarded_cache_out_ptcinfo}),
+                                                                 .new_data(fwd_cache_data), .modify(cache_mod_vect));
+
     genvar i;
     generate
 
@@ -44,12 +51,12 @@ module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
 
             assign new_m_M_EX[MSIZE*(i+1)-1:MSIZE*i] = {old_inst_ptcid[i],new_wake[i],new_ops[i],old_op_ptcinfos[i],new_valid[i]};
 
-            wire [3:0] mod_vect;
+            wire [3:0] op_mod_vect;
 
-            bypassmech #(.NUM_PROSPECTS(9), .NUM_OPERANDS(4)) mexqdf(.prospective_data({wb_res4,wb_res3,wb_res2,wb_res1,cache_out_data,cacheline_e_bus_in_data,cacheline_o_bus_in_data}),
+            bypassmech #(.NUM_PROSPECTS(9), .NUM_OPERANDS(4)) mexqdf(.prospective_data({wb_res4,wb_res3,wb_res2,wb_res1,fwd_cache_data,cacheline_e_bus_in_data,cacheline_o_bus_in_data}),
                                                                      .prospective_ptc({wb_res4_ptcinfo,wb_res3_ptcinfo,wb_res2_ptcinfo,wb_res1_ptcinfo,guarded_cache_out_ptcinfo,cacheline_e_bus_in_ptcinfo,cacheline_o_bus_in_ptcinfo}),
                                                                      .operand_data({old_ops[i]}), .operand_ptc({old_op_ptcinfos[i]}),
-                                                                     .new_data({new_ops[i]}), .modify(mod_vect));
+                                                                     .new_data({new_ops[i]}), .modify(op_mod_vect));
 
             equaln #(.WIDTH(7)) eq123(.a(old_inst_ptcid[i]), .b(cache_ptcid), .eq(cache_qslot[i]));
             equaln #(.WIDTH(7)) eq456(.a(old_inst_ptcid[i]), .b(mshr_ptcid_e), .eq(mshr_qslot_e_in[i]));
