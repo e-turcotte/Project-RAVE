@@ -1,4 +1,4 @@
-module mshr (input [14:0] pAddress,
+module mshr (input [14:0] pAddress, //this shouldve been 11 bits but too late to change now
              input [6:0] ptcid_in,
              input [7:0] qentry_slot_in,
              input rdsw_in,
@@ -39,7 +39,7 @@ module mshr (input [14:0] pAddress,
         for (i = 0; i < 8; i = i + 1) begin : m_slices
             equaln #(.WIDTH(15)) eq0(.a(dealloc_paddr), .b(issued_reqs[i*24 + 22:i*24 + 8]), .eq(match_vector_recv[i]));
             and3$ g3(.out(invalidation_vector[i]), .in0(match_vector_recv[i]), .in1(issued_reqs[i*24 + 23]), .in2(dealloc));
-            equaln #(.WIDTH(15)) eq1(.a(pAddress), .b(issued_reqs[i*24 + 22:i*24 + 8]), .eq(match_vector_send[i]));
+            equaln #(.WIDTH(11)) eq1(.a(pAddress[14:4]), .b(issued_reqs[i*24 + 22:i*24 + 12]), .eq(match_vector_send[i]));
             and2$ g4(.out(hit_vector[i]), .in0(match_vector_send[i]), .in1(issued_reqs[i*24 + 23]));
 
             muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m1(.in({1'b0,issued_reqs[i*24 + 23]}), .sel(invalidation_vector[i]), .out(change_reqs[i*24 + 23]));
