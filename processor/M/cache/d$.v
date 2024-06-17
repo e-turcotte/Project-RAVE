@@ -551,7 +551,7 @@ cacheaqsys cacheaqsys_inst (
     .bus_isempty(bus_isempty),
 
 
-    .read(read),
+    .read(stall_n & aq_isempty_n),
     .rd_write(valid_in_r),
     .sw_write(valid_in_sw),
     .wb_write(valid_in_wb),
@@ -950,6 +950,7 @@ endgenerate
     assign req_d = {reqDEr, reqDEw, reqDOr, reqDOw};
 
     or2$ sta(stall, cache_stall_e, cache_stall_o);
+    inv1$ nstal(stall_n, stall);
     assign PTC_ID_out = PTC_ID_out_e;
     assign data = data_out;
     nor2$ norss(cache_valid,valid_out, w_$);

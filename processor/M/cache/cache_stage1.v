@@ -26,7 +26,8 @@ module cache_stage1(
     output stall,
     output valid_out,
 
-    output [14:0] extAddress
+    output [14:0] extAddress,
+    output read
 
 );
 
