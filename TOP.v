@@ -898,7 +898,7 @@
                                                              .new_data({reg4_RrAg_MEM_latch_in,reg3_RrAg_MEM_latch_in,reg2_RrAg_MEM_latch_in,reg1_RrAg_MEM_latch_in,dummy_zero_collector,seg4_RrAg_MEM_latch_in,dummy_zero_collector,seg3_RrAg_MEM_latch_in,dummy_zero_collector,seg2_RrAg_MEM_latch_in,dummy_zero_collector,seg1_RrAg_MEM_latch_in}), .modify());
     
     wire RrAg_MEM_latch_LD;
-    nand2$ n2000(.out(RrAg_MEM_latch_LD), .in0(valid_MEM_EX_latch_in), .in1(MEM_stall_out));
+    inv1$ n2000(.out(RrAg_MEM_latch_LD), .in(MEM_stall_out));
 
     RrAg_MEM_latch q4(
         //inputs
@@ -1269,7 +1269,7 @@
     );
 
     wire EX_WB_latch_LD;
-    inv1$ i2i31nfkdas(.out(EX_WB_latch_LD), .in(EX_stall_out));
+    inv1$ i2i31nfkdas(.out(EX_WB_latch_LD), .in(fwd_stall_WB_EX_out));
 
     E_WB_latch e_w_latch(
         //inputs 
