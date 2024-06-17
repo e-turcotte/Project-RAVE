@@ -160,7 +160,11 @@ module mem (input valid_in,
 
     assign cache_data_out = data_out[63:0]; //TODO: why is data out 128bits
 
+    wire invstall;
+    
     or3$ g1(.out(stall), .in0(rep_stall), .in1(cache_stall), .in2(fwd_stall));
+    inv1$ g2(.out(invstall), .in(stall));
+    and2$ g3(.out(valid_out), .in0(valid_in), .in1(invstall));
 
     wire [127:0] m1_ptc, m2_ptc;
 
@@ -198,7 +202,6 @@ module mem (input valid_in,
 
     assign inst_ptcid_out = inst_ptcid_in;  
     
-    assign valid_out = valid_in;
     assign eip_out = eip_in;
     assign latched_eip_out = latched_eip_in;
     assign BR_pred_target_out = BR_pred_target_in;
