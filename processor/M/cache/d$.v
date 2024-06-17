@@ -485,8 +485,12 @@ IA_AS wbIA (
     .maskO(maskO_wb),
     .PCD_out(PCD_out_wb)
 );
-
-or2$ rd(read, read_e, read_o);
+dff$ desDEss(clk,aq_isempty, AQ_PREV, dcxxx , rst,set);
+inv1$ asxs(aq_isempty_n, aq_isempty);
+and2$ rd(readx, read_e, read_o);
+or2$ chc(read, readx, AQ_check);
+inv1$ inss(AQ_PREV_n, AQ_PREV);
+and2$ asasf(AQ_check, AQ_PREV, aq_isempty_n);
 cacheaqsys cacheaqsys_inst (
     .rd_pAddress_e (addressE_r),
     .rd_pAddress_o (addressO_r),
