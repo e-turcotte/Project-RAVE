@@ -76,7 +76,7 @@ module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
             or3$ gx2(.out(new_wake[i][2]), .in0(old_wake[i][2]), .in1(guarded_cache_wake[i][2]), .in2(guarded_mshr_wake[i][2]));
             or3$ gx3(.out(new_wake[i][3]), .in0(old_wake[i][3]), .in1(guarded_cache_wake[i][3]), .in2(guarded_mshr_wake[i][3]));
 
-            orn #(.NUM_INPUTS(7)) or0(.in({mod_vect,cache_qslot[i],mshr_qslot_e_out[i],mshr_qslot_o_out[i]}), .out(modify_M_EX_latch[i]));
+            orn #(.NUM_INPUTS(7)) or0(.in({op_mod_vect,cache_qslot[i],mshr_qslot_e_out[i],mshr_qslot_o_out[i]}), .out(modify_M_EX_latch[i]));
         end
     endgenerate
 
