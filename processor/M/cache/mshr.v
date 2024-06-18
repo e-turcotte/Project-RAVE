@@ -7,7 +7,7 @@ module mshr (input [14:0] pAddress, //this shouldve been 11 bits but too late to
              input clk, clr,
              
              output [6:0] ptcid_out, //TODO: not tied to anything fix before finishing MEM
-             output [15:0] rd_qentry_slots_out, sw_qentry_slots_out,
+             output [7:0] rd_qentry_slots_out, sw_qentry_slots_out,
              output mshr_hit, mshr_full);
     
     wire [223:0] issued_reqs, change_reqs;
