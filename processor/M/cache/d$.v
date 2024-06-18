@@ -75,14 +75,12 @@ module d$(
     //MSHR outputs
     input [7:0] qentry_slot_in_e,
     output [6:0] ptcid_out_e,
-    output [7:0] qentry_slots_out_e,
-    output [1:0] wake_vector_out_e,
+    output [7:0] rd_qentry_slots_out_e, sw_qentry_slots_out_e,
     output mshr_hit_e, mshr_full_e,
 
     input [7:0] qentry_slot_in_o,
     output [6:0] ptcid_out_o,
-    output [7:0] qentry_slots_out_o,
-    output [1:0] wake_vector_out_o,
+    output [7:0] rd_qentry_slots_out_o, sw_qentry_slots_out_o,
     output mshr_hit_o, mshr_full_o,
 
     output [127:0] cacheline_e_bus_in_data, cacheline_o_bus_in_data,
@@ -752,8 +750,8 @@ mshr mshrE (
     .clk(clk),
     .clr(rst),
     .ptcid_out(ptcid_out_e),
-    .qentry_slots_out(qentry_slots_out_e),
-    .wake_vector_out(wake_vector_out_e),
+    .rd_qentry_slots_out(rd_qentry_slots_out_e),
+    .sw_qentry_slots_out(sw_qentry_slots_out_e),
     .mshr_hit(mshr_hit_e),
     .mshr_full(mshr_full_e)
 );
@@ -768,8 +766,8 @@ mshr mshrO (
     .clk(clk),
     .clr(rst),
     .ptcid_out(ptcid_out_o),
-    .qentry_slots_out(qentry_slots_out_o),
-    .wake_vector_out(wake_vector_out_o),
+    .rd_qentry_slots_out(rd_qentry_slots_out_o),
+    .sw_qentry_slots_out(sw_qentry_slots_out_o),
     .mshr_hit(mshr_hit_o),
     .mshr_full(mshr_full_o)
 );

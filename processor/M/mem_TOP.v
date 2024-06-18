@@ -40,7 +40,7 @@ module mem (input valid_in,
 
             input [7:0] qentry_slot_in_e, qentry_slot_in_o,
             output [6:0] ptcid_out_e, ptcid_out_o,
-            output [7:0] qentry_slots_out_e, qentry_slots_out_o,
+            output [7:0] rd_qentry_slots_out_e, sw_qentry_slots_out_e, rd_qentry_slots_out_o, sw_qentry_slots_out_o,
             
             input [4:0] aluk_in,
             input [2:0] mux_adder_in,
@@ -92,7 +92,7 @@ module mem (input valid_in,
             output is_br_out, is_fp_out, is_imm_out, is_rep_out,
             output [15:0] CS_out,
 
-            output [3:0] wake_init_out, wake_cache_out, wake_mshr_out,
+            output [3:0] wake_init_out, wake_cache_out,
             output [6:0] cache_ptcid_out,
             output cache_valid_out,
             output [63:0] cache_data_out,
@@ -154,14 +154,14 @@ module mem (input valid_in,
               .ptc_info_r(ptc_info_r), .ptc_info_sw(ptc_info_sw), .wake_init_vector_r(wake_init_r), .wake_init_vector_sw(wake_init_sw),
               .aq_isempty(), .rdaq_isfull(rdaq_isfull), .swaq_isfull(swaq_isfull), .wbaq_isfull(wbaq_isfull),
               .wake(wake_cache_out), .PTC_ID_out(cache_ptcid_out), .cache_valid(cache_valid_out), .data(data_out), .stall(cache_stall), .ptcinfo_out(cache_ptcinfo_out),
-              .qentry_slot_in_e(qentry_slot_in_e), .ptcid_out_e(ptcid_out_e), .qentry_slots_out_e(qentry_slots_out_e), .wake_vector_out_e(wake_mshr_out[1:0]), .mshr_hit_e(), .mshr_full_e(),
-              .qentry_slot_in_o(qentry_slot_in_o), .ptcid_out_o(ptcid_out_o), .qentry_slots_out_o(qentry_slots_out_o), .wake_vector_out_o(wake_mshr_out[3:2]), .mshr_hit_o(), .mshr_full_o(),
+              .qentry_slot_in_e(qentry_slot_in_e), .ptcid_out_e(ptcid_out_e), .rd_qentry_slots_out_e(rd_qentry_slots_out_e), .sw_qentry_slots_out_e(sw_qentry_slots_out_e), .mshr_hit_e(), .mshr_full_e(),
+              .qentry_slot_in_o(qentry_slot_in_o), .ptcid_out_o(ptcid_out_o), .rd_qentry_slots_out_o(rd_qentry_slots_out_o), .sw_qentry_slots_out_o(sw_qentry_slots_out_o), .mshr_hit_o(), .mshr_full_o(),
               .cacheline_e_bus_in_data(cacheline_e_bus_in_data), .cacheline_o_bus_in_data(cacheline_o_bus_in_data), .cacheline_e_bus_in_ptcinfo(cacheline_e_bus_in_ptcinfo), .cacheline_o_bus_in_ptcinfo(cacheline_o_bus_in_ptcinfo));
 
     assign cache_data_out = data_out[63:0]; //TODO: why is data out 128bits
 
     wire invstall;
-    
+
     or3$ g1(.out(stall), .in0(rep_stall), .in1(cache_stall), .in2(fwd_stall));
     inv1$ g2(.out(invstall), .in(stall));
     and2$ g3(.out(valid_out), .in0(valid_in), .in1(invstall));

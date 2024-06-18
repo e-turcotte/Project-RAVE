@@ -4,9 +4,9 @@ module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
                                                 input [3:0] cache_wake,
                                                 input [6:0] cache_ptcid,
 
-                                                input [3:0] mshr_wake,
                                                 input [6:0] mshr_ptcid_e, mshr_ptcid_o,
-                                                input [7:0] mshr_qslot_e_in, mshr_qslot_o_in, mshr_qslot_e_out, mshr_qslot_o_out,
+                                                input [7:0] mshr_qslot_e_in, mshr_qslot_o_in,
+                                                input [7:0] mshr_rd_qslot_e_out, mshr_sw_qslot_e_out, mshr_rd_qslot_o_out, mshr_sw_qslot_o_out,
 
                                                 input [127:0] cacheline_e_bus_in_data, cacheline_o_bus_in_data,
                                                 input [255:0] cacheline_e_bus_in_ptcinfo, cacheline_o_bus_in_ptcinfo,
@@ -66,17 +66,13 @@ module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
             and2$ gdef(.out(guarded_cache_wake[i][1]), .in0(cache_qslot[i]), .in1(cache_wake[1]));
             and2$ gghi(.out(guarded_cache_wake[i][2]), .in0(cache_qslot[i]), .in1(cache_wake[2]));
             and2$ gjkl(.out(guarded_cache_wake[i][3]), .in0(cache_qslot[i]), .in1(cache_wake[3]));
-            and2$ gmno(.out(guarded_mshr_wake[i][0]), .in0(mshr_qslot_e_out[i]), .in1(mshr_wake[0]));
-            and2$ gpqr(.out(guarded_mshr_wake[i][1]), .in0(mshr_qslot_e_out[i]), .in1(mshr_wake[1]));
-            and2$ gstu(.out(guarded_mshr_wake[i][2]), .in0(mshr_qslot_o_out[i]), .in1(mshr_wake[2]));
-            and2$ gvwx(.out(guarded_mshr_wake[i][3]), .in0(mshr_qslot_o_out[i]), .in1(mshr_wake[3]));
 
-            or3$ gx0(.out(new_wake[i][0]), .in0(old_wake[i][0]), .in1(guarded_cache_wake[i][0]), .in2(guarded_mshr_wake[i][0]));
-            or3$ gx1(.out(new_wake[i][1]), .in0(old_wake[i][1]), .in1(guarded_cache_wake[i][1]), .in2(guarded_mshr_wake[i][1]));
-            or3$ gx2(.out(new_wake[i][2]), .in0(old_wake[i][2]), .in1(guarded_cache_wake[i][2]), .in2(guarded_mshr_wake[i][2]));
-            or3$ gx3(.out(new_wake[i][3]), .in0(old_wake[i][3]), .in1(guarded_cache_wake[i][3]), .in2(guarded_mshr_wake[i][3]));
+            or3$ gx0(.out(new_wake[i][0]), .in0(old_wake[i][0]), .in1(guarded_cache_wake[i][0]), .in2(mshr_rd_qslot_e_out[i]));
+            or3$ gx1(.out(new_wake[i][1]), .in0(old_wake[i][1]), .in1(guarded_cache_wake[i][1]), .in2(mshr_sw_qslot_e_out[i]));
+            or3$ gx2(.out(new_wake[i][2]), .in0(old_wake[i][2]), .in1(guarded_cache_wake[i][2]), .in2(mshr_rd_qslot_o_out[i]));
+            or3$ gx3(.out(new_wake[i][3]), .in0(old_wake[i][3]), .in1(guarded_cache_wake[i][3]), .in2(mshr_sw_qslot_o_out[i]));
 
-            orn #(.NUM_INPUTS(7)) or0(.in({op_mod_vect,cache_qslot[i],mshr_qslot_e_out[i],mshr_qslot_o_out[i]}), .out(modify_M_EX_latch[i]));
+            orn #(.NUM_INPUTS(9)) or0(.in({op_mod_vect,cache_qslot[i],mshr_rd_qslot_e_out[i],mshr_sw_qslot_e_out[i],mshr_rd_qslot_o_out[i],mshr_sw_qslot_o_out[i]}), .out(modify_M_EX_latch[i]));
         end
     endgenerate
 

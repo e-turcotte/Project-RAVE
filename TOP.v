@@ -981,9 +981,10 @@
                                                                           96'h000000000000000000000000,ptc_s2_RrAg_MEM_latch_out,96'h000000000000000000000000,ptc_s1_RrAg_MEM_latch_out}),
                                                             .new_data({reg4_memdf,reg3_memdf,reg2_memdf,reg1_memdf,seg4_memdf,seg3_memdf,seg2_memdf,seg1_memdf}), .modify());
     
-    wire [3:0] init_wake, cache_wake, mshr_wake;
+    wire [3:0] init_wake, cache_wake;
     wire [6:0] cache_ptcid, mshr_ptcid_e, mshr_ptcid_o;
-    wire [7:0] mshr_qslot_e_in, mshr_qslot_e_out, mshr_qslot_o_in, mshr_qslot_o_out;
+    wire [7:0] mshr_qslot_e_in, mshr_rd_qslot_e_out, mshr_sw_qslot_e_out;
+    wire [7:0] mshr_qslot_o_in, mshr_rd_qslot_o_out, mshr_sw_qslot_o_out;
     
     wire cache_out_valid;
     wire [63:0] cache_out_data;
@@ -1046,7 +1047,7 @@
         .entry_V_in(entry_v), .entry_P_in(entry_P), .entry_RW_in(entry_RW), .entry_PCD_in(entry_PCD),
         .qentry_slot_in_e(mshr_qslot_e_in), .qentry_slot_in_o(mshr_qslot_o_in),
         .ptcid_out_e(mshr_ptcid_e), .ptcid_out_o(mshr_ptcid_o),
-        .qentry_slots_out_e(mshr_qslot_e_out), .qentry_slots_out_o(mshr_qslot_o_out),
+        .rd_qentry_slots_out_e(mshr_rd_qslot_e_out), .sw_qentry_slots_out_e(mshr_sw_qslot_e_out), .rd_qentry_slots_out_o(mshr_rd_qslot_o_out), .sw_qentry_slots_out_o(mshr_sw_qslot_o_out),
         .aluk_in(aluk_RrAg_MEM_latch_out), .mux_adder_in(mux_adder_RrAg_MEM_latch_out), 
         .mux_and_int_in(mux_and_int_RrAg_MEM_latch_out), .mux_shift_in(mux_shift_RrAg_MEM_latch_out),
         .p_op_in(p_op_RrAg_MEM_latch_out), .fmask_in(fmask_RrAg_MEM_latch_out),
@@ -1106,7 +1107,7 @@
         .is_br_out(isBR_MEM_EX_latch_in), .is_fp_out(is_fp_MEM_EX_latch_in), .is_imm_out(is_imm_MEM_EX_latch_in), 
         .is_rep_out(is_rep_MEM_EX_latch_in), 
         .CS_out(CS_MEM_EX_latch_in),
-        .wake_init_out(init_wake), .wake_cache_out(cache_wake), .wake_mshr_out(mshr_wake),
+        .wake_init_out(init_wake), .wake_cache_out(cache_wake),
         .cache_ptcid_out(cache_ptcid), .cache_valid_out(cache_out_valid), .cache_data_out(cache_out_data), .cache_ptcinfo_out(cache_out_ptcinfo),
         .stall(MEM_stall_out), //send to RrAg and RrAg_MEM_latch
         .cacheline_e_bus_in_data(cacheline_e_bus_in_data), .cacheline_o_bus_in_data(cacheline_o_bus_in_data),
@@ -1142,8 +1143,9 @@
     wire [7:0] modify_M_EX_latch;
 
     latchconnections #(.MSIZE(m_size_MEM_EX)) mexlc(.cache_out_data(cache_out_data), .cache_out_ptcinfo(cache_out_ptcinfo), .cache_out_valid(cache_out_valid), .cache_wake(cache_wake), .cache_ptcid(cache_ptcid),
-                                                    .mshr_wake(mshr_wake), .mshr_ptcid_e(mshr_ptcid_e), .mshr_ptcid_o(mshr_ptcid_o),
-                                                    .mshr_qslot_e_in(mshr_qslot_e_in), .mshr_qslot_o_in(mshr_qslot_o_in), .mshr_qslot_e_out(mshr_qslot_e_out), .mshr_qslot_o_out(mshr_qslot_o_out),
+                                                    .mshr_ptcid_e(mshr_ptcid_e), .mshr_ptcid_o(mshr_ptcid_o),
+                                                    .mshr_qslot_e_in(mshr_qslot_e_in), .mshr_qslot_o_in(mshr_qslot_o_in),
+                                                    .mshr_rd_qslot_e_out(mshr_rd_qslot_e_out), .mshr_sw_qslot_e_out(mshr_sw_qslot_e_out), .mshr_rd_qslot_o_out(mshr_rd_qslot_o_out), .mshr_sw_qslot_o_out(mshr_sw_qslot_o_out),
                                                     .cacheline_e_bus_in_data(cacheline_e_bus_in_data), .cacheline_o_bus_in_data(cacheline_o_bus_in_data),
                                                     .cacheline_e_bus_in_ptcinfo(cacheline_e_bus_in_ptcinfo), .cacheline_o_bus_in_ptcinfo(cacheline_o_bus_in_ptcinfo),
                                                     .new_m_M_EX(new_m_M_EX), .old_m_M_EX(old_m_M_EX), .modify_M_EX_latch(modify_M_EX_latch),
