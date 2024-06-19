@@ -10,7 +10,8 @@ module cacheaqsys (input [14:0] rd_pAddress_e, rd_pAddress_o, sw_pAddress_e, sw_
                    input [2:0] rd_onesize, sw_onesize, wb_onesize,
                    input rd_pcd, sw_pcd, wb_pcd, bus_pcd,
                    input bus_isempty,
-                   
+             //      input [127:0] rd_mask_e, rd_mask_o, sw_mask_e, sw_mask_o,
+
                    input read, rd_write, sw_write, wb_write,
                    
                    input clk, clr,

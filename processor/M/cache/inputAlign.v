@@ -119,7 +119,7 @@ assign maskSelect[16*8-1:64] = 0;
 
 
 
-mux4n #(64) mnx(maskSelect[63:0], 64'h00FF, 64'h0FFFF, 64'h0FFFF_FFFF, 64'hFFFF_FFFF_FFFF_FFFF, size1[0], size1[1]);
+mux4n #(64) mnx(maskSelect[63:0], 64'h00FF, 64'h0FFFF, 64'h0FFFF_FFFF, 64'hFFFF_FFFF_FFFF_FFFF, size_in[0], size_in[1]);
 assign mask1[16*8-1:64] = 0;
 
 generate

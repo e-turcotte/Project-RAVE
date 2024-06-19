@@ -12,13 +12,20 @@ module dataStore(
 wire[16*8-1:0] data_toWrite, data;
 inv1$ clkinv(clkn, clk);
 inv1$ inv12(valid_n, valid);
-
-wire [3:0] way_no, way_n, w_v,way_non, write;
+wire [16*8-1:0] not_mask;
 genvar i;
+
+generate
+    for(i = 0; i < 128; i =  i+1) begin : maskflip
+        inv1$ flipm(not_mask[i], mask_in[i]);
+    end
+endgenerate
+wire [3:0] way_no, way_n, w_v,way_non, write;
 wire [3:0] buf1, buf2, buf3, buf4, buf5, buf6, buf7, buf8, buf9, buf10, buf11;
 generate
     for(i = 0; i < 16*8; i = i + 1)begin
-        mux2$ mxn1(data_toWrite[i], data_out[i], data_in[i], mask_in[i]);
+        // mux2$ mxn1(data_toWrite[i], data_out[i], data_in[i], mask_in[i]);
+        assign data_toWrite[i] = data_in[i];
     end
 endgenerate
 
@@ -31,9 +38,11 @@ generate
 endgenerate
 
 
+wire [63:0] toWrite;
 generate
     for(i = 0; i <64; i =  i+1) begin : dataGen
-        ram8b4w$ r(index, data_toWrite[(i*8+7)%128 : (i*8)%128], 1'b0, w_v[i/16], data_out[i*8+7: i*8] );
+        or2$ masks(toWrite[i], w_v[i/16], not_mask[(i%16)*8]);
+        ram8b4w$ r(index, data_toWrite[(i*8+7)%128 : (i*8)%128], 1'b0, toWrite[i], data_out[i*8+7: i*8] );
     end
 endgenerate
 

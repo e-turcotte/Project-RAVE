@@ -521,8 +521,10 @@ cacheaqsys cacheaqsys_inst (
     .bus_valid_e(bus_valid_e),
     .bus_valid_o(bus_valid_o),
 
-    .wb_mask_e(128'hFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF),
-    .wb_mask_o(128'hFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF),
+//TODO: WOAH
+    .wb_mask_e(maskE_wb),
+    .wb_mask_o(maskO_wb),
+
 
     .rd_ptcid(PTC_ID_out_r),
     .sw_ptcid(PTC_ID_out_sw),
