@@ -1,5 +1,6 @@
 // View page 59 of 
 //https://users.ece.utexas.edu/~patt/24s.382N/handouts/x86%20Basic%20Architecture.pdf
+// 18'b000000000_of_df_00_sf_zf_af_pf_cf
 
 module EFLAG(
     output[17:0] cc_out,
@@ -13,6 +14,13 @@ module EFLAG(
     input cc_inval
 );
 
+assign cf = cc_out[0];
+assign pf = cc_out[1];
+assign af = cc_out[2];
+assign zf = cc_out[3];
+assign sf = cc_out[4];
+assign df = cc_out[7];
+assign of = cc_out[8];
 wire[17:0] cc_new;
 wire[17:0] FMASK_v; wire cc_val;
 inv1$ inv1(cc_val, cc_inval);

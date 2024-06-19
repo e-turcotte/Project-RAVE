@@ -28,9 +28,13 @@ module ALU_top(
 //CCGEN
 wire zf_base; wire penc_zf;
 wire cmpxchng_zf;
-assign pf_out = ALU_OUT[0];
+// assign pf_out = ALU_OUT[0];
+xor4$ par0(pfx0,ALU_OUT[0],ALU_OUT[1],ALU_OUT[2],ALU_OUT[3] );
+xor4$ par1(pfx1,ALU_OUT[4],ALU_OUT[5],ALU_OUT[6],ALU_OUT[7] );
+xnor2$ par2(pf_out, pfx0, pfx1);
 mux4$ m10(sf_out, ALU_OUT[7], ALU_OUT[15], ALU_OUT[31], ALU_OUT[63], size[0], size[1]);
-orn #(64) o10 (ALU_OUT[63:0], zf_base);
+orn #(64) o10 (ALU_OUT[63:0], zf_basex);
+inv1$ o125(zf_base, zf_basex);
 mux3$ z1(zf_out, zf_base, penc_zf, cmpxchng_zf, BSF_P_OP, CMPXCHNG_P_OP);
 assign df_out = STD_P_OP;
 
@@ -524,7 +528,7 @@ module ADD_alu(
     //mux8_n #(32) m1(mux_res, OP2[31:0], 32'd2, 32'd4, 0, 32'd6, 32'hFFFF_FFFE, 32'hFFFF_FFFC, 0, MUX_ADDER_IMM[0],MUX_ADDER_IMM[1], MUX_ADDER_IMM[2]);
     kogeAdder #(32) a1(adderResult, cf_out, OP1[31:0], OP2[31:0], 1'b0);
     
-    kogeAdder #(4) a2(adder_af, nulls, mux_res[7:4], OP1[7:4], 1'b0);
+    kogeAdder #(4) a2(adder_af, nulls, OP2[7:4], OP1[7:4], 1'b0);
     equaln #(4) e1(adder_af[3:0], adderResult[7:4], af_outn);
     inv1$ i1(af_out, af_outn);
     
