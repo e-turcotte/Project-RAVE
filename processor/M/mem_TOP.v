@@ -15,6 +15,7 @@ module mem (input valid_in,
             input [31:0] rep_num,
             input        is_rep_in,
             input memsizeOVR,
+            input idtr_ptc_clear,
 
             input clk_bus,
             inout [72:0] BUS,

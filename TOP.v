@@ -510,7 +510,9 @@
     wire IDTR_LD_EIP_out;
     wire IDTR_flush_pipe;
     wire is_servicing_IE;
-    wire IDTR_PTC_clear;
+    wire idtr_ptc_clear_out;
+
+    wire IDTR_PTC_clear; //AND with signal to lower PTC_CLEAR out of WB for resteer.
 
     /////////////////////////////////////////////////////////////////
     //                   offcoreBus inputs/outputs                //
@@ -588,7 +590,7 @@
         .IDTR_packet_out(IDTR_packet_out),
         .packet_out_select(IDTR_packet_select_out),
         .flush_pipe(IDTR_flush_pipe),
-        .PTC_clear(IDTR_PTC_clear),
+        .PTC_clear(idtr_ptc_clear_out),
         .LD_EIP(IDTR_LD_EIP_out),
         .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
         .is_servicing_IE(is_servicing_IE)
@@ -1039,6 +1041,7 @@
         .rep_num(rep_num_RrAg_MEM_latch_out),
         .is_rep_in(is_rep_RrAg_MEM_latch_out),
         .memsizeOVR(1'b0), //TODO:
+        .idtr_ptc_clear(IDTR_PTC_clear), //TODO:
         .clk_bus(bus_clk),
         .BUS(BUS),
         .setReceiver_d({recvDO,recvDE}), .free_bau_d({freeDO,freeDE}), .grant_d({grantDEr,grantDEw,grantDOr,grantDOw}), .ack_d({ackDEr,ackDEw,ackDOr,ackDOw}), .releases_d({relDEr,relDEw,relDOr,relDOw}), .req_d({reqDEr,reqDEw,reqDOr,reqDOw}), .dest_d({destDOw,destDOr,destDEw,destDEr}),
@@ -1421,5 +1424,7 @@
         .final_IE_type(final_IE_type),
         .halts(halts)
     );
+
+    nand2$ ptc_clear_and (.in0(idtr_ptc_clear_out), .in1(is_resteer_WB_out), .out(IDTR_PTC_clear)); //TODO
 
  endmodule
