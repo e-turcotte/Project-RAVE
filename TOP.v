@@ -630,12 +630,12 @@
         .WB_FIP_o(newFIP_o_WB_out),
         .WB_FIP_e(newFIP_e_WB_out),
         .WB_BIP(newEIP_WB_out[5:0]),
-        .resteer(1'b0),//is_resteer_WB_out
+        .resteer(is_resteer_WB_out),//
 
         .BP_FIP_o(BP_FIP_o_BTB_out),
         .BP_FIP_e(BP_FIP_e_BTB_out),
         .BP_BIP(BP_EIP_BTB_out[5:0]),
-        .is_BR_T_NT(1'b0), //is_BR_T_NT_BP_out
+        .is_BR_T_NT(is_BR_T_NT_BP_out), //
 
         .init_addr(),
         .is_init(global_init),
