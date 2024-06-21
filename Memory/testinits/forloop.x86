@@ -1,0 +1,7 @@
+0x0:  b8 0f 00 00 00          mov    eax,0xf
+0x5:  bb 00 00 00 00          mov    ebx,0x0
+// 0000000a <loop_start>:
+0xa:  83 c3 02                add    ebx,0x2
+0xd:  83 c0 ff                add    eax,0xffffffff
+0x10: 75 f8                   jne    a <loop_start>
+0x12: b9 ef be 00 00          mov    ecx,0xbeef
