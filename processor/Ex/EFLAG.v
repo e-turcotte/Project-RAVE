@@ -39,5 +39,35 @@ end
 
 endgenerate
 
+integer file_handle;
+integer instr_ctr;
+integer clk_ctr;
+initial begin
+    // Open the file for writing
+    file_handle = $fopen("eflag.out", "w");
+    if (file_handle == 0) begin
+        $display("Error: Failed to open file for eflags!");
+    end
+    clk_ctr = 0;
+    instr_ctr = 0;
+    
+end
+
+always @(posedge clk) begin
+    // Write signal values to the file at every clock cycle
+    clk_ctr = clk_ctr + 1;
+    if (val == 1'b1) begin
+        instr_ctr = instr_ctr + 1;
+        $fwrite(file_handle, "\n\n////////////////////////////\n");
+        $fwrite(file_handle, "Cycle: %d\n", clk_ctr);
+        $fwrite(file_handle, "Instruction #: %d\n", instr_ctr);
+        $fwrite(file_handle, "Currently Latched:\n");
+        $fwrite(file_handle, "cf=%b\npf=%b\naf=%b\nzf=%b\nsf=%b\ndf=%b\nof=%b\n", cf, pf, af, zf, sf, df, of);
+        $fwrite(file_handle, "\nLoaded Values:\n");
+        $fwrite(file_handle, "cf=%b\npf=%b\naf=%b\nzf=%b\nsf=%b\ndf=%b\nof=%b\n", cc_new[0], cc_new[1], cc_new[2], cc_new[3], cc_new[4], cc_new[7], cc_new[8]);
+
+        $fwrite(file_handle, "////////////////////////////");
+    end
+end
 
 endmodule
