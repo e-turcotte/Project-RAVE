@@ -635,7 +635,7 @@
         .BP_FIP_o(BP_FIP_o_BTB_out),
         .BP_FIP_e(BP_FIP_e_BTB_out),
         .BP_BIP(BP_EIP_BTB_out[5:0]),
-        .is_BR_T_NT(is_BR_T_NT_BP_out), //
+        .is_BR_T_NT(1'b0), //TODO : change this if testing BP
         .BP_update_alias(BP_update_alias_out), //
         .BP_target(BP_EIP_BTB_out), //
 
@@ -728,7 +728,7 @@
     
         // Writeback signals
         .WB_EIP(newEIP_WB_out),
-        .is_resteer(1'b0), /*is_resteer_WB_out*/
+        .is_resteer(is_resteer_WB_out), /**/
     
         // Init signals
         .init_EIP(EIP_init),
