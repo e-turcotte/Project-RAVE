@@ -636,6 +636,8 @@
         .BP_FIP_e(BP_FIP_e_BTB_out),
         .BP_BIP(BP_EIP_BTB_out[5:0]),
         .is_BR_T_NT(is_BR_T_NT_BP_out), //
+        .BP_update_alias(BP_update_alias_out), //
+        .BP_target(BP_EIP_BTB_out), //
 
         .init_addr(),
         .is_init(global_init),
