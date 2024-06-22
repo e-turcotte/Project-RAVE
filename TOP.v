@@ -692,7 +692,7 @@
         .valid_in(valid_F_D_latch_in),
         .packet_in(packet_F_D_latch_in),
         .BP_alias_in(BP_alias_F_D_latch_in),
-        .IE_in(1'b1), //TODO: IE_F_D_latch_in, hardcoded for now as no IE
+        .IE_in(1'b0), //TODO: IE_F_D_latch_in, hardcoded for now as no IE
         .IE_type_in(4'b0), //TODO: IE_type_F_D_latch_in
         .BR_pred_target_in(BR_pred_target_F_D_latch_in),
         .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_in),
