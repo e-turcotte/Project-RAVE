@@ -89,10 +89,10 @@ module rrag (input valid_in,
     generate
         for (i = 0; i < 13; i = i + 1) begin : sized_ld_dest_slices
             wire [3:0] guarded_dest;
-            and2$ g123(.out(guarded_dest), .in0(dest1_in[i]), .in1(res1_ld_in));
-            and2$ g456(.out(guarded_dest), .in0(dest2_in[i]), .in1(res2_ld_in));
-            and2$ g789(.out(guarded_dest), .in0(dest3_in[i]), .in1(res3_ld_in));
-            and2$ gabc(.out(guarded_dest), .in0(dest4_in[i]), .in1(res4_ld_in));
+            and2$ g123(.out(guarded_dest[0]), .in0(dest1_in[i]), .in1(res1_ld_in));
+            and2$ g456(.out(guarded_dest[1]), .in0(dest2_in[i]), .in1(res2_ld_in));
+            and2$ g789(.out(guarded_dest[2]), .in0(dest3_in[i]), .in1(res3_ld_in));
+            and2$ gabc(.out(guarded_dest[3]), .in0(dest4_in[i]), .in1(res4_ld_in));
             or4$ g1(.out(collated_dest_vector[i]), .in0(guarded_dest[3]), .in1(guarded_dest[2]), .in2(guarded_dest[1]), .in3(guarded_dest[0]));
         end
     endgenerate
