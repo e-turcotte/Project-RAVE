@@ -27,7 +27,9 @@ module fetch_TOP (
     input wire [27:0] BP_FIP_o,
     input wire [27:0] BP_FIP_e,
     input wire [5:0] BP_BIP,
+    input wire [31:0] BP_target,
     input wire is_BR_T_NT,
+    input wire BP_update_alias,
 
     ////////////////////////////
     // signals from init     //  
@@ -211,6 +213,11 @@ module fetch_TOP (
         .old_BIP(old_BIP),
         .new_BIP(new_BIP)
     );
+
+
+    assign is_BR_T_NT_out = is_BR_T_NT;
+    assign BP_target_out = BP_target;
+    assign BP_update_alias_out = BP_update_alias;
 
     
 endmodule

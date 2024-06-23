@@ -635,7 +635,9 @@
         .BP_FIP_o(BP_FIP_o_BTB_out),
         .BP_FIP_e(BP_FIP_e_BTB_out),
         .BP_BIP(BP_EIP_BTB_out[5:0]),
-        .is_BR_T_NT(is_BR_T_NT_BP_out), //
+        .is_BR_T_NT(1'b0), //TODO : change this if testing BP
+        .BP_update_alias(BP_update_alias_out), //
+        .BP_target(BP_EIP_BTB_out), //
 
         .init_addr(),
         .is_init(global_init),
@@ -690,7 +692,7 @@
         .valid_in(valid_F_D_latch_in),
         .packet_in(packet_F_D_latch_in),
         .BP_alias_in(BP_alias_F_D_latch_in),
-        .IE_in(1'b1), //TODO: IE_F_D_latch_in, hardcoded for now as no IE
+        .IE_in(1'b0), //TODO: IE_F_D_latch_in, hardcoded for now as no IE
         .IE_type_in(4'b0), //TODO: IE_type_F_D_latch_in
         .BR_pred_target_in(BR_pred_target_F_D_latch_in),
         .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_in),
@@ -726,7 +728,7 @@
     
         // Writeback signals
         .WB_EIP(newEIP_WB_out),
-        .is_resteer(1'b0), /*is_resteer_WB_out*/
+        .is_resteer(is_resteer_WB_out), /**/
     
         // Init signals
         .init_EIP(EIP_init),
