@@ -34,7 +34,7 @@ inv1$ inv123(R_not, r);
 wire[3:0] way_n, write;
 assign tag_dump = data;
 inv1$ invc(clkn, clk);
-wire [3:0] buf1, buf2, buf3, buf4, buf5, buf6, buf7, buf8, buf9, buf10, buf11, boabw, hmm;
+wire [3:0] way_sw1, way_sw2, buf1, buf2, buf3, buf4, buf5, buf6, buf7, buf8, buf9, buf10, buf11, boabw, hmm;
 generate
     for(i = 0; i <4; i =  i+1) begin : writeGen
         inv1$ in(way_n[i], way[i]);
@@ -50,11 +50,14 @@ generate
         and2$ plz(hmm[i], PTC[i], isW);
         or2$ plz2(boabw[i], V[i], hmm[i]);
         and2$ andV(hit[i], hit1[i], boabw[i]);
-        and2$ asher(way_sw[i], isSW, PTC[i]);
+        and3$ asher(way_sw1[i], isSW, PTC[i], hit1[i]);
     end
+  
 endgenerate
-
-
+    nor4$ allmiss(way_sel_sw_noptc, PTC[0], PTC[1], PTC[2], PTC[3]);
+    nor4$ nomiss(way_sel_sw_nomiss, hit[0], hit[1], hit[2], hit[3]);
+    and2$ swovr(way_sw_ov,way_sel_sw_noptc, way_sel_sw_nomiss);
+    mux2n #(4) way_sw_swap(way_sw, way_sw1, 4'b1000, way_sw_ov);
 
 
 nor4$ n1(miss, hit[3], hit[2], hit[1], hit[0]);

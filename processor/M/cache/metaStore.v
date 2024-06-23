@@ -107,7 +107,7 @@ generate
         for(i= 0; i <4; i = i +1) begin : inner
             PTCVDFSM p(.clk(clk), .set(set), .rst(rst),.r(r), .sw(sw), .ex(ex), .wb(wb), .enable(enable[j*4+i]), .V(VALID[j*4+i]),.D(DIRTY[j*4+i]), .PTC(PTC[j*4+i]) );  
             //[j*7*4+i*4+6:j*7*4+i*4]
-            and3$ a(PTCID_LD[j*4+i],sw, way[i],equal_ptc[j] );
+            and3$ a(PTCID_LD[j*4+i],sw, way_sw[i],equal_ptc[j] );
             equaln #(7) r1(ID_IN, PTCID[j*8*4+i*8+6:j*8*4+i*8],enable2[j*4+i]);
             
             nand2$ nands(nandTemp[j*4+i], enable2[j*4+i], PTC[j*4+i]);
