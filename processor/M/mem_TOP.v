@@ -109,7 +109,7 @@ module mem (input valid_in,
 
     regn #(.WIDTH(1)) rd(.din(1'b1), .ld(p_op_in[5]), .clr(p_op_in[4]), .clk(clk), .dout(dflag));
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m0(.in({32'h0000_0000,32'hffff_fffc,32'hffff_fffe,32'hffff_ffff,
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m0(.in({32'h0000_0000,32'hffff_fffc,32'hffff_fffe,32'hffff_ffff,
                                                          32'h0000_0000,32'h0000_0004,32'h0000_0002,32'h0000_0001}), .sel({dflag,opsize_in}), .out(incdec));
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regmem1,mem_addr1}), .sel(isrepreg), .out(mem1));
