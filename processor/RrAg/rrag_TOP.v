@@ -176,14 +176,15 @@ module rrag (input valid_in,
     assign opsize_out = opsize_in;
     assign BP_alias_out = BP_alias_in;
 
-    wire mem1_use, mem2_or_rep_use, sib_ptc, actualsib_ptc, mem1_stall, mem2_stall;
+    wire mem1_use, mem2use, sib_ptc, actualsib_ptc, mem1_stall, mem2_stall, rep_stall;
 
     or2$ g2(.out(mem1_use), .in0(mem1_rw_in[1]), .in1(mem1_rw_in[0]));
-    or3$ g3(.out(mem2_or_rep_use), .in0(mem2_rw_in[1]), .in1(mem2_rw_in[0]), .in2(is_rep_in));
+    or2$ g3(.out(mem2_use), .in0(mem2_rw_in[1]), .in1(mem2_rw_in[0]));
     and2$ g4(.out(modrm_ptc), .in0(usereg2), .in1(regformem2ptc));
     and2$ g5(.out(sib_ptc), .in0(usereg3), .in1(regformem3ptc));
     or2$ g6(.out(modrmsib_ptc), .in0(modrm_ptc), .in1(sib_ptc));
     and2$ g7(.out(mem1_stall), .in0(mem1_use), .in1(modrmsib_ptc));
-    and2$ g8(.out(mem2_stall), .in0(mem2_or_rep_use), .in1(regformem4ptc));
-    or3$ g10(.out(stall), .in0(fwd_stall), .in1(mem1_stall), .in2(mem2_stall));
+    and2$ g8(.out(mem2_stall), .in0(mem2_use), .in1(regformem4ptc));
+    and2$ g11(.out(rep_stall), .in0(is_rep_in), .in1(regformem3ptc));
+    or4$ g10(.out(stall), .in0(fwd_stall), .in1(mem1_stall), .in2(mem2_stall), .in3(rep_stall));
 endmodule
