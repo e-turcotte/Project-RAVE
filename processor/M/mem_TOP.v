@@ -120,7 +120,7 @@ module mem (input valid_in,
     kogeAdder #(.WIDTH(32)) add1(.SUM(nextmem2), .COUT(), .A(mem2), .B(incdec), .CIN(1'b0));
     regn #(.WIDTH(32)) r1(.din(nextmem2), .ld(1'b1), .clr(clr), .clk(clk), .dout(regmem2));
 
-    regn #(.WIDTH(1)) r2(.din(is_rep_in), .ld(1'b1), .clr(clr), .clk(clk), .dout(isrepreg));
+    regn #(.WIDTH(1)) r2(.din(is_rep_in), .ld(valid_in), .clr(clr), .clk(clk), .dout(isrepreg));
 
     wire [31:0] cnt, nextcnt, cntreg;
 

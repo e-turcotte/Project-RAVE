@@ -83,13 +83,19 @@ module rrag (input valid_in,
 
     ptc_generator ptcgen(.next(invstall), .clr(clr), .clk(clk), .ptcid(inst_ptcid));
 
-    wire [12:0] collated_dest_vector;
+    wire [7:0] collated_dest_vector;
 
     genvar i;
     generate
-        for (i = 0; i < 13; i = i + 1) begin : sized_ld_dest_slices
-            or4$ g1(.out(collated_dest_vector[i]), .in0(dest1_in[i]), .in1(dest2_in[i]), .in2(dest3_in[i]), .in3(dest4_in[i]));
-        end
+        for (i = 0; i < 8; i = i + 1) begin : sized_ld_dest_slices
+            wire [3:0] guarded_dest;
+
+            and3$ g123(.out(guarded_dest[0]), .in0(dest1_in[i]), .in1(res1_ld_in), .in2(valid_out));
+            and3$ g456(.out(guarded_dest[1]), .in0(dest2_in[i]), .in1(res2_ld_in), .in2(valid_out));
+            and3$ g789(.out(guarded_dest[2]), .in0(dest3_in[i]), .in1(res3_ld_in), .in2(valid_out));
+            and3$ gabc(.out(guarded_dest[3]), .in0(dest4_in[i]), .in1(res4_ld_in), .in2(valid_out));
+            or4$ g1(.out(collated_dest_vector[i]), .in0(guarded_dest[3]), .in1(guarded_dest[2]), .in2(guarded_dest[1]), .in3(guarded_dest[0]));
+        end        
     endgenerate
 
     wire [19:0] lim_out1, lim_out2, lim_out3, lim_out4;
