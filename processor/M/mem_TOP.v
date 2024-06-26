@@ -131,7 +131,7 @@ module mem (input valid_in,
     wire rep_stall, cntnotzero;
 
     orn #(.NUM_INPUTS(32)) or0(.in(nextcnt), .out(cntnotzero));
-    and2$ g0(.out(rep_stall), .in0(cntnotzero), .in1(is_rep_in));
+    and3$ g0(.out(rep_stall), .in0(cntnotzero), .in1(is_rep_in), .in2(valid_in));
 
     wire r_is_m1, sw_is_m1;
     wire TLB_miss, prot_exc;
