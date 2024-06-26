@@ -113,7 +113,7 @@ module mem (input valid_in,
                                                          32'h0000_0000,32'h0000_0004,32'h0000_0002,32'h0000_0001}), .sel({dflag,opsize_in}), .out(incdec));
 
     wire takerepval;
-    
+
     and2$ g31245678654(.out(takerepval), .in0(isrepreg), .in1(rep_stall));
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regmem1,mem_addr1}), .sel(takerepval), .out(mem1));
@@ -127,10 +127,11 @@ module mem (input valid_in,
     regn #(.WIDTH(1)) r2(.din(is_rep_in), .ld(valid_in), .clr(clr), .clk(clk), .dout(isrepreg));
 
     wire [31:0] cnt, nextcnt, cntreg;
+    wire other_stall;
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({cntreg,reg3[31:0]}), .sel(isrepreg), .out(cnt));
     kogeAdder #(.WIDTH(32)) add2(.SUM(nextcnt), .COUT(), .A(cnt), .B(32'hffff_ffff), .CIN(1'b0));
-    regn #(.WIDTH(32)) r4(.din(nextcnt), .ld(1'b1), .clr(clr), .clk(clk), .dout(cntreg));
+    regn #(.WIDTH(32)) r4(.din(nextcnt), .ld(other_stall), .clr(clr), .clk(clk), .dout(cntreg));
 
     wire rep_stall, cntnotzero;
 
@@ -143,6 +144,8 @@ module mem (input valid_in,
     wire [127:0] ptc_info_r, ptc_info_sw;
     wire [3:0] wake_init_r, wake_init_sw;
     wire cache_stall;
+
+    or2$ g23445(.out(other_stall), .in0(cache_stall), .in1(fwd_stall));
 
     assign wake_init_out = {wake_init_sw[3],wake_init_r[2],wake_init_sw[1],wake_init_r[0]};
 
