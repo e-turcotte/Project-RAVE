@@ -949,7 +949,11 @@ endgenerate
     assign releases_d = {relDEr, relDEw, relDOr, relDOw};
     assign req_d = {reqDEr, reqDEw, reqDOr, reqDOw};
 
-    or2$ sta(stall, cache_stall_e, cache_stall_o);
+
+
+
+
+    or2$ sta(stall, cache_stall_e, cache_stall_o | (rdaq_isfull & valid_in_r) | (swaq_isfull & valid_in_sw) | (wbaq_isfull & valid_in_wb));
     inv1$ nstal(stall_n, stall);
     assign PTC_ID_out = PTC_ID_out_e;
     assign data = data_out;
