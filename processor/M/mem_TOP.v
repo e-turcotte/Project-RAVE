@@ -112,11 +112,15 @@ module mem (input valid_in,
     muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m0(.in({32'h0000_0000,32'hffff_fffc,32'hffff_fffe,32'hffff_ffff,
                                                          32'h0000_0000,32'h0000_0004,32'h0000_0002,32'h0000_0001}), .sel({dflag,opsize_in}), .out(incdec));
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regmem1,mem_addr1}), .sel(isrepreg), .out(mem1));
+    wire takerepval;
+    
+    and2$ g31245678654(.out(takerepval), .in0(isrepreg), .in1(rep_stall));
+
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regmem1,mem_addr1}), .sel(takerepval), .out(mem1));
     kogeAdder #(.WIDTH(32)) add0(.SUM(nextmem1), .COUT(), .A(mem1), .B(incdec), .CIN(1'b0));
     regn #(.WIDTH(32)) r0(.din(nextmem1), .ld(1'b1), .clr(clr), .clk(clk), .dout(regmem1));
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({regmem2,mem_addr2}), .sel(isrepreg), .out(mem2));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({regmem2,mem_addr2}), .sel(takerepval), .out(mem2));
     kogeAdder #(.WIDTH(32)) add1(.SUM(nextmem2), .COUT(), .A(mem2), .B(incdec), .CIN(1'b0));
     regn #(.WIDTH(32)) r1(.din(nextmem2), .ld(1'b1), .clr(clr), .clk(clk), .dout(regmem2));
 
