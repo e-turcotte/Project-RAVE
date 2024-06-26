@@ -954,7 +954,7 @@ endgenerate
 
 
     or2$ sta(stall, cache_stall_e, cache_stall_o | (rdaq_isfull & valid_in_r) | (swaq_isfull & valid_in_sw) | (wbaq_isfull & valid_in_wb));
-    inv1$ nstal(stall_n, stall);
+    nor2$ nstal(stall_n,  cache_stall_e, cache_stall_o);
     assign PTC_ID_out = PTC_ID_out_e;
     assign data = data_out;
     nor2$ norss(cache_valid,valid_out, w_$);
