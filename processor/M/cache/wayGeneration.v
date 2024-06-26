@@ -75,4 +75,3 @@ muxnm_tristate #(4,1) mxt3(PTC, way, PTC_out);
 and4$ andEx(ex_wb, MISS, missMSHR, D_out, valid_in);
 and3$ andExClr(ex_clr, MISS, missMSHR, valid_in);
 endmodule
-
