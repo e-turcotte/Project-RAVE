@@ -417,7 +417,7 @@ assign evenW = DES_full_e;
 mshr mshre(.pAddress(MSHR_pAddress_e), .ptcid_in(MSHR_ptcid_e), .qentry_slot_in(8'h00), .rdsw_in(1'b0),
            .alloc(MSHR_alloc_e), .dealloc(MSHR_dealloc_e),
            .clk(clk), .clr(reset),
-           .ptcid_out(), .rd_qentry_slots_out(), .sw_qentry_slots_out(),
+           .rd_qentry_slots_out(), .sw_qentry_slots_out(),
            .mshr_hit(mshr_e_hit), .mshr_full(mshr_e_full));
 
 wire mshr_o_hit, mshr_o_full, mshr_o_write;
@@ -496,7 +496,7 @@ assign oddW = DES_full_o;
 mshr mshro(.pAddress(MSHR_pAddress_o), .ptcid_in(MSHR_ptcid_o), .qentry_slot_in(), .rdsw_in(1'b0),
            .alloc(MSHR_alloc_o), .dealloc(MSHR_dealloc_o),
            .clk(clk), .clr(reset),
-           .ptcid_out(), .rd_qentry_slots_out(), .sw_qentry_slots_out(),
+           .rd_qentry_slots_out(), .sw_qentry_slots_out(),
            .mshr_hit(mshr_o_hit), .mshr_full(mshr_o_full));
     
 SER SER_e(

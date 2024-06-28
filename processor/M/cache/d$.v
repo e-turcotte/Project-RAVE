@@ -561,7 +561,7 @@ cacheaqsys cacheaqsys_inst (
     .wb_write(valid_in_wb),
 
     .clk(clk),
-    .clr(rst),
+    .rdsw_clr(rst), .wb_clr(rst),
     
     .pAddress_e(pAddress_e_$),
     .pAddress_o(pAddress_o_$),
