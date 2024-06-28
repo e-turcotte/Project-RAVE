@@ -74,11 +74,11 @@ module cacheaqsys (input [14:0] rd_pAddress_e, rd_pAddress_o, sw_pAddress_e, sw_
     inv1$ g1(.out(wb_ready), .in(wbaq_isempty));
     inv1$ g2(.out(sw_ready), .in(swaq_isempty));
 
-    wire [688:0] rdswout, coreout;
+    wire [696:0] rdswout, coreout;
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(689)) m0(.in({swaq_out,rdaq_out}), .sel(sw_ready), .out(rdswout));
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(689)) m1(.in({wbaq_out,rdswout}), .sel(wb_ready), .out(coreout));
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(689)) m2(.in({bus_out,coreout}), .sel(bus_ready), .out({valid_e,valid_o,
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(697)) m0(.in({swaq_out,rdaq_out}), .sel(sw_ready), .out(rdswout));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(697)) m1(.in({wbaq_out,rdswout}), .sel(wb_ready), .out(coreout));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(697)) m2(.in({bus_out,coreout}), .sel(bus_ready), .out({valid_e,valid_o,
                                                                                                     pAddress_e,pAddress_o,
                                                                                                     data_e,data_o,
                                                                                                     size_e,size_o,
@@ -122,7 +122,7 @@ module aq (input [14:0] pAddress_e_in, pAddress_o_in,
 
            input clk, clr,
 
-           output [688:0] aq_out,
+           output [696:0] aq_out,
            
            output aq_isempty, aq_isfull);
 
@@ -138,7 +138,7 @@ module aq (input [14:0] pAddress_e_in, pAddress_o_in,
                                                                   pcd_in}),
                                                           .new_m_vector(),
                                                           .wr(write), .rd(read),
-                                                          .modify_vector(4'h0),
+                                                          .modify_vector(8'h0),
                                                           .clr(clr), .clk(clk),
                                                           .full(aq_isfull), .empty(aq_isempty),
                                                           .old_m_vector(),
