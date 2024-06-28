@@ -750,7 +750,7 @@ outputAlign oA (
 mshr mshrE ( 
     .pAddress(MSHR_pAddress_e),
     .ptcid_in(MSHR_ptcid_e),
-    .qentry_slot_in(MSHR_qslot_e), //TODO:
+    .qentry_slot_in(qslot_$), //TODO:
     .rdsw_in(MSHR_rdsw_e),
     .alloc(MSHR_alloc_e),
     .dealloc(MSHR_dealloc_e & bus_valid_e_nobuf),
@@ -765,7 +765,7 @@ mshr mshrE (
 mshr mshrO ( 
     .pAddress(MSHR_pAddress_o),
     .ptcid_in(MSHR_ptcid_o),
-    .qentry_slot_in(MSHR_qslot_o), //TODO:
+    .qentry_slot_in(qslot_$), //TODO:
     .rdsw_in(MSHR_rdsw_o),
     .alloc(MSHR_alloc_o),
     .dealloc(MSHR_dealloc_o & bus_valid_o_nobuf),
@@ -776,7 +776,7 @@ mshr mshrO (
     .mshr_hit(mshr_hit_o),
     .mshr_full(mshr_full_o)
 );
-
+assign qentry_slot_out = qslot_$;
 
 
 SER DS_E_R(
