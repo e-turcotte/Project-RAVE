@@ -62,7 +62,7 @@ nand3$ mvR(meta_validR, HIT, valid_out,rst);
 and3$ mvSW(meta_validSW, !MSHR_MISS, rst, sw);
 nand2$  mvVal(meta_validt, meta_validR, meta_validW);
 or2$ plzw(meta_valid, meta_validt, fromBUS & valid_in);
-and4$ plzwrks(handle_wsw, valid_in, sw,rst, MISS);
+and3$ plzwrks(handle_wsw, valid_in, sw,rst);
 nor4$ otherway(way_swap, way_sw[0], way_sw[1], way_sw[2], way_sw[3]);
 mux2n #(4) finalway(way_sw_miss, way_sw, way, way_swap);
 tagStore ts(.way_sw(way_sw), .isSW(sw), .isW(w), .w_unpulsed((~(~writeTag_out & rst))), .PTC(PTC) ,.tagData_out_hit(tag_hit), .valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(~(~tWrite & rst)), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
