@@ -588,7 +588,7 @@ cacheaqsys cacheaqsys_inst (
     .swaq_isfull(swaq_isfull),
     .wbaq_isfull(wbaq_isfull),
     .ptcinfo(ptcinfo_out),
-    .qslot(qslot_$),
+    .qslot(qslot_$)
 );
 
 cacheBank bankE (
