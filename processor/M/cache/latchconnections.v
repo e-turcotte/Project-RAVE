@@ -20,7 +20,6 @@ module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
     wire [511:0] old_op_ptcinfos [0:7];
     wire old_valid [0:7], new_valid [0:7];
 
-    wire [7:0] cache_qslot;
     wire [3:0] guarded_cache_wake [0:7], guarded_mshr_wake [0:7];
     wire [127:0] guarded_cache_out_ptcinfo;
 
@@ -65,7 +64,7 @@ module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
             or3$ gx2(.out(new_wake[i][2]), .in0(old_wake[i][2]), .in1(guarded_cache_wake[i][2]), .in2(mshr_rd_qslot_o_out[i]));
             or3$ gx3(.out(new_wake[i][3]), .in0(old_wake[i][3]), .in1(guarded_cache_wake[i][3]), .in2(mshr_sw_qslot_o_out[i]));
 
-            orn #(.NUM_INPUTS(9)) or0(.in({op_mod_vect,cache_qslot[i],mshr_rd_qslot_e_out[i],mshr_sw_qslot_e_out[i],mshr_rd_qslot_o_out[i],mshr_sw_qslot_o_out[i]}), .out(modify_M_EX_latch[i]));
+            orn #(.NUM_INPUTS(9)) or0(.in({op_mod_vect,cache_qslot_out[i],mshr_rd_qslot_e_out[i],mshr_sw_qslot_e_out[i],mshr_rd_qslot_o_out[i],mshr_sw_qslot_o_out[i]}), .out(modify_M_EX_latch[i]));
         end
     endgenerate
 
