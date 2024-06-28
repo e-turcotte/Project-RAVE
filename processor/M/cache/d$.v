@@ -27,6 +27,7 @@ module d$(
     input valid_RSW,
     input sizeOVR,
     input [6:0]PTC_ID_in,
+    input [7:0] qentry_slot_in,
     output r_is_m1,
     output sw_is_m1,
 
@@ -70,16 +71,12 @@ module d$(
     output [127:0] data,
     output stall, 
     output [127:0] ptcinfo_out,
+    output [7:0] qentry_slot_out, //TODO:
 
 
     //MSHR outputs
-    input [7:0] qentry_slot_in_e,
-    output [6:0] ptcid_out_e,
     output [7:0] rd_qentry_slots_out_e, sw_qentry_slots_out_e,
     output mshr_hit_e, mshr_full_e,
-
-    input [7:0] qentry_slot_in_o,
-    output [6:0] ptcid_out_o,
     output [7:0] rd_qentry_slots_out_o, sw_qentry_slots_out_o,
     output mshr_hit_o, mshr_full_o,
 
@@ -211,6 +208,7 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire odd_is_greater_$, needP1_$;
     wire [2:0] onesize_$;
     wire pcd_$;
+    wire [7:0] qslot_$; //TODO:
 
     wire MSHR_HIT_e;
     wire MSHR_FULL_e;
@@ -223,6 +221,8 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire MSHR_rdsw_e;
     wire [14:0] MSHR_pAddress_e;
     wire [6:0] MSHR_ptcid_e;
+    wire [7:0] MSHR_qslot_e; //TODO:
+
     wire [3:0] wake_init_vector_wb;
     wire SER_valid0_e;
     wire [127:0] SER_data0_e;
@@ -261,6 +261,7 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire MSHR_rdsw_o;
     wire [14:0] MSHR_pAddress_o;
     wire [6:0] MSHR_ptcid_o;
+    wire [7:0] MSHR_qslot_o; //TODO:
     
     wire SER_valid0_o;
     wire [127:0] SER_data0_o;
@@ -547,6 +548,9 @@ cacheaqsys cacheaqsys_inst (
     .rd_ptcinfo(ptc_info_r),
     .sw_ptcinfo(ptc_info_sw),
 
+    .rd_qslot(qentry_slot_in),
+    .sw_qslot(qentry_slot_in),
+
     .bus_pcd(bus_pcd),
     .bus_isempty(bus_isempty),
 
@@ -583,7 +587,8 @@ cacheaqsys cacheaqsys_inst (
     .rdaq_isfull(rdaq_isfull),
     .swaq_isfull(swaq_isfull),
     .wbaq_isfull(wbaq_isfull),
-    .ptcinfo(ptcinfo_out)
+    .ptcinfo(ptcinfo_out),
+    .qslot(qslot_$),
 );
 
 cacheBank bankE (
@@ -751,7 +756,6 @@ mshr mshrE (
     .dealloc(MSHR_dealloc_e & bus_valid_e_nobuf),
     .clk(clk),
     .clr(rst),
-    .ptcid_out(ptcid_out_e),
     .rd_qentry_slots_out(rd_qentry_slots_out_e),
     .sw_qentry_slots_out(sw_qentry_slots_out_e),
     .mshr_hit(mshr_hit_e),
@@ -767,7 +771,6 @@ mshr mshrO (
     .dealloc(MSHR_dealloc_o & bus_valid_o_nobuf),
     .clk(clk),
     .clr(rst),
-    .ptcid_out(ptcid_out_o),
     .rd_qentry_slots_out(rd_qentry_slots_out_o),
     .sw_qentry_slots_out(sw_qentry_slots_out_o),
     .mshr_hit(mshr_hit_o),
