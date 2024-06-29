@@ -120,6 +120,7 @@ endmodule
 module invalidate_selector (
     input wire [5:0] new_BIP,
     input wire [5:0] old_BIP,
+    input wire CF,
 
     output wire invalidate_line_00,
     output wire invalidate_line_01,
@@ -137,10 +138,16 @@ mag_comp8$ m0(.A(new_buff_offset), .B(old_buff_offset), .AGB(), .BGA(crossed_bou
 wire [3:0] check_line, check_line_bar;
 decoder2_4$ d0(.SEL(old_BIP[5:4]), .Y(check_line), .YBAR(check_line_bar));
 
-andn #(2) a0(.in({crossed_boundary, check_line[0]}), .out(invalidate_line_00));
-andn #(2) a1(.in({crossed_boundary, check_line[1]}), .out(invalidate_line_01));
-andn #(2) a2(.in({crossed_boundary, check_line[2]}), .out(invalidate_line_10));
-andn #(2) a3(.in({crossed_boundary, check_line[3]}), .out(invalidate_line_11));
+wire invalidate_line_00_no_CF, invalidate_line_01_no_CF, invalidate_line_10_no_CF, invalidate_line_11_no_CF;
+andn #(2) a0(.in({crossed_boundary, check_line[0]}), .out(invalidate_line_00_no_CF));
+andn #(2) a1(.in({crossed_boundary, check_line[1]}), .out(invalidate_line_01_no_CF));
+andn #(2) a2(.in({crossed_boundary, check_line[2]}), .out(invalidate_line_10_no_CF));
+andn #(2) a3(.in({crossed_boundary, check_line[3]}), .out(invalidate_line_11_no_CF));
+
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) kljsdhfoheo(.in({1'b1, invalidate_line_00_no_CF}), .sel(CF), .out(invalidate_line_00));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) kljsdhfoheo1(.in({1'b1, invalidate_line_01_no_CF}), .sel(CF), .out(invalidate_line_01));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) kljsdhfoheo2(.in({1'b1, invalidate_line_10_no_CF}), .sel(CF), .out(invalidate_line_10));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) kljsdhfoheo3(.in({1'b1, invalidate_line_11_no_CF}), .sel(CF), .out(invalidate_line_11));
 
 endmodule
 
