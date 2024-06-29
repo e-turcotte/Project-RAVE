@@ -50,7 +50,7 @@ ld_selector l0(.num_lines_to_ld_in(num_lines_to_ld_reg_out), .FIP_o(FIP_o_lsb_fe
 orn #(2) o1123124(.out(even_latch_was_loaded), .in({ld_0, ld_2}));
 orn #(2) o1123125(.out(odd_latch_was_loaded), .in({ld_1, ld_3}));
 
-invalidate_selector i0(.new_BIP(new_BIP_fetch2), .old_BIP(old_BIP_fetch2), .invalidate_line_00(invalidate_line_00), .invalidate_line_01(invalidate_line_01), 
+invalidate_selector i0(.new_BIP(new_BIP_fetch2), .old_BIP(old_BIP_fetch2), .CF(CF), .invalidate_line_00(invalidate_line_00), .invalidate_line_01(invalidate_line_01), 
                         .invalidate_line_10(invalidate_line_10), .invalidate_line_11(invalidate_line_11));
 
 //maybe or the clr signal for each of the lines and valid bits with the reset and invalidate signals
