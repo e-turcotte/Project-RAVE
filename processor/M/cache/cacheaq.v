@@ -91,7 +91,7 @@ module cacheaqsys (input [14:0] rd_pAddress_e, rd_pAddress_o, sw_pAddress_e, sw_
 
     wire [3:0] rdswstat, corestat;
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(4)) m3(.in({4'b0010,4'b0001}), .sel(sw_ready), .out(rdswstat));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(4)) m3(.in({4'b0001,4'b0010}), .sel(rd_ready), .out(rdswstat));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(4)) m4(.in({4'b0100,rdswstat}), .sel(wb_ready), .out(corestat));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(4)) m5(.in({4'b1100,corestat}), .sel(bus_ready), .out({fromBUS,w,sw,r}));
 
