@@ -38,7 +38,7 @@ module cacheaqsys (input [14:0] rd_pAddress_e, rd_pAddress_o, sw_pAddress_e, sw_
     wire [696:0] rdaq_out, swaq_out, wbaq_out, bus_out;
     wire rdaq_isempty, swaq_isempty, wbaq_isempty;
 
-    aq rdaq(.pAddress_e_in(rd_pAddress_e), .pAddress_o_in(rd_pAddress_o), .data_e_in(), .data_o_in(),
+    aq rdaq(.pAddress_e_in(rd_pAddress_e), .pAddress_o_in(rd_pAddress_o), .data_e_in(128'h0), .data_o_in(128'h0),
             .size_e_in(rd_size_e), .size_o_in(rd_size_o), .valid_e_in(rd_valid_e), .valid_o_in(rd_valid_o),
             .mask_e_in(128'b0), .mask_o_in(128'b0), .ptcid_in(rd_ptcid), .ptcinfo_in(rd_ptcinfo), .qslot(rd_qslot),
             .odd_is_greater_in(rd_odd_is_greater), .needP1_in(rd_needP1), .onesize_in(rd_onesize), .pcd_in(rd_pcd),
@@ -47,7 +47,7 @@ module cacheaqsys (input [14:0] rd_pAddress_e, rd_pAddress_o, sw_pAddress_e, sw_
             .aq_out(rdaq_out),
             .aq_isempty(rdaq_isempty), .aq_isfull(rdaq_isfull));
 
-    aq swaq(.pAddress_e_in(sw_pAddress_e), .pAddress_o_in(sw_pAddress_o), .data_e_in(), .data_o_in(),
+    aq swaq(.pAddress_e_in(sw_pAddress_e), .pAddress_o_in(sw_pAddress_o), .data_e_in(128'h0), .data_o_in(128'h0),
             .size_e_in(sw_size_e), .size_o_in(sw_size_o), .valid_e_in(sw_valid_e), .valid_o_in(sw_valid_o),
             .mask_e_in(128'b0), .mask_o_in(128'b0), .ptcid_in(sw_ptcid), .ptcinfo_in(sw_ptcinfo), .qslot(sw_qslot),
             .odd_is_greater_in(sw_odd_is_greater), .needP1_in(sw_needP1), .onesize_in(sw_onesize), .pcd_in(sw_pcd),
