@@ -556,9 +556,9 @@ cacheaqsys cacheaqsys_inst (
 
 
     .read(stall_n & aq_isempty_n),
-    .rd_write(valid_in_r),
-    .sw_write(valid_in_sw),
-    .wb_write(valid_in_wb),
+    .rd_write(valid_in_r & ~aq_stall),
+    .sw_write(valid_in_sw & ~aq_stall),
+    .wb_write(valid_in_wb & ~aq_stall),
 
     .clk(clk),
     .rdsw_clr(rst), .wb_clr(rst),
@@ -955,7 +955,7 @@ endgenerate
 
 
 
-
+    assign aq_stall = (rdaq_isfull & valid_in_r) | (swaq_isfull & valid_in_sw) | (wbaq_isfull & valid_in_wb);
     or2$ sta(stall, cache_stall_e, cache_stall_o | (rdaq_isfull & valid_in_r) | (swaq_isfull & valid_in_sw) | (wbaq_isfull & valid_in_wb));
     nor2$ nstal(stall_n,  cache_stall_e, cache_stall_o);
     assign PTC_ID_out = PTC_ID_out_e;
