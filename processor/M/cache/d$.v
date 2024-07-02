@@ -25,6 +25,7 @@ module d$(
     input[1:0] M1_RW, M2_RW,
     input[1:0] opsize,
     input valid_RSW,
+    input fwd_stall,
     input sizeOVR,
     input [6:0]PTC_ID_in,
     input [7:0] qentry_slot_in,
@@ -63,7 +64,6 @@ module d$(
     //AQ outputs
     output aq_isempty, rdaq_isfull, swaq_isfull, wbaq_isfull,
     
-
     //Post D$ outputs
     output [3:0]wake,
     output [6:0]PTC_ID_out,
