@@ -74,14 +74,7 @@ module rrag (input valid_in,
              output [31:0] BR_pred_target_out,
              output BR_pred_T_NT_out);
 
-    wire invstall, invempty;
-
-    inv1$ g0(.out(invstall), .in(stall));
-
-    inv1$ i0(.out(invempty), .in(latch_empty));
-    and3$ g9(.out(valid_out), .in0(valid_in), .in1(invempty), .in2(invstall));
-
-    ptc_generator ptcgen(.next(invstall), .clr(clr), .clk(clk), .ptcid(inst_ptcid));
+    ptc_generator ptcgen(.next(valid_out), .clr(clr), .clk(clk), .ptcid(inst_ptcid));
 
     wire [7:0] collated_dest_vector;
 
@@ -119,13 +112,14 @@ module rrag (input valid_in,
     muxnm_tree #(.SEL_WIDTH(2), .DATA_WIDTH(32)) m0(.in({mul8,mul4,mul2,regformem3}), .sel(reg3_shfamnt), .out(shfreg3));
 
     wire [31:0] rmbaseval, modsibcalc, segoffs, segdisp;
+    wire [31:0] mem1, mem2;
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regformem2,32'h00000000}), .sel(usereg2), .out(rmbaseval));
     kogeAdder #(.WIDTH(32)) add0(.SUM(modsibcalc), .COUT(), .A(rmbaseval), .B(shfreg3), .CIN(1'b0));
     kogeAdder #(.WIDTH(32)) add1(.SUM(segdisp), .COUT(), .A(disp), .B(shfseg1), .CIN(1'b0));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({modsibcalc,regformem2}), .sel(usereg3), .out(segoffs));
-    kogeAdder #(.WIDTH(32)) add2(.SUM(mem_addr1), .COUT(), .A(segoffs), .B(segdisp), .CIN(1'b0));
-    kogeAdder #(.WIDTH(32)) add3(.SUM(mem_addr2), .COUT(), .A(regformem4), .B(shfseg2), .CIN(1'b0));
+    kogeAdder #(.WIDTH(32)) add2(.SUM(mem1), .COUT(), .A(segoffs), .B(segdisp), .CIN(1'b0));
+    kogeAdder #(.WIDTH(32)) add3(.SUM(mem2), .COUT(), .A(regformem4), .B(shfseg2), .CIN(1'b0));
 
     assign reg1_orig = reg_addr1;
     assign reg2_orig = reg_addr2;
@@ -182,7 +176,8 @@ module rrag (input valid_in,
     assign opsize_out = opsize_in;
     assign BP_alias_out = BP_alias_in;
 
-    wire mem1_use, mem2use, sib_ptc, actualsib_ptc, mem1_stall, mem2_stall, rep_stall;
+    wire mem1_use, mem2use, sib_ptc, actualsib_ptc, mem1_stall, mem2_stall, rep_cnt_stall, rep_stall;
+    wire other_stall, no_other_stall;
 
     or2$ g2(.out(mem1_use), .in0(mem1_rw_in[1]), .in1(mem1_rw_in[0]));
     or2$ g3(.out(mem2_use), .in0(mem2_rw_in[1]), .in1(mem2_rw_in[0]));
@@ -191,6 +186,22 @@ module rrag (input valid_in,
     or2$ g6(.out(modrmsib_ptc), .in0(modrm_ptc), .in1(sib_ptc));
     and2$ g7(.out(mem1_stall), .in0(mem1_use), .in1(modrmsib_ptc));
     and2$ g8(.out(mem2_stall), .in0(mem2_use), .in1(regformem4ptc));
-    and2$ g11(.out(rep_stall), .in0(is_rep_in), .in1(regformem3ptc));
-    or4$ g10(.out(stall), .in0(fwd_stall), .in1(mem1_stall), .in2(mem2_stall), .in3(rep_stall));
+    and2$ g11(.out(rep_cnt_stall), .in0(is_rep_in), .in1(regformem3ptc));
+    or4$ g10(.out(other_stall), .in0(fwd_stall), .in1(mem1_stall), .in2(mem2_stall), .in3(rep_cnt_stall));
+    inv1$ g11(.out(no_other_stall), .in(other_stall));
+
+
+    repmech rep0(.mem1(), .mem2(), .creg(regformem3), .is_rep(is_rep_in),
+                 .opsize(opsize_in), .pop4(p_op_in[4]), .pop5(p_op_in[5]),
+                 .valid(valid_in), .no_other_stall(no_other_stall),
+                 .rstdflag(1'b0), .rstdflagval(1'b0),
+                 .clr(clr), .clk(clk),
+                 .mem_addr1(mem_addr1), .mem_addr2(mem_addr2), .rep_stall(rep_stall));
+
+    or2$ g12(.out(stall), .in0(other_stall), .in1(rep_stall));
+
+    wire invempty;
+
+    inv1$ g13(.out(invempty), .in(latch_empty));
+    and3$ g14(.out(valid_out), .in0(valid_in), .in1(invempty), .in2(no_other_stall));
 endmodule

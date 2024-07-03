@@ -1,4 +1,4 @@
-module repmech(input [31:0] mem_addr1, mem_addr2,
+module repmech(input [31:0] mem1, mem2,
                input [31:0] creg,
                input is_rep,
                input [1:0] opsize,
@@ -7,7 +7,7 @@ module repmech(input [31:0] mem_addr1, mem_addr2,
                input rstdflag, rstdflagval,
                input clr,
                input clk,
-               output [31:0] mem1, mem2,
+               output [31:0] mem_addr1, mem_addr2,
                output rep_stall);
 
     wire invpop4, clrdflag, setdflag, newdflagval;
@@ -38,12 +38,12 @@ module repmech(input [31:0] mem_addr1, mem_addr2,
     wire [31:0] nextmem1, regmem1;
     wire [31:0] nextmem2, regmem2;
     
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({regmem1,mem_addr1}), .sel(userepaddr), .out(mem1));
-    kogeAdder #(.WIDTH(32)) add1(.SUM(nextmem1), .COUT(), .A(mem1), .B(incdec), .CIN(1'b0));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({regmem1,mem1}), .sel(userepaddr), .out(mem_addr1));
+    kogeAdder #(.WIDTH(32)) add1(.SUM(nextmem1), .COUT(), .A(mem_addr1), .B(incdec), .CIN(1'b0));
     regn #(.WIDTH(32)) r3(.din(nextmem1), .ld(no_other_stall), .clr(clr), .clk(clk), .dout(regmem1));
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m4(.in({regmem2,mem_addr2}), .sel(userepaddr), .out(mem2));
-    kogeAdder #(.WIDTH(32)) add2(.SUM(nextmem2), .COUT(), .A(mem2), .B(incdec), .CIN(1'b0));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m4(.in({regmem2,mem2}), .sel(userepaddr), .out(mem_addr2));
+    kogeAdder #(.WIDTH(32)) add2(.SUM(nextmem2), .COUT(), .A(mem_addr2), .B(incdec), .CIN(1'b0));
     regn #(.WIDTH(32)) r4(.din(nextmem2), .ld(no_other_stall), .clr(clr), .clk(clk), .dout(regmem2));
 
 endmodule
