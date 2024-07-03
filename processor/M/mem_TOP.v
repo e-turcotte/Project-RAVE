@@ -138,7 +138,7 @@ module mem (input valid_in,
     //and3$ g0(.out(rep_stall), .in0(cntnotzero), .in1(is_rep_in), .in2(valid_in));
 
     repmech rep0(.mem_addr1(mem_addr1), .mem_addr2(mem_addr2), .creg(reg3[31:0]), .is_rep(is_rep_in),
-                 .opsize(), .pop4(p_op_in[4]), .pop5(p_op_in[5]), .valid(valid_in), .no_other_stall(no_other_stall),
+                 .opsize(opsize_in), .pop4(p_op_in[4]), .pop5(p_op_in[5]), .valid(valid_in), .no_other_stall(no_other_stall),
                  .rstdflag(1'b0), .rstdflagval(1'b0),
                  .clr(clr), .clk(clk),
                  .mem1(mem1), .mem2(mem2), .rep_stall(rep_stall));
