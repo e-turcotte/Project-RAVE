@@ -75,10 +75,11 @@ module cacheaqsys (input [14:0] rd_pAddress_e, rd_pAddress_o, sw_pAddress_e, sw_
     inv1$ g2(.out(rd_ready), .in(rdaq_isempty));
 
     wire [696:0] rdswout, coreout;
+    wire aq_e_valid, aq_o_valid;
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(697)) m0(.in({rdaq_out,swaq_out}), .sel(rd_ready), .out(rdswout));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(697)) m1(.in({wbaq_out,rdswout}), .sel(wb_ready), .out(coreout));
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(697)) m2(.in({bus_out,coreout}), .sel(bus_ready), .out({valid_e,valid_o,
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(697)) m2(.in({bus_out,coreout}), .sel(bus_ready), .out({aq_e_valid,aq_o_valid,
                                                                                                     pAddress_e,pAddress_o,
                                                                                                     data_e,data_o,
                                                                                                     size_e,size_o,
@@ -100,6 +101,12 @@ module cacheaqsys (input [14:0] rd_pAddress_e, rd_pAddress_o, sw_pAddress_e, sw_
     and2$ g4(.out(wb_read), .in0(read), .in1(w));
     and2$ g5(.out(sw_read), .in0(read), .in1(sw));
     and2$ g6(.out(rd_read), .in0(read), .in1(r));
+
+    wire invaq_isempty;
+
+    inv1$ g7(.out(invaq_isempty), .in(aq_isempty));
+    and3$ g8(.out(valid_e), .in0(aq_e_valid), .in1(invaq_isempty), .in2(read));
+    and3$ g9(.out(valid_o), .in0(aq_o_valid), .in1(invaq_isempty), .in2(read));
 
 endmodule
 
