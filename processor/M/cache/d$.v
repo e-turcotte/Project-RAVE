@@ -960,7 +960,7 @@ endgenerate
     nor2$ nstal(stall_n,  cache_stall_e, cache_stall_o);
     assign PTC_ID_out = PTC_ID_out_e;
     assign data = data_out;
-    nor2$ norss(cache_valid,valid_out, w_$);
+    and2$ norss(cache_valid,valid_out, !w_$);
  
 // intitial begin
 //   file = $fopen("d_cache.out", "w");
