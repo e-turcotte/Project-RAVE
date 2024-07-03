@@ -442,7 +442,7 @@ IA_AS wbIA (
     .sw(1'b0),
     .valid_in(valid_in_wb),
     .fromBUS(1'b0),
-    .sizeOVR(sizeOVR_wb),
+    .sizeOVR(1'b0/*sizeOVR_wb*/),
     .PTC_ID_in(PTC_ID_in_wb),
     .clk(clk),
     .VP(VP),
@@ -956,7 +956,7 @@ endgenerate
 
 
     assign aq_stall = (rdaq_isfull & valid_in_r) | (swaq_isfull & valid_in_sw)  | fwd_stall;
-    or2$ sta(stall, cache_stall_e, cache_stall_o | (rdaq_isfull & valid_in_r) | (swaq_isfull & valid_in_sw) | (wbaq_isfull & valid_in_wb));
+    or2$ sta(stall, /*cache_stall_e, cache_stall_o*/ 1'b0, (rdaq_isfull & valid_in_r) | (swaq_isfull & valid_in_sw) | fwd_stall);
     nor2$ nstal(stall_n,  cache_stall_e, cache_stall_o);
     assign PTC_ID_out = PTC_ID_out_e;
     assign data = data_out;
