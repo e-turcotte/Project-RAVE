@@ -186,12 +186,12 @@ module rrag (input valid_in,
     or2$ g6(.out(modrmsib_ptc), .in0(modrm_ptc), .in1(sib_ptc));
     and2$ g7(.out(mem1_stall), .in0(mem1_use), .in1(modrmsib_ptc));
     and2$ g8(.out(mem2_stall), .in0(mem2_use), .in1(regformem4ptc));
-    and2$ g11(.out(rep_cnt_stall), .in0(is_rep_in), .in1(regformem3ptc));
+    and2$ g9(.out(rep_cnt_stall), .in0(is_rep_in), .in1(regformem3ptc));
     or4$ g10(.out(other_stall), .in0(fwd_stall), .in1(mem1_stall), .in2(mem2_stall), .in3(rep_cnt_stall));
     inv1$ g11(.out(no_other_stall), .in(other_stall));
 
 
-    repmech rep0(.mem1(), .mem2(), .creg(regformem3), .is_rep(is_rep_in),
+    repmech rep0(.mem1(mem1), .mem2(mem2), .creg(regformem3), .is_rep(is_rep_in),
                  .opsize(opsize_in), .pop4(p_op_in[4]), .pop5(p_op_in[5]),
                  .valid(valid_in), .no_other_stall(no_other_stall),
                  .rstdflag(1'b0), .rstdflagval(1'b0),
