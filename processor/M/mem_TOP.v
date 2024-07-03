@@ -104,38 +104,44 @@ module mem (input valid_in,
             );
 
     wire [31:0] mem1, nextmem1, regmem1, mem2, nextmem2, regmem2, incdec;
-    wire dflag, isrepreg;
+    //wire dflag, isrepreg;
     wire no_other_stall;
 
-    regn #(.WIDTH(1)) rd(.din(1'b1), .ld(p_op_in[5]), .clr(p_op_in[4]), .clk(clk), .dout(dflag));
+    //regn #(.WIDTH(1)) rd(.din(1'b1), .ld(p_op_in[5]), .clr(p_op_in[4]), .clk(clk), .dout(dflag));
 
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m0(.in({32'h0000_0000,32'hffff_fffc,32'hffff_fffe,32'hffff_ffff,
-                                                         32'h0000_0000,32'h0000_0004,32'h0000_0002,32'h0000_0001}), .sel({dflag,opsize_in}), .out(incdec));
+    //muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m0(.in({32'h0000_0000,32'hffff_fffc,32'hffff_fffe,32'hffff_ffff,
+    //                                                     32'h0000_0000,32'h0000_0004,32'h0000_0002,32'h0000_0001}), .sel({dflag,opsize_in}), .out(incdec));
 
-    wire takerepval;
+    //wire takerepval;
 
-    and2$ g31245678654(.out(takerepval), .in0(isrepreg), .in1(rep_stall));
+    //and2$ g31245678654(.out(takerepval), .in0(isrepreg), .in1(rep_stall));
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regmem1,mem_addr1}), .sel(takerepval), .out(mem1));
-    kogeAdder #(.WIDTH(32)) add0(.SUM(nextmem1), .COUT(), .A(mem1), .B(incdec), .CIN(1'b0));
-    regn #(.WIDTH(32)) r0(.din(nextmem1), .ld(no_other_stall), .clr(clr), .clk(clk), .dout(regmem1));
+    //muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regmem1,mem_addr1}), .sel(takerepval), .out(mem1));
+    //kogeAdder #(.WIDTH(32)) add0(.SUM(nextmem1), .COUT(), .A(mem1), .B(incdec), .CIN(1'b0));
+    //regn #(.WIDTH(32)) r0(.din(nextmem1), .ld(no_other_stall), .clr(clr), .clk(clk), .dout(regmem1));
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({regmem2,mem_addr2}), .sel(takerepval), .out(mem2));
-    kogeAdder #(.WIDTH(32)) add1(.SUM(nextmem2), .COUT(), .A(mem2), .B(incdec), .CIN(1'b0));
-    regn #(.WIDTH(32)) r1(.din(nextmem2), .ld(no_other_stall), .clr(clr), .clk(clk), .dout(regmem2));
+    //muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({regmem2,mem_addr2}), .sel(takerepval), .out(mem2));
+    //kogeAdder #(.WIDTH(32)) add1(.SUM(nextmem2), .COUT(), .A(mem2), .B(incdec), .CIN(1'b0));
+    //regn #(.WIDTH(32)) r1(.din(nextmem2), .ld(no_other_stall), .clr(clr), .clk(clk), .dout(regmem2));
 
-    regn #(.WIDTH(1)) r2(.din(is_rep_in), .ld(valid_in), .clr(clr), .clk(clk), .dout(isrepreg));
+    //regn #(.WIDTH(1)) r2(.din(is_rep_in), .ld(valid_in), .clr(clr), .clk(clk), .dout(isrepreg));
 
-    wire [31:0] cnt, nextcnt, cntreg;
+    //wire [31:0] cnt, nextcnt, cntreg;
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({cntreg,reg3[31:0]}), .sel(isrepreg), .out(cnt));
-    kogeAdder #(.WIDTH(32)) add2(.SUM(nextcnt), .COUT(), .A(cnt), .B(32'hffff_ffff), .CIN(1'b0));
-    regn #(.WIDTH(32)) r4(.din(nextcnt), .ld(no_other_stall), .clr(clr), .clk(clk), .dout(cntreg));
+    //muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({cntreg,reg3[31:0]}), .sel(isrepreg), .out(cnt));
+    //kogeAdder #(.WIDTH(32)) add2(.SUM(nextcnt), .COUT(), .A(cnt), .B(32'hffff_ffff), .CIN(1'b0));
+    //regn #(.WIDTH(32)) r4(.din(nextcnt), .ld(no_other_stall), .clr(clr), .clk(clk), .dout(cntreg));
 
     wire rep_stall, cntnotzero;
 
-    orn #(.NUM_INPUTS(32)) or0(.in(nextcnt), .out(cntnotzero));
-    and3$ g0(.out(rep_stall), .in0(cntnotzero), .in1(is_rep_in), .in2(valid_in));
+    //orn #(.NUM_INPUTS(32)) or0(.in(nextcnt), .out(cntnotzero));
+    //and3$ g0(.out(rep_stall), .in0(cntnotzero), .in1(is_rep_in), .in2(valid_in));
+
+    repmech rep0(.mem_addr1(mem_addr1), .mem_addr2(mem_addr2), .creg(reg3[31:0]), .is_rep(is_rep_in),
+                 .opsize(), .pop4(p_op_in[4]), .pop5(p_op_in[5]), .valid(valid_in), .no_other_stall(no_other_stall),
+                 .rstdflag(1'b0), .rstdflagval(1'b0),
+                 .clr(clr), .clk(clk),
+                 .mem1(mem1), .mem2(mem2), .rep_stall(rep_stall));
 
     wire r_is_m1, sw_is_m1;
     wire TLB_miss, prot_exc;
