@@ -137,7 +137,7 @@ module mem (input valid_in,
 
     wire invstall;
 
-    or3$ g1(.out(stall), .in0(cache_stall), .in1(fwd_stall));
+    or2$ g1(.out(stall), .in0(cache_stall), .in1(fwd_stall));
     inv1$ g2(.out(invstall), .in(stall));
     and2$ g3(.out(valid_out), .in0(valid_in), .in1(invstall));
 
