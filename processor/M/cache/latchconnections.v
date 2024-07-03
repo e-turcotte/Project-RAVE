@@ -54,10 +54,10 @@ module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
                                                                      .operand_data({old_ops[i]}), .operand_ptc({old_op_ptcinfos[i]}),
                                                                      .new_data({new_ops[i]}), .modify(op_mod_vect));
 
-            and2$ gabc(.out(guarded_cache_wake[i][0]), .in0(cache_qslot_out[i]), .in1(cache_wake[0]));
-            and2$ gdef(.out(guarded_cache_wake[i][1]), .in0(cache_qslot_out[i]), .in1(cache_wake[1]));
-            and2$ gghi(.out(guarded_cache_wake[i][2]), .in0(cache_qslot_out[i]), .in1(cache_wake[2]));
-            and2$ gjkl(.out(guarded_cache_wake[i][3]), .in0(cache_qslot_out[i]), .in1(cache_wake[3]));
+            and3$ gabc(.out(guarded_cache_wake[i][0]), .in0(cache_qslot_out[i]), .in1(cache_wake[0]), .in2(cache_out_valid));
+            and3$ gdef(.out(guarded_cache_wake[i][1]), .in0(cache_qslot_out[i]), .in1(cache_wake[1]), .in2(cache_out_valid));
+            and3$ gghi(.out(guarded_cache_wake[i][2]), .in0(cache_qslot_out[i]), .in1(cache_wake[2]), .in2(cache_out_valid));
+            and3$ gjkl(.out(guarded_cache_wake[i][3]), .in0(cache_qslot_out[i]), .in1(cache_wake[3]), .in2(cache_out_valid));
 
             or3$ gx0(.out(new_wake[i][0]), .in0(old_wake[i][0]), .in1(guarded_cache_wake[i][0]), .in2(mshr_rd_qslot_e_out[i]));
             or3$ gx1(.out(new_wake[i][1]), .in0(old_wake[i][1]), .in1(guarded_cache_wake[i][1]), .in2(mshr_sw_qslot_e_out[i]));
