@@ -89,10 +89,6 @@ module writeback_TOP(
     or4$ memg108(.out(mem_ld), .in0(partialmem_ld[0]), .in1(partialmem_ld[1]), .in2(partialmem_ld[2]), .in3(partialmem_ld[3]));
 
     wire [127:0] sreg_ptcs [0:3];
-    wire [6:0] flip_ptcid, ptctouse;
-
-    invn #(.NUM_INPUTS(7)) flip(.in(inst_ptcid_in), .out(flip_ptcid));
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(7)) m3456789(.in({flip_ptcid,inst_ptcid_in}), .sel(is_rep), .out(ptctouse));
 
     genvar i;
     generate
@@ -105,7 +101,7 @@ module writeback_TOP(
             and2$ vb2(.out(valid_broadcast[2]), .in0(dest3_ptcinfo[i*16 + 14]), .in1(inp3_wb));
             and2$ vb3(.out(valid_broadcast[3]), .in0(dest4_ptcinfo[i*16 + 14]), .in1(inp4_wb));
 
-            assign sreg_ptcs[3][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[3],ptctouse,dest4_ptcinfo[i*16 + 6:i*16]};
+            assign sreg_ptcs[3][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[3],inst_ptcid_in,dest4_ptcinfo[i*16 + 6:i*16]};
             assign sreg_ptcs[2][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[2],inst_ptcid_in,dest3_ptcinfo[i*16 + 6:i*16]};
             assign sreg_ptcs[1][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[1],inst_ptcid_in,dest2_ptcinfo[i*16 + 6:i*16]};
             assign sreg_ptcs[0][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[0],inst_ptcid_in,dest1_ptcinfo[i*16 + 6:i*16]};
