@@ -193,7 +193,7 @@ module rrag (input valid_in,
 
     repmech rep0(.mem1(mem1), .mem2(mem2), .creg(regformem3), .is_rep(is_rep_in),
                  .opsize(opsize_in), .pop4(p_op_in[4]), .pop5(p_op_in[5]),
-                 .valid(valid_in), .no_other_stall(no_other_stall),
+                 .valid(valid_out), .no_other_stall(no_other_stall),
                  .rstdflag(1'b0), .rstdflagval(1'b0),
                  .clr(clr), .clk(clk),
                  .mem_addr1(mem_addr1), .mem_addr2(mem_addr2), .rep_stall(rep_stall));
