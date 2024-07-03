@@ -57,6 +57,7 @@ processor/RrAg/prot_exception_logic.v
 processor/RrAg/ptc_gen.v
 processor/RrAg/regfile.v
 processor/RrAg/segfile.v
+processor/RrAg/repmech.v
 
 processor/M/mem_TOP.v
 processor/M/opswap.v
