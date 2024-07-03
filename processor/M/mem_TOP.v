@@ -103,46 +103,6 @@ module mem (input valid_in,
             output [255:0] cacheline_e_bus_in_ptcinfo, cacheline_o_bus_in_ptcinfo
             );
 
-    wire [31:0] mem1, nextmem1, regmem1, mem2, nextmem2, regmem2, incdec;
-    //wire dflag, isrepreg;
-    wire no_other_stall;
-
-    //regn #(.WIDTH(1)) rd(.din(1'b1), .ld(p_op_in[5]), .clr(p_op_in[4]), .clk(clk), .dout(dflag));
-
-    //muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m0(.in({32'h0000_0000,32'hffff_fffc,32'hffff_fffe,32'hffff_ffff,
-    //                                                     32'h0000_0000,32'h0000_0004,32'h0000_0002,32'h0000_0001}), .sel({dflag,opsize_in}), .out(incdec));
-
-    //wire takerepval;
-
-    //and2$ g31245678654(.out(takerepval), .in0(isrepreg), .in1(rep_stall));
-
-    //muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regmem1,mem_addr1}), .sel(takerepval), .out(mem1));
-    //kogeAdder #(.WIDTH(32)) add0(.SUM(nextmem1), .COUT(), .A(mem1), .B(incdec), .CIN(1'b0));
-    //regn #(.WIDTH(32)) r0(.din(nextmem1), .ld(no_other_stall), .clr(clr), .clk(clk), .dout(regmem1));
-
-    //muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({regmem2,mem_addr2}), .sel(takerepval), .out(mem2));
-    //kogeAdder #(.WIDTH(32)) add1(.SUM(nextmem2), .COUT(), .A(mem2), .B(incdec), .CIN(1'b0));
-    //regn #(.WIDTH(32)) r1(.din(nextmem2), .ld(no_other_stall), .clr(clr), .clk(clk), .dout(regmem2));
-
-    //regn #(.WIDTH(1)) r2(.din(is_rep_in), .ld(valid_in), .clr(clr), .clk(clk), .dout(isrepreg));
-
-    //wire [31:0] cnt, nextcnt, cntreg;
-
-    //muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({cntreg,reg3[31:0]}), .sel(isrepreg), .out(cnt));
-    //kogeAdder #(.WIDTH(32)) add2(.SUM(nextcnt), .COUT(), .A(cnt), .B(32'hffff_ffff), .CIN(1'b0));
-    //regn #(.WIDTH(32)) r4(.din(nextcnt), .ld(no_other_stall), .clr(clr), .clk(clk), .dout(cntreg));
-
-    wire rep_stall, cntnotzero;
-
-    //orn #(.NUM_INPUTS(32)) or0(.in(nextcnt), .out(cntnotzero));
-    //and3$ g0(.out(rep_stall), .in0(cntnotzero), .in1(is_rep_in), .in2(valid_in));
-
-    repmech rep0(.mem_addr1(mem_addr1), .mem_addr2(mem_addr2), .creg(reg3[31:0]), .is_rep(is_rep_in),
-                 .opsize(opsize_in), .pop4(p_op_in[4]), .pop5(p_op_in[5]), .valid(valid_in), .no_other_stall(no_other_stall),
-                 .rstdflag(1'b0), .rstdflagval(1'b0),
-                 .clr(clr), .clk(clk),
-                 .mem1(mem1), .mem2(mem2), .rep_stall(rep_stall));
-
     wire r_is_m1, sw_is_m1;
     wire TLB_miss, prot_exc;
     wire rdaq_isfull, swaq_isfull;
@@ -150,15 +110,13 @@ module mem (input valid_in,
     wire [3:0] wake_init_r, wake_init_sw;
     wire cache_stall;
 
-    nor2$ g23445(.out(no_other_stall), .in0(cache_stall), .in1(fwd_stall));
-
     assign wake_init_out = {wake_init_sw[3],wake_init_r[2],wake_init_sw[1],wake_init_r[0]};
 
     wire [127:0] data_out;
 
     d$ dcache(.clk(clk), .clk_bus(clk_bus), .rst(clr), .set(1'b1), .BUS(BUS),
               .setReciever_d(setReceiver_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d),
-              .data_m1(), .data_m2(), .M1(mem1), .M2(mem2), .M1_RW(mem1_rw), .M2_RW(mem2_rw),
+              .data_m1(), .data_m2(), .M1(mem_addr1), .M2(mem_addr2), .M1_RW(mem1_rw), .M2_RW(mem2_rw),
               .opsize(opsize_in), .valid_RSW(valid_in), .fwd_stall(fwd_stall), .sizeOVR(memsizeOVR), .PTC_ID_in(inst_ptcid_in), .qentry_slot_in(qentry_slot_in), .r_is_m1(r_is_m1), .sw_is_m1(sw_is_m1),
               .TLB_miss_wb(), .TLB_pe_wb(), .TLB_hit_wb(),
               .TLB_miss_r(), .TLB_pe_r(), .TLB_hit_r(),
@@ -177,8 +135,11 @@ module mem (input valid_in,
 
     assign cache_data_out = data_out[63:0]; //TODO: why is data out 128bits
 
-    or3$ g1(.out(stall), .in0(rep_stall), .in1(cache_stall), .in2(fwd_stall));
-    and2$ g3(.out(valid_out), .in0(valid_in), .in1(no_other_stall));
+    wire invstall;
+
+    or3$ g1(.out(stall), .in0(cache_stall), .in1(fwd_stall));
+    inv1$ g2(.out(invstall), .in(stall));
+    and2$ g3(.out(valid_out), .in0(valid_in), .in1(invstall));
 
     wire [127:0] m1_ptc, m2_ptc;
 
@@ -192,7 +153,7 @@ module mem (input valid_in,
               .seg1_addr(seg1_orig), .seg2_addr(seg2_orig), .seg3_addr(seg3_orig), .seg4_addr(seg4_orig),
               .seg1_ptc(ptc_s1), .seg2_ptc(ptc_s2), .seg3_ptc(ptc_s3), .seg4_ptc(ptc_s4),
               .mem1_data(64'h0000000000000000), .mem2_data(64'h0000000000000000),
-              .mem1_addr(mem1), .mem2_addr(mem2),
+              .mem1_addr(mem_addr1), .mem2_addr(mem_addr2),
               .mem1_ptc(m1_ptc), .mem2_ptc(m2_ptc),
               .eip_data(eip_in), .imm(imm),
               .op1_mux(op1_sel), .op2_mux(op2_sel), .op3_mux(op3_sel), .op4_mux(op4_sel),
