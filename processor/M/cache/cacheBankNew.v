@@ -178,7 +178,8 @@ mux2n #(4)  abcde(SER_dest1,{2'b10,pAddress[5],pAddress[4]}, 4'b1100, PCD_IN);
 
 
 //Handle outputAlign
-assign EX_valid = valid; 
+// assign EX_valid = valid; 
+and2$ (EX_valid, valid, !MISS);
 assign EX_data = cache_line;
 assign EX_vAddress = vAddress;
 assign EX_pAddress = pAddress;
