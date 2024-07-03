@@ -233,7 +233,7 @@ module res3Handler(
     
     inv1$ invSw(swapCXCn, swapCXC);
 
-    mux4n #(32) m1(res3[31:0], op3[31:0], op3[31:0], op3[31:0], op2[31:0], swapCXCn, P_OP_CXC);
+    mux4n #(32) m1(res3[31:0], res3a[31:0], res3a[31:0], res3a[31:0], op2[31:0], swapCXCn, P_OP_CXC);
     assign res3[63:32] = op3[63:32];
 endmodule
 
@@ -267,7 +267,7 @@ module res4Handler(
     mux2n #(32) mnx(add1, add3,op2[31:0],immOVR );
     mux2n #(32) mxn(add2, add1, 32'hFFFF_FFFF, P_OP_MOVS);
     kogeAdder #(32) add0(addResults, dc, op4[31:0], add2, 1'b0 );
-    mux2n #(32) m0(res4[31:0], op4[31:0], addResults, immOVR);
+    mux2n #(32) m0(res4[31:0], op4[31:0], addResults, switch);
     assign res4[63:32] = op4[63:32];
 
     // mux2n #(32) (res4[31:0],op4[31:0], add_Results
