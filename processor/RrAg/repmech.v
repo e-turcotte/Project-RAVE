@@ -27,7 +27,7 @@ module repmech(input [31:0] mem_addr1, mem_addr2,
     wire cntnotzero;
     wire userepaddr;
 
-    regn #(.WIDTH(1)) r1(.din(is_rep), .sel(valid), .clr(clr), .clk(clk), .dout(regis_rep));
+    regn #(.WIDTH(1)) r1(.din(is_rep), .ld(valid), .clr(clr), .clk(clk), .dout(regis_rep));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({regcnt,creg}), .sel(regis_rep), .out(cnt));
     kogeAdder #(.WIDTH(32)) add0(.SUM(nextcnt), .COUT(), .A(cnt), .B(32'hffff_ffff), .CIN(1'b0));
     regn #(.WIDTH(32)) r2(.din(nextcnt), .ld(no_other_stall), .clr(clr), .clk(clk), .dout(regcnt));
