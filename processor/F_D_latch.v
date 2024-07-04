@@ -39,7 +39,7 @@ module F_D_latch (
         $fdisplay(file, "cycle number: %d", cyc_cnt);
         cyc_cnt = cyc_cnt + 1;
         
-		$fdisplay(file, "\n=============== RrAg to MEM Latch Values ===============\n");
+		$fdisplay(file, "\n=================== F to D Latch Values ===================\n");
  
         $fdisplay(file, "\t\t valid: %b", valid_out);
         $fdisplay(file, "\t\t packet: 0x%h", packet_out);
