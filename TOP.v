@@ -1295,12 +1295,12 @@
     wire EX_WB_latch_LD;
     inv1$ i2i31nfkdas(.out(EX_WB_latch_LD), .in(fwd_stall_WB_EX_out));
 
-    wire EX_WB_latch_clr;
-    andn #(.NUM_INPUTS(2)) n2amdl0011 (.in({global_reset, WB_to_clr_latches_resteer_active_low}), .out(EX_WB_latch_clr));
+    // wire EX_WB_latch_clr;
+    // andn #(.NUM_INPUTS(2)) n2amdl0011 (.in({global_reset, WB_to_clr_latches_resteer_active_low}), .out(EX_WB_latch_clr));
 
     E_WB_latch e_w_latch(
         //inputs 
-        .ld(EX_WB_latch_LD), .clr(EX_WB_latch_clr),
+        .ld(EX_WB_latch_LD), .clr(global_reset),
         .clk(clk),
 
         .valid_in(valid_EX_WB_latch_in),
