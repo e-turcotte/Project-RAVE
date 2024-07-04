@@ -4,7 +4,7 @@ def generateVerilog(rows, fields):
     fieldList = []
     with open("CS_Adapter.v", "w") as file:
         output = genOutput2(rows, fields)
-        inputs = "input [226:0] toSplit"
+        inputs = "input [229:0] toSplit"
         file.write("module csAdapter(\n" + output + "\n" + inputs + "\n);\n")
 
         assigns = ""
@@ -56,29 +56,29 @@ def generateVerilog(rows, fields):
 
         for row in rows:
             wireVal = genWireConcat(row, fields)
-            #file.write("wire[226:0] w" + str(wireCnt) + ";\n")
+            #file.write("wire[229:0] w" + str(wireCnt) + ";\n")
             file.write("assign w" + str(wireCnt) + " = " + wireVal)
             wireCnt += 1
         file.write("\nendmodule")
 
-    # with open("cs_select.v","w") as file:
-    #     input = genInput2(rows,fields) + "input [7:0] B1, B2, B3"
-    #     output = "output[226:0] chosen,\n"
-    #     file.write("module cs_select(\n" + output + "\n" + input + ");\n\n")
-    #     eCNT = 0
-    #     wCNT = 0
-    #     for row in rows:
-    #         equals = genEqual(row, fields, eCNT, wCNT, "B1", "B2", "B3")
-    #         file.write(equals + "\n")
-    #         wCNT += 1
-    #         eCNT += 1
+    with open("cs_select.v","w") as file:
+        input = genInput2(rows,fields) + "input [7:0] B1, B2, B3"
+        output = "output[229:0] chosen,\n"
+        file.write("module cs_select(\n" + output + "\n" + input + ");\n\n")
+        eCNT = 0
+        wCNT = 0
+        for row in rows:
+            equals = genEqual(row, fields, eCNT, wCNT, "B1", "B2", "B3")
+            file.write(equals + "\n")
+            wCNT += 1
+            eCNT += 1
 
-    #     buf, tri, dCat, sCat = genTriM(eCNT, "chosen", str(0))
-    #     file.write(buf)
-    #     file.write(dCat)
-    #     file.write(sCat)
-    #     file.write(tri)
-    #     file.write("\nendmodule")
+        buf, tri, dCat, sCat = genTriM(eCNT, "chosen", str(0))
+        file.write(buf)
+        file.write(dCat)
+        file.write(sCat)
+        file.write(tri)
+        file.write("\nendmodule")
 
     # with open("cs_top.v","w") as file:
     #     input = "input[7:0] B1, B2, B3, B4, B5, B6,\n input isREP, isSIZE, isSEG,\n input[3:0] prefSize, \n input[5:0] segSEL "
@@ -90,7 +90,7 @@ def generateVerilog(rows, fields):
 
     #     file.write("cs_data cs1("+w+");\n")
 
-    #     file.write("wire[226:0] chosen, chosen1, chosen2, chosen3, chosen4;\n ")
+    #     file.write("wire[229:0] chosen, chosen1, chosen2, chosen3, chosen4;\n ")
     #     file.write("wire[23:0] chosen5;\n")
 
     #     file.write("cs_select css1(" + w + ", .chosen(chosen1), .B1(B1), .B2(B2), .B3(B3));\n")
@@ -108,7 +108,7 @@ def generateVerilog(rows, fields):
 
     # with open("cs_overwrite.v", "w") as file:
 
-    #     input = "input [226:0] chosen,\n input isREP, isSIZE, isSEG,\n input[3:0] prefSize, \n input[5:0] segSEL"
+    #     input = "input [229:0] chosen,\n input isREP, isSIZE, isSEG,\n input[3:0] prefSize, \n input[5:0] segSEL"
     #     output = genOutput2(rows, fields)
     #     file.write("module cs_overwrite(\n" + output + "\n" + input + ",\ninput [7:0] B1, B2, B3);\nwire[7:0] m;\n")
     #     wires = genWires(rows, fields, 0)
@@ -171,7 +171,7 @@ def genTriM(eCNT, retStr, catCNT):
     dataCat += "};\n"
     sigCat += "};\n"
 
-    tri = "muxnm_tristate #(140, 227) mxt1(dataCat" + catCNT + ", sigCat" + catCNT + " ," + retStr + ");\n"
+    tri = "muxnm_tristate #(140, 230) mxt1(dataCat" + catCNT + ", sigCat" + catCNT + " ," + retStr + ");\n"
 
     return buf, tri, sigCat, dataCat
 
@@ -213,19 +213,19 @@ def genOutput(rows, fields):
     for i in range(140):
         if(i != 0):
             output += ","
-        output += "\noutput [" + "226:0] w" + str(i)
+        output += "\noutput [" + "229:0] w" + str(i)
     return output
 
 def genInput2(rows, fields):
     output = ""
     for i in range(140):
-        output += "input [" + "226:0] w" + str(i) + ",\n"
+        output += "input [" + "229:0] w" + str(i) + ",\n"
     return output
 
 def genWire2(rows, fields):
     output = ""
     for i in range(140):
-        output += "wire [" + "226:0] w" + str(i) + "; "
+        output += "wire [" + "229:0] w" + str(i) + "; "
     output += "\n"
     return output
 

@@ -204,6 +204,7 @@
     wire [31:0] BR_pred_target_D_RrAg_latch_in;
     wire        BR_pred_T_NT_D_RrAg_latch_in;
     wire        is_imm_D_RrAg_latch_in;
+    wire [3:0]  memSizeOVR_D_RrAg_latch_in;
 
     ///////////////////////////////////////////////////////////
     //   Outputs from the D_RrAg_latch that go into RrAg:   //  
@@ -785,6 +786,7 @@
         .BR_pred_target_out(BR_pred_target_D_RrAg_latch_in),
         .BR_pred_T_NT_out(BR_pred_T_NT_D_RrAg_latch_in),
         .isImm_out(is_imm_D_RrAg_latch_in),
+        .memSizeOVR(memSizeOVR_D_RrAg_latch_in),
     
         // Outputs to fetch_2
         .stall_out(D_stall_out), //TODO: send to fetch_2
