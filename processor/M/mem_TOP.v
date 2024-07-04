@@ -116,7 +116,7 @@ module mem (input valid_in,
     assign wake_init_out = {wake_init_sw[3],wake_init_r[2],wake_init_sw[1],wake_init_r[0]};
 
     wire [127:0] data_out;
-    wire [2:0] size_to_use;
+    wire [1:0] size_to_use;
     wire usenormalopsize;
 
     nor4$ gasdasd(.out(usenormalopsize), .in0(memsizeOVR_in[0]), .in1(memsizeOVR_in[1]), .in2(memsizeOVR_in[2]), .in3(memsizeOVR_in[3]));
