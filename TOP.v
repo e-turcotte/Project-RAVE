@@ -617,6 +617,11 @@
         .FIP_O_target(BP_FIP_o_BTB_out),
         .EIP_target(BP_EIP_BTB_out)
     );
+    
+    /*TODO: SIGNAL FOR CLEARING LATCHES*/
+    wire WB_to_clr_latches_resteer_active_low;
+    inv1$ sdhfkjh4o2r02ur09u0(.in(is_resteer_WB_out), .out(WB_to_clr_latches_resteer_active_low));
+
 
     fetch_TOP f0(
         .clk(clk),
@@ -684,10 +689,13 @@
     wire F_D_latch_LD;
     inv1$ eddiesmassivetushy(.out(F_D_latch_LD), .in(D_stall_out));
 
+    wire F_D_latch_clr;
+    andn #(.NUM_INPUTS(2)) momma(.in({global_reset, WB_to_clr_latches_resteer_active_low}), .out(F_D_latch_clr));
+
     F_D_latch f1(
         .ld(F_D_latch_LD),
         .clk(clk),
-        .clr(global_reset),
+        .clr(F_D_latch_clr),
 
         .valid_in(valid_F_D_latch_in),
         .packet_in(packet_F_D_latch_in),
@@ -813,10 +821,13 @@
     wire D_RrAg_Latch_RD; 
     inv1$ n2002 (.out(D_RrAg_Latch_RD), .in(RrAg_stall_out));
 
+    wire D_RrAg_Latch_clr;
+    andn #(.NUM_INPUTS(2)) n2amdl003 (.in({global_reset, WB_to_clr_latches_resteer_active_low}), .out(D_RrAg_Latch_clr));
+
     D_RrAg_Queued_Latches #(.M_WIDTH(m_size_D_RrAg), .N_WIDTH(n_size_D_RrAg), .Q_LENGTH(8)) q2 (
         .m_din(m_din_D_RrAg), .n_din(n_din_D_RrAg), .new_m_vector(), 
         .wr(valid_out_D_RrAg_latch_in), .rd(D_RrAg_Latch_RD), 
-        .modify_vector(8'h0), .clr(global_reset), .clk(clk), .full(D_RrAg_Latches_full), .empty(D_RrAg_Latches_empty), .old_m_vector(/*TODO*/), 
+        .modify_vector(8'h0), .clr(D_RrAg_Latch_clr), .clk(clk), .full(D_RrAg_Latches_full), .empty(D_RrAg_Latches_empty), .old_m_vector(/*TODO*/), 
             .dout({valid_out_D_RrAg_latch_out, BP_alias_D_RrAg_latch_out, latched_eip_D_RrAg_latch_out, is_imm_D_RrAg_latch_out, reg_addr1_D_RrAg_latch_out, reg_addr2_D_RrAg_latch_out, reg_addr3_D_RrAg_latch_out, reg_addr4_D_RrAg_latch_out,
             seg_addr1_D_RrAg_latch_out, seg_addr2_D_RrAg_latch_out, seg_addr3_D_RrAg_latch_out, seg_addr4_D_RrAg_latch_out,
             opsize_D_RrAg_latch_out, addressingmode_D_RrAg_latch_out,
@@ -904,9 +915,12 @@
     wire RrAg_MEM_latch_LD;
     inv1$ n2000(.out(RrAg_MEM_latch_LD), .in(MEM_stall_out));
 
+    wire RrAg_MEM_latch_clr;
+    andn #(.NUM_INPUTS(2)) n2amdl002 (.in({global_reset, WB_to_clr_latches_resteer_active_low}), .out(RrAg_MEM_latch_clr));
+
     RrAg_MEM_latch q4(
         //inputs
-        .ld(RrAg_MEM_latch_LD), .clr(global_reset), // LD comes from MEM stalling 
+        .ld(RrAg_MEM_latch_LD), .clr(RrAg_MEM_latch_clr), // LD comes from MEM stalling 
         .clk(clk),
         .valid_in(valid_RrAg_MEM_latch_in), .opsize_in(opsize_RrAg_MEM_latch_in),
         .mem_addr1_in(mem_addr1_RrAg_MEM_latch_in), .mem_addr2_in(mem_addr2_RrAg_MEM_latch_in), .mem_addr1_end_in(mem_addr1_end_RrAg_MEM_latch_in), .mem_addr2_end_in(mem_addr2_end_RrAg_MEM_latch_in),
@@ -1144,6 +1158,9 @@
     inv1$ n2001 (.out(exinvstall), .in(EX_stall_out));
     andn #(.NUM_INPUTS(5)) n20000034(.in({wake_MEM_EX_latch_out,exinvstall}), .out(MEM_EX_Latch_RD));
 
+    wire MEM_EX_Latch_clr;
+    andn #(.NUM_INPUTS(2)) n2amdl001 (.in({global_reset, WB_to_clr_latches_resteer_active_low}), .out(MEM_EX_Latch_clr));
+
     wire [m_size_MEM_EX*8-1:0] new_m_M_EX, old_m_M_EX;
     wire [7:0] modify_M_EX_latch;
 
@@ -1160,7 +1177,7 @@
     MEM_EX_Queued_Latches #(.M_WIDTH(m_size_MEM_EX), .N_WIDTH(n_size_MEM_EX), .Q_LENGTH(8)) q5 (
         .m_din(m_din_MEM_EX), .n_din(n_din_MEM_EX), .new_m_vector(new_m_M_EX), 
         .wr(valid_MEM_EX_latch_in), .rd(MEM_EX_Latch_RD),
-        .modify_vector(modify_M_EX_latch), .clr(global_reset), .clk(clk), .full(MEM_EX_Latches_full), .empty(MEM_EX_Latches_empty), .old_m_vector(old_m_M_EX), 
+        .modify_vector(modify_M_EX_latch), .clr(MEM_EX_Latch_clr), .clk(clk), .full(MEM_EX_Latches_full), .empty(MEM_EX_Latches_empty), .old_m_vector(old_m_M_EX), 
             .dout({
                 inst_ptcid_MEM_EX_latch_out, wake_MEM_EX_latch_out, op1_MEM_EX_latch_out, op2_MEM_EX_latch_out, op3_MEM_EX_latch_out, op4_MEM_EX_latch_out, 
                 op1_ptcinfo_MEM_EX_latch_out, op2_ptcinfo_MEM_EX_latch_out, op3_ptcinfo_MEM_EX_latch_out, op4_ptcinfo_MEM_EX_latch_out,
@@ -1278,9 +1295,12 @@
     wire EX_WB_latch_LD;
     inv1$ i2i31nfkdas(.out(EX_WB_latch_LD), .in(fwd_stall_WB_EX_out));
 
+    wire EX_WB_latch_clr;
+    andn #(.NUM_INPUTS(2)) n2amdl0011 (.in({global_reset, WB_to_clr_latches_resteer_active_low}), .out(EX_WB_latch_clr));
+
     E_WB_latch e_w_latch(
         //inputs 
-        .ld(EX_WB_latch_LD), .clr(global_reset),
+        .ld(EX_WB_latch_LD), .clr(EX_WB_latch_clr),
         .clk(clk),
 
         .valid_in(valid_EX_WB_latch_in),
