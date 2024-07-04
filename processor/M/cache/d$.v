@@ -977,9 +977,10 @@ endgenerate
 //             $fwrite(file, "tagGen[%0d].r.DOUT = %0h\n", i, u2.bankE.cs1.ts.data[i*8 + 7: i*8]);
 //     end  
 // end
+assign clk_$ = clk;
 integer file_handle;
 integer file_dump;
-integer clk_ctr;
+integer clk_ctr_$;
 initial begin
     // Open the file for writing
     file_handle = $fopen("dcache_dump.csv", "w");
@@ -987,18 +988,19 @@ initial begin
     if (file_handle == 0) begin
         $display("Error: Failed to open file for eflags!");
     end
-    clk_ctr = 0;
+    clk_ctr_$ = 0;
 
     
 end
-
+always @(posedge clk) begin
+      clk_ctr_$ = clk_ctr_$ + 1;
+end
 always @(negedge clk) begin
     // Write signal values to the file at every clock cycle
-    clk_ctr = clk_ctr + 1;
     if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1) begin
         @(posedge clk)
         $fwrite(file_dump,"\n////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\n");
-        $fwrite(file_dump, "Cycle,%d,", clk_ctr);
+        $fwrite(file_dump, "Cycle,%d,", clk_ctr_$);
         $fwrite(file_dump, "PTC ID,%h,", ptcid_$);
         $fwrite(file_dump, "R_SW_W,%b%b%b,RdFull: %b | SwFull: %b | WFull: %b\n", r_$, sw_$, w_$,rdaq_isfull, swaq_isfull, wbaq_isfull);
         $fwrite(file_dump, "From bus,%b,", fromBUS_$);
@@ -1062,10 +1064,11 @@ always @(negedge clk) begin
 
     end
 end
-always @(negedge clk) begin
-    if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1 || clk_ctr == 32'd140) begin
-        @(posedge clk)
-            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #,%d\n", clk_ctr);
+ 
+always  @(posedge clk) begin
+        #3
+        if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1 || clk_ctr_$ == 32'd140) begin
+            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #,Cyc: %d\n", clk_ctr_$);
             $fwrite(file_handle, "EVEN TAG STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
             $fwrite(file_handle, "3,8'h%h,8'h%h,8'h%h,8'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[3], bankE.cs1.ts.tagGen[2].r.mem[3],bankE.cs1.ts.tagGen[1].r.mem[3],bankE.cs1.ts.tagGen[0].r.mem[3]);
@@ -1113,10 +1116,10 @@ always @(negedge clk) begin
             $fwrite(file_handle, "2,4'h%h,4'h%h,4'h%h,4'h%h,,8'h%h,8'h%h,8'h%h,8'h%h,,3'h%h,3'h%h,3'h%h,3'h%h\n",bankO.cs1.ms.LRU3[11:8],bankO.cs1.ms.LRU2[11:8],bankO.cs1.ms.LRU1[11:8],bankO.cs1.ms.LRU0[11:8],bankO.cs1.ms.PTCID[95:88],   bankO.cs1.ms.PTCID[87:80],   bankO.cs1.ms.PTCID[79:72],   bankO.cs1.ms.PTCID[71:64]   ,  {bankO.cs1.ms.VALID[11], bankO.cs1.ms.PTC[11], bankO.cs1.ms.DIRTY[11]},       {bankO.cs1.ms.VALID[10], bankO.cs1.ms.PTC[10], bankO.cs1.ms.DIRTY[10]},       {bankO.cs1.ms.VALID[9], bankO.cs1.ms.PTC[9], bankO.cs1.ms.DIRTY[9]},       {bankO.cs1.ms.VALID[8], bankO.cs1.ms.PTC[8], bankO.cs1.ms.DIRTY[8]}, );
             $fwrite(file_handle, "1,4'h%h,4'h%h,4'h%h,4'h%h,,8'h%h,8'h%h,8'h%h,8'h%h,,3'h%h,3'h%h,3'h%h,3'h%h\n",bankO.cs1.ms.LRU3[7:4],bankO.cs1.ms.LRU2[7:4],bankO.cs1.ms.LRU1[7:4],bankO.cs1.ms.LRU0[7:4],bankO.cs1.ms.PTCID[63:56],   bankO.cs1.ms.PTCID[55:48],   bankO.cs1.ms.PTCID[47:40],   bankO.cs1.ms.PTCID[39:32]   ,  {bankO.cs1.ms.VALID[7], bankO.cs1.ms.PTC[7], bankO.cs1.ms.DIRTY[7]},       {bankO.cs1.ms.VALID[6], bankO.cs1.ms.PTC[6], bankO.cs1.ms.DIRTY[6]},       {bankO.cs1.ms.VALID[5], bankO.cs1.ms.PTC[5], bankO.cs1.ms.DIRTY[5]},       {bankO.cs1.ms.VALID[4], bankO.cs1.ms.PTC[4], bankO.cs1.ms.DIRTY[4]}, );
             $fwrite(file_handle, "0,4'h%h,4'h%h,4'h%h,4'h%h,,8'h%h,8'h%h,8'h%h,8'h%h,,3'h%h,3'h%h,3'h%h,3'h%h\n",bankO.cs1.ms.LRU3[3:0],bankO.cs1.ms.LRU2[3:0],bankO.cs1.ms.LRU1[3:0],bankO.cs1.ms.LRU0[3:0],bankO.cs1.ms.PTCID[31:24],   bankO.cs1.ms.PTCID[23:16],   bankO.cs1.ms.PTCID[15:8],    bankO.cs1.ms.VALID[7:0]   , {bankO.cs1.ms.VALID[3], bankO.cs1.ms.PTC[3], bankO.cs1.ms.DIRTY[3]},       {bankO.cs1.ms.VALID[2], bankO.cs1.ms.PTC[2], bankO.cs1.ms.DIRTY[2]},       {bankO.cs1.ms.VALID[1], bankO.cs1.ms.PTC[1], bankO.cs1.ms.DIRTY[1]},       {bankO.cs1.ms.VALID[0], bankO.cs1.ms.PTC[0], bankO.cs1.ms.DIRTY[0]}, );
-            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #, clk_ctr\n");
+            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #, clk_ctr_$\n");
 
              @(posedge clk)
-            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #,%d\n", clk_ctr);
+            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #,%d\n", clk_ctr_$);
             $fwrite(file_handle, "EVEN TAG STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
             $fwrite(file_handle, "3,8'h%h,8'h%h,8'h%h,8'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[3], bankE.cs1.ts.tagGen[2].r.mem[3],bankE.cs1.ts.tagGen[1].r.mem[3],bankE.cs1.ts.tagGen[0].r.mem[3]);
@@ -1164,7 +1167,7 @@ always @(negedge clk) begin
             $fwrite(file_handle, "2,4'h%h,4'h%h,4'h%h,4'h%h,,8'h%h,8'h%h,8'h%h,8'h%h,,3'h%h,3'h%h,3'h%h,3'h%h\n",bankO.cs1.ms.LRU3[11:8],bankO.cs1.ms.LRU2[11:8],bankO.cs1.ms.LRU1[11:8],bankO.cs1.ms.LRU0[11:8],bankO.cs1.ms.PTCID[95:88],   bankO.cs1.ms.PTCID[87:80],   bankO.cs1.ms.PTCID[79:72],   bankO.cs1.ms.PTCID[71:64]   ,  {bankO.cs1.ms.VALID[11], bankO.cs1.ms.PTC[11], bankO.cs1.ms.DIRTY[11]},       {bankO.cs1.ms.VALID[10], bankO.cs1.ms.PTC[10], bankO.cs1.ms.DIRTY[10]},       {bankO.cs1.ms.VALID[9], bankO.cs1.ms.PTC[9], bankO.cs1.ms.DIRTY[9]},       {bankO.cs1.ms.VALID[8], bankO.cs1.ms.PTC[8], bankO.cs1.ms.DIRTY[8]}, );
             $fwrite(file_handle, "1,4'h%h,4'h%h,4'h%h,4'h%h,,8'h%h,8'h%h,8'h%h,8'h%h,,3'h%h,3'h%h,3'h%h,3'h%h\n",bankO.cs1.ms.LRU3[7:4],bankO.cs1.ms.LRU2[7:4],bankO.cs1.ms.LRU1[7:4],bankO.cs1.ms.LRU0[7:4],bankO.cs1.ms.PTCID[63:56],   bankO.cs1.ms.PTCID[55:48],   bankO.cs1.ms.PTCID[47:40],   bankO.cs1.ms.PTCID[39:32]   ,  {bankO.cs1.ms.VALID[7], bankO.cs1.ms.PTC[7], bankO.cs1.ms.DIRTY[7]},       {bankO.cs1.ms.VALID[6], bankO.cs1.ms.PTC[6], bankO.cs1.ms.DIRTY[6]},       {bankO.cs1.ms.VALID[5], bankO.cs1.ms.PTC[5], bankO.cs1.ms.DIRTY[5]},       {bankO.cs1.ms.VALID[4], bankO.cs1.ms.PTC[4], bankO.cs1.ms.DIRTY[4]}, );
             $fwrite(file_handle, "0,4'h%h,4'h%h,4'h%h,4'h%h,,8'h%h,8'h%h,8'h%h,8'h%h,,3'h%h,3'h%h,3'h%h,3'h%h\n",bankO.cs1.ms.LRU3[3:0],bankO.cs1.ms.LRU2[3:0],bankO.cs1.ms.LRU1[3:0],bankO.cs1.ms.LRU0[3:0],bankO.cs1.ms.PTCID[31:24],   bankO.cs1.ms.PTCID[23:16],   bankO.cs1.ms.PTCID[15:8],    bankO.cs1.ms.VALID[7:0]   , {bankO.cs1.ms.VALID[3], bankO.cs1.ms.PTC[3], bankO.cs1.ms.DIRTY[3]},       {bankO.cs1.ms.VALID[2], bankO.cs1.ms.PTC[2], bankO.cs1.ms.DIRTY[2]},       {bankO.cs1.ms.VALID[1], bankO.cs1.ms.PTC[1], bankO.cs1.ms.DIRTY[1]},       {bankO.cs1.ms.VALID[0], bankO.cs1.ms.PTC[0], bankO.cs1.ms.DIRTY[0]}, );
-            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #, clk_ctr\n");
+            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #, clk_ctr_$\n");
         end
 
 end
