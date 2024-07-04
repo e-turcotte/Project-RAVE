@@ -89,5 +89,5 @@ wire [2:0] s_out;
 and2$ a8(seg_sel, isMOD, isSEG); 
  mux2n #(3) mx11(S1, S10, s_out, seg_sel);
  mux2$ mx69(op4_wb, op4_wb0, 1'b1, isREP);
- mux2$ mx70(memSizeOVR, memSizeOVR, {memSizeOVR[3], memSizeOVR[1], memSizeOVR0[2], memSizeOVR0[0]}, isSIZE);
+ mux2n #(4) mx70(memSizeOVR, memSizeOVR0, {memSizeOVR0[3], memSizeOVR0[1], memSizeOVR0[2], memSizeOVR0[0]}, isSIZE);
 endmodule
