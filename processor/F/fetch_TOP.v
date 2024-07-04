@@ -16,8 +16,8 @@ module fetch_TOP (
     /////////////////////////////
     // signals from writeback //  
     ///////////////////////////
-    input wire [27:0] WB_FIP_o,
-    input wire [27:0] WB_FIP_e,
+    input wire [31:0] WB_FIP_o,
+    input wire [31:0] WB_FIP_e,
     input wire [5:0] WB_BIP,
     input wire resteer,
 
@@ -104,8 +104,8 @@ module fetch_TOP (
         .BP_FIP_o(BP_FIP_o),
         .BP_FIP_e(BP_FIP_e),
         .is_BR_T_NT(is_BR_T_NT),
-        .WB_FIP_o(WB_FIP_o),
-        .WB_FIP_e(WB_FIP_e),
+        .WB_FIP_o(WB_FIP_o[31:4]),
+        .WB_FIP_e(WB_FIP_e[31:4]),
         .is_resteer(resteer),
 
         .even_latch_was_loaded(even_latch_was_loaded),
