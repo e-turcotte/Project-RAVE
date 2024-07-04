@@ -452,7 +452,7 @@
 
     wire valid_EX_WB_latch_out;
     wire [31:0] EIP_EX_WB_latch_out;
-    wire [31:0]  latched_eip_EX_WB_latch_in;
+    wire [31:0]  latched_eip_EX_WB_latch_out;
     wire IE_EX_WB_latch_out;
     wire [3:0] IE_type_EX_WB_latch_out;
     wire [31:0] BR_pred_target_EX_WB_latch_out;
@@ -494,6 +494,7 @@
     wire [5:0] WB_BP_update_alias;
     wire [27:0] newFIP_e_WB_out, newFIP_o_WB_out;
     wire [31:0] newEIP_WB_out, latched_EIP_WB_out, EIP_WB_out;
+    wire [31:0] latched_eip_WB_out;
     wire is_resteer_WB_out;
     wire BR_valid_WB_BP_out, BR_taken_WB_BP_out, BR_correct_WB_BP_out;
     wire final_IE_val;
