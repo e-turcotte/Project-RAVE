@@ -116,11 +116,16 @@ module mem (input valid_in,
     assign wake_init_out = {wake_init_sw[3],wake_init_r[2],wake_init_sw[1],wake_init_r[0]};
 
     wire [127:0] data_out;
+    wire [2:0] size_to_use;
+    wire usenormalopsize;
+
+    nor4$ gasdasd(.out(usenormalopsize), .in0(memsizeOVR_in[0]), .in1(memsizeOVR_in[1]), .in2(memsizeOVR_in[2]), .in3(memsizeOVR_in[3]));
+    muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(2)) mfcvgbhnj(.in({opsize_in,2'b11,2'b10,2'b01,2'b00}), .sel({usenormalopsize,memsizeOVR_in}), .out(size_to_use));
 
     d$ dcache(.clk(clk), .clk_bus(clk_bus), .rst(clr), .set(1'b1), .BUS(BUS),
               .setReciever_d(setReceiver_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d),
               .data_m1(), .data_m2(), .M1(mem_addr1), .M2(mem_addr2), .M1_RW(mem1_rw), .M2_RW(mem2_rw),
-              .opsize(opsize_in), .valid_RSW(valid_in), .fwd_stall(fwd_stall), .sizeOVR(memsizeOVR_in), .PTC_ID_in(inst_ptcid_in), .qentry_slot_in(qentry_slot_in), .r_is_m1(r_is_m1), .sw_is_m1(sw_is_m1),
+              .opsize(size_to_use), .valid_RSW(valid_in), .fwd_stall(fwd_stall), .sizeOVR(1'b0), .PTC_ID_in(inst_ptcid_in), .qentry_slot_in(qentry_slot_in), .r_is_m1(r_is_m1), .sw_is_m1(sw_is_m1),
               .TLB_miss_wb(), .TLB_pe_wb(), .TLB_hit_wb(),
               .TLB_miss_r(), .TLB_pe_r(), .TLB_hit_r(),
               .TLB_miss_sw(), .TLB_pe_sw(), .TLB_hit_sw(),
