@@ -1,6 +1,7 @@
 module writeback_TOP(
     input clk,
     input valid_in,
+    input [3:0] memsizeOVR_in;
     input [31:0] EIP_in,
     input [31:0] latched_EIP_in,
     input IE_in,                           //interrupt or exception signal

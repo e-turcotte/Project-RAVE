@@ -28,6 +28,7 @@ module RrAg_MEM_latch (
         input         is_br_in, is_fp_in, is_imm_in,
         input [47:0]  imm_in,
         input [1:0]   mem1_rw_in, mem2_rw_in,
+        input [3:0]   memsizeOVR_in,
         input [31:0]  eip_in,
         input [31:0]  latched_eip_in,
         input         IE_in,
@@ -61,6 +62,7 @@ module RrAg_MEM_latch (
         output         is_br_out, is_fp_out,  is_imm_out,
         output [47:0]  imm_out,
         output [1:0]   mem1_rw_out, mem2_rw_out,
+        output [3:0]   memsizeOVR_out,
         output [31:0]  eip_out,
         output [31:0]  latched_eip_out,       
         output         IE_out,
@@ -136,13 +138,14 @@ module RrAg_MEM_latch (
     regn #(.WIDTH(48))  r58 (.din(imm_in), .ld(ld), .clr(clr), .clk(clk), .dout(imm_out));
     regn #(.WIDTH(2))   r59 (.din(mem1_rw_in), .ld(ld), .clr(clr), .clk(clk), .dout(mem1_rw_out));
     regn #(.WIDTH(2))   r60 (.din(mem2_rw_in), .ld(ld), .clr(clr), .clk(clk), .dout(mem2_rw_out));
-    regn #(.WIDTH(32))  r61 (.din(eip_in), .ld(ld), .clr(clr), .clk(clk), .dout(eip_out));
-    regn #(.WIDTH(32))  r62 (.din(latched_eip_in), .ld(ld), .clr(clr), .clk(clk), .dout(latched_eip_out));
-    regn #(.WIDTH(1))   r63 (.din(IE_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_out));
-    regn #(.WIDTH(4))   r64 (.din(IE_type_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_type_out));
-    regn #(.WIDTH(32))  r65 (.din(BR_pred_target_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_target_out));
-    regn #(.WIDTH(1))   r66 (.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
-    regn #(.WIDTH(1))   r67 (.din(BP_alias_in), .ld(ld), .clr(clr), .clk(clk), .dout(BP_alias_out));
+    regn #(.WIDTH(4))   r61 (.din(memsizeOVR_in), .ld(ld), .clr(clr), .clk(clk), .dout(memsizeOVR_out));
+    regn #(.WIDTH(32))  r62 (.din(eip_in), .ld(ld), .clr(clr), .clk(clk), .dout(eip_out));
+    regn #(.WIDTH(32))  r63 (.din(latched_eip_in), .ld(ld), .clr(clr), .clk(clk), .dout(latched_eip_out));
+    regn #(.WIDTH(1))   r64 (.din(IE_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_out));
+    regn #(.WIDTH(4))   r65 (.din(IE_type_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_type_out));
+    regn #(.WIDTH(32))  r66 (.din(BR_pred_target_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_target_out));
+    regn #(.WIDTH(1))   r67 (.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
+    regn #(.WIDTH(1))   r68 (.din(BP_alias_in), .ld(ld), .clr(clr), .clk(clk), .dout(BP_alias_out));
  
     always @(posedge clk) begin
         $fdisplay(file, "cycle number: %d", cyc_cnt);
@@ -207,6 +210,7 @@ module RrAg_MEM_latch (
         $fdisplay(file, "\t\t imm: 0x%h", imm_out);
         $fdisplay(file, "\t\t mem1_rw: %b", mem1_rw_out);
         $fdisplay(file, "\t\t mem2_rw: %b", mem2_rw_out);
+        $fdisplay(file, "\t\t memsizeOVR: %b", memsizeOVR_out);
         $fdisplay(file, "\t\t EIP: 0x%h", eip_out);
         $fdisplay(file, "\t\t latched_EIP: 0x%h", latched_eip_out);
         $fdisplay(file, "\t\t IE: %b", IE_out);

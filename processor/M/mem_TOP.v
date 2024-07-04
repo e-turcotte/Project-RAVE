@@ -14,7 +14,6 @@ module mem (input valid_in,
             input res1_ld_in, res2_ld_in, res3_ld_in, res4_ld_in,
             input [31:0] rep_num,
             input        is_rep_in,
-            input memsizeOVR,
             input idtr_ptc_clear,
 
             input clk_bus,
@@ -52,6 +51,7 @@ module mem (input valid_in,
             input is_br_in, is_fp_in, is_imm_in,
             input [47:0] imm,
             input [1:0] mem1_rw, mem2_rw,
+            input [3:0] memsizeOVR_in,
             input [31:0] eip_in,
             input [31:0] latched_eip_in,
             input IE_in,
@@ -64,6 +64,7 @@ module mem (input valid_in,
             input clk,
            
             output valid_out,
+            output [3:0] memsizeOVR_out,
             output [31:0] eip_out,
             output [31:0] latched_eip_out,
             output IE_out,
@@ -103,6 +104,8 @@ module mem (input valid_in,
             output [255:0] cacheline_e_bus_in_ptcinfo, cacheline_o_bus_in_ptcinfo
             );
 
+    assign memsizeOVR_out = memsizeOVR_in;
+
     wire r_is_m1, sw_is_m1;
     wire TLB_miss, prot_exc;
     wire rdaq_isfull, swaq_isfull;
@@ -117,7 +120,7 @@ module mem (input valid_in,
     d$ dcache(.clk(clk), .clk_bus(clk_bus), .rst(clr), .set(1'b1), .BUS(BUS),
               .setReciever_d(setReceiver_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d),
               .data_m1(), .data_m2(), .M1(mem_addr1), .M2(mem_addr2), .M1_RW(mem1_rw), .M2_RW(mem2_rw),
-              .opsize(opsize_in), .valid_RSW(valid_in), .fwd_stall(fwd_stall), .sizeOVR(memsizeOVR), .PTC_ID_in(inst_ptcid_in), .qentry_slot_in(qentry_slot_in), .r_is_m1(r_is_m1), .sw_is_m1(sw_is_m1),
+              .opsize(opsize_in), .valid_RSW(valid_in), .fwd_stall(fwd_stall), .sizeOVR(memsizeOVR_in), .PTC_ID_in(inst_ptcid_in), .qentry_slot_in(qentry_slot_in), .r_is_m1(r_is_m1), .sw_is_m1(sw_is_m1),
               .TLB_miss_wb(), .TLB_pe_wb(), .TLB_hit_wb(),
               .TLB_miss_r(), .TLB_pe_r(), .TLB_hit_r(),
               .TLB_miss_sw(), .TLB_pe_sw(), .TLB_hit_sw(),

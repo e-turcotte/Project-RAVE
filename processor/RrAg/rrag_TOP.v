@@ -23,6 +23,7 @@ module rrag (input valid_in,
              input is_br_in, is_fp_in, is_imm_in,
              input [47:0] imm_in,
              input [1:0] mem1_rw_in, mem2_rw_in,
+             input [3:0] memsizeOVR_in,
              input [31:0] eip_in,
              input [31:0] latched_eip_in,
              input IE_in,
@@ -67,6 +68,7 @@ module rrag (input valid_in,
              output is_br_out, is_fp_out, is_imm_out,
              output [47:0] imm_out,
              output [1:0] mem1_rw_out, mem2_rw_out,
+             output [3:0] memsizeOVR_out,
              output [31:0] eip_out,
              output [31:0] latched_eip_out,
              output IE_out,
@@ -77,6 +79,8 @@ module rrag (input valid_in,
     ptc_generator ptcgen(.next(valid_out), .clr(clr), .clk(clk), .ptcid(inst_ptcid));
 
     wire [7:0] collated_dest_vector;
+
+    assign memsizeOVR_out = memesizeOVR_in;
 
     genvar i;
     generate
@@ -144,7 +148,7 @@ module rrag (input valid_in,
     assign res3_ld_out = res3_ld_in;
     assign res4_ld_out = res4_ld_in;
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({regformem4,32'h00000000}), .sel(is_rep_in), .out(rep_num));
+    assign rep_num = 32'h0000_0000;
 
     wire [3:0] decodedsize;
 

@@ -4,6 +4,7 @@ module E_WB_latch (
             input clk,
 
             input valid_in,
+            input [3:0] memsizeOVR_in,
             input [31:0] EIP_in,
             input [31:0] latched_EIP_in, 
             input IE_in,
@@ -31,6 +32,7 @@ module E_WB_latch (
             input [31:0] BR_FIP_in, BR_FIP_p1_in,
 
             output valid_out,
+            input [3:0] memsizeOVR_out,
             output [31:0] EIP_out,
             output [31:0] latched_EIP_out, 
             output IE_out,
@@ -65,56 +67,57 @@ module E_WB_latch (
     end
 
     regn #(.WIDTH(1))   r1(.din(valid_in), .ld(ld), .clr(clr), .clk(clk), .dout(valid_out));
-    regn #(.WIDTH(32))  r2(.din(EIP_in), .ld(ld), .clr(clr), .clk(clk), .dout(EIP_out));
-    regn #(.WIDTH(32))  r3(.din(latched_EIP_in), .ld(ld), .clr(clr), .clk(clk), .dout(latched_EIP_out));
-    regn #(.WIDTH(1))   r4(.din(IE_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_out));
-    regn #(.WIDTH(4))   r5(.din(IE_type_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_type_out));
-    regn #(.WIDTH(32))  r6(.din(BR_pred_target_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_target_out));
-    regn #(.WIDTH(1))   r7(.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
-    regn #(.WIDTH(7))   r8(.din(PTCID_in), .ld(ld), .clr(clr), .clk(clk), .dout(PTCID_out));
-    regn #(.WIDTH(1))   r9(.din(is_rep_in), .ld(ld), .clr(clr), .clk(clk), .dout(is_rep_out));
-    regn #(.WIDTH(6))   r100(.din(BP_alias_in), .ld(ld), .clr(clr), .clk(clk), .dout(BP_alias_out));
-    regn #(.WIDTH(18))  r10(.din(eflags_in), .ld(ld), .clr(clr), .clk(clk), .dout(eflags_out));
-    regn #(.WIDTH(16))  r11(.din(CS_in), .ld(ld), .clr(clr), .clk(clk), .dout(CS_out));
-    regn #(.WIDTH(37))  r12(.din(P_OP_in), .ld(ld), .clr(clr), .clk(clk), .dout(P_OP_out));
-    regn #(.WIDTH(1))   r13(.din(res1_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_wb_out));
-    regn #(.WIDTH(1))   r14(.din(res2_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_wb_out));
-    regn #(.WIDTH(1))   r15(.din(res3_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_wb_out));
-    regn #(.WIDTH(1))   r16(.din(res4_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_wb_out));
-    regn #(.WIDTH(64))  r17(.din(res1_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_out));
-    regn #(.WIDTH(64))  r18(.din(res2_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_out));
-    regn #(.WIDTH(64))  r19(.din(res3_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_out));
-    regn #(.WIDTH(64))  r20(.din(res4_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_out));
-    regn #(.WIDTH(128)) r21(.din(res1_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_ptcinfo_out));
-    regn #(.WIDTH(128)) r22(.din(res2_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_ptcinfo_out));
-    regn #(.WIDTH(128)) r23(.din(res3_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_ptcinfo_out));
-    regn #(.WIDTH(128)) r24(.din(res4_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_ptcinfo_out));
-    regn #(.WIDTH(1))   r25(.din(res1_is_reg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_is_reg_out));
-    regn #(.WIDTH(1))   r26(.din(res2_is_reg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_is_reg_out));
-    regn #(.WIDTH(1))   r27(.din(res3_is_reg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_is_reg_out));
-    regn #(.WIDTH(1))   r28(.din(res4_is_reg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_is_reg_out));
-    regn #(.WIDTH(1))   r29(.din(res1_is_seg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_is_seg_out));
-    regn #(.WIDTH(1))   r30(.din(res2_is_seg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_is_seg_out));
-    regn #(.WIDTH(1))   r31(.din(res3_is_seg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_is_seg_out));
-    regn #(.WIDTH(1))   r32(.din(res4_is_seg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_is_seg_out));
-    regn #(.WIDTH(1))   r33(.din(res1_is_mem_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_is_mem_out));
-    regn #(.WIDTH(1))   r34(.din(res2_is_mem_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_is_mem_out));
-    regn #(.WIDTH(1))   r35(.din(res3_is_mem_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_is_mem_out));
-    regn #(.WIDTH(1))   r36(.din(res4_is_mem_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_is_mem_out));
-    regn #(.WIDTH(32))  r37(.din(res1_dest_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_dest_out));
-    regn #(.WIDTH(32))  r38(.din(res2_dest_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_dest_out));
-    regn #(.WIDTH(32))  r39(.din(res3_dest_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_dest_out));
-    regn #(.WIDTH(32))  r40(.din(res4_dest_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_dest_out));
-    regn #(.WIDTH(128)) r41(.din(dest1_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(dest1_ptcinfo_out));
-    regn #(.WIDTH(128)) r42(.din(dest2_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(dest2_ptcinfo_out));
-    regn #(.WIDTH(128)) r43(.din(dest3_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(dest3_ptcinfo_out));
-    regn #(.WIDTH(128)) r44(.din(dest4_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(dest4_ptcinfo_out));
-    regn #(.WIDTH(2))   r45(.din(ressize_in), .ld(ld), .clr(clr), .clk(clk), .dout(ressize_out));
-    regn #(.WIDTH(1))   r46(.din(BR_valid_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_valid_out));
-    regn #(.WIDTH(1))   r47(.din(BR_taken_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_taken_out));
-    regn #(.WIDTH(1))   r48(.din(BR_correct_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_correct_out));
-    regn #(.WIDTH(32))  r49(.din(BR_FIP_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_FIP_out));
-    regn #(.WIDTH(32))  r50(.din(BR_FIP_p1_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_FIP_p1_out));
+    regn #(.WIDTH(4))   r2(.din(memsizeOVR_in), .ld(ld), .clr(clr), .clk(clk), .dout(memsizeOVR_out));
+    regn #(.WIDTH(32))  r3(.din(EIP_in), .ld(ld), .clr(clr), .clk(clk), .dout(EIP_out));
+    regn #(.WIDTH(32))  r4(.din(latched_EIP_in), .ld(ld), .clr(clr), .clk(clk), .dout(latched_EIP_out));
+    regn #(.WIDTH(1))   r5(.din(IE_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_out));
+    regn #(.WIDTH(4))   r6(.din(IE_type_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_type_out));
+    regn #(.WIDTH(32))  r7(.din(BR_pred_target_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_target_out));
+    regn #(.WIDTH(1))   r8(.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
+    regn #(.WIDTH(7))   r9(.din(PTCID_in), .ld(ld), .clr(clr), .clk(clk), .dout(PTCID_out));
+    regn #(.WIDTH(1))   r10(.din(is_rep_in), .ld(ld), .clr(clr), .clk(clk), .dout(is_rep_out));
+    regn #(.WIDTH(6))   r11(.din(BP_alias_in), .ld(ld), .clr(clr), .clk(clk), .dout(BP_alias_out));
+    regn #(.WIDTH(18))  r12(.din(eflags_in), .ld(ld), .clr(clr), .clk(clk), .dout(eflags_out));
+    regn #(.WIDTH(16))  r13(.din(CS_in), .ld(ld), .clr(clr), .clk(clk), .dout(CS_out));
+    regn #(.WIDTH(37))  r14(.din(P_OP_in), .ld(ld), .clr(clr), .clk(clk), .dout(P_OP_out));
+    regn #(.WIDTH(1))   r15(.din(res1_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_wb_out));
+    regn #(.WIDTH(1))   r16(.din(res2_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_wb_out));
+    regn #(.WIDTH(1))   r17(.din(res3_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_wb_out));
+    regn #(.WIDTH(1))   r18(.din(res4_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_wb_out));
+    regn #(.WIDTH(64))  r19(.din(res1_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_out));
+    regn #(.WIDTH(64))  r20(.din(res2_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_out));
+    regn #(.WIDTH(64))  r21(.din(res3_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_out));
+    regn #(.WIDTH(64))  r22(.din(res4_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_out));
+    regn #(.WIDTH(128)) r23(.din(res1_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_ptcinfo_out));
+    regn #(.WIDTH(128)) r24(.din(res2_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_ptcinfo_out));
+    regn #(.WIDTH(128)) r25(.din(res3_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_ptcinfo_out));
+    regn #(.WIDTH(128)) r26(.din(res4_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_ptcinfo_out));
+    regn #(.WIDTH(1))   r27(.din(res1_is_reg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_is_reg_out));
+    regn #(.WIDTH(1))   r28(.din(res2_is_reg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_is_reg_out));
+    regn #(.WIDTH(1))   r29(.din(res3_is_reg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_is_reg_out));
+    regn #(.WIDTH(1))   r30(.din(res4_is_reg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_is_reg_out));
+    regn #(.WIDTH(1))   r31(.din(res1_is_seg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_is_seg_out));
+    regn #(.WIDTH(1))   r32(.din(res2_is_seg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_is_seg_out));
+    regn #(.WIDTH(1))   r33(.din(res3_is_seg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_is_seg_out));
+    regn #(.WIDTH(1))   r34(.din(res4_is_seg_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_is_seg_out));
+    regn #(.WIDTH(1))   r35(.din(res1_is_mem_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_is_mem_out));
+    regn #(.WIDTH(1))   r36(.din(res2_is_mem_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_is_mem_out));
+    regn #(.WIDTH(1))   r37(.din(res3_is_mem_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_is_mem_out));
+    regn #(.WIDTH(1))   r38(.din(res4_is_mem_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_is_mem_out));
+    regn #(.WIDTH(32))  r39(.din(res1_dest_in), .ld(ld), .clr(clr), .clk(clk), .dout(res1_dest_out));
+    regn #(.WIDTH(32))  r40(.din(res2_dest_in), .ld(ld), .clr(clr), .clk(clk), .dout(res2_dest_out));
+    regn #(.WIDTH(32))  r41(.din(res3_dest_in), .ld(ld), .clr(clr), .clk(clk), .dout(res3_dest_out));
+    regn #(.WIDTH(32))  r42(.din(res4_dest_in), .ld(ld), .clr(clr), .clk(clk), .dout(res4_dest_out));
+    regn #(.WIDTH(128)) r43(.din(dest1_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(dest1_ptcinfo_out));
+    regn #(.WIDTH(128)) r44(.din(dest2_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(dest2_ptcinfo_out));
+    regn #(.WIDTH(128)) r45(.din(dest3_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(dest3_ptcinfo_out));
+    regn #(.WIDTH(128)) r46(.din(dest4_ptcinfo_in), .ld(ld), .clr(clr), .clk(clk), .dout(dest4_ptcinfo_out));
+    regn #(.WIDTH(2))   r47(.din(ressize_in), .ld(ld), .clr(clr), .clk(clk), .dout(ressize_out));
+    regn #(.WIDTH(1))   r48(.din(BR_valid_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_valid_out));
+    regn #(.WIDTH(1))   r49(.din(BR_taken_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_taken_out));
+    regn #(.WIDTH(1))   r50(.din(BR_correct_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_correct_out));
+    regn #(.WIDTH(32))  r51(.din(BR_FIP_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_FIP_out));
+    regn #(.WIDTH(32))  r52(.din(BR_FIP_p1_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_FIP_p1_out));
 
 
     always @(posedge clk) begin
@@ -124,6 +127,7 @@ module E_WB_latch (
 		$fdisplay(file, "\n=============== RrAg to MEM Latch Values ===============\n");
  
         $fdisplay(file, "\t\t valid: %b", valid_out);
+        $fdisplay(file, "\t\t memsizeOVR: %b", memsizeOVR_out);
         $fdisplay(file, "\t\t EIP: 0x%h", EIP_out);
         $fdisplay(file, "\t\t latched_EIP: 0x%h", latched_EIP_out);
         $fdisplay(file, "\t\t IE: %b", IE_out);
