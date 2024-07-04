@@ -23,7 +23,6 @@ module repmech(input [31:0] mem1, mem2,
                                                          32'h0000_0000,32'h0000_0004,32'h0000_0002,32'h0000_0001}), .sel({dflag,opsize}), .out(incdec));
     
     wire [31:0] cnt, nextcnt, regcnt;
-    wire no_other_stall;
     wire cntnotzero;
     wire userepaddr;
 
