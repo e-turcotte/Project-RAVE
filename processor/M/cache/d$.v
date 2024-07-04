@@ -1172,6 +1172,12 @@ always  @(posedge clk) begin
 
 end
 endmodule
+
+// module pulseFilter #(time) (inp, filtered);
+//     delay #(3) d1(inp, inp_del);
+//     xnor2$ x1(filtered, inp, inp_del);
+// endmodule
+
 /*
 
 .read(bus_valid_e),

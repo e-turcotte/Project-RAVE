@@ -60,10 +60,10 @@
 0x22: 8e e8                   //mov    gs,eax || xc0
 0x24: b8 00 00 00 00          //mov    eax,0x0
 0x29: b9 10 32 54 76          //mov    ecx,0x76543210
-0x2e: 2e c7 00 01 00 00 10    //mov    DWORD PTR cs:[eax],0x10000001 //x00
-0x35: c7 00 02 00 00 20       //mov    DWORD PTR [eax],0x20000002 //40
-0x3b: 36 c7 00 03 00 00 30    //mov    DWORD PTR ss:[eax],0x30000003 //a0
-0x42: 26 c7 00 04 00 00 40    //mov    DWORD PTR es:[eax],0x40000004
+0x2e: 2e c7 00 01 00 00 10    //mov    DWORD PTR cs:[eax],0x10000001 //x00 //0000
+0x35: c7 00 02 00 00 20       //mov    DWORD PTR [eax],0x20000002 //40 //4000
+0x3b: 36 c7 00 03 00 00 30    //mov    DWORD PTR ss:[eax],0x30000003 //a0 //5000
+0x42: 26 c7 00 04 00 00 40    //mov    DWORD PTR es:[eax],0x40000004 //80 //4000
 0x49: 64 c7 00 05 00 00 50    //mov    DWORD PTR fs:[eax],0x50000005
 0x50: 65 c7 00 06 00 00 60    //mov    DWORD PTR gs:[eax],0x60000006
 0x57: 66 b8 00 06             //mov    ax,0x600

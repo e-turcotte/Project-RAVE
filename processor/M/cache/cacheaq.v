@@ -105,8 +105,8 @@ module cacheaqsys (input [14:0] rd_pAddress_e, rd_pAddress_o, sw_pAddress_e, sw_
     wire invaq_isempty;
 
     inv1$ g7(.out(invaq_isempty), .in(aq_isempty));
-    and3$ g8(.out(valid_e), .in0(aq_e_valid), .in1(invaq_isempty), .in2(read));
-    and3$ g9(.out(valid_o), .in0(aq_o_valid), .in1(invaq_isempty), .in2(read));
+    and2$ g8(.out(valid_e), .in0(aq_e_valid), .in1(invaq_isempty));
+    and2$ g9(.out(valid_o), .in0(aq_o_valid), .in1(invaq_isempty));
 
 endmodule
 
