@@ -494,6 +494,7 @@
     wire [5:0] WB_BP_update_alias;
     wire [27:0] newFIP_e_WB_out, newFIP_o_WB_out;
     wire [31:0] newEIP_WB_out, latched_EIP_WB_out, EIP_WB_out;
+    wire [31:0] latched_eip_WB_out;
     wire is_resteer_WB_out;
     wire BR_valid_WB_BP_out, BR_taken_WB_BP_out, BR_correct_WB_BP_out;
     wire final_IE_val;
