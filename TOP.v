@@ -452,7 +452,7 @@
 
     wire valid_EX_WB_latch_out;
     wire [31:0] EIP_EX_WB_latch_out;
-    wire [31:0]  latched_eip_EX_WB_latch_in;
+    wire [31:0]  latched_eip_EX_WB_latch_out;
     wire IE_EX_WB_latch_out;
     wire [3:0] IE_type_EX_WB_latch_out;
     wire [31:0] BR_pred_target_EX_WB_latch_out;
