@@ -194,9 +194,14 @@ module rrag (input valid_in,
     or4$ g10(.out(other_stall), .in0(fwd_stall), .in1(mem1_stall), .in2(mem2_stall), .in3(rep_cnt_stall));
     inv1$ g11(.out(no_other_stall), .in(other_stall));
 
+    wire [1:0] size_to_use;
+    wire usenormalopsize;
+
+    nor4$ gasdasd(.out(usenormalopsize), .in0(memsizeOVR_in[0]), .in1(memsizeOVR_in[1]), .in2(memsizeOVR_in[2]), .in3(memsizeOVR_in[3]));
+    muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(2)) mfcvgbhnj(.in({opsize_in,2'b11,2'b10,2'b01,2'b00}), .sel({usenormalopsize,memsizeOVR_in}), .out(size_to_use));
 
     repmech rep0(.mem1(mem1), .mem2(mem2), .creg(regformem3), .is_rep(is_rep_in),
-                 .opsize(opsize_in), .pop4(p_op_in[4]), .pop5(p_op_in[5]),
+                 .opsize(size_to_use), .pop4(p_op_in[4]), .pop5(p_op_in[5]),
                  .valid(valid_out), .no_other_stall(no_other_stall),
                  .rstdflag(1'b0), .rstdflagval(1'b0),
                  .clr(clr), .clk(clk),
