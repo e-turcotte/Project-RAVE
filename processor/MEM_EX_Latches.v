@@ -63,7 +63,7 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
             $fdisplay(file, "\n\t ==LATCH==: %d", latch_num);
             $fdisplay(file, "\t modifiable signals:");
 
-            $fdisplay(file, "\t\t PTC_ID: %b", all_outs[latch_num][1634:1630]);
+            $fdisplay(file, "\t\t PTC_ID: %b", all_outs[latch_num][1636:1630]);
             $fdisplay(file, "\t\t wake: %b", all_outs[latch_num][1629:1626]);
             $fdisplay(file, "\t\t op1_val: 0x%h", all_outs[latch_num][1625:1562]);
             $fdisplay(file, "\t\t op2_val: 0x%h", all_outs[latch_num][1561:1498]);
