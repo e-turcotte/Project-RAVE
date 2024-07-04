@@ -160,11 +160,11 @@ wire [1:0] line_00_check, line_01_check, line_10_check, line_11_check;
 inv1$ i0(.out(line_00_check[0]), .in(FIP_e[0]));
 inv1$ i1(.out(line_00_check[1]), .in(FIP_e[1]));
 
-assign line_01_check = FIP_o[0];
+assign line_01_check[0] = FIP_o[0];
 inv1$ i2(.out(line_01_check[1]), .in(FIP_o[1]));
 
 inv1$ i3(.out(line_10_check[0]), .in(FIP_e[0]));
-assign line_10_check[1] = FIP_e[1]; 
+assign line_10_check[1] = FIP_e[1];
 
 assign line_11_check = FIP_o;
 
