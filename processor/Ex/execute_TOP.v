@@ -16,7 +16,7 @@ module execute_TOP(
     input fwd_stall,
     input valid_in,                         // M
     input latch_empty,
-    input [3:0] memsizeOVR_in;
+    input [3:0] memsizeOVR_in,
     input [31:0] EIP_in,                    // N
     input [31:0] latched_EIP_in,            // N
     input IE_in,                            //interrupt or exception signal - N
@@ -58,7 +58,7 @@ module execute_TOP(
     //Global
 
     output valid_out,
-    output [3:0] memsizeOVR_out;
+    output [3:0] memsizeOVR_out,
     output [31:0] EIP_out, //
     output [31:0] latched_EIP_out, 
     output IE_out,

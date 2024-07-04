@@ -80,7 +80,7 @@ module rrag (input valid_in,
 
     wire [7:0] collated_dest_vector;
 
-    assign memsizeOVR_out = memesizeOVR_in;
+    assign memsizeOVR_out = memsizeOVR_in;
 
     genvar i;
     generate
