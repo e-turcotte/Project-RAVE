@@ -420,6 +420,7 @@
     wire valid_EX_WB_latch_in;
 
     wire [31:0] EIP_EX_WB_latch_in;
+    wire [31:0]  latched_eip_EX_WB_latch_in;
     wire IE_EX_WB_latch_in;
     wire [3:0] IE_type_EX_WB_latch_in;
     wire [31:0] BR_pred_target_EX_WB_latch_in;
@@ -451,6 +452,7 @@
 
     wire valid_EX_WB_latch_out;
     wire [31:0] EIP_EX_WB_latch_out;
+    wire [31:0]  latched_eip_EX_WB_latch_in;
     wire IE_EX_WB_latch_out;
     wire [3:0] IE_type_EX_WB_latch_out;
     wire [31:0] BR_pred_target_EX_WB_latch_out;
@@ -1244,7 +1246,7 @@
         .valid_out(valid_EX_WB_latch_in), //TODO: implement
         .memsizeOVR_out(memSizeOVR_EX_WB_latch_in),
         .EIP_out(EIP_EX_WB_latch_in),
-        .latched_EIP_out(),
+        .latched_EIP_out(latched_eip_EX_WB_latch_in),
         .IE_out(IE_EX_WB_latch_in),
         .IE_type_out(IE_type_EX_WB_latch_in),
         .BR_pred_target_out(BR_pred_target_EX_WB_latch_in),
@@ -1294,7 +1296,7 @@
         .valid_in(valid_EX_WB_latch_in),
         .memsizeOVR_in(memSizeOVR_EX_WB_latch_in),
         .EIP_in(EIP_EX_WB_latch_in),
-        .latched_EIP_in(), 
+        .latched_EIP_in(latched_eip_EX_WB_latch_in), 
         .IE_in(IE_EX_WB_latch_in),
         .IE_type_in(IE_type_EX_WB_latch_in),
         .BR_pred_target_in(BR_pred_target_EX_WB_latch_in),
@@ -1332,7 +1334,7 @@
         .valid_out(valid_EX_WB_latch_out),
         .memsizeOVR_out(memSizeOVR_EX_WB_latch_out),
         .EIP_out(EIP_EX_WB_latch_out),
-        .latched_EIP_out(),
+        .latched_EIP_out(latched_eip_EX_WB_latch_out),
         .IE_out(IE_EX_WB_latch_out),
         .IE_type_out(IE_type_EX_WB_latch_out),
         .BR_pred_target_out(BR_pred_target_EX_WB_latch_out),
@@ -1373,7 +1375,7 @@
         .valid_in(valid_EX_WB_latch_out),
         .memsizeOVR_in(memSizeOVR_EX_WB_latch_out),
         .EIP_in(EIP_EX_WB_latch_out),
-        .latched_EIP_in(),
+        .latched_EIP_in(latched_eip_EX_WB_latch_out),
         .IE_in(IE_EX_WB_latch_out),                           //interrupt or exception signal
         .IE_type_in(IE_type_EX_WB_latch_out),
         .BR_pred_target_in(BR_pred_target_EX_WB_latch_out),
