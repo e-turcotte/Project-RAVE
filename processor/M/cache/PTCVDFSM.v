@@ -28,7 +28,7 @@ and4$ a11(R000, V_bar, PTC_bar, D_bar, r); //010
 and4$ a3(WB010, V_bar, PTC, D_bar, wb);//100
 and4$ a4(SW100, V, PTC_bar, D_bar, sw); //110
 and4$ a5(WB110, V, PTC, D_bar, wb);//101
-and4$ a6(SW101, V, PTC_bar, D, sw); //111
+and4$ a6(SW101, V, PTC_bar, D, sw & !ex); //111
 and4$ a7(WB111, V, PTC, D, wb); //101
 and4$ a8(EX101, V, PTC_bar, D, ex); //010
 and4$ a9(SW111, V, PTC, D, sw);
