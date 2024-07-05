@@ -16,6 +16,7 @@ module execute_TOP(
     input fwd_stall,
     input valid_in,                         // M
     input latch_empty,
+    input [3:0] memsizeOVR_in,
     input [31:0] EIP_in,                    // N
     input [31:0] latched_EIP_in,            // N
     input IE_in,                            //interrupt or exception signal - N
@@ -57,6 +58,7 @@ module execute_TOP(
     //Global
 
     output valid_out,
+    output [3:0] memsizeOVR_out,
     output [31:0] EIP_out, //
     output [31:0] latched_EIP_out, 
     output IE_out,
@@ -90,6 +92,7 @@ module execute_TOP(
 );
 
     assign stall = fwd_stall;
+    assign memsizeOVR_out = memsizeOVR_in;
 
     wire cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_val;
     wire af, cf, of, sf, pf, zf, df;
@@ -109,11 +112,17 @@ module execute_TOP(
     inv1$ i0(.out(invempty), .in(latch_empty));
     and2$ g9(.out(valid_internal), .in0(valid_in), .in1(invempty));
 
+    wire [1:0] size_to_use;
+    wire usenormalopsize;
+
+    nor4$ gasdasd(.out(usenormalopsize), .in0(memsizeOVR_in[0]), .in1(memsizeOVR_in[1]), .in2(memsizeOVR_in[2]), .in3(memsizeOVR_in[3]));
+    muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(2)) mfcvgbhnj(.in({opsize_in,2'b11,2'b10,2'b01,2'b00}), .sel({usenormalopsize,memsizeOVR_in}), .out(size_to_use));
+
     //handle RES3/RES4
     assign ressize = opsize_in;
     assign PTCID_out = PTCID_in;
     //assign res4 = op4;
-    res4Handler r4H(op4, op2, opsize_in, isImm, P_OP[26], P_OP[24],P_OP[3], P_OP[34],P_OP[35], P_OP[28], P_OP[36], P_OP[15], res4 );
+    res4Handler r4H(op4, op2, size_to_use, isImm, P_OP[26], P_OP[24],P_OP[3], P_OP[34],P_OP[35], P_OP[28], P_OP[36], P_OP[15], res4 );
     assign dest4_ptcinfo_out = dest4_ptcinfo_in;
     assign res4_is_reg_out = res4_is_reg_in;
     assign res4_is_seg_out = res4_is_seg_in;
@@ -123,7 +132,7 @@ module execute_TOP(
     assign res4_ptcinfo = op4_ptcinfo;
 
     //assign res3 = op3;
-    res3Handler r3H(op3,op2, opsize_in, swapCXC, P_OP[7], P_OP[15], df, res3);
+    res3Handler r3H(op3,op2, size_to_use, swapCXC, P_OP[7], P_OP[15], df, res3);
     assign dest3_ptcinfo_out = dest3_ptcinfo_in;
     assign res3_is_reg_out = res3_is_reg_in;
     assign res3_is_seg_out = res3_is_seg_in;
@@ -145,7 +154,7 @@ module execute_TOP(
     // mux2n #(64) mx5(res2, res2_xchg, op2, P_OP[15]);
     // mux2n #(64) mx2(res2_is_reg, op2_is_reg, op1_is_reg, P_OP[33]);
     // mux2n #(32) mx3(res2_dest, dest2_addr, dest1_addr, P_OP[33]);
-    res2Handler r2H(op1, op2, df, opsize_in, P_OP[15], P_OP[33], P_OP[35], P_OP[36], res2);
+    res2Handler r2H(op1, op2, df, size_to_use, P_OP[15], P_OP[33], P_OP[35], P_OP[36], res2);
     assign dest2_ptcinfo_out = dest2_ptcinfo_in;
     assign res2_is_reg_out = res2_is_reg_in;
     assign res2_is_seg_out = res2_is_seg_in;
@@ -233,7 +242,7 @@ module res3Handler(
     
     inv1$ invSw(swapCXCn, swapCXC);
 
-    mux4n #(32) m1(res3[31:0], op3[31:0], op3[31:0], op3[31:0], op2[31:0], swapCXCn, P_OP_CXC);
+    mux4n #(32) m1(res3[31:0], res3a[31:0], res3a[31:0], res3a[31:0], op2[31:0], swapCXCn, P_OP_CXC);
     assign res3[63:32] = op3[63:32];
 endmodule
 
@@ -267,7 +276,7 @@ module res4Handler(
     mux2n #(32) mnx(add1, add3,op2[31:0],immOVR );
     mux2n #(32) mxn(add2, add1, 32'hFFFF_FFFF, P_OP_MOVS);
     kogeAdder #(32) add0(addResults, dc, op4[31:0], add2, 1'b0 );
-    mux2n #(32) m0(res4[31:0], op4[31:0], addResults, immOVR);
+    mux2n #(32) m0(res4[31:0], op4[31:0], addResults, switch);
     assign res4[63:32] = op4[63:32];
 
     // mux2n #(32) (res4[31:0],op4[31:0], add_Results

@@ -23,6 +23,7 @@ module rrag (input valid_in,
              input is_br_in, is_fp_in, is_imm_in,
              input [47:0] imm_in,
              input [1:0] mem1_rw_in, mem2_rw_in,
+             input [3:0] memsizeOVR_in,
              input [31:0] eip_in,
              input [31:0] latched_eip_in,
              input IE_in,
@@ -67,6 +68,7 @@ module rrag (input valid_in,
              output is_br_out, is_fp_out, is_imm_out,
              output [47:0] imm_out,
              output [1:0] mem1_rw_out, mem2_rw_out,
+             output [3:0] memsizeOVR_out,
              output [31:0] eip_out,
              output [31:0] latched_eip_out,
              output IE_out,
@@ -74,27 +76,23 @@ module rrag (input valid_in,
              output [31:0] BR_pred_target_out,
              output BR_pred_T_NT_out);
 
-    wire invstall, invempty;
+    ptc_generator ptcgen(.next(valid_out), .clr(clr), .clk(clk), .ptcid(inst_ptcid));
 
-    inv1$ g0(.out(invstall), .in(stall));
+    wire [7:0] collated_dest_vector;
 
-    inv1$ i0(.out(invempty), .in(latch_empty));
-    and3$ g9(.out(valid_out), .in0(valid_in), .in1(invempty), .in2(invstall));
-
-    ptc_generator ptcgen(.next(invstall), .clr(clr), .clk(clk), .ptcid(inst_ptcid));
-
-    wire [12:0] collated_dest_vector;
+    assign memsizeOVR_out = memsizeOVR_in;
 
     genvar i;
     generate
-        for (i = 0; i < 13; i = i + 1) begin : sized_ld_dest_slices
+        for (i = 0; i < 8; i = i + 1) begin : sized_ld_dest_slices
             wire [3:0] guarded_dest;
-            and2$ g123(.out(guarded_dest[0]), .in0(dest1_in[i]), .in1(res1_ld_in));
-            and2$ g456(.out(guarded_dest[1]), .in0(dest2_in[i]), .in1(res2_ld_in));
-            and2$ g789(.out(guarded_dest[2]), .in0(dest3_in[i]), .in1(res3_ld_in));
-            and2$ gabc(.out(guarded_dest[3]), .in0(dest4_in[i]), .in1(res4_ld_in));
+
+            and3$ g123(.out(guarded_dest[0]), .in0(dest1_in[i]), .in1(res1_ld_in), .in2(valid_out));
+            and3$ g456(.out(guarded_dest[1]), .in0(dest2_in[i]), .in1(res2_ld_in), .in2(valid_out));
+            and3$ g789(.out(guarded_dest[2]), .in0(dest3_in[i]), .in1(res3_ld_in), .in2(valid_out));
+            and3$ gabc(.out(guarded_dest[3]), .in0(dest4_in[i]), .in1(res4_ld_in), .in2(valid_out));
             or4$ g1(.out(collated_dest_vector[i]), .in0(guarded_dest[3]), .in1(guarded_dest[2]), .in2(guarded_dest[1]), .in3(guarded_dest[0]));
-        end
+        end        
     endgenerate
 
     wire [19:0] lim_out1, lim_out2, lim_out3, lim_out4;
@@ -118,13 +116,14 @@ module rrag (input valid_in,
     muxnm_tree #(.SEL_WIDTH(2), .DATA_WIDTH(32)) m0(.in({mul8,mul4,mul2,regformem3}), .sel(reg3_shfamnt), .out(shfreg3));
 
     wire [31:0] rmbaseval, modsibcalc, segoffs, segdisp;
+    wire [31:0] mem1, mem2;
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regformem2,32'h00000000}), .sel(usereg2), .out(rmbaseval));
     kogeAdder #(.WIDTH(32)) add0(.SUM(modsibcalc), .COUT(), .A(rmbaseval), .B(shfreg3), .CIN(1'b0));
     kogeAdder #(.WIDTH(32)) add1(.SUM(segdisp), .COUT(), .A(disp), .B(shfseg1), .CIN(1'b0));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({modsibcalc,regformem2}), .sel(usereg3), .out(segoffs));
-    kogeAdder #(.WIDTH(32)) add2(.SUM(mem_addr1), .COUT(), .A(segoffs), .B(segdisp), .CIN(1'b0));
-    kogeAdder #(.WIDTH(32)) add3(.SUM(mem_addr2), .COUT(), .A(regformem4), .B(shfseg2), .CIN(1'b0));
+    kogeAdder #(.WIDTH(32)) add2(.SUM(mem1), .COUT(), .A(segoffs), .B(segdisp), .CIN(1'b0));
+    kogeAdder #(.WIDTH(32)) add3(.SUM(mem2), .COUT(), .A(regformem4), .B(shfseg2), .CIN(1'b0));
 
     assign reg1_orig = reg_addr1;
     assign reg2_orig = reg_addr2;
@@ -149,7 +148,7 @@ module rrag (input valid_in,
     assign res3_ld_out = res3_ld_in;
     assign res4_ld_out = res4_ld_in;
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m3(.in({regformem4,32'h00000000}), .sel(is_rep_in), .out(rep_num));
+    assign rep_num = 32'h0000_0000;
 
     wire [3:0] decodedsize;
 
@@ -181,7 +180,8 @@ module rrag (input valid_in,
     assign opsize_out = opsize_in;
     assign BP_alias_out = BP_alias_in;
 
-    wire mem1_use, mem2_use, sib_ptc, actualsib_ptc, mem1_stall, mem2_stall;
+    wire mem1_use, mem2use, sib_ptc, actualsib_ptc, mem1_stall, mem2_stall, rep_cnt_stall, rep_stall;
+    wire other_stall, no_other_stall;
 
     or2$ g2(.out(mem1_use), .in0(mem1_rw_in[1]), .in1(mem1_rw_in[0]));
     or2$ g3(.out(mem2_use), .in0(mem2_rw_in[1]), .in1(mem2_rw_in[0]));
@@ -190,5 +190,27 @@ module rrag (input valid_in,
     or2$ g6(.out(modrmsib_ptc), .in0(modrm_ptc), .in1(sib_ptc));
     and2$ g7(.out(mem1_stall), .in0(mem1_use), .in1(modrmsib_ptc));
     and2$ g8(.out(mem2_stall), .in0(mem2_use), .in1(regformem4ptc));
-    or3$ g10(.out(stall), .in0(fwd_stall), .in1(mem1_stall), .in2(mem2_stall));
+    and2$ g9(.out(rep_cnt_stall), .in0(is_rep_in), .in1(regformem3ptc));
+    or4$ g10(.out(other_stall), .in0(fwd_stall), .in1(mem1_stall), .in2(mem2_stall), .in3(rep_cnt_stall));
+    inv1$ g11(.out(no_other_stall), .in(other_stall));
+
+    wire [1:0] size_to_use;
+    wire usenormalopsize;
+
+    nor4$ gasdasd(.out(usenormalopsize), .in0(memsizeOVR_in[0]), .in1(memsizeOVR_in[1]), .in2(memsizeOVR_in[2]), .in3(memsizeOVR_in[3]));
+    muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(2)) mfcvgbhnj(.in({opsize_in,2'b11,2'b10,2'b01,2'b00}), .sel({usenormalopsize,memsizeOVR_in}), .out(size_to_use));
+
+    repmech rep0(.mem1(mem1), .mem2(mem2), .creg(regformem3), .is_rep(is_rep_in),
+                 .opsize(size_to_use), .pop4(p_op_in[4]), .pop5(p_op_in[5]),
+                 .valid(valid_out), .no_other_stall(no_other_stall),
+                 .rstdflag(1'b0), .rstdflagval(1'b0),
+                 .clr(clr), .clk(clk),
+                 .mem_addr1(mem_addr1), .mem_addr2(mem_addr2), .rep_stall(rep_stall));
+
+    or2$ g12(.out(stall), .in0(other_stall), .in1(rep_stall));
+
+    wire invempty;
+
+    inv1$ g13(.out(invempty), .in(latch_empty));
+    and3$ g14(.out(valid_out), .in0(valid_in), .in1(invempty), .in2(no_other_stall));
 endmodule

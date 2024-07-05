@@ -1,6 +1,7 @@
 module writeback_TOP(
     input clk,
     input valid_in,
+    input [3:0] memsizeOVR_in,
     input [31:0] EIP_in,
     input [31:0] latched_EIP_in,
     input IE_in,                           //interrupt or exception signal
@@ -81,7 +82,8 @@ module writeback_TOP(
     wire [3:0] partialmem_ld;
     muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(64)) t1(.in({inp4,inp3,inp2,inp1}), .sel(partialmem_ld), .out(mem_data));
     muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(32)) t2(.in({inp4_dest,inp3_dest,inp2_dest,inp1_dest}), .sel(partialmem_ld), .out(mem_addr));
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(2)) m0(.in({2'b11,ressize}), .sel(LD_EIP_CS), .out(memsize));
+    nor4$ gasdasd(.out(usenormalopsize), .in0(memsizeOVR_in[0]), .in1(memsizeOVR_in[1]), .in2(memsizeOVR_in[2]), .in3(memsizeOVR_in[3]));
+    muxnm_tristate #(.NUM_INPUTS(6), .DATA_WIDTH(2)) mfcvgbhnj(.in({inpsize,2'b11,2'b11,2'b10,2'b01,2'b00}), .sel({usenormalopsize,LD_EIP_CS,memsizeOVR_in}), .out(memsize));
     and3$ memg104(.out(partialmem_ld[3]), .in0(inp4_isMem), .in1(valid_out), .in2(inp4_wb));
     and3$ memg105(.out(partialmem_ld[2]), .in0(inp3_isMem), .in1(valid_out), .in2(inp3_wb));
     and3$ memg106(.out(partialmem_ld[1]), .in0(inp2_isMem), .in1(valid_out), .in2(inp2_wb));
@@ -89,10 +91,6 @@ module writeback_TOP(
     or4$ memg108(.out(mem_ld), .in0(partialmem_ld[0]), .in1(partialmem_ld[1]), .in2(partialmem_ld[2]), .in3(partialmem_ld[3]));
 
     wire [127:0] sreg_ptcs [0:3];
-    wire [6:0] flip_ptcid, ptctouse;
-
-    invn #(.NUM_INPUTS(7)) flip(.in(inst_ptcid_in), .out(flip_ptcid));
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(7)) m3456789(.in({flip_ptcid,inst_ptcid_in}), .sel(is_rep), .out(ptctouse));
 
     genvar i;
     generate
@@ -105,7 +103,7 @@ module writeback_TOP(
             and2$ vb2(.out(valid_broadcast[2]), .in0(dest3_ptcinfo[i*16 + 14]), .in1(inp3_wb));
             and2$ vb3(.out(valid_broadcast[3]), .in0(dest4_ptcinfo[i*16 + 14]), .in1(inp4_wb));
 
-            assign sreg_ptcs[3][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[3],ptctouse,dest4_ptcinfo[i*16 + 6:i*16]};
+            assign sreg_ptcs[3][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[3],inst_ptcid_in,dest4_ptcinfo[i*16 + 6:i*16]};
             assign sreg_ptcs[2][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[2],inst_ptcid_in,dest3_ptcinfo[i*16 + 6:i*16]};
             assign sreg_ptcs[1][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[1],inst_ptcid_in,dest2_ptcinfo[i*16 + 6:i*16]};
             assign sreg_ptcs[0][(i+1)*16-1:i*16] = {1'b0,valid_broadcast[0],inst_ptcid_in,dest1_ptcinfo[i*16 + 6:i*16]};

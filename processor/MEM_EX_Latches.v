@@ -63,21 +63,22 @@ module MEM_EX_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
             $fdisplay(file, "\n\t ==LATCH==: %d", latch_num);
             $fdisplay(file, "\t modifiable signals:");
 
-            $fdisplay(file, "\t\t PTC_ID: %b", all_outs[latch_num][1632:1626]);
-            $fdisplay(file, "\t\t wake: %b", all_outs[latch_num][1625:1622]);
-            $fdisplay(file, "\t\t op1_val: 0x%h", all_outs[latch_num][1621:1558]);
-            $fdisplay(file, "\t\t op2_val: 0x%h", all_outs[latch_num][1557:1494]);
-            $fdisplay(file, "\t\t op3_val: 0x%h", all_outs[latch_num][1493:1430]);
-            $fdisplay(file, "\t\t op4_val: 0x%h\n", all_outs[latch_num][1429:1366]); 
+            $fdisplay(file, "\t\t PTC_ID: %b", all_outs[latch_num][1636:1630]);
+            $fdisplay(file, "\t\t wake: %b", all_outs[latch_num][1629:1626]);
+            $fdisplay(file, "\t\t op1_val: 0x%h", all_outs[latch_num][1625:1562]);
+            $fdisplay(file, "\t\t op2_val: 0x%h", all_outs[latch_num][1561:1498]);
+            $fdisplay(file, "\t\t op3_val: 0x%h", all_outs[latch_num][1497:1434]);
+            $fdisplay(file, "\t\t op4_val: 0x%h\n", all_outs[latch_num][1433:1370]); 
 
-            $fdisplay(file, "\t\t op1_ptcinfo: 0x%h", all_outs[latch_num][1365:1238]);
-            $fdisplay(file, "\t\t op2_ptcinfo: 0x%h", all_outs[latch_num][1237:1110]);
-            $fdisplay(file, "\t\t op3_ptcinfo: 0x%h", all_outs[latch_num][1106:982]);
-            $fdisplay(file, "\t\t op4_ptcinfo: 0x%h", all_outs[latch_num][981:854]);
-            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][853]);
+            $fdisplay(file, "\t\t op1_ptcinfo: 0x%h", all_outs[latch_num][1369:1242]);
+            $fdisplay(file, "\t\t op2_ptcinfo: 0x%h", all_outs[latch_num][1241:1114]);
+            $fdisplay(file, "\t\t op3_ptcinfo: 0x%h", all_outs[latch_num][1110:986]);
+            $fdisplay(file, "\t\t op4_ptcinfo: 0x%h", all_outs[latch_num][985:858]);
+            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][857]);
             
             $fdisplay(file, "\n\t non-modifiable signals:");
             
+            $fdisplay(file, "\t\t memsizeOVR: %b", all_outs[latch_num][856:853]);
             $fdisplay(file, "\t\t BP_alias: %b", all_outs[latch_num][852:847]);
             $fdisplay(file, "\t\t is_rep: %d", all_outs[latch_num][846]);
             $fdisplay(file, "\t\t is_imm: %d", all_outs[latch_num][845]);

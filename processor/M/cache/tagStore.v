@@ -57,7 +57,7 @@ endgenerate
     nor4$ allmiss(way_sel_sw_noptc, PTC[0], PTC[1], PTC[2], PTC[3]);
     nor4$ nomiss(way_sel_sw_nomiss, hit[0], hit[1], hit[2], hit[3]);
     and2$ swovr(way_sw_ov,way_sel_sw_noptc, way_sel_sw_nomiss);
-    mux2n #(4) way_sw_swap(way_sw, way_sw1, 4'b1000, way_sw_ov);
+    mux2n #(4) way_sw_swap(way_sw, way_sw1, way_sw1, way_sw_ov);
 
 
 nor4$ n1(miss, hit[3], hit[2], hit[1], hit[0]);

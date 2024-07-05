@@ -8,10 +8,10 @@
     integer cycle_number;
 
     localparam m_size_D_RrAg = 1;
-    localparam n_size_D_RrAg = 402;
+    localparam n_size_D_RrAg = 406;
     
     localparam m_size_MEM_EX = 780;
-    localparam n_size_MEM_EX = 853; //old before BP alias was 847 - where did I get that from?
+    localparam n_size_MEM_EX = 857; //old before BP alias was 847 - where did I get that from?
 
     // initial #500 $finish; //TODO: run for n ns
 
@@ -73,19 +73,19 @@
 		VP_6 = 20'h06000;
 		VP_7 = 20'h03000;
 
-		PF_0 = 20'h00000;
-		PF_1 = 20'h00002;
-		PF_2 = 20'h00005;
-		PF_3 = 20'h00004;
-		PF_4 = 20'h00007;
-		PF_5 = 20'h00005;
-		PF_6 = 20'h00006;
-		PF_7 = 20'h00003;
+		PF_0 = 20'h00000; //00000000 = x00
+		PF_1 = 20'h00002; //01000000 = x40
+		PF_2 = 20'h00005; //10100000 = xa0
+		PF_3 = 20'h00004; //10000000 = x80
+		PF_4 = 20'h00007; //11100000 = xe0
+		PF_5 = 20'h00005; //11000000 = xc0
+		PF_6 = 20'h00006; //10100000 = xa0
+		PF_7 = 20'h00003; //01100000 = x60
 
-		entry_v = 8'b10111111;
-		entry_P = 8'b11110111;
-		entry_RW= 8'b11010101;
-		entry_PCD = 8'b11000000;
+		entry_v = 8'b11111111;
+		entry_P = 8'b11111111;
+		entry_RW= 8'b11111111;
+		entry_PCD = 8'b00000000;
 
 		VP = {VP_7, VP_6, VP_5, VP_4, VP_3, VP_2, VP_1, VP_0};
 		PF = {PF_7, PF_6, PF_5, PF_4, PF_3, PF_2, PF_1, PF_0};
@@ -204,6 +204,7 @@
     wire [31:0] BR_pred_target_D_RrAg_latch_in;
     wire        BR_pred_T_NT_D_RrAg_latch_in;
     wire        is_imm_D_RrAg_latch_in;
+    wire [3:0]  memSizeOVR_D_RrAg_latch_in;
 
     ///////////////////////////////////////////////////////////
     //   Outputs from the D_RrAg_latch that go into RrAg:   //  
@@ -260,6 +261,7 @@
     wire [31:0] BR_pred_target_D_RrAg_latch_out;
     wire        BR_pred_T_NT_D_RrAg_latch_out;
     wire        is_imm_D_RrAg_latch_out;
+    wire [3:0]  memSizeOVR_D_RrAg_latch_out;
 
     ///////////////////////////////////////////////////////////
     // Outputs from Rr/Ag that go into the RrAg_MEM_latch:  //  
@@ -297,6 +299,7 @@
     wire [31:0]  BR_pred_target_RrAg_MEM_latch_in;
     wire         BR_pred_T_NT_RrAg_MEM_latch_in;
     wire [5:0]   BP_alias_RrAg_MEM_latch_in;
+    wire [3:0]  memSizeOVR_RrAg_MEM_latch_in;
     
     ///////////////////////////////////////////////////////////
     //   Outputs from RrAg_MEM_latch that go into the MEM:  //  
@@ -334,6 +337,7 @@
     wire [31:0]  BR_pred_target_RrAg_MEM_latch_out;
     wire         BR_pred_T_NT_RrAg_MEM_latch_out;
     wire [5:0]   BP_alias_RrAg_MEM_latch_out;
+    wire [3:0]  memSizeOVR_RrAg_MEM_latch_out;
 
     ///////////////////////////////////////////////////////////
     //     Outputs from MEM that go into MEM_EX_latch:      //  
@@ -369,6 +373,7 @@
     wire         isBR_MEM_EX_latch_in, is_fp_MEM_EX_latch_in, is_imm_MEM_EX_latch_in, is_rep_MEM_EX_latch_in;
     wire [15:0]  CS_MEM_EX_latch_in;
     wire [6:0]   inst_ptcid_MEM_EX_latch_in;
+    wire [3:0]  memSizeOVR_MEM_EX_latch_in;
     
 
     ///////////////////////////////////////////////////////////
@@ -406,6 +411,7 @@
     wire [15:0]  CS_MEM_EX_latch_out;
     wire [3:0]   wake_MEM_EX_latch_out;
     wire [6:0]   inst_ptcid_MEM_EX_latch_out;
+    wire [3:0]  memSizeOVR_MEM_EX_latch_out;
 
     ///////////////////////////////////////////////////////////
     //     Outputs from Ex that go into the EX_WB_Latch:    //  
@@ -414,6 +420,7 @@
     wire valid_EX_WB_latch_in;
 
     wire [31:0] EIP_EX_WB_latch_in;
+    wire [31:0]  latched_eip_EX_WB_latch_in;
     wire IE_EX_WB_latch_in;
     wire [3:0] IE_type_EX_WB_latch_in;
     wire [31:0] BR_pred_target_EX_WB_latch_in;
@@ -437,6 +444,7 @@
     wire [36:0] P_OP_EX_WB_latch_in;
     wire is_rep_EX_WB_latch_in;
     wire [5:0] BP_alias_EX_WB_latch_in;
+    wire [3:0]  memSizeOVR_EX_WB_latch_in;
 
     ///////////////////////////////////////////////////////////
     //     Outputs from EX_WB_Latch that go into the WB:    //  
@@ -444,6 +452,7 @@
 
     wire valid_EX_WB_latch_out;
     wire [31:0] EIP_EX_WB_latch_out;
+    wire [31:0]  latched_eip_EX_WB_latch_out;
     wire IE_EX_WB_latch_out;
     wire [3:0] IE_type_EX_WB_latch_out;
     wire [31:0] BR_pred_target_EX_WB_latch_out;
@@ -467,6 +476,7 @@
     wire [36:0] P_OP_EX_WB_latch_out;
     wire is_rep_EX_WB_latch_out;
     wire [5:0] BP_alias_EX_WB_latch_out;
+    wire [3:0]  memSizeOVR_EX_WB_latch_out;
 
     ///////////////////////////////////////////////////////////
     //     Outputs from WB that go everywhere:              //
@@ -484,6 +494,7 @@
     wire [5:0] WB_BP_update_alias;
     wire [27:0] newFIP_e_WB_out, newFIP_o_WB_out;
     wire [31:0] newEIP_WB_out, latched_EIP_WB_out, EIP_WB_out;
+    wire [31:0] latched_eip_WB_out;
     wire is_resteer_WB_out;
     wire BR_valid_WB_BP_out, BR_taken_WB_BP_out, BR_correct_WB_BP_out;
     wire final_IE_val;
@@ -635,7 +646,7 @@
         .WB_FIP_o(newFIP_o_WB_out),
         .WB_FIP_e(newFIP_e_WB_out),
         .WB_BIP(newEIP_WB_out[5:0]),
-        .resteer(is_resteer_WB_out),//
+        .resteer(1'b0/*is_resteer_WB_out*/),// comment out bp
 
         .BP_FIP_o(BP_FIP_o_BTB_out),
         .BP_FIP_e(BP_FIP_e_BTB_out),
@@ -795,6 +806,7 @@
         .BR_pred_target_out(BR_pred_target_D_RrAg_latch_in),
         .BR_pred_T_NT_out(BR_pred_T_NT_D_RrAg_latch_in),
         .isImm_out(is_imm_D_RrAg_latch_in),
+        .memSizeOVR(memSizeOVR_D_RrAg_latch_in),
     
         // Outputs to fetch_2
         .stall_out(D_stall_out), //TODO: send to fetch_2
@@ -805,7 +817,7 @@
     wire [n_size_D_RrAg-1:0] n_din_D_RrAg;
 
     assign m_din_D_RrAg = valid_out_D_RrAg_latch_in;
-    assign n_din_D_RrAg = {BP_alias_D_RrAg_latch_in, latched_eip_D_RrAg_latch_in, is_imm_D_RrAg_latch_in, reg_addr1_D_RrAg_latch_in, reg_addr2_D_RrAg_latch_in, reg_addr3_D_RrAg_latch_in, reg_addr4_D_RrAg_latch_in,
+    assign n_din_D_RrAg = {memSizeOVR_D_RrAg_latch_in, BP_alias_D_RrAg_latch_in, latched_eip_D_RrAg_latch_in, is_imm_D_RrAg_latch_in, reg_addr1_D_RrAg_latch_in, reg_addr2_D_RrAg_latch_in, reg_addr3_D_RrAg_latch_in, reg_addr4_D_RrAg_latch_in,
                            seg_addr1_D_RrAg_latch_in, seg_addr2_D_RrAg_latch_in, seg_addr3_D_RrAg_latch_in, seg_addr4_D_RrAg_latch_in,
                            opsize_D_RrAg_latch_in, addressingmode_D_RrAg_latch_in,
                            op1_D_RrAg_latch_in, op2_D_RrAg_latch_in, op3_D_RrAg_latch_in, op4_D_RrAg_latch_in,
@@ -828,7 +840,7 @@
         .m_din(m_din_D_RrAg), .n_din(n_din_D_RrAg), .new_m_vector(), 
         .wr(valid_out_D_RrAg_latch_in), .rd(D_RrAg_Latch_RD), 
         .modify_vector(8'h0), .clr(D_RrAg_Latch_clr), .clk(clk), .full(D_RrAg_Latches_full), .empty(D_RrAg_Latches_empty), .old_m_vector(/*TODO*/), 
-            .dout({valid_out_D_RrAg_latch_out, BP_alias_D_RrAg_latch_out, latched_eip_D_RrAg_latch_out, is_imm_D_RrAg_latch_out, reg_addr1_D_RrAg_latch_out, reg_addr2_D_RrAg_latch_out, reg_addr3_D_RrAg_latch_out, reg_addr4_D_RrAg_latch_out,
+            .dout({valid_out_D_RrAg_latch_out, memSizeOVR_D_RrAg_latch_out, BP_alias_D_RrAg_latch_out, latched_eip_D_RrAg_latch_out, is_imm_D_RrAg_latch_out, reg_addr1_D_RrAg_latch_out, reg_addr2_D_RrAg_latch_out, reg_addr3_D_RrAg_latch_out, reg_addr4_D_RrAg_latch_out,
             seg_addr1_D_RrAg_latch_out, seg_addr2_D_RrAg_latch_out, seg_addr3_D_RrAg_latch_out, seg_addr4_D_RrAg_latch_out,
             opsize_D_RrAg_latch_out, addressingmode_D_RrAg_latch_out,
             op1_D_RrAg_latch_out, op2_D_RrAg_latch_out, op3_D_RrAg_latch_out, op4_D_RrAg_latch_out,
@@ -858,8 +870,9 @@
         .lim_init5(), .lim_init4(), .lim_init3(), .lim_init2(), .lim_init1(), .lim_init0(), //TODO: initializations
         .BP_alias_in(BP_alias_D_RrAg_latch_out), .aluk_in(aluk_D_RrAg_latch_out), .mux_adder_in(mux_adder_D_RrAg_latch_out), .mux_and_int_in(mux_and_int_D_RrAg_latch_out), .mux_shift_in(mux_shift_D_RrAg_latch_out),
         .p_op_in(p_op_D_RrAg_latch_out), .fmask_in(fmask_D_RrAg_latch_out), .conditionals_in(conditionals_D_RrAg_latch_out), .is_br_in(is_br_D_RrAg_latch_out), .is_fp_in(is_fp_D_RrAg_latch_out),
-        .is_imm_in(is_imm_D_RrAg_latch_out), .imm_in(imm_D_RrAg_latch_out), .mem1_rw_in(mem1_rw_D_RrAg_latch_out), .mem2_rw_in(mem2_rw_D_RrAg_latch_out), .latched_eip_in(latched_eip_D_RrAg_latch_out),
-        .eip_in(eip_D_RrAg_latch_out), .IE_in(IE_D_RrAg_latch_out), .IE_type_in(IE_type_D_RrAg_latch_out), .BR_pred_target_in(BR_pred_target_D_RrAg_latch_out), .BR_pred_T_NT_in(BR_pred_T_NT_D_RrAg_latch_out),
+        .is_imm_in(is_imm_D_RrAg_latch_out), .imm_in(imm_D_RrAg_latch_out), .mem1_rw_in(mem1_rw_D_RrAg_latch_out), .mem2_rw_in(mem2_rw_D_RrAg_latch_out), .memsizeOVR_in(memSizeOVR_D_RrAg_latch_out),
+        .latched_eip_in(latched_eip_D_RrAg_latch_out), .eip_in(eip_D_RrAg_latch_out),
+        .IE_in(IE_D_RrAg_latch_out), .IE_type_in(IE_type_D_RrAg_latch_out), .BR_pred_target_in(BR_pred_target_D_RrAg_latch_out), .BR_pred_T_NT_in(BR_pred_T_NT_D_RrAg_latch_out),
         .wb_data1(res1_WB_RRAG_out), .wb_data2(res2_WB_RRAG_out), .wb_data3(res3_WB_RRAG_out), .wb_data4(res4_WB_RRAG_out), //TODO: connect from WB
         .wb_segdata1(res1_WB_RRAG_out[15:0]), .wb_segdata2(res2_WB_RRAG_out[15:0]), .wb_segdata3(res3_WB_RRAG_out[15:0]), .wb_segdata4(res4_WB_RRAG_out[15:0]),
         .wb_addr1(reg_addr_WB_RRAG_out[2:0]), .wb_addr2(reg_addr_WB_RRAG_out[5:3]), .wb_addr3(reg_addr_WB_RRAG_out[8:6]), .wb_addr4(reg_addr_WB_RRAG_out[11:9]),
@@ -894,7 +907,7 @@
         .conditionals_out(conditionals_RrAg_MEM_latch_in),
         .is_br_out(is_br_RrAg_MEM_latch_in), .is_fp_out(is_fp_RrAg_MEM_latch_in), .is_imm_out(is_imm_RrAg_MEM_latch_in), 
         .imm_out(imm_RrAg_MEM_latch_in),
-        .mem1_rw_out(mem1_rw_RrAg_MEM_latch_in), .mem2_rw_out(mem2_rw_RrAg_MEM_latch_in),
+        .mem1_rw_out(mem1_rw_RrAg_MEM_latch_in), .mem2_rw_out(mem2_rw_RrAg_MEM_latch_in), .memsizeOVR_out(memSizeOVR_RrAg_MEM_latch_in),
         .latched_eip_out(latched_eip_RrAg_MEM_latch_in), .eip_out(eip_RrAg_MEM_latch_in), //TODO RN
         .IE_out(IE_RrAg_MEM_latch_in),
         .IE_type_out(IE_type_RrAg_MEM_latch_in),
@@ -945,7 +958,7 @@
         .conditionals_in(conditionals_RrAg_MEM_latch_in),
         .is_br_in(is_br_RrAg_MEM_latch_in), .is_fp_in(is_fp_RrAg_MEM_latch_in), .is_imm_in(is_imm_RrAg_MEM_latch_in),
         .imm_in(imm_RrAg_MEM_latch_in),
-        .mem1_rw_in(mem1_rw_RrAg_MEM_latch_in), .mem2_rw_in(mem2_rw_RrAg_MEM_latch_in),
+        .mem1_rw_in(mem1_rw_RrAg_MEM_latch_in), .mem2_rw_in(mem2_rw_RrAg_MEM_latch_in), .memsizeOVR_in(memSizeOVR_RrAg_MEM_latch_in),
         .eip_in(eip_RrAg_MEM_latch_in),
         .latched_eip_in(latched_eip_RrAg_MEM_latch_in), 
         .IE_in(IE_RrAg_MEM_latch_in),
@@ -978,7 +991,7 @@
         .conditionals_out(conditionals_RrAg_MEM_latch_out),
         .is_br_out(is_br_RrAg_MEM_latch_out), .is_fp_out(is_fp_RrAg_MEM_latch_out), .is_imm_out(is_imm_RrAg_MEM_latch_out), 
         .imm_out(imm_RrAg_MEM_latch_out),
-        .mem1_rw_out(mem1_rw_RrAg_MEM_latch_out), .mem2_rw_out(mem2_rw_RrAg_MEM_latch_out),
+        .mem1_rw_out(mem1_rw_RrAg_MEM_latch_out), .mem2_rw_out(mem2_rw_RrAg_MEM_latch_out), .memsizeOVR_out(memSizeOVR_RrAg_MEM_latch_out),
         .eip_out(eip_RrAg_MEM_latch_out),
         .latched_eip_out(latched_eip_RrAg_MEM_latch_out),
         .IE_out(IE_RrAg_MEM_latch_out),
@@ -1000,9 +1013,9 @@
                                                             .new_data({reg4_memdf,reg3_memdf,reg2_memdf,reg1_memdf,seg4_memdf,seg3_memdf,seg2_memdf,seg1_memdf}), .modify());
     
     wire [3:0] init_wake, cache_wake;
-    wire [6:0] cache_ptcid, mshr_ptcid_e, mshr_ptcid_o;
-    wire [7:0] mshr_qslot_e_in, mshr_rd_qslot_e_out, mshr_sw_qslot_e_out;
-    wire [7:0] mshr_qslot_o_in, mshr_rd_qslot_o_out, mshr_sw_qslot_o_out;
+    wire [7:0] mshr_rd_qslot_e_out, mshr_sw_qslot_e_out;
+    wire [7:0] mshr_rd_qslot_o_out, mshr_sw_qslot_o_out;
+    wire [7:0] cache_qslot_out;
     
     wire cache_out_valid;
     wire [63:0] cache_out_data;
@@ -1056,7 +1069,6 @@
         .res3_ld_in(res3_ld_RrAg_MEM_latch_out), .res4_ld_in(res4_ld_RrAg_MEM_latch_out),
         .rep_num(rep_num_RrAg_MEM_latch_out),
         .is_rep_in(is_rep_RrAg_MEM_latch_out),
-        .memsizeOVR(1'b0), //TODO:
         .idtr_ptc_clear(IDTR_PTC_clear), //TODO:
         .clk_bus(bus_clk),
         .BUS(BUS),
@@ -1064,8 +1076,7 @@
         .wb_memdata(mem_data_WB_M_out), .wb_memaddr(mem_addr_WB_M_out), .wb_size(memsize_WB_M_out), .wb_valid(mem_ld_WB_M_out), .wb_ptcid(inst_ptcid_out_WB_RRAG_out), .wbaq_isfull(wbaq_isfull_WB_M_in),
         .VP_in(VP), .PF_in(PF),
         .entry_V_in(entry_v), .entry_P_in(entry_P), .entry_RW_in(entry_RW), .entry_PCD_in(entry_PCD),
-        .qentry_slot_in_e(mshr_qslot_e_in), .qentry_slot_in_o(mshr_qslot_o_in),
-        .ptcid_out_e(mshr_ptcid_e), .ptcid_out_o(mshr_ptcid_o),
+        .qentry_slot_in(q5.q0.ptr_wr),
         .rd_qentry_slots_out_e(mshr_rd_qslot_e_out), .sw_qentry_slots_out_e(mshr_sw_qslot_e_out), .rd_qentry_slots_out_o(mshr_rd_qslot_o_out), .sw_qentry_slots_out_o(mshr_sw_qslot_o_out),
         .aluk_in(aluk_RrAg_MEM_latch_out), .mux_adder_in(mux_adder_RrAg_MEM_latch_out), 
         .mux_and_int_in(mux_and_int_RrAg_MEM_latch_out), .mux_shift_in(mux_shift_RrAg_MEM_latch_out),
@@ -1073,7 +1084,7 @@
         .CS_in(CS_RrAg_MEM_latch_out),
         .conditionals_in(conditionals_RrAg_MEM_latch_out), .is_br_in(is_br_RrAg_MEM_latch_out), 
         .is_fp_in(is_fp_RrAg_MEM_latch_out), .is_imm_in(is_imm_RrAg_MEM_latch_out),
-        .imm(imm_RrAg_MEM_latch_out), .mem1_rw(mem1_rw_RrAg_MEM_latch_out), .mem2_rw(mem2_rw_RrAg_MEM_latch_out),
+        .imm(imm_RrAg_MEM_latch_out), .mem1_rw(mem1_rw_RrAg_MEM_latch_out), .mem2_rw(mem2_rw_RrAg_MEM_latch_out), .memsizeOVR_in(memSizeOVR_RrAg_MEM_latch_out),
         .eip_in(eip_RrAg_MEM_latch_out), .latched_eip_in(latched_eip_RrAg_MEM_latch_out),
         .IE_in(IE_RrAg_MEM_latch_out), .IE_type_in(IE_type_RrAg_MEM_latch_out),
         .BR_pred_target_in(BR_pred_target_RrAg_MEM_latch_out), .BR_pred_T_NT_in(BR_pred_T_NT_RrAg_MEM_latch_out),
@@ -1081,6 +1092,7 @@
         .clr(global_reset), .clk(clk),
         //outputs
         .valid_out(valid_MEM_EX_latch_in),
+        .memsizeOVR_out(memSizeOVR_MEM_EX_latch_in),
         .eip_out(EIP_MEM_EX_latch_in),
         .latched_eip_out(latched_eip_MEM_EX_latch_in),
         .IE_out(IE_MEM_EX_latch_in),
@@ -1127,7 +1139,7 @@
         .is_rep_out(is_rep_MEM_EX_latch_in), 
         .CS_out(CS_MEM_EX_latch_in),
         .wake_init_out(init_wake), .wake_cache_out(cache_wake),
-        .cache_ptcid_out(cache_ptcid), .cache_valid_out(cache_out_valid), .cache_data_out(cache_out_data), .cache_ptcinfo_out(cache_out_ptcinfo),
+        .cache_qentry_slot_out(cache_qslot_out), .cache_valid_out(cache_out_valid), .cache_data_out(cache_out_data), .cache_ptcinfo_out(cache_out_ptcinfo),
         .stall(MEM_stall_out), //send to RrAg and RrAg_MEM_latch
         .cacheline_e_bus_in_data(cacheline_e_bus_in_data), .cacheline_o_bus_in_data(cacheline_o_bus_in_data),
         .cacheline_e_bus_in_ptcinfo(cacheline_e_bus_in_ptcinfo), .cacheline_o_bus_in_ptcinfo(cacheline_o_bus_in_ptcinfo)
@@ -1142,7 +1154,7 @@
                             valid_MEM_EX_latch_in
                           };
 
-    assign n_din_MEM_EX = { BP_alias_MEM_EX_latch_in, is_rep_MEM_EX_latch_in, is_imm_MEM_EX_latch_in, EIP_MEM_EX_latch_in, latched_eip_MEM_EX_latch_in, IE_MEM_EX_latch_in, 
+    assign n_din_MEM_EX = { memSizeOVR_MEM_EX_latch_in, BP_alias_MEM_EX_latch_in, is_rep_MEM_EX_latch_in, is_imm_MEM_EX_latch_in, EIP_MEM_EX_latch_in, latched_eip_MEM_EX_latch_in, IE_MEM_EX_latch_in, 
                             IE_type_MEM_EX_latch_in, BR_pred_target_MEM_EX_latch_in, BR_pred_T_NT_MEM_EX_latch_in,
                             opsize_MEM_EX_latch_in, dest1_addr_MEM_EX_latch_in, dest2_addr_MEM_EX_latch_in, dest3_addr_MEM_EX_latch_in, dest4_addr_MEM_EX_latch_in,
                             dest1_ptcinfo_MEM_EX_latch_in, dest2_ptcinfo_MEM_EX_latch_in, dest3_ptcinfo_MEM_EX_latch_in, dest4_ptcinfo_MEM_EX_latch_in,
@@ -1164,9 +1176,8 @@
     wire [m_size_MEM_EX*8-1:0] new_m_M_EX, old_m_M_EX;
     wire [7:0] modify_M_EX_latch;
 
-    latchconnections #(.MSIZE(m_size_MEM_EX)) mexlc(.cache_out_data(cache_out_data), .cache_out_ptcinfo(cache_out_ptcinfo), .cache_out_valid(cache_out_valid), .cache_wake(cache_wake), .cache_ptcid(cache_ptcid),
-                                                    .mshr_ptcid_e(mshr_ptcid_e), .mshr_ptcid_o(mshr_ptcid_o),
-                                                    .mshr_qslot_e_in(mshr_qslot_e_in), .mshr_qslot_o_in(mshr_qslot_o_in),
+    latchconnections #(.MSIZE(m_size_MEM_EX)) mexlc(.cache_out_data(cache_out_data), .cache_out_ptcinfo(cache_out_ptcinfo), .cache_out_valid(cache_out_valid), .cache_wake(cache_wake),
+                                                    .cache_qslot_out(cache_qslot_out),
                                                     .mshr_rd_qslot_e_out(mshr_rd_qslot_e_out), .mshr_sw_qslot_e_out(mshr_sw_qslot_e_out), .mshr_rd_qslot_o_out(mshr_rd_qslot_o_out), .mshr_sw_qslot_o_out(mshr_sw_qslot_o_out),
                                                     .cacheline_e_bus_in_data(cacheline_e_bus_in_data), .cacheline_o_bus_in_data(cacheline_o_bus_in_data),
                                                     .cacheline_e_bus_in_ptcinfo(cacheline_e_bus_in_ptcinfo), .cacheline_o_bus_in_ptcinfo(cacheline_o_bus_in_ptcinfo),
@@ -1181,7 +1192,7 @@
             .dout({
                 inst_ptcid_MEM_EX_latch_out, wake_MEM_EX_latch_out, op1_MEM_EX_latch_out, op2_MEM_EX_latch_out, op3_MEM_EX_latch_out, op4_MEM_EX_latch_out, 
                 op1_ptcinfo_MEM_EX_latch_out, op2_ptcinfo_MEM_EX_latch_out, op3_ptcinfo_MEM_EX_latch_out, op4_ptcinfo_MEM_EX_latch_out,
-                valid_MEM_EX_latch_out, BP_alias_MEM_EX_latch_out, is_rep_MEM_EX_latch_out, is_imm_MEM_EX_latch_out, EIP_MEM_EX_latch_out, latched_eip_MEM_EX_latch_out, IE_MEM_EX_latch_out, IE_type_MEM_EX_latch_out, BR_pred_target_MEM_EX_latch_out, BR_pred_T_NT_MEM_EX_latch_out,
+                valid_MEM_EX_latch_out, memSizeOVR_MEM_EX_latch_out, BP_alias_MEM_EX_latch_out, is_rep_MEM_EX_latch_out, is_imm_MEM_EX_latch_out, EIP_MEM_EX_latch_out, latched_eip_MEM_EX_latch_out, IE_MEM_EX_latch_out, IE_type_MEM_EX_latch_out, BR_pred_target_MEM_EX_latch_out, BR_pred_T_NT_MEM_EX_latch_out,
                 opsize_MEM_EX_latch_out, dest1_addr_MEM_EX_latch_out, dest2_addr_MEM_EX_latch_out, dest3_addr_MEM_EX_latch_out, dest4_addr_MEM_EX_latch_out, 
                 dest1_ptcinfo_MEM_EX_latch_out, dest2_ptcinfo_MEM_EX_latch_out, dest3_ptcinfo_MEM_EX_latch_out, dest4_ptcinfo_MEM_EX_latch_out,
                 res1_is_reg_MEM_EX_latch_out, res2_is_reg_MEM_EX_latch_out, res3_is_reg_MEM_EX_latch_out, res4_is_reg_MEM_EX_latch_out,
@@ -1208,6 +1219,7 @@
         .fwd_stall(fwd_stall_WB_EX_out), //TODO: recieve from WB
         .valid_in(expostwakevalid),
         .latch_empty(MEM_EX_Latches_empty),
+        .memsizeOVR_in(memSizeOVR_MEM_EX_latch_out),
         .EIP_in(EIP_MEM_EX_latch_out),
         .latched_EIP_in(latched_eip_MEM_EX_latch_out),
         .IE_in(IE_MEM_EX_latch_out),  
@@ -1252,8 +1264,9 @@
         
         //outputs:
         .valid_out(valid_EX_WB_latch_in), //TODO: implement
+        .memsizeOVR_out(memSizeOVR_EX_WB_latch_in),
         .EIP_out(EIP_EX_WB_latch_in),
-        .latched_EIP_out(),
+        .latched_EIP_out(latched_eip_EX_WB_latch_in),
         .IE_out(IE_EX_WB_latch_in),
         .IE_type_out(IE_type_EX_WB_latch_in),
         .BR_pred_target_out(BR_pred_target_EX_WB_latch_in),
@@ -1304,8 +1317,9 @@
         .clk(clk),
 
         .valid_in(valid_EX_WB_latch_in),
+        .memsizeOVR_in(memSizeOVR_EX_WB_latch_in),
         .EIP_in(EIP_EX_WB_latch_in),
-        .latched_EIP_in(), 
+        .latched_EIP_in(latched_eip_EX_WB_latch_in), 
         .IE_in(IE_EX_WB_latch_in),
         .IE_type_in(IE_type_EX_WB_latch_in),
         .BR_pred_target_in(BR_pred_target_EX_WB_latch_in),
@@ -1341,8 +1355,9 @@
 
         //outputs
         .valid_out(valid_EX_WB_latch_out),
+        .memsizeOVR_out(memSizeOVR_EX_WB_latch_out),
         .EIP_out(EIP_EX_WB_latch_out),
-        .latched_EIP_out(),
+        .latched_EIP_out(latched_eip_EX_WB_latch_out),
         .IE_out(IE_EX_WB_latch_out),
         .IE_type_out(IE_type_EX_WB_latch_out),
         .BR_pred_target_out(BR_pred_target_EX_WB_latch_out),
@@ -1381,8 +1396,9 @@
     writeback_TOP wb_inst(
         .clk(clk),
         .valid_in(valid_EX_WB_latch_out),
+        .memsizeOVR_in(memSizeOVR_EX_WB_latch_out),
         .EIP_in(EIP_EX_WB_latch_out),
-        .latched_EIP_in(),
+        .latched_EIP_in(latched_eip_EX_WB_latch_out),
         .IE_in(IE_EX_WB_latch_out),                           //interrupt or exception signal
         .IE_type_in(IE_type_EX_WB_latch_out),
         .BR_pred_target_in(BR_pred_target_EX_WB_latch_out),

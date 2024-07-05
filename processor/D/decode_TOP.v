@@ -71,6 +71,7 @@ module decode_TOP(
     output [31:0] BR_pred_target_out,
     output BR_pred_T_NT_out,
     output isImm_out,
+    output [3:0] memSizeOVR,
 
     ////////////////////////////
     //    outputs to fetch_2  //
@@ -210,7 +211,7 @@ module decode_TOP(
     wire [1:0] M2_RW; 
     wire [1:0] OP_MOD_OVR; 
     wire [0:0] S3_MOD_OVR; 
-    wire [0:0] memSizeOVR; 
+    // wire [3:0] memSizeOVR; 
 
     //inputs
     wire[7:0] B1, B2, B3, B4, B5, B6;

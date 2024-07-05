@@ -135,9 +135,16 @@ def main():
         helperOP(row, OP, asm)
 
         if opH == "8'hCA" or opH == "8'hCB" or opH == "8'h9A":
-            row[45] = "1'b1"
+            row[45] = "4'b1000"
+            row[19] = "2'b10"
+        elif opH == "8'hA4":
+            row[45] = "4'b0001"
+            row[19] = "2'b10"
+        elif opH == "8'hA5":
+            row[45] = "4'b0100"
+            row[19] = "2'b10"
         else:
-            row[45] = "1'b0"
+            row[45] = "4'b0000"
         row[14] = "1'b0"
     numRows = 1
 

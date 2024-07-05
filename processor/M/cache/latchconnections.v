@@ -2,11 +2,8 @@ module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
                                                 input [127:0] cache_out_ptcinfo,
                                                 input cache_out_valid,
                                                 input [3:0] cache_wake,
-                                                input [6:0] cache_ptcid,
 
-                                                input [6:0] mshr_ptcid_e, mshr_ptcid_o,
-                                                input [7:0] mshr_qslot_e_in, mshr_qslot_o_in,
-                                                input [7:0] mshr_rd_qslot_e_out, mshr_sw_qslot_e_out, mshr_rd_qslot_o_out, mshr_sw_qslot_o_out,
+                                                input [7:0] cache_qslot_out, mshr_rd_qslot_e_out, mshr_sw_qslot_e_out, mshr_rd_qslot_o_out, mshr_sw_qslot_o_out,
 
                                                 input [127:0] cacheline_e_bus_in_data, cacheline_o_bus_in_data,
                                                 input [255:0] cacheline_e_bus_in_ptcinfo, cacheline_o_bus_in_ptcinfo,
@@ -23,7 +20,6 @@ module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
     wire [511:0] old_op_ptcinfos [0:7];
     wire old_valid [0:7], new_valid [0:7];
 
-    wire [7:0] cache_qslot;
     wire [3:0] guarded_cache_wake [0:7], guarded_mshr_wake [0:7];
     wire [127:0] guarded_cache_out_ptcinfo;
 
@@ -58,21 +54,17 @@ module latchconnections #(parameter MSIZE=128) (input [63:0] cache_out_data,
                                                                      .operand_data({old_ops[i]}), .operand_ptc({old_op_ptcinfos[i]}),
                                                                      .new_data({new_ops[i]}), .modify(op_mod_vect));
 
-            equaln #(.WIDTH(7)) eq123(.a(old_inst_ptcid[i]), .b(cache_ptcid), .eq(cache_qslot[i]));
-            equaln #(.WIDTH(7)) eq456(.a(old_inst_ptcid[i]), .b(mshr_ptcid_e), .eq(mshr_qslot_e_in[i]));
-            equaln #(.WIDTH(7)) eq789(.a(old_inst_ptcid[i]), .b(mshr_ptcid_o), .eq(mshr_qslot_o_in[i]));
-
-            and2$ gabc(.out(guarded_cache_wake[i][0]), .in0(cache_qslot[i]), .in1(cache_wake[0]));
-            and2$ gdef(.out(guarded_cache_wake[i][1]), .in0(cache_qslot[i]), .in1(cache_wake[1]));
-            and2$ gghi(.out(guarded_cache_wake[i][2]), .in0(cache_qslot[i]), .in1(cache_wake[2]));
-            and2$ gjkl(.out(guarded_cache_wake[i][3]), .in0(cache_qslot[i]), .in1(cache_wake[3]));
+            and3$ gabc(.out(guarded_cache_wake[i][0]), .in0(cache_qslot_out[i]), .in1(cache_wake[0]), .in2(cache_out_valid));
+            and3$ gdef(.out(guarded_cache_wake[i][1]), .in0(cache_qslot_out[i]), .in1(cache_wake[1]), .in2(cache_out_valid));
+            and3$ gghi(.out(guarded_cache_wake[i][2]), .in0(cache_qslot_out[i]), .in1(cache_wake[2]), .in2(cache_out_valid));
+            and3$ gjkl(.out(guarded_cache_wake[i][3]), .in0(cache_qslot_out[i]), .in1(cache_wake[3]), .in2(cache_out_valid));
 
             or3$ gx0(.out(new_wake[i][0]), .in0(old_wake[i][0]), .in1(guarded_cache_wake[i][0]), .in2(mshr_rd_qslot_e_out[i]));
             or3$ gx1(.out(new_wake[i][1]), .in0(old_wake[i][1]), .in1(guarded_cache_wake[i][1]), .in2(mshr_sw_qslot_e_out[i]));
             or3$ gx2(.out(new_wake[i][2]), .in0(old_wake[i][2]), .in1(guarded_cache_wake[i][2]), .in2(mshr_rd_qslot_o_out[i]));
             or3$ gx3(.out(new_wake[i][3]), .in0(old_wake[i][3]), .in1(guarded_cache_wake[i][3]), .in2(mshr_sw_qslot_o_out[i]));
 
-            orn #(.NUM_INPUTS(9)) or0(.in({op_mod_vect,cache_qslot[i],mshr_rd_qslot_e_out[i],mshr_sw_qslot_e_out[i],mshr_rd_qslot_o_out[i],mshr_sw_qslot_o_out[i]}), .out(modify_M_EX_latch[i]));
+            orn #(.NUM_INPUTS(9)) or0(.in({op_mod_vect,cache_qslot_out[i],mshr_rd_qslot_e_out[i],mshr_sw_qslot_e_out[i],mshr_rd_qslot_o_out[i],mshr_sw_qslot_o_out[i]}), .out(modify_M_EX_latch[i]));
         end
     endgenerate
 

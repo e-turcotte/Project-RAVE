@@ -1,0 +1,44 @@
+0x0:  66 b8 00 00             //mov    ax,0x0
+0x4:  8e c8                   //mov    cs,eax
+0x6:  66 b8 00 02             //mov    ax,0x200
+0xa:  8e d8                   //mov    ds,eax
+0xc:  66 b8 00 04             //mov    ax,0x400
+0x10: 8e d0                   //mov    ss,eax
+0x12: 66 b8 00 0b             //mov    ax,0xb00
+0x16: 8e c0                   //mov    es,eax
+0x18: 66 b8 00 0c             //mov    ax,0xc00
+0x1c: 8e e0                   //mov    fs,eax
+0x1e: 66 b8 00 0a             //mov    ax,0xa00
+0x22: 8e e8                   //mov    gs,eax
+0x24: b8 00 00 00 00          //mov    eax,0x0
+0x29: b9 10 32 54 76          //mov    ecx,0x76543210
+0x2e: c7 00 02 00 00 20       //mov    DWORD PTR [eax],0x20000002
+0x34: 36 c7 00 03 00 00 30    //mov    DWORD PTR ss:[eax],0x30000003
+0x3b: 26 c7 00 04 00 00 40    //mov    DWORD PTR es:[eax],0x40000004
+0x42: 64 c7 00 05 00 00 50    //mov    DWORD PTR fs:[eax],0x50000005
+0x49: 65 c7 00 06 00 00 60    //mov    DWORD PTR gs:[eax],0x60000006
+0x50: 66 b8 00 06             //mov    ax,0x600
+0x54: 8e e0                   //mov    fs,eax
+0x56: 66 b8 00 03             //mov    ax,0x300
+0x5a: 8e d8                   //mov    ds,eax
+0x5c: b8 00 00 00 00          //mov    eax,0x0
+0x61: 66 c7 00 07 00          //mov    WORD PTR [eax],0x7
+0x66: 64 66 c7 00 08 00       //mov    WORD PTR fs:[eax],0x8
+0x6c: 66 b8 00 02             //mov    ax,0x200
+0x70: 8e d8                   //mov    ds,eax
+0x72: 66 b8 00 00             //mov    ax,0x0
+0x76: 8e c8                   //mov    cs,eax
+0x78: b8 00 00 00 00          //mov    eax,0x0
+0x7d: 8b 08                   //mov    ecx,DWORD PTR [eax]
+0x7f: 36 8b 10                //mov    edx,DWORD PTR ss:[eax]
+0x82: 26 8b 28                //mov    ebp,DWORD PTR es:[eax]
+0x85: 64 8b 30                //mov    esi,DWORD PTR fs:[eax]
+0x88: 65 8b 38                //mov    edi,DWORD PTR gs:[eax]
+0x8b: 66 b8 00 06             //mov    ax,0x600
+0x8f: 8e e0                   //mov    fs,eax
+0x91: 66 b8 00 03             //mov    ax,0x300
+0x95: 8e d8                   //mov    ds,eax
+0x97: b8 00 00 00 00          //mov    eax,0x0
+0x9c: 64 8b 20                //mov    esp,DWORD PTR fs:[eax]
+0x9f: 8b 00                   //mov    eax,DWORD PTR [eax]
+0xa1: f4                      //hlt 

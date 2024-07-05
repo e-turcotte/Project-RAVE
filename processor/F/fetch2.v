@@ -164,42 +164,42 @@ generate // sel 1 takes jump and 0 takes direct output
     wire [63:0] bit0_layer_out0, bit0_layer_out1, bit0_layer_out2, bit0_layer_out3, bit0_layer_out4, bit0_layer_out5;
     for(i = 0; i < 64; i = i + 1)begin
         if((i) < 1)begin
-            mux2$ m0(.outb(bit0_layer_out0[i]), .in1(rot_input[64-i-1]), .in0(rot_input[i]), .s0(sel[0]));
+            mux2$ m0(.outb(bit0_layer_out0[i]), .in1(rot_input[64+i-1]), .in0(rot_input[i]), .s0(sel[0]));
         end else begin
             mux2$ m1(.outb(bit0_layer_out0[i]), .in1(rot_input[i-1]), .in0(rot_input[i]), .s0(sel[0]));
         end
     end
     for(i = 0; i < 64; i = i + 1)begin
         if((i ) < 2)begin
-            mux2$ m2(.outb(bit0_layer_out1[i]), .in1(bit0_layer_out0[64-i-2]), .in0(bit0_layer_out0[i]), .s0(sel[1]));
+            mux2$ m2(.outb(bit0_layer_out1[i]), .in1(bit0_layer_out0[64+i-2]), .in0(bit0_layer_out0[i]), .s0(sel[1]));
         end else begin
             mux2$ m3(.outb(bit0_layer_out1[i]), .in1(bit0_layer_out0[i-2]), .in0(bit0_layer_out0[i]), .s0(sel[1]));
         end
     end
     for(i = 0; i < 64; i = i + 1)begin
         if((i ) < 4)begin
-            mux2$ m4(.outb(bit0_layer_out2[i]), .in1(bit0_layer_out1[64-i-4]), .in0(bit0_layer_out1[i]), .s0(sel[2]));
+            mux2$ m4(.outb(bit0_layer_out2[i]), .in1(bit0_layer_out1[64+i-4]), .in0(bit0_layer_out1[i]), .s0(sel[2]));
         end else begin
             mux2$ m5(.outb(bit0_layer_out2[i]), .in1(bit0_layer_out1[i-4]), .in0(bit0_layer_out1[i]), .s0(sel[2]));
         end
     end
     for(i = 0; i < 64; i = i + 1)begin
         if((i ) < 8)begin
-            mux2$ m6(.outb(bit0_layer_out3[i]), .in1(bit0_layer_out2[64-i-8]), .in0(bit0_layer_out2[i]), .s0(sel[3]));
+            mux2$ m6(.outb(bit0_layer_out3[i]), .in1(bit0_layer_out2[64+i-8]), .in0(bit0_layer_out2[i]), .s0(sel[3]));
         end else begin
             mux2$ m7(.outb(bit0_layer_out3[i]), .in1(bit0_layer_out2[i-8]), .in0(bit0_layer_out2[i]), .s0(sel[3]));
         end
     end
     for(i = 0; i < 64; i = i + 1)begin
         if((i ) < 16)begin
-            mux2$ m8(.outb(bit0_layer_out4[i]), .in1(bit0_layer_out3[64-i-16]), .in0(bit0_layer_out3[i]), .s0(sel[4]));
+            mux2$ m8(.outb(bit0_layer_out4[i]), .in1(bit0_layer_out3[64+i-16]), .in0(bit0_layer_out3[i]), .s0(sel[4]));
         end else begin
             mux2$ m9(.outb(bit0_layer_out4[i]), .in1(bit0_layer_out3[i-16]), .in0(bit0_layer_out3[i]), .s0(sel[4]));
         end
     end
     for(i = 0; i < 64; i = i + 1)begin
         if((i ) < 32)begin
-            mux2$ m10(.outb(bit0_layer_out5[i]), .in1(bit0_layer_out4[64-i-32]), .in0(bit0_layer_out4[i]), .s0(sel[5]));
+            mux2$ m10(.outb(bit0_layer_out5[i]), .in1(bit0_layer_out4[64+i-32]), .in0(bit0_layer_out4[i]), .s0(sel[5]));
         end else begin
             mux2$ m11(.outb(bit0_layer_out5[i]), .in1(bit0_layer_out4[i-32]), .in0(bit0_layer_out4[i]), .s0(sel[5]));
         end

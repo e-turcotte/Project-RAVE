@@ -41,51 +41,51 @@ output [1:0] M1_RW,
 output [1:0] M2_RW,
 output [1:0] OP_MOD_OVR,
 output [0:0] S3_MOD_OVR,
-output [0:0] memSizeOVR,
+output [3:0] memSizeOVR,
 
-input [226:0] toSplit
+input [229:0] toSplit
 );
-assign memSizeOVR=toSplit[0:0];
-assign S3_MOD_OVR=toSplit[1:1];
-assign OP_MOD_OVR=toSplit[3:2];
-assign M2_RW=toSplit[5:4];
-assign M1_RW=toSplit[7:6];
-assign R1_MOD_OVR=toSplit[8:8];
-assign op4_wb=toSplit[9:9];
-assign op3_wb=toSplit[10:10];
-assign op2_wb=toSplit[11:11];
-assign op1_wb=toSplit[12:12];
-assign dest4_mux=toSplit[25:13];
-assign dest3_mux=toSplit[38:26];
-assign dest2_mux=toSplit[51:39];
-assign dest1_mux=toSplit[64:52];
-assign op4_mux=toSplit[77:65];
-assign op3_mux=toSplit[90:78];
-assign op2_mux=toSplit[103:91];
-assign op1_mux=toSplit[116:104];
-assign S4=toSplit[119:117];
-assign S3=toSplit[122:120];
-assign S2=toSplit[125:123];
-assign S1=toSplit[128:126];
-assign R4=toSplit[131:129];
-assign R3=toSplit[134:132];
-assign R2=toSplit[137:135];
-assign R1=toSplit[140:138];
-assign size=toSplit[142:141];
-assign immSize=toSplit[144:143];
-assign isImm=toSplit[145:145];
-assign isFP=toSplit[146:146];
-assign isBR=toSplit[147:147];
-assign swapEIP=toSplit[148:148];
-assign conditionals=toSplit[150:149];
-assign FMASK=toSplit[168:151];
-assign P_OP=toSplit[205:169];
-assign MUX_SHIFT=toSplit[206:206];
-assign MUX_AND_INT=toSplit[207:207];
-assign MUX_ADDER_IMM=toSplit[210:208];
-assign aluk=toSplit[215:211];
-assign OPCext=toSplit[223:216];
-assign isDouble=toSplit[224:224];
-assign modSWAP=toSplit[225:225];
-assign isMOD=toSplit[226:226];
+assign memSizeOVR=toSplit[3:0];
+assign S3_MOD_OVR=toSplit[4:4];
+assign OP_MOD_OVR=toSplit[6:5];
+assign M2_RW=toSplit[8:7];
+assign M1_RW=toSplit[10:9];
+assign R1_MOD_OVR=toSplit[11:11];
+assign op4_wb=toSplit[12:12];
+assign op3_wb=toSplit[13:13];
+assign op2_wb=toSplit[14:14];
+assign op1_wb=toSplit[15:15];
+assign dest4_mux=toSplit[28:16];
+assign dest3_mux=toSplit[41:29];
+assign dest2_mux=toSplit[54:42];
+assign dest1_mux=toSplit[67:55];
+assign op4_mux=toSplit[80:68];
+assign op3_mux=toSplit[93:81];
+assign op2_mux=toSplit[106:94];
+assign op1_mux=toSplit[119:107];
+assign S4=toSplit[122:120];
+assign S3=toSplit[125:123];
+assign S2=toSplit[128:126];
+assign S1=toSplit[131:129];
+assign R4=toSplit[134:132];
+assign R3=toSplit[137:135];
+assign R2=toSplit[140:138];
+assign R1=toSplit[143:141];
+assign size=toSplit[145:144];
+assign immSize=toSplit[147:146];
+assign isImm=toSplit[148:148];
+assign isFP=toSplit[149:149];
+assign isBR=toSplit[150:150];
+assign swapEIP=toSplit[151:151];
+assign conditionals=toSplit[153:152];
+assign FMASK=toSplit[171:154];
+assign P_OP=toSplit[208:172];
+assign MUX_SHIFT=toSplit[209:209];
+assign MUX_AND_INT=toSplit[210:210];
+assign MUX_ADDER_IMM=toSplit[213:211];
+assign aluk=toSplit[218:214];
+assign OPCext=toSplit[226:219];
+assign isDouble=toSplit[227:227];
+assign modSWAP=toSplit[228:228];
+assign isMOD=toSplit[229:229];
 endmodule

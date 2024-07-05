@@ -25,8 +25,10 @@ module d$(
     input[1:0] M1_RW, M2_RW,
     input[1:0] opsize,
     input valid_RSW,
+    input fwd_stall,
     input sizeOVR,
     input [6:0]PTC_ID_in,
+    input [7:0] qentry_slot_in,
     output r_is_m1,
     output sw_is_m1,
 
@@ -62,7 +64,6 @@ module d$(
     //AQ outputs
     output aq_isempty, rdaq_isfull, swaq_isfull, wbaq_isfull,
     
-
     //Post D$ outputs
     output [3:0]wake,
     output [6:0]PTC_ID_out,
@@ -70,16 +71,12 @@ module d$(
     output [127:0] data,
     output stall, 
     output [127:0] ptcinfo_out,
+    output [7:0] qentry_slot_out, //TODO:
 
 
     //MSHR outputs
-    input [7:0] qentry_slot_in_e,
-    output [6:0] ptcid_out_e,
     output [7:0] rd_qentry_slots_out_e, sw_qentry_slots_out_e,
     output mshr_hit_e, mshr_full_e,
-
-    input [7:0] qentry_slot_in_o,
-    output [6:0] ptcid_out_o,
     output [7:0] rd_qentry_slots_out_o, sw_qentry_slots_out_o,
     output mshr_hit_o, mshr_full_o,
 
@@ -211,6 +208,7 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire odd_is_greater_$, needP1_$;
     wire [2:0] onesize_$;
     wire pcd_$;
+    wire [7:0] qslot_$; //TODO:
 
     wire MSHR_HIT_e;
     wire MSHR_FULL_e;
@@ -223,6 +221,8 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire MSHR_rdsw_e;
     wire [14:0] MSHR_pAddress_e;
     wire [6:0] MSHR_ptcid_e;
+    wire [7:0] MSHR_qslot_e; //TODO:
+
     wire [3:0] wake_init_vector_wb;
     wire SER_valid0_e;
     wire [127:0] SER_data0_e;
@@ -261,6 +261,7 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire MSHR_rdsw_o;
     wire [14:0] MSHR_pAddress_o;
     wire [6:0] MSHR_ptcid_o;
+    wire [7:0] MSHR_qslot_o; //TODO:
     
     wire SER_valid0_o;
     wire [127:0] SER_data0_o;
@@ -441,7 +442,7 @@ IA_AS wbIA (
     .sw(1'b0),
     .valid_in(valid_in_wb),
     .fromBUS(1'b0),
-    .sizeOVR(sizeOVR_wb),
+    .sizeOVR(1'b0/*sizeOVR_wb*/),
     .PTC_ID_in(PTC_ID_in_wb),
     .clk(clk),
     .VP(VP),
@@ -547,17 +548,20 @@ cacheaqsys cacheaqsys_inst (
     .rd_ptcinfo(ptc_info_r),
     .sw_ptcinfo(ptc_info_sw),
 
+    .rd_qslot(qentry_slot_in),
+    .sw_qslot(qentry_slot_in),
+
     .bus_pcd(bus_pcd),
     .bus_isempty(bus_isempty),
 
 
     .read(stall_n & aq_isempty_n),
-    .rd_write(valid_in_r),
-    .sw_write(valid_in_sw),
+    .rd_write(valid_in_r & !aq_stall ),
+    .sw_write(valid_in_sw & !aq_stall),
     .wb_write(valid_in_wb),
 
     .clk(clk),
-    .clr(rst),
+    .rdsw_clr(rst), .wb_clr(rst),
     
     .pAddress_e(pAddress_e_$),
     .pAddress_o(pAddress_o_$),
@@ -583,7 +587,8 @@ cacheaqsys cacheaqsys_inst (
     .rdaq_isfull(rdaq_isfull),
     .swaq_isfull(swaq_isfull),
     .wbaq_isfull(wbaq_isfull),
-    .ptcinfo(ptcinfo_out)
+    .ptcinfo(ptcinfo_out),
+    .qslot(qslot_$)
 );
 
 cacheBank bankE (
@@ -745,13 +750,12 @@ outputAlign oA (
 mshr mshrE ( 
     .pAddress(MSHR_pAddress_e),
     .ptcid_in(MSHR_ptcid_e),
-    .qentry_slot_in(qentry_slot_in_e),
+    .qentry_slot_in(qslot_$), //TODO:
     .rdsw_in(MSHR_rdsw_e),
     .alloc(MSHR_alloc_e),
     .dealloc(MSHR_dealloc_e & bus_valid_e_nobuf),
     .clk(clk),
     .clr(rst),
-    .ptcid_out(ptcid_out_e),
     .rd_qentry_slots_out(rd_qentry_slots_out_e),
     .sw_qentry_slots_out(sw_qentry_slots_out_e),
     .mshr_hit(mshr_hit_e),
@@ -761,19 +765,18 @@ mshr mshrE (
 mshr mshrO ( 
     .pAddress(MSHR_pAddress_o),
     .ptcid_in(MSHR_ptcid_o),
-    .qentry_slot_in(qentry_slot_in_o),
+    .qentry_slot_in(qslot_$), //TODO:
     .rdsw_in(MSHR_rdsw_o),
     .alloc(MSHR_alloc_o),
     .dealloc(MSHR_dealloc_o & bus_valid_o_nobuf),
     .clk(clk),
     .clr(rst),
-    .ptcid_out(ptcid_out_o),
     .rd_qentry_slots_out(rd_qentry_slots_out_o),
     .sw_qentry_slots_out(sw_qentry_slots_out_o),
     .mshr_hit(mshr_hit_o),
     .mshr_full(mshr_full_o)
 );
-
+assign qentry_slot_out = qslot_$;
 
 
 SER DS_E_R(
@@ -949,11 +952,15 @@ endgenerate
     assign releases_d = {relDEr, relDEw, relDOr, relDOw};
     assign req_d = {reqDEr, reqDEw, reqDOr, reqDOw};
 
-    or2$ sta(stall, cache_stall_e, cache_stall_o);
-    inv1$ nstal(stall_n, stall);
+
+
+
+    assign aq_stall = (rdaq_isfull & valid_in_r) | (swaq_isfull & valid_in_sw)  | fwd_stall;
+    or2$ sta(stall, /*cache_stall_e, cache_stall_o*/ 1'b0, (rdaq_isfull & valid_in_r) | (swaq_isfull & valid_in_sw) | fwd_stall);
+    nor2$ nstal(stall_n,  cache_stall_e, cache_stall_o);
     assign PTC_ID_out = PTC_ID_out_e;
     assign data = data_out;
-    nor2$ norss(cache_valid,valid_out, w_$);
+    and2$ norss(cache_valid,valid_out, !w_$);
  
 // intitial begin
 //   file = $fopen("d_cache.out", "w");
@@ -970,9 +977,10 @@ endgenerate
 //             $fwrite(file, "tagGen[%0d].r.DOUT = %0h\n", i, u2.bankE.cs1.ts.data[i*8 + 7: i*8]);
 //     end  
 // end
+assign clk_$ = clk;
 integer file_handle;
 integer file_dump;
-integer clk_ctr;
+integer clk_ctr_$;
 initial begin
     // Open the file for writing
     file_handle = $fopen("dcache_dump.csv", "w");
@@ -980,18 +988,19 @@ initial begin
     if (file_handle == 0) begin
         $display("Error: Failed to open file for eflags!");
     end
-    clk_ctr = 0;
+    clk_ctr_$ = 0;
 
     
 end
-
+always @(posedge clk) begin
+      clk_ctr_$ = clk_ctr_$ + 1;
+end
 always @(negedge clk) begin
     // Write signal values to the file at every clock cycle
-    clk_ctr = clk_ctr + 1;
     if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1) begin
         @(posedge clk)
         $fwrite(file_dump,"\n////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\n");
-        $fwrite(file_dump, "Cycle,%d,", clk_ctr);
+        $fwrite(file_dump, "Cycle,%d,", clk_ctr_$);
         $fwrite(file_dump, "PTC ID,%h,", ptcid_$);
         $fwrite(file_dump, "R_SW_W,%b%b%b,RdFull: %b | SwFull: %b | WFull: %b\n", r_$, sw_$, w_$,rdaq_isfull, swaq_isfull, wbaq_isfull);
         $fwrite(file_dump, "From bus,%b,", fromBUS_$);
@@ -1055,10 +1064,11 @@ always @(negedge clk) begin
 
     end
 end
-always @(negedge clk) begin
-    if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1 || clk_ctr == 32'd140) begin
-        @(posedge clk)
-            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #,%d\n", clk_ctr);
+ 
+always  @(posedge clk) begin
+        #3
+        if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1 || clk_ctr_$ == 32'd140) begin
+            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #,Cyc: %d\n", clk_ctr_$);
             $fwrite(file_handle, "EVEN TAG STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
             $fwrite(file_handle, "3,8'h%h,8'h%h,8'h%h,8'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[3], bankE.cs1.ts.tagGen[2].r.mem[3],bankE.cs1.ts.tagGen[1].r.mem[3],bankE.cs1.ts.tagGen[0].r.mem[3]);
@@ -1106,10 +1116,10 @@ always @(negedge clk) begin
             $fwrite(file_handle, "2,4'h%h,4'h%h,4'h%h,4'h%h,,8'h%h,8'h%h,8'h%h,8'h%h,,3'h%h,3'h%h,3'h%h,3'h%h\n",bankO.cs1.ms.LRU3[11:8],bankO.cs1.ms.LRU2[11:8],bankO.cs1.ms.LRU1[11:8],bankO.cs1.ms.LRU0[11:8],bankO.cs1.ms.PTCID[95:88],   bankO.cs1.ms.PTCID[87:80],   bankO.cs1.ms.PTCID[79:72],   bankO.cs1.ms.PTCID[71:64]   ,  {bankO.cs1.ms.VALID[11], bankO.cs1.ms.PTC[11], bankO.cs1.ms.DIRTY[11]},       {bankO.cs1.ms.VALID[10], bankO.cs1.ms.PTC[10], bankO.cs1.ms.DIRTY[10]},       {bankO.cs1.ms.VALID[9], bankO.cs1.ms.PTC[9], bankO.cs1.ms.DIRTY[9]},       {bankO.cs1.ms.VALID[8], bankO.cs1.ms.PTC[8], bankO.cs1.ms.DIRTY[8]}, );
             $fwrite(file_handle, "1,4'h%h,4'h%h,4'h%h,4'h%h,,8'h%h,8'h%h,8'h%h,8'h%h,,3'h%h,3'h%h,3'h%h,3'h%h\n",bankO.cs1.ms.LRU3[7:4],bankO.cs1.ms.LRU2[7:4],bankO.cs1.ms.LRU1[7:4],bankO.cs1.ms.LRU0[7:4],bankO.cs1.ms.PTCID[63:56],   bankO.cs1.ms.PTCID[55:48],   bankO.cs1.ms.PTCID[47:40],   bankO.cs1.ms.PTCID[39:32]   ,  {bankO.cs1.ms.VALID[7], bankO.cs1.ms.PTC[7], bankO.cs1.ms.DIRTY[7]},       {bankO.cs1.ms.VALID[6], bankO.cs1.ms.PTC[6], bankO.cs1.ms.DIRTY[6]},       {bankO.cs1.ms.VALID[5], bankO.cs1.ms.PTC[5], bankO.cs1.ms.DIRTY[5]},       {bankO.cs1.ms.VALID[4], bankO.cs1.ms.PTC[4], bankO.cs1.ms.DIRTY[4]}, );
             $fwrite(file_handle, "0,4'h%h,4'h%h,4'h%h,4'h%h,,8'h%h,8'h%h,8'h%h,8'h%h,,3'h%h,3'h%h,3'h%h,3'h%h\n",bankO.cs1.ms.LRU3[3:0],bankO.cs1.ms.LRU2[3:0],bankO.cs1.ms.LRU1[3:0],bankO.cs1.ms.LRU0[3:0],bankO.cs1.ms.PTCID[31:24],   bankO.cs1.ms.PTCID[23:16],   bankO.cs1.ms.PTCID[15:8],    bankO.cs1.ms.VALID[7:0]   , {bankO.cs1.ms.VALID[3], bankO.cs1.ms.PTC[3], bankO.cs1.ms.DIRTY[3]},       {bankO.cs1.ms.VALID[2], bankO.cs1.ms.PTC[2], bankO.cs1.ms.DIRTY[2]},       {bankO.cs1.ms.VALID[1], bankO.cs1.ms.PTC[1], bankO.cs1.ms.DIRTY[1]},       {bankO.cs1.ms.VALID[0], bankO.cs1.ms.PTC[0], bankO.cs1.ms.DIRTY[0]}, );
-            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #, clk_ctr\n");
+            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #, clk_ctr_$\n");
 
              @(posedge clk)
-            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #,%d\n", clk_ctr);
+            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #,%d\n", clk_ctr_$);
             $fwrite(file_handle, "EVEN TAG STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
             $fwrite(file_handle, "3,8'h%h,8'h%h,8'h%h,8'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[3], bankE.cs1.ts.tagGen[2].r.mem[3],bankE.cs1.ts.tagGen[1].r.mem[3],bankE.cs1.ts.tagGen[0].r.mem[3]);
@@ -1157,11 +1167,17 @@ always @(negedge clk) begin
             $fwrite(file_handle, "2,4'h%h,4'h%h,4'h%h,4'h%h,,8'h%h,8'h%h,8'h%h,8'h%h,,3'h%h,3'h%h,3'h%h,3'h%h\n",bankO.cs1.ms.LRU3[11:8],bankO.cs1.ms.LRU2[11:8],bankO.cs1.ms.LRU1[11:8],bankO.cs1.ms.LRU0[11:8],bankO.cs1.ms.PTCID[95:88],   bankO.cs1.ms.PTCID[87:80],   bankO.cs1.ms.PTCID[79:72],   bankO.cs1.ms.PTCID[71:64]   ,  {bankO.cs1.ms.VALID[11], bankO.cs1.ms.PTC[11], bankO.cs1.ms.DIRTY[11]},       {bankO.cs1.ms.VALID[10], bankO.cs1.ms.PTC[10], bankO.cs1.ms.DIRTY[10]},       {bankO.cs1.ms.VALID[9], bankO.cs1.ms.PTC[9], bankO.cs1.ms.DIRTY[9]},       {bankO.cs1.ms.VALID[8], bankO.cs1.ms.PTC[8], bankO.cs1.ms.DIRTY[8]}, );
             $fwrite(file_handle, "1,4'h%h,4'h%h,4'h%h,4'h%h,,8'h%h,8'h%h,8'h%h,8'h%h,,3'h%h,3'h%h,3'h%h,3'h%h\n",bankO.cs1.ms.LRU3[7:4],bankO.cs1.ms.LRU2[7:4],bankO.cs1.ms.LRU1[7:4],bankO.cs1.ms.LRU0[7:4],bankO.cs1.ms.PTCID[63:56],   bankO.cs1.ms.PTCID[55:48],   bankO.cs1.ms.PTCID[47:40],   bankO.cs1.ms.PTCID[39:32]   ,  {bankO.cs1.ms.VALID[7], bankO.cs1.ms.PTC[7], bankO.cs1.ms.DIRTY[7]},       {bankO.cs1.ms.VALID[6], bankO.cs1.ms.PTC[6], bankO.cs1.ms.DIRTY[6]},       {bankO.cs1.ms.VALID[5], bankO.cs1.ms.PTC[5], bankO.cs1.ms.DIRTY[5]},       {bankO.cs1.ms.VALID[4], bankO.cs1.ms.PTC[4], bankO.cs1.ms.DIRTY[4]}, );
             $fwrite(file_handle, "0,4'h%h,4'h%h,4'h%h,4'h%h,,8'h%h,8'h%h,8'h%h,8'h%h,,3'h%h,3'h%h,3'h%h,3'h%h\n",bankO.cs1.ms.LRU3[3:0],bankO.cs1.ms.LRU2[3:0],bankO.cs1.ms.LRU1[3:0],bankO.cs1.ms.LRU0[3:0],bankO.cs1.ms.PTCID[31:24],   bankO.cs1.ms.PTCID[23:16],   bankO.cs1.ms.PTCID[15:8],    bankO.cs1.ms.VALID[7:0]   , {bankO.cs1.ms.VALID[3], bankO.cs1.ms.PTC[3], bankO.cs1.ms.DIRTY[3]},       {bankO.cs1.ms.VALID[2], bankO.cs1.ms.PTC[2], bankO.cs1.ms.DIRTY[2]},       {bankO.cs1.ms.VALID[1], bankO.cs1.ms.PTC[1], bankO.cs1.ms.DIRTY[1]},       {bankO.cs1.ms.VALID[0], bankO.cs1.ms.PTC[0], bankO.cs1.ms.DIRTY[0]}, );
-            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #, clk_ctr\n");
+            $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #, clk_ctr_$\n");
         end
 
 end
 endmodule
+
+// module pulseFilter #(time) (inp, filtered);
+//     delay #(3) d1(inp, inp_del);
+//     xnor2$ x1(filtered, inp, inp_del);
+// endmodule
+
 /*
 
 .read(bus_valid_e),
