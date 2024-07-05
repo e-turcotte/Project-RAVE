@@ -33,7 +33,7 @@ and4$ a7(WB111, V, PTC, D, wb); //101
 and4$ a8(EX101, V, PTC_bar, D, ex); //010
 and4$ a9(SW111, V, PTC, D, sw);
 and4$ a10(SW110, V, PTC,  D_bar, sw);
-and4$ a12(WB011, V_bar, PTC, D, wb);
+and4$ a12(WB011, V_bar,  PTC, D, wb);
 
 muxnm_tristate #(12, 3) tm({3'b110, 3'b111,3'b010,3'b011,3'b100,3'b110,3'b101,3'b111,3'b101,3'b010 , 3'b010, 3'b110}, {SW110, SW111,EX100,SW000,WB010,SW100,WB110,SW101,WB111,EX101, R000, WB011},nextState);
 
