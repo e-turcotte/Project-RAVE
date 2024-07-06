@@ -11,6 +11,7 @@ input w,
 input r,
 input isW,
 input isSW,
+input ex_miss,
 
 output[7:0] tag_out, 
 output[3:0] hit,
@@ -22,7 +23,7 @@ output[3:0] way_sw
 );
 wire[7:0] tagData_based_on_hit;
 wire [3:0] wNot;
-wire[3:0] hit1;
+wire[3:0] hit1, hit_buf;
 genvar i;
 genvar j;
 wire[3:0] writeSel;
@@ -49,7 +50,7 @@ generate
         equaln #(8) e(tag_in, data[i*8+7: i*8], hit1[i]);
         and2$ plz(hmm[i], PTC[i], isW);
         or2$ plz2(boabw[i], V[i], hmm[i]);
-        and2$ andV(hit[i], hit1[i], boabw[i]);
+        and2$ andV(hit_buf[i], hit1[i], boabw[i]);
         and3$ asher(way_sw1[i], isSW, PTC[i], hit1[i]);
     end
   
@@ -58,8 +59,8 @@ endgenerate
     nor4$ nomiss(way_sel_sw_nomiss, hit[0], hit[1], hit[2], hit[3]);
     and2$ swovr(way_sw_ov,way_sel_sw_noptc, way_sel_sw_nomiss);
     mux2n #(4) way_sw_swap(way_sw, way_sw1, way_sw1, way_sw_ov);
-
-
+    mux2n #(4) (hit, hit_buf, 4'b0000, ex_miss & !isW);
+//Cycle 144
 nor4$ n1(miss, hit[3], hit[2], hit[1], hit[0]);
 
 muxnm_tristate #(4, 8) asb(data, way, tag_out);

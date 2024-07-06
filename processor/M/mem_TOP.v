@@ -204,5 +204,18 @@ module mem (input valid_in,
     assign BP_alias_out = BP_alias_in;
 
     assign opsize_out = opsize_in;
-
+    wire[31:0] eip_$, address_1_$, address_2_$;
+    assign address_1_$ =  mem_addr1;
+    assign address_2_$ = mem_addr2;
+    wire[7:0] ptc_id_$; 
+    wire clk_$;
+    integer cyc_ctr_$;
+    initial cyc_ctr_$ = 0;
+    always @(posedge clk) begin 
+        cyc_ctr_$ = cyc_ctr_$ + 1;
+    end
+    assign valid_in_$ = valid_in;
+    assign ptc_id_$ = inst_ptcid_in;
+    assign eip_$ = latched_eip_in;
+   
 endmodule
