@@ -46,15 +46,16 @@ wire [15:0] LRU;
 wire[3:0] V;
 inv1$ invQ(clkn, clk);
 inv1$ invS(valn, valid_in);
-
+wire[7:0] tag_read_buf;
 wire[3:0] index_out;
 assign index = pAddress_in[6:5];
 assign index_out = index;
 
 
 assign tag_in = pAddress_in[14:7];
+regn #(8) r69(.din(tag_read), .ld(1'b1), .clr(rst), .clk(clkn), .dout(tag_read_buf));
 
-assign extAddress = {tag_read, index,4'b0};
+assign extAddress = {tag_read_buf, index,pAddress_in[4],4'b0};
 wire[3:0] way_sw, way_sw_miss;
 or2$ mvswr(smalls, r, sw); //TODO: Possible i$ d$ change
 nand4$ mvW(meta_validW, smalls, MSHR_MISS, valid_out,rst);
