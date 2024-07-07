@@ -29,7 +29,7 @@ module pmem_TOP (input [3:0] recvB,
 
     genvar i;
     generate
-        for (i = 0; i < 4; i = i + 1) begin : banks
+        for (i = 0; i < 4; i = i + 1) begin : banks 
 
             wire [3:0] bnkid;
             
@@ -72,6 +72,9 @@ module pmem_TOP (input [3:0] recvB,
         
         end
     endgenerate
+
+    integer file;
+    integer ch, cl, b;
 
     initial begin
         $readmemh("Memory/initfiles/pmem_b0c0d0.init", banks[0].bnk.bank_slices[0].dram.cells[0].sram.mem);
@@ -330,6 +333,22 @@ module pmem_TOP (input [3:0] recvB,
         $readmemh("Memory/initfiles/pmem_b3c15d1.init", banks[3].bnk.bank_slices[15].dram.cells[1].sram.mem);
         $readmemh("Memory/initfiles/pmem_b3c15d3.init", banks[3].bnk.bank_slices[15].dram.cells[3].sram.mem);
         $readmemh("Memory/initfiles/pmem_b3c15d2.init", banks[3].bnk.bank_slices[15].dram.cells[2].sram.mem);
+        
+        #10000;
+
+        file = $fopen("pmem_final.out", "w");
+            
+        for (ch = 0; ch < 16; ch = ch + 1) begin
+            for (cl = 0; cl < 32; cl = cl + 1) begin
+                for (b = 0; b < 4; b = b + 1) begin
+                    //$fdisplay(file, "[0x%h]: %04h_%04h_%04h_%04h", {ch,cl,b,4'b0000},
+                    //                                                banks[b].bnk.bank_slices[ch].dram.cells[0].sram.mem[(32*cl)+:32],
+                    //                                                banks[b].bnk.bank_slices[ch].dram.cells[1].sram.mem[(32*cl)+:32],
+                    //                                                banks[b].bnk.bank_slices[ch].dram.cells[2].sram.mem[(32*cl)+:32],
+                    //                                                banks[b].bnk.bank_slices[ch].dram.cells[3].sram.mem[(32*cl)+:32]);
+                end
+            end
+        end
     end
 
 endmodule
