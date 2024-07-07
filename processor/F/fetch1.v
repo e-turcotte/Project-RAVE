@@ -80,11 +80,13 @@ muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({init_addr_plus_1, init_addr
 
 // ld_FIP reg even calculation
 wire ld_FIP_reg_even;
-assign ld_FIP_reg_even = even_latch_was_loaded;
+orn #(2) odsadsalj0(.in({even_latch_was_loaded, is_CF}), .out(ld_FIP_reg_even));
+// assign ld_FIP_reg_even = even_latch_was_loaded;
 
 // ld_FIP reg odd calculation
 wire ld_FIP_reg_odd;
-assign ld_FIP_reg_odd = odd_latch_was_loaded;
+orn #(2) odsadsalj1(.in({odd_latch_was_loaded, is_CF}), .out(ld_FIP_reg_odd));
+// assign ld_FIP_reg_odd = odd_latch_was_loaded;
 
 wire [27:0] FIP_o;
 wire [27:0] FIP_e;
