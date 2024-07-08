@@ -148,7 +148,7 @@ cache_stage1 cs1(.clk(clk),
 inv1$ msn(MSHR_MISS, MSHR_HIT);
 assign MSHR_pAddress = pAddress;
 and4$ msh(MSHR_alloc_noser, valid_in, rst, MISS, MSHR_MISS); //TODO: was and2$ msh(MSHR_alloc, valid, MISS, MSHR_MISS);  not really sure if I fixed this correctly
-and3$ mshs(MSHR_alloc, MSHR_alloc_noser, !SER1_FULL, !SER0_FULL);
+and3$ mshs(MSHR_alloc, MSHR_alloc_noser, !ex_clr | (ex_clr & !SER1_FULL), !ex_wb | (ex_wb & !SER0_FULL));
 assign MSHR_rdsw = sw;
 and2$ mshD(MSHR_dealloc, valid_in, fromBUS);
 assign MSHR_ptcid = PTC_ID_IN;

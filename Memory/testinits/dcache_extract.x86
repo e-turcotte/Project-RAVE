@@ -7,56 +7,56 @@
 0x12: b8 00 00 00 00              //mov    eax,0x0
 0x17: bf 00 00 00 00              //mov    edi,0x0
 0x1c: c7 80 80 00 00 00 01        //mov    DWORD PTR [eax+0x80],0x11110101
-0x23: 01 11 11    
+0x23: 01 11 11    //
 0x26: c7 80 84 00 00 00 ef        //mov    DWORD PTR [eax+0x84],0xdeadbeef
-0x2d: be ad de    
+0x2d: be ad de    //
 0x30: 83 c7 01                    //add    edi,0x1
 0x33: c7 80 00 01 00 00 02        //mov    DWORD PTR [eax+0x100],0x11110202
-0x3a: 02 11 11    
+0x3a: 02 11 11    //
 0x3d: c7 80 04 01 00 00 ef        //mov    DWORD PTR [eax+0x104],0xdeadbeef
-0x44: be ad de    
+0x44: be ad de    //
 0x47: 83 c7 01                    //add    edi,0x1
 0x4a: c7 80 80 01 00 00 03        //mov    DWORD PTR [eax+0x180],0x11110303
-0x51: 03 11 11    
+0x51: 03 11 11    //
 0x54: c7 80 84 01 00 00 ef        //mov    DWORD PTR [eax+0x184],0xdeadbeef
-0x5b: be ad de    
+0x5b: be ad de    //
 0x5e: 83 c7 01                    //add    edi,0x1
 0x61: c7 80 00 02 00 00 04        //mov    DWORD PTR [eax+0x200],0x11110404
-0x68: 04 11 11    
+0x68: 04 11 11    //
 0x6b: c7 80 04 02 00 00 ef        //mov    DWORD PTR [eax+0x204],0xdeadbeef
-0x72: be ad de    
+0x72: be ad de    //
 0x75: 83 c7 01                    //add    edi,0x1
 0x78: 26 c7 80 80 00 00 00        //mov    DWORD PTR es:[eax+0x80],0x22220101
-0x7f: 01 01 22 22 
+0x7f: 01 01 22 22 //
 0x83: 26 c7 80 88 00 00 00        //mov    DWORD PTR es:[eax+0x88],0xfacecafe
-0x8a: fe ca ce fa 
+0x8a: fe ca ce fa //
 0x8e: 83 c7 01                    //add    edi,0x1
 0x91: 26 c7 80 00 01 00 00        //mov    DWORD PTR es:[eax+0x100],0x22220202
-0x98: 02 02 22 22 
+0x98: 02 02 22 22 //
 0x9c: 26 c7 80 08 01 00 00        //mov    DWORD PTR es:[eax+0x108],0xfacecafe
-0xa3: fe ca ce fa 
+0xa3: fe ca ce fa //
 0xa7: 83 c7 01                    //add    edi,0x1
 0xaa: 26 c7 80 80 01 00 00        //mov    DWORD PTR es:[eax+0x180],0x22220303
-0xb1: 03 03 22 22 
+0xb1: 03 03 22 22     //
 0xb5: 26 c7 80 88 01 00 00        //mov    DWORD PTR es:[eax+0x188],0xfacecafe
-0xbc: fe ca ce fa 
+0xbc: fe ca ce fa   //
 0xc0: 83 c7 01                    //add    edi,0x1
 0xc3: 26 c7 80 00 02 00 00        //mov    DWORD PTR es:[eax+0x200],0x22220404
-0xca: 04 04 22 22 
+0xca: 04 04 22 22   //
 0xce: 26 c7 80 08 02 00 00        //mov    DWORD PTR es:[eax+0x208],0xfacecafe
-0xd5: fe ca ce fa 
+0xd5: fe ca ce fa   //
 0xd9: 83 c7 01                    //add    edi,0x1
 0xdc: 64 c7 80 80 00 00 00        //mov    DWORD PTR fs:[eax+0x80],0x33330101
-0xe3: 01 01 33 33 
+0xe3: 01 01 33 33   //
 0xe7: 83 c7 01                    //add    edi,0x1
 0xea: 64 c7 80 00 01 00 00        //mov    DWORD PTR fs:[eax+0x100],0x33330202
-0xf1: 02 02 33 33 
+0xf1: 02 02 33 33   //
 0xf5: 83 c7 01                    //add    edi,0x1
 0xf8: 64 c7 80 80 01 00 00        //mov    DWORD PTR fs:[eax+0x180],0x33330303
-0xff: 03 03 33 33
+0xff: 03 03 33 33   //
 0x103:    83 c7 01                //add    edi,0x1
 0x106:    64 c7 80 00 02 00 00    //mov    DWORD PTR fs:[eax+0x200],0x33330404
-0x10d:    04 04 33 33
+0x10d:    04 04 33 33   //
 0x111:    83 c7 01                //add    edi,0x1
 0x114:    b9 00 00 00 00          //mov    ecx,0x0
 0x119:    ba 00 00 00 00          //mov    edx,0x0
@@ -66,7 +66,7 @@
 0x12e:    26 03 88 80 00 00 00    //add    ecx,DWORD PTR es:[eax+0x80]
 0x135:    64 03 88 80 00 00 00    //add    ecx,DWORD PTR fs:[eax+0x80]
 0x13c:    03 90 00 01 00 00       //add    edx,DWORD PTR [eax+0x100]
-0x142:    26 03 90 00 01 00 00    //add    edx,DWORD PTR es:[eax+0x100]                     //7+100  = TAG: xE2, address = x7100
+0x142:    26 03 90 00 01 00 00    //add    edx,DWORD PTR es:[eax+0x100]
 0x149:    64 03 90 00 01 00 00    //add    edx,DWORD PTR fs:[eax+0x100]
 0x150:    03 98 80 01 00 00       //add    ebx,DWORD PTR [eax+0x180]
 0x156:    26 03 98 80 01 00 00    //add    ebx,DWORD PTR es:[eax+0x180]
@@ -75,4 +75,24 @@
 0x16b:    64 03 a0 88 00 00 00    //add    esp,DWORD PTR fs:[eax+0x88]
 0x172:    26 03 a0 88 00 00 00    //add    esp,DWORD PTR es:[eax+0x88]
 0x179:    03 a0 84 00 00 00       //add    esp,DWORD PTR [eax+0x84]
-0x17f:    f4                      //hlt 
+0x17f:    f4                      //hlt
+0x180:    83 c7 00                //add    edi,0x0
+0x183:    83 c7 00                //add    edi,0x0
+0x186:    83 c7 00                //add    edi,0x0
+0x189:    83 c7 00                //add    edi,0x0
+0x18c:    83 c7 00                //add    edi,0x0
+0x18f:    83 c7 00                //add    edi,0x0
+0x192:    83 c7 00                //add    edi,0x0
+0x195:    83 c7 00                //add    edi,0x0
+0x198:    83 c7 00                //add    edi,0x0
+0x19b:    83 c7 00                //add    edi,0x0
+0x19e:    83 c7 00                //add    edi,0x0
+0x1a1:    83 c7 00                //add    edi,0x0
+0x1a4:    83 c7 00                //add    edi,0x0
+0x1a7:    83 c7 00                //add    edi,0x0
+0x1aa:    83 c7 00                //add    edi,0x0
+0x1ad:    83 c7 00                //add    edi,0x0
+0x1b0:    83 c7 00                //add    edi,0x0
+0x1b3:    83 c7 00                //add    edi,0x0
+0x1b6:    83 c7 00                //add    edi,0x0
+0x1b9:    83 c7 00                //add    edi,0x0 
