@@ -1067,7 +1067,7 @@ end
  
 always  @(posedge clk) begin
         #3
-        if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1 || clk_ctr_$ == 32'd140) begin
+        if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1 || clk_ctr_$ == 32'd700) begin
             $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #,Cyc: %d\n", clk_ctr_$);
             $fwrite(file_handle, "EVEN TAG STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
