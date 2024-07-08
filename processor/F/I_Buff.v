@@ -168,26 +168,30 @@ assign line_10_check[1] = FIP_e[1];
 
 assign line_11_check = FIP_o;
 
-wire line_00_check_anded, line_01_check_anded, line_10_check_anded, line_11_check_anded;
-andn #(2) a4qw(.in({line_00_check[0], line_00_check[1]}), .out(line_00_check_anded));
-andn #(2) aqe5(.in({line_01_check[0], line_01_check[1]}), .out(line_01_check_anded));
-andn #(2) aqe6(.in({line_10_check[0], line_10_check[1]}), .out(line_10_check_anded));
-andn #(2) aqee7(.in({line_11_check[0], line_11_check[1]}), .out(line_11_check_anded));
+// wire line_00_check_anded, line_01_check_anded, line_10_check_anded, line_11_check_anded;
+// andn #(2) a4qw(.in({line_00_check[0], line_00_check[1]}), .out(line_00_check_anded));
+// andn #(2) aqe5(.in({line_01_check[0], line_01_check[1]}), .out(line_01_check_anded));
+// andn #(2) aqe6(.in({line_10_check[0], line_10_check[1]}), .out(line_10_check_anded));
+// andn #(2) aqee7(.in({line_11_check[0], line_11_check[1]}), .out(line_11_check_anded));
 
-wire not_cache_miss_even, not_cache_miss_odd;
-inv1$ i4(.out(not_cache_miss_even), .in(cache_miss_even));
-inv1$ i5(.out(not_cache_miss_odd), .in(cache_miss_odd));
+// wire not_cache_miss_even, not_cache_miss_odd;
+// inv1$ i4(.out(not_cache_miss_even), .in(cache_miss_even));
+// inv1$ i5(.out(not_cache_miss_odd), .in(cache_miss_odd));
 
-wire cache_not_hit_line_00, cache_not_hit_line_01, cache_not_hit_line_10, cache_not_hit_line_11;
-nand2$ odqwq0(.in0(not_cache_miss_even), .in1(line_00_check_anded), .out(cache_not_hit_line_00));
-nand2$ odda1(.in0(not_cache_miss_odd), .in1(line_01_check_anded), .out(cache_not_hit_line_01));
-nand2$ odadw2(.in0(not_cache_miss_even), .in1(line_10_check_anded), .out(cache_not_hit_line_10));
-nand2$ oadw3(.in0(not_cache_miss_odd), .in1(line_11_check_anded), .out(cache_not_hit_line_11));
+// wire cache_not_hit_line_00, cache_not_hit_line_01, cache_not_hit_line_10, cache_not_hit_line_11;
+// nand2$ odqwq0(.in0(not_cache_miss_even), .in1(line_00_check_anded), .out(cache_not_hit_line_00));
+// nand2$ odda1(.in0(not_cache_miss_odd), .in1(line_01_check_anded), .out(cache_not_hit_line_01));
+// nand2$ odadw2(.in0(not_cache_miss_even), .in1(line_10_check_anded), .out(cache_not_hit_line_10));
+// nand2$ oadw3(.in0(not_cache_miss_odd), .in1(line_11_check_anded), .out(cache_not_hit_line_11));
 
-andn #(2) a4(.in({invalidate_line_00_no_cache_check, cache_not_hit_line_00}), .out(invalidate_line_00));
-andn #(2) a5(.in({invalidate_line_01_no_cache_check, cache_not_hit_line_01}), .out(invalidate_line_01));
-andn #(2) a6(.in({invalidate_line_10_no_cache_check, cache_not_hit_line_10}), .out(invalidate_line_10));
-andn #(2) a7(.in({invalidate_line_11_no_cache_check, cache_not_hit_line_11}), .out(invalidate_line_11));
+// andn #(2) a4(.in({invalidate_line_00_no_cache_check, cache_not_hit_line_00}), .out(invalidate_line_00));
+// andn #(2) a5(.in({invalidate_line_01_no_cache_check, cache_not_hit_line_01}), .out(invalidate_line_01));
+// andn #(2) a6(.in({invalidate_line_10_no_cache_check, cache_not_hit_line_10}), .out(invalidate_line_10));
+// andn #(2) a7(.in({invalidate_line_11_no_cache_check, cache_not_hit_line_11}), .out(invalidate_line_11));
+assign invalidate_line_00 = invalidate_line_00_no_cache_check;
+assign invalidate_line_01 = invalidate_line_01_no_cache_check;
+assign invalidate_line_10 = invalidate_line_10_no_cache_check;
+assign invalidate_line_11 = invalidate_line_11_no_cache_check;
 
 endmodule
 
