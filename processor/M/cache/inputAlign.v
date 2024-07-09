@@ -60,8 +60,10 @@ assign valid0 = valid_in; assign fromBUS0 = fromBUS; assign fromBUS1 = fromBUS;
 bufferH256$ b12(fromMEM, fromBUS);
 inv1$ asa(PCD_not,PCD_out);
 wire[3:0] shift0_enc;
-and2$ asv(valid0, valid_in, PCD_not);
-
+// and2$ asv(valid0, valid_in, PCD_not);
+//valid0 = valid_in & !(sw & PCD)
+nand2$ asfsa(sw_pcd_skip, sw, PCD_out);
+and2$ asfafs(valid0, valid_in, sw_pcd_skip);
 //Adr + x10
 kogeAdder #(32) a1(vAddress1, dc, address_in, 32'h0000_0010, 1'b0);
 
