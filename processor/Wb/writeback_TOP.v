@@ -150,7 +150,7 @@ module writeback_TOP(
     wire not_clk;
     inv1$ gdf1(.in(clk), .out(not_clk));
     wire neg_flop_resteer;
-    dff$ ghfkdsj1(.Q(is_resteer_pre_flopping), .D(neg_flop_resteer), .CLK(not_clk), .SET(set), .RST(rst));
+    dff$ ghfkdsj1(.q(is_resteer_pre_flopping), .qbar(), .d(neg_flop_resteer), .clk(not_clk), .s(set), .r(rst));
     and2$ gdsf1(.out(is_resteer), .in0(neg_flop_resteer), .in1(not_clk));
     assign latched_EIP_out = latched_EIP_in;
     assign WB_BP_update_alias = BP_alias_in;
