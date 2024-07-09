@@ -5,3 +5,11 @@
 0xd:  83 c0 ff                //add    eax,0xffffffff
 0x10: 75 f8                   //jne    a <loop_start>
 0x12: b9 ef be 00 00          //mov    ecx,0xbeef
+0x17:    f4                      //hlt
+0x18:    83 c7 00                //add    edi,0x0
+0x1b:    83 c7 00                //add    edi,0x0
+0x1e:    83 c7 00                //add    edi,0x0
+0x21:    83 c7 00                //add    edi,0x0
+0x24:    83 c7 00                //add    edi,0x0
+0x27:    83 c7 00                //add    edi,0x0
+0x2a:    83 c7 00                //add    edi,0x0
