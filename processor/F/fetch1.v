@@ -166,7 +166,7 @@ wire [27:0] FIP_reg_data_out;
 muxnm_tristate #(.NUM_INPUTS(3), .DATA_WIDTH(28)) m0(.in({init_FIP, WB_FIP, BP_FIP}), .sel(sel_CF), .out(ctrl_flow_addr));
 
 wire [27:0] FIP_reg_data_in;
-muxnm_tristate #(.NUM_INPUTS(2), .DATA_WIDTH(28)) msdf1(.in({ctrl_flow_addr, addr_plus_2[27:0]}), .sel(is_ctrl_flow), .out(FIP_reg_data_in));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(28)) msdf1(.in({ctrl_flow_addr, addr_plus_2[27:0]}), .sel(is_ctrl_flow), .out(FIP_reg_data_in));
 
 kogeAdder #(.WIDTH(32)) a0(.SUM(addr_plus_2), .COUT(), .A({4'b0000, output_addr}), .B(32'd2), .CIN(1'b0));
 regn_with_set_lsb_FIP #(.PARITY(PARITY), .WIDTH(28)) r0(.din(FIP_reg_data_in), .ld(ld_FIP_reg), .clr(clr_FIP_reg), .clk(clk), .dout(FIP_reg_data_out));
