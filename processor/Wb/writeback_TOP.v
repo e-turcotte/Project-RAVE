@@ -140,12 +140,18 @@ module writeback_TOP(
     assign BR_valid = BR_valid_in;
     assign BR_taken = BR_taken_in;
     assign BR_correct = BR_correct_in;
-    wire BR_correct_delay1, BR_correct_delay2, BR_correct_delay3, BR_correct_delay4;
-    and2$ lashjdfl3ho(.in0(BR_correct_in), .in1(BR_correct_in), .out(BR_correct_delay1));
-    and2$ lashjdsasdfl3ho(.in0(BR_correct_delay1), .in1(BR_correct_delay1), .out(BR_correct_delay2));
-    inv1$ lashjdskjasdfl3ho(.in(BR_correct_delay2), .out(BR_correct_delay3));
-    inv1$ lashjdsjasdfl3ho(.in(BR_correct_delay3), .out(BR_correct_delay4));
-    nor2$ g0(.out(is_resteer), .in0(BR_correct_delay4), .in1(invvalid));
+    // wire BR_correct_delay1, BR_correct_delay2, BR_correct_delay3, BR_correct_delay4;
+    // and2$ lashjdfl3ho(.in0(BR_correct_in), .in1(BR_correct_in), .out(BR_correct_delay1));
+    // and2$ lashjdsasdfl3ho(.in0(BR_correct_delay1), .in1(BR_correct_delay1), .out(BR_correct_delay2));
+    // inv1$ lashjdskjasdfl3ho(.in(BR_correct_delay2), .out(BR_correct_delay3));
+    // inv1$ lashjdsjasdfl3ho(.in(BR_correct_delay3), .out(BR_correct_delay4));
+    wire is_resteer_pre_flopping;
+    nor2$ g0(.out(is_resteer_pre_flopping), .in0(BR_correct_in), .in1(invvalid));
+    wire not_clk;
+    inv1$ gdf1(.in(clk), .out(not_clk));
+    wire neg_flop_resteer;
+    dff$ ghfkdsj1(.Q(is_resteer_pre_flopping), .D(neg_flop_resteer), .CLK(not_clk), .SET(set), .RST(rst));
+    and2$ gdsf1(.out(is_resteer), .in0(neg_flop_resteer), .in1(not_clk));
     assign latched_EIP_out = latched_EIP_in;
     assign WB_BP_update_alias = BP_alias_in;
 
