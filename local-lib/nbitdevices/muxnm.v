@@ -34,7 +34,7 @@ module muxnm_tree #(parameter SEL_WIDTH=1, DATA_WIDTH=1) (input [(2**SEL_WIDTH)*
 endmodule
 
 module muxn1_tree #(parameter SEL_WIDTH=1) (input [(2**SEL_WIDTH)-1:0] in,
-                                            inout [SEL_WIDTH-1:0] sel,
+                                            input [SEL_WIDTH-1:0] sel,
                                             output out);
 
     wire [(2**(SEL_WIDTH-1))-1:0] layer_out;
