@@ -56,9 +56,13 @@ module writeback_TOP(
 
     output final_IE_val,
     output [3:0] final_IE_type,
-    output halts
+    output halts,
+    output halt_flop
     );
-    and2$ halc(halts, P_OP[9], valid_in);
+    
+    and2$ halc(halts, P_OP[9], valid_out);
+    dff$ desDEss(clk,halt_last, halt_last, dcxxx, rst, halts);
+
     assign inst_ptcid_out = inst_ptcid_in;
 
     wire LD_EIP_CS;
