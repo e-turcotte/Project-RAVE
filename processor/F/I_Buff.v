@@ -46,7 +46,7 @@ wire invalidate_line_00, invalidate_line_01, invalidate_line_10, invalidate_line
 wire ld_0, ld_1, ld_2, ld_3;
 ld_selector l0(/*.num_lines_to_ld_in(num_lines_to_ld_reg_out),*/ .FIP_o(FIP_o_lsb_fetch1), .FIP_e(FIP_e_lsb_fetch1), .cache_miss_even(cache_miss_even_fetch1), 
                 .cache_miss_odd(cache_miss_odd_fetch1), .evenW(evenW_fetch1), .oddW(oddW_fetch1), .v_00(line_00_valid), .v_01(line_01_valid), .v_10(line_10_valid), 
-                .v_11(line_11_valid), .ld_0(ld_0), .ld_1(ld_1), .ld_2(ld_2), .ld_3(ld_3));
+                .v_11(line_11_valid), .CF(CF), .ld_0(ld_0), .ld_1(ld_1), .ld_2(ld_2), .ld_3(ld_3));
 orn #(2) o1123124(.out(even_latch_was_loaded), .in({ld_0, ld_2}));
 orn #(2) o1123125(.out(odd_latch_was_loaded), .in({ld_1, ld_3}));
 
@@ -207,6 +207,7 @@ module ld_selector (
     input wire v_01,
     input wire v_10,
     input wire v_11,
+    input wire CF,
 
     output wire ld_0,
     output wire ld_1,
@@ -274,10 +275,17 @@ inv1$ i1sdf0(.out(not_v_01), .in(v_01));
 inv1$ i1sdf1(.out(not_v_10), .in(v_10));
 inv1$ isdf12(.out(not_v_11), .in(v_11));
 
-andn #(4) as8(.in({check_line_00_e, not_v_00, not_cache_miss_even, not_evenW}), .out(ld_0));
-andn #(4) as9(.in({check_line_01_o, not_v_01, not_cache_miss_odd, not_oddW}), .out(ld_1));
-andn #(4) a10(.in({check_line_10_e, not_v_10, not_cache_miss_even, not_evenW}), .out(ld_2));
-andn #(4) a11(.in({check_line_11_o, not_v_11, not_cache_miss_odd, not_oddW}), .out(ld_3));
+wire ld_0_no_CF, ld_1_no_CF, ld_2_no_CF, ld_3_no_CF;
+andn #(4) as8(.in({check_line_00_e, not_v_00, not_cache_miss_even, not_evenW}), .out(ld_0_no_CF));
+andn #(4) as9(.in({check_line_01_o, not_v_01, not_cache_miss_odd, not_oddW}), .out(ld_1_no_CF));
+andn #(4) a10(.in({check_line_10_e, not_v_10, not_cache_miss_even, not_evenW}), .out(ld_2_no_CF));
+andn #(4) a11(.in({check_line_11_o, not_v_11, not_cache_miss_odd, not_oddW}), .out(ld_3_no_CF));
+
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) kljsdhfoheo0(.in({1'b0, ld_0_no_CF}), .sel(CF), .out(ld_0));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) kljsdhfoheo1(.in({1'b0, ld_1_no_CF}), .sel(CF), .out(ld_1));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) kljsdhfoheo2(.in({1'b0, ld_2_no_CF}), .sel(CF), .out(ld_2));
+muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) kljsdhfoheo3(.in({1'b0, ld_3_no_CF}), .sel(CF), .out(ld_3));
+
 
 endmodule
 
