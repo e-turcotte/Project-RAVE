@@ -792,7 +792,7 @@
         .mux_adder_out(mux_adder_D_RrAg_latch_in),
         .mux_and_int_out(mux_and_int_D_RrAg_latch_in),
         .mux_shift_out(mux_shift_D_RrAg_latch_in),
-        .p_op_out(p_op_D_out),
+        .p_op_out(p_op_D_RrAg_latch_in/*p_op_D_out*/),
         .fmask_out(fmask_D_RrAg_latch_in),
         .conditionals_out(conditionals_D_RrAg_latch_in),
         .is_br_out(is_br_D_RrAg_latch_in),
