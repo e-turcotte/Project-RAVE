@@ -29,7 +29,7 @@ module fetch_TOP (
     input wire [5:0] BP_BIP,
     input wire [31:0] BP_target,
     input wire is_BR_T_NT,
-    input wire BP_update_alias,
+    input wire [5:0] BP_update_alias,
 
     ////////////////////////////
     // signals from init     //  
