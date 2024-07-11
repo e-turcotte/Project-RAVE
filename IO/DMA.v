@@ -85,6 +85,7 @@ always @(posedge clk) begin
                         3'b000: begin                          
                                 read_kb = 1;
                                 state = 1;
+                                read_d = 1;
                         end
 
                         3'b001: begin
