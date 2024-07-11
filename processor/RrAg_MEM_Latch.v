@@ -11,6 +11,7 @@ module RrAg_MEM_latch (
         input [2:0]   reg1_orig_in, reg2_orig_in, reg3_orig_in, reg4_orig_in,
         input [15:0]  seg1_in, seg2_in, seg3_in, seg4_in,
         input [31:0]  ptc_s1_in, ptc_s2_in, ptc_s3_in, ptc_s4_in,
+        input [19:0]  seg1_lim_in, seg2_lim_in, seg3_lim_in, seg4_lim_in,
         input [2:0]   seg1_orig_in, seg2_orig_in, seg3_orig_in, seg4_orig_in,
         input [6:0]   inst_ptcid_in,
         input [12:0]  op1_in, op2_in, op3_in, op4_in,
@@ -45,6 +46,7 @@ module RrAg_MEM_latch (
         output [2:0]   reg1_orig_out, reg2_orig_out, reg3_orig_out, reg4_orig_out,
         output [15:0]  seg1_out, seg2_out, seg3_out, seg4_out,
         output [31:0]  ptc_s1_out, ptc_s2_out, ptc_s3_out, ptc_s4_out,
+        output [19:0]  seg1_lim_out, seg2_lim_out, seg3_lim_out, seg4_lim_out,
         output [2:0]   seg1_orig_out, seg2_orig_out, seg3_orig_out, seg4_orig_out,
         output [6:0]   inst_ptcid_out,
         output [12:0]  op1_out, op2_out, op3_out, op4_out,
@@ -105,6 +107,10 @@ module RrAg_MEM_latch (
     regn #(.WIDTH(32))  r25 (.din(ptc_s2_in), .ld(ld), .clr(clr), .clk(clk), .dout(ptc_s2_out));
     regn #(.WIDTH(32))  r26 (.din(ptc_s3_in), .ld(ld), .clr(clr), .clk(clk), .dout(ptc_s3_out));
     regn #(.WIDTH(32))  r27 (.din(ptc_s4_in), .ld(ld), .clr(clr), .clk(clk), .dout(ptc_s4_out));
+    regn #(.WIDTH(3))   r28lim1 (.din(seg1_lim_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg1_lim_out));
+    regn #(.WIDTH(3))   r28lim2 (.din(seg2_lim_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg2_lim_out));
+    regn #(.WIDTH(3))   r28lim3 (.din(seg3_lim_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg3_lim_out));
+    regn #(.WIDTH(3))   r28lim4 (.din(seg4_lim_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg4_lim_out));
     regn #(.WIDTH(3))   r28 (.din(seg1_orig_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg1_orig_out));
     regn #(.WIDTH(3))   r29 (.din(seg2_orig_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg2_orig_out));
     regn #(.WIDTH(3))   r30 (.din(seg3_orig_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg3_orig_out));
@@ -179,6 +185,10 @@ module RrAg_MEM_latch (
         $fdisplay(file, "\t\t ptc_s2: 0x%h", ptc_s2_out);
         $fdisplay(file, "\t\t ptc_s3: 0x%h", ptc_s3_out);
         $fdisplay(file, "\t\t ptc_s4: 0x%h", ptc_s4_out);
+        $fdisplay(file, "\t\t seg1_lim: %b", seg1_lim_out);
+        $fdisplay(file, "\t\t seg2_lim: %b", seg2_lim_out);
+        $fdisplay(file, "\t\t seg3_lim: %b", seg3_lim_out);
+        $fdisplay(file, "\t\t seg4_lim: %b", seg4_lim_out);
         $fdisplay(file, "\t\t seg1_orig: %b", seg1_orig_out);
         $fdisplay(file, "\t\t seg2_orig: %b", seg2_orig_out);
         $fdisplay(file, "\t\t seg3_orig: %b", seg3_orig_out);

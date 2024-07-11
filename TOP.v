@@ -275,6 +275,7 @@
     wire [2:0]   reg1_orig_RrAg_MEM_latch_in, reg2_orig_RrAg_MEM_latch_in, reg3_orig_RrAg_MEM_latch_in, reg4_orig_RrAg_MEM_latch_in;
     wire [15:0]  seg1_RrAg_MEM_latch_in, seg2_RrAg_MEM_latch_in, seg3_RrAg_MEM_latch_in, seg4_RrAg_MEM_latch_in;
     wire [31:0]  ptc_s1_RrAg_MEM_latch_in, ptc_s2_RrAg_MEM_latch_in, ptc_s3_RrAg_MEM_latch_in, ptc_s4_RrAg_MEM_latch_in;
+    wire [19:0] seg1_lim_RrAg_MEM_latch_in, seg2_lim_RrAg_MEM_latch_in, seg3_lim_RrAg_MEM_latch_in, seg4_lim_RrAg_MEM_latch_in,
     wire [2:0]   seg1_orig_RrAg_MEM_latch_in, seg2_orig_RrAg_MEM_latch_in, seg3_orig_RrAg_MEM_latch_in, seg4_orig_RrAg_MEM_latch_in;
     wire [6:0]   inst_ptcid_RrAg_MEM_latch_in;
     wire [12:0]  op1_RrAg_MEM_latch_in, op2_RrAg_MEM_latch_in, op3_RrAg_MEM_latch_in, op4_RrAg_MEM_latch_in;
@@ -313,6 +314,7 @@
     wire [2:0]   reg1_orig_RrAg_MEM_latch_out, reg2_orig_RrAg_MEM_latch_out, reg3_orig_RrAg_MEM_latch_out, reg4_orig_RrAg_MEM_latch_out;
     wire [15:0]  seg1_RrAg_MEM_latch_out, seg2_RrAg_MEM_latch_out, seg3_RrAg_MEM_latch_out, seg4_RrAg_MEM_latch_out;
     wire [31:0]  ptc_s1_RrAg_MEM_latch_out, ptc_s2_RrAg_MEM_latch_out, ptc_s3_RrAg_MEM_latch_out, ptc_s4_RrAg_MEM_latch_out;
+    wire [19:0] seg1_lim_RrAg_MEM_latch_out, seg2_lim_RrAg_MEM_latch_out, seg3_lim_RrAg_MEM_latch_out, seg4_lim_RrAg_MEM_latch_out,
     wire [2:0]   seg1_orig_RrAg_MEM_latch_out, seg2_orig_RrAg_MEM_latch_out, seg3_orig_RrAg_MEM_latch_out, seg4_orig_RrAg_MEM_latch_out;
     wire [6:0]   inst_ptcid_RrAg_MEM_latch_out;
     wire [12:0]  op1_RrAg_MEM_latch_out, op2_RrAg_MEM_latch_out, op3_RrAg_MEM_latch_out, op4_RrAg_MEM_latch_out;
@@ -900,6 +902,7 @@
         .reg1_orig(reg1_orig_RrAg_MEM_latch_in), .reg2_orig(reg2_orig_RrAg_MEM_latch_in), .reg3_orig(reg3_orig_RrAg_MEM_latch_in), .reg4_orig(reg4_orig_RrAg_MEM_latch_in),
         .seg1(seg1_rragdf), .seg2(seg2_rragdf), .seg3(seg3_rragdf), .seg4(seg4_rragdf),
         .ptc_s1(ptc_s1_RrAg_MEM_latch_in), .ptc_s2(ptc_s2_RrAg_MEM_latch_in), .ptc_s3(ptc_s3_RrAg_MEM_latch_in), .ptc_s4(ptc_s4_RrAg_MEM_latch_in),
+        .seg1_lim(seg1_lim_RrAg_MEM_latch_in), .seg2_lim(seg2_lim_RrAg_MEM_latch_in), .seg3_lim(seg3_lim_RrAg_MEM_latch_in), .seg4_lim(seg4_lim_RrAg_MEM_latch_in),
         .seg1_orig(seg1_orig_RrAg_MEM_latch_in), .seg2_orig(seg2_orig_RrAg_MEM_latch_in), .seg3_orig(seg3_orig_RrAg_MEM_latch_in), .seg4_orig(seg4_orig_RrAg_MEM_latch_in),
         .inst_ptcid(inst_ptcid_RrAg_MEM_latch_in),
         .op1_out(op1_RrAg_MEM_latch_in), .op2_out(op2_RrAg_MEM_latch_in), .op3_out(op3_RrAg_MEM_latch_in), .op4_out(op4_RrAg_MEM_latch_in),
@@ -952,6 +955,7 @@
         .reg1_orig_in(reg1_orig_RrAg_MEM_latch_in), .reg2_orig_in(reg2_orig_RrAg_MEM_latch_in), .reg3_orig_in(reg3_orig_RrAg_MEM_latch_in), .reg4_orig_in(reg4_orig_RrAg_MEM_latch_in),
         .seg1_in(seg1_RrAg_MEM_latch_in), .seg2_in(seg2_RrAg_MEM_latch_in), .seg3_in(seg3_RrAg_MEM_latch_in), .seg4_in(seg4_RrAg_MEM_latch_in),
         .ptc_s1_in(ptc_s1_RrAg_MEM_latch_in), .ptc_s2_in(ptc_s2_RrAg_MEM_latch_in), .ptc_s3_in(ptc_s3_RrAg_MEM_latch_in), .ptc_s4_in(ptc_s4_RrAg_MEM_latch_in),
+        .seg1_lim_in(seg1_lim_RrAg_MEM_latch_in), .seg2_lim_in(seg2_lim_RrAg_MEM_latch_in), .seg3_lim_in(seg3_lim_RrAg_MEM_latch_in), .seg4_lim_in(seg4_lim_RrAg_MEM_latch_in),
         .seg1_orig_in(seg1_orig_RrAg_MEM_latch_in), .seg2_orig_in(seg2_orig_RrAg_MEM_latch_in), .seg3_orig_in(seg3_orig_RrAg_MEM_latch_in), .seg4_orig_in(seg4_orig_RrAg_MEM_latch_in),
         .inst_ptcid_in(inst_ptcid_RrAg_MEM_latch_in),
         .op1_in(op1_RrAg_MEM_latch_in), .op2_in(op2_RrAg_MEM_latch_in), .op3_in(op3_RrAg_MEM_latch_in), .op4_in(op4_RrAg_MEM_latch_in),
@@ -985,6 +989,7 @@
         .reg1_orig_out(reg1_orig_RrAg_MEM_latch_out), .reg2_orig_out(reg2_orig_RrAg_MEM_latch_out), .reg3_orig_out(reg3_orig_RrAg_MEM_latch_out), .reg4_orig_out(reg4_orig_RrAg_MEM_latch_out),
         .seg1_out(seg1_RrAg_MEM_latch_out), .seg2_out(seg2_RrAg_MEM_latch_out), .seg3_out(seg3_RrAg_MEM_latch_out), .seg4_out(seg4_RrAg_MEM_latch_out),
         .ptc_s1_out(ptc_s1_RrAg_MEM_latch_out), .ptc_s2_out(ptc_s2_RrAg_MEM_latch_out), .ptc_s3_out(ptc_s3_RrAg_MEM_latch_out), .ptc_s4_out(ptc_s4_RrAg_MEM_latch_out),
+        .seg1_lim_out(seg1_lim_RrAg_MEM_latch_out), .seg2_lim_out(seg2_lim_RrAg_MEM_latch_out), .seg3_lim_out(seg3_lim_RrAg_MEM_latch_out), .seg4_lim_out(seg4_lim_RrAg_MEM_latch_out),
         .seg1_orig_out(seg1_orig_RrAg_MEM_latch_out), .seg2_orig_out(seg2_orig_RrAg_MEM_latch_out), .seg3_orig_out(seg3_orig_RrAg_MEM_latch_out), .seg4_orig_out(seg4_orig_RrAg_MEM_latch_out),
         .inst_ptcid_out(inst_ptcid_RrAg_MEM_latch_out),
         .op1_out(op1_RrAg_MEM_latch_out), .op2_out(op2_RrAg_MEM_latch_out), .op3_out(op3_RrAg_MEM_latch_out), .op4_out(op4_RrAg_MEM_latch_out),
@@ -1062,6 +1067,10 @@
         .ptc_s2(ptc_s2_RrAg_MEM_latch_out),
         .ptc_s3(ptc_s3_RrAg_MEM_latch_out),
         .ptc_s4(ptc_s4_RrAg_MEM_latch_out),
+        .seg1_lim(seg1_lim_RrAg_MEM_latch_out),
+        .seg2_lim(seg2_lim_RrAg_MEM_latch_out),
+        .seg3_lim(seg3_lim_RrAg_MEM_latch_out),
+        .seg4_lim(seg4_lim_RrAg_MEM_latch_out),
         .seg1_orig(seg1_orig_RrAg_MEM_latch_out),
         .seg2_orig(seg2_orig_RrAg_MEM_latch_out),
         .seg3_orig(seg3_orig_RrAg_MEM_latch_out),
