@@ -107,10 +107,10 @@ module RrAg_MEM_latch (
     regn #(.WIDTH(32))  r25 (.din(ptc_s2_in), .ld(ld), .clr(clr), .clk(clk), .dout(ptc_s2_out));
     regn #(.WIDTH(32))  r26 (.din(ptc_s3_in), .ld(ld), .clr(clr), .clk(clk), .dout(ptc_s3_out));
     regn #(.WIDTH(32))  r27 (.din(ptc_s4_in), .ld(ld), .clr(clr), .clk(clk), .dout(ptc_s4_out));
-    regn #(.WIDTH(3))   r28lim1 (.din(seg1_lim_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg1_lim_out));
-    regn #(.WIDTH(3))   r28lim2 (.din(seg2_lim_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg2_lim_out));
-    regn #(.WIDTH(3))   r28lim3 (.din(seg3_lim_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg3_lim_out));
-    regn #(.WIDTH(3))   r28lim4 (.din(seg4_lim_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg4_lim_out));
+    regn #(.WIDTH(20))   r28lim1 (.din(seg1_lim_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg1_lim_out));
+    regn #(.WIDTH(20))   r28lim2 (.din(seg2_lim_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg2_lim_out));
+    regn #(.WIDTH(20))   r28lim3 (.din(seg3_lim_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg3_lim_out));
+    regn #(.WIDTH(20))   r28lim4 (.din(seg4_lim_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg4_lim_out));
     regn #(.WIDTH(3))   r28 (.din(seg1_orig_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg1_orig_out));
     regn #(.WIDTH(3))   r29 (.din(seg2_orig_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg2_orig_out));
     regn #(.WIDTH(3))   r30 (.din(seg3_orig_in), .ld(ld), .clr(clr), .clk(clk), .dout(seg3_orig_out));
