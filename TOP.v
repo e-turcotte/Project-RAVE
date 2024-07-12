@@ -619,6 +619,8 @@
         .is_servicing_IE(is_servicing_IE)
     );
 
+    wire btb_hit;
+
     bp_btb BPstuff(
         .clk(clk),
         .reset(global_reset),
@@ -640,8 +642,11 @@
         .FIP_O_target(BP_FIP_o_BTB_out),
         .EIP_target(BP_EIP_BTB_out),
         .btb_miss(),
-        .btb_hit()
+        .btb_hit(btb_hit)
     );
+
+    wire is_BR_T_NT_BP_out_and_btb_hit;
+    andn #(.NUM_INPUTS(2)) and1(.in({is_BR_T_NT_BP_out, btb_hit}), .out(is_BR_T_NT_BP_out_and_btb_hit));
     
     /*TODO: SIGNAL FOR CLEARING LATCHES*/
     wire WB_to_clr_latches_resteer_active_low;
@@ -665,7 +670,7 @@
         .BP_FIP_o(BP_FIP_o_BTB_out),
         .BP_FIP_e(BP_FIP_e_BTB_out),
         .BP_BIP(BP_EIP_BTB_out[5:0]),
-        .is_BR_T_NT(1'b0), //TODO : change this if testing BP
+        .is_BR_T_NT(is_BR_T_NT_BP_out_and_btb_hit), //TODO : change this if testing BP
         .BP_update_alias(BP_update_alias_out), //
         .BP_target(BP_EIP_BTB_out), //
 
@@ -758,7 +763,7 @@
 
         // Signals from BP
         .BP_EIP(BP_EIP_BTB_out),
-        .is_BR_T_NT(1'b0),
+        .is_BR_T_NT(is_BR_T_NT_BP_out_and_btb_hit),
     
         // Writeback signals
         .WB_EIP(newEIP_WB_out),
