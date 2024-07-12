@@ -504,7 +504,7 @@
     wire mem_ld_WB_M_out, wbaq_isfull_WB_M_in;
     wire [6:0] inst_ptcid_out_WB_RRAG_out;
     wire [5:0] WB_BP_update_alias;
-    wire [27:0] newFIP_e_WB_out, newFIP_o_WB_out;
+    wire [31:0] newFIP_e_WB_out, newFIP_o_WB_out;
     wire [31:0] newEIP_WB_out, latched_EIP_WB_out, EIP_WB_out;
     wire [31:0] latched_eip_WB_out;
     wire is_resteer_WB_out;
@@ -632,8 +632,8 @@
         .LD(LD_btb),
 
         .btb_update_eip_WB(latched_eip_WB_out), //EIP of BR instr, passed from D
-        .FIP_E_WB({newFIP_e_WB_out, 4'b0}), 
-        .FIP_O_WB({newFIP_o_WB_out,4'b0}), 
+        .FIP_E_WB(newFIP_e_WB_out), 
+        .FIP_O_WB(newFIP_o_WB_out), 
         .EIP_WB(newEIP_WB_out), //update, from WB
 
         .prediction(is_BR_T_NT_BP_out),
