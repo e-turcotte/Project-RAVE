@@ -15,8 +15,8 @@ module bp_btb(
     output prediction,
     output [5:0] BP_update_alias_out,
 
-    output [31:0] FIP_E_target,
-    output [31:0] FIP_O_target,
+    output [27:0] FIP_E_target,
+    output [27:0] FIP_O_target,
     output [31:0] EIP_target,
     output btb_miss,
     output btb_hit

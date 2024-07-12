@@ -8,8 +8,8 @@ module branch_target_buff(
     input LD, //is_BR, valid bit from WB latch
     input reset,
 
-    output [31:0] FIP_E_target,
-    output [31:0] FIP_O_target,
+    output [27:0] FIP_E_target,
+    output [27:0] FIP_O_target,
     output [31:0] EIP_target,
     output miss,
     output hit
@@ -90,16 +90,19 @@ module branch_target_buff(
         .out(EIP_target)
     );
 
+    wire [31:0] FIP_E_target_32_bit, FIP_O_target_32_bit;
     muxnm_tristate #(.NUM_INPUTS(64), .DATA_WIDTH(32) ) mux_FIP_E(
         .in(FIP_E_store_out_unpacked),
         .sel(index_lookup_decoded),
-        .out(FIP_E_target)
+        .out(FIP_E_target_32_bit)
     );
+    assign FIP_E_target = FIP_E_target_32_bit[31:4];
 
     muxnm_tristate #(.NUM_INPUTS(64), .DATA_WIDTH(32) ) mux_FIP_O(
         .in(FIP_O_store_out_unpacked),
         .sel(index_lookup_decoded),
-        .out(FIP_O_target)
+        .out(FIP_O_target_32_bit)
     );
+    assign FIP_O_target = FIP_O_target_32_bit[31:4];
 
 endmodule

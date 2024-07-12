@@ -519,7 +519,7 @@
     ///////////////////////////////////////////////////////////////
     wire [31:0] BP_EIP_BTB_out;
     wire is_BR_T_NT_BP_out;
-    wire [31:0] BP_FIP_e_BTB_out, BP_FIP_o_BTB_out;
+    wire [27:0] BP_FIP_e_BTB_out, BP_FIP_o_BTB_out;
     wire [5:0] BP_update_alias_out;
 
     ////////////////////////////////////////////////////////////////
@@ -639,8 +639,8 @@
         .prediction(is_BR_T_NT_BP_out),
         .BP_update_alias_out(BP_update_alias_out),
 
-        .FIP_E_target(BP_FIP_e_BTB_out[31:4]),
-        .FIP_O_target(BP_FIP_o_BTB_out[31:4]),
+        .FIP_E_target(BP_FIP_e_BTB_out),
+        .FIP_O_target(BP_FIP_o_BTB_out),
         .EIP_target(BP_EIP_BTB_out),
         .btb_miss(),
         .btb_hit(btb_hit)
