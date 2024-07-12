@@ -811,7 +811,7 @@ mshr mshrO (
     .mshr_full(mshr_full_o)
 );
 
-mshr mshrE_io ( 
+mshrio mshrE_io ( 
     .pAddress(MSHR_pAddress_e_io),
     .ptcid_in(MSHR_ptcid_e_io),
     .qentry_slot_in(qslot_$), //TODO:
@@ -826,7 +826,7 @@ mshr mshrE_io (
     .mshr_full(mshr_full_e_io)
 );
 
-mshr mshrO_io ( 
+mshrio mshrO_io ( 
     .pAddress(MSHR_pAddress_o_io),
     .ptcid_in(MSHR_ptcid_o_io),
     .qentry_slot_in(qslot_$), //TODO:
