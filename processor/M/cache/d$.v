@@ -49,6 +49,8 @@ module d$(
     input[1:0] size_in_wb,
     input valid_in_wb,
     input [6:0] PTC_ID_in_wb,
+    input [31:0] latched_eip_mem_$,
+    input [6:0]  latched_ptcid_mem_$,
 
     //TLB handler
     input [159:0] VP, PF,
@@ -81,7 +83,13 @@ module d$(
     output mshr_hit_o, mshr_full_o,
 
     output [127:0] cacheline_e_bus_in_data, cacheline_o_bus_in_data,
-    output [255:0] cacheline_e_bus_in_ptcinfo, cacheline_o_bus_in_ptcinfo
+    output [255:0] cacheline_e_bus_in_ptcinfo, cacheline_o_bus_in_ptcinfo,
+
+    //MSHR_io outputs
+    output [7:0] rd_qentry_slots_out_e_io, sw_qentry_slots_out_e_io,
+    output mshr_hit_e_io, mshr_full_e_io,
+    output [7:0] rd_qentry_slots_out_o_io, sw_qentry_slots_out_o_io,
+    output mshr_hit_o_io, mshr_full_o_io
     ); 
 
   
@@ -219,12 +227,7 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire SER0_FULL_e;
     wire read_e;
     
-    wire MSHR_alloc_e;
-    wire MSHR_dealloc_e;
-    wire MSHR_rdsw_e;
-    wire [14:0] MSHR_pAddress_e;
-    wire [6:0] MSHR_ptcid_e;
-    wire [7:0] MSHR_qslot_e; //TODO:
+
 
     wire [3:0] wake_init_vector_wb;
     wire SER_valid0_e;
@@ -258,7 +261,13 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire SER1_FULL_o;
     wire SER0_FULL_o;
     wire read_o;
-
+    
+    wire MSHR_alloc_e;
+    wire MSHR_dealloc_e;
+    wire MSHR_rdsw_e;
+    wire [14:0] MSHR_pAddress_e;
+    wire [6:0] MSHR_ptcid_e;
+    wire [7:0] MSHR_qslot_e; //TODO:
     wire MSHR_alloc_o;
     wire MSHR_dealloc_o;
     wire MSHR_rdsw_o;
@@ -266,6 +275,19 @@ wire [3:0] returnLoc_o,returnLoc_e;
     wire [6:0] MSHR_ptcid_o;
     wire [7:0] MSHR_qslot_o; //TODO:
     
+    wire MSHR_alloc_e_io;
+    wire MSHR_dealloc_e_io;
+    wire MSHR_rdsw_e_io;
+    wire [14:0] MSHR_pAddress_e_io;
+    wire [6:0] MSHR_ptcid_e_io;
+    wire [7:0] MSHR_qslot_e_io; //TODO:
+    wire MSHR_alloc_o_io;
+    wire MSHR_dealloc_o_io;
+    wire MSHR_rdsw_o_io;
+    wire [14:0] MSHR_pAddress_o_io;
+    wire [6:0] MSHR_ptcid_o_io;
+    wire [7:0] MSHR_qslot_o_io; //TODO:
+
     wire SER_valid0_o;
     wire [127:0] SER_data0_o;
     wire [14:0]SER_pAddress0_o;
@@ -493,6 +515,18 @@ and2$ rd(readx, read_e, read_o);
 or2$ chc(read, readx, AQ_check);
 inv1$ inss(AQ_PREV_n, AQ_PREV);
 and2$ asasf(AQ_check, AQ_PREV, aq_isempty_n);
+
+nor2$ protdisR(cancel_r, TLB_miss_r,1'b0);
+nor2$ protdisSW(cancel_sw, TLB_miss_sw,1'b0);
+nor2$ protdisWB(cancel_wb, TLB_miss_wb,1'b0);
+
+and2$ cwbe1(valE_r, cancel_r,validE_r);
+and2$ cwbe2(valO_r, cancel_r,validO_r);
+and2$ cwbe3(valE_sw, cancel_sw,validE_sw);
+and2$ cwbe4(valO_sw, cancel_sw,validO_sw);
+and2$ cwbe5(valE_wb, cancel_wb,validE_wb);
+and2$ cwbe6(valO_wb, cancel_wb,validO_wb);
+
 cacheaqsys cacheaqsys_inst (
     .rd_pAddress_e (addressE_r),
     .rd_pAddress_o (addressO_r),
@@ -509,18 +543,18 @@ cacheaqsys cacheaqsys_inst (
     .bus_data_e(bus_data_e),
     .bus_data_o(bus_data_o),
     
-    .rd_size_e(sizeE_r),
+    .rd_size_e(sizeE_r ),
     .rd_size_o(sizeO_r),
     .sw_size_e(sizeE_sw),
     .sw_size_o(sizeO_sw),
     .wb_size_e(sizeE_wb),
     .wb_size_o(sizeO_wb),
-    .rd_valid_e(validE_r),
-    .rd_valid_o(validO_r),
-    .sw_valid_e(validE_sw),
-    .sw_valid_o(validO_sw),
-    .wb_valid_e(validE_wb),
-    .wb_valid_o(validO_wb),
+    .rd_valid_e(valE_r),
+    .rd_valid_o(valO_r),
+    .sw_valid_e(valE_sw),
+    .sw_valid_o(valO_sw),
+    .wb_valid_e(valE_wb),
+    .wb_valid_o(valO_wb),
 
     .bus_valid_e(bus_valid_e),
     .bus_valid_o(bus_valid_o),
@@ -629,6 +663,12 @@ cacheBank bankE (
     .MSHR_pAddress(MSHR_pAddress_e),
     .MSHR_ptcid(MSHR_ptcid_e),
 
+    .MSHR_alloc_io(MSHR_alloc_e_io),
+    .MSHR_dealloc_io(MSHR_dealloc_e_io),
+    .MSHR_rdsw_io(MSHR_rdsw_e_io),
+    .MSHR_pAddress_io(MSHR_pAddress_e_io),
+    .MSHR_ptcid_io(MSHR_ptcid_e_io),
+
     .SER_valid0(SER_valid0_e),
     .SER_data0(SER_data0_e),
     .SER_pAddress0(SER_pAddress0_e),
@@ -693,6 +733,12 @@ cacheBank bankO (
     .MSHR_rdsw(MSHR_rdsw_o),
     .MSHR_pAddress(MSHR_pAddress_o),
     .MSHR_ptcid(MSHR_ptcid_o),
+
+    .MSHR_alloc_io(MSHR_alloc_o_io),
+    .MSHR_dealloc_io(MSHR_dealloc_o_io),
+    .MSHR_rdsw_io(MSHR_rdsw_o_io),
+    .MSHR_pAddress_io(MSHR_pAddress_o_io),
+    .MSHR_ptcid_io(MSHR_ptcid_o_io),
 
     .SER_valid0(SER_valid0_o),
     .SER_data0(SER_data0_o),
@@ -779,6 +825,37 @@ mshr mshrO (
     .mshr_hit(mshr_hit_o),
     .mshr_full(mshr_full_o)
 );
+
+mshrio mshrE_io ( 
+    .pAddress(MSHR_pAddress_e_io),
+    .ptcid_in(MSHR_ptcid_e_io),
+    .qentry_slot_in(qslot_$), //TODO:
+    .rdsw_in(MSHR_rdsw_e_io),
+    .alloc(MSHR_alloc_e_io),
+    .dealloc(MSHR_dealloc_e_io & bus_valid_e_nobuf),
+    .clk(clk),
+    .clr(rst),
+    .rd_qentry_slots_out(rd_qentry_slots_out_e_io),
+    .sw_qentry_slots_out(sw_qentry_slots_out_e_io),
+    .mshr_hit(mshr_hit_e_io),
+    .mshr_full(mshr_full_e_io)
+);
+
+mshrio mshrO_io ( 
+    .pAddress(MSHR_pAddress_o_io),
+    .ptcid_in(MSHR_ptcid_o_io),
+    .qentry_slot_in(qslot_$), //TODO:
+    .rdsw_in(MSHR_rdsw_o_io),
+    .alloc(MSHR_alloc_o_io),
+    .dealloc(MSHR_dealloc_o_io & bus_valid_o_nobuf),
+    .clk(clk),
+    .clr(rst),
+    .rd_qentry_slots_out(rd_qentry_slots_out_o_io),
+    .sw_qentry_slots_out(sw_qentry_slots_out_o_io),
+    .mshr_hit(mshr_hit_o_io),
+    .mshr_full(mshr_full_o_io)
+);
+
 assign qentry_slot_out = qslot_$;
 
 
@@ -828,9 +905,19 @@ SER DS_E_W(
 inv1$ invDESe(desE_empty, bus_valid_e);
 inv1$ invDESo(desE_empty, bus_valid_o);
 nor2$ busempty(bus_isempty,bus_valid_e,bus_valid_o  );
+wire[7:0] pcd_select_e, pcd_select_o;
+genvar q;
+for(q = 0; q < 8; q = q + 1) begin: bus_pcds
+    equaln #(3) ahf(bus_pAddress_e[14:12], PF[q*20+2: q*20], pcd_select_e[q]);
+    equaln #(3) abf(bus_pAddress_o[14:12], PF[q*20+2: q*20], pcd_select_o[q]);
+end
+muxnm_tristate #(8, 1) adgf(entry_PCD, pcd_select_e, ePCD);
+muxnm_tristate #(8, 1) adgasdasf(entry_PCD, pcd_select_o, oPCD);
+orn #(8) asg(pcd_select_e, e_pcd_bus);
+orn #(8) gaf(pcd_select_o, o_pcd_bus);
 
-equaln #(4) e12(returnLoc_e, 4'b1100, ePCD);
-equaln #(4) e13(returnLoc_o, 4'b1100, oPCD);
+// equaln #(4) e12(returnLoc_e, 4'b1100, ePCD);
+// equaln #(4) e13(returnLoc_o, 4'b1100, oPCD);
 nand2$ opcdvale(valPCDe, ePCD, bus_valid_e);
 nand2$ opcdvalo(valPCDo, oPCD, bus_valid_o);
 nand2$ buspcd(bus_pcd, valPCDe, valPCDo);

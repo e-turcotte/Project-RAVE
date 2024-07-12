@@ -10,7 +10,7 @@ module kb(
 
 reg state;
 
-reg [59:0] chars;
+reg [119:0] chars;
 
 
 always @(posedge clk) begin
@@ -21,7 +21,7 @@ always @(posedge clk) begin
     end
     else begin
         data_kb <= chars[7:0];          
-        if(read_kb) chars <= {8'd0, chars[59:8]};  
+        if(read_kb) chars <= {8'd0, chars[119:8]};  
     end
 end
 

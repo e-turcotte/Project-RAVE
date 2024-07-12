@@ -28,22 +28,22 @@ module bus_TOP(input reqIE, reqIO, reqDEr, reqDEw, reqDOr, reqDOw, reqB0, reqB1,
                         assign req[i] = reqIO;
                         assign ackIO = ack[i];
                     end
-                7:  begin //D$ even read - 0x4
+                5:  begin //D$ even read - 0x4
                         assign req_data[(i+1)*8-1:i*8] = {4'h4,destDEr};
                         assign req[i] = reqDEr;
                         assign ackDEr = ack[i];
                     end
-                6:  begin //D$ odd read - 0x6
+                4:  begin //D$ odd read - 0x6
                         assign req_data[(i+1)*8-1:i*8] = {4'h6,destDEw};
                         assign req[i] = reqDEw;
                         assign ackDEw = ack[i];
                     end
-                5:  begin //D$ even write - 0x5
+                7:  begin //D$ even write - 0x5
                         assign req_data[(i+1)*8-1:i*8] = {4'h5,destDOr};
                         assign req[i] = reqDOr;
                         assign ackDOr = ack[i];
                     end
-                4:  begin //D$ odd write - 0x7
+                6:  begin //D$ odd write - 0x7
                         assign req_data[(i+1)*8-1:i*8] = {4'h7,destDOw};
                         assign req[i] = reqDOw;
                         assign ackDOw = ack[i];

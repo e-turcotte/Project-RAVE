@@ -37,6 +37,12 @@ module cacheBank (
     output [14:0] MSHR_pAddress,
     output [6:0] MSHR_ptcid,
 
+    output MSHR_alloc_io,
+    output MSHR_dealloc_io,
+    output MSHR_rdsw_io,
+    output [14:0] MSHR_pAddress_io,
+    output [6:0] MSHR_ptcid_io,
+
 
     //output to SERDES
     //SER0 only for extracts, not reads
@@ -148,11 +154,18 @@ cache_stage1 cs1(.clk(clk),
 inv1$ msn(MSHR_MISS, MSHR_HIT);
 assign MSHR_pAddress = pAddress;
 and4$ msh(MSHR_alloc_noser, valid_in, rst, MISS, MSHR_MISS); //TODO: was and2$ msh(MSHR_alloc, valid, MISS, MSHR_MISS);  not really sure if I fixed this correctly
-and3$ mshs(MSHR_alloc, MSHR_alloc_noser, !ex_clr | (ex_clr & !SER1_FULL), !ex_wb | (ex_wb & !SER0_FULL));
+and4$ mshs(MSHR_alloc,!PCD_IN, MSHR_alloc_noser, !ex_clr | (ex_clr & !SER1_FULL), !ex_wb | (ex_wb & !SER0_FULL));
 assign MSHR_rdsw = sw;
-and2$ mshD(MSHR_dealloc, valid_in, fromBUS);
+and3$ mshD(MSHR_dealloc, valid_in, fromBUS, !PCD_IN );
 assign MSHR_ptcid = PTC_ID_IN;
 
+//Handle MSHR_io
+assign MSHR_pAddress_io = pAddress;
+and4$ mshas(MSHR_alloc_noser_io, valid_in, rst, MISS, PCD_IN & r); //TODO: was and2$ msh(MSHR_alloc, valid, MISS, MSHR_MISS);  not really sure if I fixed this correctly
+and4$ mshsas(MSHR_alloc_io, r, MSHR_alloc_noser_io, !ex_clr | (ex_clr & !SER1_FULL), !ex_wb | (ex_wb & !SER0_FULL));
+assign MSHR_rdsw_io = sw;
+and3$ mshDas(MSHR_dealloc_io, valid_in, fromBUS, PCD_IN);
+assign MSHR_ptcid = PTC_ID_IN;
 
 
 //Handle SERDES
