@@ -41,6 +41,7 @@ module mem (input valid_in,
 
             input [7:0] qentry_slot_in,
             output [7:0] rd_qentry_slots_out_e, sw_qentry_slots_out_e, rd_qentry_slots_out_o, sw_qentry_slots_out_o,
+            output [7:0] rd_qentry_slots_out_e_io, sw_qentry_slots_out_e_io, rd_qentry_slots_out_o_io, sw_qentry_slots_out_o_io,
             
             input [4:0] aluk_in,
             input [2:0] mux_adder_in,
@@ -102,8 +103,7 @@ module mem (input valid_in,
             output stall,
 
             output [127:0] cacheline_e_bus_in_data, cacheline_o_bus_in_data,
-            output [255:0] cacheline_e_bus_in_ptcinfo, cacheline_o_bus_in_ptcinfo
-            );
+            output [255:0] cacheline_e_bus_in_ptcinfo, cacheline_o_bus_in_ptcinfo);
 
     assign memsizeOVR_out = memsizeOVR_in;
 
@@ -141,7 +141,9 @@ module mem (input valid_in,
               .data(data_out), .stall(cache_stall), .ptcinfo_out(cache_ptcinfo_out), .qentry_slot_out(cache_qentry_slot_out),
               .rd_qentry_slots_out_e(rd_qentry_slots_out_e), .sw_qentry_slots_out_e(sw_qentry_slots_out_e), .mshr_hit_e(), .mshr_full_e(),
               .rd_qentry_slots_out_o(rd_qentry_slots_out_o), .sw_qentry_slots_out_o(sw_qentry_slots_out_o), .mshr_hit_o(), .mshr_full_o(),
-              .cacheline_e_bus_in_data(cacheline_e_bus_in_data), .cacheline_o_bus_in_data(cacheline_o_bus_in_data), .cacheline_e_bus_in_ptcinfo(cacheline_e_bus_in_ptcinfo), .cacheline_o_bus_in_ptcinfo(cacheline_o_bus_in_ptcinfo));
+              .cacheline_e_bus_in_data(cacheline_e_bus_in_data), .cacheline_o_bus_in_data(cacheline_o_bus_in_data), .cacheline_e_bus_in_ptcinfo(cacheline_e_bus_in_ptcinfo), .cacheline_o_bus_in_ptcinfo(cacheline_o_bus_in_ptcinfo),
+              .rd_qentry_slots_out_e_io(rd_qentry_slots_out_e_io), .sw_qentry_slots_out_e_io(sw_qentry_slots_out_e_io), .mshr_hit_e_io(), .mshr_full_e_io(),
+              .rd_qentry_slots_out_o_io(rd_qentry_slots_out_o_io), .sw_qentry_slots_out_o_io(sw_qentry_slots_out_o_io), .mshr_hit_o_io(), .mshr_full_o_io());
 
     assign cache_data_out = data_out[63:0]; //TODO: why is data out 128bits
 

@@ -1038,8 +1038,8 @@
                                                             .new_data({reg4_memdf,reg3_memdf,reg2_memdf,reg1_memdf,seg4_memdf,seg3_memdf,seg2_memdf,seg1_memdf}), .modify());
     
     wire [3:0] init_wake, cache_wake;
-    wire [7:0] mshr_rd_qslot_e_out, mshr_sw_qslot_e_out;
-    wire [7:0] mshr_rd_qslot_o_out, mshr_sw_qslot_o_out;
+    wire [7:0] mshr_rd_qslot_e_out, mshr_sw_qslot_e_out, mshr_rd_io_qslot_e_out, mshr_sw_io_qslot_e_out;
+    wire [7:0] mshr_rd_qslot_o_out, mshr_sw_qslot_o_out, mshr_rd_io_qslot_o_out, mshr_sw_io_qslot_o_out;
     wire [7:0] cache_qslot_out;
     
     wire cache_out_valid;
@@ -1107,6 +1107,7 @@
         .entry_V_in(entry_v), .entry_P_in(entry_P), .entry_RW_in(entry_RW), .entry_PCD_in(entry_PCD),
         .qentry_slot_in(q5.q0.ptr_wr),
         .rd_qentry_slots_out_e(mshr_rd_qslot_e_out), .sw_qentry_slots_out_e(mshr_sw_qslot_e_out), .rd_qentry_slots_out_o(mshr_rd_qslot_o_out), .sw_qentry_slots_out_o(mshr_sw_qslot_o_out),
+        .rd_qentry_slots_out_e_io(mshr_rd_io_qslot_e_out), .sw_qentry_slots_out_e_io(mshr_sw_io_qslot_e_out), .rd_qentry_slots_out_o_io(mshr_rd_io_qslot_o_out), .sw_qentry_slots_out_o_io(mshr_sw_io_qslot_o_out),
         .aluk_in(aluk_RrAg_MEM_latch_out), .mux_adder_in(mux_adder_RrAg_MEM_latch_out), 
         .mux_and_int_in(mux_and_int_RrAg_MEM_latch_out), .mux_shift_in(mux_shift_RrAg_MEM_latch_out),
         .p_op_in(p_op_RrAg_MEM_latch_out), .fmask_in(fmask_RrAg_MEM_latch_out),
@@ -1208,6 +1209,7 @@
     latchconnections #(.MSIZE(m_size_MEM_EX)) mexlc(.cache_out_data(cache_out_data), .cache_out_ptcinfo(cache_out_ptcinfo), .cache_out_valid(cache_out_valid), .cache_wake(cache_wake),
                                                     .cache_qslot_out(cache_qslot_out),
                                                     .mshr_rd_qslot_e_out(mshr_rd_qslot_e_out), .mshr_sw_qslot_e_out(mshr_sw_qslot_e_out), .mshr_rd_qslot_o_out(mshr_rd_qslot_o_out), .mshr_sw_qslot_o_out(mshr_sw_qslot_o_out),
+                                                    .mshr_rd_io_qslot_e_out(mshr_rd_io_qslot_e_out), .mshr_sw_io_qslot_e_out(mshr_sw_io_qslot_e_out), .mshr_rd_io_qslot_o_out(mshr_rd_io_qslot_o_out), .mshr_sw_io_qslot_o_out(mshr_sw_io_qslot_o_out),
                                                     .cacheline_e_bus_in_data(cacheline_e_bus_in_data), .cacheline_o_bus_in_data(cacheline_o_bus_in_data),
                                                     .cacheline_e_bus_in_ptcinfo(cacheline_e_bus_in_ptcinfo), .cacheline_o_bus_in_ptcinfo(cacheline_o_bus_in_ptcinfo),
                                                     .new_m_M_EX(new_m_M_EX), .old_m_M_EX(old_m_M_EX), .modify_M_EX_latch(modify_M_EX_latch),
