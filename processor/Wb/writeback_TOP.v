@@ -159,9 +159,7 @@ module writeback_TOP(
 
     and2$ a94(.out(stall), .in0(wbaq_full), .in1(mem_ld)); 
     wire invstall0, invstall1;
-    inv1$ i92(.out(invstall0), .in(stall));
-    inv1$ idfs3(.out(invstall1), .in(invstall0));
-    inv1$ sfsfq(.out(invstall), .in(invstall1));
+    inv1$ i92(.out(invstall), .in(stall));
 
     and2$ asd(.out(valid_out), .in0(valid_in), .in1(invstall));
 
