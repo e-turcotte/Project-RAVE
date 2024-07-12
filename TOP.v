@@ -728,7 +728,7 @@
     
     );
 
-    wire [36:0] p_op_D_out;
+    // wire [36:0] p_op_D_out;
     decode_TOP d0(
         // Clock and Reset
         .clk(clk),
@@ -794,7 +794,7 @@
         .mux_adder_out(mux_adder_D_RrAg_latch_in),
         .mux_and_int_out(mux_and_int_D_RrAg_latch_in),
         .mux_shift_out(mux_shift_D_RrAg_latch_in),
-        .p_op_out(p_op_D_out),
+        .p_op_out(p_op_D_RrAg_latch_in/*p_op_D_out*/),
         .fmask_out(fmask_D_RrAg_latch_in),
         .conditionals_out(conditionals_D_RrAg_latch_in),
         .is_br_out(is_br_D_RrAg_latch_in),
@@ -816,7 +816,7 @@
         .D_length(D_length_D_F_out)
     );
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(37)) pop_eflags_mux(.in({35'b0, 2'b11, p_op_D_out}), .sel(IDTR_is_POP_EFLAGS), .out(p_op_D_RrAg_latch_in));
+    // muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(37)) pop_eflags_mux(.in({35'b0, 2'b11, p_op_D_out}), .sel(IDTR_is_POP_EFLAGS), .out(p_op_D_RrAg_latch_in));
     
     wire [m_size_D_RrAg-1:0] m_din_D_RrAg;
     wire [n_size_D_RrAg-1:0] n_din_D_RrAg;
