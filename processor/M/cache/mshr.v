@@ -9,8 +9,8 @@ module mshr (input [14:0] pAddress, //this shouldve been 11 bits but too late to
              output [7:0] rd_qentry_slots_out, sw_qentry_slots_out,
              output mshr_hit, mshr_full);
     
-    wire [223:0] issued_reqs, change_reqs;
-    wire [7:0] update_vector, match_vector, hit_vector, return_vector;
+    wire [335:0] issued_reqs, change_reqs;
+    wire [11:0] update_vector, match_vector, hit_vector, return_vector;
 
     wire moveq, invdealloc;
 
@@ -20,7 +20,7 @@ module mshr (input [14:0] pAddress, //this shouldve been 11 bits but too late to
     wire dealloc_n_spacer;
 
     wire [7:0] rd_qentry_slot_in, sw_qentry_slot_in;
-    wire [127:0] issued_qentries;
+    wire [191:0] issued_qentries;
     wire [15:0] qentries_out;
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(8)) m0(.in({8'h00,qentry_slot_in}), .sel(rdsw_in), .out(rd_qentry_slot_in));
@@ -29,17 +29,17 @@ module mshr (input [14:0] pAddress, //this shouldve been 11 bits but too late to
     inv1$ g0(.out(moveq), .in(dealloc_valid));
     inv1$ g1(.out(invdealloc), .in(dealloc));
 
-    queuenm #(.M_WIDTH(28), .N_WIDTH(1), .Q_LENGTH(8)) q0(.m_din({1'b1,pAddress[14:4],rd_qentry_slot_in,sw_qentry_slot_in}), .n_din(1'b1),
+    queuenm #(.M_WIDTH(28), .N_WIDTH(1), .Q_LENGTH(12)) q0(.m_din({1'b1,pAddress[14:4],rd_qentry_slot_in,sw_qentry_slot_in}), .n_din(1'b1),
                                                           .new_m_vector(change_reqs), .wr(alloc), .rd(moveq),
                                                           .modify_vector(update_vector), .clr(clr), .clk(clk),
                                                           .full(mshr_full), .empty(), .old_m_vector(issued_reqs),
                                                           .dout({dealloc_valid,dealloc_paddr,dealloc_qentries,dealloc_n_spacer}));
 
-    muxnm_tristate #(.NUM_INPUTS(9), .DATA_WIDTH(16)) m2(.in({issued_qentries,16'h0000}), .sel({return_vector,invdealloc}), .out({rd_qentry_slots_out,sw_qentry_slots_out}));
+    muxnm_tristate #(.NUM_INPUTS(13), .DATA_WIDTH(16)) m2(.in({issued_qentries,16'h0000}), .sel({return_vector,invdealloc}), .out({rd_qentry_slots_out,sw_qentry_slots_out}));
 
     genvar i;
     generate
-        for (i = 0; i < 8; i = i + 1) begin : m_slices
+        for (i = 0; i < 12; i = i + 1) begin : m_slices
             equaln #(.WIDTH(11)) eq0(.a(pAddress[14:4]), .b(issued_reqs[i*28 + 26:i*28 + 16]), .eq(match_vector[i]));
             
             and2$ g2(.out(hit_vector[i]), .in0(match_vector[i]), .in1(issued_reqs[i*28 + 27]));
@@ -70,7 +70,7 @@ module mshr (input [14:0] pAddress, //this shouldve been 11 bits but too late to
         end
     endgenerate
 
-    orn #(.NUM_INPUTS(8)) g21(.in(hit_vector), .out(mshr_hit));
+    orn #(.NUM_INPUTS(12)) g21(.in(hit_vector), .out(mshr_hit));
 
 endmodule
 
