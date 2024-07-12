@@ -620,7 +620,8 @@
     );
 
     wire btb_hit;
-
+    wire LD_btb;
+    andn #(.NUM_INPUTS(2)) and2(.in({is_valid_WB_out, BR_valid_WB_BP_out}), .out(LD_btb));
     bp_btb BPstuff(
         .clk(clk),
         .reset(global_reset),
