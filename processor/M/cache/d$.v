@@ -84,7 +84,10 @@ module d$(
     output [255:0] cacheline_e_bus_in_ptcinfo, cacheline_o_bus_in_ptcinfo
     ); 
 
-
+  
+    or3$ tlbm(TLB_miss, TLB_miss_r, TLB_miss_sw, TLB_miss_wb);
+    or3$ tlbpe(TLB_protection_exception, TLB_protection_exception_r, TLB_protection_exception_sw, TLB_protection_exception_wb);
+    or3$ tlbh(TLB_hit, TLB_hit_r, TLB_hit_sw, TLB_hit_wb);
     wire freeDO, freeDE;
     wire grantDEr, grantDEw, grantDOr, grantDOw;
     wire ackDEr, ackDEw, ackDOr, ackDOw;

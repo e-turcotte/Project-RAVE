@@ -171,7 +171,7 @@ module execute_TOP(
     assign eflags = eflags_rd;
     assign eflags_ld = {1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 2'b0, of_out, df_out,  1'b0, 1'b0, sf_out, zf_out, af_out, pf_out, cf_out}; 
     assign af = eflags_rd[2]; assign cf = eflags_rd[0];  assign pf = eflags_rd[1]; assign zf = eflags_rd[3];   assign sf = eflags_rd[4];  assign df = eflags_rd[7];  assign of = eflags_rd[8];     
-    EFLAG e1(eflags_rd, clk, set, rst, valid_internal, eflags_ld, FMASK, cc_inval);
+    EFLAG e1(eflags_rd, clk, set, rst, valid_internal, eflags_ld, FMASK, cc_inval, P_OP[1:0], OP2[17:0]);
     assign CS_out = CS;
     assign P_OP_out = P_OP;
     //Handle skipGen

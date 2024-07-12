@@ -11,7 +11,9 @@ module EFLAG(
     input val,
     input[17:0] cc_in,
     input[17:0] FMASK,
-    input cc_inval
+    input cc_inval,
+    input [1:0] P_OP,
+    input [17:0] OP2
 );
 
 assign cf = cc_out[0];
@@ -30,11 +32,11 @@ bufferH64$ b1(val_n, v);
 genvar i;
 wire[17:0] cc_not;
 generate
-
+and3$ asdasfd(isIRET, P_OP[1], P_OP[0], val);
 for(i = 0; i < 18; i = i + 1) begin : ef
     and2$ a(FMASK_v[i], val_n,FMASK[i]);
     dff$ d(clk, cc_new[i], cc_out[i], cc_not[i], rst, set);
-    mux2$ m(cc_new[i], cc_out[i], cc_in[i], FMASK_v[i]);
+    mux4$ m(cc_new[i], cc_out[i], cc_in[i], OP2[i], OP2[2], FMASK_v[i], isIRET);
 end
 
 endgenerate
