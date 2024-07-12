@@ -660,6 +660,12 @@ cacheBank bankE (
     .MSHR_pAddress(MSHR_pAddress_e),
     .MSHR_ptcid(MSHR_ptcid_e),
 
+    .MSHR_alloc_io(MSHR_alloc_e_io),
+    .MSHR_dealloc_io(MSHR_dealloc_e_io),
+    .MSHR_rdsw_io(MSHR_rdsw_e_io),
+    .MSHR_pAddress_io(MSHR_pAddress_e_io),
+    .MSHR_ptcid_io(MSHR_ptcid_e_io),
+
     .SER_valid0(SER_valid0_e),
     .SER_data0(SER_data0_e),
     .SER_pAddress0(SER_pAddress0_e),
@@ -724,6 +730,12 @@ cacheBank bankO (
     .MSHR_rdsw(MSHR_rdsw_o),
     .MSHR_pAddress(MSHR_pAddress_o),
     .MSHR_ptcid(MSHR_ptcid_o),
+
+    .MSHR_alloc_io(MSHR_alloc_o_io),
+    .MSHR_dealloc_io(MSHR_dealloc_o_io),
+    .MSHR_rdsw_io(MSHR_rdsw_o_io),
+    .MSHR_pAddress_io(MSHR_pAddress_o_io),
+    .MSHR_ptcid_io(MSHR_ptcid_o_io),
 
     .SER_valid0(SER_valid0_o),
     .SER_data0(SER_data0_o),
