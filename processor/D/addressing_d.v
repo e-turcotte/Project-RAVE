@@ -269,7 +269,7 @@ andn #(3) a67812936918(.in({rm_equal_111_check[2], rm_equal_111_check[1], rm_equ
 
 //isSIB?
 wire isSIB;
-andn #(2) a6(.in({mod_not_equal_11, rm_equal_100}), .out(isSIB));
+andn #(3) a6(.in({mod_not_equal_11, rm_equal_100, isMod}), .out(isSIB));
 
 //length_of_everything_mod_and_after
 
