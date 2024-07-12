@@ -146,7 +146,10 @@ module writeback_TOP(
     // inv1$ lashjdskjasdfl3ho(.in(BR_correct_delay2), .out(BR_correct_delay3));
     // inv1$ lashjdsjasdfl3ho(.in(BR_correct_delay3), .out(BR_correct_delay4));
     // wire is_resteer_pre_flopping;
-    nor2$ g0(.out(is_resteer), .in0(BR_correct_in), .in1(invvalid));
+    wire is_resteer_no_valid_anded;
+    nor2$ g0(.out(is_resteer_no_valid_anded), .in0(BR_correct_in), .in1(invvalid));
+    and2$ g342d1(.out(is_resteer), .in0(is_resteer_no_valid_anded), .in1(valid_in));
+
     // wire not_clk;
     // inv1$ gdf1(.in(clk), .out(not_clk));
     // wire neg_flop_resteer;
