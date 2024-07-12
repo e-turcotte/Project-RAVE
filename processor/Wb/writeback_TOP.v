@@ -165,10 +165,27 @@ module writeback_TOP(
 
     and2$ asd(.out(valid_out), .in0(valid_in), .in1(invstall));
 
-    assign final_IE_type[2:0] = IE_type_in[2:0]; //TODO: Rohan's IE stuff
-    assign final_IE_type[3] = interrupt_in;
-    or2$ o4(.out(final_IE_val), .in0(IE_in), .in1(interrupt_in));
+    wire [3:0] almost_final_IE_type;
+    assign almost_final_IE_type[2:0] = IE_type_in[2:0]; //TODO: Rohan's IE stuff
+    assign almost_final_IE_type[3] = interrupt_in;
 
-    //TODO: Send final IE signal to stall/flush all stages and send final IE_type to exception handling in Fetch 2
+    wire IE_val_almost;
+    or2$ o4(.out(IE_val_almost), .in0(IE_in), .in1(interrupt_in));
+
+    and2$ a134 (.out(final_IE_val), .in0(IE_val_almost), .in1(valid_in));
+    b4_bitwise_and brobro (.out(final_IE_type), .in0(almost_final_IE_type), .in1( {valid_in, valid_in, valid_in, valid_in} )); 
+
+endmodule
+
+module b4_bitwise_and(
+    input  [3:0] in0,
+    input  [3:0] in1,
+    output [3:0] out
+);
+
+    and2$ a400(.out(out[0]), .in0(in0[0]), .in1(in1[0]));
+    and2$ a401(.out(out[1]), .in0(in0[1]), .in1(in1[1]));
+    and2$ a402(.out(out[2]), .in0(in0[2]), .in1(in1[2]));
+    and2$ a403(.out(out[3]), .in0(in0[3]), .in1(in1[3]));
 
 endmodule

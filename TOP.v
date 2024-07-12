@@ -498,7 +498,8 @@
     wire is_resteer_WB_out;
     wire BR_valid_WB_BP_out, BR_taken_WB_BP_out, BR_correct_WB_BP_out;
     wire final_IE_val;
-    wire [3:0] final_IE_type;
+    wire [2:0] final_IE_type;
+    wire [3:0] IE_type_WB_out;
     wire [17:0] final_EFLAGS;
     wire [15:0] final_CS;
 
@@ -596,6 +597,7 @@
         .EIP_WB(EIP_WB_out),
         .EFLAGS_WB(final_EFLAGS),
         .CS_WB(final_CS),
+        .is_resteer(), //TODO rn
 
         .is_IRETD(),
         .IDTR_packet_out(IDTR_packet_out),
@@ -695,8 +697,10 @@
         .packet_valid_out(valid_F_D_latch_in),
         .is_BR_T_NT_out(BR_pred_T_NT_F_D_latch_in),
         .BP_target_out(BR_pred_target_F_D_latch_in),
-        .BP_update_alias_out(BP_alias_F_D_latch_in)
+        .BP_update_alias_out(BP_alias_F_D_latch_in),
 
+        .IE_out(),
+        .IE_type_out()
     );
 
     wire F_D_latch_LD;
@@ -816,7 +820,7 @@
         .D_length(D_length_D_F_out)
     );
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(37)) pop_eflags_mux(.in({35'b0, 2'b11, p_op_D_out}), .sel(IDTR_is_POP_EFLAGS), .out(p_op_D_RrAg_latch_in));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(37)) p_op_pop_eflags_mux(.in({35'b0, 2'b11, p_op_D_out}), .sel(IDTR_is_POP_EFLAGS), .out(p_op_D_RrAg_latch_in));
     
     wire [m_size_D_RrAg-1:0] m_din_D_RrAg;
     wire [n_size_D_RrAg-1:0] n_din_D_RrAg;
@@ -913,7 +917,7 @@
         .is_br_out(is_br_RrAg_MEM_latch_in), .is_fp_out(is_fp_RrAg_MEM_latch_in), .is_imm_out(is_imm_RrAg_MEM_latch_in), 
         .imm_out(imm_RrAg_MEM_latch_in),
         .mem1_rw_out(mem1_rw_RrAg_MEM_latch_in), .mem2_rw_out(mem2_rw_RrAg_MEM_latch_in), .memsizeOVR_out(memSizeOVR_RrAg_MEM_latch_in),
-        .latched_eip_out(latched_eip_RrAg_MEM_latch_in), .eip_out(eip_RrAg_MEM_latch_in), //TODO RN
+        .latched_eip_out(latched_eip_RrAg_MEM_latch_in), .eip_out(eip_RrAg_MEM_latch_in),
         .IE_out(IE_RrAg_MEM_latch_in),
         .IE_type_out(IE_type_RrAg_MEM_latch_in),
         .BR_pred_target_out(BR_pred_target_RrAg_MEM_latch_in),
@@ -992,7 +996,7 @@
         .mux_and_int_out(mux_and_int_RrAg_MEM_latch_out), .mux_shift_out(mux_shift_RrAg_MEM_latch_out),
         .p_op_out(p_op_RrAg_MEM_latch_out),
         .fmask_out(fmask_RrAg_MEM_latch_out),
-        .CS_out(CS_RrAg_MEM_latch_out), //TODO RN
+        .CS_out(CS_RrAg_MEM_latch_out),
         .conditionals_out(conditionals_RrAg_MEM_latch_out),
         .is_br_out(is_br_RrAg_MEM_latch_out), .is_fp_out(is_fp_RrAg_MEM_latch_out), .is_imm_out(is_imm_RrAg_MEM_latch_out), 
         .imm_out(imm_RrAg_MEM_latch_out),
@@ -1397,7 +1401,7 @@
         .BR_FIP_out(BR_FIP_EX_WB_latch_out), .BR_FIP_p1_out(BR_FIP_p1_EX_WB_latch_out)
     );
     
-
+    
     writeback_TOP wb_inst(
         .clk(clk),
         .valid_in(valid_EX_WB_latch_out),
@@ -1410,7 +1414,7 @@
         .BR_pred_T_NT_in(BR_pred_T_NT_EX_WB_latch_out),
         .BP_alias_in(BP_alias_EX_WB_latch_out),
         .inst_ptcid_in(inst_ptcid_EX_WB_latch_out),
-        .set(), .rst(global_reset),
+        .set(global_set), .rst(global_reset),
 
         .inp1_wb(inp1_wb_EX_WB_latch_out), .inp2_wb(inp2_wb_EX_WB_latch_out), .inp3_wb(inp3_wb_EX_WB_latch_out), .inp4_wb(inp4_wb_EX_WB_latch_out),
         .inp1(inp1_EX_WB_latch_out), .inp2(inp2_EX_WB_latch_out), .inp3(inp3_EX_WB_latch_out), .inp4(inp4_EX_WB_latch_out),
@@ -1435,7 +1439,7 @@
         .EFLAGS_in(EFLAGS_EX_WB_latch_out),
         .P_OP(P_OP_EX_WB_latch_out),
 
-        .interrupt_in(),
+        .interrupt_in(1'b0), //TODO:interrupts
 
         .wbaq_full(wbaq_isfull_WB_M_in), .is_rep(is_rep_EX_WB_latch_out),
 
@@ -1464,9 +1468,12 @@
         .stall(fwd_stall_WB_EX_out),
 
         .final_IE_val(final_IE_val),
-        .final_IE_type(final_IE_type),
+        .final_IE_type(IE_type_WB_out),
         .halts(halts)
     );
+    
+    assign final_IE_type[1:0] = IE_type_WB_out[1:0];
+    assign final_IE_type[2] = IE_type_WB_out[3];
 
     nand2$ ptc_clear_and (.in0(idtr_ptc_clear_out), .in1(is_resteer_WB_out), .out(IDTR_PTC_clear)); //TODO
 

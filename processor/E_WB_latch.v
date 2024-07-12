@@ -66,12 +66,12 @@ module E_WB_latch (
         cyc_cnt = 0;
     end
 
-    regn #(.WIDTH(1))   r1(.din(valid_in), .ld(ld), .clr(clr), .clk(clk), .dout(valid_out));
+    regn #(.WIDTH(1))   r1(.din(valid_in),      .ld(ld), .clr(clr), .clk(clk), .dout(valid_out));
     regn #(.WIDTH(4))   r2(.din(memsizeOVR_in), .ld(ld), .clr(clr), .clk(clk), .dout(memsizeOVR_out));
-    regn #(.WIDTH(32))  r3(.din(EIP_in), .ld(ld), .clr(clr), .clk(clk), .dout(EIP_out));
+    regn #(.WIDTH(32))  r3(.din(EIP_in),        .ld(ld), .clr(clr), .clk(clk), .dout(EIP_out));
     regn #(.WIDTH(32))  r4(.din(latched_EIP_in), .ld(ld), .clr(clr), .clk(clk), .dout(latched_EIP_out));
-    regn #(.WIDTH(1))   r5(.din(IE_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_out));
-    regn #(.WIDTH(4))   r6(.din(IE_type_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_type_out));
+    regn #(.WIDTH(1))   r5(.din(IE_in),          .ld(ld), .clr(clr), .clk(clk), .dout(IE_out));
+    regn #(.WIDTH(4))   r6(.din(IE_type_in),        .ld(ld), .clr(clr), .clk(clk), .dout(IE_type_out));
     regn #(.WIDTH(32))  r7(.din(BR_pred_target_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_target_out));
     regn #(.WIDTH(1))   r8(.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
     regn #(.WIDTH(7))   r9(.din(PTCID_in), .ld(ld), .clr(clr), .clk(clk), .dout(PTCID_out));
