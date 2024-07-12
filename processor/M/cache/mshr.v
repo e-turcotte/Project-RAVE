@@ -35,7 +35,7 @@ module mshr (input [14:0] pAddress, //this shouldve been 11 bits but too late to
                                                           .full(mshr_full), .empty(), .old_m_vector(issued_reqs),
                                                           .dout({dealloc_valid,dealloc_paddr,dealloc_qentries,dealloc_n_spacer}));
 
-    muxnm_tristate #(.NUM_INPUTS(9), .DATA_WIDTH(16)) m2(.in({issued_qentries,16'h0000}), .sel({return_vector,invdealloc}), .out(rd_qentry_slots_out,sw_qentry_slots_out));
+    muxnm_tristate #(.NUM_INPUTS(9), .DATA_WIDTH(16)) m2(.in({issued_qentries,16'h0000}), .sel({return_vector,invdealloc}), .out({rd_qentry_slots_out,sw_qentry_slots_out}));
 
     genvar i;
     generate
@@ -66,7 +66,7 @@ module mshr (input [14:0] pAddress, //this shouldve been 11 bits but too late to
 
             assign issued_qentries[16*(i+1)-1:16*i] = issued_reqs[i*28+15:i*28];
 
-            or2$ g20(.out(update_vector[i]), .in0(invalidation_vector[i]), .in1(hit_vector[i]));
+            or2$ g20(.out(update_vector[i]), .in0(return_vector[i]), .in1(hit_vector[i]));
         end
     endgenerate
 
