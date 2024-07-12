@@ -1,0 +1,6820 @@
+cycle number:           0
+[===SEGR VALUES===]
+ES = 0xxxxx, lim:0xxxxxx   PTC:xx
+CS = 0xxxxx, lim:0xxxxxx   PTC:xx
+SS = 0xxxxx, lim:0xxxxxx   PTC:xx
+DS = 0xxxxx, lim:0xxxxxx   PTC:xx
+FS = 0xxxxx, lim:0xxxxxx   PTC:xx
+GS = 0xxxxx, lim:0xxxxxx   PTC:xx
+
+
+cycle number:           1
+[===SEGR VALUES===]
+ES = 0x0000, lim:0xxxxxx   PTC:00
+CS = 0x0000, lim:0xxxxxx   PTC:00
+SS = 0x0000, lim:0xxxxxx   PTC:00
+DS = 0x0000, lim:0xxxxxx   PTC:00
+FS = 0x0000, lim:0xxxxxx   PTC:00
+GS = 0x0000, lim:0xxxxxx   PTC:00
+
+
+cycle number:           2
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:           3
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:           4
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:           5
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:           6
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:           7
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:           8
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:           9
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          10
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          11
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          12
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          13
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          14
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          15
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          16
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          17
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          18
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          19
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          20
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          21
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          22
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          23
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          24
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          25
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          26
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          27
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          28
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          29
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          30
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          31
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          32
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          33
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          34
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          35
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          36
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          37
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          38
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          39
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          40
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          41
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          42
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          43
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          44
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          45
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          46
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          47
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          48
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          49
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          50
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          51
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          52
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          53
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          54
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          55
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          56
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          57
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          58
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          59
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          60
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          61
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          62
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          63
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          64
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          65
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          66
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          67
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          68
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          69
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          70
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          71
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          72
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          73
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          74
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          75
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          76
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          77
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          78
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          79
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          80
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          81
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          82
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          83
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          84
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          85
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          86
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          87
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          88
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          89
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          90
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          91
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          92
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          93
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          94
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          95
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          96
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          97
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          98
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:          99
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         100
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         101
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         102
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         103
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         104
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         105
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         106
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         107
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         108
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         109
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         110
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         111
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         112
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         113
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         114
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         115
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         116
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         117
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         118
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         119
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         120
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         121
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         122
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         123
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         124
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         125
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         126
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         127
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         128
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         129
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         130
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         131
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         132
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         133
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         134
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         135
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         136
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         137
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         138
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         139
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         140
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         141
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         142
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         143
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         144
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         145
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         146
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         147
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         148
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         149
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         150
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         151
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         152
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         153
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         154
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         155
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         156
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         157
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         158
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         159
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         160
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         161
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         162
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         163
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         164
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         165
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         166
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         167
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         168
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         169
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         170
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         171
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         172
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         173
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         174
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         175
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         176
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         177
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         178
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         179
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         180
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         181
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         182
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         183
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         184
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         185
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         186
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         187
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         188
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         189
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         190
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         191
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         192
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         193
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         194
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         195
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         196
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         197
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         198
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         199
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         200
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         201
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         202
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         203
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         204
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         205
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         206
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         207
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         208
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         209
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         210
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         211
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         212
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         213
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         214
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         215
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         216
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         217
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         218
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         219
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         220
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         221
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         222
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         223
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         224
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         225
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         226
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         227
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         228
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         229
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         230
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         231
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         232
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         233
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         234
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         235
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         236
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         237
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         238
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         239
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         240
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         241
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         242
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         243
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         244
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         245
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         246
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         247
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         248
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         249
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         250
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         251
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         252
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         253
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         254
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         255
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         256
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         257
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         258
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         259
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         260
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         261
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         262
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         263
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         264
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         265
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         266
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         267
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         268
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         269
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         270
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         271
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         272
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         273
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         274
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         275
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         276
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         277
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         278
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         279
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         280
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         281
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         282
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         283
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         284
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         285
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         286
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         287
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         288
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         289
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         290
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         291
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         292
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         293
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         294
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         295
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         296
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         297
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         298
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         299
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         300
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         301
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         302
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         303
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         304
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         305
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         306
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         307
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         308
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         309
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         310
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         311
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         312
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         313
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         314
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         315
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         316
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         317
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         318
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         319
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         320
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         321
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         322
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         323
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         324
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         325
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         326
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         327
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         328
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         329
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         330
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         331
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         332
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         333
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         334
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         335
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         336
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         337
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         338
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         339
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         340
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         341
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         342
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         343
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         344
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         345
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         346
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         347
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         348
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         349
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         350
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         351
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         352
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         353
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         354
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         355
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         356
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         357
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         358
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         359
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         360
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         361
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         362
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         363
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         364
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         365
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         366
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         367
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         368
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         369
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         370
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         371
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         372
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         373
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         374
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         375
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         376
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         377
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         378
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         379
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         380
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         381
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         382
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         383
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         384
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         385
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         386
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         387
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         388
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         389
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         390
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         391
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         392
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         393
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         394
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         395
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         396
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         397
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         398
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         399
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         400
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         401
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         402
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         403
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         404
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         405
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         406
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         407
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         408
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         409
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         410
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         411
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         412
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         413
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         414
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         415
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         416
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         417
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         418
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         419
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         420
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         421
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         422
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         423
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         424
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         425
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         426
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         427
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         428
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         429
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         430
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         431
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         432
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         433
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         434
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         435
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         436
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         437
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         438
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         439
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         440
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         441
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         442
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         443
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         444
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         445
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         446
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         447
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         448
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         449
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         450
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         451
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         452
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         453
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         454
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         455
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         456
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         457
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         458
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         459
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         460
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         461
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         462
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         463
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         464
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         465
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         466
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         467
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         468
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         469
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         470
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         471
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         472
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         473
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         474
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         475
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         476
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         477
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         478
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         479
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         480
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         481
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         482
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         483
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         484
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         485
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         486
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         487
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         488
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         489
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         490
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         491
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         492
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         493
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         494
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         495
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         496
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         497
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         498
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         499
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         500
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         501
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         502
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         503
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         504
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         505
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         506
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         507
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         508
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         509
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         510
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         511
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         512
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         513
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         514
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         515
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         516
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         517
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         518
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         519
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         520
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         521
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         522
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         523
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         524
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         525
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         526
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         527
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         528
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         529
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         530
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         531
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         532
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         533
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         534
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         535
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         536
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         537
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         538
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         539
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         540
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         541
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         542
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         543
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         544
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         545
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         546
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         547
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         548
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         549
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         550
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         551
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         552
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         553
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         554
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         555
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         556
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         557
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         558
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         559
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         560
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         561
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         562
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         563
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         564
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         565
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         566
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         567
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         568
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         569
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         570
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         571
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         572
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         573
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         574
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         575
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         576
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         577
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         578
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         579
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         580
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         581
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         582
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         583
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         584
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         585
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         586
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         587
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         588
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         589
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         590
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         591
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         592
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         593
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         594
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         595
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         596
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         597
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         598
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         599
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         600
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         601
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         602
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         603
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         604
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         605
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         606
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         607
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         608
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         609
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         610
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         611
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         612
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         613
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         614
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         615
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         616
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         617
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         618
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         619
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         620
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         621
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         622
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         623
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         624
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         625
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         626
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         627
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         628
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         629
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         630
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         631
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         632
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         633
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         634
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         635
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         636
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         637
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         638
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         639
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         640
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         641
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         642
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         643
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         644
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         645
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         646
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         647
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         648
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         649
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         650
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         651
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         652
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         653
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         654
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         655
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         656
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         657
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         658
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         659
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         660
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         661
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         662
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         663
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         664
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         665
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         666
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         667
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         668
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         669
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         670
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         671
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         672
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         673
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         674
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         675
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         676
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         677
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         678
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         679
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         680
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
+cycle number:         681
+[===SEGR VALUES===]
+ES = 0x0000, lim:0x003ff   PTC:00
+CS = 0x0000, lim:0x04fff   PTC:00
+SS = 0x0000, lim:0x04000   PTC:00
+DS = 0x0000, lim:0x011ff   PTC:00
+FS = 0x0000, lim:0x003ff   PTC:00
+GS = 0x0000, lim:0x007ff   PTC:00
+
+
