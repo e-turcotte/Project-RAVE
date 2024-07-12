@@ -172,11 +172,14 @@ module mem (input valid_in,
               .dest1_ptcinfo(dest1_ptcinfo), .dest2_ptcinfo(dest2_ptcinfo), .dest3_ptcinfo(dest3_ptcinfo), .dest4_ptcinfo(dest4_ptcinfo),
               .dest1_type({dest1_is_mem,dest1_is_seg,dest1_is_reg}), .dest2_type({dest2_is_mem,dest2_is_seg,dest2_is_reg}), .dest3_type({dest3_is_mem,dest3_is_seg,dest3_is_reg}), .dest4_type({dest4_is_mem,dest4_is_seg,dest4_is_reg}));
     
-    //TODO:
-    //or2$ g1(.out(IE_type_out[0]), .in0(prot_seg), .in1(TLB_prot));                        //update protection exception
-    //assign IE_type_out[1] = TLB_miss;                                                   //update page fault exception
-    //assign IE_type_out[3:2] = IE_type_in[3:2];                                          //pass along
-    //or4$ g2(.out(IE_out), .in1(IE_in), .in2(prot_seg), .in3(TLB_miss), .in4(TLB_prot));   //update IE_out
+    wire prot_seg;
+    assign prot_seg = 0; //temporary
+    //or2$ g111(.out(IE_type_out[0]), .in0(prot_seg), .in1(prot_exc));                        //update protection exception
+    assign IE_type_out[0] = 0;
+    assign IE_type_out[1] = 0; //TLB_miss                                                   //update page fault exception
+    assign IE_type_out[3:2] = IE_type_in[3:2];                                          //pass along
+    assign IE_out = 0;
+    //or4$ g222(.out(IE_out), .in0(IE_in), .in1(prot_seg), .in2(TLB_miss), .in3(prot_exc));   //update IE_out
     
     assign res1_ld_out = res1_ld_in;
     assign res2_ld_out = res2_ld_in;

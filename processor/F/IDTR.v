@@ -4,12 +4,13 @@ module IE_handler (
     input enable,
 
     input IE_in, //interrupt or exception from WB
-    input [3:0] IE_type_in, 
+    input [2:0] IE_type_in, 
     input [31:0] IDTR_base_address, //from init
     input [31:0] EIP_WB,
     input [17:0] EFLAGS_WB,
     input [15:0] CS_WB,
     input is_IRETD,
+    input is_resteer,
     
     output [127:0] IDTR_packet_out,
     output packet_out_select,           //to mux in fetch2 that picks between IBUFF or IDTR
@@ -34,15 +35,11 @@ module IE_handler (
     assign page_fault_vect = 32'd14;
     assign interrupt_vect = 32'd15;
 
-    wire [2:0] IE_type_no_div0;
-    assign IE_type_no_div0[1:0] = IE_type_in[1:0];
-    assign IE_type_no_div0[2] = IE_type_in[3];
-
     wire [2:0] IE_type_not, IE_type_internal;
-    invn #(.NUM_INPUTS(3)) i0(.out(IE_type_not), .in(IE_type_no_div0));
-    assign IE_type_internal[0] = IE_type_no_div0[0];
-    andn #(.NUM_INPUTS(2)) a0(.out(IE_type_internal[1]), .in({IE_type_no_div0[1], IE_type_not[0]}));
-    andn #(.NUM_INPUTS(3)) a1(.out(IE_type_internal[2]), .in({IE_type_no_div0[2], IE_type_not[1:0]})); 
+    invn #(.NUM_INPUTS(3)) i0(.out(IE_type_not), .in(IE_type_in));
+    assign IE_type_internal[0] = IE_type_in[0];
+    andn #(.NUM_INPUTS(2)) a0(.out(IE_type_internal[1]), .in({IE_type_in[1], IE_type_not[0]}));
+    andn #(.NUM_INPUTS(3)) a1(.out(IE_type_internal[2]), .in({IE_type_in[2], IE_type_not[1:0]})); 
 
     //if sel is 0, breaks trisate mux but output is a don't care
     muxnm_tristate #(.NUM_INPUTS(3), .DATA_WIDTH(32)) m1(.in({interrupt_vect, page_fault_vect, protection_vect}), .sel(IE_type_internal), .out(vector_out)); 

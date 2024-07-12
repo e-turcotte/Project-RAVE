@@ -183,13 +183,10 @@ module execute_TOP(
     //HandleBRLOGIC
     BRLOGIC b1(BR_valid, BR_taken, BR_correct, BR_FIP, BR_FIP_p1, valid_internal, BR_pred_target_in, BR_pred_T_NT_in, conditionals, zf, cf, res1[31:0], P_OP[11], P_OP[12], P_OP[32], gBR);
 
-    //TODO: exception checking for DIV0 for FDIV
-    //      - without throwing exception, result from Goldschmidt div will be 0:
-
-    //assign IE_type_out[1:0] = IE_type_in[1:0];
-    //assign IE_type_out[2] fp_div0_exception;
-    //assign IE_type_out[3] = IE_type_in[3];
-    //or2$ g3(.out(IE_out), .in0(IE_in), .in1(fp_div0_exception);
+    assign IE_type_out[1:0] = IE_type_in[1:0];
+    assign IE_type_out[2] = 0;
+    assign IE_type_out[3] = IE_type_in[3];
+    assign IE_out = IE_in;
 
 endmodule
 
