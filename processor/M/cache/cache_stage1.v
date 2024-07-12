@@ -46,15 +46,16 @@ wire [15:0] LRU;
 wire[3:0] V;
 inv1$ invQ(clkn, clk);
 inv1$ invS(valn, valid_in);
-
+wire[7:0] tag_read_buf;
 wire[3:0] index_out;
 assign index = pAddress_in[6:5];
 assign index_out = index;
 
 
 assign tag_in = pAddress_in[14:7];
+regn #(8) r69(.din(tag_read), .ld(1'b1), .clr(rst), .clk(clkn), .dout(tag_read_buf));
 
-assign extAddress = {tag_read, index,4'b0};
+assign extAddress = {tag_read_buf, index,pAddress_in[4],4'b0};
 wire[3:0] way_sw, way_sw_miss;
 or2$ mvswr(smalls, r, sw); //TODO: Possible i$ d$ change
 nand4$ mvW(meta_validW, smalls, MSHR_MISS, valid_out,rst);
@@ -62,13 +63,15 @@ nand3$ mvR(meta_validR, HIT, valid_out,rst);
 and3$ mvSW(meta_validSW, !MSHR_MISS, rst, sw);
 nand2$  mvVal(meta_validt, meta_validR, meta_validW);
 or2$ plzw(meta_valid, meta_validt, fromBUS & valid_in);
-and3$ plzwrks(handle_wsw, valid_in, sw,rst);
+and4$ plzwrks(handle_wsw, valid_in , sw,rst, stalln);
 nor4$ otherway(way_swap, way_sw[0], way_sw[1], way_sw[2], way_sw[3]);
 mux2n #(4) finalway(way_sw_miss, way_sw, way, way_swap);
-tagStore ts(.way_sw(way_sw), .isSW(sw), .isW(w), .w_unpulsed((~(~writeTag_out & rst))), .PTC(PTC) ,.tagData_out_hit(tag_hit), .valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(~(~tWrite & rst)), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
+tagStore ts(.ex_miss(ex_miss), .way_sw(way_sw), .isSW(sw), .isW(w), .w_unpulsed((~(~writeTag_out & rst))), .PTC(PTC) ,.tagData_out_hit(tag_hit), .valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(~(~tWrite & rst)), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
 metaStore ms(.way_sw(way_sw_miss),.handle_wsw(handle_wsw),.clk(clk), .r(r), .rst(rst), .set(set), .valid(meta_valid), .way(way_out), .index(index), .wb(w), .sw(sw), .ex(ex_clr_buf), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
 wayGeneration wg(.LRU(LRU),.valid_in(valid_in), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid_in), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS2));
 dff$ d69(.clk(clkn), .d(ex_clr), .q(ex_clr_buf),.qbar(), .r(rst), .s(1'b1));
+dff$ d690(.clk(clkn), .d(ex_wb), .q(ex_wb_buf),.qbar(), .r(rst), .s(1'b1));
+and2$ asherwuzhere(ex_miss, clkn, ex_clr_buf);
 
 and2$ aser0(ser1_stall, SER1_FULL, ex_clr);
 and2$ aser1(ser0_stall, SER0_FULL, ex_wb);

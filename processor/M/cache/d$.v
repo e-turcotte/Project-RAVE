@@ -812,7 +812,7 @@ SER DS_E_W(
     .dest_in(SER_dest0_e),
     .return_in(4'b0110),
     .rw_in(SER_rw0_e),
-    .size_in(SER_size0_e),
+    .size_in(16'h8000),
     .full_block(SER0_FULL_e),
     .free_block(),
     .grant(grantDEw),
@@ -866,7 +866,7 @@ SER DS_O_W(
     .dest_in(SER_dest0_o),
     .return_in(4'b0111),
     .rw_in(SER_rw0_o),
-    .size_in(SER_size0_o),
+    .size_in(16'h8000),
     .full_block(SER0_FULL_o),
     .free_block(),
     .grant(grantDOw),
@@ -1067,7 +1067,7 @@ end
  
 always  @(posedge clk) begin
         #3
-        if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1 || clk_ctr_$ == 32'd140) begin
+        if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1 || clk_ctr_$ == 32'd700) begin
             $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #,Cyc: %d\n", clk_ctr_$);
             $fwrite(file_handle, "EVEN TAG STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
