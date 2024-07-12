@@ -632,8 +632,8 @@
         .LD(LD_btb),
 
         .btb_update_eip_WB(latched_eip_WB_out), //EIP of BR instr, passed from D
-        .FIP_E_WB(newFIP_e_WB_out), 
-        .FIP_O_WB(newFIP_o_WB_out), 
+        .FIP_E_WB({newFIP_e_WB_out, 4'b0}), 
+        .FIP_O_WB({newFIP_o_WB_out,4'b0}), 
         .EIP_WB(newEIP_WB_out), //update, from WB
 
         .prediction(is_BR_T_NT_BP_out),
