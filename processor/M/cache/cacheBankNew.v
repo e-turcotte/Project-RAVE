@@ -161,7 +161,7 @@ assign MSHR_ptcid = PTC_ID_IN;
 
 //Handle MSHR_io
 assign MSHR_pAddress_io = pAddress;
-and4$ mshas(MSHR_alloc_noser_io, valid_in, rst, MISS, PCD_IN & R); //TODO: was and2$ msh(MSHR_alloc, valid, MISS, MSHR_MISS);  not really sure if I fixed this correctly
+and4$ mshas(MSHR_alloc_noser_io, valid_in, rst, MISS, PCD_IN & r); //TODO: was and2$ msh(MSHR_alloc, valid, MISS, MSHR_MISS);  not really sure if I fixed this correctly
 and4$ mshsas(MSHR_alloc_io, r, MSHR_alloc_noser_io, !ex_clr | (ex_clr & !SER1_FULL), !ex_wb | (ex_wb & !SER0_FULL));
 assign MSHR_rdsw_io = sw;
 and3$ mshDas(MSHR_dealloc_io, valid_in, fromBUS, PCD_IN);
