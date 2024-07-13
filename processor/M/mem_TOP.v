@@ -176,14 +176,16 @@ module mem (input valid_in,
               .dest1_ptcinfo(dest1_ptcinfo), .dest2_ptcinfo(dest2_ptcinfo), .dest3_ptcinfo(dest3_ptcinfo), .dest4_ptcinfo(dest4_ptcinfo),
               .dest1_type({dest1_is_mem,dest1_is_seg,dest1_is_reg}), .dest2_type({dest2_is_mem,dest2_is_seg,dest2_is_reg}), .dest3_type({dest3_is_mem,dest3_is_seg,dest3_is_reg}), .dest4_type({dest4_is_mem,dest4_is_seg,dest4_is_reg}));
     
-    wire prot_seg;
-    assign prot_seg = 0; //temporary
-    //or2$ g111(.out(IE_type_out[0]), .in0(prot_seg), .in1(prot_exc));                        //update protection exception
-    assign IE_type_out[0] = 0;
-    assign IE_type_out[1] = 0; //TLB_miss                                                   //update page fault exception
+    wire prot_seg1, prot_seg2, prot_seg;
+
+    seg_lim_exception_logic segcheck1(.read_address_end_size(mem_addr1_end), .seg_size(seg1_lim), .seg_lim_exception(prot_seg1));
+    seg_lim_exception_logic segcheck2(.read_address_end_size(mem_addr2_end), .seg_size(seg2_lim), .seg_lim_exception(prot_seg2));
+    or2$ seg_or(.out(prot_seg), .in0(prot_seg1), .in1(prot_seg2));
+
+    or2$ g111(.out(IE_type_out[0]), .in0(prot_seg), .in1(prot_exc));                        //update protection exception
+    assign IE_type_out[1] = TLB_miss;                                                   //update page fault exception
     assign IE_type_out[3:2] = IE_type_in[3:2];                                          //pass along
-    assign IE_out = 0;
-    //or4$ g222(.out(IE_out), .in0(IE_in), .in1(prot_seg), .in2(TLB_miss), .in3(prot_exc));   //update IE_out
+    or4$ g222(.out(IE_out), .in0(IE_in), .in1(prot_seg), .in2(TLB_miss), .in3(prot_exc));   //update IE_out
     
     assign res1_ld_out = res1_ld_in;
     assign res2_ld_out = res2_ld_in;

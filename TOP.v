@@ -610,8 +610,8 @@
         .EFLAGS_WB(final_EFLAGS),
         .CS_WB(final_CS),
         .is_resteer(),
-
-        .is_IRETD(),
+        .is_IRETD(1'b0),
+    
         .IDTR_packet_out(IDTR_packet_out),
         .packet_out_select(IDTR_packet_select_out),
         .flush_pipe(IDTR_flush_pipe),
@@ -1489,16 +1489,16 @@
 
         .stall(fwd_stall_WB_EX_out),
 
-        .final_IE_val(),
+        .final_IE_val(final_IE_val),
         .final_IE_type(IE_type_WB_out),
         .halts(halts)
     );
 
-    // assign final_IE_type[1:0] = IE_type_WB_out[1:0];
-    // assign final_IE_type[2] = IE_type_WB_out[3];
+    assign final_IE_type[1:0] = IE_type_WB_out[1:0];
+    assign final_IE_type[2] = IE_type_WB_out[3];
     
-    assign final_IE_val = 0;
-    assign final_IE_type = 0;
+    // assign final_IE_val = 0;
+    // assign final_IE_type = 0;
 
     nand2$ ptc_clear_and (.in0(idtr_ptc_clear_out), .in1(is_resteer_WB_out), .out(IDTR_PTC_clear)); //TODO
 

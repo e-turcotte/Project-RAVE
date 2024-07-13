@@ -62,6 +62,7 @@ processor/RrAg/repmech.v
 processor/M/mem_TOP.v
 processor/M/opswap.v
 processor/M/TLB.v
+processor/M/seg_lim_exception.v
 
 processor/Ex/execute_TOP.v
 processor/Ex/BRLOGIC.v

@@ -22,7 +22,7 @@ module IE_handler (
 );
 
 //type encoding:
-    //0000: no stall
+    //000: no stall
     //001: protection (read_address > seg_max_address), vector = 13
     //010: page fault (tlb_miss) , vector = 14 (decimal) * 8 
     //100: interrupt
@@ -53,7 +53,7 @@ module IE_handler (
 
     IDTR_FSM fsm(.clk(clk), .set(1'b1), .reset(reset), .enable(enable), .IE(IE_in), .is_IRETD(is_IRETD), 
                  .IDTR_packet_select(IDTR_packet_select), .packet_out_select(packet_out_select), .flush_pipe(flush_pipe), 
-                 .PTC_clear(PTC_clear), .LD_EIP(LD_EIP), .is_POP_EFLAGS(is_POP_EFLAGS), .LD_info_regs(LD_info_regs), .servicing_IE(servicing_IE));
+                 .PTC_clear(PTC_clear), .LD_EIP(LD_EIP), .is_POP_EFLAGS(is_POP_EFLAGS), .LD_info_regs(LD_info_regs), .servicing_IE(is_servicing_IE));
 
     wire [31:0] IDT_entry_internal, IDT_entry4_internal, EFLAGS_internal, CS_internal, EIP_internal;
 
