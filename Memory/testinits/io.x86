@@ -2,47 +2,49 @@
 0x4:  8e d8                   //mov    ds,eax
 0x6:  b8 00 00 00 00          //mov    eax,0x0
 0xb:  8b 08                   //mov    ecx,DWORD PTR [eax]
-0xd:  bb 00 20 00 00          //mov    ebx,0x2000
-0x12: c7 40 10 00 01 00 00    //mov    DWORD PTR [eax+0x10],0x100
-0x19: 89 58 20                //mov    DWORD PTR [eax+0x20],ebx
-0x1c: c7 40 30 20 00 00 00    //mov    DWORD PTR [eax+0x30],0x20
-0x23: c7 40 40 01 00 00 00    //mov    DWORD PTR [eax+0x40],0x1
-0x2a: 83 c7 00                //add    edi,0x0
-0x2d: 83 c7 00                //add    edi,0x0
-0x30: 83 c7 00                //add    edi,0x0
-0x33: 83 c7 00                //add    edi,0x0
-0x36: 83 c7 00                //add    edi,0x0
-0x39: 83 c7 00                //add    edi,0x0
-0x3c: 83 c7 00                //add    edi,0x0
-0x3f: 83 c7 00                //add    edi,0x0
-0x42: 83 c7 00                //add    edi,0x0
-0x45: 83 c7 00                //add    edi,0x0
-0x48: 83 c7 00                //add    edi,0x0
-0x4b: 83 c7 00                //add    edi,0x0
-0x4e: 83 c7 00                //add    edi,0x0
-0x51: 83 c7 00                //add    edi,0x0
-0x54: 83 c7 00                //add    edi,0x0
-0x57: 83 c7 00                //add    edi,0x0
-0x5a: 83 c7 00                //add    edi,0x0
-0x5d: 83 c7 00                //add    edi,0x0
-0x60: f4                      //hlt
+0xd:  8b 08                   //mov    ecx,DWORD PTR [eax]
+0xf:  8b 08                   //mov    ecx,DWORD PTR [eax]
+0x11: bb 00 20 00 00          //mov    ebx,0x2000
+0x16: c7 40 10 00 01 00 00    //mov    DWORD PTR [eax+0x10],0x100
+0x1d: 89 58 20                //mov    DWORD PTR [eax+0x20],ebx
+0x20: c7 40 30 20 00 00 00    //mov    DWORD PTR [eax+0x30],0x20
+0x27: c7 40 40 01 00 00 00    //mov    DWORD PTR [eax+0x40],0x1
+0x2e: 83 c7 00                //add    edi,0x0
+0x31: 83 c7 00                //add    edi,0x0
+0x34: 83 c7 00                //add    edi,0x0
+0x37: 83 c7 00                //add    edi,0x0
+0x3a: 83 c7 00                //add    edi,0x0
+0x3d: 83 c7 00                //add    edi,0x0
+0x40: 83 c7 00                //add    edi,0x0
+0x43: 83 c7 00                //add    edi,0x0
+0x46: 83 c7 00                //add    edi,0x0
+0x49: 83 c7 00                //add    edi,0x0
+0x4c: 83 c7 00                //add    edi,0x0
+0x4f: 83 c7 00                //add    edi,0x0
+0x52: 83 c7 00                //add    edi,0x0
+0x55: 83 c7 00                //add    edi,0x0
+0x58: 83 c7 00                //add    edi,0x0
+0x5b: 83 c7 00                //add    edi,0x0
+0x5e: 83 c7 00                //add    edi,0x0
 0x61: 83 c7 00                //add    edi,0x0
-0x64: 83 c7 00                //add    edi,0x0
-0x67: 83 c7 00                //add    edi,0x0
-0x6a: 83 c7 00                //add    edi,0x0
-0x6d: 83 c7 00                //add    edi,0x0
-0x70: 83 c7 00                //add    edi,0x0
-0x73: 83 c7 00                //add    edi,0x0
-0x76: 83 c7 00                //add    edi,0x0
-0x79: 83 c7 00                //add    edi,0x0
-0x7c: 83 c7 00                //add    edi,0x0
-0x7f: 83 c7 00                //add    edi,0x0
-0x82: 83 c7 00                //add    edi,0x0
-0x85: 83 c7 00                //add    edi,0x0
-0x88: 83 c7 00                //add    edi,0x0
-0x8b: 83 c7 00                //add    edi,0x0
-0x8e: 83 c7 00                //add    edi,0x0
-0x91: 83 c7 00                //add    edi,0x0
-0x94: 83 c7 00                //add    edi,0x0
-0x97: 83 c7 00                //add    edi,0x0
-0x9a: 83 c7 00                //add    edi,0x0
+0x64: f4                      //hlt
+0x65: 83 c7 00                //add    edi,0x0
+0x68: 83 c7 00                //add    edi,0x0
+0x6b: 83 c7 00                //add    edi,0x0
+0x6e: 83 c7 00                //add    edi,0x0
+0x71: 83 c7 00                //add    edi,0x0
+0x74: 83 c7 00                //add    edi,0x0
+0x77: 83 c7 00                //add    edi,0x0
+0x7a: 83 c7 00                //add    edi,0x0
+0x7d: 83 c7 00                //add    edi,0x0
+0x80: 83 c7 00                //add    edi,0x0
+0x83: 83 c7 00                //add    edi,0x0
+0x86: 83 c7 00                //add    edi,0x0
+0x89: 83 c7 00                //add    edi,0x0
+0x8c: 83 c7 00                //add    edi,0x0
+0x8f: 83 c7 00                //add    edi,0x0
+0x92: 83 c7 00                //add    edi,0x0
+0x95: 83 c7 00                //add    edi,0x0
+0x98: 83 c7 00                //add    edi,0x0
+0x9b: 83 c7 00                //add    edi,0x0
+0x9e: 83 c7 00                //add    edi,0x0 

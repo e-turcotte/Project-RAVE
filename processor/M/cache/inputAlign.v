@@ -56,13 +56,13 @@ assign address0[11:7] = vAddress0[11:7];
 assign r1 = r; assign r0 = r;
 assign w1 = w; assign w0 = w;
 assign sw1 =sw; assign sw0 = sw;
-assign valid0 = valid_in; assign fromBUS0 = fromBUS; assign fromBUS1 = fromBUS;
+assign valid0as = valid_in; assign fromBUS0 = fromBUS; assign fromBUS1 = fromBUS;
 bufferH256$ b12(fromMEM, fromBUS);
 inv1$ asa(PCD_not,PCD_out);
 wire[3:0] shift0_enc;
 // and2$ asv(valid0, valid_in, PCD_not);
 //valid0 = valid_in & !(sw & PCD)
-nand2$ asfsa(sw_pcd_skip, sw, PCD_out);
+nand2$ asfsa(sw_pcd_skip, sw, PCD_out0);
 and2$ asfafs(valid0, valid_in, sw_pcd_skip);
 //Adr + x10
 kogeAdder #(32) a1(vAddress1, dc, address_in, 32'h0000_0010, 1'b0);
@@ -98,12 +98,12 @@ inv1$ in3(size1_n[3], addRes[3]);
 kogeAdder #(4) ad2(shift2[3:0], dc1, sizeAdd, size1_n, 1'b1);
 wire[19:0] tlb0, tlb1;
 //TLB Handler
-TLB t1(clk, vAddress0, w,valid0, VP, PF,entry_V, entry_P, entry_RW, entry_PCD, tlb0, PCD_out0, miss0, hit0, prot_except0 );
+TLB t1(clk, vAddress0, w,valid_in, VP, PF,entry_V, entry_P, entry_RW, entry_PCD, tlb0, PCD_out0, miss0, hit0, prot_except0 );
 TLB t2(clk, vAddress1, w,valid1, VP, PF, entry_V, entry_P, entry_RW, entry_PCD, tlb1, PCD_out1, miss1, hit1,  prot_except1);
 or2$ a0(TLB_miss, miss0, miss1);
 or2$ a2(protection_exception,prot_except1 , prot_except0);
 and2$ a3(TLB_hit, hit0, hit1);
-and2$ a6(PCD_out, PCD_out0, PCD_out1);
+and3$ a6(PCD_out, PCD_out0, PCD_out1, valid0);
 
 //Address gneration
 assign address1[14:12] = tlb1[2:0];

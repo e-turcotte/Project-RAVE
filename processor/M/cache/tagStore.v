@@ -12,6 +12,7 @@ input r,
 input isW,
 input isSW,
 input ex_miss,
+input PCD_IN,
 
 output[7:0] tag_out, 
 output[3:0] hit,
@@ -59,7 +60,7 @@ endgenerate
     nor4$ nomiss(way_sel_sw_nomiss, hit[0], hit[1], hit[2], hit[3]);
     and2$ swovr(way_sw_ov,way_sel_sw_noptc, way_sel_sw_nomiss);
     mux2n #(4) way_sw_swap(way_sw, way_sw1, way_sw1, way_sw_ov);
-    mux2n #(4) (hit, hit_buf, 4'b0000, ex_miss & !isW);
+    mux2n #(4) (hit, hit_buf, 4'b0000, ex_miss & !isW | PCD_IN);
 //Cycle 144
 nor4$ n1(miss, hit[3], hit[2], hit[1], hit[0]);
 

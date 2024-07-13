@@ -68,7 +68,7 @@ nor4$ otherway(way_swap, way_sw[0], way_sw[1], way_sw[2], way_sw[3]);
 mux2n #(4) finalway(way_sw_miss, way_sw, way, way_swap);
 
 
-tagStore ts(.ex_miss(ex_miss), .way_sw(way_sw), .isSW(sw), .isW(w), .w_unpulsed((~(~writeTag_out & rst))), .PTC(PTC) ,.tagData_out_hit(tag_hit), .valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(~(~tWrite & rst)), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
+tagStore ts(.PCD_IN(PCD_IN),.ex_miss(ex_miss), .way_sw(way_sw), .isSW(sw), .isW(w), .w_unpulsed((~(~writeTag_out & rst))), .PTC(PTC) ,.tagData_out_hit(tag_hit), .valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(~(~tWrite & rst)), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
 metaStore ms(.way_sw(way_sw_miss),.handle_wsw(handle_wsw),.clk(clk), .r(r), .rst(rst), .set(set), .valid(meta_valid & !PCD_IN), .way(way_out), .index(index), .wb(w), .sw(sw), .ex(ex_clr_buf), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
 wayGeneration wg(.LRU(LRU),.valid_in(valid_in), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid_in), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS2));
 dff$ d69(.clk(clkn), .d(ex_clr), .q(ex_clr_buf),.qbar(), .r(rst), .s(1'b1));
@@ -82,7 +82,7 @@ and2$ aser1(ser0_stall, SER0_FULL, ex_wb);
 and4$ a4(stall1, PTC[0], PTC[1], PTC[2], PTC[3]);
 or2$ o1(stall2, ser1_stall, ser0_stall);
 or3$ o2(stall_pos, stall1, stall2, MSHR_FULL);
-and2$ a5(stall, stall_pos, MISS);
+and3$ a5(stall, stall_pos, MISS, valid_in);
 inv1$ inv2(stalln, stall);
 
 and2$ valGen(valid_dff, stalln, valid_in);
