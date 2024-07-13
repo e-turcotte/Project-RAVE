@@ -86,7 +86,7 @@ module branch_target_buff(
 
     //check if we have a miss or hit by checking if any of the tags match
     wire [63:0] hit_array;
-    andn #(64) and_hit(.in({tag_compare, valid_out_unpacked}), .out(hit_array));
+    andn #(2) and_hit(.in({tag_compare, valid_out_unpacked}), .out(hit_array));
     equaln #(.WIDTH(64)) eq(.a(hit_array), .b(64'h0), .eq(miss)); //will be 0 if we have a hit
     inv1$ i1(.out(hit), .in(miss));
 
