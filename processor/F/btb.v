@@ -35,6 +35,7 @@ module branch_target_buff(
     wire [63:0] index_lookup_decoded;
     wire [63:0] ld_reg;
 
+    wire [63:0] valid_out_unpacked; //64 * 1
     wire [2047:0] tag_store_out_unpacked; //64 * 32
     wire [2047:0] target_store_out_unpacked;
     wire [2047:0] FIP_E_store_out_unpacked;
@@ -48,6 +49,12 @@ module branch_target_buff(
     generate
         for (i = 0; i < 64; i = i + 1) begin
             and2$ a(.out(ld_reg[i]), .in0(LD), .in1(index_write_decoded[i]));
+            
+            regn #(.WIDTH(1)) valid_reg (.din(1'b1), 
+                                        .ld(ld_reg[i]), 
+                                        .clr(reset), 
+                                        .clk(clk), 
+                                        .dout(valid_out_unpacked[i*32 + 31 : i*32]));
 
             regn #(.WIDTH(32)) tag_reg (.din(tag_write), 
                                         .ld(ld_reg[i]), 
@@ -78,7 +85,9 @@ module branch_target_buff(
     endgenerate
 
     //check if we have a miss or hit by checking if any of the tags match
-    equaln #(.WIDTH(64)) eq(.a(tag_compare), .b(64'h0), .eq(miss)); //will be 0 if we have a hit
+    wire [63:0] hit_array;
+    andn #(64) and_hit(.in({tag_compare, valid_out_unpacked}), .out(hit_array));
+    equaln #(.WIDTH(64)) eq(.a(hit_array), .b(64'h0), .eq(miss)); //will be 0 if we have a hit
     inv1$ i1(.out(hit), .in(miss));
 
     muxnm_tristate #(.NUM_INPUTS(64), .DATA_WIDTH(32) ) mux_target(
