@@ -54,7 +54,7 @@ module branch_target_buff(
                                         .ld(ld_reg[i]), 
                                         .clr(reset), 
                                         .clk(clk), 
-                                        .dout(valid_out_unpacked[i*32 + 31 : i*32]));
+                                        .dout(valid_out_unpacked[i]));
 
             regn #(.WIDTH(32)) tag_reg (.din(tag_write), 
                                         .ld(ld_reg[i]), 
