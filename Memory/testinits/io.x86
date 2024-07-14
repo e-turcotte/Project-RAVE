@@ -1,14 +1,14 @@
 0x0:  66 b8 00 03             //mov    ax,0x300
 0x4:  8e d8                   //mov    ds,eax
 0x6:  b8 00 00 00 00          //mov    eax,0x0
-0xb:  8b 08                   //mov    ecx,DWORD PTR [eax]
-0xd:  8b 20                   //mov    esp,DWORD PTR [eax]
-0xf:  8b 10                   //mov    edx,DWORD PTR [eax]
-0x11: bb 00 20 00 00          //mov    ebx,0x2000
-0x16: c7 40 10 00 01 00 00    //mov    DWORD PTR [eax+0x10],0x100
-0x1d: 89 58 20                //mov    DWORD PTR [eax+0x20],ebx
-0x20: c7 40 30 20 00 00 00    //mov    DWORD PTR [eax+0x30],0x20
-0x27: c7 40 40 01 00 00 00    //mov    DWORD PTR [eax+0x40],0x1
+0xb:  8b 08                   //mov    ecx,DWORD PTR [eax]Read char
+0xd:  8b 20                   //mov    esp,DWORD PTR [eax]Read char
+0xf:  8b 10                   //mov    edx,DWORD PTR [eax]Read char
+0x11: bb 00 20 00 00          //mov    ebx,0x2002
+0x16: c7 40 10 11 00 00 00    //mov    DWORD PTR [eax+0x10],0x11   Load disc source
+0x1d: 89 58 20                //mov    DWORD PTR [eax+0x20],ebx    L   oad Memory destination (x2000)
+0x20: c7 40 30 20 00 00 00    //mov    DWORD PTR [eax+0x30],0x20   Load Disc Size (x20)
+0x27: c7 40 40 01 00 00 00    //mov    DWORD PTR [eax+0x40],0x1    I   nitialize
 0x2e: bf 00 04 00 00          //mov    edi,0x400
 0x33: 8e df                   //mov    ds,edi
 0x35: 83 c7 00                //add    edi,0x0
@@ -37,4 +37,4 @@
 0x78: 83 c7 00                //add    edi,0x0
 0x7b: 83 c7 00                //add    edi,0x0
 0x7e: 83 c7 00                //add    edi,0x0
-0x81: 83 c7 00                //add    edi,0x0
+0x81: 83 c7 00                //add    edi,0x0 
