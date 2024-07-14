@@ -76,7 +76,7 @@ dff$ d690(.clk(clkn), .d(ex_wb), .q(ex_wb_buf),.qbar(), .r(rst), .s(1'b1));
 and2$ asherwuzhere(ex_miss, clkn, ex_clr_buf);
 
 and2$ aser0(ser1_stall, SER1_FULL, ex_clr);
-and2$ aser1(ser0_stall, SER0_FULL, ex_wb);
+and2$ aser1(ser0_stall, SER0_FULL, ex_wb | (PCD_IN & w & !fromBUS));
 
 //Stall generation
 and4$ a4(stall1, PTC[0], PTC[1], PTC[2], PTC[3]);

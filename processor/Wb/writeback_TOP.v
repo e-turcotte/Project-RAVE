@@ -60,8 +60,9 @@ module writeback_TOP(
     output halt_flop
     );
     
-    and2$ halc(halts, P_OP[9], valid_out);
-    dff$ desDEss(clk,halt_last, halt_last, dcxxx, rst, halts);
+    and2$ halc(halt_ld, P_OP[9], valid_out);
+    regn #(1) r1(.din(1'b1), .ld(halt_ld), .clr(rst), .clk(clk), .dout(halts));
+
 
     assign inst_ptcid_out = inst_ptcid_in;
 
