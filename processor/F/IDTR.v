@@ -30,6 +30,9 @@ module IE_handler (
     //take IDTR and add 8 * vector to it
     wire [31:0] protection_vect, page_fault_vect, interrupt_vect;
     wire [31:0] vector_out, vector_out_shifted, IDT_entry_address, IDT_entry_address4;
+    wire IE_internal;
+
+    or2$ o198342y(.out(IE_internal), .in0(IE_in), .in1(is_servicing_IE));
 
     assign protection_vect = 32'd13;
     assign page_fault_vect = 32'd14;
@@ -56,12 +59,15 @@ module IE_handler (
                  .PTC_clear(PTC_clear), .LD_EIP(LD_EIP), .is_POP_EFLAGS(is_POP_EFLAGS), .LD_info_regs(LD_info_regs), .servicing_IE(is_servicing_IE));
 
     wire [31:0] IDT_entry_internal, IDT_entry4_internal, EFLAGS_internal, CS_internal, EIP_internal;
+    wire is_servicing_IE_not;
 
-    regn #(.WIDTH(32)) reg_address  (.din(IDT_entry_address),  .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(IDT_entry_internal));
-    regn #(.WIDTH(32)) reg_address4 (.din(IDT_entry_address4), .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(IDT_entry4_internal));
-    regn #(.WIDTH(32)) reg_EFLAGSWB (.din({14'b0, EFLAGS_WB}), .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(EFLAGS_internal));
-    regn #(.WIDTH(32)) reg_CSWB     (.din({16'b0, CS_WB}),     .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(CS_internal));
-    regn #(.WIDTH(32)) reg_EIPWB    (.din(EIP_WB),             .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(EIP_internal));
+    inv1$ iiio(.in(is_servicing_IE), .out(is_servicing_IE_not));
+
+    regn #(.WIDTH(32)) reg_address  (.din(IDT_entry_address),   .ld(is_servicing_IE_not), .clr(reset), .clk(clk), .dout(IDT_entry_internal));
+    regn #(.WIDTH(32)) reg_address4 (.din(IDT_entry_address4),  .ld(is_servicing_IE_not), .clr(reset), .clk(clk), .dout(IDT_entry4_internal));
+    regn #(.WIDTH(32)) reg_EFLAGSWB (.din({14'b0, EFLAGS_WB}),  .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(EFLAGS_internal));
+    regn #(.WIDTH(32)) reg_CSWB     (.din({16'b0, CS_WB}), .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(CS_internal));
+    regn #(.WIDTH(32)) reg_EIPWB    (.din(EIP_WB),         .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(EIP_internal));
 
     wire [127:0] push_eflags, push_cs, push_eip, first_4_bytes, second_4_bytes, exchange, sar16, mov_cs, jump, ret_far, pop_eflags;
     wire [31:0]  push_eflags_imm, push_cs_imm, push_eip_imm, first_4_bytes_imm, second_4_bytes_imm;
@@ -82,8 +88,8 @@ module IE_handler (
     assign second_4_bytes = {8'ha1, second_4_bytes_imm, 88'b0};                     //MOV EBX, [IDT_entry4_internal]
 
     assign exchange = {16'h6693, 112'h0};                                            //XCHG AX, BX
-    assign sar16 = {24'hc1f804, 102'h0};                                             //SAR EAX, 4
-    assign mov_cs = {24'h668ec8, 102'h0};                                            //MOV CS, AX
+    assign sar16 = {24'hc1f804, 104'h0};                                             //SAR EAX, 4
+    assign mov_cs = {24'h668ec8, 104'h0};                                            //MOV CS, AX
     assign jump = {16'hffe3, 112'h0};                                                //JMP EBX
     assign ret_far = {8'hcb, 120'h0};                                                 //RET FAR
     assign pop_eflags = {8'h58, 120'h0};                                             //POP EFLAGS to EAX but used to load EFLAGS
@@ -125,7 +131,7 @@ module IDTR_FSM (
     //NEXT STATE LOGIC
     //NS[3]
     wire ns3_0, ns3_1, ns3_2;
-    andn #(.NUM_INPUTS(3)) a1(.out(ns3_0), .in( {CS[2], CS[1], CS[0]}));
+    andn #(.NUM_INPUTS(3)) a1(.out(ns3_0), .in( {CS[2], CS[1], CS[0]} ));
     andn #(.NUM_INPUTS(2)) a2(.out(ns3_1), .in( {CS[3], notCS[2]} ));
     andn #(.NUM_INPUTS(2)) a3(.out(ns3_2), .in( {CS[3], notCS[1]} ));
     orn  #(.NUM_INPUTS(3)) o0(.out(NS[3]),  .in( {ns3_0, ns3_1, ns3_2} ));
@@ -135,20 +141,20 @@ module IDTR_FSM (
     andn #(.NUM_INPUTS(4)) a4(.out(ns2_0), .in( {notCS[3], notCS[2], CS[1], CS[0]} ));
     andn #(.NUM_INPUTS(3)) a5(.out(ns2_1), .in( {notCS[3], CS[2], notCS[0]} ));
     andn #(.NUM_INPUTS(2)) a6(.out(ns2_2), .in( {CS[2], notCS[1]} ));
-    andn #(.NUM_INPUTS(4)) a7(.out(ns2_3), .in( {CS[3], CS[1], CS[0], is_IRETD} ));
+    andn #(.NUM_INPUTS(4)) a7(.out(ns2_3), .in( {notCS[2], CS[1], CS[0], is_IRETD} ));
     orn  #(.NUM_INPUTS(4)) o1(.out(NS[2]),  .in( {ns2_0, ns2_1, ns2_2, ns2_3} ));
 
     //NS[1]
-    wire ns1_0, ns1_1, ns1_2, ns1_3, ns1_4;
+    wire ns1_0, ns1_1, ns1_2, ns1_3;
     andn #(.NUM_INPUTS(3)) a8(.out(ns1_0),  .in( {notCS[3], CS[1], notCS[0] } ));
     andn #(.NUM_INPUTS(3)) a9(.out(ns1_1),  .in( {notCS[2], CS[1], notCS[0] } ));
     andn #(.NUM_INPUTS(2)) a10(.out(ns1_2), .in( {notCS[1], CS[0] } ));
-    andn #(.NUM_INPUTS(3)) a11(.out(ns1_3), .in( {CS[3], CS[0], is_IRETD_not } ));
+    andn #(.NUM_INPUTS(4)) a11(.out(ns1_3), .in( {CS[3], notCS[2], CS[1], is_IRETD_not } ));
     orn  #(.NUM_INPUTS(4)) o2(.out(NS[1]),   .in( {ns1_0, ns1_1, ns1_2, ns1_3 } ));
 
     //NS[0]
     wire ns0_0, ns0_1, ns0_2, ns0_3, ns0_4;
-    andn #(.NUM_INPUTS(3)) a12(.out(ns0_0), .in( {CS[3], notCS[2], notCS[1]} ));
+    andn #(.NUM_INPUTS(3)) a12(.out(ns0_0), .in( {CS[3], notCS[2], notCS[0]} ));
     andn #(.NUM_INPUTS(3)) a13(.out(ns0_1), .in( {CS[2],notCS[1], notCS[0]} ));
     andn #(.NUM_INPUTS(3)) a14(.out(ns0_2), .in( {notCS[3], CS[1], notCS[0]} ));
     andn #(.NUM_INPUTS(3)) a15(.out(ns0_3), .in( {notCS[3], notCS[0], IE} ));
@@ -204,7 +210,7 @@ module IDTR_FSM (
     andn #(.NUM_INPUTS(4)) a38(.out(is_POP_EFLAGS), .in( {CS[3:1], notCS[0]} ));
 
     //LD_info_regs
-    andn #(.NUM_INPUTS(3)) a39(.out(LD_info_regs), .in( {notCS[3:1]} ));
+    andn #(.NUM_INPUTS(5)) a39(.out(LD_info_regs), .in( {notCS[3:0], IE_not} ));
 
     //servicing_IE
     wire not_servicing_IE;

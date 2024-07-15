@@ -101,14 +101,17 @@ module fetch_2 (
 
     kogeAdder #(.WIDTH(8)) a4(.A({2'b0, latched_BIP}), .B({D_length}), .CIN(1'b0), .SUM(BIP_plus_length), .COUT());
 
+    wire packet_out_valid_almost;
     check_valid_rotate cvr(
         .curr_line(BIP_plus_length[5:4]),
         .valid_00(line_00_valid),
         .valid_01(line_01_valid),
         .valid_10(line_10_valid),
         .valid_11(line_11_valid),
-        .valid_rotate(packet_out_valid)
+        .valid_rotate(packet_out_valid_almost)
     );
+
+    or2$ o1243(.out(packet_out_valid), .in0(packet_out_valid_almost), .in1(packet_select));
 
     wire [127:0] line_00_reverse, line_01_reverse, line_10_reverse, line_11_reverse;
     reverse_bit_vector_by_bytes rbv0(.in(line_00), .out(line_00_reverse));
@@ -125,13 +128,13 @@ module fetch_2 (
         .length_to_rotate(BIP_plus_length[5:0]),
         .line_out(packet_IBuff_out)
     );
-    assign packet_out = packet_IBuff_out;
+    //assign packet_out = packet_IBuff_out;
 
-    // muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(128)) m2(
-    //     .in({IDTR_packet, packet_IBuff_out}), 
-    //     .sel(packet_select), 
-    //     .out(packet_out)
-    // );
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(128)) m2(
+        .in({IDTR_packet, packet_IBuff_out}), 
+        .sel(packet_select), 
+        .out(packet_out)
+    );
 
     assign old_BIP = latched_BIP;
     assign new_BIP = BIP_plus_length[5:0];

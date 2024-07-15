@@ -163,19 +163,21 @@ module writeback_TOP(
     assign WB_BP_update_alias = BP_alias_in;
 
     wire invstall;
-
+    wire IE_val_almost, IE_val_inv;
+    
     and2$ a94(.out(stall), .in0(wbaq_full), .in1(mem_ld)); 
     wire invstall0, invstall1;
     inv1$ i92(.out(invstall), .in(stall));
 
-    and2$ asd(.out(valid_out), .in0(valid_in), .in1(invstall));
+    and3$ asd(.out(valid_out), .in0(valid_in), .in1(invstall), .in2(IE_val_inv));
 
     wire [3:0] almost_final_IE_type;
     assign almost_final_IE_type[2:0] = IE_type_in[2:0]; //TODO: Rohan's IE stuff
     assign almost_final_IE_type[3] = interrupt_in;
 
-    wire IE_val_almost;
+
     or2$ o4(.out(IE_val_almost), .in0(IE_in), .in1(interrupt_in));
+    inv1$ i123(.out(IE_val_inv), .in(IE_val_almost));
 
     and2$ a134 (.out(final_IE_val), .in0(IE_val_almost), .in1(valid_in));
     b4_bitwise_and brobro (.out(final_IE_type), .in0(almost_final_IE_type), .in1( {valid_in, valid_in, valid_in, valid_in} )); 

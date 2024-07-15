@@ -58,6 +58,7 @@
     reg global_init;
     reg [31:0] EIP_init;
     reg [31:0] IDTR_base;
+    reg interrupt;
 
     initial begin
         // D_valid = 1'b1;
@@ -66,6 +67,7 @@
         global_set = 1;
         IDTR_base = 32'h02000000;
         global_init = 0;
+        interrupt = 0;
         //initialize TLB
         VP_0 = 20'h00000;
 		VP_1 = 20'h02000;
@@ -104,19 +106,9 @@
         global_reset = 1;
         #(CYCLE_TIME)
         #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #(CYCLE_TIME)
-        #10000
+        #1000
+        interrupt = 1;
+        #5000;
 
         $finish;
 
@@ -548,7 +540,6 @@
     wire ackIE, ackIO, ackDEr, ackDEw, ackDOr, ackDOw, grantIE, grantIO, 
         grantDEr, grantDEw, grantDOr, grantDOw, recvIE, recvIO, recvDE, recvDO;
 
-
     offcoreBus_TOP offcoreBus(
         .clk(clk),
         .rst(global_reset),
@@ -609,7 +600,7 @@
         .EIP_WB(EIP_WB_out),
         .EFLAGS_WB(final_EFLAGS),
         .CS_WB(final_CS),
-        .is_resteer(),
+        .is_resteer(is_resteer_WB_out),
         .is_IRETD(1'b0),
     
         .IDTR_packet_out(IDTR_packet_out),
@@ -1461,7 +1452,7 @@
         .EFLAGS_in(EFLAGS_EX_WB_latch_out),
         .P_OP(P_OP_EX_WB_latch_out),
 
-        .interrupt_in(1'b0), //TODO
+        .interrupt_in(interrupt), //TODO
 
         .wbaq_full(wbaq_isfull_WB_M_in), .is_rep(is_rep_EX_WB_latch_out),
 
