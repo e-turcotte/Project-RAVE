@@ -173,7 +173,7 @@ mux2n #(128) datasel(SER_data0, cache_line, data, PCD_IN);
 mux2n #(15) addressSel(SER_pAddress0, extAddress, pAddress[14:0], PCD_IN);
 or2$ orSER(SER_valid0, ex_wb & !stall, checkVal);
 inv1$ inv123(w_not, w);
-and4$ andwp(checkVal, PCD_IN, w, valid_in, !stall);
+and4$ andwp(checkVal, PCD_IN, w & !fromBUS, valid_in, !stall);
 assign SER_return0 = cache_id;
 assign SER_size0 = 16'h8000;
 mux2n #(1)  cba(SER_rw0, 1'b1, w, PCD_IN);

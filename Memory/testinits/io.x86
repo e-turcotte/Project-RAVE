@@ -1,50 +1,40 @@
 0x0:  66 b8 00 03             //mov    ax,0x300
 0x4:  8e d8                   //mov    ds,eax
 0x6:  b8 00 00 00 00          //mov    eax,0x0
-0xb:  8b 08                   //mov    ecx,DWORD PTR [eax]
-0xd:  8b 08                   //mov    ecx,DWORD PTR [eax]
-0xf:  8b 08                   //mov    ecx,DWORD PTR [eax]
-0x11: bb 00 20 00 00          //mov    ebx,0x2000
-0x16: c7 40 10 00 01 00 00    //mov    DWORD PTR [eax+0x10],0x100
-0x1d: 89 58 20                //mov    DWORD PTR [eax+0x20],ebx
-0x20: c7 40 30 20 00 00 00    //mov    DWORD PTR [eax+0x30],0x20
-0x27: c7 40 40 01 00 00 00    //mov    DWORD PTR [eax+0x40],0x1
-0x2e: 83 c7 00                //add    edi,0x0
-0x31: 83 c7 00                //add    edi,0x0
-0x34: 83 c7 00                //add    edi,0x0
-0x37: 83 c7 00                //add    edi,0x0
-0x3a: 83 c7 00                //add    edi,0x0
-0x3d: 83 c7 00                //add    edi,0x0
-0x40: 83 c7 00                //add    edi,0x0
-0x43: 83 c7 00                //add    edi,0x0
-0x46: 83 c7 00                //add    edi,0x0
-0x49: 83 c7 00                //add    edi,0x0
-0x4c: 83 c7 00                //add    edi,0x0
-0x4f: 83 c7 00                //add    edi,0x0
-0x52: 83 c7 00                //add    edi,0x0
-0x55: 83 c7 00                //add    edi,0x0
-0x58: 83 c7 00                //add    edi,0x0
-0x5b: 83 c7 00                //add    edi,0x0
-0x5e: 83 c7 00                //add    edi,0x0
-0x61: 83 c7 00                //add    edi,0x0
-0x64: f4                      //hlt
+0xb:  8b 08                   //mov    ecx,DWORD PTR [eax]Read char
+0xd:  8b 20                   //mov    esp,DWORD PTR [eax]Read char
+0xf:  8b 10                   //mov    edx,DWORD PTR [eax]Read char
+0x11: bb 00 20 00 00          //mov    ebx,0x2002
+0x16: c7 40 10 11 00 00 00    //mov    DWORD PTR [eax+0x10],0x11   Load disc source
+0x1d: 89 58 20                //mov    DWORD PTR [eax+0x20],ebx    L   oad Memory destination (x2000)
+0x20: c7 40 30 20 00 00 00    //mov    DWORD PTR [eax+0x30],0x20   Load Disc Size (x20)
+0x27: c7 40 40 01 00 00 00    //mov    DWORD PTR [eax+0x40],0x1    I   nitialize
+0x2e: bf 00 04 00 00          //mov    edi,0x400
+0x33: 8e df                   //mov    ds,edi
+0x35: 83 c7 00                //add    edi,0x0
+0x38: 83 c7 00                //add    edi,0x0
+0x3b: 83 c7 00                //add    edi,0x0
+0x3e: 83 c7 00                //add    edi,0x0
+0x41: 83 c7 00                //add    edi,0x0
+0x44: 83 c7 00                //add    edi,0x0
+0x47: 83 c7 00                //add    edi,0x0
+0x4a: 83 c7 00                //add    edi,0x0
+0x4d: 83 c7 00                //add    edi,0x0
+0x50: 83 c7 00                //add    edi,0x0
+0x53: 83 c7 00                //add    edi,0x0
+0x56: 83 c7 00                //add    edi,0x0
+0x59: 83 c7 00                //add    edi,0x0
+0x5c: 83 c7 00                //add    edi,0x0
+0x5f: 83 c7 00                //add    edi,0x0
+0x62: 83 c7 00                //add    edi,0x0
 0x65: 83 c7 00                //add    edi,0x0
 0x68: 83 c7 00                //add    edi,0x0
-0x6b: 83 c7 00                //add    edi,0x0
-0x6e: 83 c7 00                //add    edi,0x0
-0x71: 83 c7 00                //add    edi,0x0
-0x74: 83 c7 00                //add    edi,0x0
-0x77: 83 c7 00                //add    edi,0x0
-0x7a: 83 c7 00                //add    edi,0x0
-0x7d: 83 c7 00                //add    edi,0x0
-0x80: 83 c7 00                //add    edi,0x0
-0x83: 83 c7 00                //add    edi,0x0
-0x86: 83 c7 00                //add    edi,0x0
-0x89: 83 c7 00                //add    edi,0x0
-0x8c: 83 c7 00                //add    edi,0x0
-0x8f: 83 c7 00                //add    edi,0x0
-0x92: 83 c7 00                //add    edi,0x0
-0x95: 83 c7 00                //add    edi,0x0
-0x98: 83 c7 00                //add    edi,0x0
-0x9b: 83 c7 00                //add    edi,0x0
-0x9e: 83 c7 00                //add    edi,0x0 
+0x6b: f4                      //hlt
+0x6c: 83 c7 00                //add    edi,0x0
+0x6f: 83 c7 00                //add    edi,0x0
+0x72: 83 c7 00                //add    edi,0x0
+0x75: 83 c7 00                //add    edi,0x0
+0x78: 83 c7 00                //add    edi,0x0
+0x7b: 83 c7 00                //add    edi,0x0
+0x7e: 83 c7 00                //add    edi,0x0
+0x81: 83 c7 00                //add    edi,0x0 
