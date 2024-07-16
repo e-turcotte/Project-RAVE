@@ -8,7 +8,7 @@ module repmech(input [31:0] mem1, mem2,
                input clr,
                input clk,
                output [31:0] mem_addr1, mem_addr2,
-               output rep_stall);
+               output rep_stall, using_regs);
 
     wire invpop4, clrdflag, setdflag, newdflagval;
     wire dflag;
@@ -33,6 +33,7 @@ module repmech(input [31:0] mem1, mem2,
     orn #(.NUM_INPUTS(32)) g3(.in(nextcnt), .out(cntnotzero));
     and3$ g4(.out(rep_stall), .in0(cntnotzero), .in1(is_rep), .in2(valid));
     and2$ g5(.out(userepaddr), .in0(regis_rep), .in1(rep_stall));
+    inv1$ g6(.out(using_regs), .in(regis_rep));
 
     wire [31:0] nextmem1, regmem1;
     wire [31:0] nextmem2, regmem2;
