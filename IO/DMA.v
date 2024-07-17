@@ -52,12 +52,19 @@ reg[31:0] discSource;
 reg[14:0] memDest;
 reg[11:0] discSize;
 reg inUse;
-wire[127:0] ldSER;
+wire[127:0] ldSER , ldSER2;
 
-reg [127:0] discBuffer;
+reg [127:0] discBuffer  ;
 reg[3:0] state;
 
 concat_io a(discSize[3:0], data_d, discBuffer[127:0], ldSER);
+concat_io_init b(
+    .discSize(discSize),
+    .fromMem(data_d),
+    .fromDisc_in(discBuffer[127:0]), 
+    .memAddress(memDest[3:0]),
+    .toMem2(ldSER2));
+
 reg[4095:0] upCnt;
 always @(posedge clk) begin
     if(!rst) begin
@@ -72,9 +79,11 @@ always @(posedge clk) begin
         upCnt = 0;
         state = 0;
         adr_disc = 33'h1_0000_0000;
+        read_disc = 0;
 
     end
     else begin 
+        discBuffer = data_disc;
         case(state)
             4'b0000: begin
                 read_kb = 0;
@@ -104,7 +113,13 @@ always @(posedge clk) begin
                         end
 
                         3'b100: begin
-                                state = 4;
+                                
+                                if(discSize < 16 || (|memDest[3:0])) begin
+                                    state = 4'b1010;
+                                end
+                                else begin
+                                   state = 4; 
+                                end
                                 read_d = 1;
                                 adr_disc = {1'b0,discSource};
                                 upCnt = 0;
@@ -127,7 +142,7 @@ always @(posedge clk) begin
             end
             end
             
-            4'b0001:begin
+            4'b0001:begin //Handle kb entry
                 read_kb = 0;
                 read_d = 0;
                 valid_s = 0;
@@ -143,7 +158,7 @@ always @(posedge clk) begin
                 end
             end
 
-            4'b0011: begin
+            4'b0011: begin //Handle kb entry during mem operation
                 valid_s = 0;
                 read_d = 0;
                 read_disc = 0;
@@ -159,28 +174,27 @@ always @(posedge clk) begin
                 end
             end
 
-            4'b0100: begin
+            4'b0100: begin //Read from disc
                 valid_s = 0;
                 read_d = 0;
-                read_disc = 0;
+                read_disc = 1;
                 inUse = 1;
                 read_d = 1;
                 adr_disc = {1'b0,discSource};
                 upCnt = 0;
                 if(finished_disc)begin
-                    discBuffer = data_disc;
-                    read_disc = 1;
+                    read_disc = 0;
                     if(discSize > 16) state = 4'b0110;
                   else state = 4'b0111;
                 end
             end
 
-            4'b0110: begin
+            4'b0110: begin //Transmit disc
                 valid_s = 0;
                 read_d = 0;
                 read_disc = 0;
                 if(free_block_s) begin 
-                    if(pAdr_d[6:4] == 3'b000)begin
+                    if(pAdr_d == 15'h1000)begin
                         valid_s=1;
                         pAdr_s = pAdr_d;
                         data_s = {120'd0, data_kb};
@@ -195,7 +209,7 @@ always @(posedge clk) begin
                         pAdr_s <= memDest;
                         data_s <= discBuffer;
                         return_s <= 4'b1100;
-                        dest_s <= {2'b10, memDest[1:0]};
+                        dest_s <= {2'b10, memDest[5:4]};
                         rw_s <= 1'b1;
                         size_s <= 16'h8000;
                         upCnt <= upCnt + 127;
@@ -208,7 +222,7 @@ always @(posedge clk) begin
                 end
             end
 
-        4'b0111: begin 
+        4'b0111: begin //Read from mem if unaligned at the end
             valid_s = 0;
                 read_d = 0;
                 read_disc = 0;
@@ -217,17 +231,17 @@ always @(posedge clk) begin
                 pAdr_s = memDest;
                 data_s = discBuffer[  127 : 0];
                 return_s = 4'b1100;
-                dest_s = {2'b10, memDest[1:0]};
+                dest_s = {2'b10, memDest[5:4]};
                 rw_s = 1'b0;
                 size_s = 16'h1000;
                 upCnt = upCnt + 127;
-                discSource = discSource + 32'h0010;
-                memDest = memDest + 16;
+                // discSource = discSource + 32'h0010;
+                // memDest = memDest + 16;
                 discSize = discSize - 16;
                 state = 4'b1000;
             end
         end
-        4'b1000: begin
+        4'b1000: begin //Concat disc and unaligned mem
             read_kb = 0;
                 read_d = 0;
                 valid_s = 0;
@@ -237,7 +251,7 @@ always @(posedge clk) begin
                     pAdr_s = memDest;
                     data_s = ldSER;
                     return_s = 4'b1100;
-                    dest_s = {2'b10, memDest[1:0]};
+                    dest_s = {2'b10, memDest[5:4]};
                     rw_s = 1'b1;
                     size_s = 16'h8000;
                     upCnt = upCnt + 127;
@@ -249,13 +263,63 @@ always @(posedge clk) begin
             end
         end
 
-        4'b1001: begin
+        4'b1001: begin //reset
             read_kb = 0;
                 read_d = 0;
                 valid_s = 0;
             state = 0; 
             interrupt = 0;
-            end            
+            inUse = 0;
+            end  
+        4'b1010: begin
+            valid_s = 0;
+            read_d = 0;
+            read_disc = 0;
+            if(free_block_s) begin
+                valid_s =1 ;
+                pAdr_s = memDest;
+                data_s = discBuffer[  127 : 0];
+                return_s = 4'b1100;
+                dest_s = {2'b10, memDest[5:4]};
+                rw_s = 1'b0;
+                size_s = 16'h1000;
+                upCnt = upCnt + 127;
+                state = 4'b1011;
+                // discSource = discSource + 32'h0010;
+            end
+        end   
+        4'b1011: begin
+            read_kb = 0;
+            read_d = 0 ;
+            valid_s = 0;
+            if(free_block_s)begin
+                if(full_d) begin
+                    valid_s =1 ;
+                    pAdr_s = memDest;
+                    data_s = ldSER2;
+                    return_s = 4'b1100;
+                    dest_s = {2'b10, memDest[5:4]};
+                    rw_s = 1'b1;
+                    size_s = 16'h8000;
+                    upCnt = upCnt + 127;
+                    read_d = 1;
+                    if(discSize >= 32) begin
+                        state = 4'b0100;
+                    end
+                    else if (discSize > 16) begin
+                        state = 4'b0111;
+                    end
+                    else begin 
+                        interrupt = 1;
+                        state = 9;
+                    end
+                    @(posedge clk)
+                    discSize = discSize - (16- memDest[3:0]);
+                    discSource = discSource + (16 - memDest[3:0]);
+                    memDest = (memDest + 16) & 15'h7ff0;
+                end
+            end
+        end      
         endcase
     end
 end 
@@ -274,7 +338,7 @@ module concat_io(
 
     always @(*) begin
         case(discSize)
-        4'd0: toMem = fromMem;
+        4'd0: toMem = fromDisc;
         4'd1: toMem = {fromMem[127:8],fromDisc[7:0]};
         4'd2: toMem = {fromMem[127:16],fromDisc[15:0]};
         4'd3: toMem = {fromMem[127:24],fromDisc[23:0]};
@@ -293,135 +357,88 @@ module concat_io(
         default: toMem = fromDisc;
         endcase
     end
+endmodule
+module concat_io_init(
+    input[11:0] discSize,
+    input [127:0] fromMem,
+    input[127:0] fromDisc_in, 
+    input[3:0] memAddress,
+    output reg [127:0] toMem2);
+    reg [255:0] fromDiscR, fromDiscL ;
+    wire [127:0] fromMemL, fromMemR;
+    wire [127:0] fromDisc;
+    reg[127:0] toMem;
+    // assign fromDisc = fromDisc_in << (memAddress * 8);
 
+    rotate_behave casa(fromDisc_in, memAddress,fromDisc);
 
+    always @(*) begin
+        case(memAddress)
+        4'd1: toMem =  {     fromDisc[127:8],     fromMem[7:0]}; 
+        4'd2: toMem =  {     fromDisc[127:16],    fromMem[15:0]};
+        4'd3: toMem = {     fromDisc[127:24],    fromMem[23:0]};
+        4'd4:    toMem =   {     fromDisc[127:32],    fromMem[31:0]};
+        4'd5: toMem =  {     fromDisc[127:40],    fromMem[39:0]};
+        4'd6: toMem = {     fromDisc[127:48],    fromMem[47:0]};
+        4'd7: toMem =  {     fromDisc[127:56],    fromMem[55:0]};
+        4'd8: toMem =  {     fromDisc[127:64],    fromMem[63:0]};
+        4'd9: toMem =  {     fromDisc[127:72],    fromMem[71:0]};
+        4'd10: toMem =  {    fromDisc[127:80],    fromMem[79:0]};
+        4'd11: toMem =  {    fromDisc[127:88],    fromMem[87:0]};
+        4'd12: toMem =  {    fromDisc[127:96],    fromMem[95:0]};
+        4'd13: toMem =  {    fromDisc[127:104],   fromMem[103:0]};
+        4'd14: toMem =  {    fromDisc[127:112],   fromMem[111:0]};
+        4'd15: toMem =  {    fromDisc[127:120],   fromMem[119:0]};
+        4'd0: toMem = fromDisc;
+        default: toMem = fromDisc;
+        endcase
+        case(discSize + memAddress)
+        4'd1: toMem2 =  {       fromMem[127:8],     toMem[7:0]}; 
+        4'd2: toMem2 =  {       fromMem[127:16],    toMem[15:0]};
+        4'd3: toMem2 = {        fromMem[127:24],    toMem[23:0]};
+        4'd4:  toMem2 =   {          fromMem[127:32],    toMem[31:0]};
+        4'd5: toMem2 =  {       fromMem[127:40],    toMem[39:0]};
+        4'd6: toMem2 = {        fromMem[127:48],    toMem[47:0]};
+        4'd7: toMem2 =  {       fromMem[127:56],    toMem[55:0]};
+        4'd8: toMem2 =  {       fromMem[127:64],    toMem[63:0]};
+        4'd9: toMem2 =  {       fromMem[127:72],    toMem[71:0]};
+        4'd10: toMem2 =  {      fromMem[127:80],    toMem[79:0]};
+        4'd11: toMem2 =  {      fromMem[127:88],    toMem[87:0]};
+        4'd12: toMem2 =  {      fromMem[127:96],    toMem[95:0]};
+        4'd13: toMem2 =  {      fromMem[127:104],   toMem[103:0]};
+        4'd14: toMem2 =  {      fromMem[127:112],   toMem[111:0]};
+        4'd15: toMem2 =  {      fromMem[127:120],   toMem[119:0]};
+        4'd0: toMem2 = fromMem;
+        default: toMem2 = fromDisc;
+        endcase
+    end
 
 endmodule
-/*if(full_d) begin
-            valid_s = 0;
-            read_kb = 0;
-            if(inUse && state == 3) begin 
-                        if(free_block_s) begin
-                            valid_s =1 ;
-                            pAdr_s = memDest;
-                            data_s = ldSER;
-                            return_s = 4'b1100;
-                            dest_s = {2'b10, memDest[1:0]};
-                            rw_s = 1'b1;
-                            size_s = 16'h8000;
-                            upCnt = upCnt + 127;
-                            discSize = discSize - 16;
-                            memDest = memDest + 16;
-                            interrupt = 1;
-                        end
-            end
-            else begin
-                $display("pAdr_d 6 - 4 0x%0h\n", pAdr_d[6:4]);
-            case (pAdr_d[6:4])
-                
-                3'b000: begin
-                    if(free_block_s) begin                        
-                        read_kb = 1;
-                    end 
-                end
 
-                3'b001: begin
-                    discSource = inUse? discSource: data_d[31:0];
-                    read_d = 1;
-                end
+module rotate_behave (
+    input [127:0] in,
+     input [3:0] rot,
+     output reg [127:0] out );
 
-                3'b010: begin
-                    memDest = inUse? memDest:data_d[14:0];
-                    read_d = 1;
-                end
-
-                3'b011: begin
-                    discSize = inUse? discSize:data_d[11:0];
-                    read_d = 1;
-                end
-
-                3'b100: begin
-                    
-                        inUse = 1;
-                        state = 1;
-                        read_d = 1;
-                        adr_disc = {1'b0,discSource};
-                        upCnt = 0;
-                    
-                end
-
-                3'b101: begin
-                    interrupt = 0;
-                     read_d = 1'b1;
-                end
-                default: begin
-                    read_d = 1'b1;
-                end
-            endcase
-        end
-    
-        
-        
-        end
-        else begin 
-            read_kb = 0;
-            read_d = 0;
-            valid_s = 0;
-        end
-
-        if(free_block_s) begin
-                if(pAdr_d[6:4] == 3'b000)begin
-                    valid_s=1;
-                    pAdr_s = pAdr_d;
-                    data_s = {120'd0, data_kb};
-                    return_s = 4'b1100;
-                    dest_s = return_d;
-                    rw_s = ~ rw_d;
-                    size_s = 16'h8000;
-                end
-                else if(inUse) begin
-                    if(state == 1 && finished_disc ) begin 
-                        state = 2;
-                        discBuffer = data_disc;
-                    end
-                    else if(state == 2) begin
-                        if(discSize < 16) begin 
-                            if(discSize == 0) begin
-                                inUse = 0;
-                                state = 0;
-                                interrupt = 1;
-                            end
-                            else begin
-                                state = 3;
-                                valid_s =1 ;
-                                pAdr_s = memDest;
-                                data_s = discBuffer[  127 :0 ];
-                                return_s = 4'b1100;
-                                dest_s = {2'b10, memDest[1:0]};
-                                rw_s = 1'b0;
-                                size_s = 16'h8000;
-                                upCnt = upCnt;
-                                discSize = 0;
-                                memDest = memDest;
-                            end
-                        end
-                        else begin
-                            valid_s =1 ;
-                            pAdr_s = memDest;
-                            data_s = discBuffer[  127 : 0];
-                            return_s = 4'b1100;
-                            dest_s = {2'b10, memDest[1:0]};
-                            rw_s = 1'b1;
-                            size_s = 16'h8000;
-                            upCnt = upCnt + 127;
-                            discSize = discSize - 16;
-                            memDest = memDest + 16;
-                            discBuffer = discBuffer >> 128;
-                        end
-                    end
-                end
-        end
-
-
-    end 
-    */
+    always @(*) begin
+        case(rot)
+        4'd0:  out = in;
+        4'd1:  out = { in[119:0],        8'd0 };
+        4'd2:  out = { in[111:0],      16'd0  };
+        4'd3:  out = { in[103:0],      24'd0  };
+        4'd4:  out = { in[95:0],      32'd0  };
+        4'd5:  out = { in[87:0],      40'd0  };
+        4'd6:  out = { in[79:0],      48'd0  };
+        4'd7:  out = { in[71:0],      56'd0  };
+        4'd8:  out = { in[63:0],      64'd0  };
+        4'd9:  out = { in[55:0],      72'd0  };
+        4'd10: out = {in [47:0],      80'd0  };
+        4'd11: out = {in [39:0],      88'd0  };
+        4'd12: out = {in [31:0],      96'd0  };
+        4'd13: out = {in [23:0],     104'd0  };
+        4'd14: out = {in [15:0],     112'd0  };
+        4'd15: out = {in [7:0],     120'd0  };
+        default: out = in;
+    endcase
+    end
+endmodule
