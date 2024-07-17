@@ -61,6 +61,7 @@ module mem (input valid_in,
             input [31:0] BR_pred_target_in,
             input BR_pred_T_NT_in,
             input [5:0] BP_alias_in,
+            input clk_ng,
 
             input clr,
             input clk,
@@ -123,7 +124,7 @@ module mem (input valid_in,
     nor4$ gasdasd(.out(usenormalopsize), .in0(memsizeOVR_in[0]), .in1(memsizeOVR_in[1]), .in2(memsizeOVR_in[2]), .in3(memsizeOVR_in[3]));
     muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(2)) mfcvgbhnj(.in({opsize_in,2'b11,2'b10,2'b01,2'b00}), .sel({usenormalopsize,memsizeOVR_in}), .out(size_to_use));
 
-    d$ dcache(.clk(clk), .clk_bus(clk_bus), .rst(clr), .set(1'b1), .BUS(BUS),
+    d$ dcache(.clk(clk_ng), .clk_bus(clk_bus), .rst(clr), .set(1'b1), .BUS(BUS),
               .latched_eip_mem_$(latched_eip_in), .latched_ptcid_mem_$(inst_ptcid_in),
               .setReciever_d(setReceiver_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d),
               .data_m1(), .data_m2(), .M1(mem_addr1), .M2(mem_addr2), .M1_RW(mem1_rw), .M2_RW(mem2_rw),

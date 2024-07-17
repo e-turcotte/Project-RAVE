@@ -3,12 +3,13 @@
     localparam CYCLE_TIME_BUS = CYCLE_TIME / 2.0;
     
     integer file;
-    reg clk;
-    reg bus_clk;
+    reg clk_g;
+    wire clk;
+    reg bus_clk_ng;
     integer cycle_number;
 
     localparam m_size_D_RrAg = 1;
-    localparam n_size_D_RrAg = 406;
+    localparam  n_size_D_RrAg = 406;
     
     localparam m_size_MEM_EX = 780;
     localparam n_size_MEM_EX = 857; //old before BP alias was 847 - where did I get that from?
@@ -23,15 +24,18 @@
     end
 
     initial begin
-        bus_clk = 1'b1;
-        forever #(CYCLE_TIME_BUS) bus_clk = ~bus_clk;
+        bus_clk_ng = 1'b1;
+        forever #(CYCLE_TIME_BUS) bus_clk_ng = ~bus_clk_ng;
     end
 
     initial begin
-        clk = 1'b1;
-        forever #(CYCLE_TIME / 2.0) clk = ~clk;
+        clk_g = 1'b1;
+        forever #(CYCLE_TIME / 2.0) clk_g = ~clk_g;
     end
-
+    inv1$ icg1(halts_n, halts);
+    and2$ icg2(clk, clk_g, halts_n);
+    and2$ icg3(clk_ng, clk_g, 1'b1);
+    and2$ icg4(bus_clk, bus_clk_ng, 1'b1);
     always @(posedge clk) begin
         cycle_number = cycle_number + 1;
         $fdisplay(file, "Cycle number: %d", cycle_number);
@@ -71,7 +75,7 @@
 		VP_1 = 20'h02000;
 		VP_2 = 20'h04000;
 		VP_3 = 20'h0b000;
-		VP_4   = 20'h0c000;
+		VP_4   =   20'h0c000;
 		VP_5 = 20'h0a000;
 		VP_6 = 20'h06000;
 		VP_7 = 20'h03000;
@@ -80,7 +84,7 @@
 		PF_1 = 20'h00002; //01000000 = x40
 		PF_2 = 20'h00005; //10100000 = xa0
 		PF_3 = 20'h00004; //10000000 = x80
-		PF_4 =  20'h00007; //11100000 = xe0
+		PF_4 =   20'h00007; //11100000 = xe0
 		PF_5 = 20'h00005; //11000000 = xc0
 		PF_6 = 20'h00006; //10100000 = xa0
 		PF_7 = 20'h00003; //01100000 = x60
@@ -1045,6 +1049,7 @@
 
     mem m1 (
         //inputs
+        .clk_ng(clk_ng),
         .valid_in(valid_RrAg_MEM_latch_out),
         .fwd_stall(MEM_EX_Latches_full), // receive from MEM_EX_Queued_Latches
         .opsize_in(opsize_RrAg_MEM_latch_out),
