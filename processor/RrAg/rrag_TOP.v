@@ -187,17 +187,18 @@ module rrag (input valid_in,
     or2$ g3(.out(mem2_use), .in0(mem2_rw_in[1]), .in1(mem2_rw_in[0]));
     and2$ g4(.out(modrm_ptc), .in0(usereg2), .in1(regformem2ptc));
     and2$ g5(.out(sib_ptc), .in0(usereg3), .in1(regformem3ptc));
-    or2$ g6(.out(modrmsib_ptc), .in0(modrm_ptc), .in1(sib_ptc));
+    or3$ g6(.out(modrmsibseg1_ptc), .in0(modrm_ptc), .in1(sib_ptc), .in2(ptc_s1));
     and3$ g7(.out(mem1_stall), .in0(mem1_use), .in1(modrmsib_ptc), .in2(rep_using_regs));
-    and3$ g8(.out(mem2_stall), .in0(mem2_use), .in1(regformem4ptc), .in2(rep_using_regs));
-    and3$ g9(.out(rep_cnt_stall), .in0(is_rep_in), .in1(regformem3ptc), .in2(rep_using_regs));
-    or4$ g10(.out(other_stall), .in0(fwd_stall), .in1(mem1_stall), .in2(mem2_stall), .in3(rep_cnt_stall));
-    inv1$ g11(.out(no_other_stall), .in(other_stall));
+    or2$ g8(.out(reg4seg2_ptc), .in0(regformem4ptc), .in1(ptc_s2));
+    and3$ g9(.out(mem2_stall), .in0(mem2_use), .in1(reg4seg2_ptc), .in2(rep_using_regs));
+    and2$ g10(.out(rep_cnt_stall), .in0(is_rep_in), .in1(regformem3ptc));
+    or4$ g11(.out(other_stall), .in0(fwd_stall), .in1(mem1_stall), .in2(mem2_stall), .in3(rep_cnt_stall));
+    inv1$ g12(.out(no_other_stall), .in(other_stall));
 
     wire [1:0] size_to_use;
     wire usenormalopsize;
 
-    nor4$ gasdasd(.out(usenormalopsize), .in0(memsizeOVR_in[0]), .in1(memsizeOVR_in[1]), .in2(memsizeOVR_in[2]), .in3(memsizeOVR_in[3]));
+    nor4$ g13(.out(usenormalopsize), .in0(memsizeOVR_in[0]), .in1(memsizeOVR_in[1]), .in2(memsizeOVR_in[2]), .in3(memsizeOVR_in[3]));
     muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(2)) mfcvgbhnj(.in({opsize_in,2'b11,2'b10,2'b01,2'b00}), .sel({usenormalopsize,memsizeOVR_in}), .out(size_to_use));
 
     repmech rep0(.mem1(mem1), .mem2(mem2), .creg(regformem3), .is_rep(is_rep_in),
@@ -208,10 +209,10 @@ module rrag (input valid_in,
                  .mem_addr1(mem_addr1), .mem_addr2(mem_addr2),
                  .rep_stall(rep_stall), .using_regs(rep_using_regs));
 
-    or2$ g12(.out(stall), .in0(other_stall), .in1(rep_stall));
+    or2$ g14(.out(stall), .in0(other_stall), .in1(rep_stall));
 
     wire invempty;
 
-    inv1$ g13(.out(invempty), .in(latch_empty));
-    and3$ g14(.out(valid_out), .in0(valid_in), .in1(invempty), .in2(no_other_stall));
+    inv1$ g15(.out(invempty), .in(latch_empty));
+    and3$ g16(.out(valid_out), .in0(valid_in), .in1(invempty), .in2(no_other_stall));
 endmodule
