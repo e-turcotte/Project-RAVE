@@ -1048,8 +1048,7 @@ def PUSH(row,op,asm):
     row[21] = zzz  # R2  - MODRM Base
     row[25] = SS  # S2 - M2 SEG
     row[22] = EBP  # R3 - MODRM Index
-    row[26] = DS if "DS" in row[1] else ES if "ES" in row[1] else SS if "SS" in row[1] else FS if "FS" in row[
-        1] else GS  # S3 - FREE
+    row[26] = DS if "DS" in row[1] else ES if "ES" in row[1] else SS if "SS" in row[1] else FS if "FS" in row[1] else GS  # S3 - FREE
     row[23] = ESP  # R4 - FREE
     row[27] = CS  # S4 - CS
 

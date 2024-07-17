@@ -13,13 +13,14 @@ module disc(
 
     
     reg [32:0] prev_adr;
-
+    reg bufs;
     OVR o1(adr_disc[3:0], data_cur, data_next, data_disc);
 
   integer i;
     always @(posedge clk) begin
         if(!rst) begin
             finished_disc = 0;
+            bufs = 0;
             prev_adr = 33'h1_0000_0000;
         end
         else begin 
@@ -31,13 +32,16 @@ module disc(
                 data_next = discMem[adr_disc[11:4]+1];
             // end
             
-            if(read_disc) finished_disc = 0;
-            if (adr_disc != prev_adr && prev_adr == 33'h1_0000_0000) begin
+            if(read_disc) begin
+                finished_disc = 0;
+            end
+            if (read_disc & !bufs) begin
                     #750;
                     finished_disc = 1;
+                    bufs = 1;
                     // Assuming this delay is sufficient for your application
             end
-            else if(adr_disc!= prev_adr) begin
+            else if(read_disc) begin
                 finished_disc = 1;
             end
             prev_adr = adr_disc;
