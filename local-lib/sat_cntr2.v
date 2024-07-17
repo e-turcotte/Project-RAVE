@@ -10,7 +10,7 @@ module sat_cntr2(
 
     wire [1:0] NS, S, notS;
     wire not_in;
-    inv$ i0(not_in, in);
+    inv1$ i0(not_in, in);
 
     wire clk_temp;
     and2$ a0(clk_temp, clk, enable);
