@@ -13,3 +13,9 @@
 0x24:    83 c7 00                //add    edi,0x0
 0x27:    83 c7 00                //add    edi,0x0
 0x2a:    83 c7 00                //add    edi,0x0
+
+0x206C:	 88 99 BA CE
+0x2070:	 AA BB CC DD	//cs=0x5, eip=0x200 (not used)
+0x2074:	 EE FF 22 33
+0x2078:	 44 55 66 77
+0x207C:	 00 00 00 00
