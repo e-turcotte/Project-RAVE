@@ -108,7 +108,9 @@
         #(CYCLE_TIME)
         #1000
         interrupt = 1;
-        #5000;
+        #50
+        interrupt = 0;
+        #3000;
 
         $finish;
 
@@ -602,6 +604,7 @@
         .CS_WB(final_CS),
         .is_resteer(is_resteer_WB_out),
         .is_IRETD(1'b0),
+        .rrag_stall_in(RrAg_stall_out),
     
         .IDTR_packet_out(IDTR_packet_out),
         .packet_out_select(IDTR_packet_select_out),
@@ -637,8 +640,9 @@
     );
     
     /*TODO: SIGNAL FOR CLEARING LATCHES*/
-    wire WB_to_clr_latches_resteer_active_low;
-    inv1$ sdhfkjh4o2r02ur09u0(.in(is_resteer_WB_out), .out(WB_to_clr_latches_resteer_active_low));
+    wire WB_to_clr_latches_resteer, WB_to_clr_latches_resteer_active_low;
+    or2$ hi1(.in0(IDTR_flush_pipe), .in1(is_resteer_WB_out), .out(WB_to_clr_latches_resteer)); 
+    inv1$ sdhfkjh4o2r02ur09u0(.in(WB_to_clr_latches_resteer), .out(WB_to_clr_latches_resteer_active_low));
 
 
     fetch_TOP f0(
