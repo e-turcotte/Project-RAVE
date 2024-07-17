@@ -141,7 +141,7 @@ module writeback_TOP(
 
     mux2n #(32) m25(targetEIP, BR_FIP_in, inp1[31:0], LD_EIP_CS);
     mux2n #(32) m3 (newEIP,EIP_in, targetEIP, BR_taken); //TODO: set newEIP to NT target or T target
-    assign BR_valid = BR_valid_in;
+    and2$ gbrstuff (.out(BR_valid), .in0(BR_valid_in), .in1(valid_out));
     assign BR_taken = BR_taken_in;
     assign BR_correct = BR_correct_in;
     wire BR_correct_delay1, BR_correct_delay2, BR_correct_delay3, BR_correct_delay4;
