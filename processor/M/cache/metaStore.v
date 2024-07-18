@@ -2,7 +2,8 @@ module metaStore(
     input clk,    
     input rst, set,
     input valid,
-    
+    input ptc_clear,
+
     input[3:0] way,
     input[1:0] index,
 
@@ -105,7 +106,7 @@ generate
 // {way[2:0], way[3]}  
     
         for(i= 0; i <4; i = i +1) begin : inner
-            PTCVDFSM p(.clk(clk), .set(set), .rst(rst),.r(r), .sw(sw), .ex(ex), .wb(wb), .enable(enable[j*4+i]), .V(VALID[j*4+i]),.D(DIRTY[j*4+i]), .PTC(PTC[j*4+i]) );  
+            PTCVDFSM p(.clk(clk), .set(set), .rst(rst),.r(r), .sw(sw), .ex(ex), .wb(wb), .enable(enable[j*4+i]), .V(VALID[j*4+i]),.D(DIRTY[j*4+i]), .PTC(PTC[j*4+i]), .ptc_clear(ptc_clear) );  
             //[j*7*4+i*4+6:j*7*4+i*4]
             and3$ a(PTCID_LD[j*4+i],sw, way_sw[i],equal_ptc[j] );
             equaln #(7) r1(ID_IN, PTCID[j*8*4+i*8+6:j*8*4+i*8],enable2[j*4+i]);

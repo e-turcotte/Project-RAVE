@@ -1,6 +1,8 @@
 module cache_stage1(
     input clk,rst, set,
     input [3:0] cache_id,
+    input ptc_clear,
+
     input fromBUS,
     input  [31:0] vAddress_in,
     input [14:0] pAddress_in,
@@ -69,7 +71,7 @@ mux2n #(4) finalway(way_sw_miss, way_sw, way, way_swap);
 
 
 tagStore ts(.PCD_IN(PCD_IN),.ex_miss(ex_miss), .way_sw(way_sw), .isSW(sw), .isW(w), .w_unpulsed((~(~writeTag_out & rst))), .PTC(PTC) ,.tagData_out_hit(tag_hit), .valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(~(~tWrite & rst)), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
-metaStore ms(.way_sw(way_sw_miss),.handle_wsw(handle_wsw),.clk(clk), .r(r), .rst(rst), .set(set), .valid(meta_valid & !PCD_IN), .way(way_out), .index(index), .wb(w), .sw(sw), .ex(ex_clr_buf), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
+metaStore ms(.ptc_clear(ptc_clear), .way_sw(way_sw_miss),.handle_wsw(handle_wsw),.clk(clk), .r(r), .rst(rst), .set(set), .valid(meta_valid & !PCD_IN), .way(way_out), .index(index), .wb(w), .sw(sw), .ex(ex_clr_buf), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
 wayGeneration wg(.LRU(LRU),.valid_in(valid_in), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid_in), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS2));
 dff$ d69(.clk(clkn), .d(ex_clr), .q(ex_clr_buf),.qbar(), .r(rst), .s(1'b1));
 dff$ d690(.clk(clkn), .d(ex_wb), .q(ex_wb_buf),.qbar(), .r(rst), .s(1'b1));

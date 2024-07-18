@@ -1292,7 +1292,9 @@
         .is_fp(is_fp_MEM_EX_latch_out), 
         .is_rep_in(is_rep_MEM_EX_latch_out),
         .CS(CS_MEM_EX_latch_out),
-        
+        .is_resteer(is_resteer_WB_out),
+        .valid_wb(is_valid_WB_out),
+
         //outputs:
         .valid_out(valid_EX_WB_latch_in), //TODO: implement
         .memsizeOVR_out(memSizeOVR_EX_WB_latch_in),

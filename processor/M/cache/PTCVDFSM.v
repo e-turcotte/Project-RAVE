@@ -7,6 +7,7 @@ input wire sw,
 input wire ex,
 input wire wb,
 input enable,
+input ptc_clear,
 output PTC, D, V
 );
 
@@ -15,9 +16,14 @@ dff$ d1(clk, D_new, D, D_bar, rst, set);
 dff$ d2(clk, V_new, V, V_bar, rst, set);
 dff$ d3(clk, PTC_new, PTC, PTC_bar, rst, set);
 wire[2:0] nextState;
-wire[2:0] cc;
+wire[2:0] cc, cc_temp;
 
-mux2n #(3) m(cc, {V,PTC,D}, nextState, enable);
+
+mux2n #(3) m(cc_temp, {V,PTC,D}, nextState, enable);
+
+and2$ asasas(d_next, V, D);
+and2$ sdfsdf(ptc_next, V_bar, PTC);
+mux2n #(3) maxmux(cc, {V, ptc_next,d_next},cc_temp,  ptc_clear );
 assign V_new = cc[2];
 assign PTC_new  = cc[1];
 assign D_new = cc[0];
@@ -38,7 +44,8 @@ and4$ a420bi(SW010, V_bar, PTC, D_bar, sw);
 and4$ a9(SW111, V, PTC, D, sw);
 and4$ a10(SW110, V, PTC,  D_bar, sw);
 and4$ a12(WB011, V_bar,    PTC, D, wb);
-
-muxnm_tristate #(15, 3) tm({3'b011, 3'b011, 3'b011, 3'b110, 3'b111,3'b010,3'b011,3'b100,3'b110,3'b101,3'b111,3'b101,3'b010 , 3'b010, 3'b110}, {SW010,EX100sw,EX101sw, SW110, SW111,EX100r,SW000,WB010,SW100,WB110,SW101,WB111,EX101r, R000, WB011},nextState);
+orn #(15) o1(.out(invalid_transition_n), .in({3'b011, 3'b011, 3'b011, 3'b110, 3'b111,3'b010,3'b011,3'b100,3'b110,3'b101,3'b111,3'b101,3'b010 , 3'b010, 3'b110}));
+inv1$ in1 (invalid_transition, invalid_transition_n);
+muxnm_tristate #(16, 3) tm({{V,PTC,D},3'b011, 3'b011, 3'b011, 3'b110, 3'b111,3'b010,3'b011,3'b100,3'b110,3'b101,3'b111,3'b101,3'b010 , 3'b010, 3'b110}, {invalid_transition,SW010,EX100sw,EX101sw, SW110, SW111,EX100r,SW000,WB010,SW100,WB110,SW101,WB111,EX101r, R000, WB011},nextState);
 
 endmodule

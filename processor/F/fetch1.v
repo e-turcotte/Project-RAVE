@@ -363,7 +363,7 @@ cacheBank even$(
     .valid_in(1'b1),
     .fromBUS(DES_full_e), 
     .mask(128'hFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF),
-    
+    .ptc_clear(1'b1),
     .AQ_isEMPTY(1'b0),
     .PTC_ID_IN(7'b0000000),
     .oddIsGreater_in(1'b0),
@@ -427,13 +427,14 @@ mshr mshre(.pAddress(MSHR_pAddress_e), .ptcid_in(MSHR_ptcid_e), .qentry_slot_in(
            .mshr_hit(mshr_e_hit), .mshr_full(mshr_e_full));
 
 wire mshr_o_hit, mshr_o_full, mshr_o_write;
-wire [14:0] mshr_o_paddr;
+wire [14:0]  mshr_o_paddr;
 
 cacheBank odd$(
-    .clk(clk),
+    .clk( clk),
     .rst(reset), 
     .set(set),
     .cache_id(4'b0001),
+    .ptc_clear(1'b1),
     .vAddress(FIP_o),
     .pAddress(pAddr_o),
     .data(DES_DATA_o),

@@ -2,7 +2,8 @@ module cacheBank (
     input clk,
     input rst, set,
     input [3:0] cache_id,
-    
+    input ptc_clear,
+
     //Input from AQ
     input  [31:0] vAddress,
     input [14:0] pAddress,
@@ -124,6 +125,7 @@ cache_stage1 cs1(.clk(clk),
 .rst(rst),
  .set(set), 
  .cache_id(cache_id), 
+ .ptc_clear(ptc_clear),
  .vAddress_in(vAddress),
   .pAddress_in(pAddress),
   .r(r), 

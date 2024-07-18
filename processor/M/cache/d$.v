@@ -4,6 +4,7 @@ module d$(
     input clk_bus,
     input rst,
     input set,
+    input ptc_clear,
 
     //SERDES for W AQ
     inout [72:0] BUS,
@@ -632,6 +633,7 @@ cacheBank bankE (
     .clk(clk),
     .rst(rst),
     .set(set),
+    .ptc_clear(ptc_clear),
     .cache_id(4'b0100),
     .vAddress(),
     .pAddress(pAddress_e_$),
@@ -702,6 +704,7 @@ cacheBank bankO (
     .clk(clk),
     .rst(rst),
     .set(set),
+    .ptc_clear(ptc_clear),
     .cache_id(4'b0101),
     .vAddress(),
     .pAddress(pAddress_o_$),
