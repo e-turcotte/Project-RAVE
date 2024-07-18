@@ -37,8 +37,8 @@
         $fdisplay(file, "Cycle number: %d", cycle_number);
     end
 
-    reg [127:0] packet;
-    reg D_valid;
+    // reg [127:0] packet;
+    // reg D_valid;
 
     //TODO: TLB Initializations
     reg [19:0] VP_0, VP_1, VP_2, VP_3, VP_4, VP_5, VP_6, VP_7;
@@ -56,7 +56,7 @@
     reg global_reset;
     reg global_set;
     reg global_init;
-    reg [31:0] EIP_init;
+    //reg [31:0] EIP_init;
     reg [31:0] IDTR_base;
     reg interrupt;
 
@@ -70,7 +70,7 @@
         interrupt = 0;
         //initialize TLB
         VP_0 = 20'h00000;
-		VP_1 = 20'h02000;
+		VP_1 = 20'h02000; // - IDTR
 		VP_2 = 20'h04000;
 		VP_3 = 20'h0b000;
 		VP_4 = 20'h0c000;
@@ -79,7 +79,7 @@
 		VP_7 = 20'h03000;
 
 		PF_0 = 20'h00000; //00000000 = x00
-		PF_1 = 20'h00002; //01000000 = x40
+		PF_1 = 20'h00002; //01000000 = x40 - IDTR
 		PF_2 = 20'h00005; //10100000 = xa0
 		PF_3 = 20'h00004; //10000000 = x80
 		PF_4 = 20'h00007; //11100000 = xe0
@@ -107,7 +107,7 @@
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #1000
-        interrupt = 1;
+        //interrupt = 1;
         #50
         interrupt = 0;
         #3000;
@@ -529,6 +529,7 @@
     wire IDTR_flush_pipe;
     wire is_servicing_IE;
     wire idtr_ptc_clear_out;
+    wire IDTR_is_switching;
 
     wire IDTR_PTC_clear; //AND with signal to lower PTC_CLEAR out of WB for resteer.
 
@@ -603,7 +604,7 @@
         .EFLAGS_WB(final_EFLAGS),
         .CS_WB(final_CS),
         .is_resteer(is_resteer_WB_out),
-        .is_IRETD(1'b0),
+        .is_IRETD(p_op_D_RrAg_latch_out[10]),
         .rrag_stall_in(RrAg_stall_out),
     
         .IDTR_packet_out(IDTR_packet_out),
@@ -612,7 +613,8 @@
         .PTC_clear(idtr_ptc_clear_out),
         .LD_EIP(IDTR_LD_EIP_out),
         .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
-        .is_servicing_IE(is_servicing_IE)
+        .is_servicing_IE(is_servicing_IE),
+        .is_switching(IDTR_is_switching)
     );
 
     bp_btb BPstuff(
@@ -643,7 +645,6 @@
     wire WB_to_clr_latches_resteer, WB_to_clr_latches_resteer_active_low;
     or2$ hi1(.in0(IDTR_flush_pipe), .in1(is_resteer_WB_out), .out(WB_to_clr_latches_resteer)); 
     inv1$ sdhfkjh4o2r02ur09u0(.in(WB_to_clr_latches_resteer), .out(WB_to_clr_latches_resteer_active_low));
-
 
     fetch_TOP f0(
         .clk(clk),
@@ -1457,9 +1458,11 @@
         .P_OP(P_OP_EX_WB_latch_out),
 
         .interrupt_in(interrupt), //TODO
+        .IDTR_is_switching(IDTR_is_switching),
 
         .wbaq_full(wbaq_isfull_WB_M_in), .is_rep(is_rep_EX_WB_latch_out),
 
+        //outputs
         .valid_out(is_valid_WB_out),
 
         .res1(res1_WB_RRAG_out), .res2(res2_WB_RRAG_out), .res3(res3_WB_RRAG_out), .res4(res4_WB_RRAG_out), .mem_data(mem_data_WB_M_out),
@@ -1479,7 +1482,6 @@
         .CS_out(final_CS),
         .EFLAGS_out(final_EFLAGS),
         
-
         .WB_BP_update_alias(WB_BP_update_alias),
 
         .stall(fwd_stall_WB_EX_out),
@@ -1489,8 +1491,8 @@
         .halts(halts)
     );
 
-    assign final_IE_type[1:0] = IE_type_WB_out[1:0];
-    assign final_IE_type[2] = IE_type_WB_out[3];
+   assign final_IE_type[1:0] = IE_type_WB_out[1:0];
+   assign final_IE_type[2] = IE_type_WB_out[3];
     
     // assign final_IE_val = 0;
     // assign final_IE_type = 0;

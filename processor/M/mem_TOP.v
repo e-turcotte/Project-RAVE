@@ -147,11 +147,16 @@ module mem (input valid_in,
 
     assign cache_data_out = data_out[63:0]; //TODO: why is data out 128bits
 
-    wire invstall;
+    wire invstall, valid_in_inv;
 
     or2$ g1(.out(stall), .in0(cache_stall), .in1(fwd_stall));
     inv1$ g2(.out(invstall), .in(stall));
     and2$ g3(.out(valid_out), .in0(valid_in), .in1(invstall));
+    inv1$ g678(.out(valid_in_inv), .in(valid_in));
+
+    wire mem1_is_access, mem2_is_access;
+    orn #(2) yur(.in({mem1_rw}), .out(mem1_is_access));
+    orn #(2) yurr(.in({mem2_rw}), .out(mem2_is_access));
 
     wire [127:0] m1_ptc, m2_ptc;
 
@@ -176,16 +181,25 @@ module mem (input valid_in,
               .dest1_ptcinfo(dest1_ptcinfo), .dest2_ptcinfo(dest2_ptcinfo), .dest3_ptcinfo(dest3_ptcinfo), .dest4_ptcinfo(dest4_ptcinfo),
               .dest1_type({dest1_is_mem,dest1_is_seg,dest1_is_reg}), .dest2_type({dest2_is_mem,dest2_is_seg,dest2_is_reg}), .dest3_type({dest3_is_mem,dest3_is_seg,dest3_is_reg}), .dest4_type({dest4_is_mem,dest4_is_seg,dest4_is_reg}));
     
-    wire prot_seg1, prot_seg2, prot_seg;
+    wire prot_seg1, prot_seg2, prot_seg1_almost, prot_seg2_almost, prot_seg;
 
-    seg_lim_exception_logic segcheck1(.read_address_end_size(mem_addr1_end), .seg_size(seg1_lim), .seg_lim_exception(prot_seg1));
-    seg_lim_exception_logic segcheck2(.read_address_end_size(mem_addr2_end), .seg_size(seg2_lim), .seg_lim_exception(prot_seg2));
+    seg_lim_exception_logic segcheck1(.read_address_end_size(mem_addr1_end), .seg_size(seg1_lim), .seg_lim_exception(prot_seg1_almost));
+    seg_lim_exception_logic segcheck2(.read_address_end_size(mem_addr2_end), .seg_size(seg2_lim), .seg_lim_exception(prot_seg2_almost));
+    
+    andn #(2) seglim_ismem1 (.in( {prot_seg1_almost, mem1_is_access} ), .out(prot_seg1));
+    andn #(2) seglim_ismem2 (.in( {prot_seg2_almost, mem2_is_access} ), .out(prot_seg2));
+
     or2$ seg_or(.out(prot_seg), .in0(prot_seg1), .in1(prot_seg2));
 
-    or2$ g111(.out(IE_type_out[0]), .in0(prot_seg), .in1(prot_exc));                        //update protection exception
-    assign IE_type_out[1] = TLB_miss;                                                   //update page fault exception
-    assign IE_type_out[3:2] = IE_type_in[3:2];                                          //pass along
-    or4$ g222(.out(IE_out), .in0(IE_in), .in1(prot_seg), .in2(TLB_miss), .in3(prot_exc));   //update IE_out
+    wire [3:0] IE_type_out_almost;
+    or2$ g111(.out(IE_type_out_almost[0]), .in0(prot_seg), .in1(prot_exc));                        //update protection exception
+    assign IE_type_out_almost[1] = TLB_miss;                                                       //update page fault exception
+    assign IE_type_out_almost[3:2] = IE_type_in[3:2];                                              //pass along
+    
+    wire IE_out_almost;
+    orn #(4) g222(.out(IE_out_almost), .in({IE_in, prot_seg, TLB_miss, prot_exc}));                      //update IE_out
+    andn #(2) g99(.out(IE_out), .in( {IE_out_almost, valid_in} ));
+    b4_bitwise_and yaba (.out(IE_type_out), .in0(IE_type_out_almost), .in1( {valid_in, valid_in, valid_in, valid_in} ));
     
     assign res1_ld_out = res1_ld_in;
     assign res2_ld_out = res2_ld_in;

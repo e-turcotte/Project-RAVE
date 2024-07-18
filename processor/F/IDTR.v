@@ -19,7 +19,8 @@ module IE_handler (
     output PTC_clear,
     output LD_EIP,
     output is_POP_EFLAGS,
-    output is_servicing_IE
+    output is_servicing_IE,
+    output is_switching                 //indicates that FSM is moving between ISR and normal execution and VV
 );
 
 //type encoding:
@@ -57,7 +58,8 @@ module IE_handler (
 
     IDTR_FSM fsm(.clk(clk), .set(1'b1), .reset(reset), .enable(enable), .IE(IE_in), .is_IRETD(is_IRETD), .rrag_stall_in(rrag_stall_in),
                  .IDTR_packet_select(IDTR_packet_select), .packet_out_select(packet_out_select), .flush_pipe(flush_pipe), 
-                 .PTC_clear(PTC_clear), .LD_EIP(LD_EIP), .is_POP_EFLAGS(is_POP_EFLAGS), .LD_info_regs(LD_info_regs), .servicing_IE(is_servicing_IE));
+                 .PTC_clear(PTC_clear), .LD_EIP(LD_EIP), .is_POP_EFLAGS(is_POP_EFLAGS), .LD_info_regs(LD_info_regs), 
+                 .servicing_IE(is_servicing_IE), .is_switching(is_switching));
 
     wire [31:0] IDT_entry_internal, IDT_entry4_internal, EFLAGS_internal, CS_internal, EIP_internal;
     wire is_servicing_IE_not;
@@ -83,17 +85,17 @@ module IE_handler (
     assign push_eip = {8'h68, push_eip_imm, 88'b0};                                 //PUSH EIP
     
     endian_swap32 e3(.in({IDT_entry_internal}), .out(first_4_bytes_imm));           //0000_0000_1000
-    assign first_4_bytes = {8'hb8, first_4_bytes_imm, 88'b0};                       //MOV EAX, [IDT_entry_internal]
+    assign first_4_bytes = {16'h8b05, first_4_bytes_imm, 80'b0};                    //MOV EAX, [IDT_entry_internal]
 
     endian_swap32 e4(.in({IDT_entry4_internal}), .out(second_4_bytes_imm));         //0000_0001_0000
-    assign second_4_bytes = {8'hb8, second_4_bytes_imm, 88'b0};                     //MOV EBX, [IDT_entry4_internal]
+    assign second_4_bytes = {16'h8b1d, second_4_bytes_imm, 80'b0};                  //MOV EBX, [IDT_entry4_internal]
 
-    assign exchange = {16'h6693, 112'h0};                                            //XCHG AX, BX
-    assign sar16 = {24'hc1f804, 104'h0};                                             //SAR EAX, 4
-    assign mov_cs = {24'h668ec8, 104'h0};                                            //MOV CS, AX
-    assign jump = {16'hffe3, 112'h0};                                                //JMP EBX
-    assign ret_far = {8'hcb, 120'h0};                                                 //RET FAR
-    assign pop_eflags = {8'h58, 120'h0};                                             //POP EFLAGS to EAX but used to load EFLAGS
+    assign exchange = {16'h6693, 112'h0};                                           //XCHG AX, BX
+    assign sar16 = {24'hc1f804, 104'h0};                                            //SAR EAX, 4
+    assign mov_cs = {24'h668ec8, 104'h0};                                           //MOV CS, AX
+    assign jump = {16'hffe3, 112'h0};                                               //JMP EBX
+    assign ret_far = {8'hcb, 120'h0};                                               //RET FAR
+    assign pop_eflags = {8'h58, 120'h0};                                            //POP EFLAGS to EAX but used to load EFLAGS
 
     muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(128)) m2(.in({pop_eflags, ret_far, jump, mov_cs, sar16, exchange, second_4_bytes,
                                                                 first_4_bytes, push_eip, push_cs, push_eflags}), 
@@ -119,7 +121,8 @@ module IDTR_FSM (
     output LD_EIP,
     output is_POP_EFLAGS,
     output LD_info_regs,
-    output servicing_IE
+    output servicing_IE,
+    output is_switching                 //indicates that FSM is moving between ISR and normal execution and VV
 );
 
     wire [3:0] NS, CS, notCS;
@@ -226,6 +229,13 @@ module IDTR_FSM (
     wire not_servicing_IE;
     andn #(.NUM_INPUTS(4)) a40(.out(not_servicing_IE), .in( { notCS[3:0] } ));
     inv1$ i2(.out(servicing_IE), .in(not_servicing_IE));
+
+    //is_switching
+    wire is_not_switching_0, is_not_switching_1, is_not_switching;
+    andn #(.NUM_INPUTS(4)) a41(.out(is_not_switching_0), .in( { notCS[3:0] } ));
+    andn #(.NUM_INPUTS(4)) a42(.out(is_not_switching_1), .in( { CS[3], notCS[2], CS[1:0] } ));
+    orn  #(.NUM_INPUTS(2)) o9(.out(is_not_switching), .in( {is_not_switching_0, is_not_switching_1} ));
+    inv1$ i9(.out(is_switching), .in(is_not_switching));
 
 endmodule
 

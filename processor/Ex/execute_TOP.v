@@ -296,7 +296,7 @@ P_OP List/Numbering
 7	CMPXCHG
 8	DAA
 9	HLT
-0	IREtd
+10	IREtd
 11	JMPnear
 12	JMPfar
 13	MOV

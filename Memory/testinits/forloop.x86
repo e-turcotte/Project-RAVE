@@ -1,21 +1,21 @@
 0x0:  b8 0f 00 00 00          //mov    eax,0xf
 0x5:  bb 00 00 00 00          //mov    ebx,0x0
-// 0000000a <loop_start>:
-0xa:  83 c3 02                //add    ebx,0x2
-0xd:  83 c0 ff                //add    eax,0xffffffff
-0x10: 75 f8                   //jne    a <loop_start>
-0x12: b9 ef be 00 00          //mov    ecx,0xbeef
-0x17:    f4                      //hlt
-0x18:    83 c7 00                //add    edi,0x0
-0x1b:    83 c7 00                //add    edi,0x0
-0x1e:    83 c7 00                //add    edi,0x0
-0x21:    83 c7 00                //add    edi,0x0
-0x24:    83 c7 00                //add    edi,0x0
-0x27:    83 c7 00                //add    edi,0x0
-0x2a:    83 c7 00                //add    edi,0x0
-
-0x206C:	 88 99 BA CE
-0x2070:	 AA BB CC DD	//cs=0x5, eip=0x200 (not used)
+0xa:  bc 00 03 00 00          //mov    esp,0x300
+//0000000f <loop_start>://
+0xf:  83 c3 02                //add    ebx,0x2
+0x12: 83 c0 ff                //add    eax,0xffffffff
+0x15: 75 f8                   //jne    f <loop_start>
+0x17: b9 ef be 00 00          //mov    ecx,0xbeef
+0x1c: f4                      //hlt
+0x1d: 83 c7 00                //add    edi,0x0
+0x20: 83 c7 00                //add    edi,0x0
+0x23: 83 c7 00                //add    edi,0x0
+0x26: 83 c7 00                //add    edi,0x0
+0x29: 83 c7 00                //add    edi,0x0
+0x2c: 83 c7 00                //add    edi,0x0
+0x2f: 83 c7 00                //add    edi,0x0
+ 
 0x2074:	 EE FF 22 33
 0x2078:	 44 55 66 77
-0x207C:	 00 00 00 00
+0x207C:	 88 99 BA CE
+0x2080:	 AA BB CC DD
