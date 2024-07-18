@@ -108,7 +108,7 @@ module execute_TOP(
     orn #(7) o1({P_OP[3], P_OP[11],P_OP[12],P_OP[34], P_OP[35], P_OP[36], P_OP[28]}, gBR );
 
 
-    wire valid_internal, invempty;
+     wire valid_internal, invempty;
     inv1$ i0(.out(invempty), .in(latch_empty));
     and2$ g9(.out(valid_internal), .in0(valid_in), .in1(invempty));
 
