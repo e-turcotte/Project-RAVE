@@ -25,10 +25,10 @@ module bp_btb(
     branch_target_buff btb(
         .clk(clk),
         .EIP_fetch(eip), //this should be eip + length from decode
-        .EIP_WB(btb_update_eip_WB),
+        .EIP_of_branch_alias_WB(btb_update_eip_WB),
         .FIP_E_WB(FIP_E_WB),
         .FIP_O_WB(FIP_O_WB),
-        .target_WB(EIP_WB),
+        .D_EIP_WB(EIP_WB),
         .LD(LD),
         .reset(reset),
 
