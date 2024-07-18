@@ -599,7 +599,7 @@ cacheaqsys cacheaqsys_inst (
     .wb_write(valid_in_wb),
 
     .clk(clk),
-    .rdsw_clr(rst), .wb_clr(rst),
+    .clr(rst), .ptc_clr(ptc_clear),
     
     .pAddress_e(pAddress_e_$),
     .pAddress_o(pAddress_o_$),
