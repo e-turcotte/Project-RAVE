@@ -58,8 +58,10 @@ csAdapter csa0(.memSizeOVR(memSizeOVR0), .S3_MOD_OVR(S3_MOD_OVR), .OP_MOD_OVR(OP
 mux2n  # (8) m1x(m, B2, B3, isDouble);
 
 or2$ norsax(sal_size_8_hotfix, immSize0[0], immSize0[1]);
-and2$ (imm_size_ovr_no8,size_s, sal_size_8_hotfix);
+and3$ (imm_size_ovr_no8,size_s, isImm, sal_size_8_hotfix);
 mux2n #(2) mx13(immSize, immSize0, 2'b01, imm_size_ovr_no8);
+
+
 mux2$ mx1(m1, B2[6], B3[6], isDouble);
 mux2$ mx2(m2, B2[7], B3[7], isDouble);
 or2$  or123(opmodovr, OP_MOD_OVR[0], OP_MOD_OVR[1]);
