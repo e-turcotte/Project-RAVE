@@ -38,7 +38,7 @@ module cacheaqsys (input [14:0] rd_pAddress_e, rd_pAddress_o, sw_pAddress_e, sw_
     wire [696:0] rdaq_out, swaq_out, wbaq_out, bus_out;
     wire rdaq_isempty, swaq_isempty, wbaq_isempty;
 
-    nand2$ g0(.out(rdsw_clr), .in0(clr), .in1(ptc_clr));
+    and2$ g0(.out(rdsw_clr), .in0(clr), .in1(ptc_clr));
 
     aq rdaq(.pAddress_e_in(rd_pAddress_e), .pAddress_o_in(rd_pAddress_o), .data_e_in(128'h0), .data_o_in(128'h0),
             .size_e_in(rd_size_e), .size_o_in(rd_size_o), .valid_e_in(rd_valid_e), .valid_o_in(rd_valid_o),

@@ -57,9 +57,9 @@ wire rw_tri; //done
 wire [3:0] size_tri; //done
 wire state0_inp;
 //Full/free
-assign free_block = state[0];
+dff$ gasa1(.clk(clk_core), .d(free_t), .q(free_block), .qbar(), .r(1'b1), .s(rst));
 inv1$ invFull(full_block, free_block);
-
+mux2$ sdf(free_t, state[0], state0_inp, state0_ld);
 assign req = state[1];
 
 //Handle the loading of data

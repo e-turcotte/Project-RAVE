@@ -48,8 +48,14 @@ mux2$ g0(.outb(state0_in), .in0(state[0]), .in1(state0_inp), .s0(state0_ld));
 dff$ g1(.clk(clk_bus), .d(state0_in), .q(state[0]), .qbar(), .r(1'b1), .s(rst));
 
 ////////////
-assign full = state[2];
-assign free_bau = state[0];
+dff$ g1211(.clk(clk_core), .d(full_t), .q(full), .qbar(), .r(rst), .s(1'b1));
+dff$ g12434(.clk(clk_core), .d(free_bau_t), .q(free_bau), .qbar(), .r(1'b1), .s(rst));
+
+mux2$ sdf(full_t, state[2], state2_in, state2_ld);
+mux2$ asas(free_bau_t, state[0], state0_in, state0_ld);
+
+// assign full = state[2];
+// assign free_bau = state[0];
 ////////////
 
 

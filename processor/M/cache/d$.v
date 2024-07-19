@@ -863,7 +863,7 @@ assign qentry_slot_out = qslot_$;
 
 
 SER DS_E_R(
-    .clk_core(),
+    .clk_core(clk),
     .clk_bus(clk_bus),
     .rst(rst),
     .set(set),
@@ -885,7 +885,7 @@ SER DS_E_R(
 );  
 
 SER DS_E_W(
-    .clk_core(),
+    .clk_core(clk),
     .clk_bus(clk_bus),
     .rst(rst),
     .set(set),
@@ -933,7 +933,7 @@ and2$ asssde(bus_valid_o, bus_valid_o_nobuf,bus_valid_ox);
 DES DD_E(
     .read(bus_valid_e),
     .clk_bus(clk_bus),
-    .clk_core(),
+    .clk_core(clk),
     .rst(rst),
     .set(set),
     .full(bus_valid_e_nobuf),
