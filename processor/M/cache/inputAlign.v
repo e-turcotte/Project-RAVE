@@ -65,7 +65,7 @@ wire[3:0] shift0_enc;
 nand2$ asfsa(sw_pcd_skip, sw, PCD_out);
 and3$ asfafs(valid0, valid_in, sw_pcd_skip, skip_bad_node);
 //Adr + x10
-nor2$ skip_bad(skip_bad_node, protection_exception, TLB_miss)
+nor2$ skip_bad(skip_bad_node, protection_exception, TLB_miss);
 kogeAdder #(32) a1(vAddress1, dc, address_in, 32'h0000_0010, 1'b0);
 
 //Calc Size1
