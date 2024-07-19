@@ -41,7 +41,7 @@ module pmem_TOP (input [3:0] recvB,
                 default: assign bnkid = 4'h0;
             endcase
 
-            DES #(.loc(8)) d(.read(des_pulse[i]), .clk_bus(bus_clk), .clk_core(), .rst(clr), .set(1'b1),
+            DES #(.loc(8)) d(.read(des_pulse[i]), .clk_bus(bus_clk), .clk_core(bus_clk), .rst(clr), .set(1'b1),
                              .full(des_full[i]), .pAdr(addr[(i+1)*15-1:i*15]), .data(din[(i+1)*128-1:i*128]),
                              .return(send[i*4+3:i*4]), .dest(), .rw(des_rw[i]),
                              .size(),
@@ -62,7 +62,7 @@ module pmem_TOP (input [3:0] recvB,
 
             and3$ g5(.out(ser_read[i]), .in0(des_pulse[i]), .in1(rw[i]), .in2(buf_des_full[i]));
 
-            SER s(.clk_core(), .clk_bus(bus_clk), .rst(clr), .set(1'b1),
+            SER s(.clk_core(bus_clk), .clk_bus(bus_clk), .rst(clr), .set(1'b1),
                   .valid_in(ser_read[i]), .pAdr_in(addr[(i+1)*15-1:i*15]), .data_in(dout[(i+1)*128-1:i*128]),
                   .dest_in(send[i*4+3: i * 4]), .return_in(bnkid), .rw_in(1'b1),
                   .size_in(16'h8000),

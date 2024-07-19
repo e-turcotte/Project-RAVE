@@ -44,7 +44,7 @@ and4$ a420bi(SW010, V_bar, PTC, D_bar, sw);
 and4$ a9(SW111, V, PTC, D, sw);
 and4$ a10(SW110, V, PTC,  D_bar, sw);
 and4$ a12(WB011, V_bar,    PTC, D, wb);
-orn #(15) o1(.out(invalid_transition_n), .in({3'b011, 3'b011, 3'b011, 3'b110, 3'b111,3'b010,3'b011,3'b100,3'b110,3'b101,3'b111,3'b101,3'b010 , 3'b010, 3'b110}));
+orn #(15) o1(.out(invalid_transition_n), .in({SW010,EX100sw,EX101sw, SW110, SW111,EX100r,SW000,WB010,SW100,WB110,SW101,WB111,EX101r, R000, WB011}));
 inv1$ in1 (invalid_transition, invalid_transition_n);
 muxnm_tristate #(16, 3) tm({{V,PTC,D},3'b011, 3'b011, 3'b011, 3'b110, 3'b111,3'b010,3'b011,3'b100,3'b110,3'b101,3'b111,3'b101,3'b010 , 3'b010, 3'b110}, {invalid_transition,SW010,EX100sw,EX101sw, SW110, SW111,EX100r,SW000,WB010,SW100,WB110,SW101,WB111,EX101r, R000, WB011},nextState);
 
