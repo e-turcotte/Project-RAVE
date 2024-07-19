@@ -44,14 +44,7 @@ wire[31:0] tag_dump;
 wire [15:0] LRU;
 
 wire[3:0] V;
-inv1$ invQ(clkn_1, clk);
-
-and4$ invQ1(clkn_2,clkn_1, clkn_1, clkn_1,clkn_1);
-and4$ invQ2(clkn_3,clkn_2, clkn_2, clkn_2,clkn_2);
-and4$ invQ3(clkn_4,clkn_3, clkn_3, clkn_3,clkn_3);
-and4$ invQ4(clkn,clkn_4, clkn_4, clkn_4,clkn_4);
-
-
+inv1$ invQ(clkn, clk);
 inv1$ invS(valn, valid_in);
 wire[7:0] tag_read_buf;
 wire[3:0] index_out;
