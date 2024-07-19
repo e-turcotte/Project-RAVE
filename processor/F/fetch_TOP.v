@@ -24,8 +24,8 @@ module fetch_TOP (
     /////////////////////////////
     //    signals from BP     //  
     ///////////////////////////
-    input wire [27:0] BP_FIP_o,
-    input wire [27:0] BP_FIP_e,
+    input wire [31:0] BP_FIP_o,
+    input wire [31:0] BP_FIP_e,
     input wire [5:0] BP_BIP,
     input wire [31:0] BP_target,
     input wire is_BR_T_NT,
@@ -101,8 +101,8 @@ module fetch_TOP (
         .reset(reset),
         .init_addr(init_addr),
         .is_init(is_init),
-        .BP_FIP_o(BP_FIP_o),
-        .BP_FIP_e(BP_FIP_e),
+        .BP_FIP_o(BP_FIP_o[31:4]),
+        .BP_FIP_e(BP_FIP_e[31:4]),
         .is_BR_T_NT(is_BR_T_NT),
         .WB_FIP_o(WB_FIP_o[31:4]),
         .WB_FIP_e(WB_FIP_e[31:4]),
