@@ -58,6 +58,7 @@ module mem (input valid_in,
             input [31:0] latched_eip_in,
             input IE_in,
             input [3:0] IE_type_in,
+            input       instr_is_IDTR_orig_in,
             input [31:0] BR_pred_target_in,
             input BR_pred_T_NT_in,
             input [5:0] BP_alias_in,
@@ -71,6 +72,7 @@ module mem (input valid_in,
             output [31:0] latched_eip_out,
             output IE_out,
             output [3:0] IE_type_out,
+            output       instr_is_IDTR_orig_out,
             output [31:0] BR_pred_target_out,
             output BR_pred_T_NT_out,
             output [5:0] BP_alias_out,
@@ -246,5 +248,6 @@ module mem (input valid_in,
     assign valid_in_$ = valid_in;
     assign ptc_id_$ = inst_ptcid_in;
     assign eip_$ = latched_eip_in;
+    assign instr_is_IDTR_orig_out = instr_is_IDTR_orig_in;
    
 endmodule

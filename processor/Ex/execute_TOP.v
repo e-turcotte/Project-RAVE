@@ -21,6 +21,7 @@ module execute_TOP(
     input [31:0] latched_EIP_in,            // N
     input IE_in,                            //interrupt or exception signal - N
     input [3:0] IE_type_in,                 // N
+    input instr_is_IDTR_orig_in,
     input [31:0] BR_pred_target_in,         //branch prediction target - N
     input BR_pred_T_NT_in,                  //branch prediction taken or not taken - N
     input set, rst,                        
@@ -63,6 +64,7 @@ module execute_TOP(
     output [31:0] latched_EIP_out, 
     output IE_out,
     output [3:0] IE_type_out,
+    output instr_is_IDTR_orig_out,
     output [31:0] BR_pred_target_out,
     output BR_pred_T_NT_out,
     output [6:0] PTCID_out,
@@ -108,7 +110,7 @@ module execute_TOP(
     orn #(7) o1({P_OP[3], P_OP[11],P_OP[12],P_OP[34], P_OP[35], P_OP[36], P_OP[28]}, gBR );
 
 
-     wire valid_internal, invempty;
+    wire valid_internal, invempty;
     inv1$ i0(.out(invempty), .in(latch_empty));
     and2$ g9(.out(valid_internal), .in0(valid_in), .in1(invempty));
 
@@ -183,10 +185,9 @@ module execute_TOP(
     //HandleBRLOGIC
     BRLOGIC b1(BR_valid, BR_taken, BR_correct, BR_FIP, BR_FIP_p1, valid_internal, BR_pred_target_in, BR_pred_T_NT_in, conditionals, zf, cf, res1[31:0], P_OP[11], P_OP[12], P_OP[32], gBR);
 
-    assign IE_type_out[1:0] = IE_type_in[1:0];
-    assign IE_type_out[2] = 0;
-    assign IE_type_out[3] = IE_type_in[3];
+    assign IE_type_out[3:0] = IE_type_in[3:0];
     assign IE_out = IE_in;
+    assign instr_is_IDTR_orig_out = instr_is_IDTR_orig_in;
 
 endmodule
 

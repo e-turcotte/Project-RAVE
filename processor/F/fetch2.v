@@ -47,6 +47,7 @@ module fetch_2 (
 
     input wire [127:0] IDTR_packet,
     input wire packet_select,
+    input wire WB_IE_val,
 
     /////////////////////////////
     //    output signals      //  
@@ -101,16 +102,19 @@ module fetch_2 (
 
     kogeAdder #(.WIDTH(8)) a4(.A({2'b0, latched_BIP}), .B({D_length}), .CIN(1'b0), .SUM(BIP_plus_length), .COUT());
 
-    wire packet_out_valid_almost;
+    wire fetch_packet_out_valid, packet_out_valid_almost, IE_val_inv;
     check_valid_rotate cvr(
         .curr_line(BIP_plus_length[5:4]),
         .valid_00(line_00_valid),
         .valid_01(line_01_valid),
         .valid_10(line_10_valid),
         .valid_11(line_11_valid),
-        .valid_rotate(packet_out_valid_almost)
+        .valid_rotate(fetch_packet_out_valid)
     );
+    
+    inv1$ i1324 (.out(IE_val_inv), .in(WB_IE_val));
 
+    andn #(2) b23r(.out(packet_out_valid_almost), .in( {fetch_packet_out_valid, IE_val_inv} ));
     or2$ o1243(.out(packet_out_valid), .in0(packet_out_valid_almost), .in1(packet_select));
 
     wire [127:0] line_00_reverse, line_01_reverse, line_10_reverse, line_11_reverse;

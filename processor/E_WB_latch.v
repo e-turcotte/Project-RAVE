@@ -9,6 +9,7 @@ module E_WB_latch (
             input [31:0] latched_EIP_in, 
             input IE_in,
             input [3:0] IE_type_in,
+            input       instr_is_IDTR_orig_in,
             input [31:0] BR_pred_target_in,
             input BR_pred_T_NT_in,
             input [6:0] PTCID_in,
@@ -37,6 +38,7 @@ module E_WB_latch (
             output [31:0] latched_EIP_out, 
             output IE_out,
             output [3:0] IE_type_out,
+            output       instr_is_IDTR_orig_out,
             output [31:0] BR_pred_target_out,
             output BR_pred_T_NT_out,
             output [6:0] PTCID_out,
@@ -72,6 +74,7 @@ module E_WB_latch (
     regn #(.WIDTH(32))  r4(.din(latched_EIP_in), .ld(ld), .clr(clr), .clk(clk), .dout(latched_EIP_out));
     regn #(.WIDTH(1))   r5(.din(IE_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_out));
     regn #(.WIDTH(4))   r6(.din(IE_type_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_type_out));
+    regn #(.WIDTH(1))   r96(.din(instr_is_IDTR_orig_in), .ld(ld), .clr(clr), .clk(clk), .dout(instr_is_IDTR_orig_out));
     regn #(.WIDTH(32))  r7(.din(BR_pred_target_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_target_out));
     regn #(.WIDTH(1))   r8(.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
     regn #(.WIDTH(7))   r9(.din(PTCID_in), .ld(ld), .clr(clr), .clk(clk), .dout(PTCID_out));
@@ -132,6 +135,7 @@ module E_WB_latch (
         $fdisplay(file, "\t\t latched_EIP: 0x%h", latched_EIP_out);
         $fdisplay(file, "\t\t IE: %b", IE_out);
         $fdisplay(file, "\t\t IE_type: %b", IE_type_out);
+        $fdisplay(file, "\t\t instr_is_IDTR_orig: %b", instr_is_IDTR_orig_out);
         $fdisplay(file, "\t\t BR_pred_target: 0x%h", BR_pred_target_out);
         $fdisplay(file, "\t\t BR_pred_T_NT: %b", BR_pred_T_NT_out);
         $fdisplay(file, "\t\t PTCID: %b", PTCID_out);

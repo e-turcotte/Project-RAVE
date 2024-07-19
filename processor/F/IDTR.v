@@ -127,6 +127,7 @@ module IDTR_FSM (
 
     wire [3:0] NS, CS, notCS;
     wire IE_not, is_IRETD_not, rrag_stall_not;
+    wire NS0, NS1, NS2, NS3;
 
     andn #(.NUM_INPUTS(2)) a0(.out(clk_temp), .in({clk, enable}));
     
@@ -166,8 +167,6 @@ module IDTR_FSM (
     andn #(.NUM_INPUTS(3)) a15(.out(ns0_3), .in( {notCS[3], notCS[0], IE} ));
     andn #(.NUM_INPUTS(4)) a16(.out(ns0_4), .in( {CS[3], notCS[2], CS[1], is_IRETD_not} ));
     orn  #(.NUM_INPUTS(5)) o3(.out(NS0),   .in( {ns0_0, ns0_1, ns0_2, ns0_3, ns0_4} ));
-
-    wire NS0, NS1, NS2, NS3;
 
     mux2$ m0(.outb(NS[0]), .in0(NS0), .in1(CS[0]), .s0(rrag_stall_in));
     mux2$ m1(.outb(NS[1]), .in0(NS1), .in1(CS[1]), .s0(rrag_stall_in));
@@ -226,8 +225,10 @@ module IDTR_FSM (
     andn #(.NUM_INPUTS(4)) a39(.out(LD_info_regs), .in( {notCS[3:0]} ));
 
     //servicing_IE
-    wire not_servicing_IE;
-    andn #(.NUM_INPUTS(4)) a40(.out(not_servicing_IE), .in( { notCS[3:0] } ));
+    wire not_servicing_IE, serv1, serv2;
+    andn #(.NUM_INPUTS(4)) a40(.out(serv1), .in( { notCS[3:0] } ));
+    andn #(.NUM_INPUTS(4)) a49(.out(serv2), .in( { notCS[3:1], CS[0] } ));
+    orn  #(.NUM_INPUTS(2)) o99(.out(not_servicing_IE), .in( {serv1, serv2} ));
     inv1$ i2(.out(servicing_IE), .in(not_servicing_IE));
 
     //is_switching
