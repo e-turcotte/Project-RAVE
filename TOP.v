@@ -438,6 +438,7 @@
     wire [31:0] BR_pred_target_EX_WB_latch_in;
     wire BR_pred_T_NT_EX_WB_latch_in;
     wire [6:0] inst_ptcid_EX_WB_latch_in;
+    wire [31:0] latched_latched_EIP_WB_out;
 
     wire [63:0] inp1_EX_WB_latch_in, inp2_EX_WB_latch_in, inp3_EX_WB_latch_in, inp4_EX_WB_latch_in;
     wire  inp1_isReg_EX_WB_latch_in,  inp2_isReg_EX_WB_latch_in, inp3_isReg_EX_WB_latch_in,  inp4_isReg_EX_WB_latch_in;
@@ -1438,6 +1439,7 @@
         .BP_alias_in(BP_alias_EX_WB_latch_out),
         .inst_ptcid_in(inst_ptcid_EX_WB_latch_out),
         .set(), .rst(global_reset),
+        .latched_latched_EIP_out(latched_latched_EIP_WB_out),
 
         .inp1_wb(inp1_wb_EX_WB_latch_out), .inp2_wb(inp2_wb_EX_WB_latch_out), .inp3_wb(inp3_wb_EX_WB_latch_out), .inp4_wb(inp4_wb_EX_WB_latch_out),
         .inp1(inp1_EX_WB_latch_out), .inp2(inp2_EX_WB_latch_out), .inp3(inp3_EX_WB_latch_out), .inp4(inp4_EX_WB_latch_out),
