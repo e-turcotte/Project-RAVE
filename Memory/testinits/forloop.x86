@@ -19,3 +19,23 @@
 0x2078:	 44 55 66 77
 0x207C:	 88 99 BA CE
 0x2080:	 AA BB CC DD
+
+
+// mov    eax,0xf
+// mov    ebx,0x0
+// mov    esp, 0x300
+// loop_start:
+// add    ebx,0x2
+// add    eax,0xffffffff
+// jne    loop_start
+// 
+// mov    ecx,0xbeef
+// 
+// hlt
+// add    edi,0x0
+// add    edi,0x0
+// add    edi,0x0
+// add    edi,0x0
+// add    edi,0x0
+// add    edi,0x0
+// add    edi,0x0

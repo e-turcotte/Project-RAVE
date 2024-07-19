@@ -12,6 +12,7 @@ module decode_TOP(
     input wire [127:0] packet_in, //16 bytes
     input wire IE_in,
     input wire [3:0] IE_type_in,
+    input wire instr_is_IDTR_orig_in,
     input wire [5:0] BP_alias_in,
     input wire [31:0] BR_pred_target_in,
     input wire BR_pred_T_NT_in,
@@ -68,6 +69,7 @@ module decode_TOP(
     output [31:0] eip_out,
     output IE_out,
     output [3:0] IE_type_out,
+    output instr_is_IDTR_orig_out,
     output [31:0] BR_pred_target_out,
     output BR_pred_T_NT_out,
     output isImm_out,
@@ -466,7 +468,7 @@ module decode_TOP(
 
 
     assign BP_alias_out = BP_alias_in;
-
+    assign instr_is_IDTR_orig_out = instr_is_IDTR_orig_in;
 
 
 endmodule

@@ -6,6 +6,7 @@ module writeback_TOP(
     input [31:0] latched_EIP_in,
     input IE_in,                           //interrupt or exception signal
     input [3:0] IE_type_in,
+    input instr_is_IDTR_orig_in,
     input [31:0] BR_pred_target_in,
     input BR_pred_T_NT_in,
     input [5:0] BP_alias_in,
@@ -29,7 +30,7 @@ module writeback_TOP(
     input [36:0] P_OP,
 
     input interrupt_in,
-    input IDTR_is_switching,
+    input IDTR_is_serciving_IE,
 
     input wbaq_full, is_rep,
 
@@ -170,20 +171,24 @@ module writeback_TOP(
 
     inv1$ i92(.out(invstall), .in(stall));
 
-    wire [3:0] almost_final_IE_type;
+    wire [3:0] almost_final_IE_type, almost_final_IE_type2;
     assign almost_final_IE_type[2:0] = IE_type_in[2:0];
     assign almost_final_IE_type[3] = interrupt_in;
     or2$ o4(.out(IE_val_almost), .in0(IE_in), .in1(interrupt_in));
 
+    wire IDTR_is_serciving_inv;
+    
     inv1$ i123(.out(IE_val_inv), .in(IE_val_almost));
+    inv1$ i321(.out(IDTR_is_serciving_inv), .in(IDTR_is_serciving_IE));
 
     wire valid_out_1, valid_out_2;
-    and3$ asd(.out(valid_out_1), .in0(valid_in), .in1(invstall), .in2(IE_val_inv));
-    and3$ asf(.out(valid_out_2), .in0(valid_in), .in1(invstall), .in2(IDTR_is_switching));
-    or2$  wrg(.out(valid_out), .in0(valid_out_1), .in1(valid_out_2));
+    andn #(3) asd(.out(valid_out_1), .in( {valid_in, invstall, IE_val_inv} ));
+    andn #(2) weg(.out(valid_out_2), .in( {instr_is_IDTR_orig_in, valid_in } ));
+    orn #(2) p234 (.out(valid_out), .in ( {valid_out_1, valid_out_2} ));
 
-    and2$ a134 (.out(final_IE_val), .in0(IE_val_almost), .in1(valid_in));
-    b4_bitwise_and brobro (.out(final_IE_type), .in0(almost_final_IE_type), .in1( {valid_in, valid_in, valid_in, valid_in} )); 
+    and3$ a134 (.out(final_IE_val), .in0(IE_val_almost), .in1(valid_in), .in2(IDTR_is_serciving_inv));
+    b4_bitwise_and bro (.out(almost_final_IE_type2), .in0(almost_final_IE_type), .in1( {valid_in, valid_in, valid_in, valid_in} ));
+    b4_bitwise_and brobro (.out(final_IE_type), .in0(almost_final_IE_type2), .in1( {IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv} ));  
 
 endmodule
 
