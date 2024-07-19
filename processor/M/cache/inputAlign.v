@@ -99,7 +99,7 @@ inv1$ in3(size1_n[3], addRes[3]);
 kogeAdder #(4) ad2(shift2[3:0], dc1, sizeAdd, size1_n, 1'b1);
 wire[19:0] tlb0, tlb1;
 //TLB Handler
-TLB t1(clk, vAddress0, w,valid0, VP, PF,entry_V, entry_P, entry_RW, entry_PCD, tlb0, PCD_out0, miss0, hit0, prot_except0 );
+TLB t1(clk, vAddress0, w,valid_in, VP, PF,entry_V, entry_P, entry_RW, entry_PCD, tlb0, PCD_out0, miss0, hit0, prot_except0 );
 TLB t2(clk, vAddress1, w,valid1, VP, PF, entry_V, entry_P, entry_RW, entry_PCD, tlb1, PCD_out1, miss1, hit1,  prot_except1);
 or2$ a0(TLB_miss, miss0, miss1);
 or2$ a2(protection_exception,prot_except1 , prot_except0);
