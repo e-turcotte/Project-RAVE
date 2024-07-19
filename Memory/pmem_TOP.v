@@ -48,15 +48,15 @@ module pmem_TOP (input [3:0] recvB,
                              .BUS(BUS),
                              .setReciever(recvB[i]),
                              .free_bau(freeB[i]));
-            pulGen pg1(delay_des_read[i], clr, des_pulse[i]);
+            pulGen pg1(delay_des_read[i], bus_clk, clr, des_pulse[i]);
             bufferH16$ b0(.out(buf_des_full[i]), .in(des_full[i]));
             and2$ g1(.out(undelay_rw[i]), .in0(des_rw[i]), .in1(buf_des_full[i]));
-            delay #(.DELAY_AMNT(35)) d0(.undelay_sig(undelay_rw[i]), .rst(clr), .delay_sig(delay_rw[i]));
+            delay #(.DELAY_AMNT(5)) d0(.undelay_sig(undelay_rw[i]), .clk(bus_clk), .rst(clr), .delay_sig(delay_rw[i]));
             nand2$ g2(.out(rw[i]), .in0(delay_rw[i]), .in1(buf_des_full[i]));
-            delay #(.DELAY_AMNT(70)) d1(.undelay_sig(buf_des_full[i]), .rst(clr), .delay_sig(delay_des_full[i]));
+            delay #(.DELAY_AMNT(10)) d1(.undelay_sig(buf_des_full[i]), .clk(bus_clk), .rst(clr), .delay_sig(delay_des_full[i]));
             inv1$ g23(.out(invser_read[i]), .in(ser_read[i]));
             and4$ g3(.out(des_read[i]), .in0(buf_des_full[i]), .in1(delay_des_full[i]), .in2(ser_empty[i]), .in3(invser_read[i]));
-            delay #(.DELAY_AMNT(70)) d2(.undelay_sig(des_read[i]), .rst(clr), .delay_sig(delay_des_read[i]));
+            delay #(.DELAY_AMNT(10)) d2(.undelay_sig(des_read[i]), .clk(bus_clk), .rst(clr), .delay_sig(delay_des_read[i]));
 
             bank bnk(.addr(addr[(i+1)*15-1:i*15+6]), .rw(rw[i]), .bnk_en(buf_des_full[i]), .din(din[(i+1)*128-1:i*128]), .dout(dout[(i+1)*128-1:i*128]));
 
@@ -860,32 +860,33 @@ endmodule
 
 
 
-module delay #(parameter DELAY_AMNT=35) (input undelay_sig,
-                                         input rst,
+module delay #(parameter DELAY_AMNT=10) (input undelay_sig,
+                                         input clk, rst,
                                          output delay_sig);
+
 
     genvar i;
     generate
-        wire [(DELAY_AMNT/5)-1:0] delay_wires;
+        wire [DELAY_AMNT-1:0] delay_wires;
 
         assign delay_wires[0] = undelay_sig;
+        assign delay_sig = delay_wires[DELAY_AMNT-1];
 
-        for (i = 1; i < DELAY_AMNT/5; i = i + 1) begin : delay_slices
-            tristate_bus_driver1$ t0(.enbar(1'b0), .in(delay_wires[i-1]), .out(delay_wires[i]));
+        for (i = 1; i < DELAY_AMNT; i = i + 1) begin : delay_slices
+            dff$ delay0(.clk(clk), .d(delay_wires[i-1]), .q(delay_wires[i]), .qbar(), .r(rst), .s(1'b1));
         end
         
-        dff$ guard(.clk(delay_wires[(DELAY_AMNT/5)-1]), .d(delay_wires[(DELAY_AMNT/5)-1]), .q(delay_sig), .qbar(), .r(rst), .s(1'b1));
     endgenerate
 
 endmodule
 
 module pulGen (input in,
-               input rst,
+               input clk, rst,
                output out);
     
     wire in_del;
     
-    delay #(.DELAY_AMNT(15)) d0(.undelay_sig(in), .rst(rst), .delay_sig(in_delay));
+    delay #(.DELAY_AMNT(2)) d0(.undelay_sig(in), .clk(clk), .rst(rst), .delay_sig(in_delay));
     inv1$ in1(in_delay_n, in_delay);
     and2$ n0(out, in, in_delay_n);
 
