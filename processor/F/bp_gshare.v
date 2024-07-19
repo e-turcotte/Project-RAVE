@@ -20,20 +20,20 @@ module bp_gshare (
     and2$ ld_and(.out(LD_n), .in0(LD), .in1(prev_is_BR));
 
     regn #(.WIDTH(6)) BHR(.din(GBHR_shifted),
-                        .ld(LD_n), .clr(reset),
+                        .ld(clk), .clr(reset),
                         .clk(clk),
                         .dout(GBHR));
 
-    lshfn_fixed #(.WIDTH(6), .SHF_AMNT(1)) m0(.in(GBHR), .shf_val(prev_BR_result), .out(GBHR_shifted));
+    lshfn_fixed #(.WIDTH(6), .SHF_AMNT(1)) m0(.in(GBHR), .shf_val(prediction), .out(GBHR_shifted));
 
     //6bit XOR into BP_alias - 6 bit register
     //using bits 29, 23, 17, 11, 8, 2 for the XOR
-    xor2$ x0(.out(BP_alias[0]), .in0(eip[29]), .in1(GBHR_shifted[5]));
-    xor2$ x1(.out(BP_alias[1]), .in0(eip[23]), .in1(GBHR_shifted[4]));
-    xor2$ x2(.out(BP_alias[2]), .in0(eip[17]), .in1(GBHR_shifted[3]));
-    xor2$ x3(.out(BP_alias[3]), .in0(eip[11]), .in1(GBHR_shifted[2]));
-    xor2$ x4(.out(BP_alias[4]), .in0(eip[8]),  .in1(GBHR_shifted[1]));
-    xor2$ x5(.out(BP_alias[5]), .in0(eip[2]),  .in1(GBHR_shifted[0]));
+    xor2$ x0(.out(BP_alias[0]), .in0(eip[29]), .in1(GBHR[5]));
+    xor2$ x1(.out(BP_alias[1]), .in0(eip[23]), .in1(GBHR[4]));
+    xor2$ x2(.out(BP_alias[2]), .in0(eip[17]), .in1(GBHR[3]));
+    xor2$ x3(.out(BP_alias[3]), .in0(eip[11]), .in1(GBHR[2]));
+    xor2$ x4(.out(BP_alias[4]), .in0(eip[8]),  .in1(GBHR[1]));
+    xor2$ x5(.out(BP_alias[5]), .in0(eip[2]),  .in1(GBHR[0]));
 
     //6 to 64 bit decoder used to mux out prediction from PHT
     decodern #(.INPUT_WIDTH(6)) pred_out(.in(BP_alias), .out(out_decoder_out)); 
