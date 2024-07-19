@@ -25,7 +25,7 @@
 
     initial begin
         bus_clk_ng = 1'b1;
-        forever #(CYCLE_TIME_BUS) bus_clk_ng = ~bus_clk_ng;
+        forever #(CYCLE_TIME_BUS / 2.0) bus_clk_ng = ~bus_clk_ng;
     end
 
     initial begin
