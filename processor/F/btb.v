@@ -84,8 +84,8 @@ module branch_target_buff(
     endgenerate
 
     wire btb_tag_hit, btb_tag_miss;
-    equaln #(.WIDTH(64)) eqlcheck(.a(64'b0), .b(tag_compare_validated), .eq(btb_tag_miss));
-    inv1$ i1(.out(btb_tag_hit), .in(btb_tag_miss));
+    equaln #(64) or1(.out(btb_tag_hit), .in(tag_compare_validated));
+    inv1$ i1(.out(btb_tag_miss), .in(btb_tag_hit));
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(64)) ld_signal_select(
         .in({tag_compare_validated, ld_shift_reg_out}),
