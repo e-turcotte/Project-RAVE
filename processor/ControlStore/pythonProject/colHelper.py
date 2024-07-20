@@ -1213,7 +1213,7 @@ def JMPptr(row,op,asm):
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = zo  # M1_RW
+    row[41] = oz  # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
