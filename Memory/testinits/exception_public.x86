@@ -5,7 +5,9 @@
 //
 0x0:	bc 00 03 00 00	//movl    $0x300, %esp					// esp = 0x300
 0x5:	bf 00 04 00 00	//movl    $0x400, %edi                  // edi = 0x400
-0xa:	66 8e d7		//movw    %di, %ss                      // ss = 0x400 (SS base VA=0x04000000)
+0xa:	b3 00 02 00 00	//movl    $0x200, %esi                  // esi = 0x200
+0xf: 	66 8e d7		//movw    %si, %gs						// gs = 0x200
+0xa:	66 8e ee 		//movw    %di, %ss                      // ss = 0x400 (SS base VA=0x04000000)
 0xd:	b8 00 0b 00 00	//movl    $0xb00, %eax                  // eax = 0xb00
 0x12:	66 8e c0		//movw    %ax, %es                      // es = 0xb00 (ES base VA=0x0b000000)
 0x15:	bb b7 03 00 00	//movl    $0x03b7, %ebx                 // ebx = 0x03b7
