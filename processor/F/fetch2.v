@@ -284,7 +284,7 @@ andn #(3) a2(.in({check_line[2], valid_10, valid_11}), .out(valid_rotate_10_11))
 andn #(3) a3(.in({check_line[3], valid_11, valid_00}), .out(valid_rotate_11_00));
 
 wire valid_rotate_no_CF;
-orn #(4) o0(.in({valid_rotate_00_01, valid_rotate_01_10, valid_rotate_10_11, valid_rotate_11_00}), .out(valid_rotate));
+orn #(4) o0(.in({valid_rotate_00_01, valid_rotate_01_10, valid_rotate_10_11, valid_rotate_11_00}), .out(valid_rotate_no_CF));
 
 andn #(2) a4(.in({CF, valid_rotate}), .out(valid_rotate));
 
