@@ -532,7 +532,7 @@ def JMPfar(row,op,asm):
     row[27] = CS  # S4 - CS
 
     row[41] = oz  # M1_RW
-    row[42] = zo  # M2_RW
+    row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
     # OP1
@@ -1457,13 +1457,13 @@ def helperOP(row, op, asm):
         STD(row, op, asm)
     elif (opcode == "XCHG"):
         XCHG(row, op, asm)
-    elif(opH == "8'hFF"):
+    elif(opcode == "CALL" and opH == "8'hFF"):
         CALLfar(row, op, asm)
     elif (opH == "8'h9A"):
         CALLptr(row, op, asm)
     elif (opH == "8'hE8"):
         CALLnear(row, op, asm)
-    elif (opH == "8'hFF"):
+    elif (opcode == "JMP" and opH == "8'hFF"):
         JMPfar(row, op, asm)
     elif (opH == "8'hEA"):
         JMPptr(row, op, asm)
