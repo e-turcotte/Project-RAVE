@@ -274,6 +274,10 @@ module check_valid_rotate (
 
     output wire valid_rotate
 );
+
+wire not_CF;
+inv1$ i0(.in(CF), .out(not_CF));
+
 wire [3:0] check_line, check_line_bar;
 decoder2_4$ d0(.SEL(curr_line), .Y(check_line), .YBAR(check_line_bar));
 
@@ -286,6 +290,6 @@ andn #(3) a3(.in({check_line[3], valid_11, valid_00}), .out(valid_rotate_11_00))
 wire valid_rotate_no_CF;
 orn #(4) o0(.in({valid_rotate_00_01, valid_rotate_01_10, valid_rotate_10_11, valid_rotate_11_00}), .out(valid_rotate_no_CF));
 
-andn #(2) a4(.in({CF, valid_rotate}), .out(valid_rotate));
+andn #(2) a4(.in({not_CF, valid_rotate}), .out(valid_rotate));
 
 endmodule
