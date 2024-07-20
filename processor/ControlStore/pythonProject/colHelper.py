@@ -1143,7 +1143,7 @@ def SAL(row,op,asm):
     row[32] = M1  # dest1_mux
     row[36] = o  # op1_wb
     # OP2
-    row[29] = DC if version == 0 else R1 if version == 1 else R1  # op2_mux
+    row[29] = DC if version == 0 else R1 if version == 1 else IMM  # op2_mux
     row[33] = DC  # dest2_mux
     row[37] = z  # op2_wb
     # OP3
@@ -1183,7 +1183,7 @@ def SAR(row,op,asm):
     row[32] = M1  # dest1_mux
     row[36] = o  # op1_wb
     # OP2
-    row[29] = DC if version == 0 else R1 if version == 1 else R1  # op2_mux
+    row[29] = DC if version == 0 else R1 if version == 1 else IMM  # op2_mux
     row[33] = DC  # dest2_mux
     row[37] = z  # op2_wb
     # OP3
