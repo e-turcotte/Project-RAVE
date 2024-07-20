@@ -1090,7 +1090,7 @@ always @(posedge clk) begin
 end
 always @(negedge clk) begin
     // Write signal values to the file at every clock cycle
-    if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1) begin
+    if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1 || clk_ctr_$ == 650) begin
         @(posedge clk)
         $fwrite(file_dump,"\n////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\n");
         $fwrite(file_dump, "Cycle,%d,", clk_ctr_$);
@@ -1160,7 +1160,7 @@ end
  
 always  @(posedge clk) begin
         #3
-        if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1 || clk_ctr_$ == 32'd700) begin
+        if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1 || clk_ctr_$ == 32'd650) begin
             $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #,Cyc: %d\n", clk_ctr_$);
             $fwrite(file_handle, "EVEN TAG STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
