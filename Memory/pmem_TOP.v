@@ -26,7 +26,7 @@ module pmem_TOP (input [3:0] recvB,
     wire [3:0] ser_empty;
 
     wire [15:0] send;
-    wire [3:0] des_pulse;
+    wire [3:0] des_pulse, des_pulse_delay;
 
     genvar i;
     generate
@@ -42,26 +42,28 @@ module pmem_TOP (input [3:0] recvB,
                 default: assign bnkid = 4'h0;
             endcase
 
-            DES #(.loc(8)) d(.read(des_pulse[i]), .clk_bus(bus_clk), .clk_core(core_clk), .rst(clr), .set(1'b1),
+            DES #(.loc(8)) d(.read(des_pulse_delay[i]), .clk_bus(bus_clk), .clk_core(core_clk), .rst(clr), .set(1'b1),
                              .full(des_full[i]), .pAdr(addr[(i+1)*15-1:i*15]), .data(din[(i+1)*128-1:i*128]),
                              .return(send[i*4+3:i*4]), .dest(), .rw(des_rw[i]),
                              .size(),
                              .BUS(BUS),
                              .setReciever(recvB[i]),
                              .free_bau(freeB[i]));
-            pulGen pg1(delay_des_read[i], bus_clk, clr, des_pulse[i]);
+            pulGen pg1(des_read[i], bus_clk, clr, des_pulse[i]);
+            delay #(.DELAY_AMNT(70)) d221(.undelay_sig(des_pulse[i]), .clk(bus_clk), .rst(clr), .delay_sig(des_pulse_delay[i]));
+            
             bufferH16$ b0(.out(buf_des_full[i]), .in(des_full[i]));
             and2$ g1(.out(undelay_rw[i]), .in0(des_rw[i]), .in1(buf_des_full[i]));
-            delay #(.DELAY_AMNT(35)) d0(.undelay_sig(undelay_rw[i]), .clk(bus_clk), .rst(clr), .delay_sig(delay_rw[i]));
+            delay #(.DELAY_AMNT(30)) d0(.undelay_sig(undelay_rw[i]), .clk(bus_clk), .rst(clr), .delay_sig(delay_rw[i]));
             nand2$ g2(.out(rw[i]), .in0(delay_rw[i]), .in1(buf_des_full[i]));
             delay #(.DELAY_AMNT(70)) d1(.undelay_sig(buf_des_full[i]), .clk(bus_clk), .rst(clr), .delay_sig(delay_des_full[i]));
             inv1$ g23(.out(invser_read[i]), .in(ser_read[i]));
             and4$ g3(.out(des_read[i]), .in0(buf_des_full[i]), .in1(delay_des_full[i]), .in2(ser_empty[i]), .in3(invser_read[i]));
-            delay #(.DELAY_AMNT(70)) d2(.undelay_sig(des_read[i]), .clk(bus_clk), .rst(clr), .delay_sig(delay_des_read[i]));
+            delay #(.DELAY_AMNT(50)) d2(.undelay_sig(des_read[i]), .clk(bus_clk), .rst(clr), .delay_sig(delay_des_read[i]));
 
             bank bnk(.addr(addr[(i+1)*15-1:i*15+6]), .rw(rw[i]), .bnk_en(buf_des_full[i]), .din(din[(i+1)*128-1:i*128]), .dout(dout[(i+1)*128-1:i*128]));
 
-            and3$ g5(.out(ser_read[i]), .in0(des_pulse[i]), .in1(rw[i]), .in2(buf_des_full[i]));
+            and3$ g5(.out(ser_read[i]), .in0(des_pulse_delay[i]), .in1(rw[i]), .in2(buf_des_full[i]));
 
             SER s(.clk_core(core_clk), .clk_bus(bus_clk), .rst(clr), .set(1'b1),
                   .valid_in(ser_read[i]), .pAdr_in(addr[(i+1)*15-1:i*15]), .data_in(dout[(i+1)*128-1:i*128]),
