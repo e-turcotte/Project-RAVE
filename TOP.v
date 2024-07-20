@@ -96,7 +96,7 @@
         ES_LIM = 20'h003ff;
         CS_LIM = 20'h04fff;
         SS_LIM = 20'h04000;
-        DS_LIM = 20'h011ff;
+        DS_LIM = 20'h7ffff;
         FS_LIM = 20'h003ff;
         GS_LIM = 20'h007ff;
 
@@ -105,7 +105,7 @@
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #1000
-        interrupt = 1;
+        //interrupt = 1;
         #3000;
 
         $finish;
@@ -606,7 +606,7 @@
         .IE_in(final_IE_val),
         .IE_type_in(final_IE_type),
         .IDTR_base_address(IDTR_base),
-        .EIP_WB(EIP_WB_out),
+        .EIP_WB(latched_eip_WB_out),
         .EFLAGS_WB(final_EFLAGS),
         .CS_WB(final_CS),
         .is_resteer(is_resteer_WB_out),
@@ -649,7 +649,7 @@
     
     /*TODO: SIGNAL FOR CLEARING LATCHES*/
     wire WB_to_clr_latches_resteer, WB_to_clr_latches_resteer_active_low;
-    or2$ hi1(.in0(IDTR_flush_pipe), .in1(is_resteer_WB_out), .out(WB_to_clr_latches_resteer)); 
+    or3$ hi1(.in0(IDTR_flush_pipe), .in1(is_resteer_WB_out), .in2(final_IE_val), .out(WB_to_clr_latches_resteer)); 
     inv1$ sdhfkjh4o2r02ur09u0(.in(WB_to_clr_latches_resteer), .out(WB_to_clr_latches_resteer_active_low));
 
     fetch_TOP f0(
@@ -898,6 +898,7 @@
         .disp(disp_D_RrAg_latch_out), .reg3_shfamnt(reg3_shfamnt_D_RrAg_latch_out), .usereg2(usereg2_D_RrAg_latch_out), .usereg3(usereg3_D_RrAg_latch_out), .is_rep_in(rep_D_RrAg_latch_out),
         .latch_empty(D_RrAg_Latches_empty), .clr(global_reset), .clk(clk),
         .lim_init5(GS_LIM), .lim_init4(FS_LIM), .lim_init3(DS_LIM), .lim_init2(SS_LIM), .lim_init1(CS_LIM), .lim_init0(ES_LIM),
+        .VP(VP), .PF(PF),
         .BP_alias_in(BP_alias_D_RrAg_latch_out), .aluk_in(aluk_D_RrAg_latch_out), .mux_adder_in(mux_adder_D_RrAg_latch_out), .mux_and_int_in(mux_and_int_D_RrAg_latch_out), .mux_shift_in(mux_shift_D_RrAg_latch_out),
         .p_op_in(p_op_D_RrAg_latch_out), .fmask_in(fmask_D_RrAg_latch_out), .conditionals_in(conditionals_D_RrAg_latch_out), .is_br_in(is_br_D_RrAg_latch_out), .is_fp_in(is_fp_D_RrAg_latch_out),
         .is_imm_in(is_imm_D_RrAg_latch_out), .imm_in(imm_D_RrAg_latch_out), .mem1_rw_in(mem1_rw_D_RrAg_latch_out), .mem2_rw_in(mem2_rw_D_RrAg_latch_out), .memsizeOVR_in(memSizeOVR_D_RrAg_latch_out),
