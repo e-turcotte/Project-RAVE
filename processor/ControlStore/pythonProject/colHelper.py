@@ -531,12 +531,12 @@ def JMPfar(row,op,asm):
     row[23] = ESP  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = zz  # M1_RW
+    row[41] = oz  # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
     # OP1
-    row[28] = R2  # op1_mux
+    row[28] = M1  # op1_mux
     row[32] = EIP  # dest1_mux
     row[36] = o  # op1_wb
     # OP2
@@ -1048,8 +1048,7 @@ def PUSH(row,op,asm):
     row[21] = zzz  # R2  - MODRM Base
     row[25] = SS  # S2 - M2 SEG
     row[22] = EBP  # R3 - MODRM Index
-    row[26] = DS if "DS" in row[1] else ES if "ES" in row[1] else SS if "SS" in row[1] else FS if "FS" in row[
-        1] else GS  # S3 - FREE
+    row[26] = DS if "DS" in row[1] else ES if "ES" in row[1] else SS if "SS" in row[1] else FS if "FS" in row[1] else GS  # S3 - FREE
     row[23] = ESP  # R4 - FREE
     row[27] = CS  # S4 - CS
 
@@ -1143,7 +1142,7 @@ def SAL(row,op,asm):
     row[32] = M1  # dest1_mux
     row[36] = o  # op1_wb
     # OP2
-    row[29] = DC if version == 0 else R1 if version == 1 else IMM  # op2_mux
+    row[29] = DC if version == 0 else R1 if version == 1 else R1  # op2_mux
     row[33] = DC  # dest2_mux
     row[37] = z  # op2_wb
     # OP3
@@ -1183,7 +1182,7 @@ def SAR(row,op,asm):
     row[32] = M1  # dest1_mux
     row[36] = o  # op1_wb
     # OP2
-    row[29] = DC if version == 0 else R1 if version == 1 else IMM  # op2_mux
+    row[29] = DC if version == 0 else R1 if version == 1 else R1  # op2_mux
     row[33] = DC  # dest2_mux
     row[37] = z  # op2_wb
     # OP3
@@ -1213,7 +1212,7 @@ def JMPptr(row,op,asm):
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = zz  # M1_RW
+    row[41] = zo  # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
@@ -1458,13 +1457,13 @@ def helperOP(row, op, asm):
         STD(row, op, asm)
     elif (opcode == "XCHG"):
         XCHG(row, op, asm)
-    elif(opH == "8'hFF"):
+    elif(opcode == "CALL" and opH == "8'hFF"):
         CALLfar(row, op, asm)
     elif (opH == "8'h9A"):
         CALLptr(row, op, asm)
     elif (opH == "8'hE8"):
         CALLnear(row, op, asm)
-    elif (opH == "8'hFF"):
+    elif (opcode == "JMP" and opH == "8'hFF"):
         JMPfar(row, op, asm)
     elif (opH == "8'hEA"):
         JMPptr(row, op, asm)
