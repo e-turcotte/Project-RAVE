@@ -123,7 +123,7 @@ module rrag (input valid_in,
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regformem2,32'h00000000}), .sel(usereg2), .out(rmbaseval));
     kogeAdder #(.WIDTH(32)) add0(.SUM(modsibcalc), .COUT(), .A(rmbaseval), .B(shfreg3), .CIN(1'b0));
     kogeAdder #(.WIDTH(32)) add1(.SUM(segdisp), .COUT(), .A(disp), .B(shfseg1), .CIN(1'b0));
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({modsibcalc,regformem2}), .sel(usereg3), .out(segoffs));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({modsibcalc,rmbaseval}), .sel(usereg3), .out(segoffs));
     kogeAdder #(.WIDTH(32)) add2(.SUM(mem1), .COUT(), .A(segoffs), .B(segdisp), .CIN(1'b0));
     kogeAdder #(.WIDTH(32)) add3(.SUM(mem2), .COUT(), .A(regformem4), .B(shfseg2), .CIN(1'b0));
 
