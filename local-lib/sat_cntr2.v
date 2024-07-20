@@ -30,8 +30,8 @@ module sat_cntr2(
     orn #(3) o1(.in({f6, f7, f8}), .out(NS[1]));
 
 
-    dff$ s1(clk_temp, NS[1], S[1], notS[1], rst_n, set_n);
-    dff$ s2(clk_temp, NS[0], S[0], notS[0], rst_n, set_n);
+    regn #(.WIDTH(1)) s1(.din(NS[1]), .ld(enable), .clr(rst_n), .clk(clk), .dout(S[1]));
+    regn #(.WIDTH(1)) s2(.din(NS[0]), .ld(enable), .clr(rst_n), .clk(clk), .dout(S[0]));
 
     assign s_out_high = S[1];
     assign s_out_low = S[0];
