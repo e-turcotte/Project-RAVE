@@ -47,9 +47,12 @@ module adrSwap(
     output PCD_out
 );
 assign PCD_out = PCD_in;
-wire even, odd;
-assign odd = vAddress0[4];
-inv1$ INVS(even, odd);
+wire even, odd, vaddress4_inv;
+inv1$ INVS(.in(vAddress0[4]), .out(vaddress4_inv));
+
+andn #(2) ya(.in( {vAddress0[4], valid0 }), .out(odd));
+andn #(2) aa(.in( {vaddress4_inv, valid0 }), .out(even));
+
 assign needP1 = needP1_in;
 wire [326:0]CA;
 nor2$ orsz(oth, valid0, valid1);

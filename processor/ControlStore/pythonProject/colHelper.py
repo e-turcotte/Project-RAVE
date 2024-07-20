@@ -531,12 +531,12 @@ def JMPfar(row,op,asm):
     row[23] = ESP  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = oz  # M1_RW
-    row[42] = zo  # M2_RW
+    row[41] = zz  # M1_RW
+    row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
     # OP1
-    row[28] = M1  # op1_mux
+    row[28] = R2  # op1_mux
     row[32] = EIP  # dest1_mux
     row[36] = o  # op1_wb
     # OP2
@@ -1143,7 +1143,7 @@ def SAL(row,op,asm):
     row[32] = M1  # dest1_mux
     row[36] = o  # op1_wb
     # OP2
-    row[29] = DC if version == 0 else R1 if version == 1 else R1  # op2_mux
+    row[29] = DC if version == 0 else R1 if version == 1 else IMM  # op2_mux
     row[33] = DC  # dest2_mux
     row[37] = z  # op2_wb
     # OP3
@@ -1183,7 +1183,7 @@ def SAR(row,op,asm):
     row[32] = M1  # dest1_mux
     row[36] = o  # op1_wb
     # OP2
-    row[29] = DC if version == 0 else R1 if version == 1 else R1  # op2_mux
+    row[29] = DC if version == 0 else R1 if version == 1 else IMM  # op2_mux
     row[33] = DC  # dest2_mux
     row[37] = z  # op2_wb
     # OP3
@@ -1213,7 +1213,7 @@ def JMPptr(row,op,asm):
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = zo  # M1_RW
+    row[41] = zz  # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC

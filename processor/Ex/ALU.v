@@ -231,7 +231,7 @@ equaln #(5) e1(shiftCnt[4:0], 5'b00010, of_sel);
 //genCF
 
 inv_n #(32) iv(shiftCntN, shiftCnt);
-muxnm_tristate #(32, 1) mx3({1'b0,OP1[30:0]}, shiftCntN, SAR_cf_nOF);
+muxnm_tristate #(32, 1) mx3({1'b0,OP1[30:0]}, shiftCnt, SAR_cf_nOF);
 mux2$ mx4(sal_cf, SAR_cf_nOF, OP1[31], overSHF);
 
 or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);

@@ -431,7 +431,7 @@ wire w32_useR2;
 wire temp_mod00_rm101, not_temp_mod00_rm101;
 andn #(2) a33(.in({mod_equal_00, rm_equal_101}), .out(temp_mod00_rm101));
 inv1$ i14(.in(temp_mod00_rm101), .out(not_temp_mod00_rm101));
-andn #(3) anul(.in({not_temp_mod00_rm101, isMod, w32_bit_mode}), .out(w32_useR2));
+andn #(2) anul(.in({not_temp_mod00_rm101, isMod}), .out(w32_useR2));
 
 //combine the 16 and 32 bit versions with just mod == 11
 // orn #(3) o20(.in({w16_useR2, w32_useR2, mod_equal_11}), .out(use_R2));
