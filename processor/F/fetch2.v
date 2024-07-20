@@ -107,6 +107,7 @@ module fetch_2 (
         .valid_01(line_01_valid),
         .valid_10(line_10_valid),
         .valid_11(line_11_valid),
+        .CF(is_CF),
         .valid_rotate(packet_out_valid)
     );
 
@@ -269,6 +270,7 @@ module check_valid_rotate (
     input wire valid_01,
     input wire valid_10,
     input wire valid_11,
+    input CF,
 
     output wire valid_rotate
 );
@@ -281,6 +283,9 @@ andn #(3) a1(.in({check_line[1], valid_01, valid_10}), .out(valid_rotate_01_10))
 andn #(3) a2(.in({check_line[2], valid_10, valid_11}), .out(valid_rotate_10_11));
 andn #(3) a3(.in({check_line[3], valid_11, valid_00}), .out(valid_rotate_11_00));
 
+wire valid_rotate_no_CF;
 orn #(4) o0(.in({valid_rotate_00_01, valid_rotate_01_10, valid_rotate_10_11, valid_rotate_11_00}), .out(valid_rotate));
+
+andn #(2) a4(.in({CF, valid_rotate}), .out(valid_rotate));
 
 endmodule
