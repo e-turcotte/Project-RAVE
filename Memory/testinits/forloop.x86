@@ -14,12 +14,19 @@
 0x29: 83 c7 00                //add    edi,0x0
 0x2c: 83 c7 00                //add    edi,0x0
 0x2f: 83 c7 00                //add    edi,0x0
- 
+
+//ISR starts at 0x52
+0x4c:	90 90 90 90	
+0x50:	f4 f4 66 83	//addw	  $-1, %dx			//edx = 0x00ff
+0x54:	c2 ff cf f4	//iretd
+
 0x2074:	 EE FF 22 33
-0x2078:	 44 55 66 77
-0x207C:	 88 99 BA CE
+0x2078:	 52 00 00 00    //cs=0x0, eip=0x52 (protection fault routine address)
+0x207C:	 00 00 00 00
 0x2080:	 AA BB CC DD
 
+0x43fc:	 01 02 03 04	//data
+0x4400:	 05 06 07 08
 
 // mov    eax,0xf
 // mov    ebx,0x0

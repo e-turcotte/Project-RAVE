@@ -66,8 +66,8 @@ module IE_handler (
 
     inv1$ iiio(.in(is_servicing_IE), .out(is_servicing_IE_not));
 
-    regn #(.WIDTH(32)) reg_address  (.din(IDT_entry_address),   .ld(is_servicing_IE_not), .clr(reset), .clk(clk), .dout(IDT_entry_internal));
-    regn #(.WIDTH(32)) reg_address4 (.din(IDT_entry_address4),  .ld(is_servicing_IE_not), .clr(reset), .clk(clk), .dout(IDT_entry4_internal));
+    regn #(.WIDTH(32)) reg_address  (.din(IDT_entry_address),   .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(IDT_entry_internal));
+    regn #(.WIDTH(32)) reg_address4 (.din(IDT_entry_address4),  .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(IDT_entry4_internal));
     regn #(.WIDTH(32)) reg_EFLAGSWB (.din({14'b0, EFLAGS_WB}),  .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(EFLAGS_internal));
     regn #(.WIDTH(32)) reg_CSWB     (.din({16'b0, CS_WB}), .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(CS_internal));
     regn #(.WIDTH(32)) reg_EIPWB    (.din(EIP_WB),         .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(EIP_internal));
@@ -125,7 +125,7 @@ module IDTR_FSM (
     output is_switching                 //indicates that FSM is moving between ISR and normal execution and VV
 );
 
-    wire [3:0] NS, CS, notCS;
+    wire [3:0] NS, CS, notCS, notNS;
     wire IE_not, is_IRETD_not, rrag_stall_not;
     wire NS0, NS1, NS2, NS3;
 
@@ -168,10 +168,21 @@ module IDTR_FSM (
     andn #(.NUM_INPUTS(4)) a16(.out(ns0_4), .in( {CS[3], notCS[2], CS[1], is_IRETD_not} ));
     orn  #(.NUM_INPUTS(5)) o3(.out(NS0),   .in( {ns0_0, ns0_1, ns0_2, ns0_3, ns0_4} ));
 
-    mux2$ m0(.outb(NS[0]), .in0(NS0), .in1(CS[0]), .s0(rrag_stall_in));
-    mux2$ m1(.outb(NS[1]), .in0(NS1), .in1(CS[1]), .s0(rrag_stall_in));
-    mux2$ m2(.outb(NS[2]), .in0(NS2), .in1(CS[2]), .s0(rrag_stall_in));
-    mux2$ m3(.outb(NS[3]), .in0(NS3), .in1(CS[3]), .s0(rrag_stall_in));
+    invn #(4) i134 (.out(notNS), .in( {NS} ));
+
+    wire muxsel0, muxsel1, muxsel;
+    
+    andn #(5) wgw235 (.out(muxsel0), .in({ notNS[3:1], NS[1],  rrag_stall_in})); //next state is setup and rrag - allow to change
+    orn #(2) p234 (.out(muxsel1), .in( {rrag_stall_not, muxsel0} ));
+    //if allowed to move or no rrag stall, allow to move
+
+    inv1$ i1834(.in(muxsel1), .out(muxsel));
+
+    //1 = stall, move on = 0
+    mux2$ m0(.outb(NS[0]), .in0(NS0), .in1(CS[0]), .s0(muxsel));
+    mux2$ m1(.outb(NS[1]), .in0(NS1), .in1(CS[1]), .s0(muxsel));
+    mux2$ m2(.outb(NS[2]), .in0(NS2), .in1(CS[2]), .s0(muxsel));
+    mux2$ m3(.outb(NS[3]), .in0(NS3), .in1(CS[3]), .s0(muxsel));
 
     dff$ s1(clk_temp, NS[0], CS[0], notCS[0], reset, set);
     dff$ s2(clk_temp, NS[1], CS[1], notCS[1], reset, set);

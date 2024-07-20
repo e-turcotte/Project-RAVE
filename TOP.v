@@ -606,7 +606,7 @@
         .IE_in(final_IE_val),
         .IE_type_in(final_IE_type),
         .IDTR_base_address(IDTR_base),
-        .EIP_WB(EIP_WB_out),
+        .EIP_WB(latched_eip_WB_out),
         .EFLAGS_WB(final_EFLAGS),
         .CS_WB(final_CS),
         .is_resteer(is_resteer_WB_out),
@@ -649,7 +649,7 @@
     
     /*TODO: SIGNAL FOR CLEARING LATCHES*/
     wire WB_to_clr_latches_resteer, WB_to_clr_latches_resteer_active_low;
-    or2$ hi1(.in0(IDTR_flush_pipe), .in1(is_resteer_WB_out), .out(WB_to_clr_latches_resteer)); 
+    or3$ hi1(.in0(IDTR_flush_pipe), .in1(is_resteer_WB_out), .in2(final_IE_val), .out(WB_to_clr_latches_resteer)); 
     inv1$ sdhfkjh4o2r02ur09u0(.in(WB_to_clr_latches_resteer), .out(WB_to_clr_latches_resteer_active_low));
 
     fetch_TOP f0(

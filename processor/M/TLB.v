@@ -50,7 +50,7 @@ module TLB(
     equaln #(.WIDTH(8)) is_miss_eqn(.a(is_eq), .b(8'h0), .eq(miss_gen)); //out will be 0 if any of the tags match
     inv1$ i0(.out(hit_gen), .in(miss_gen));
 
-    inv1$ (.out(entry_rw_out_inv), .in(entry_rw_out));
+    inv1$ i124(.out(entry_rw_out_inv), .in(entry_rw_out));
 
     and2$ x0(.out(RW_match_inv), .in0(entry_rw_out_inv), .in1(RW_in)); //will be 1 if there is a prot
     and2$ a0(.out(present_valid), .in0(entry_v_out), .in1(entry_p_out)); //if entry_v_out and entry_p_out are both 1
