@@ -1,5 +1,5 @@
  module TOP();
-    localparam CYCLE_TIME = 16.5;
+    localparam CYCLE_TIME = 15;
     localparam CYCLE_TIME_BUS = CYCLE_TIME / 2.0;
     
     integer file;
