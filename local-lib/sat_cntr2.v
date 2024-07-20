@@ -9,6 +9,8 @@ module sat_cntr2(
 );
 
     wire [1:0] NS, S, notS;
+    inv1$ i1(notS[0], S[0]);
+    inv1$ i2(notS[1], S[1]);
     wire not_in;
     inv1$ i0(not_in, in);
 
