@@ -382,7 +382,10 @@ module decode_TOP(
     wire not_stall, ld_BIP;
     wire ld_EIP_without_CF;
     wire ld_EIP;
-    inv1$ i0234235(.in(queue_full_stall), .out(not_stall));
+    wire guard_full_stall;
+    
+    and2$ gfwd(.out(guard_full_stall), .in0(queue_full_stall), .in1(valid_in));
+    inv1$ i0234235(.in(guard_full_stall), .out(not_stall));
     andn #(2) a2(.in({not_stall, valid_in}), .out(ld_EIP_without_CF));
     orn #(2) o2(.in({ld_EIP_without_CF, is_CF}), .out(ld_EIP));
     
@@ -461,7 +464,7 @@ module decode_TOP(
     assign BR_pred_T_NT_out = BR_pred_T_NT_in;
 
     assign D_length = instruction_length;
-    assign stall_out = queue_full_stall;
+    assign stall_out = guard_full_stall;
     assign isImm_out = isImm;
 
     assign latched_eip_out = latched_EIP;

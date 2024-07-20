@@ -93,7 +93,7 @@ module execute_TOP(
     output stall
 );
 
-    assign stall = fwd_stall;
+    and2$ gfwd(.out(stall), .in0(fwd_stall), .in1(valid_in));
     assign memsizeOVR_out = memsizeOVR_in;
 
     wire cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_val;

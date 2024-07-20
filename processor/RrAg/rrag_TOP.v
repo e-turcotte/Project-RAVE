@@ -183,7 +183,7 @@ module rrag (input valid_in,
     assign BP_alias_out = BP_alias_in;
     assign instr_is_IDTR_orig_out = instr_is_IDTR_orig_in;
 
-    wire mem1_use, mem2use, sib_ptc, actualsib_ptc, mem1_stall, mem2_stall, rep_cnt_stall, rep_stall;
+    wire mem1_use, mem2use, sib_ptc, actualsib_ptc, mem1_stall, mem2_stall, rep_cnt_stall, rep_stall, guarded_fwd_stall;
     wire other_stall, no_other_stall;
 
     or2$ g2(.out(mem1_use), .in0(mem1_rw_in[1]), .in1(mem1_rw_in[0]));
@@ -191,10 +191,11 @@ module rrag (input valid_in,
     and2$ g4(.out(modrm_ptc), .in0(usereg2), .in1(regformem2ptc));
     and2$ g5(.out(sib_ptc), .in0(usereg3), .in1(regformem3ptc));
     or2$ g6(.out(modrmsib_ptc), .in0(modrm_ptc), .in1(sib_ptc));
-    and2$ g7(.out(mem1_stall), .in0(mem1_use), .in1(modrmsib_ptc));
-    and2$ g8(.out(mem2_stall), .in0(mem2_use), .in1(regformem4ptc));
-    and2$ g9(.out(rep_cnt_stall), .in0(is_rep_in), .in1(regformem3ptc));
-    or4$ g10(.out(other_stall), .in0(fwd_stall), .in1(mem1_stall), .in2(mem2_stall), .in3(rep_cnt_stall));
+    and3$ g7(.out(mem1_stall), .in0(mem1_use), .in1(modrmsib_ptc), .in2(valid_in));
+    and3$ g8(.out(mem2_stall), .in0(mem2_use), .in1(regformem4ptc), .in2(valid_in));
+    and3$ g9(.out(rep_cnt_stall), .in0(is_rep_in), .in1(regformem3ptc), .in2(valid_in));
+    and2$ gfwd(.out(guarded_fwd_stall), .in0(fwd_stall), .in1(valid_in));
+    or4$ g10(.out(other_stall), .in0(guarded_fwd_stall), .in1(mem1_stall), .in2(mem2_stall), .in3(rep_cnt_stall));
     inv1$ g11(.out(no_other_stall), .in(other_stall));
 
     wire [1:0] size_to_use;
