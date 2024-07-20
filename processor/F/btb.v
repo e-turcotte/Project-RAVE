@@ -19,8 +19,8 @@ module branch_target_buff(
     assign tag_in_write = EIP_of_branch_alias_WB;
     assign tag_in_read = EIP_fetch;
 
-    wire [63:0] ld_shift_reg_out, ld_shift_reg_out_shifted;
-    regn_with_set_lsb_FIP #(.PARITY(1), .WIDTH(64)) shift_reg(
+    wire [15:0] ld_shift_reg_out, ld_shift_reg_out_shifted;
+    regn_with_set_lsb_FIP #(.PARITY(1), .WIDTH(16)) shift_reg(
         .din(ld_shift_reg_out_shifted),
         .ld(LD),
         .clr(reset),
@@ -28,25 +28,25 @@ module branch_target_buff(
         .dout(ld_shift_reg_out)
     );
 
-    lshfn_fixed #(.WIDTH(64), .SHF_AMNT(1)) reg_shifter(
+    lshfn_fixed #(.WIDTH(16), .SHF_AMNT(1)) reg_shifter(
         .in(ld_shift_reg_out),
         .shf_val(1'b0),
         .out(ld_shift_reg_out_shifted)
     );
 
     genvar i;
-    wire [63:0] ld_reg;
+    wire [15:0] ld_reg;
 
-    wire [63:0] valid_out_unpacked; //64 * 1
-    wire [2047:0] tag_store_out_unpacked; //64 * 32
-    wire [2047:0] D_EIP_store_out_unpacked;
-    wire [2047:0] FIP_E_store_out_unpacked;
-    wire [2047:0] FIP_O_store_out_unpacked;
+    wire [15:0] valid_out_unpacked; //16 * 1
+    wire [511:0] tag_store_out_unpacked; //16 * 32
+    wire [511:0] D_EIP_store_out_unpacked;
+    wire [511:0] FIP_E_store_out_unpacked;
+    wire [511:0] FIP_O_store_out_unpacked;
 
-    wire [63:0] tag_compare, tag_compare_validated;
+    wire [15:0] tag_compare, tag_compare_validated;
 
     generate
-        for (i = 0; i < 64; i = i + 1) begin
+        for (i = 0; i < 16; i = i + 1) begin
             regn #(.WIDTH(1)) valid_reg (.din(1'b1), 
                                         .ld(ld_reg[i]), 
                                         .clr(reset), 
@@ -84,28 +84,28 @@ module branch_target_buff(
     endgenerate
 
     wire btb_tag_hit, btb_tag_miss;
-    orn #(64) or1(.out(btb_tag_hit), .in(tag_compare_validated));
+    orn #(16) or1(.out(btb_tag_hit), .in(tag_compare_validated));
     inv1$ i1(.out(btb_tag_miss), .in(btb_tag_hit));
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(64)) ld_signal_select(
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) ld_signal_select(
         .in({tag_compare_validated, ld_shift_reg_out}),
         .sel(btb_tag_hit),
         .out(ld_reg)
     );
 
-    muxnm_tristate #(.NUM_INPUTS(64), .DATA_WIDTH(32) ) mux_target(
+    muxnm_tristate #(.NUM_INPUTS(16), .DATA_WIDTH(32) ) mux_target(
         .in(D_EIP_store_out_unpacked),
         .sel(tag_compare_validated),
         .out(EIP_target)
     );
 
-    muxnm_tristate #(.NUM_INPUTS(64), .DATA_WIDTH(32) ) mux_FIP_E(
+    muxnm_tristate #(.NUM_INPUTS(16), .DATA_WIDTH(32) ) mux_FIP_E(
         .in(FIP_E_store_out_unpacked),
         .sel(tag_compare_validated),
         .out(FIP_E_target)
     );
 
-    muxnm_tristate #(.NUM_INPUTS(64), .DATA_WIDTH(32) ) mux_FIP_O(
+    muxnm_tristate #(.NUM_INPUTS(16), .DATA_WIDTH(32) ) mux_FIP_O(
         .in(FIP_O_store_out_unpacked),
         .sel(tag_compare_validated),
         .out(FIP_O_target)
