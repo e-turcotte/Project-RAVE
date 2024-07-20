@@ -21,6 +21,12 @@ module bp_btb(
     output btb_miss,
     output btb_hit
 );
+    wire inverseclk;
+    wire pre_anded_prediction;
+    inv1$ invclk(.out(inverseclk), .in(clk));
+
+    and2$ aajsfhd0(.out(prediction), .in0(inverseclk), .in1(pre_anded_prediction));
+
 
     branch_target_buff btb(
         .clk(clk),
@@ -52,7 +58,8 @@ module bp_btb(
         .prediction(bp_prediction),
         .BP_alias(BP_update_alias_out)
     );
-    andn #(2) a0( .in({bp_prediction, btb_hit}), .out(prediction));
+
+    andn #(2) a0( .in({bp_prediction, btb_hit}), .out(pre_anded_prediction));
 
 
 endmodule
