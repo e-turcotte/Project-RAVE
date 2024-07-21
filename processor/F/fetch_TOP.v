@@ -46,6 +46,7 @@ module fetch_TOP (
     input wire WB_IE_val,
     input wire IDTR_LD_info_regs,
     input wire IDTR_is_POP_EFLAGS_in,
+    input wire IDTR_invalidate_fetch, //active low
 
     /////////////////////////////
     // signals from SER and BUS//
@@ -225,6 +226,7 @@ module fetch_TOP (
         .packet_select(packet_select),
         .WB_IE_val(WB_IE_val),
         .IDTR_LD_info_regs(IDTR_LD_info_regs),
+        .IDTR_invalidate_fetch(IDTR_invalidate_fetch),
         .packet_out(packet_out), 
         .packet_out_valid(packet_valid_out),
         .old_BIP(old_BIP),
