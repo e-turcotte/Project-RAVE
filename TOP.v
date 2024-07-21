@@ -508,6 +508,8 @@
     wire [31:0] newFIP_e_WB_out, newFIP_o_WB_out;
     wire [31:0] newEIP_WB_out, latched_EIP_WB_out, EIP_WB_out;
     wire [31:0] latched_eip_WB_out;
+    wire [31:0] latched_latched_eip_WB_out;
+    wire [31:0] latched_latched_latched_eip_WB_out;
     wire is_resteer_WB_out;
     wire BR_valid_WB_BP_out, BR_taken_WB_BP_out, BR_correct_WB_BP_out;
     wire final_IE_val;
@@ -632,7 +634,7 @@
         .prev_is_BR(BR_valid_WB_BP_out),
         .LD(LD_btb),
 
-        .btb_update_eip_WB(latched_eip_WB_out), //EIP of BR instr, passed from D
+        .btb_update_eip_WB(latched_latched_latched_eip_WB_out), //EIP of BR instr, passed from D
         .FIP_E_WB(newFIP_e_WB_out), 
         .FIP_O_WB(newFIP_o_WB_out), 
         .EIP_WB(newEIP_WB_out), //update, from WB
@@ -1439,7 +1441,8 @@
         .BP_alias_in(BP_alias_EX_WB_latch_out),
         .inst_ptcid_in(inst_ptcid_EX_WB_latch_out),
         .set(), .rst(global_reset),
-        .latched_latched_EIP_out(latched_latched_EIP_WB_out),
+        .latched_latched_EIP_out(latched_latched_eip_WB_out),
+        .latched_latched_latched_EIP_WB_out(latched_latched_latched_eip_WB_out),
 
         .inp1_wb(inp1_wb_EX_WB_latch_out), .inp2_wb(inp2_wb_EX_WB_latch_out), .inp3_wb(inp3_wb_EX_WB_latch_out), .inp4_wb(inp4_wb_EX_WB_latch_out),
         .inp1(inp1_EX_WB_latch_out), .inp2(inp2_EX_WB_latch_out), .inp3(inp3_EX_WB_latch_out), .inp4(inp4_EX_WB_latch_out),

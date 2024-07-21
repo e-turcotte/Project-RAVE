@@ -47,6 +47,7 @@ module writeback_TOP(
     output [31:0] latched_EIP_out,
     output [31:0] EIP_out,
     output [31:0] latched_latched_EIP_out,
+    output [31:0] latched_latched_latched_EIP_out,
     output BR_valid, BR_taken, BR_correct, //done
     output [5:0] WB_BP_update_alias,
     output is_resteer,
@@ -65,6 +66,7 @@ module writeback_TOP(
     dff$ desDEss(clk,halt_last, halt_last, dcxxx, rst, halts);
     
     regn #(.WIDTH(32)) l_l_eip_gen(.din(latched_EIP_in), .ld(valid_out), .clr(rst), .clk(clk), .dout(latched_latched_EIP_out));
+    regn #(.WIDTH(32)) l_l_l_eip_gen(.din(latched_latched_EIP_out), .ld(valid_out), .clr(rst), .clk(clk), .dout(latched_latched_latched_EIP_out));
 
     assign inst_ptcid_out = inst_ptcid_in;
 
