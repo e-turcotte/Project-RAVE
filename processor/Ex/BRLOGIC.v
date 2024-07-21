@@ -20,7 +20,7 @@ module BRLOGIC(
     inv1$ i0(gurBR_n, gurBR);
     nand3$ a1(w1, conditionals[0], cf_n, cond_n[1] );
     nand3$ a2(w2, conditionals[1], zf_n, cond_n[0]);
-    nand4$ a2(w3, conditionals[1], zf_n, conditionals[0],cf_n );
+    nand4$ a3(w3, conditionals[1], zf_n, conditionals[0],cf_n );
     nand3$ n1(taken_t, w1, w2, w3);
     or2$ n2(taken, taken_t, gurBR);
     assign FIP = act_target;
