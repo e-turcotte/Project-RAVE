@@ -633,6 +633,7 @@
         .prev_BR_alias(WB_BP_update_alias),
         .prev_is_BR(BR_valid_WB_BP_out),
         .LD(LD_btb),
+        .is_D_valid(valid_out_D_RrAg_latch_in),
 
         .btb_update_eip_WB(latched_latched_latched_eip_WB_out), //EIP of BR instr, passed from D
         .FIP_E_WB(newFIP_e_WB_out), 

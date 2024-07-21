@@ -6,6 +6,7 @@ module bp_btb(
     input [5:0] prev_BR_alias,
     input prev_is_BR,
     input LD,
+    input is_D_valid,
 
     input [31:0] btb_update_eip_WB, //EIP of BR instr, passed from D
     input [31:0] FIP_E_WB, 
@@ -59,7 +60,7 @@ module bp_btb(
         .BP_alias(BP_update_alias_out)
     );
 
-    andn #(2) a0( .in({bp_prediction, btb_hit}), .out(pre_anded_prediction));
+    andn #(3) a0( .in({bp_prediction, btb_hit, is_D_valid}), .out(pre_anded_prediction));
 
 
 endmodule
