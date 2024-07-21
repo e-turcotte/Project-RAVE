@@ -47,32 +47,34 @@ module branch_target_buff(
 
     generate
         for (i = 0; i < 8; i = i + 1) begin
+            wire actual_ld_signal_LOL;
+            and2$ a0(.out(actual_ld_signal_LOL), .in0(LD), .in1(ld_reg[i]));
             regn #(.WIDTH(1)) valid_reg (.din(1'b1), 
-                                        .ld(ld_reg[i]), 
+                                        .ld(actual_ld_signal_LOL), 
                                         .clr(reset), 
                                         .clk(clk), 
                                         .dout(valid_out_unpacked[i]));
 
             regn #(.WIDTH(32)) tag_reg (.din(tag_in_write), 
-                                        .ld(ld_reg[i]), 
+                                        .ld(actual_ld_signal_LOL), 
                                         .clr(reset), 
                                         .clk(clk), 
                                         .dout(tag_store_out_unpacked[i*32 + 31 : i*32]));
                                     
             regn #(.WIDTH(32)) D_EIP_reg (.din(D_EIP_WB), 
-                                           .ld(ld_reg[i]), 
+                                           .ld(actual_ld_signal_LOL), 
                                            .clr(reset), 
                                            .clk(clk), 
                                            .dout(D_EIP_store_out_unpacked[i*32 + 31 : i*32]));
 
             regn #(.WIDTH(32)) FIP_E_reg (.din(FIP_E_WB),
-                                            .ld(ld_reg[i]), 
+                                            .ld(actual_ld_signal_LOL), 
                                             .clr(reset), 
                                             .clk(clk), 
                                             .dout(FIP_E_store_out_unpacked[i*32 + 31 : i*32]));                
             
             regn #(.WIDTH(32)) FIP_O_reg (.din(FIP_O_WB),
-                                            .ld(ld_reg[i]), 
+                                            .ld(actual_ld_signal_LOL), 
                                             .clr(reset), 
                                             .clk(clk), 
                                             .dout(FIP_O_store_out_unpacked[i*32 + 31 : i*32]));
