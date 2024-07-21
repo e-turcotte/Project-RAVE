@@ -20,13 +20,14 @@ module pmem_TOP (input [3:0] recvB,
     wire [511:0] din;
     wire [511:0] dout;
 
-    wire [3:0] des_full, buf_des_full, delay_des_full;
+    wire [3:0] des_full, buf_des_full, delay_des_full, des_delay_3, des_delay_2, des_delay_1;
     wire [3:0] des_read, delay_des_read, ser_read, invser_read;
     wire [3:0] des_rw, undelay_rw, delay_rw;
     wire [3:0] ser_empty;
 
     wire [15:0] send;
     wire [3:0] des_pulse, des_pulse_delay;
+
 
     genvar i;
     generate
@@ -49,7 +50,11 @@ module pmem_TOP (input [3:0] recvB,
                              .BUS(BUS),
                              .setReciever(recvB[i]),
                              .free_bau(freeB[i]));
-            pulGen pg1(des_read[i], bus_clk, clr, des_pulse[i]);
+             and4$ stall1(des_delay_1[i], des_read[i], des_read[i], des_read[i],des_read[i]);
+             and4$ stall2(des_delay_2[i], des_delay_1[i], des_delay_1[i], des_delay_1[i],des_delay_1[i]);
+             and4$ stall3(des_delay_3[i],   des_delay_2[i], des_delay_2[i], des_delay_2[i],des_delay_2[i]);
+            
+            pulGen pg1( des_delay_3[i], bus_clk, clr, des_pulse[i]);
             delay #(.DELAY_AMNT(70)) d221(.undelay_sig(des_pulse[i]), .clk(bus_clk), .rst(clr), .delay_sig(des_pulse_delay[i]));
             
             bufferH16$ b0(.out(buf_des_full[i]), .in(des_full[i]));

@@ -42,6 +42,7 @@ bus_TOP bus(
 
 IO_top io(
     .clk_bus(clk_bus), 
+    .clk_core(clk),
     .set(set), 
     .rst(rst),
 
