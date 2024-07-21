@@ -43,7 +43,7 @@ module branch_target_buff(
     wire [255:0] FIP_E_store_out_unpacked;
     wire [255:0] FIP_O_store_out_unpacked;
 
-    wire [7:0] tag_compare, tag_compare_validated;
+    wire [7:0] tag_compare_read, tag_compare_write, tag_compare_validated_read, tag_compare_validated_write;
 
     generate
         for (i = 0; i < 8; i = i + 1) begin
@@ -77,42 +77,50 @@ module branch_target_buff(
                                             .clk(clk), 
                                             .dout(FIP_O_store_out_unpacked[i*32 + 31 : i*32]));
 
-            equaln #(.WIDTH(32)) tag_eq(.a(tag_in_read), .b(tag_store_out_unpacked[i*32 + 31 : i*32]), .eq(tag_compare[i]));
-            andn #(2) a1(.out(tag_compare_validated[i]), .in({tag_compare[i], valid_out_unpacked[i]}));
+            equaln #(.WIDTH(32)) tag_eq_read(.a(tag_in_read), .b(tag_store_out_unpacked[i*32 + 31 : i*32]), .eq(tag_compare_read[i]));
+            equaln #(.WIDTH(32)) tag_eq_write(.a(tag_in_write), .b(tag_store_out_unpacked[i*32 + 31 : i*32]), .eq(tag_compare_write[i]));
+            andn #(2) a1(.out(tag_compare_validated_read[i]), .in({tag_compare_read[i], valid_out_unpacked[i]}));
+            andn #(2) a2(.out(tag_compare_validated_write[i]), .in({tag_compare_write[i], valid_out_unpacked[i]}));
 
         end
     endgenerate
 
-    wire btb_tag_hit, btb_tag_miss;
-    orn #(8) or1(.out(btb_tag_hit), .in(tag_compare_validated));
-    inv1$ i1(.out(btb_tag_miss), .in(btb_tag_hit));
+    wire btb_tag_hit_read, btb_tag_miss_read, btb_tag_hit_write, btb_tag_miss_write;
+    orn #(8) or1(.out(btb_tag_hit_read), .in(tag_compare_validated_read));
+    inv1$ i1(.out(btb_tag_miss_read), .in(btb_tag_hit_read));
+
+    orn #(8) or2(.out(btb_tag_hit_write), .in(tag_compare_validated_write));
+    inv1$ i2(.out(btb_tag_miss_write), .in(btb_tag_hit_write));
+
+
+
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(8)) ld_signal_select(
-        .in({tag_compare_validated, ld_shift_reg_out}),
-        .sel(btb_tag_hit),
+        .in({tag_compare_validated_write, ld_shift_reg_out}),
+        .sel(btb_tag_hit_write),
         .out(ld_reg)
     );
 
     muxnm_tristate #(.NUM_INPUTS(8), .DATA_WIDTH(32) ) mux_target(
         .in(D_EIP_store_out_unpacked),
-        .sel(tag_compare_validated),
+        .sel(tag_compare_validated_read),
         .out(EIP_target)
     );
 
     muxnm_tristate #(.NUM_INPUTS(8), .DATA_WIDTH(32) ) mux_FIP_E(
         .in(FIP_E_store_out_unpacked),
-        .sel(tag_compare_validated),
+        .sel(tag_compare_validated_read),
         .out(FIP_E_target)
     );
 
     muxnm_tristate #(.NUM_INPUTS(8), .DATA_WIDTH(32) ) mux_FIP_O(
         .in(FIP_O_store_out_unpacked),
-        .sel(tag_compare_validated),
+        .sel(tag_compare_validated_read),
         .out(FIP_O_target)
     );
 
-    assign miss = btb_tag_miss;
-    assign hit = btb_tag_hit;
+    assign miss = btb_tag_miss_read;
+    assign hit = btb_tag_hit_read;
 
     // //a BTB entry includes: 26 bit tag, 32 bit (each) FIP_O, FIP_E, target
 
