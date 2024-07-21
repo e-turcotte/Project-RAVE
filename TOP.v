@@ -635,7 +635,7 @@
         .LD(LD_btb),
         .is_D_valid(valid_out_D_RrAg_latch_in),
 
-        .btb_update_eip_WB(latched_latched_latched_eip_WB_out), //EIP of BR instr, passed from D
+        .btb_update_eip_WB(latched_eip_WB_out), //EIP of BR instr, passed from D
         .FIP_E_WB(newFIP_e_WB_out), 
         .FIP_O_WB(newFIP_o_WB_out), 
         .EIP_WB(newEIP_WB_out), //update, from WB
