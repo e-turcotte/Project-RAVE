@@ -390,7 +390,8 @@ module decode_TOP(
 
     wire [7:0] instruction_length;
     wire pass_length;
-    andn #(2) a3qlwkhrkj1ho23(.in({not_is_CF, valid_in}), .out(pass_length));
+    // andn #(2) a3qlwkhrkj1ho23(.in({not_is_CF, valid_in}), .out(pass_length));
+    assign pass_length = valid_in;
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(8)) muuxewuxee1(
         .in({decoded_instr_length, 8'b00000000}), 
