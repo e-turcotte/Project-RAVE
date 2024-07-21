@@ -30,7 +30,7 @@ nor2$ sels(Sel, M1_RW[1], M1_RW[0]);
 muxnm_tristate #(3, 32) mx0({M2, M1, 32'd0}, {M2_RW[0],M1_RW[0],swSel},address_in_sw);
 muxnm_tristate #(3, 32) mx1({M2, M1, 32'd0}, {M2_RW[1],M1_RW[1],rSel},address_in_r);
 
-
+wire[1:0] M2_RW_n;
 inv1$ noz(M2_RW_n[1], M2_RW[1]);
 inv1$ nozas(M2_RW_n[0], M2_RW[0]);
 
