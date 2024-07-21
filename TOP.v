@@ -553,7 +553,7 @@
 
 
     offcoreBus_TOP offcoreBus(
-        .clk(clk_ng),
+        .clk( clk_ng),
         .rst(global_reset),
         .set(global_set),
         .clk_bus(bus_clk),

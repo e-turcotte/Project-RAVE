@@ -1390,7 +1390,7 @@ def RETfar(row,op,asm):
     # OP4
     row[31] = R4  # op4_mux
     row[35] = R4  # dest4_mux
-    row[39] = o if version == o else z  # op4_wb
+    row[39] = o if version == 0 else z  # op4_wb
     return
 
 
@@ -1446,8 +1446,10 @@ def helperOP(row, op, asm):
     elif (opcode == "PUSH"):
         PUSH(row, op, asm)
     elif (opH == "8'hC3" or opH == "8'hC2" ):
+        print("COLUMN NEAR HIT ")
         RETnear(row, op, asm)
     elif (opcode == "RET"):
+        print("column ret hit")
         RETfar(row, op, asm)
     elif (opcode == "SAL"):
         SAL(row, op, asm)

@@ -55,7 +55,7 @@ module pmem_TOP (input [3:0] recvB,
              and4$ stall3(des_delay_3[i],   des_delay_2[i], des_delay_2[i], des_delay_2[i],des_delay_2[i]);
             
             pulGen pg1( des_delay_3[i], bus_clk, clr, des_pulse[i]);
-            delay #(.DELAY_AMNT(70)) d221(.undelay_sig(des_pulse[i]), .clk(bus_clk), .rst(clr), .delay_sig(des_pulse_delay[i]));
+            delay #(.DELAY_AMNT(55)) d221(.undelay_sig(des_pulse[i]), .clk(bus_clk), .rst(clr), .delay_sig(des_pulse_delay[i]));
             
             bufferH16$ b0(.out(buf_des_full[i]), .in(des_full[i]));
             and2$ g1(.out(undelay_rw[i]), .in0(des_rw[i]), .in1(buf_des_full[i]));
