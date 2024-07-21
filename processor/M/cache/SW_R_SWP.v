@@ -36,7 +36,7 @@ inv1$ nozas(M2_RW_n[0], M2_RW[0]);
 
 muxnm_tristate #(3, 2) mx2({2'b10, 2'b01, 2'd0}, {M1_RW[0],M1_RW[1], Sel},{sw_is_m1a, r_is_m1a});
 nor2$ asxas(use_m2,sw_is_m1a, r_is_m1a );
-mux2n #(2) mx34({sw_is_m1, r_is_m1}, {sw_is_m1a, r_is_m1a}, {M2_RW_n[0], M1_RW_n[1]}, use_m2 );
+mux2n #(2) mx34({sw_is_m1, r_is_m1}, {sw_is_m1a, r_is_m1a}, {M2_RW_n[0], M2_RW_n[1]}, use_m2 );
 assign sizeOVR_sw = sizeOvr;
 assign sizeOVR_r = sizeOvr;
 mux2n #(2) mxsws(size_in_sw, size_in, 2'b11, sizeOvr);
