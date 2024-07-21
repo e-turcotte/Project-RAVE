@@ -104,7 +104,7 @@ module fetch_2 (
 
     kogeAdder #(.WIDTH(8)) a4(.A({2'b0, latched_BIP}), .B({D_length}), .CIN(1'b0), .SUM(BIP_plus_length), .COUT());
 
-    wire fetch_packet_out_valid, packet_out_valid_almost1, packet_out_valid_almost2, IE_val_inv;
+    wire fetch_packet_out_valid, packet_out_valid_almost1, packet_out_valid_almost2, packet_out_valid_almost3, IE_val_inv;
     check_valid_rotate cvr(
         .curr_line(BIP_plus_length[5:4]),
         .valid_00(line_00_valid),
@@ -127,7 +127,8 @@ module fetch_2 (
 
     andn #(2) b23r(.out(packet_out_valid_almost1), .in( {fetch_packet_out_valid, IE_val_inv} ));
     or2$ o1243(.out(packet_out_valid_almost2), .in0(packet_out_valid_almost1), .in1(packet_select));
-    andn #(2) k23 (.out(packet_out_valid), .in( {packet_out_valid_almost2, IDTR_invalidate_fetch} ));
+    andn #(2) k23 (.out(packet_out_valid_almost3), .in( {packet_out_valid_almost2, IDTR_invalidate_fetch} ));
+    orn #(2) lasjfhl(.out(packet_out_valid), .in({packet_out_valid_almost3, is_resteer})); //for the jump within the switching service routine;
 
     wire [127:0] line_00_reverse, line_01_reverse, line_10_reverse, line_11_reverse;
     reverse_bit_vector_by_bytes rbv0(.in(line_00), .out(line_00_reverse));
