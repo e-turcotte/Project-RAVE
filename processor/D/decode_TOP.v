@@ -21,8 +21,8 @@ module decode_TOP(
     ///////////////////////////
     input wire [31:0] BP_EIP,
     input wire is_BR_T_NT,
-    input wire BP_alias_in,
-    input wire BP_BR_pred_target_in,
+    input wire [5:0] BP_alias_in,
+    input wire [31:0] BP_BR_pred_target_in,
 
     ////////////////////////////
     //    writeback signals   //
