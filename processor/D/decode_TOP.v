@@ -13,6 +13,7 @@ module decode_TOP(
     input wire IE_in,
     input wire [3:0] IE_type_in,
     input wire instr_is_IDTR_orig_in,
+    input wire IDTR_is_POP_EFLAGS_in,
     input wire [5:0] BP_alias_in,
     input wire [31:0] BR_pred_target_in,
     input wire BR_pred_T_NT_in,
@@ -70,6 +71,7 @@ module decode_TOP(
     output IE_out,
     output [3:0] IE_type_out,
     output instr_is_IDTR_orig_out,
+    output IDTR_is_POP_EFLAGS_out,
     output [31:0] BR_pred_target_out,
     output BR_pred_T_NT_out,
     output isImm_out,
@@ -234,6 +236,7 @@ module decode_TOP(
 
     wire[5:0] segSEL;
     assign segSEL = seg_override;
+    wire cs_miss_out;
 
     //~1.5 ns
     cs_top opcode(.isMOD(isMOD), .modSWAP(modSWAP), .isDouble(isDouble), .OPCext(OPCext), .aluk(aluk), .MUX_ADDER_IMM(MUX_ADDER_IMM), 
@@ -241,7 +244,7 @@ module decode_TOP(
                 .isBR(isBR), .isFP(isFP), .isImm(isImm), .immSize(immSize), .size(size), .R1(R1), .R2(R2), .R3(R3), .R4(R4), .S1(S1), .S2(S2), 
                 .S3(S3), .S4(S4), .op1_mux(op1_mux), .op2_mux(op2_mux), .op3_mux(op3_mux), .op4_mux(op4_mux), .dest1_mux(dest1_mux), .dest2_mux(dest2_mux), 
                 .dest3_mux(dest3_mux), .dest4_mux(dest4_mux), .op1_wb(op1_wb), .op2_wb(op2_wb), .op3_wb(op3_wb), .op4_wb(op4_wb), .R1_MOD_OVR(R1_MOD_OVR), 
-                .M1_RW(M1_RW), .M2_RW(M2_RW), .OP_MOD_OVR(OP_MOD_OVR), .S3_MOD_OVR(S3_MOD_OVR), .memSizeOVR(memSizeOVR), .B1(B1), .B2(B2), .B3(B3), .B4(B4), 
+                .M1_RW(M1_RW), .M2_RW(M2_RW), .OP_MOD_OVR(OP_MOD_OVR), .S3_MOD_OVR(S3_MOD_OVR), .memSizeOVR(memSizeOVR), .cs_hit_out(cs_hit), .B1(B1), .B2(B2), .B3(B3), .B4(B4), 
                 .B5(B5), .B6(B6), .isREP(isREP), .isSIZE(isSIZE), .isSEG(isSEG), .prefSize(prefSize), .segSEL(segSEL));
 
 
@@ -416,6 +419,10 @@ module decode_TOP(
     /*                                                                                                */
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    wire cs_hit;
+
+    //andn #(2) csand (.in( {valid_in, cs_hit} ), .out(valid_out));
+
     assign valid_out = valid_in;
     assign reg_addr1_out = R1;
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(3)) m0234(.in({R2_modrm, R2}), .sel(isMOD), .out(reg_addr2_out));
@@ -472,6 +479,7 @@ module decode_TOP(
 
     assign BP_alias_out = BP_alias_in;
     assign instr_is_IDTR_orig_out = instr_is_IDTR_orig_in;
+    assign IDTR_is_POP_EFLAGS_out = IDTR_is_POP_EFLAGS_in;
 
 
 endmodule

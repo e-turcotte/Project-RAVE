@@ -11,6 +11,7 @@ module F_D_latch (
         input [31:0] BR_pred_target_in,
         input BR_pred_T_NT_in,
         input instr_is_IDTR_orig_in,
+        input IDTR_is_POP_EFLAGS_in,
 
         output valid_out,
         output [127:0] packet_out,
@@ -19,7 +20,8 @@ module F_D_latch (
         output [3:0] IE_type_out,
         output [31:0] BR_pred_target_out,
         output BR_pred_T_NT_out,
-        input instr_is_IDTR_orig_out
+        output instr_is_IDTR_orig_out,
+        input IDTR_is_POP_EFLAGS_out
         );
     
     integer file, cyc_cnt;
@@ -36,6 +38,7 @@ module F_D_latch (
     regn #(.WIDTH(32))  r6(.din(BR_pred_target_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_target_out));
     regn #(.WIDTH(1))   r7(.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
     regn #(.WIDTH(1))   r8(.din(instr_is_IDTR_orig_in), .ld(ld), .clr(clr), .clk(clk), .dout(instr_is_IDTR_orig_out));
+    regn #(.WIDTH(1))   r9(.din(IDTR_is_POP_EFLAGS_in), .ld(ld), .clr(clr), .clk(clk), .dout(IDTR_is_POP_EFLAGS_out));
 
 
     always @(posedge clk) begin
@@ -52,7 +55,7 @@ module F_D_latch (
         $fdisplay(file, "\t\t BR_pred_target: 0x%h", BR_pred_target_out);
         $fdisplay(file, "\t\t BR_pred_T_NT: %b", BR_pred_T_NT_out);
         $fdisplay(file, "\t\t instr_is_IDTR_orig: %b", instr_is_IDTR_orig_out);
-                
+        $fdisplay(file, "\t\t IDTR_is_POP_EFLAGS: %b", IDTR_is_POP_EFLAGS_out);         
 		$fdisplay(file, "\n=================================================\n");    
 	end
 

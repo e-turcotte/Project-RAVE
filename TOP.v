@@ -96,7 +96,7 @@
         ES_LIM = 20'h003ff;
         CS_LIM = 20'h04fff;
         SS_LIM = 20'h04000;
-        DS_LIM = 20'h7ffff;
+        DS_LIM = 20'h011ff;
         FS_LIM = 20'h003ff;
         GS_LIM = 20'h007ff;
 
@@ -138,6 +138,7 @@
     wire [31:0] BR_pred_target_F_D_latch_in;
     wire BR_pred_T_NT_F_D_latch_in;
     wire instr_is_IDTR_orig_F_D_latch_in;
+    wire IDTR_is_POP_EFLAGS_F_D_latch_in;
 
 
     ///////////////////////////////////////////////////////////
@@ -151,6 +152,7 @@
     wire [31:0] BR_pred_target_F_D_latch_out;
     wire BR_pred_T_NT_F_D_latch_out;
     wire instr_is_IDTR_orig_F_D_latch_out;
+    wire IDTR_is_POP_EFLAGS_F_D_latch_out;
 
     ///////////////////////////////////////////////////////////
     //    Outputs from D that go into the D_RrAg_latch:     //  
@@ -536,6 +538,7 @@
     wire is_servicing_IE;
     wire idtr_ptc_clear_out;
     wire IDTR_is_switching;
+    wire IDTR_LD_info_regs;
 
     wire IDTR_PTC_clear; //AND with signal to lower PTC_CLEAR out of WB for resteer.
 
@@ -610,7 +613,7 @@
         .EFLAGS_WB(final_EFLAGS),
         .CS_WB(final_CS),
         .is_resteer(is_resteer_WB_out),
-        .is_IRETD(p_op_D_RrAg_latch_out[10]),
+        .is_IRETD(P_OP_EX_WB_latch_out[10]),
         .rrag_stall_in(RrAg_stall_out),
     
         .IDTR_packet_out(IDTR_packet_out),
@@ -620,7 +623,8 @@
         .LD_EIP(IDTR_LD_EIP_out),
         .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
         .is_servicing_IE(is_servicing_IE),
-        .is_switching(IDTR_is_switching)
+        .is_switching(IDTR_is_switching),
+        .LD_info_regs_out(IDTR_LD_info_regs)
     );
 
     bp_btb BPstuff(
@@ -679,6 +683,8 @@
         .IDTR_packet(IDTR_packet_out),
         .packet_select(IDTR_packet_select_out),
         .WB_IE_val(final_IE_val),
+        .IDTR_LD_info_regs(IDTR_LD_info_regs),
+        .IDTR_is_POP_EFLAGS_in(IDTR_is_POP_EFLAGS),
 
         .SER_i$_grant_e(grantIE),
         .SER_i$_grant_o(grantIO),
@@ -716,7 +722,8 @@
 
         .IE_out(),
         .IE_type_out(),
-        .instr_is_IDTR_orig(instr_is_IDTR_orig_F_D_latch_in)
+        .instr_is_IDTR_orig(instr_is_IDTR_orig_F_D_latch_in),
+        .IDTR_is_POP_EFLAGS_out(IDTR_is_POP_EFLAGS_F_D_latch_in)
 
     );
 
@@ -739,6 +746,7 @@
         .BR_pred_target_in(BR_pred_target_F_D_latch_in),
         .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_in),
         .instr_is_IDTR_orig_in(instr_is_IDTR_orig_F_D_latch_in),
+        .IDTR_is_POP_EFLAGS_in(IDTR_is_POP_EFLAGS_F_D_latch_in),
          //outputs
         .valid_out(valid_F_D_latch_out),
         .packet_out(packet_F_D_latch_out),
@@ -747,10 +755,12 @@
         .IE_type_out(IE_type_F_D_latch_out),
         .BR_pred_target_out(BR_pred_target_F_D_latch_out),
         .BR_pred_T_NT_out(BR_pred_T_NT_F_D_latch_out),
-        .instr_is_IDTR_orig_out(instr_is_IDTR_orig_F_D_latch_out)
+        .instr_is_IDTR_orig_out(instr_is_IDTR_orig_F_D_latch_out),
+        .IDTR_is_POP_EFLAGS_out(IDTR_is_POP_EFLAGS_F_D_latch_out)
     
     );
 
+    wire IDTR_is_POP_EFLAGS_D_out;
     wire [36:0] p_op_D_out;
     decode_TOP d0(
         // Clock and Reset
@@ -764,6 +774,7 @@
         .IE_in(IE_F_D_latch_out),
         .IE_type_in(IE_type_F_D_latch_out),
         .instr_is_IDTR_orig_in(instr_is_IDTR_orig_F_D_latch_out),
+        .IDTR_is_POP_EFLAGS_in(IDTR_is_POP_EFLAGS_F_D_latch_out),
         .BP_alias_in(BP_alias_F_D_latch_out),
         .BR_pred_target_in(BR_pred_target_F_D_latch_out),
         .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_out),
@@ -831,6 +842,7 @@
         .IE_out(IE_D_RrAg_latch_in),
         .IE_type_out(IE_type_D_RrAg_latch_in),
         .instr_is_IDTR_orig_out(instr_is_IDTR_orig_D_RrAg_latch_in),
+        .IDTR_is_POP_EFLAGS_out(IDTR_is_POP_EFLAGS_D_out),
         .BR_pred_target_out(BR_pred_target_D_RrAg_latch_in),
         .BR_pred_T_NT_out(BR_pred_T_NT_D_RrAg_latch_in),
         .isImm_out(is_imm_D_RrAg_latch_in),
@@ -841,7 +853,7 @@
         .D_length(D_length_D_F_out)
     );
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(37)) pop_eflags_mux(.in({35'b0, 2'b11, p_op_D_out}), .sel(IDTR_is_POP_EFLAGS), .out(p_op_D_RrAg_latch_in));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(37)) pop_eflags_mux(.in({35'b0, 2'b11, p_op_D_out}), .sel(IDTR_is_POP_EFLAGS_D_out), .out(p_op_D_RrAg_latch_in));
     
     wire [m_size_D_RrAg-1:0] m_din_D_RrAg;
     wire [n_size_D_RrAg-1:0] n_din_D_RrAg;

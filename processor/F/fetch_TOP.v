@@ -44,6 +44,8 @@ module fetch_TOP (
     input wire [127:0] IDTR_packet,
     input wire packet_select,
     input wire WB_IE_val,
+    input wire IDTR_LD_info_regs,
+    input wire IDTR_is_POP_EFLAGS_in,
 
     /////////////////////////////
     // signals from SER and BUS//
@@ -90,7 +92,8 @@ module fetch_TOP (
 
     output wire IE_out,
     output wire [3:0] IE_type_out,
-    output wire instr_is_IDTR_orig
+    output wire instr_is_IDTR_orig,
+    output wire IDTR_is_POP_EFLAGS_out
 );
 
     wire even_latch_was_loaded, odd_latch_was_loaded;
@@ -221,6 +224,7 @@ module fetch_TOP (
         .IDTR_packet(IDTR_packet),
         .packet_select(packet_select),
         .WB_IE_val(WB_IE_val),
+        .IDTR_LD_info_regs(IDTR_LD_info_regs),
         .packet_out(packet_out), 
         .packet_out_valid(packet_valid_out),
         .old_BIP(old_BIP),
@@ -232,6 +236,7 @@ module fetch_TOP (
     assign BP_target_out = BP_target;
     assign BP_update_alias_out = BP_update_alias;
     assign instr_is_IDTR_orig = packet_select;
+    assign IDTR_is_POP_EFLAGS_out = IDTR_is_POP_EFLAGS_in;
 
     
 endmodule

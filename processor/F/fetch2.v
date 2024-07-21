@@ -48,6 +48,7 @@ module fetch_2 (
     input wire [127:0] IDTR_packet,
     input wire packet_select,
     input wire WB_IE_val,
+    input wire IDTR_LD_info_regs,
 
     /////////////////////////////
     //    output signals      //  
@@ -102,7 +103,7 @@ module fetch_2 (
 
     kogeAdder #(.WIDTH(8)) a4(.A({2'b0, latched_BIP}), .B({D_length}), .CIN(1'b0), .SUM(BIP_plus_length), .COUT());
 
-    wire fetch_packet_out_valid, packet_out_valid_almost, IE_val_inv;
+    wire fetch_packet_out_valid, packet_out_valid_almost1, packet_out_valid_almost2, IE_val_inv;
     check_valid_rotate cvr(
         .curr_line(BIP_plus_length[5:4]),
         .valid_00(line_00_valid),
@@ -114,8 +115,17 @@ module fetch_2 (
     
     inv1$ i1324 (.out(IE_val_inv), .in(WB_IE_val));
 
-    andn #(2) b23r(.out(packet_out_valid_almost), .in( {fetch_packet_out_valid, IE_val_inv} ));
-    or2$ o1243(.out(packet_out_valid), .in0(packet_out_valid_almost), .in1(packet_select));
+    // wire top_byte_is0, top_byte_is_not0;
+    // equaln #(8) nibble0 (.a(8'b0), .b(packet_IBuff_out[127:120]), .eq(top_byte_is0));
+    // inv1$ i235 (.out(top_byte_is_not0), .in(top_byte_is0));
+     
+    // wire IDTR_LD_info_regs_inv, IDTR_is_switching, IDTR_is_not_switching;
+    // inv1$ i235 (.out(IDTR_LD_info_regs_inv), .in(IDTR_LD_info_regs));
+    // andn #(2) a234 (.out(IDTR_is_switching), .in({IDTR_LD_info_regs_inv, WB_IE_val})); //IE seen but IDTR fsm hasn't kicked in yet - ibuff invalid
+    // inv1$ i93 (.out(IDTR_is_not_switching), .in(IDTR_is_switching));
+
+    andn #(2) b23r(.out(packet_out_valid_almost1), .in( {fetch_packet_out_valid, IE_val_inv} ));
+    or2$ o1243(.out(packet_out_valid), .in0(packet_out_valid_almost1), .in1(packet_select));
 
     wire [127:0] line_00_reverse, line_01_reverse, line_10_reverse, line_11_reverse;
     reverse_bit_vector_by_bytes rbv0(.in(line_00), .out(line_00_reverse));
@@ -133,6 +143,7 @@ module fetch_2 (
         .line_out(packet_IBuff_out)
     );
     //assign packet_out = packet_IBuff_out;
+
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(128)) m2(
         .in({IDTR_packet, packet_IBuff_out}), 

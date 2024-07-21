@@ -20,7 +20,8 @@ module IE_handler (
     output LD_EIP,
     output is_POP_EFLAGS,
     output is_servicing_IE,
-    output is_switching                 //indicates that FSM is moving between ISR and normal execution and VV
+    output is_switching,                 //indicates that FSM is moving between ISR and normal execution and VV
+    output LD_info_regs_out
 );
 
 //type encoding:
@@ -65,6 +66,7 @@ module IE_handler (
     wire is_servicing_IE_not;
 
     inv1$ iiio(.in(is_servicing_IE), .out(is_servicing_IE_not));
+    assign LD_info_regs_out = LD_info_regs;
 
     regn #(.WIDTH(32)) reg_address  (.din(IDT_entry_address),   .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(IDT_entry_internal));
     regn #(.WIDTH(32)) reg_address4 (.din(IDT_entry_address4),  .ld(LD_info_regs), .clr(reset), .clk(clk), .dout(IDT_entry4_internal));
@@ -85,17 +87,17 @@ module IE_handler (
     assign push_eip = {8'h68, push_eip_imm, 88'b0};                                 //PUSH EIP
     
     endian_swap32 e3(.in({IDT_entry_internal}), .out(first_4_bytes_imm));           //0000_0000_1000
-    assign first_4_bytes = {16'h8b05, first_4_bytes_imm, 80'b0};                    //MOV EAX, [IDT_entry_internal]
+    assign first_4_bytes = {16'h8b0d, first_4_bytes_imm, 80'b0};                    //MOV ECX, [IDT_entry_internal]
 
     endian_swap32 e4(.in({IDT_entry4_internal}), .out(second_4_bytes_imm));         //0000_0001_0000
-    assign second_4_bytes = {16'h8b1d, second_4_bytes_imm, 80'b0};                  //MOV EBX, [IDT_entry4_internal]
+    assign second_4_bytes = {16'h8b15, second_4_bytes_imm, 80'b0};                  //MOV EDX, [IDT_entry4_internal]
 
-    assign exchange = {16'h6693, 112'h0};                                           //XCHG AX, BX
-    assign sar16 = {24'hc1f804, 104'h0};                                            //SAR EAX, 4
-    assign mov_cs = {24'h668ec8, 104'h0};                                           //MOV CS, AX
-    assign jump = {16'hffe3, 112'h0};                                               //JMP EBX
+    assign exchange = {24'h6687d1, 104'h0};                                         //XCHG CX, DX
+    assign sar16 = {24'hc1f904, 104'h0};                                            //SAR ECX, 4
+    assign mov_cs = {24'h668ec9, 104'h0};                                           //MOV CS, CX
+    assign jump = {16'hffe2, 112'h0};                                               //JMP EDX
     assign ret_far = {8'hcb, 120'h0};                                               //RET FAR
-    assign pop_eflags = {8'h58, 120'h0};                                            //POP EFLAGS to EAX but used to load EFLAGS
+    assign pop_eflags = {8'h59, 120'h0};                                            //POP EFLAGS to ECX but used to load EFLAGS
 
     muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(128)) m2(.in({pop_eflags, ret_far, jump, mov_cs, sar16, exchange, second_4_bytes,
                                                                 first_4_bytes, push_eip, push_cs, push_eflags}), 
