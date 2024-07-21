@@ -17,6 +17,8 @@ module BRLOGIC(
     wire [1:0] cond_n;
     inv1$ asher(cf_n, cf);
     inv1$ ashsas(zf_n, zf);
+    inv1$ asheasr(cond_n[1], conditionals[1]);
+    inv1$ ashassas(cond_n[0], conditionals[0]);
     inv1$ i0(gurBR_n, gurBR);
     nand3$ a1(w1, conditionals[0], cf_n, cond_n[1] );
     nand3$ a2(w2, conditionals[1], zf_n, cond_n[0]);
