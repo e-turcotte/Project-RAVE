@@ -27,7 +27,7 @@ module BRLOGIC(
     or2$ n2(taken, taken_t, gurBR_adjust);
     assign FIP = act_target;
     
-    and2$ (gurBR_adjust, gurBR,cond_n[1], cond_n[0] );
+    and3$ (gurBR_adjust, gurBR,cond_n[1], cond_n[0] );
 
     or4$ o1(w3, JMPnear_P_OP, JMPfar_P_OP, JMPptr_P_OP, gurBR );
     and2$ a3(val, w3, val_in);
