@@ -161,6 +161,7 @@ nand2$ (ser1_stall_1, clr_sr1f, ex_clr_n);
 
 nand2$ (clr_sr2f, ex_wb, SER_0FULL_n);
 nand2$ (ser1_stall_2, clr_sr2f, ex_wb_n);
+inv1$ (clk_n, clk);
 
 inv1$ (PCD_IN_n, PCD_IN);
 inv1$ (fromBUS_n, fromBUS);
@@ -193,9 +194,10 @@ nand2$ (serval0_1, ex_wb, stall_n);
 
 mux2n #(128) datasel(SER_data0, cache_line, data, PCD_IN);
 mux2n #(15) addressSel(SER_pAddress0, extAddress, pAddress[14:0], PCD_IN);
-nand2$ orSER(SER_valid0, serval0_1, serval0_2);
+nand2$ orSER(SER_valid0a, serval0_1, serval0_2);
+and2$ plzwrkrkas(SER_valid0, SER_valid0a, clk_n);
 inv1$ inv123(w_not, w);
-nand4$ andwp(serval0_2, PCD_W,  fromBUS_n, valid_in, stall_n);
+ nand4$ andwp(serval0_2, PCD_W,  fromBUS_n, valid_in, stall_n);
 assign SER_return0 = cache_id;
 assign SER_size0 = 16'h8000;
 mux2n #(1)  cba(SER_rw0, 1'b1, w, PCD_IN);
@@ -208,7 +210,8 @@ assign SER_pAddress1 = {pAddress[14:0]};
 //assign SER_valid1 = ex_clr;
 nand4$ andSER(SER_valid11, ex_clr, w_not,rst, stall_n);
 nand4$ andser1(SER_valid12, w_not, PCD_R,rst_val, stall_n);
-nand2$ andSER21(SER_valid1, SER_valid11, SER_valid12);
+nand2$ andSER21(SER_valid1a, SER_valid11, SER_valid12);
+and2$ plzwrkrk(SER_valid1, SER_valid1a, clk_n);
 assign SER_return1 = cache_id;
 assign SER_size1 = 16'h1000;
 assign SER_rw1 = 1'b0;

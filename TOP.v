@@ -92,7 +92,7 @@
 		entry_v = 8'b11111111;
 		entry_P = 8'b11111111;
 		entry_RW= 8'b11111111;
-		entry_PCD =  8'b10000000;
+		entry_PCD =  8'b00000000;
 
 		VP = {VP_7, VP_6, VP_5, VP_4, VP_3, VP_2, VP_1, VP_0};
 		PF = {PF_7, PF_6, PF_5, PF_4, PF_3, PF_2, PF_1, PF_0};
