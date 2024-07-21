@@ -466,9 +466,12 @@ module decode_TOP(
 
     assign latched_eip_out = latched_EIP;
 
-    regn #(1) BP_alias_reg(.din(BP_alias_in), .ld(valid_out), .clk(clk), .clr(reset), .dout(BP_alias_out));
-    regn #(32) BR_pred_target_reg(.din(BP_BR_pred_target_in), .ld(valid_out), .clk(clk), .clr(reset), .dout(BR_pred_target_out));
-    regn #(1) BR_pred_T_NT_reg(.din(is_BR_T_NT), .ld(valid_out), .clk(clk), .clr(reset), .dout(BR_pred_T_NT_out));
+    assign BR_pred_target_out = BP_BR_pred_target_in;
+    assign BR_pred_T_NT_out = is_BR_T_NT;
+    assign BP_alias_out = BP_alias_in;
+    // regn #(1) BP_alias_reg(.din(BP_alias_in), .ld(valid_out), .clk(clk), .clr(reset), .dout(BP_alias_out));
+    // regn #(32) BR_pred_target_reg(.din(BP_BR_pred_target_in), .ld(valid_out), .clk(clk), .clr(reset), .dout(BR_pred_target_out));
+    // regn #(1) BR_pred_T_NT_reg(.din(is_BR_T_NT), .ld(valid_out), .clk(clk), .clr(reset), .dout(BR_pred_T_NT_out));
 
 
 
