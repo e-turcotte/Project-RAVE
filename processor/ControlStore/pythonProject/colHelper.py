@@ -279,7 +279,7 @@ def CMOVC(row,op,asm):
     row[8] = "3'b000"  # MUX_ADDER_IMM
     row[11] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0100_0000"  # P_OP
     # 18'b000000000_of_df_00_sf_zf_af_pf_cf
-    row[12] = "18'b000000000__0_00_0_0_0_0_0"  # FMASK
+    row[12] = "18'b000000000_0_0_00_0_0_0_0_0"  # FMASK
 
     #version = 0 if "EAX" in row[1] or "AL" in row[1] else 1 if "imm" in row[1] else 2 if "r/m" in asm[1] else 3
     # 1
@@ -1367,7 +1367,7 @@ def RETfar(row,op,asm):
     row[21] = zzz  # R2  - MODRM Base
     row[25] = SS  # S2 - M2 SEG
     row[22] = EBP  # R3 - MODRM Index
-    row[26] = DC  # S3 - FREE
+    row[26] = zzz  # S3 - FREE
     row[23] = ESP  # R4 - FREE
     row[27] = CS  # S4 - CS
 
