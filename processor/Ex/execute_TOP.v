@@ -318,9 +318,9 @@ P_OP List/Numbering
 28	RET
 29	SAL
 30	SAR
-31      STD
-32 	JMPptr
-33  XCHG
+31  STD
+32 JMPptr
+33 XCHG
 34 CALLfar
 35 call ptr
 36 return ptr

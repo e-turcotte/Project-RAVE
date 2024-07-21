@@ -58,6 +58,7 @@ module writeback_TOP(
 
     output final_IE_val,
     output [3:0] final_IE_type,
+    output instr_is_final_WB,
     output halts,
     output halt_flop
     );
@@ -189,6 +190,13 @@ module writeback_TOP(
     and3$ a134 (.out(final_IE_val), .in0(IE_val_almost), .in1(valid_in), .in2(IDTR_is_serciving_inv));
     b4_bitwise_and bro (.out(almost_final_IE_type2), .in0(almost_final_IE_type), .in1( {valid_in, valid_in, valid_in, valid_in} ));
     b4_bitwise_and brobro (.out(final_IE_type), .in0(almost_final_IE_type2), .in1( {IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv} ));  
+
+
+    wire instr_is_final1, instr_is_final2;
+
+    andn #(3) n24 (.out(instr_is_final1), .in ( {P_OP[1:0], valid_in} ));
+    andn #(3) n25 (.out(instr_is_final2), .in ( {P_OP[12], instr_is_IDTR_orig_in, valid_in} ));
+    orn  #(2) n26 (.out(instr_is_final_WB), .in( {instr_is_final1, instr_is_final2} ));
 
 endmodule
 

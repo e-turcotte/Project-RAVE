@@ -106,7 +106,7 @@
         #(CYCLE_TIME)
         #1000
         //interrupt = 1;
-        #3000;
+        #5000;
 
         $finish;
 
@@ -539,8 +539,11 @@
     wire idtr_ptc_clear_out;
     wire IDTR_is_switching;
     wire IDTR_LD_info_regs;
+    wire IDTR_invalidate_fetch_out;
 
     wire IDTR_PTC_clear; //AND with signal to lower PTC_CLEAR out of WB for resteer.
+
+    wire instr_is_IDTR_switch_final_WB;
 
     /////////////////////////////////////////////////////////////////
     //                   offcoreBus inputs/outputs                //
@@ -615,6 +618,7 @@
         .is_resteer(is_resteer_WB_out),
         .is_IRETD(P_OP_EX_WB_latch_out[10]),
         .rrag_stall_in(RrAg_stall_out),
+        .is_final_switch_instr_WB(instr_is_IDTR_switch_final_WB),
     
         .IDTR_packet_out(IDTR_packet_out),
         .packet_out_select(IDTR_packet_select_out),
@@ -624,7 +628,8 @@
         .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
         .is_servicing_IE(is_servicing_IE),
         .is_switching(IDTR_is_switching),
-        .LD_info_regs_out(IDTR_LD_info_regs)
+        .LD_info_regs_out(IDTR_LD_info_regs),
+        .invalidate_fetch_out(IDTR_invalidate_fetch_out)
     );
 
     bp_btb BPstuff(
@@ -685,6 +690,7 @@
         .WB_IE_val(final_IE_val),
         .IDTR_LD_info_regs(IDTR_LD_info_regs),
         .IDTR_is_POP_EFLAGS_in(IDTR_is_POP_EFLAGS),
+        .IDTR_invalidate_fetch(IDTR_invalidate_fetch_out),
 
         .SER_i$_grant_e(grantIE),
         .SER_i$_grant_o(grantIO),
@@ -724,7 +730,6 @@
         .IE_type_out(),
         .instr_is_IDTR_orig(instr_is_IDTR_orig_F_D_latch_in),
         .IDTR_is_POP_EFLAGS_out(IDTR_is_POP_EFLAGS_F_D_latch_in)
-
     );
 
     wire F_D_latch_LD;
@@ -1522,7 +1527,8 @@
 
         .final_IE_val(final_IE_val),
         .final_IE_type(IE_type_WB_out),
-        .halts(halts)
+        .halts(halts),
+        .instr_is_final_WB(instr_is_IDTR_switch_final_WB)
     );
 
    assign final_IE_type[1:0] = IE_type_WB_out[1:0];

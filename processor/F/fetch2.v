@@ -49,6 +49,7 @@ module fetch_2 (
     input wire packet_select,
     input wire WB_IE_val,
     input wire IDTR_LD_info_regs,
+    input wire IDTR_invalidate_fetch,
 
     /////////////////////////////
     //    output signals      //  
@@ -125,7 +126,8 @@ module fetch_2 (
     // inv1$ i93 (.out(IDTR_is_not_switching), .in(IDTR_is_switching));
 
     andn #(2) b23r(.out(packet_out_valid_almost1), .in( {fetch_packet_out_valid, IE_val_inv} ));
-    or2$ o1243(.out(packet_out_valid), .in0(packet_out_valid_almost1), .in1(packet_select));
+    or2$ o1243(.out(packet_out_valid_almost2), .in0(packet_out_valid_almost1), .in1(packet_select));
+    andn #(2) k23 (.out(packet_out_valid), .in( {packet_out_valid_almost2, IDTR_invalidate_fetch} ));
 
     wire [127:0] line_00_reverse, line_01_reverse, line_10_reverse, line_11_reverse;
     reverse_bit_vector_by_bytes rbv0(.in(line_00), .out(line_00_reverse));

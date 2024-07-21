@@ -12,6 +12,7 @@ module IE_handler (
     input is_IRETD,
     input is_resteer,
     input rrag_stall_in,
+    input is_final_switch_instr_WB,
     
     output [127:0] IDTR_packet_out,
     output packet_out_select,           //to mux in fetch2 that picks between IBUFF or IDTR
@@ -21,7 +22,9 @@ module IE_handler (
     output is_POP_EFLAGS,
     output is_servicing_IE,
     output is_switching,                 //indicates that FSM is moving between ISR and normal execution and VV
-    output LD_info_regs_out
+    output LD_info_regs_out,
+    output invalidate_fetch_out
+    
 );
 
 //type encoding:
@@ -58,9 +61,9 @@ module IE_handler (
     wire LD_info_regs;
 
     IDTR_FSM fsm(.clk(clk), .set(1'b1), .reset(reset), .enable(enable), .IE(IE_in), .is_IRETD(is_IRETD), .rrag_stall_in(rrag_stall_in),
-                 .IDTR_packet_select(IDTR_packet_select), .packet_out_select(packet_out_select), .flush_pipe(flush_pipe), 
+                 .is_final_switch_instr_WB(is_final_switch_instr_WB), .IDTR_packet_select(IDTR_packet_select), .packet_out_select(packet_out_select), .flush_pipe(flush_pipe), 
                  .PTC_clear(PTC_clear), .LD_EIP(LD_EIP), .is_POP_EFLAGS(is_POP_EFLAGS), .LD_info_regs(LD_info_regs), 
-                 .servicing_IE(is_servicing_IE), .is_switching(is_switching));
+                 .servicing_IE(is_servicing_IE), .is_switching(is_switching), .invalidate_fetch_out(invalidate_fetch_out));
 
     wire [31:0] IDT_entry_internal, IDT_entry4_internal, EFLAGS_internal, CS_internal, EIP_internal;
     wire is_servicing_IE_not;
@@ -115,6 +118,7 @@ module IDTR_FSM (
     input IE,
     input is_IRETD,
     input rrag_stall_in,
+    input is_final_switch_instr_WB,
 
     output [10:0] IDTR_packet_select,
     output packet_out_select,
@@ -124,7 +128,8 @@ module IDTR_FSM (
     output is_POP_EFLAGS,
     output LD_info_regs,
     output servicing_IE,
-    output is_switching                 //indicates that FSM is moving between ISR and normal execution and VV
+    output is_switching,                 //indicates that FSM is moving between ISR and normal execution and VV
+    output invalidate_fetch_out
 );
 
     wire [3:0] NS, CS, notCS, notNS;
@@ -172,15 +177,16 @@ module IDTR_FSM (
 
     invn #(4) i134 (.out(notNS), .in( {NS} ));
 
-    wire muxsel0, muxsel1, muxsel;
+    wire muxsel0, muxsel1, muxsel2, muxsel;
     
-    andn #(5) wgw235 (.out(muxsel0), .in({ notNS[3:1], NS[1],  rrag_stall_in})); //next state is setup and rrag - allow to change
-    orn #(2) p234 (.out(muxsel1), .in( {rrag_stall_not, muxsel0} ));
+    andn #(5) wgw235 (.out(muxsel0), .in({ notNS[3:1], NS[0],  rrag_stall_in})); //next state is setup and rrag - allow to change
+    orn #(3) p234 (.out(muxsel1), .in( {rrag_stall_not, muxsel0} ));
     //if allowed to move or no rrag stall, allow to move
 
-    inv1$ i1834(.in(muxsel1), .out(muxsel));
+    inv1$ i1834(.in(muxsel1), .out(muxsel2));
+    orn #(2) j7367 (.out(muxsel), .in( {muxsel2, ld_mux_inv} ));
 
-    //1 = stall, move on = 0
+    //sel = 1 = stall, move on = 0
     mux2$ m0(.outb(NS[0]), .in0(NS0), .in1(CS[0]), .s0(muxsel));
     mux2$ m1(.outb(NS[1]), .in0(NS1), .in1(CS[1]), .s0(muxsel));
     mux2$ m2(.outb(NS[2]), .in0(NS2), .in1(CS[2]), .s0(muxsel));
@@ -250,6 +256,27 @@ module IDTR_FSM (
     andn #(.NUM_INPUTS(4)) a42(.out(is_not_switching_1), .in( { CS[3], notCS[2], CS[1:0] } ));
     orn  #(.NUM_INPUTS(2)) o9(.out(is_not_switching), .in( {is_not_switching_0, is_not_switching_1} ));
     inv1$ i9(.out(is_switching), .in(is_not_switching));
+
+    //is_final_switch_state
+    wire switch0, switch1;
+    andn #(4) a43 (.out(switch0), .in( {CS[3], notCS[2], CS[1], notCS[0]} ));
+    andn #(4) a44 (.out(switch1), .in( { CS[3:1], notCS[0] } ));
+    orn  #(.NUM_INPUTS(2)) o9898769(.out(is_final_switch_state), .in(  {switch0, switch1 } ));
+
+    //if (CS = 1010 or 1101 and is_final_switch_instr_WB = 0) then (NS = CS) , (fetch_packet_valid_out = 0)
+
+    wire is_not_final_switch_instr_internal, is_final_switch_instr_internal;
+
+    dff$ d111(.clk(clk_temp), .d(is_final_switch_instr_WB), .q(is_final_switch_instr_internal), .qbar(is_not_final_switch_instr_internal), .r(reset), .s(set));
+    
+    wire ld_mux_inv, ld_mux;
+    andn i44567(.out(ld_mux_inv), .in( {is_final_switch_state, is_not_final_switch_instr_internal} ));
+
+    wire ld_mux_latched;
+    dff$ d112(.clk(clk_temp), .d(ld_mux), .q(ld_mux_latched), .qbar(), .r(reset), .s(set));
+
+    inv1$ g543 (.out(ld_mux), .in(ld_mux_inv));
+    assign invalidate_fetch_out = ld_mux_latched;
 
 endmodule
 
