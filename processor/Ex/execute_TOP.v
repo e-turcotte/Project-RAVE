@@ -266,7 +266,7 @@ module res4Handler(
     or4$ pus(isPush, P_OP_PUSH, P_OP_CALL_NEAR, P_OP_CALL_FAR, P_OP_CALL_PTR );
     or3$ pop(isPop, P_OP_POP, P_OP_RET_FAR, P_OP_RET_PTR);
     or2$ isRET(isRet, P_OP_RET_FAR, P_OP_RET_PTR);
-    and2$ immO(immOVR, isRet, isImm);
+     and2$ immO(immOVR, isRet, isImm);
     or3$ incre(switch, isPush, isPop, P_OP_MOVS);
 
     mux8_n #(32) mx(add3, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], isPush );
