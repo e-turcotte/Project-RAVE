@@ -27,18 +27,24 @@ mux2n #(3) maxmux(cc, {V, ptc_next,d_next},cc_temp,  ptc_clear );
 assign V_new = cc[2];
 assign PTC_new  = cc[1];
 assign D_new = cc[0];
+inv1$ invasdf(ex_bar, ex);
+and2$ a121(ex_r, ex, r);
+and2$ a122(ex_sw, ex, sw);
+and2$ a123(ex_bar_sw, ex_bar, sw);
 
-and4$ a1(EX100r, V, PTC_bar, D_bar, ex & r);//010
-and4$ a420(EX100sw, V, PTC_bar, D_bar, ex & sw);//010
+
+
+and4$ a1(EX100r, V, PTC_bar, D_bar, ex_r);//010
+and4$ a420(EX100sw, V, PTC_bar, D_bar, ex_sw);//010
 and4$ a2(SW000, V_bar, PTC_bar, D_bar, sw); //010
 and4$ a11(R000, V_bar, PTC_bar, D_bar, r); //010
 and4$ a3(WB010, V_bar, PTC, D_bar, wb);//100
 and4$ a4(SW100, V, PTC_bar, D_bar, sw); //110
 and4$ a5(WB110, V, PTC, D_bar, wb);//101
-and4$ a6(SW101, V, PTC_bar, D, sw & !ex); //111
+and4$ a6(SW101, V, PTC_bar, D, ex_bar_sw); //111
 and4$ a7(WB111, V, PTC, D, wb); //101
-and4$ a8(EX101r, V, PTC_bar, D, ex & r); //010
-and4$ a420blazeit(EX101sw, V, PTC_bar, D, ex & sw); //010
+and4$ a8(EX101r, V, PTC_bar, D, ex_r); //010
+and4$ a420blazeit(EX101sw, V, PTC_bar, D, ex_sw); //010
 and4$ a420bi(SW010, V_bar, PTC, D_bar, sw);
 
 and4$ a9(SW111, V, PTC, D, sw);

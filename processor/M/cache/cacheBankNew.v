@@ -99,8 +99,8 @@ wire [7:0] tag_in, tag_read;
 wire[31:0] tag_dump; 
 wire ex_clr, ex_wb, MISS;
 inv1$ inv2(MSHR_MISS,MSHR_HIT);
-
-inv1$ inv1(valid_in_n, valid_in);
+inv1$ inv1(stall_n, stall);
+inv1$ inv12(valid_in_n, valid_in);
 wire valid;
 //nor3$ nor1(valid, valid_in_n,stall, AQ_isEMPTY);
 assign AQ_READ = valid;
@@ -150,13 +150,27 @@ cache_stage1 cs1(.clk(clk),
   .extAddress(extAddress),
   .PCD_IN(PCD_IN)
   );
+inv1$ (ex_clr_n, ex_clr);
+inv1$ (ex_wb_n, ex_wb);
+inv1$ (SER_0FULL_n, SER_0FUL);
+inv1$ (SER_1FULL_n, SER_1FUL);
 
+nand2$ (clr_sr1f, ex_clr, SER_1FULL_n);
+nand2$ (ser1_stall_1, clr_sr1f, ex_clr_n);
 
+nand2$ (clr_sr2f, ex_wb, SER_0FULL_n);
+nand2$ (ser1_stall_2, clr_sr2f, ex_wb_n);
+
+inv1$ (PCD_IN_n, PCD_IN);
+inv1$ (fromBUS_n, fromBUS);
+inv1$ (stall_n, stall);
 //Handle MSHR
 inv1$ msn(MSHR_MISS, MSHR_HIT);
 assign MSHR_pAddress = pAddress;
 and4$ msh(MSHR_alloc_noser, valid_in, rst, MISS, MSHR_MISS); //TODO: was and2$ msh(MSHR_alloc, valid, MISS, MSHR_MISS);  not really sure if I fixed this correctly
+// and4$ mshs(MSHR_alloc,PCD_IN_n, MSHR_alloc_noser, ser1_stall_2, ser1_stall_1);
 and4$ mshs(MSHR_alloc,!PCD_IN, MSHR_alloc_noser, !ex_clr | (ex_clr & !SER1_FULL), !ex_wb | (ex_wb & !SER0_FULL));
+
 assign MSHR_rdsw = sw;
 and3$ mshD(MSHR_dealloc, valid_in, fromBUS, !PCD_IN );
 assign MSHR_ptcid = PTC_ID_IN;
@@ -171,21 +185,27 @@ assign MSHR_ptcid = PTC_ID_IN;
 
 
 //Handle SERDES
+and2$ (PCD_W, PCD_IN, w);
+nand2$ (serval0_1, ex_wb, stall_n);
+
 mux2n #(128) datasel(SER_data0, cache_line, data, PCD_IN);
 mux2n #(15) addressSel(SER_pAddress0, extAddress, pAddress[14:0], PCD_IN);
-or2$ orSER(SER_valid0, ex_wb & !stall, checkVal);
+nand2$ orSER(SER_valid0, serval0_1, serval0_2);
 inv1$ inv123(w_not, w);
-and4$ andwp(checkVal, PCD_IN, w & !fromBUS, valid_in, !stall);
+nand4$ andwp(serval0_2, PCD_W,  fromBUS_n, valid_in, stall_n);
 assign SER_return0 = cache_id;
 assign SER_size0 = 16'h8000;
 mux2n #(1)  cba(SER_rw0, 1'b1, w, PCD_IN);
 mux2n #(4)  abc(SER_dest0,{2'b10,pAddress[5],pAddress[4]}, 4'b1100, PCD_IN);
 
+
+and2$ (PCD_R, PCD_IN, r);
+and2$ (rst_val, rst, valid_in );
 assign SER_pAddress1 = {pAddress[14:0]};
 //assign SER_valid1 = ex_clr;
-nand3$ andSER(SER_valid11, ex_clr, w_not,rst);
-nand4$ andser1(SER_valid12, w_not, PCD_IN & r,rst, valid_in & !stall);
-nand2$ andSER21(SER_valid1, SER_valid11 | stall, SER_valid12 | stall);
+nand4$ andSER(SER_valid11, ex_clr, w_not,rst, stall_n);
+nand4$ andser1(SER_valid12, w_not, PCD_R,rst_val, stall_n);
+nand2$ andSER21(SER_valid1, SER_valid11, SER_valid12);
 assign SER_return1 = cache_id;
 assign SER_size1 = 16'h1000;
 assign SER_rw1 = 1'b0;
@@ -194,7 +214,7 @@ mux2n #(4)  abcde(SER_dest1,{2'b10,pAddress[5],pAddress[4]}, 4'b1100, PCD_IN);
 
 //Handle outputAlign
 // assign EX_valid = valid; 
-and2$ (EX_valid, valid, !MISS);
+and2$ (EX_valid, valid, HIT);
 assign EX_data = cache_line;
 assign EX_vAddress = vAddress;
 assign EX_pAddress = pAddress;

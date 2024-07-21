@@ -83,6 +83,7 @@ and2$ aser1(ser0_stall, SER0_FULL, ex_wb | (PCD_IN & w & !fromBUS));
 //Stall generation
 and4$ a4(stall1, PTC[0], PTC[1], PTC[2], PTC[3]);
 or2$ o1(stall2, ser1_stall, ser0_stall);
+
 or3$ o2(stall_pos, stall1, stall2, MSHR_FULL);
 and3$ a5(stall, stall_pos, MISS, valid_in);
 inv1$ inv2(stalln, stall);
@@ -92,8 +93,8 @@ and2$ valGen(valid_dff, stalln, valid_in);
 //Generate data write:
 inv1$ hit(HIT, MISS);
 nor4$ n1(MISS, HITS[0], HITS[1], HITS[2], HITS[3]);
-and4$ a1(writeData_p, HIT, w, stalln, !PCD_IN);
-inv1$ invWD(writeData, writeData_p);
+nand4$ a1(writeData, HIT, w, stalln, !PCD_IN);
+// inv1$ invWD(writeData, writeData_p);
 
 //Generate tag write
 and3$ wt(writeTag_p, ex_clr, stalln, !PCD_IN);

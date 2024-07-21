@@ -41,13 +41,14 @@ generate
     for(i = 0; i <4; i =  i+1) begin : writeGen
         inv1$ in(way_n[i], way[i]);
         or3$ orin(write[i], w, valid_n, way_n[i]); //TODO:LOOK AT PLZ
-        bufferH16$ b16(w_v[i], write[i]);;
     end
 endgenerate
 generate
     for(i = 0; i <4; i =  i+1) begin : tagGen
+        
+        
         and2$ and123(read[i], R_not,way_n[i]);
-        ram8b4w$ r(.A(index), .DIN(tag_in), .OE(1'b0), .WR(w_v[i]), .DOUT(data[i*8+7: i*8]));
+        ram8b4w$ r(.A(index), .DIN(tag_in), .OE(1'b0), .WR(write[i]), .DOUT(data[i*8+7: i*8]));
         equaln #(8) e(tag_in, data[i*8+7: i*8], hit1[i]);
         and2$ plz(hmm[i], PTC[i], isW);
         or2$ plz2(boabw[i], V[i], hmm[i]);
@@ -60,13 +61,18 @@ endgenerate
     nor4$ nomiss(way_sel_sw_nomiss, hit[0], hit[1], hit[2], hit[3]);
     and2$ swovr(way_sw_ov,way_sel_sw_noptc, way_sel_sw_nomiss);
     mux2n #(4) way_sw_swap(way_sw, way_sw1, way_sw1, way_sw_ov);
-    mux2n #(4) (hit, hit_buf, 4'b0000, ex_miss & !isW | PCD_IN);
+    mux2n #(4) (hit, hit_buf, 4'b0000,hit_sel_fin);
 //Cycle 144
 nor4$ n1(miss, hit[3], hit[2], hit[1], hit[0]);
 
 muxnm_tristate #(4, 8) asb(data, way, tag_out);
 muxnm_tristate #(4, 8) asbc(data, hit, tagData_out_hit);
 
+
+inv1$ asdG(isW_n, isW);
+inv1$ dafx(PCD_n, PCD_IN);
+nand2$ afDSD(exm_isw, isW_n, ex_miss);
+nand2$ asxg(hit_sel_fin, exm_isw, PCD_n);
 // initial begin
 //     $readmemh("cache.init",tagGen[0].r.mem );
 //     $readmemh("cache.init",tagGen[1].r.mem );

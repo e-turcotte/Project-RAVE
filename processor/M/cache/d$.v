@@ -528,6 +528,11 @@ and2$ cwbe4(valO_sw, cancel_sw,validO_sw);
 and2$ cwbe5(valE_wb, cancel_wb,validE_wb);
 and2$ cwbe6(valO_wb, cancel_wb,validO_wb);
 
+and2$ (aq_read_in, stall_n, aq_isempty_n);
+and2$ (rdaq_write, valid_in_r ,aq_stall_n );
+and2$ (swaq_write, valid_in_sw , aq_stall_n);
+
+
 cacheaqsys cacheaqsys_inst (
     .rd_pAddress_e (addressE_r),
     .rd_pAddress_o (addressO_r),
@@ -593,9 +598,9 @@ cacheaqsys cacheaqsys_inst (
     .bus_isempty(bus_isempty),
 
 
-    .read(stall_n & aq_isempty_n),
-    .rd_write(valid_in_r & !aq_stall ),
-    .sw_write(valid_in_sw & !aq_stall),
+    .read(aq_read_in),
+    .rd_write(rdaq_write),
+    .sw_write(swaq_write),
     .wb_write(valid_in_wb),
 
     .clk(clk),
@@ -798,14 +803,14 @@ outputAlign oA (
     .valid_out(valid_out),
     .wake(wake)
 );
-
+and2$ ( mshr_dealloc_e_2,MSHR_dealloc_e , bus_valid_e_nobuf);
 mshr mshrE ( 
     .pAddress(MSHR_pAddress_e),
     .ptcid_in(MSHR_ptcid_e),
     .qentry_slot_in(qslot_$), //TODO:
     .rdsw_in(MSHR_rdsw_e),
     .alloc(MSHR_alloc_e),
-    .dealloc(MSHR_dealloc_e & bus_valid_e_nobuf),
+    .dealloc(mshr_dealloc_e_2),
     .clk(clk),
     .clr(rst),
     .rd_qentry_slots_out(rd_qentry_slots_out_e),
@@ -814,13 +819,14 @@ mshr mshrE (
     .mshr_full(mshr_full_e)
 );
 
+and2$ ( mshr_dealloc_o_2,MSHR_dealloc_o , bus_valid_o_nobuf);
 mshr mshrO ( 
     .pAddress(MSHR_pAddress_o),
     .ptcid_in(MSHR_ptcid_o),
     .qentry_slot_in(qslot_$), //TODO:
     .rdsw_in(MSHR_rdsw_o),
     .alloc(MSHR_alloc_o),
-    .dealloc(MSHR_dealloc_o & bus_valid_o_nobuf),
+    .dealloc(mshr_dealloc_o_2),
     .clk(clk),
     .clr(rst),
     .rd_qentry_slots_out(rd_qentry_slots_out_o),
@@ -828,14 +834,14 @@ mshr mshrO (
     .mshr_hit(mshr_hit_o),
     .mshr_full(mshr_full_o)
 );
-
+and2$ ( mshr_dealloc_io_e,MSHR_dealloc_e_io , bus_valid_e_nobuf);
 mshrio mshrE_io ( 
     .pAddress(MSHR_pAddress_e_io),
     .ptcid_in(MSHR_ptcid_e_io),
     .qentry_slot_in(qslot_$), //TODO:
     .rdsw_in(MSHR_rdsw_e_io),
     .alloc(MSHR_alloc_e_io),
-    .dealloc(MSHR_dealloc_e_io & bus_valid_e_nobuf),
+    .dealloc(mshr_dealloc_io_e),
     .clk(clk),
     .clr(rst),
     .rd_qentry_slots_out(rd_qentry_slots_out_e_io),
@@ -843,14 +849,14 @@ mshrio mshrE_io (
     .mshr_hit(mshr_hit_e_io),
     .mshr_full(mshr_full_e_io)
 );
-
+and2$ ( mshr_dealloc_io_o,MSHR_dealloc_o_io , bus_valid_o_nobuf);
 mshrio mshrO_io ( 
     .pAddress(MSHR_pAddress_o_io),
     .ptcid_in(MSHR_ptcid_o_io),
     .qentry_slot_in(qslot_$), //TODO:
     .rdsw_in(MSHR_rdsw_o_io),
     .alloc(MSHR_alloc_o_io),
-    .dealloc(MSHR_dealloc_o_io & bus_valid_o_nobuf),
+    .dealloc(mshr_dealloc_io_o),
     .clk(clk),
     .clr(rst),
     .rd_qentry_slots_out(rd_qentry_slots_out_o_io),
@@ -1019,11 +1025,12 @@ generate
      for(i = 0; i < 16; i = i + 1) begin : cacheline_bus_in
         wire [3:0] cachelineoffs;
         assign cachelineoffs = i;
-        muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) busemux(.in({1'b1,bus_pAddress_e[14:4],cachelineoffs,16'h0000}), .sel(bus_valid_e_nobuf & bus_valid_e), .out(cacheline_e_bus_in_ptcinfo[(i+1)*16-1:i*16]));
-        muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) busomux(.in({1'b1,bus_pAddress_o[14:4],cachelineoffs,16'h0000}), .sel(bus_valid_o_nobuf & bus_valid_o), .out(cacheline_o_bus_in_ptcinfo[(i+1)*16-1:i*16]));
+        muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) busemux(.in({1'b1,bus_pAddress_e[14:4],cachelineoffs,16'h0000}), .sel(bus_valid_e), .out(cacheline_e_bus_in_ptcinfo[(i+1)*16-1:i*16]));
+        muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(16)) busomux(.in({1'b1,bus_pAddress_o[14:4],cachelineoffs,16'h0000}), .sel(bus_valid_o), .out(cacheline_o_bus_in_ptcinfo[(i+1)*16-1:i*16]));
      end
 endgenerate
-
+    and2$ (bus_valid_even, bus_valid_e_nobuf , bus_valid_e );
+    and2$ (bus_valid_odd, bus_valid_o_nobuf , bus_valid_o );
     assign free_bau_d =    {freeDO, freeDE};
     assign recvDO = setReciever_d[1];
     assign recvDE = setReciever_d[0];
@@ -1045,15 +1052,18 @@ endgenerate
     assign releases_d = {relDEr, relDEw, relDOr, relDOw};
     assign req_d = {reqDEr, reqDEw, reqDOr, reqDOw};
 
+    nand2$ (rdaq_stall, rdaq_isfull, valid_in_r);
+    nand2$ (swaq_stall, swaq_isfull , valid_in_sw);
+    inv1$  (fwd_stall_n, fwd_stall);
 
-
-
-    assign aq_stall = (rdaq_isfull & valid_in_r) | (swaq_isfull & valid_in_sw)  | fwd_stall;
-    or2$ sta(stall, /*cache_stall_e, cache_stall_o*/ 1'b0, (rdaq_isfull & valid_in_r) | (swaq_isfull & valid_in_sw) | fwd_stall);
+    nand3$  (aq_stall, swaq_stall, fwd_stall_n, rdaq_stall);
+    assign stall = aq_stall;
+    inv1$ (aq_stall_n, aq_stall);
     nor2$ nstal(stall_n,  cache_stall_e, cache_stall_o);
     assign PTC_ID_out = PTC_ID_out_e;
     assign data = data_out;
-    and2$ norss(cache_valid,valid_out, !w_$);
+    inv1$ (w_n_cache, w_$);
+    and2$ norss(cache_valid,valid_out, w_n_cache);
  
 // intitial begin
 //   file = $fopen("d_cache.out", "w");
