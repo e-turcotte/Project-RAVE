@@ -762,13 +762,15 @@
 
         .IE_in(IE_F_D_latch_out),
         .IE_type_in(IE_type_F_D_latch_out),
-        .BP_alias_in(BP_alias_F_D_latch_out),
-        .BR_pred_target_in(BR_pred_target_F_D_latch_out),
-        .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_out),
+        // .BP_alias_in(BP_alias_F_D_latch_out),
+        // .BR_pred_target_in(BR_pred_target_F_D_latch_out),
+        // .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_out),
 
         // Signals from BP
         .BP_EIP(BP_EIP_BTB_out),
         .is_BR_T_NT(is_BR_T_NT_BP_out_and_btb_hit),
+        .BP_alias_in(BP_update_alias_out),
+        .BP_BR_pred_target_in(BP_EIP_BTB_out),
     
         // Writeback signals
         .WB_EIP(newEIP_WB_out),
