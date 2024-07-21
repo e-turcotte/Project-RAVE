@@ -1442,7 +1442,7 @@
         .inst_ptcid_in(inst_ptcid_EX_WB_latch_out),
         .set(), .rst(global_reset),
         .latched_latched_EIP_out(latched_latched_eip_WB_out),
-        .latched_latched_latched_EIP_WB_out(latched_latched_latched_eip_WB_out),
+        .latched_latched_latched_EIP_out(latched_latched_latched_eip_WB_out),
 
         .inp1_wb(inp1_wb_EX_WB_latch_out), .inp2_wb(inp2_wb_EX_WB_latch_out), .inp3_wb(inp3_wb_EX_WB_latch_out), .inp4_wb(inp4_wb_EX_WB_latch_out),
         .inp1(inp1_EX_WB_latch_out), .inp2(inp2_EX_WB_latch_out), .inp3(inp3_EX_WB_latch_out), .inp4(inp4_EX_WB_latch_out),
