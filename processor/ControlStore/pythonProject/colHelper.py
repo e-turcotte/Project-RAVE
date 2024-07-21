@@ -1353,13 +1353,14 @@ def CALLptr(row,op,asm):
     return
 def RETfar(row,op,asm):
     # CS
+    version = 0 if "imm" in row[1] else 1
     row[7] = "5'b00100"  # aluk
     row[8] = "3'b000"  # MUX_ADDER_IMM
     row[11] = "37'b1_0000_0000_0000_0000_0000_0000_0000_0000_0000"  # P_OP
     # 18'b000000000_of_df_00_sf_zf_af_pf_cf
     row[12] = "18'b000000000_0_0_00_0_0_0_0_0"  # FMASK
 
-    version = 0 if "imm" in row[1] else 1
+    
 
     # 1
     row[20] = EAX  # R1 - MODRM override
@@ -1390,7 +1391,7 @@ def RETfar(row,op,asm):
     # OP4
     row[31] = R4  # op4_mux
     row[35] = R4  # dest4_mux
-    row[39] = o if version == 0 else z  # op4_wb
+    row[39] = o   # op4_wb
     return
 
 
