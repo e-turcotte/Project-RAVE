@@ -1,5 +1,5 @@
 module IO_top(
-    input clk_bus, 
+    input clk_bus, clk_core,
     set, 
     rst,
 
@@ -57,7 +57,7 @@ module IO_top(
     reg[7:0] data_in_kb;
 
 SER ioSER(
-    .clk_core(),
+    .clk_core(clk_core),
     .clk_bus(clk_bus),
     .rst(rst),
     .set(set),
@@ -81,7 +81,7 @@ SER ioSER(
 DES ioDES(
     .read(read_d),
     .clk_bus(clk_bus),
-    .clk_core(),
+    .clk_core(clk_core),
     .rst(rst),
     .set(set),
     .full(full_d),

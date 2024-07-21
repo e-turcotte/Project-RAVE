@@ -49,11 +49,11 @@ dff$ g1(.clk(clk_bus), .d(state0_in), .q(state[0]), .qbar(), .r(1'b1), .s(rst));
 
 ////////////
 dff$ g1211(.clk(clk_core), .d(full_t), .q(full), .qbar(), .r(rst), .s(1'b1));
-dff$ g12434(.clk(clk_core), .d(free_bau_t), .q(free_bau), .qbar(), .r(1'b1), .s(rst));
+// dff$ g12434(.clk(clk_core), .d(free_bau_t), .q(free_bau), .qbar(), .r(1'b1), .s(rst));
 
 mux2$ sdf(full_t, state[2], state2_in, state2_ld);
-mux2$ asas(free_bau_t, state[0], state0_in, state0_ld);
-
+// mux2$ asas(free_bau_t, state[0], state0_in, state0_ld);
+assign free_bau = state[0];
 // assign full = state[2];
 // assign free_bau = state[0];
 ////////////
@@ -73,7 +73,7 @@ and2$ a2(state1_in, state[0], setReciever);
 nand2$ n4(state1a, size_bus[0], state[1]);
 nand2$ n5(state1_ld, state0a, state1a);
 
-and2$ a3(state2_in, state[1], size_bus[0]);
+ and2$ a3(state2_in, state[1], size_bus[0]);
 nand2$ n2(state2a, state[2], read);
 nand2$ n6(state2_ld, state2a, state1a);
 
