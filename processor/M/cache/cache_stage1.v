@@ -29,7 +29,8 @@ module cache_stage1(
     output valid_out,
 
     output [14:0] extAddress,
-    output read
+    output read,
+    output ex_wb_light
 
 );
 
@@ -60,29 +61,38 @@ regn #(8) r69(.din(tag_read), .ld(1'b1), .clr(rst), .clk(clkn), .dout(tag_read_b
 assign extAddress = {tag_read_buf, index,pAddress_in[4],4'b0};
 wire[3:0] way_sw, way_sw_miss;
 or2$ mvswr(smalls, r, sw); //TODO: Possible i$ d$ change
-nand4$ mvW(meta_validW, smalls, MSHR_MISS, valid_out,rst);
-nand3$ mvR(meta_validR, HIT, valid_out,rst);
-and3$ mvSW(meta_validSW, !MSHR_MISS, rst, sw);
+and2$ (PCDn_r,PCD_IN_n, rst);
+inv1$ (MSHR_HIT, MSHR_MISS);
+nand4$ mvW(meta_validW, smalls, MSHR_MISS, valid_out,PCDn_r);
+nand4$ mvR(meta_validR,PCD_IN_n, HIT, valid_out,rst);
+and3$ mvSW(meta_validSW, MSHR_HIT, rst, sw);
 nand2$  mvVal(meta_validt, meta_validR, meta_validW);
-or2$ plzw(meta_valid, meta_validt, fromBUS & valid_in);
-and4$ plzwrks(handle_wsw, valid_in , sw,rst, stalln & !PCD_IN);
+or2$ plzw(meta_valid, meta_validt,bus_val);
+and3$ (bus_val, fromBUS, valid_in, PCD_IN_n);
+and4$ plzwrks(handle_wsw, sw,rst, stalln , PCD_IN_n);
 nor4$ otherway(way_swap, way_sw[0], way_sw[1], way_sw[2], way_sw[3]);
 mux2n #(4) finalway(way_sw_miss, way_sw, way, way_swap);
 
+inv1$ (tWrite_n, tWrite);
+inv1$ (writeTag_out_n, writeTag_out);
 
-tagStore ts(.PCD_IN(PCD_IN),.ex_miss(ex_miss), .way_sw(way_sw), .isSW(sw), .isW(w), .w_unpulsed((~(~writeTag_out & rst))), .PTC(PTC) ,.tagData_out_hit(tag_hit), .valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(~(~tWrite & rst)), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
-metaStore ms(.ptc_clear(ptc_clear), .way_sw(way_sw_miss),.handle_wsw(handle_wsw),.clk(clk), .r(r), .rst(rst), .set(set), .valid(meta_valid & !PCD_IN), .way(way_out), .index(index), .wb(w), .sw(sw), .ex(ex_clr_buf), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
-wayGeneration wg(.LRU(LRU),.valid_in(valid_in), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid_in), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS2));
+nand2$ (w_unpulsed_ts,writeTag_out_n, rst );
+nand2$ (w_ts, tWrite_n, rst);
+tagStore ts(.PCD_IN(PCD_IN),.ex_miss(ex_miss), .way_sw(way_sw), .isSW(sw), .isW(w), .w_unpulsed((w_unpulsed_ts)), .PTC(PTC) ,.tagData_out_hit(tag_hit), .valid(valid_in), .clk(clk), .r(r), .V(V), .index(index), .way(way), .tag_in(tag_in), .w(w_ts), .tag_out(tag_read), .hit(HITS), .tag_dump(tag_dump));
+metaStore ms(.ptc_clear(ptc_clear), .way_sw(way_sw_miss),.handle_wsw(handle_wsw),.clk(clk), .r(r), .rst(rst), .set(set), .valid(meta_valid ), .way(way_out), .index(index), .wb(w), .sw(sw), .ex(ex_clr_buf), .ID_IN(PTC_ID_IN), .VALID_out(V), .PTC_out(PTC), .DIRTY_out(D), .LRU(LRU));
+wayGeneration wg(.ex_wb_light(ex_wb_light), .LRU(LRU),.valid_in(valid_in), .TAGS(tag_dump), .PTC(PTC), .V(V), .D(D), .HITS(HITS), .index(index), .w(w), .missMSHR(MSHR_MISS),.valid(valid_in), .PCD_in(PCD_IN), .ex_wb(ex_wb), .ex_clr(ex_clr), .stall(stall1), .way(way), .D_out(D_sel), .V_out(V_sel), .PTC_out(PTC_sel), .MISS(MISS2));
 dff$ d69(.clk(clkn), .d(ex_clr), .q(ex_clr_buf),.qbar(), .r(rst), .s(1'b1));
 dff$ d690(.clk(clkn), .d(ex_wb), .q(ex_wb_buf),.qbar(), .r(rst), .s(1'b1));
 and2$ asherwuzhere(ex_miss, clkn, ex_clr_buf);
 
-and2$ aser0(ser1_stall, SER1_FULL, ex_clr);
-and2$ aser1(ser0_stall, SER0_FULL, ex_wb | (PCD_IN & w & !fromBUS));
+inv1$ (fromBUS_n, fromBUS);
+nand4$ aser2(ser0b_stall, SER0_FULL,PCD_IN , w , fromBUS_n);
+nand2$ aser0(ser1_stall, SER1_FULL, ex_clr);
+nand2$ aser1(ser0_stall, SER0_FULL, ex_wb);
 
 //Stall generation
 and4$ a4(stall1, PTC[0], PTC[1], PTC[2], PTC[3]);
-or2$ o1(stall2, ser1_stall, ser0_stall);
+nand3$ o1(stall2, ser1_stall, ser0_stall, ser0b_stall);
 
 or3$ o2(stall_pos, stall1, stall2, MSHR_FULL);
 and3$ a5(stall, stall_pos, MISS, valid_in);
@@ -90,14 +100,15 @@ inv1$ inv2(stalln, stall);
 
 and2$ valGen(valid_dff, stalln, valid_in);
 
+inv1$(PCD_IN_n, PCD_IN);
 //Generate data write:
 inv1$ hit(HIT, MISS);
 nor4$ n1(MISS, HITS[0], HITS[1], HITS[2], HITS[3]);
-nand4$ a1(writeData, HIT, w, stalln, !PCD_IN);
+nand4$ a1(writeData, HIT, w, stalln, PCD_IN_n);
 // inv1$ invWD(writeData, writeData_p);
 
 //Generate tag write
-and3$ wt(writeTag_p, ex_clr, stalln, !PCD_IN);
+and3$ wt(writeTag_p, ex_clr, stalln, PCD_IN_n);
 inv1$ wtn(writeTag, writeTag_p);
 
 //Send to latches

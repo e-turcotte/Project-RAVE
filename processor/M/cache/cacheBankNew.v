@@ -148,12 +148,13 @@ cache_stage1 cs1(.clk(clk),
   .stall(stall),
   .valid_out(valid),
   .extAddress(extAddress),
-  .PCD_IN(PCD_IN)
+  .PCD_IN(PCD_IN),
+  .ex_wb_light(ex_wb_light)
   );
 inv1$ (ex_clr_n, ex_clr);
 inv1$ (ex_wb_n, ex_wb);
-inv1$ (SER_0FULL_n, SER_0FUL);
-inv1$ (SER_1FULL_n, SER_1FUL);
+inv1$ (SER_0FULL_n, SER0_FULL);
+inv1$ (SER_1FULL_n, SER1_FULL);
 
 nand2$ (clr_sr1f, ex_clr, SER_1FULL_n);
 nand2$ (ser1_stall_1, clr_sr1f, ex_clr_n);
@@ -167,18 +168,20 @@ inv1$ (stall_n, stall);
 //Handle MSHR
 inv1$ msn(MSHR_MISS, MSHR_HIT);
 assign MSHR_pAddress = pAddress;
+nand2$ (ex_clr_check, MISS, SER1_FULL);
+nand2$ (ex_wb_check, ex_wb_light, SER0_FULL);
 and4$ msh(MSHR_alloc_noser, valid_in, rst, MISS, MSHR_MISS); //TODO: was and2$ msh(MSHR_alloc, valid, MISS, MSHR_MISS);  not really sure if I fixed this correctly
 // and4$ mshs(MSHR_alloc,PCD_IN_n, MSHR_alloc_noser, ser1_stall_2, ser1_stall_1);
-and4$ mshs(MSHR_alloc,!PCD_IN, MSHR_alloc_noser, !ex_clr | (ex_clr & !SER1_FULL), !ex_wb | (ex_wb & !SER0_FULL));
+and4$ mshs(MSHR_alloc,PCD_IN_n, MSHR_alloc_noser, ex_clr_check,  ex_wb_check);
 
 assign MSHR_rdsw = sw;
-and3$ mshD(MSHR_dealloc, valid_in, fromBUS, !PCD_IN );
+and3$ mshD(MSHR_dealloc, valid_in, fromBUS, PCD_IN_n );
 assign MSHR_ptcid = PTC_ID_IN;
 
 //Handle MSHR_io
 assign MSHR_pAddress_io = pAddress;
-and4$ mshas(MSHR_alloc_noser_io, valid_in, rst, MISS, PCD_IN & r); //TODO: was and2$ msh(MSHR_alloc, valid, MISS, MSHR_MISS);  not really sure if I fixed this correctly
-and4$ mshsas(MSHR_alloc_io, r, MSHR_alloc_noser_io, !ex_clr | (ex_clr & !SER1_FULL), !ex_wb | (ex_wb & !SER0_FULL));
+and4$ mshas(MSHR_alloc_noser_io, valid_in, rst, MISS, PCD_R); //TODO: was and2$ msh(MSHR_alloc, valid, MISS, MSHR_MISS);  not really sure if I fixed this correctly
+and4$ mshsas(MSHR_alloc_io, r, MSHR_alloc_noser_io,  ex_clr_check, ex_wb_check);
 assign MSHR_rdsw_io = sw;
 and3$ mshDas(MSHR_dealloc_io, valid_in, fromBUS, PCD_IN);
 assign MSHR_ptcid = PTC_ID_IN;

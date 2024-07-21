@@ -12,7 +12,8 @@ module wayGeneration(
     output ex_wb, ex_clr, stall, 
     output[3:0] way, 
     output D_out, V_out, PTC_out,
-    output MISS
+    output MISS,
+    output ex_wb_light
 );
 wire HIT; or4$ a1(HIT, HITS[1],HITS[2],HITS[3],HITS[0]);
 wire  MISST; nor4$ o1(MISS,HITS[1],HITS[2],HITS[3],HITS[0] );
@@ -74,4 +75,5 @@ muxnm_tristate #(4,1) mxt3(PTC, way, PTC_out);
 
 and4$ andEx(ex_wb, MISS, missMSHR, D_out, valid_in);
 and3$ andExClr(ex_clr, MISS, missMSHR, valid_in);
+assign ex_wb_light = D_out;
 endmodule
