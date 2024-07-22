@@ -189,11 +189,11 @@ assign MSHR_ptcid = PTC_ID_IN;
 
 
 //Handle SERDES
- and2$ (PCD_W, PCD_IN, w);
+and2$ (PCD_W, PCD_IN, w);
 nand3$ (serval0_1, MISS, ex_wb_light, helper_for_Ser1);
 and3$ help(helper_for_Ser1, MSHR_MISS, valid_in, stall_n);
 mux2n #(128) datasel(SER_data0, cache_line, data, PCD_IN);
-mux2n #(15) addressSel(SER_pAddress0, extAddress, pAddress[14:0], PCD_IN);
+ mux2n #(15) addressSel(SER_pAddress0, extAddress, pAddress[14:0], PCD_IN);
 nand2$ orSER(SER_valid0, serval0_1, serval0_2);
 // and2$ plzwrkrkas(SER_valid0, SER_valid0a, clk_n);
 inv1$ inv123(w_not, w);
