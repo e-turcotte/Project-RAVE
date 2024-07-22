@@ -104,7 +104,6 @@ module execute_TOP(
     assign latched_EIP_out = latched_EIP_in;
     assign is_rep_out = is_rep_in;
     assign res2_wb = res2_ld_in;
-    assign res1_wb = res1_ld_in;
     wire swapCXC; 
     wire[63:0] res2_xchg;
     wire gBR;
