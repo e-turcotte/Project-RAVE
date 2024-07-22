@@ -13,7 +13,7 @@ module EFLAG(
     input[17:0] FMASK,
     input cc_inval,
     input [1:0] P_OP,
-    input [17:0] OP2,
+    input [17:0] OP1,
     input is_resteer,
     input valid_wb
 );
@@ -38,7 +38,7 @@ and3$ asdasfd(isIRET, P_OP[1], P_OP[0], val);
 for(i = 0; i < 18; i = i + 1) begin : ef
     and2$ a(FMASK_v[i], val_n,FMASK[i]);
     dff$ d(clk, cc_new[i], cc_out[i], cc_not[i], rst, set);
-    mux4$ m(cc_new2[i], cc_out[i], cc_in[i], OP2[i], OP2[2], FMASK_v[i], isIRET);
+    mux4$ m(cc_new2[i], cc_out[i], cc_in[i], OP1[i], OP1[2], FMASK_v[i], isIRET);
     mux2$ m2(cc_new[i], cc_new2[i], cc_old[i], is_resteer);
 end
     
