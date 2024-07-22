@@ -171,8 +171,8 @@ muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(28)) msdf1(.in({ctrl_flow_addr, addr_plu
 kogeAdder #(.WIDTH(32)) a0(.SUM(addr_plus_2), .COUT(), .A({4'b0000, output_addr}), .B(32'd2), .CIN(1'b0));
 regn_with_set_lsb_FIP #(.PARITY(PARITY), .WIDTH(28)) r0(.din(FIP_reg_data_in), .ld(ld_FIP_reg), .clr(clr_FIP_reg), .clk(clk), .dout(FIP_reg_data_out));
 
-muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(28)) m1(.in({ctrl_flow_addr, FIP_reg_data_out}), .sel(is_ctrl_flow), .out(output_addr));
-    
+// muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(28)) m1(.in({ctrl_flow_addr, FIP_reg_data_out}), .sel(is_ctrl_flow), .out(output_addr));
+assign output_addr = FIP_reg_data_out;
 endmodule
 
 
