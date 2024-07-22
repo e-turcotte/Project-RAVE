@@ -34,6 +34,7 @@ module RrAg_MEM_latch (
         input [31:0]  latched_eip_in,
         input         IE_in,
         input [3:0]   IE_type_in,
+        input         instr_is_IDTR_orig_in,
         input [31:0]  BR_pred_target_in,
         input         BR_pred_T_NT_in,
         input [5:0]   BP_alias_in, 
@@ -69,6 +70,7 @@ module RrAg_MEM_latch (
         output [31:0]  latched_eip_out,       
         output         IE_out,
         output [3:0]   IE_type_out,
+        output         instr_is_IDTR_orig_out,
         output [31:0]  BR_pred_target_out,
         output         BR_pred_T_NT_out,
         output [5:0]   BP_alias_out
@@ -149,9 +151,10 @@ module RrAg_MEM_latch (
     regn #(.WIDTH(32))  r63 (.din(latched_eip_in), .ld(ld), .clr(clr), .clk(clk), .dout(latched_eip_out));
     regn #(.WIDTH(1))   r64 (.din(IE_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_out));
     regn #(.WIDTH(4))   r65 (.din(IE_type_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_type_out));
-    regn #(.WIDTH(32))  r66 (.din(BR_pred_target_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_target_out));
-    regn #(.WIDTH(1))   r67 (.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
-    regn #(.WIDTH(6))   r68 (.din(BP_alias_in), .ld(ld), .clr(clr), .clk(clk), .dout(BP_alias_out));
+    regn #(.WIDTH(1))   r66 (.din(instr_is_IDTR_orig_in), .ld(ld), .clr(clr), .clk(clk), .dout(instr_is_IDTR_orig_out));
+    regn #(.WIDTH(32))  r67 (.din(BR_pred_target_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_target_out));
+    regn #(.WIDTH(1))   r68 (.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
+    regn #(.WIDTH(6))   r69 (.din(BP_alias_in), .ld(ld), .clr(clr), .clk(clk), .dout(BP_alias_out));
  
     always @(posedge clk) begin
         $fdisplay(file, "cycle number: %d", cyc_cnt);
@@ -225,6 +228,7 @@ module RrAg_MEM_latch (
         $fdisplay(file, "\t\t latched_EIP: 0x%h", latched_eip_out);
         $fdisplay(file, "\t\t IE: %b", IE_out);
         $fdisplay(file, "\t\t IE_type: %b", IE_type_out);
+        $fdisplay(file, "\t\t instr_is_IDTR_orig: %b", instr_is_IDTR_orig_out); 
         $fdisplay(file, "\t\t BR_pred_target: 0x%h", BR_pred_target_out);
         $fdisplay(file, "\t\t BR_pred_T_NT: %h", BR_pred_T_NT_out);
         $fdisplay(file, "\t\t BP_alias: %h", BP_alias_out);

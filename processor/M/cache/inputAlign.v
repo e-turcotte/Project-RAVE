@@ -60,18 +60,19 @@ assign valid0as = valid_in; assign fromBUS0 = fromBUS; assign fromBUS1 = fromBUS
 bufferH256$ b12(fromMEM, fromBUS);
 inv1$ asa(PCD_not,PCD_out);
 wire[3:0] shift0_enc;
-// and2$ asv(valid0, valid_in, PCD_not);
+// // and2$ asv(valid0, valid_in, PCD_not);
 //valid0 = valid_in & !(sw & PCD)
 nand2$ asfsa(sw_pcd_skip, sw, PCD_out0);
-and2$ asfafs(valid0, valid_in, sw_pcd_skip);
+and3$ asfafs(valid0, valid_in, sw_pcd_skip, skip_bad_node);//valid0 = valid_in & !(sw & PCD)
 //Adr + x10
+nor2$ skip_bad(skip_bad_node, protection_exception, TLB_miss);
 kogeAdder #(32) a1(vAddress1, dc, address_in, 32'h0000_0010, 1'b0);
 
 //Calc Size1
 wire[3:0] size0_n;
 wire[3:0] addRes;
 assign size1 = addRes[1:0];
-and2$ a5(valid1, valid1_t, valid_in );
+and2$ a5(valid1, valid1_t, valid0 );
 wire[3:0] sizeAdd, sizeAdd2;
 mux4n #(4) mxn4(sizeAdd[3:0], 4'h1, 4'h2,4'h4, 4'h8, size_in[0], size_in[1]);
 mux4n #(4) mxn5(sizeAdd2[3:0], 4'h0, 4'h1,4'h3, 4'h7, size_in[0], size_in[1]);
@@ -98,8 +99,8 @@ inv1$ in3(size1_n[3], addRes[3]);
 kogeAdder #(4) ad2(shift2[3:0], dc1, sizeAdd, size1_n, 1'b1);
 wire[19:0] tlb0, tlb1;
 //TLB Handler
-TLB t1(clk, vAddress0, w,valid_in, VP, PF,entry_V, entry_P, entry_RW, entry_PCD, tlb0, PCD_out0, miss0, hit0, prot_except0 );
-TLB t2(clk, vAddress1, w,valid1, VP, PF, entry_V, entry_P, entry_RW, entry_PCD, tlb1, PCD_out1, miss1, hit1,  prot_except1);
+TLB t1(clk, vAddress0, sw ,valid_in, VP, PF,entry_V, entry_P, entry_RW, entry_PCD, tlb0, PCD_out0, miss0, hit0, prot_except0 );
+TLB t2(clk, vAddress1, sw,valid1, VP, PF, entry_V, entry_P, entry_RW, entry_PCD, tlb1, PCD_out1, miss1, hit1,  prot_except1);
 or2$ a0(TLB_miss, miss0, miss1);
 or2$ a2(protection_exception,prot_except1 , prot_except0);
 and2$ a3(TLB_hit, hit0, hit1);

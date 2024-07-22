@@ -121,14 +121,15 @@ module seg (input [15:0] base_in,
     regn #(.WIDTH(16)) base(.din(base_in), .ld(ld), .clr(clr), .clk(clk), .dout(base_out));
     regn #(.WIDTH(20)) lim(.din(lim_in), .ld(invclr), .clr(1'b1), .clk(clk), .dout(lim_out));
 
-    wire clearptc, ptcld, clr_ptc_signal;
+    wire ptcmatch, clearptc, ptcld, clr_ptc_signal;
     wire v;
     wire [6:0] id;
 
     regn #(.WIDTH(7)) ptcid(.din(new_ptcid), .ld(dest), .clr(clr), .clk(clk), .dout(id));
-    equaln #(.WIDTH(7)) eq0(.a(data_ptcid), .b(id), .eq(clearptc));
-    or2$ g1(.out(ptcld), .in0(dest), .in1(clearptc));
-    and2$ g2(.out(clr_ptc_signal), .in0(clr), .in1(ptcclr));
+    equaln #(.WIDTH(7)) eq0(.a(data_ptcid), .b(id), .eq(ptcmatch));
+    and2$ g1(.out(clearptc), .in0(ptcmatch), .in1(ld));
+    or2$ g2(.out(ptcld), .in0(dest), .in1(clearptc));
+    and2$ g3(.out(clr_ptc_signal), .in0(clr), .in1(ptcclr));
     regn #(.WIDTH(1)) ptcv(.din(dest), .ld(ptcld), .clr(clr_ptc_signal), .clk(clk), .dout(v));
     assign ptc_out = {1'b0,v,id,1'b1,loc,3'b001,
                       1'b0,v,id,1'b1,loc,3'b000};

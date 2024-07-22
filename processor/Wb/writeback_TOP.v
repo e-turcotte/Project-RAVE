@@ -6,6 +6,7 @@ module writeback_TOP(
     input [31:0] latched_EIP_in,
     input IE_in,                           //interrupt or exception signal
     input [3:0] IE_type_in,
+    input instr_is_IDTR_orig_in,
     input [31:0] BR_pred_target_in,
     input BR_pred_T_NT_in,
     input [5:0] BP_alias_in,
@@ -29,6 +30,7 @@ module writeback_TOP(
     input [36:0] P_OP,
 
     input interrupt_in,
+    input IDTR_is_serciving_IE,
 
     input wbaq_full, is_rep,
 
@@ -56,6 +58,7 @@ module writeback_TOP(
 
     output final_IE_val,
     output [3:0] final_IE_type,
+    output instr_is_final_WB,
     output halts,
     output halt_flop
     );
@@ -89,10 +92,10 @@ module writeback_TOP(
     muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(32)) t2(.in({inp4_dest,inp3_dest,inp2_dest,inp1_dest}), .sel(partialmem_ld), .out(mem_addr));
     nor4$ gasdasd(.out(usenormalopsize), .in0(memsizeOVR_in[0]), .in1(memsizeOVR_in[1]), .in2(memsizeOVR_in[2]), .in3(memsizeOVR_in[3]));
     muxnm_tristate #(.NUM_INPUTS(6), .DATA_WIDTH(2)) mfcvgbhnj(.in({inpsize,2'b11,2'b11,2'b10,2'b01,2'b00}), .sel({usenormalopsize,LD_EIP_CS,memsizeOVR_in}), .out(memsize));
-    and3$ memg104(.out(partialmem_ld[3]), .in0(inp4_isMem), .in1(valid_out), .in2(inp4_wb));
-    and3$ memg105(.out(partialmem_ld[2]), .in0(inp3_isMem), .in1(valid_out), .in2(inp3_wb));
-    and3$ memg106(.out(partialmem_ld[1]), .in0(inp2_isMem), .in1(valid_out), .in2(inp2_wb));
-    and3$ memg107(.out(partialmem_ld[0]), .in0(inp1_isMem), .in1(valid_out), .in2(inp1_wb));
+    and3$ memg104(.out(partialmem_ld[3]), .in0(inp4_isMem), .in1(valid_in), .in2(inp4_wb));
+    and3$ memg105(.out(partialmem_ld[2]), .in0(inp3_isMem), .in1(valid_in), .in2(inp3_wb));
+    and3$ memg106(.out(partialmem_ld[1]), .in0(inp2_isMem), .in1(valid_in), .in2(inp2_wb));
+    and3$ memg107(.out(partialmem_ld[0]), .in0(inp1_isMem), .in1(valid_in), .in2(inp1_wb));
     or4$ memg108(.out(mem_ld), .in0(partialmem_ld[0]), .in1(partialmem_ld[1]), .in2(partialmem_ld[2]), .in3(partialmem_ld[3]));
 
     wire [127:0] sreg_ptcs [0:3];
@@ -164,17 +167,50 @@ module writeback_TOP(
     assign WB_BP_update_alias = BP_alias_in;
 
     wire invstall;
-
+    wire IE_val_almost, IE_val_inv;
+    
     and2$ a94(.out(stall), .in0(wbaq_full), .in1(mem_ld)); 
-    wire invstall0, invstall1;
+
     inv1$ i92(.out(invstall), .in(stall));
 
-    and2$ asd(.out(valid_out), .in0(valid_in), .in1(invstall));
+    wire [3:0] almost_final_IE_type, almost_final_IE_type2;
+    assign almost_final_IE_type[2:0] = IE_type_in[2:0];
+    assign almost_final_IE_type[3] = interrupt_in;
+    or2$ o4(.out(IE_val_almost), .in0(IE_in), .in1(interrupt_in));
 
-    assign final_IE_type[2:0] = IE_type_in[2:0]; //TODO: Rohan's IE stuff
-    assign final_IE_type[3] = interrupt_in;
-    or2$ o4(.out(final_IE_val), .in0(IE_in), .in1(interrupt_in));
+    wire IDTR_is_serciving_inv;
+    
+    inv1$ i123(.out(IE_val_inv), .in(IE_val_almost));
+    inv1$ i321(.out(IDTR_is_serciving_inv), .in(IDTR_is_serciving_IE));
 
-    //TODO: Send final IE signal to stall/flush all stages and send final IE_type to exception handling in Fetch 2
+    wire valid_out_1, valid_out_2;
+    andn #(3) asd(.out(valid_out_1), .in( {valid_in, invstall, IE_val_inv} ));
+    andn #(2) weg(.out(valid_out_2), .in( {instr_is_IDTR_orig_in, valid_in } ));
+    orn #(2) p234 (.out(valid_out), .in ( {valid_out_1, valid_out_2} ));
+
+    and3$ a134 (.out(final_IE_val), .in0(IE_val_almost), .in1(valid_in), .in2(IDTR_is_serciving_inv));
+    b4_bitwise_and bro (.out(almost_final_IE_type2), .in0(almost_final_IE_type), .in1( {valid_in, valid_in, valid_in, valid_in} ));
+    b4_bitwise_and brobro (.out(final_IE_type), .in0(almost_final_IE_type2), .in1( {IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv} ));  
+
+
+    wire instr_is_final1, instr_is_final2, instr_is_final3;
+
+    //andn #(3) n24 (.out(instr_is_final1), .in ( {P_OP[1:0], valid_in} ));
+    andn #(3) n25 (.out(instr_is_final1), .in ( {P_OP[12], instr_is_IDTR_orig_in, valid_in} )); //jmp
+    andn #(3) n29 (.out(instr_is_final2), .in ( {P_OP[36], instr_is_IDTR_orig_in, valid_in} )); //ret far
+    orn  #(2) n26 (.out(instr_is_final_WB), .in( {instr_is_final1, instr_is_final2 /*, instr_is_final3 */ } ));
+
+endmodule
+
+module b4_bitwise_and(
+    input  [3:0] in0,
+    input  [3:0] in1,
+    output [3:0] out
+);
+
+    and2$ a400(.out(out[0]), .in0(in0[0]), .in1(in1[0]));
+    and2$ a401(.out(out[1]), .in0(in0[1]), .in1(in1[1]));
+    and2$ a402(.out(out[2]), .in0(in0[2]), .in1(in1[2]));
+    and2$ a403(.out(out[3]), .in0(in0[3]), .in1(in1[3]));
 
 endmodule

@@ -1,10 +1,10 @@
-module stall_logic_tb;
+module IE_logic_tb;
 
     reg tlb_miss, interrupt_status, instruction_is_div;
     reg [31:0] read_address_size, divisor_operand;
     reg [20:0] seg_size;
-    wire [3:0] stall_type;
-    wire stall;
+    wire [3:0] IE_type;
+    wire IE;
 
 localparam cycle_time = 20;
 
@@ -83,8 +83,8 @@ initial
 		$display("\t instruction_is_div = %0h", instruction_is_div);
 
 		$display("outputs:");
-		$display("\tstall_type= %0h", stall_type);
-		$display("\tstall = %0h", stall);
+		$display("\tIE_type= %0h", IE_type);
+		$display("\tIE = %0h", IE);
 
 		$display("---------------------------------------\n");
 	end
@@ -95,12 +95,12 @@ initial
    // Dump all waveforms to decode_prefix.dump.vpd
    initial
       begin
-	 $vcdplusfile("stall_logic.dump.vpd");
-	 $vcdpluson(0, stall_logic_tb); 
+	 $vcdplusfile("IE_logic.dump.vpd");
+	 $vcdpluson(0, IE_logic_tb); 
       end // initial begin
 
 	
-	stall_logic (.tlb_miss(tlb_miss), .interrupt_status(interrupt_status), .read_address_size(read_address_size),
+	IE_logic (.tlb_miss(tlb_miss), .interrupt_status(interrupt_status), .read_address_size(read_address_size),
 		     .seg_size(seg_size), .divisor_operand(divisor_operand), .instruction_is_div(instruction_is_div),
-		     .stall_type(stall_type), .stall(stall));
+		     .IE_type(IE_type), .IE(IE));
 endmodule

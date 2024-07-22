@@ -47,6 +47,9 @@ module fetch_2 (
 
     input wire [127:0] IDTR_packet,
     input wire packet_select,
+    input wire WB_IE_val,
+    input wire IDTR_LD_info_regs,
+    input wire IDTR_invalidate_fetch,
 
     /////////////////////////////
     //    output signals      //  
@@ -89,26 +92,50 @@ module fetch_2 (
         .out(mux_BIP_to_load)
     );
 
-    wire not_stall, ld_BIP;
+    wire not_stall, ld_BIP_no_override, ld_BIP;
     inv1$ i3(.in(stall), .out(not_stall));
     wire packet_out_valid_latched;
+    wire ld_BIP_override, not_IDTR_invalidate_fetch;
+    inv1$ idfsd4(.in(IDTR_invalidate_fetch), .out(not_IDTR_invalidate_fetch));
+
+    andn #(2) asdfs2(.in({is_resteer, not_IDTR_invalidate_fetch}), .out(ld_BIP_override));
+
     regn #(.WIDTH(1)) scrappy_fix_to_get_delayed_valid_for_decode_so_i_dont_have_to_refactor(.din(packet_out_valid), 
                                                                 .ld(not_stall), .clk(clk), .clr(reset), .dout(packet_out_valid_latched));
 
-    andn #(2) a2(.in({not_stall, packet_out_valid_latched}), .out(ld_BIP));
+    andn #(2) a2(.in({not_stall, packet_out_valid_latched}), .out(ld_BIP_no_override));
+
+    orn #(2) sdfo1(.out(ld_BIP), .in({ld_BIP_no_override, ld_BIP_override}));
     
     regn #(.WIDTH(6)) BIP_reg(.din(mux_BIP_to_load), .ld(ld_BIP), .clk(clk), .clr(reset), .dout(latched_BIP));
 
     kogeAdder #(.WIDTH(8)) a4(.A({2'b0, latched_BIP}), .B({D_length}), .CIN(1'b0), .SUM(BIP_plus_length), .COUT());
 
+    wire fetch_packet_out_valid, packet_out_valid_almost1, packet_out_valid_almost2, packet_out_valid_almost3, IE_val_inv;
     check_valid_rotate cvr(
         .curr_line(BIP_plus_length[5:4]),
         .valid_00(line_00_valid),
         .valid_01(line_01_valid),
         .valid_10(line_10_valid),
         .valid_11(line_11_valid),
-        .valid_rotate(packet_out_valid)
+        .valid_rotate(fetch_packet_out_valid)
     );
+    
+    inv1$ i1324 (.out(IE_val_inv), .in(WB_IE_val));
+
+    // wire top_byte_is0, top_byte_is_not0;
+    // equaln #(8) nibble0 (.a(8'b0), .b(packet_IBuff_out[127:120]), .eq(top_byte_is0));
+    // inv1$ i235 (.out(top_byte_is_not0), .in(top_byte_is0));
+     
+    // wire IDTR_LD_info_regs_inv, IDTR_is_switching, IDTR_is_not_switching;
+    // inv1$ i235 (.out(IDTR_LD_info_regs_inv), .in(IDTR_LD_info_regs));
+    // andn #(2) a234 (.out(IDTR_is_switching), .in({IDTR_LD_info_regs_inv, WB_IE_val})); //IE seen but IDTR fsm hasn't kicked in yet - ibuff invalid
+    // inv1$ i93 (.out(IDTR_is_not_switching), .in(IDTR_is_switching));
+
+    andn #(2) b23r(.out(packet_out_valid_almost1), .in( {fetch_packet_out_valid, IE_val_inv} ));
+    or2$ o1243(.out(packet_out_valid_almost2), .in0(packet_out_valid_almost1), .in1(packet_select));
+    andn #(2) k23 (.out(packet_out_valid), .in( {packet_out_valid_almost2, IDTR_invalidate_fetch} ));
+    // orn #(2) lasjfhl(.out(packet_out_valid), .in({packet_out_valid_almost3, is_resteer})); //for the jump within the switching service routine;
 
     wire [127:0] line_00_reverse, line_01_reverse, line_10_reverse, line_11_reverse;
     reverse_bit_vector_by_bytes rbv0(.in(line_00), .out(line_00_reverse));
@@ -125,13 +152,14 @@ module fetch_2 (
         .length_to_rotate(BIP_plus_length[5:0]),
         .line_out(packet_IBuff_out)
     );
-    assign packet_out = packet_IBuff_out;
+    //assign packet_out = packet_IBuff_out;
 
-    // muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(128)) m2(
-    //     .in({IDTR_packet, packet_IBuff_out}), 
-    //     .sel(packet_select), 
-    //     .out(packet_out)
-    // );
+
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(128)) m2(
+        .in({IDTR_packet, packet_IBuff_out}), 
+        .sel(packet_select), 
+        .out(packet_out)
+    );
 
     assign old_BIP = latched_BIP;
     assign new_BIP = BIP_plus_length[5:0];

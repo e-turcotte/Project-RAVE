@@ -34,6 +34,7 @@ module TLB(
     endgenerate
     
     wire entry_v_out, entry_p_out, entry_rw_out, entry_PCD_out;
+    wire entry_rw_out_inv;
     //mux out the PF, V, P, RW
     muxnm_tristate #(.NUM_INPUTS(8), .DATA_WIDTH(20)) PF_out_mux(.in(PF), .sel(is_eq), .out(PF_out));
     
@@ -44,12 +45,14 @@ module TLB(
 
     wire hit_gen, miss_gen, present_valid, RW_match, is_mem_request_inv, RW_match_inv, hit_gen2;
     inv1$ i1(.out(is_mem_request_inv), .in(is_mem_request));
-    inv1$ i2(.out(RW_match_inv), .in(RW_match));
+    inv1$ i2(.out(RW_match), .in(RW_match_inv));
 
     equaln #(.WIDTH(8)) is_miss_eqn(.a(is_eq), .b(8'h0), .eq(miss_gen)); //out will be 0 if any of the tags match
     inv1$ i0(.out(hit_gen), .in(miss_gen));
 
-    xnor2$ x0(.out(RW_match), .in0(entry_rw_out), .in1(RW_in)); //will be 1 if they match
+    inv1$ i124(.out(entry_rw_out_inv), .in(entry_rw_out));
+
+    and2$ x0(.out(RW_match_inv), .in0(entry_rw_out_inv), .in1(RW_in)); //will be 1 if there is a prot
     and2$ a0(.out(present_valid), .in0(entry_v_out), .in1(entry_p_out)); //if entry_v_out and entry_p_out are both 1
 
     and2$ a1(.out(hit_gen2), .in0(hit_gen), .in1(present_valid));

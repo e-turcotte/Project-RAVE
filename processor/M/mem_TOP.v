@@ -58,6 +58,7 @@ module mem (input valid_in,
             input [31:0] latched_eip_in,
             input IE_in,
             input [3:0] IE_type_in,
+            input       instr_is_IDTR_orig_in,
             input [31:0] BR_pred_target_in,
             input BR_pred_T_NT_in,
             input [5:0] BP_alias_in,
@@ -72,6 +73,7 @@ module mem (input valid_in,
             output [31:0] latched_eip_out,
             output IE_out,
             output [3:0] IE_type_out,
+            output       instr_is_IDTR_orig_out,
             output [31:0] BR_pred_target_out,
             output BR_pred_T_NT_out,
             output [5:0] BP_alias_out,
@@ -119,15 +121,21 @@ module mem (input valid_in,
 
     wire [127:0] data_out;
     wire [1:0] size_to_use;
-    wire usenormalopsize;
+    wire usenormalopsize, ispush;
+    wire [31:0] pushdecamnt, stackptrpostpush, realmem2;
 
     nor4$ gasdasd(.out(usenormalopsize), .in0(memsizeOVR_in[0]), .in1(memsizeOVR_in[1]), .in2(memsizeOVR_in[2]), .in3(memsizeOVR_in[3]));
     muxnm_tristate #(.NUM_INPUTS(5), .DATA_WIDTH(2)) mfcvgbhnj(.in({opsize_in,2'b11,2'b10,2'b01,2'b00}), .sel({usenormalopsize,memsizeOVR_in}), .out(size_to_use));
 
+    muxnm_tree #(.SEL_WIDTH(2), .DATA_WIDTH(32)) mpush0(.in({32'hffff_fff8,32'hffff_fffc,32'hffff_fffe,32'hffff_ffff}), .sel(size_to_use), .out(pushdecamnt));
+    kogeAdder #(.WIDTH(32)) addpush(.SUM(stackptrpostpush), .COUT(), .A(mem_addr2), .B(pushdecamnt), .CIN(1'b0));
+    or4$ gpush(.out(ispush), .in0(p_op_in[35]), .in1(p_op_in[34]), .in2(p_op_in[3]), .in3(p_op_in[26]));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) mpush1(.in({stackptrpostpush,mem_addr2}), .sel(ispush), .out(realmem2));
+
     d$ dcache(.clk(clk_ng), .clk_bus(clk_bus), .rst(clr), .set(1'b1), .BUS(BUS),
               .latched_eip_mem_$(latched_eip_in), .latched_ptcid_mem_$(inst_ptcid_in),
               .setReciever_d(setReceiver_d), .free_bau_d(free_bau_d), .grant_d(grant_d), .ack_d(ack_d), .releases_d(releases_d), .req_d(req_d), .dest_d(dest_d),
-              .data_m1(), .data_m2(), .M1(mem_addr1), .M2(mem_addr2), .M1_RW(mem1_rw), .M2_RW(mem2_rw),
+              .data_m1(), .data_m2(), .M1(mem_addr1), .M2(realmem2), .M1_RW(mem1_rw), .M2_RW(mem2_rw),
               .opsize(size_to_use), .valid_RSW(valid_in), .fwd_stall(fwd_stall), .sizeOVR(1'b0), .PTC_ID_in(inst_ptcid_in), .qentry_slot_in(qentry_slot_in), .r_is_m1(r_is_m1), .sw_is_m1(sw_is_m1),
               .TLB_miss_wb(), .TLB_pe_wb(), .TLB_hit_wb(),
               .TLB_miss_r(), .TLB_pe_r(), .TLB_hit_r(),
@@ -148,11 +156,18 @@ module mem (input valid_in,
 
     assign cache_data_out = data_out[63:0]; //TODO: why is data out 128bits
 
-    wire invstall;
+    wire guarded_fwd_stall;
+    wire invstall, valid_in_inv;
 
-    or2$ g1(.out(stall), .in0(cache_stall), .in1(fwd_stall));
+    and2$ gfwd(.out(guarded_fwd_stall), .in0(fwd_stall), .in1(valid_in));
+    or2$ g1(.out(stall), .in0(cache_stall), .in1(guarded_fwd_stall));
     inv1$ g2(.out(invstall), .in(stall));
     and2$ g3(.out(valid_out), .in0(valid_in), .in1(invstall));
+    inv1$ g678(.out(valid_in_inv), .in(valid_in));
+
+    wire mem1_is_access, mem2_is_access;
+    orn #(2) yur(.in({mem1_rw}), .out(mem1_is_access));
+    orn #(2) yurr(.in({mem2_rw}), .out(mem2_is_access));
 
     wire [127:0] m1_ptc, m2_ptc;
 
@@ -166,7 +181,7 @@ module mem (input valid_in,
               .seg1_addr(seg1_orig), .seg2_addr(seg2_orig), .seg3_addr(seg3_orig), .seg4_addr(seg4_orig),
               .seg1_ptc(ptc_s1), .seg2_ptc(ptc_s2), .seg3_ptc(ptc_s3), .seg4_ptc(ptc_s4),
               .mem1_data(64'h0000000000000000), .mem2_data(64'h0000000000000000),
-              .mem1_addr(mem_addr1), .mem2_addr(mem_addr2),
+              .mem1_addr(mem_addr1), .mem2_addr(realmem2),
               .mem1_ptc(m1_ptc), .mem2_ptc(m2_ptc),
               .eip_data(eip_in), .imm(imm),
               .op1_mux(op1_sel), .op2_mux(op2_sel), .op3_mux(op3_sel), .op4_mux(op4_sel),
@@ -177,11 +192,25 @@ module mem (input valid_in,
               .dest1_ptcinfo(dest1_ptcinfo), .dest2_ptcinfo(dest2_ptcinfo), .dest3_ptcinfo(dest3_ptcinfo), .dest4_ptcinfo(dest4_ptcinfo),
               .dest1_type({dest1_is_mem,dest1_is_seg,dest1_is_reg}), .dest2_type({dest2_is_mem,dest2_is_seg,dest2_is_reg}), .dest3_type({dest3_is_mem,dest3_is_seg,dest3_is_reg}), .dest4_type({dest4_is_mem,dest4_is_seg,dest4_is_reg}));
     
-    //TODO:
-    //or2$ g1(.out(IE_type_out[0]), .in0(prot_seg), .in1(TLB_prot));                        //update protection exception
-    //assign IE_type_out[1] = TLB_miss;                                                   //update page fault exception
-    //assign IE_type_out[3:2] = IE_type_in[3:2];                                          //pass along
-    //or4$ g2(.out(IE_out), .in1(IE_in), .in2(prot_seg), .in3(TLB_miss), .in4(TLB_prot));   //update IE_out
+    wire prot_seg1, prot_seg2, prot_seg1_almost, prot_seg2_almost, prot_seg;
+
+    seg_lim_exception_logic segcheck1(.read_address_end_size(mem_addr1_end), .seg_size(seg1_lim), .seg_lim_exception(prot_seg1_almost));
+    seg_lim_exception_logic segcheck2(.read_address_end_size(mem_addr2_end), .seg_size(seg2_lim), .seg_lim_exception(prot_seg2_almost));
+    
+    andn #(2) seglim_ismem1 (.in( {prot_seg1_almost, mem1_is_access} ), .out(prot_seg1));
+    andn #(2) seglim_ismem2 (.in( {prot_seg2_almost, mem2_is_access} ), .out(prot_seg2));
+
+    or2$ seg_or(.out(prot_seg), .in0(prot_seg1), .in1(prot_seg2));
+
+    wire [3:0] IE_type_out_almost;
+    or2$ g111(.out(IE_type_out_almost[0]), .in0(prot_seg), .in1(prot_exc));                        //update protection exception
+    assign IE_type_out_almost[1] = TLB_miss;                                                       //update page fault exception
+    assign IE_type_out_almost[3:2] = IE_type_in[3:2];                                              //pass along
+    
+    wire IE_out_almost;
+    orn #(4) g222(.out(IE_out_almost), .in({IE_in, prot_seg, TLB_miss, prot_exc}));                      //update IE_out
+    andn #(2) g99(.out(IE_out), .in( {IE_out_almost, valid_in} ));
+    b4_bitwise_and yaba (.out(IE_type_out), .in0(IE_type_out_almost), .in1( {valid_in, valid_in, valid_in, valid_in} ));
     
     assign res1_ld_out = res1_ld_in;
     assign res2_ld_out = res2_ld_in;
@@ -211,7 +240,7 @@ module mem (input valid_in,
     assign opsize_out = opsize_in;
     wire[31:0] eip_$, address_1_$, address_2_$;
     assign address_1_$ =  mem_addr1;
-    assign address_2_$ = mem_addr2;
+    assign address_2_$ = realmem2;
     wire[7:0] ptc_id_$; 
     wire clk_$;
     integer cyc_ctr_$;
@@ -222,5 +251,6 @@ module mem (input valid_in,
     assign valid_in_$ = valid_in;
     assign ptc_id_$ = inst_ptcid_in;
     assign eip_$ = latched_eip_in;
+    assign instr_is_IDTR_orig_out = instr_is_IDTR_orig_in;
    
 endmodule

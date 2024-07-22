@@ -274,8 +274,8 @@ andn #(3) a6(.in({mod_not_equal_11, rm_equal_100, isMod}), .out(isSIB));
 //length_of_everything_mod_and_after
 
 //32 bit mode
-wire w32_bit_mode;
-inv1$ mybrotherinchrist(.in(is_opsize_override), .out(w32_bit_mode));
+// wire w32_bit_mode;
+// inv1$ mybrotherinchrist(.in(is_opsize_override), .out(w32_bit_mode));
 wire w32_bit_length_of_everything_mod_and_after_bit_5, w32_bit_length_of_everything_mod_and_after_bit_4, 
         w32_bit_length_of_everything_mod_and_after_bit_3, w32_bit_length_of_everything_mod_and_after_bit_2, 
         w32_bit_length_of_everything_mod_and_after_bit_1, w32_bit_length_of_everything_mod_and_after_bit_0;
@@ -289,172 +289,186 @@ wire rm_not_equal_100, rm_not_equal_101;
 wire temp0, temp1;
 inv1$ i9(.in(rm_equal_100), .out(rm_not_equal_100));
 inv1$ i10(.in(rm_equal_101), .out(rm_not_equal_101));
-andn #(5) a7(.in({mod_equal_00, rm_not_equal_100, rm_not_equal_101, isMod, w32_bit_mode}), .out(temp0));
-andn #(3) a8(.in({mod_equal_11, isMod, w32_bit_mode}), .out(temp1));
+andn #(4) a7(.in({mod_equal_00, rm_not_equal_100, rm_not_equal_101, isMod}), .out(temp0));
+andn #(2) a8(.in({mod_equal_11, isMod}), .out(temp1));
 orn #(2) o0(.in({temp0, temp1}), .out(w32_bit_length_of_everything_mod_and_after_bit_1));
 
 //assign 2 length
 wire not_SIB;
 inv1$ i11(.in(isSIB), .out(not_SIB));
 wire temp2, temp3;
-andn #(4) a9(.in({mod_equal_01, not_SIB, isMod, w32_bit_mode}), .out(temp2));
-andn #(4) a10(.in({mod_equal_00, isSIB, isMod, w32_bit_mode}), .out(temp3));
+andn #(3) a9(.in({mod_equal_01, not_SIB, isMod}), .out(temp2));
+andn #(3) a10(.in({mod_equal_00, isSIB, isMod}), .out(temp3));
 orn #(2) o1(.in({temp2, temp3}), .out(w32_bit_length_of_everything_mod_and_after_bit_2));
 
 //assign 3 length
-andn #(4) a11(.in({mod_equal_01, isSIB, isMod, w32_bit_mode}), .out(w32_bit_length_of_everything_mod_and_after_bit_3));
+andn #(3) a11(.in({mod_equal_01, isSIB, isMod}), .out(w32_bit_length_of_everything_mod_and_after_bit_3));
 
 //assign 5 length
 wire temp4, temp5;
-andn #(4) a12(.in({mod_equal_00, rm_equal_101, isMod, w32_bit_mode}), .out(temp4));
-andn #(4) a13(.in({mod_equal_10, not_SIB, isMod, w32_bit_mode}), .out(temp5));
+andn #(3) a12(.in({mod_equal_00, rm_equal_101, isMod}), .out(temp4));
+andn #(3) a13(.in({mod_equal_10, not_SIB, isMod}), .out(temp5));
 orn #(2) o2(.in({temp4, temp5}), .out(w32_bit_length_of_everything_mod_and_after_bit_4));
 
 //assign 6 length
-andn #(4) a14(.in({mod_equal_10, rm_equal_100, isMod, w32_bit_mode}), .out(w32_bit_length_of_everything_mod_and_after_bit_5));
+andn #(3) a14(.in({mod_equal_10, rm_equal_100, isMod}), .out(w32_bit_length_of_everything_mod_and_after_bit_5));
 
 
-//16 bit mode
-wire w16_bit_mode;
-assign w16_bit_mode = is_opsize_override;
-wire w16_bit_length_of_everything_mod_and_after_bit_5, w16_bit_length_of_everything_mod_and_after_bit_4, 
-        w16_bit_length_of_everything_mod_and_after_bit_3, w16_bit_length_of_everything_mod_and_after_bit_2, 
-        w16_bit_length_of_everything_mod_and_after_bit_1, w16_bit_length_of_everything_mod_and_after_bit_0;
+// //16 bit mode
+// wire w16_bit_mode;
+// assign w16_bit_mode = is_opsize_override;
+// wire w16_bit_length_of_everything_mod_and_after_bit_5, w16_bit_length_of_everything_mod_and_after_bit_4, 
+//         w16_bit_length_of_everything_mod_and_after_bit_3, w16_bit_length_of_everything_mod_and_after_bit_2, 
+//         w16_bit_length_of_everything_mod_and_after_bit_1, w16_bit_length_of_everything_mod_and_after_bit_0;
 
-//assign 0 length
-assign w16_bit_length_of_everything_mod_and_after_bit_0 = no_mod;
+// //assign 0 length
+// assign w16_bit_length_of_everything_mod_and_after_bit_0 = no_mod;
 
-//assign 1 length
-wire temp6, temp7;
-wire rm_not_equal_110;
-inv1$ i12(.in(rm_equal_110), .out(rm_not_equal_110));
-andn #(4) a15(.in({mod_equal_00, rm_not_equal_110, isMod, w16_bit_mode}), .out(temp6));
-andn #(3) a16(.in({mod_equal_11, isMod, w16_bit_mode}), .out(temp7));
-orn #(2) o3(.in({temp6, temp7}), .out(w16_bit_length_of_everything_mod_and_after_bit_1));
+// //assign 1 length
+// wire temp6, temp7;
+// wire rm_not_equal_110;
+// inv1$ i12(.in(rm_equal_110), .out(rm_not_equal_110));
+// andn #(4) a15(.in({mod_equal_00, rm_not_equal_110, isMod, w16_bit_mode}), .out(temp6));
+// andn #(3) a16(.in({mod_equal_11, isMod, w16_bit_mode}), .out(temp7));
+// orn #(2) o3(.in({temp6, temp7}), .out(w16_bit_length_of_everything_mod_and_after_bit_1));
 
-//assign 2 length
-andn #(3) a17(.in({mod_equal_01, isMod, w16_bit_mode}), .out(w16_bit_length_of_everything_mod_and_after_bit_2));
+// //assign 2 length
+// andn #(3) a17(.in({mod_equal_01, isMod, w16_bit_mode}), .out(w16_bit_length_of_everything_mod_and_after_bit_2));
 
-//assign 3 length
-wire temp8, temp9;
-andn #(4) a18(.in({mod_equal_00, rm_equal_110, isMod, w16_bit_mode}), .out(temp8));
-andn #(3) a18788(.in({mod_equal_10, isMod, w16_bit_mode}), .out(temp9));
-orn #(2) o4(.in({temp8, temp9}), .out(w16_bit_length_of_everything_mod_and_after_bit_3));
+// //assign 3 length
+// wire temp8, temp9;
+// andn #(4) a18(.in({mod_equal_00, rm_equal_110, isMod, w16_bit_mode}), .out(temp8));
+// andn #(3) a18788(.in({mod_equal_10, isMod, w16_bit_mode}), .out(temp9));
+// orn #(2) o4(.in({temp8, temp9}), .out(w16_bit_length_of_everything_mod_and_after_bit_3));
 
-//assign 5 length
-assign w16_bit_length_of_everything_mod_and_after_bit_4 = 1'b0;
+// //assign 5 length
+// assign w16_bit_length_of_everything_mod_and_after_bit_4 = 1'b0;
 
-//assign 6 length
-assign w16_bit_length_of_everything_mod_and_after_bit_5 = 1'b0;
+// //assign 6 length
+// assign w16_bit_length_of_everything_mod_and_after_bit_5 = 1'b0;
 
 //combine the 16 and 32 bit versions
-orn #(2) o5(.in({w16_bit_length_of_everything_mod_and_after_bit_0, w32_bit_length_of_everything_mod_and_after_bit_0}), .out(length_of_everything_mod_and_after[0]));
-orn #(2) o6(.in({w16_bit_length_of_everything_mod_and_after_bit_1, w32_bit_length_of_everything_mod_and_after_bit_1}), .out(length_of_everything_mod_and_after[1]));
-orn #(2) o7(.in({w16_bit_length_of_everything_mod_and_after_bit_2, w32_bit_length_of_everything_mod_and_after_bit_2}), .out(length_of_everything_mod_and_after[2]));
-orn #(2) o8(.in({w16_bit_length_of_everything_mod_and_after_bit_3, w32_bit_length_of_everything_mod_and_after_bit_3}), .out(length_of_everything_mod_and_after[3]));
-orn #(2) o9(.in({w16_bit_length_of_everything_mod_and_after_bit_4, w32_bit_length_of_everything_mod_and_after_bit_4}), .out(length_of_everything_mod_and_after[4]));
-orn #(2) o10(.in({w16_bit_length_of_everything_mod_and_after_bit_5, w32_bit_length_of_everything_mod_and_after_bit_5}), .out(length_of_everything_mod_and_after[5]));
+// orn #(2) o5(.in({w16_bit_length_of_everything_mod_and_after_bit_0, w32_bit_length_of_everything_mod_and_after_bit_0}), .out(length_of_everything_mod_and_after[0]));
+// orn #(2) o6(.in({w16_bit_length_of_everything_mod_and_after_bit_1, w32_bit_length_of_everything_mod_and_after_bit_1}), .out(length_of_everything_mod_and_after[1]));
+// orn #(2) o7(.in({w16_bit_length_of_everything_mod_and_after_bit_2, w32_bit_length_of_everything_mod_and_after_bit_2}), .out(length_of_everything_mod_and_after[2]));
+// orn #(2) o8(.in({w16_bit_length_of_everything_mod_and_after_bit_3, w32_bit_length_of_everything_mod_and_after_bit_3}), .out(length_of_everything_mod_and_after[3]));
+// orn #(2) o9(.in({w16_bit_length_of_everything_mod_and_after_bit_4, w32_bit_length_of_everything_mod_and_after_bit_4}), .out(length_of_everything_mod_and_after[4]));
+// orn #(2) o10(.in({w16_bit_length_of_everything_mod_and_after_bit_5, w32_bit_length_of_everything_mod_and_after_bit_5}), .out(length_of_everything_mod_and_after[5]));
+assign length_of_everything_mod_and_after[0] = w32_bit_length_of_everything_mod_and_after_bit_0;
+assign length_of_everything_mod_and_after[1] = w32_bit_length_of_everything_mod_and_after_bit_1;
+assign length_of_everything_mod_and_after[2] = w32_bit_length_of_everything_mod_and_after_bit_2;
+assign length_of_everything_mod_and_after[3] = w32_bit_length_of_everything_mod_and_after_bit_3;
+assign length_of_everything_mod_and_after[4] = w32_bit_length_of_everything_mod_and_after_bit_4;
+assign length_of_everything_mod_and_after[5] = w32_bit_length_of_everything_mod_and_after_bit_5;
 
 //length_of_disp
 //32 bit mode
 wire w32_bit_length_of_disp_bit_3, w32_bit_length_of_disp_bit_2, w32_bit_length_of_disp_bit_1, w32_bit_length_of_disp_bit_0;
 //assign 0 length
 wire temp10, temp11;
-andn #(4) a19(.in({mod_equal_00, rm_not_equal_101, isMod, w32_bit_mode}), .out(temp10));
-andn #(3) a20(.in({mod_equal_11, isMod, w32_bit_mode}), .out(temp11));
+andn #(3) a19(.in({mod_equal_00, rm_not_equal_101, isMod}), .out(temp10));
+andn #(2) a20(.in({mod_equal_11, isMod}), .out(temp11));
 orn #(3) o11(.in({temp10, temp11, no_mod}), .out(w32_bit_length_of_disp_bit_0));
 
 //assign 1 length
-andn #(3) a21(.in({mod_equal_01, isMod, w32_bit_mode}), .out(w32_bit_length_of_disp_bit_1));
+andn #(2) a21(.in({mod_equal_01, isMod}), .out(w32_bit_length_of_disp_bit_1));
 
 //assign 2 length
 assign w32_bit_length_of_disp_bit_2 = 1'b0;
 
 //assign 3 length
 wire temp12, temp13;
-andn #(4) a22(.in({mod_equal_00, rm_equal_101, isMod, w32_bit_mode}), .out(temp12));
-andn #(3) a23(.in({mod_equal_10, isMod, w32_bit_mode}), .out(temp13));
+andn #(3) a22(.in({mod_equal_00, rm_equal_101, isMod}), .out(temp12));
+andn #(2) a23(.in({mod_equal_10, isMod}), .out(temp13));
 orn #(2) o12(.in({temp12, temp13}), .out(w32_bit_length_of_disp_bit_3));
 
-//16 bit mode
-wire w16_bit_length_of_disp_bit_3, w16_bit_length_of_disp_bit_2, w16_bit_length_of_disp_bit_1, w16_bit_length_of_disp_bit_0;
-//assign 0 length
-wire temp14, temp15;
-andn #(4) a24(.in({mod_equal_00, rm_not_equal_110, isMod, w16_bit_mode}), .out(temp14));
-andn #(3) a25(.in({mod_equal_11, isMod, w16_bit_mode}), .out(temp15));
-orn #(3) o13(.in({temp14, temp15, no_mod}), .out(w16_bit_length_of_disp_bit_0));
+// //16 bit mode
+// wire w16_bit_length_of_disp_bit_3, w16_bit_length_of_disp_bit_2, w16_bit_length_of_disp_bit_1, w16_bit_length_of_disp_bit_0;
+// //assign 0 length
+// wire temp14, temp15;
+// andn #(4) a24(.in({mod_equal_00, rm_not_equal_110, isMod, w16_bit_mode}), .out(temp14));
+// andn #(3) a25(.in({mod_equal_11, isMod, w16_bit_mode}), .out(temp15));
+// orn #(3) o13(.in({temp14, temp15, no_mod}), .out(w16_bit_length_of_disp_bit_0));
 
-//assign 1 length
-andn #(3) a26(.in({mod_equal_01, isMod, w16_bit_mode}), .out(w16_bit_length_of_disp_bit_1));
+// //assign 1 length
+// andn #(3) a26(.in({mod_equal_01, isMod, w16_bit_mode}), .out(w16_bit_length_of_disp_bit_1));
 
-//assign 2 length
-wire temp16, temp17;
-andn #(4) a27(.in({mod_equal_00, rm_equal_110, isMod, w16_bit_mode}), .out(temp16));
-andn #(3) a28(.in({mod_equal_10, isMod, w16_bit_mode}), .out(temp17));
-orn #(2) o14(.in({temp16, temp17}), .out(w16_bit_length_of_disp_bit_2));
+// //assign 2 length
+// wire temp16, temp17;
+// andn #(4) a27(.in({mod_equal_00, rm_equal_110, isMod, w16_bit_mode}), .out(temp16));
+// andn #(3) a28(.in({mod_equal_10, isMod, w16_bit_mode}), .out(temp17));
+// orn #(2) o14(.in({temp16, temp17}), .out(w16_bit_length_of_disp_bit_2));
 
-//assign 3 length
-assign w16_bit_length_of_disp_bit_3 = 1'b0;
+// //assign 3 length
+// assign w16_bit_length_of_disp_bit_3 = 1'b0;
 
 //combine the 16 and 32 bit versions
-orn #(2) o15(.in({w16_bit_length_of_disp_bit_0, w32_bit_length_of_disp_bit_0}), .out(length_of_disp[0]));
-orn #(2) o16(.in({w16_bit_length_of_disp_bit_1, w32_bit_length_of_disp_bit_1}), .out(length_of_disp[1]));
-orn #(2) o17(.in({w16_bit_length_of_disp_bit_2, w32_bit_length_of_disp_bit_2}), .out(length_of_disp[2]));
-orn #(2) o18(.in({w16_bit_length_of_disp_bit_3, w32_bit_length_of_disp_bit_3}), .out(length_of_disp[3]));
+// orn #(2) o15(.in({w16_bit_length_of_disp_bit_0, w32_bit_length_of_disp_bit_0}), .out(length_of_disp[0]));
+// orn #(2) o16(.in({w16_bit_length_of_disp_bit_1, w32_bit_length_of_disp_bit_1}), .out(length_of_disp[1]));
+// orn #(2) o17(.in({w16_bit_length_of_disp_bit_2, w32_bit_length_of_disp_bit_2}), .out(length_of_disp[2]));
+// orn #(2) o18(.in({w16_bit_length_of_disp_bit_3, w32_bit_length_of_disp_bit_3}), .out(length_of_disp[3]));
+assign length_of_disp[0] = w32_bit_length_of_disp_bit_0;
+assign length_of_disp[1] = w32_bit_length_of_disp_bit_1;
+assign length_of_disp[2] = w32_bit_length_of_disp_bit_2;
+assign length_of_disp[3] = w32_bit_length_of_disp_bit_3;
 
 //all the logic to determine if R2 is being used
-//16 bit mode
-wire w16_useR2;
-wire temp18, temp19, temp20, temp21;
-wire rm_equal_0xx;
-wire rm_equal_11x;
-inv1$ i13(.in(rm[2]), .out(rm_equal_0xx));
-andn #(2) gobbleme(.in({rm[2], rm[1]}), .out(rm_equal_11x));
-andn #(4) a29(.in({mod_not_equal_11, rm_equal_0xx, isMod, w16_bit_mode}), .out(temp18));
-andn #(4) a30(.in({mod_equal_00, rm_equal_111, isMod, w16_bit_mode}), .out(temp19));
-andn #(4) a31(.in({mod_equal_01, rm_equal_11x, isMod, w16_bit_mode}), .out(temp20));
-andn #(4) a32(.in({mod_equal_10, rm_equal_11x, isMod, w16_bit_mode}), .out(temp21));
-orn #(4) o19(.in({temp18, temp19, temp20, temp21}), .out(w16_useR2));
+// //16 bit mode
+// wire w16_useR2;
+// wire temp18, temp19, temp20, temp21;
+// wire rm_equal_0xx;
+// wire rm_equal_11x;
+// inv1$ i13(.in(rm[2]), .out(rm_equal_0xx));
+// andn #(2) gobbleme(.in({rm[2], rm[1]}), .out(rm_equal_11x));
+// andn #(4) a29(.in({mod_not_equal_11, rm_equal_0xx, isMod, w16_bit_mode}), .out(temp18));
+// andn #(4) a30(.in({mod_equal_00, rm_equal_111, isMod, w16_bit_mode}), .out(temp19));
+// andn #(4) a31(.in({mod_equal_01, rm_equal_11x, isMod, w16_bit_mode}), .out(temp20));
+// andn #(4) a32(.in({mod_equal_10, rm_equal_11x, isMod, w16_bit_mode}), .out(temp21));
+// orn #(4) o19(.in({temp18, temp19, temp20, temp21}), .out(w16_useR2));
 
 //32 bit mode
 wire w32_useR2;
 wire temp_mod00_rm101, not_temp_mod00_rm101;
 andn #(2) a33(.in({mod_equal_00, rm_equal_101}), .out(temp_mod00_rm101));
 inv1$ i14(.in(temp_mod00_rm101), .out(not_temp_mod00_rm101));
-andn #(3) anul(.in({not_temp_mod00_rm101, isMod, w32_bit_mode}), .out(w32_useR2));
+andn #(2) anul(.in({not_temp_mod00_rm101, isMod}), .out(w32_useR2));
 
 //combine the 16 and 32 bit versions with just mod == 11
-orn #(3) o20(.in({w16_useR2, w32_useR2, mod_equal_11}), .out(use_R2));
+// orn #(3) o20(.in({w16_useR2, w32_useR2, mod_equal_11}), .out(use_R2));
+assign use_R2 = w32_useR2;
 
 //all the logic to determine if R3 is being used
 //16 bit mode
-wire w16_useR3;
-wire temp22, temp23, temp24;
-andn #(4) a34(.in({mod_not_equal_11, rm_equal_0xx, isMod, w16_bit_mode}), .out(temp22));
-andn #(4) a35(.in({mod_not_equal_11, rm_equal_100, isMod, w16_bit_mode}), .out(temp23));
-andn #(4) a36(.in({mod_not_equal_11, rm_equal_101, isMod, w16_bit_mode}), .out(temp24));
-orn #(3) o21(.in({temp22, temp23, temp24}), .out(w16_useR3));      
+// wire w16_useR3;
+// wire temp22, temp23, temp24;
+// andn #(4) a34(.in({mod_not_equal_11, rm_equal_0xx, isMod, w16_bit_mode}), .out(temp22));
+// andn #(4) a35(.in({mod_not_equal_11, rm_equal_100, isMod, w16_bit_mode}), .out(temp23));
+// andn #(4) a36(.in({mod_not_equal_11, rm_equal_101, isMod, w16_bit_mode}), .out(temp24));
+// orn #(3) o21(.in({temp22, temp23, temp24}), .out(w16_useR3));      
 
 //32 bit mode
 wire w32_useR3;
 andn #(2) a3adeqw6(.in({isSIB, mod_not_equal_11}), .out(w32_useR3));
 
 //combine the 16 and 32 bit versions with just mod == 11
-orn #(2) o22(.in({w16_useR3, w32_useR3}), .out(use_R3));
+// orn #(2) o22(.in({w16_useR3, w32_useR3}), .out(use_R3));
+assign use_R3 = w32_useR3;
 
 //all the logic to select the actual value of R2
 
-wire [2:0] R2_val_16_version, R2_val_16_or_32_version;
-wire sel_R2_val;
-andn #(2) a37(.in({is_opsize_override, mod_not_equal_11}), .out(sel_R2_val));
-muxnm_tree #(1, 3) m2(.in({3'b011, 3'b101}), .sel(rm[1]), .out(R2_val_16_version));
-muxnm_tree #(1, 3) m3(.in({R2_val_16_version, rm}), .sel(sel_R2_val), .out(R2_val_16_or_32_version));
+wire [2:0] /*R2_val_16_version,*/ R2_val_16_or_32_version;
+// wire sel_R2_val;
+// andn #(2) a37(.in({is_opsize_override, mod_not_equal_11}), .out(sel_R2_val));
+// muxnm_tree #(1, 3) m2(.in({3'b011, 3'b101}), .sel(rm[1]), .out(R2_val_16_version));
+// muxnm_tree #(1, 3) m3(.in({R2_val_16_version, rm}), .sel(sel_R2_val), .out(R2_val_16_or_32_version));
+assign R2_val_16_or_32_version = rm;
 muxnm_tree #(1, 3) m4(.in({base, R2_val_16_or_32_version}), .sel(isSIB), .out(R2_override_val));
 
 //all the logic to select the actual value of R3
-wire [2:0] R3_val_16_version, R3_val_16_or_32_version;
-muxnm_tree #(1, 3) m5(.in({3'b111, 3'b110}), .sel(rm[0]), .out(R3_val_16_version));
-muxnm_tree #(1, 3) m6(.in({R3_val_16_version, index}), .sel(is_opsize_override), .out(R3_val_16_or_32_version));
+wire [2:0] /*R3_val_16_version,*/ R3_val_16_or_32_version;
+// muxnm_tree #(1, 3) m5(.in({3'b111, 3'b110}), .sel(rm[0]), .out(R3_val_16_version));
+// muxnm_tree #(1, 3) m6(.in({R3_val_16_version, index}), .sel(is_opsize_override), .out(R3_val_16_or_32_version));
+assign R3_val_16_or_32_version = index;
 muxnm_tree #(1, 3) m7(.in({index, R3_val_16_or_32_version}), .sel(isSIB), .out(R3_override_val));
 
 //all the logic to select how much to scale by

@@ -286,7 +286,7 @@ module gpr (input [31:0] din,
     regn #(.WIDTH(8)) h_section(.din(din[15:8]), .ld(sized_ld[1]), .clr(clr), .clk(clk), .dout(h_dout));
     regn #(.WIDTH(8)) l_section(.din(din[7:0]), .ld(sized_ld[0]), .clr(clr), .clk(clk), .dout(l_dout));
 
-    wire [2:0] clearptc, ptcld;
+    wire [2:0] ptcmatch, clearptc, ptcld;
     wire clr_ptc_signal;
     wire v [0:2];
     wire [6:0] id [0:2];
@@ -294,23 +294,26 @@ module gpr (input [31:0] din,
     and2$ g0(.out(clr_ptc_signal), .in0(clr), .in1(ptcclr));
 
     regn #(.WIDTH(7)) e_ptcid(.din(new_ptcid), .ld(sized_dest[2]), .clr(clr), .clk(clk), .dout(id[2]));
-    equaln #(.WIDTH(7)) eq0(.a(data_ptcid), .b(id[2]), .eq(clearptc[2]));
-    or2$ g1(.out(ptcld[2]), .in0(sized_dest[2]), .in1(clearptc[2]));
+    equaln #(.WIDTH(7)) eq0(.a(data_ptcid), .b(id[2]), .eq(ptcmatch[2]));
+    and2$ g1(.out(clearptc[2]), .in0(ptcmatch[2]), .in1(sized_ld[2]));
+    or2$ g2(.out(ptcld[2]), .in0(sized_dest[2]), .in1(clearptc[2]));
     regn #(.WIDTH(1)) e_ptcv(.din(sized_dest[2]), .ld(ptcld[2]), .clr(clr_ptc_signal), .clk(clk), .dout(v[2]));
     assign e_ptc = {2'b01,id[2],1'b0,loc,3'b011,
                     2'b01,id[2],1'b0,loc,3'b010};
     assign e_ptcvout = v[2];
 
     regn #(.WIDTH(7)) h_ptcid(.din(new_ptcid), .ld(sized_dest[1]), .clr(clr), .clk(clk), .dout(id[1]));
-    equaln #(.WIDTH(7)) eq1(.a(data_ptcid), .b(id[1]), .eq(clearptc[1]));
-    or2$ g2(.out(ptcld[1]), .in0(sized_dest[1]), .in1(clearptc[1]));
+    equaln #(.WIDTH(7)) eq1(.a(data_ptcid), .b(id[1]), .eq(ptcmatch[1]));
+    and2$ g3(.out(clearptc[1]), .in0(ptcmatch[1]), .in1(sized_ld[1]));
+    or2$ g4(.out(ptcld[1]), .in0(sized_dest[1]), .in1(clearptc[1]));
     regn #(.WIDTH(1)) h_ptcv(.din(sized_dest[1]), .ld(ptcld[1]), .clr(clr_ptc_signal), .clk(clk), .dout(v[1]));
     assign h_ptc = {2'b01,id[1],1'b0,loc,3'b001};
     assign h_ptcvout = v[1];
 
     regn #(.WIDTH(7)) l_ptcid(.din(new_ptcid), .ld(sized_dest[0]), .clr(clr), .clk(clk), .dout(id[0]));
-    equaln #(.WIDTH(7)) eq2(.a(data_ptcid), .b(id[0]), .eq(clearptc[0]));
-    or2$ g3(.out(ptcld[0]), .in0(sized_dest[0]), .in1(clearptc[0]));
+    equaln #(.WIDTH(7)) eq2(.a(data_ptcid), .b(id[0]), .eq(ptcmatch[0]));
+    and2$ g5(.out(clearptc[0]), .in0(ptcmatch[0]), .in1(sized_ld[0]));
+    or2$ g6(.out(ptcld[0]), .in0(sized_dest[0]), .in1(clearptc[0]));
     regn #(.WIDTH(1)) l_ptcv(.din(sized_dest[0]), .ld(ptcld[0]), .clr(clr_ptc_signal), .clk(clk), .dout(v[0]));
     assign l_ptc = {2'b01,id[0],1'b0,loc,3'b000};
     assign l_ptcvout = v[0];
@@ -381,14 +384,15 @@ module mmx (input [63:0] din,
     
     regn #(.WIDTH(64)) mm(.din(din), .ld(ld), .clr(clr), .clk(clk), .dout(dout));
     
-    wire clearptc, ptcld, clr_ptc_signal;
+    wire ptcmatch, clearptc, ptcld, clr_ptc_signal;
     wire v;
     wire [6:0] id;
 
     regn #(.WIDTH(7)) mm_ptcid(.din(new_ptcid), .ld(dest), .clr(clr), .clk(clk), .dout(id));
-    equaln #(.WIDTH(7)) eq0(.a(data_ptcid), .b(id), .eq(clearptc));
-    or2$ g0(.out(ptcld), .in0(dest), .in1(clearptc));
-    and2$ g1(.out(clr_ptc_signal), .in0(clr), .in1(ptcclr));
+    equaln #(.WIDTH(7)) eq0(.a(data_ptcid), .b(id), .eq(ptcmatch));
+    and2$ g0(.out(clearptc), .in0(ptcmatch), .in1(ld));
+    or2$ g1(.out(ptcld), .in0(dest), .in1(clearptc));
+    and2$ g2(.out(clr_ptc_signal), .in0(clr), .in1(ptcclr));
     regn #(.WIDTH(1)) mm_ptcv(.din(dest), .ld(ptcld), .clr(clr_ptc_signal), .clk(clk), .dout(v));
     assign mm_ptc = {2'b01,id,1'b0,loc,3'b111,
                      2'b01,id,1'b0,loc,3'b110,

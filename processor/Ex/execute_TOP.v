@@ -21,6 +21,7 @@ module execute_TOP(
     input [31:0] latched_EIP_in,            // N
     input IE_in,                            //interrupt or exception signal - N
     input [3:0] IE_type_in,                 // N
+    input instr_is_IDTR_orig_in,
     input [31:0] BR_pred_target_in,         //branch prediction target - N
     input BR_pred_T_NT_in,                  //branch prediction taken or not taken - N
     input set, rst,                        
@@ -65,6 +66,7 @@ module execute_TOP(
     output [31:0] latched_EIP_out, 
     output IE_out,
     output [3:0] IE_type_out,
+    output instr_is_IDTR_orig_out,
     output [31:0] BR_pred_target_out,
     output BR_pred_T_NT_out,
     output [6:0] PTCID_out,
@@ -93,7 +95,7 @@ module execute_TOP(
     output stall
 );
 
-    assign stall = fwd_stall;
+    and2$ gfwd(.out(stall), .in0(fwd_stall), .in1(valid_in));
     assign memsizeOVR_out = memsizeOVR_in;
 
     wire cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_val;
@@ -106,6 +108,9 @@ module execute_TOP(
     wire swapCXC; 
     wire[63:0] res2_xchg;
     wire gBR;
+
+    nand2$ efp0(eflag_pop, P_OP[1], P_OP[0]);
+    and2$ efp1(res1_wb, res1_ld_in, eflag_pop);
 
     orn #(7) o1({P_OP[3], P_OP[11],P_OP[12],P_OP[34], P_OP[35], P_OP[36], P_OP[28]}, gBR );
 
@@ -173,7 +178,7 @@ module execute_TOP(
     assign eflags = eflags_rd;
     assign eflags_ld = {1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 2'b0, of_out, df_out,  1'b0, 1'b0, sf_out, zf_out, af_out, pf_out, cf_out}; 
     assign af = eflags_rd[2]; assign cf = eflags_rd[0];  assign pf = eflags_rd[1]; assign zf = eflags_rd[3];   assign sf = eflags_rd[4];  assign df = eflags_rd[7];  assign of = eflags_rd[8];     
-    EFLAG e1(eflags_rd, clk, set, rst, valid_internal, eflags_ld, FMASK, cc_inval, P_OP[1:0], OP2[17:0], is_resteer, valid_wb);
+    EFLAG e1(eflags_rd, clk, set, rst, valid_internal, eflags_ld, FMASK, cc_inval, P_OP[1:0], op1[17:0], is_resteer, valid_wb);
     assign CS_out = CS;
     assign P_OP_out = P_OP;
     //Handle skipGen
@@ -185,13 +190,9 @@ module execute_TOP(
     //HandleBRLOGIC
     BRLOGIC b1(BR_valid, BR_taken, BR_correct, BR_FIP, BR_FIP_p1, valid_internal, BR_pred_target_in, BR_pred_T_NT_in, conditionals, zf, cf, res1[31:0], P_OP[11], P_OP[12], P_OP[32], gBR);
 
-    //TODO: exception checking for DIV0 for FDIV
-    //      - without throwing exception, result from Goldschmidt div will be 0:
-
-    //assign IE_type_out[1:0] = IE_type_in[1:0];
-    //assign IE_type_out[2] fp_div0_exception;
-    //assign IE_type_out[3] = IE_type_in[3];
-    //or2$ g3(.out(IE_out), .in0(IE_in), .in1(fp_div0_exception);
+    assign IE_type_out[3:0] = IE_type_in[3:0];
+    assign IE_out = IE_in;
+    assign instr_is_IDTR_orig_out = instr_is_IDTR_orig_in;
 
 endmodule
 

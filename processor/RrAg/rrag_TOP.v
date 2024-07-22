@@ -13,6 +13,7 @@ module rrag (input valid_in,
 
              input clr, clk,
              input [19:0] lim_init5, lim_init4, lim_init3, lim_init2, lim_init1, lim_init0,
+             input [159:0] VP, PF,
 
              input [4:0] aluk_in,
              input [2:0] mux_adder_in,
@@ -28,6 +29,7 @@ module rrag (input valid_in,
              input [31:0] latched_eip_in,
              input IE_in,
              input [3:0] IE_type_in,
+             input instr_is_IDTR_orig_in,
              input [31:0] BR_pred_target_in,
              input BR_pred_T_NT_in,
              input [5:0] BP_alias_in,
@@ -74,6 +76,7 @@ module rrag (input valid_in,
              output [31:0] latched_eip_out,
              output IE_out,
              output [3:0] IE_type_out,
+             output instr_is_IDTR_orig_out,
              output [31:0] BR_pred_target_out,
              output BR_pred_T_NT_out);
 
@@ -121,7 +124,7 @@ module rrag (input valid_in,
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m1(.in({regformem2,32'h00000000}), .sel(usereg2), .out(rmbaseval));
     kogeAdder #(.WIDTH(32)) add0(.SUM(modsibcalc), .COUT(), .A(rmbaseval), .B(shfreg3), .CIN(1'b0));
     kogeAdder #(.WIDTH(32)) add1(.SUM(segdisp), .COUT(), .A(disp), .B(shfseg1), .CIN(1'b0));
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({modsibcalc,regformem2}), .sel(usereg3), .out(segoffs));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(32)) m2(.in({modsibcalc,rmbaseval}), .sel(usereg3), .out(segoffs));
     kogeAdder #(.WIDTH(32)) add2(.SUM(mem1), .COUT(), .A(segoffs), .B(segdisp), .CIN(1'b0));
     kogeAdder #(.WIDTH(32)) add3(.SUM(mem2), .COUT(), .A(regformem4), .B(shfseg2), .CIN(1'b0));
 
@@ -153,8 +156,8 @@ module rrag (input valid_in,
     wire [3:0] decodedsize;
 
     decodern #(.INPUT_WIDTH(2)) d0(.in(opsize_in), .out(decodedsize));
-    prot_exception_logic p0(.disp_imm(disp), .calc_size(segoffs), .address_size(decodedsize), .read_address_end_size(mem_addr1_end));
-    prot_exception_logic p1(.disp_imm(32'h00000000), .calc_size(regformem4), .address_size(decodedsize), .read_address_end_size(mem_addr2_end));
+    prot_exception_logic p0(.VP(VP), .PF(PF), .disp_imm(disp), .calc_size(segoffs), .address_size(decodedsize), .read_address_end_size(mem_addr1_end));
+    prot_exception_logic p1(.VP(VP), .PF(PF), .disp_imm(32'h00000000), .calc_size(regformem4), .address_size(decodedsize), .read_address_end_size(mem_addr2_end));
 
     assign aluk_out = aluk_in;
     assign mux_add_out = mux_adder_in;
@@ -179,9 +182,10 @@ module rrag (input valid_in,
     assign is_rep_out = is_rep_in;
     assign opsize_out = opsize_in;
     assign BP_alias_out = BP_alias_in;
+    assign instr_is_IDTR_orig_out = instr_is_IDTR_orig_in;
 
     wire mem1_use, mem2use, modrm_ptc, sib_ptc, modrmsibseg1_ptc, reg4seg2_ptc, rep_using_regs;
-    wire mem1_stall, mem2_stall, rep_cnt_stall, rep_stall;
+    wire mem1_stall, mem2_stall, rep_cnt_stall, rep_stall, guarded_fwd_stall;
     wire other_stall, no_other_stall;
 
     or2$ g2(.out(mem1_use), .in0(mem1_rw_in[1]), .in1(mem1_rw_in[0]));
@@ -189,11 +193,12 @@ module rrag (input valid_in,
     and2$ g4(.out(modrm_ptc), .in0(usereg2), .in1(regformem2ptc));
     and2$ g5(.out(sib_ptc), .in0(usereg3), .in1(regformem3ptc));
     or3$ g6(.out(modrmsibseg1_ptc), .in0(modrm_ptc), .in1(sib_ptc), .in2(ptc_s1[14]));
-    and3$ g7(.out(mem1_stall), .in0(mem1_use), .in1(modrmsibseg1_ptc), .in2(rep_using_regs));
+    and4$ g7(.out(mem1_stall), .in0(mem1_use), .in1(modrmsibseg1_ptc), .in2(rep_using_regs), .in3(valid_in));
     or2$ g8(.out(reg4seg2_ptc), .in0(regformem4ptc), .in1(ptc_s2[14]));
-    and3$ g9(.out(mem2_stall), .in0(mem2_use), .in1(reg4seg2_ptc), .in2(rep_using_regs));
-    and2$ g10(.out(rep_cnt_stall), .in0(is_rep_in), .in1(regformem3ptc));
-    or4$ g11(.out(other_stall), .in0(fwd_stall), .in1(mem1_stall), .in2(mem2_stall), .in3(rep_cnt_stall));
+    and4$ g9(.out(mem2_stall), .in0(mem2_use), .in1(reg4seg2_ptc), .in2(rep_using_regs), .in3(valid_in));
+    and3$ g10(.out(rep_cnt_stall), .in0(is_rep_in), .in1(regformem3ptc), .in2(valid_in));
+    and2$ gfwd(.out(guarded_fwd_stall), .in0(fwd_stall), .in1(valid_in));
+    or4$ g11(.out(other_stall), .in0(guarded_fwd_stall), .in1(mem1_stall), .in2(mem2_stall), .in3(rep_cnt_stall));
     inv1$ g12(.out(no_other_stall), .in(other_stall));
 
     wire [1:0] size_to_use;

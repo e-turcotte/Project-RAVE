@@ -95,7 +95,7 @@ module d$(
 
   
     or3$ tlbm(TLB_miss, TLB_miss_r, TLB_miss_sw, TLB_miss_wb);
-    or3$ tlbpe(TLB_protection_exception, TLB_protection_exception_r, TLB_protection_exception_sw, TLB_protection_exception_wb);
+    or3$ tlbpe(protection_exception, TLB_pe_r, TLB_pe_sw, TLB_pe_wb);
     or3$ tlbh(TLB_hit, TLB_hit_r, TLB_hit_sw, TLB_hit_wb);
     wire freeDO, freeDE;
     wire grantDEr, grantDEw, grantDOr, grantDOw;
