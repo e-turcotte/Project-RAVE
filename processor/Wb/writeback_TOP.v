@@ -93,10 +93,10 @@ module writeback_TOP(
     muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(32)) t2(.in({inp4_dest,inp3_dest,inp2_dest,inp1_dest}), .sel(partialmem_ld), .out(mem_addr));
     nor4$ gasdasd(.out(usenormalopsize), .in0(memsizeOVR_in[0]), .in1(memsizeOVR_in[1]), .in2(memsizeOVR_in[2]), .in3(memsizeOVR_in[3]));
     muxnm_tristate #(.NUM_INPUTS(6), .DATA_WIDTH(2)) mfcvgbhnj(.in({inpsize,2'b11,2'b11,2'b10,2'b01,2'b00}), .sel({usenormalopsize,LD_EIP_CS,memsizeOVR_in}), .out(memsize));
-    and3$ memg104(.out(partialmem_ld[3]), .in0(inp4_isMem), .in1(valid_in), .in2(inp4_wb));
-    and3$ memg105(.out(partialmem_ld[2]), .in0(inp3_isMem), .in1(valid_in), .in2(inp3_wb));
-    and3$ memg106(.out(partialmem_ld[1]), .in0(inp2_isMem), .in1(valid_in), .in2(inp2_wb));
-    and3$ memg107(.out(partialmem_ld[0]), .in0(inp1_isMem), .in1(valid_in), .in2(inp1_wb));
+    and3$ memg104(.out(partialmem_ld[3]), .in0(inp4_isMem), .in1(valid_out), .in2(inp4_wb));
+    and3$ memg105(.out(partialmem_ld[2]), .in0(inp3_isMem), .in1(valid_out), .in2(inp3_wb));
+    and3$ memg106(.out(partialmem_ld[1]), .in0(inp2_isMem), .in1(valid_out), .in2(inp2_wb));
+    and3$ memg107(.out(partialmem_ld[0]), .in0(inp1_isMem), .in1(valid_out), .in2(inp1_wb));
     or4$ memg108(.out(mem_ld), .in0(partialmem_ld[0]), .in1(partialmem_ld[1]), .in2(partialmem_ld[2]), .in3(partialmem_ld[3]));
 
     wire [127:0] sreg_ptcs [0:3];
