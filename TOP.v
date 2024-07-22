@@ -558,6 +558,7 @@
     wire IDTR_PTC_clear; //AND with signal to lower PTC_CLEAR out of WB for resteer.
 
     wire instr_is_IDTR_switch_final_WB;
+    wire is_iretd_WB_out;
 
     /////////////////////////////////////////////////////////////////
     //                   offcoreBus inputs/outputs                //
@@ -630,7 +631,7 @@
         .EFLAGS_WB(final_EFLAGS),
         .CS_WB(final_CS),
         .is_resteer(is_resteer_WB_out),
-        .is_IRETD(P_OP_EX_WB_latch_out[10]),
+        .is_IRETD(is_iretd_WB_out),
         .rrag_stall_in(RrAg_stall_out),
         .is_final_switch_instr_WB(instr_is_IDTR_switch_final_WB),
     
@@ -672,7 +673,7 @@
     
     /*TODO: SIGNAL FOR CLEARING LATCHES*/
     wire WB_to_clr_latches_resteer, WB_to_clr_latches_resteer_active_low;
-    or3$ hi1(.in0(IDTR_flush_pipe), .in1(is_resteer_WB_out), .in2(final_IE_val), .out(WB_to_clr_latches_resteer)); 
+    orn #(4) hi1(.in( {IDTR_flush_pipe, is_resteer_WB_out, final_IE_val, is_iretd_WB_out} ), .out(WB_to_clr_latches_resteer)); 
     inv1$ sdhfkjh4o2r02ur09u0(.in(WB_to_clr_latches_resteer), .out(WB_to_clr_latches_resteer_active_low));
 
     fetch_TOP f0(
@@ -1543,12 +1544,15 @@
         .WB_BP_update_alias(WB_BP_update_alias),
 
         .stall(fwd_stall_WB_EX_out),
+        .is_iretd(is_iretd_WB_out),
 
         .final_IE_val(final_IE_val),
         .final_IE_type(IE_type_WB_out),
         .halts(halts),
         .instr_is_final_WB(instr_is_IDTR_switch_final_WB)
     );
+
+    
 
    assign final_IE_type[1:0] = IE_type_WB_out[1:0];
    assign final_IE_type[2] = IE_type_WB_out[3];

@@ -55,6 +55,7 @@ module writeback_TOP(
     output [17:0] EFLAGS_out,
 
     output stall,
+    output is_iretd,
 
     output final_IE_val,
     output [3:0] final_IE_type,
@@ -66,7 +67,7 @@ module writeback_TOP(
     and2$ halc(halt_ld, P_OP[9], valid_out);
     regn #(1) r1(.din(1'b1), .ld(halt_ld), .clr(rst), .clk(clk), .dout(halts));
 
-
+    assign is_iretd = P_OP[10];
     assign inst_ptcid_out = inst_ptcid_in;
 
     wire LD_EIP_CS;
