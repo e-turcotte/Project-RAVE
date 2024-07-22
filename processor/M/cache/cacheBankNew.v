@@ -189,13 +189,13 @@ assign MSHR_ptcid = PTC_ID_IN;
 
 
 //Handle SERDES
-and2$ (PCD_W, PCD_IN, w);
-nand2$ (serval0_1, ex_wb, stall_n);
-
+ and2$ (PCD_W, PCD_IN, w);
+nand3$ (serval0_1, MISS, ex_wb_light, helper_for_Ser1);
+and3$ help(helper_for_Ser1, MSHR_MISS, valid_in, stall_n);
 mux2n #(128) datasel(SER_data0, cache_line, data, PCD_IN);
 mux2n #(15) addressSel(SER_pAddress0, extAddress, pAddress[14:0], PCD_IN);
-nand2$ orSER(SER_valid0a, serval0_1, serval0_2);
-and2$ plzwrkrkas(SER_valid0, SER_valid0a, clk_n);
+nand2$ orSER(SER_valid0, serval0_1, serval0_2);
+// and2$ plzwrkrkas(SER_valid0, SER_valid0a, clk_n);
 inv1$ inv123(w_not, w);
  nand4$ andwp(serval0_2, PCD_W,  fromBUS_n, valid_in, stall_n);
 assign SER_return0 = cache_id;
@@ -208,10 +208,11 @@ and2$ (PCD_R, PCD_IN, r);
 and2$ (rst_val, rst, valid_in );
 assign SER_pAddress1 = {pAddress[14:0]};
 //assign SER_valid1 = ex_clr;
-nand4$ andSER(SER_valid11, ex_clr, w_not,rst, stall_n);
+nand3$ andSER(SER_valid11, MISS, stall_n,SERvalid11a);
+and4$ fixSERplz(SERvalid11a,w_not, rst, MSHR_MISS, valid_in );
 nand4$ andser1(SER_valid12, w_not, PCD_R,rst_val, stall_n);
-nand2$ andSER21(SER_valid1a, SER_valid11, SER_valid12);
-and2$ plzwrkrk(SER_valid1, SER_valid1a, clk_n);
+nand2$ andSER21(SER_valid1, SER_valid11, SER_valid12);
+// and2$ plzwrkrk(SER_valid1, SER_valid1a, clk_n);
 assign SER_return1 = cache_id;
 assign SER_size1 = 16'h1000;
 assign SER_rw1 = 1'b0;
