@@ -118,6 +118,7 @@ module fetch_2 (
         .valid_01(line_01_valid),
         .valid_10(line_10_valid),
         .valid_11(line_11_valid),
+        .CF(is_CF),
         .valid_rotate(fetch_packet_out_valid)
     );
     
@@ -297,9 +298,14 @@ module check_valid_rotate (
     input wire valid_01,
     input wire valid_10,
     input wire valid_11,
+    input CF,
 
     output wire valid_rotate
 );
+
+wire not_CF;
+inv1$ i0(.in(CF), .out(not_CF));
+
 wire [3:0] check_line, check_line_bar;
 decoder2_4$ d0(.SEL(curr_line), .Y(check_line), .YBAR(check_line_bar));
 
@@ -309,6 +315,9 @@ andn #(3) a1(.in({check_line[1], valid_01, valid_10}), .out(valid_rotate_01_10))
 andn #(3) a2(.in({check_line[2], valid_10, valid_11}), .out(valid_rotate_10_11));
 andn #(3) a3(.in({check_line[3], valid_11, valid_00}), .out(valid_rotate_11_00));
 
-orn #(4) o0(.in({valid_rotate_00_01, valid_rotate_01_10, valid_rotate_10_11, valid_rotate_11_00}), .out(valid_rotate));
+wire valid_rotate_no_CF;
+orn #(4) o0(.in({valid_rotate_00_01, valid_rotate_01_10, valid_rotate_10_11, valid_rotate_11_00}), .out(valid_rotate_no_CF));
+
+andn #(2) a4(.in({not_CF, valid_rotate_no_CF}), .out(valid_rotate));
 
 endmodule

@@ -17,6 +17,6 @@ module SKIPGEN(
    and2$ a3(isZF, conditionals[1], zf);
    or2$ o2(misCon, isCF, isZF);
    and2$ a4(skip2, isJMP, misCon);
-   
-   or2$ o3(skip, skip1, skip2);
+   assign skip = skip1;
+//    or2$ o3(skip, skip1, skip2);
 endmodule

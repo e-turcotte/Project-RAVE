@@ -48,6 +48,8 @@ module writeback_TOP(
     output [31:0] newFIP_e, newFIP_o, newEIP, //done 
     output [31:0] latched_EIP_out,
     output [31:0] EIP_out,
+    output [31:0] latched_latched_EIP_out,
+    output [31:0] latched_latched_latched_EIP_out,
     output BR_valid, BR_taken, BR_correct, //done
     output [5:0] WB_BP_update_alias,
     output is_resteer,
@@ -66,6 +68,9 @@ module writeback_TOP(
     
     and2$ halc(halt_ld, P_OP[9], valid_out);
     regn #(1) r1(.din(1'b1), .ld(halt_ld), .clr(rst), .clk(clk), .dout(halts));
+    
+    regn #(.WIDTH(32)) l_l_eip_gen(.din(latched_EIP_in), .ld(valid_out), .clr(rst), .clk(clk), .dout(latched_latched_EIP_out));
+    regn #(.WIDTH(32)) l_l_l_eip_gen(.din(latched_latched_EIP_out), .ld(valid_out), .clr(rst), .clk(clk), .dout(latched_latched_latched_EIP_out));
 
     assign is_iretd = P_OP[10];
     assign inst_ptcid_out = inst_ptcid_in;
@@ -146,7 +151,7 @@ module writeback_TOP(
 
     mux2n #(32) m25(targetEIP, BR_FIP_in, inp1[31:0], LD_EIP_CS);
     mux2n #(32) m3 (newEIP,EIP_in, targetEIP, BR_taken); //TODO: set newEIP to NT target or T target
-    assign BR_valid = BR_valid_in;
+    and2$ gbrstuff (.out(BR_valid), .in0(BR_valid_in), .in1(valid_out));
     assign BR_taken = BR_taken_in;
     assign BR_correct = BR_correct_in;
     wire BR_correct_delay1, BR_correct_delay2, BR_correct_delay3, BR_correct_delay4;

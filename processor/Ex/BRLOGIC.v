@@ -13,14 +13,22 @@ module BRLOGIC(
     input [31:0] act_target,
     input JMPnear_P_OP, JMPfar_P_OP, JMPptr_P_OP,
     input gurBR
-);
+); 
+    wire [1:0] cond_n;
+    inv1$ asher(cf_n, cf);
+    inv1$ ashsas(zf_n, zf);
+    inv1$ asheasr(cond_n[1], conditionals[1]);
+    inv1$ ashassas(cond_n[0], conditionals[0]);
     inv1$ i0(gurBR_n, gurBR);
-    and2$ a1(w1, conditionals[0], cf);
-    and2$ a2(w2, conditionals[1], zf);
-    or2$ n1(taken_t, w1, w2);
-    or2$ n2(taken, taken_t, gurBR);
+     nand3$ a1(w1, conditionals[0], cf_n, cond_n[1] );
+    nand3$ a2(w2, conditionals[1], zf_n, cond_n[0]);
+    nand4$ a25(w4, conditionals[1], zf_n, conditionals[0],cf_n );
+    nand3$ n1(taken_t, w1, w2, w4);
+    or2$ n2(taken, taken_t, gurBR_adjust);
     assign FIP = act_target;
     
+    and3$ (gurBR_adjust, gurBR,cond_n[1], cond_n[0] );
+
     or4$ o1(w3, JMPnear_P_OP, JMPfar_P_OP, JMPptr_P_OP, gurBR );
     and2$ a3(val, w3, val_in);
     

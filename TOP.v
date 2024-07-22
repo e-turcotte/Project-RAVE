@@ -1,5 +1,5 @@
  module TOP();
-    localparam CYCLE_TIME = 15.0;
+    localparam CYCLE_TIME = 15;
     localparam CYCLE_TIME_BUS = CYCLE_TIME / 2.0;
     
     integer file;
@@ -451,8 +451,9 @@
     wire [3:0]  IE_type_EX_WB_latch_in;
     wire        instr_is_IDTR_orig_EX_WB_latch_in;
     wire [31:0] BR_pred_target_EX_WB_latch_in;
-    wire        BR_pred_T_NT_EX_WB_latch_in;
-    wire [6:0]  inst_ptcid_EX_WB_latch_in;
+    wire BR_pred_T_NT_EX_WB_latch_in;
+    wire [6:0] inst_ptcid_EX_WB_latch_in;
+    wire [31:0] latched_latched_EIP_WB_out;
 
     wire [63:0] inp1_EX_WB_latch_in, inp2_EX_WB_latch_in, inp3_EX_WB_latch_in, inp4_EX_WB_latch_in;
     wire  inp1_isReg_EX_WB_latch_in,  inp2_isReg_EX_WB_latch_in, inp3_isReg_EX_WB_latch_in,  inp4_isReg_EX_WB_latch_in;
@@ -520,9 +521,11 @@
     wire mem_ld_WB_M_out, wbaq_isfull_WB_M_in;
     wire [6:0] inst_ptcid_out_WB_RRAG_out;
     wire [5:0] WB_BP_update_alias;
-    wire [27:0] newFIP_e_WB_out, newFIP_o_WB_out;
+    wire [31:0] newFIP_e_WB_out, newFIP_o_WB_out;
     wire [31:0] newEIP_WB_out, latched_EIP_WB_out, EIP_WB_out;
     wire [31:0] latched_eip_WB_out;
+    wire [31:0] latched_latched_eip_WB_out;
+    wire [31:0] latched_latched_latched_eip_WB_out;
     wire is_resteer_WB_out;
     wire BR_valid_WB_BP_out, BR_taken_WB_BP_out, BR_correct_WB_BP_out;
     wire final_IE_val;
@@ -647,6 +650,9 @@
         .invalidate_fetch_out(IDTR_invalidate_fetch_out)
     );
 
+    wire btb_hit;
+    wire LD_btb;
+    andn #(.NUM_INPUTS(2)) and2(.in({is_valid_WB_out, BR_valid_WB_BP_out}), .out(LD_btb));
     bp_btb BPstuff(
         .clk(clk),
         .reset(global_reset),
@@ -654,7 +660,8 @@
         .prev_BR_result(BR_taken_WB_BP_out),
         .prev_BR_alias(WB_BP_update_alias),
         .prev_is_BR(BR_valid_WB_BP_out),
-        .LD(is_valid_WB_out),
+        .LD(LD_btb),
+        .is_D_valid(valid_out_D_RrAg_latch_in),
 
         .btb_update_eip_WB(latched_eip_WB_out), //EIP of BR instr, passed from D
         .FIP_E_WB(newFIP_e_WB_out), 
@@ -668,8 +675,11 @@
         .FIP_O_target(BP_FIP_o_BTB_out),
         .EIP_target(BP_EIP_BTB_out),
         .btb_miss(),
-        .btb_hit()
+        .btb_hit(btb_hit)
     );
+
+    wire is_BR_T_NT_BP_out_and_btb_hit;
+    andn #(.NUM_INPUTS(2)) and1(.in({is_BR_T_NT_BP_out, btb_hit}), .out(is_BR_T_NT_BP_out_and_btb_hit));
     
     /*TODO: SIGNAL FOR CLEARING LATCHES*/
     wire WB_to_clr_latches_resteer, WB_to_clr_latches_resteer_active_low;
@@ -693,7 +703,7 @@
         .BP_FIP_o(BP_FIP_o_BTB_out),
         .BP_FIP_e(BP_FIP_e_BTB_out),
         .BP_BIP(BP_EIP_BTB_out[5:0]),
-        .is_BR_T_NT(1'b0), //TODO : change this if testing BP
+        .is_BR_T_NT(is_BR_T_NT_BP_out_and_btb_hit), //TODO : change this if testing BP
         .BP_update_alias(BP_update_alias_out), //
         .BP_target(BP_EIP_BTB_out), //
 
@@ -795,13 +805,15 @@
         .IE_type_in(IE_type_F_D_latch_out),
         .instr_is_IDTR_orig_in(instr_is_IDTR_orig_F_D_latch_out),
         .IDTR_is_POP_EFLAGS_in(IDTR_is_POP_EFLAGS_F_D_latch_out),
-        .BP_alias_in(BP_alias_F_D_latch_out),
-        .BR_pred_target_in(BR_pred_target_F_D_latch_out),
-        .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_out),
+        // .BP_alias_in(BP_alias_F_D_latch_out),
+        // .BR_pred_target_in(BR_pred_target_F_D_latch_out),
+        // .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_out),
 
         // Signals from BP
         .BP_EIP(BP_EIP_BTB_out),
-        .is_BR_T_NT(1'b0),
+        .is_BR_T_NT(is_BR_T_NT_BP_out_and_btb_hit),
+        .BP_alias_in(BP_update_alias_out),
+        .BP_BR_pred_target_in(BP_EIP_BTB_out),
     
         // Writeback signals
         .WB_EIP(newEIP_WB_out),
@@ -1492,6 +1504,8 @@
         .BP_alias_in(BP_alias_EX_WB_latch_out),
         .inst_ptcid_in(inst_ptcid_EX_WB_latch_out),
         .set(global_set), .rst(global_reset),
+        .latched_latched_EIP_out(latched_latched_eip_WB_out),
+        .latched_latched_latched_EIP_out(latched_latched_latched_eip_WB_out),
 
         .inp1_wb(inp1_wb_EX_WB_latch_out), .inp2_wb(inp2_wb_EX_WB_latch_out), .inp3_wb(inp3_wb_EX_WB_latch_out), .inp4_wb(inp4_wb_EX_WB_latch_out),
         .inp1(inp1_EX_WB_latch_out), .inp2(inp2_EX_WB_latch_out), .inp3(inp3_EX_WB_latch_out), .inp4(inp4_EX_WB_latch_out),

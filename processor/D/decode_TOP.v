@@ -14,15 +14,17 @@ module decode_TOP(
     input wire [3:0] IE_type_in,
     input wire instr_is_IDTR_orig_in,
     input wire IDTR_is_POP_EFLAGS_in,
-    input wire [5:0] BP_alias_in,
-    input wire [31:0] BR_pred_target_in,
-    input wire BR_pred_T_NT_in,
+    // input wire [5:0] BP_alias_in,
+    // input wire [31:0] BR_pred_target_in,
+    // input wire BR_pred_T_NT_in,
 
     ////////////////////////////
     //     signals from BP   //
     ///////////////////////////
     input wire [31:0] BP_EIP,
     input wire is_BR_T_NT,
+    input wire [5:0] BP_alias_in,
+    input wire [31:0] BP_BR_pred_target_in,
 
     ////////////////////////////
     //    writeback signals   //
@@ -396,7 +398,8 @@ module decode_TOP(
 
     wire [7:0] instruction_length;
     wire pass_length;
-    andn #(2) a3qlwkhrkj1ho23(.in({not_is_CF, valid_in}), .out(pass_length));
+    // andn #(2) a3qlwkhrkj1ho23(.in({not_is_CF, valid_in}), .out(pass_length));
+    assign pass_length = valid_in;
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(8)) muuxewuxee1(
         .in({decoded_instr_length, 8'b00000000}), 
@@ -467,8 +470,7 @@ module decode_TOP(
     assign eip_out = EIP_plus_length;
     assign IE_out = IE_in;
     assign IE_type_out = IE_type_in;
-    assign BR_pred_target_out = BR_pred_target_in;
-    assign BR_pred_T_NT_out = BR_pred_T_NT_in;
+    
 
     assign D_length = instruction_length;
     assign stall_out = guard_full_stall;
@@ -476,8 +478,13 @@ module decode_TOP(
 
     assign latched_eip_out = latched_EIP;
 
-
+    assign BR_pred_target_out = BP_BR_pred_target_in;
+    assign BR_pred_T_NT_out = is_BR_T_NT;
     assign BP_alias_out = BP_alias_in;
+    // regn #(1) BP_alias_reg(.din(BP_alias_in), .ld(valid_out), .clk(clk), .clr(reset), .dout(BP_alias_out));
+    // regn #(32) BR_pred_target_reg(.din(BP_BR_pred_target_in), .ld(valid_out), .clk(clk), .clr(reset), .dout(BR_pred_target_out));
+    // regn #(1) BR_pred_T_NT_reg(.din(is_BR_T_NT), .ld(valid_out), .clk(clk), .clr(reset), .dout(BR_pred_T_NT_out));
+
     assign instr_is_IDTR_orig_out = instr_is_IDTR_orig_in;
     assign IDTR_is_POP_EFLAGS_out = IDTR_is_POP_EFLAGS_in;
 
