@@ -858,7 +858,7 @@
         .D_length(D_length_D_F_out)
     );
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(37)) pop_eflags_mux(.in({35'b0, 2'b11, p_op_D_out}), .sel(IDTR_is_POP_EFLAGS_D_out), .out(p_op_D_RrAg_latch_in));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(37)) pop_eflags_mux(.in({37'b0_0000_0000_0001_0000_0000_0000_0000_0000_0011, p_op_D_out}), .sel(IDTR_is_POP_EFLAGS_D_out), .out(p_op_D_RrAg_latch_in));
     
     wire [m_size_D_RrAg-1:0] m_din_D_RrAg;
     wire [n_size_D_RrAg-1:0] n_din_D_RrAg;

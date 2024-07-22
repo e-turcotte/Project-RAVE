@@ -192,11 +192,12 @@ module writeback_TOP(
     b4_bitwise_and brobro (.out(final_IE_type), .in0(almost_final_IE_type2), .in1( {IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv} ));  
 
 
-    wire instr_is_final1, instr_is_final2;
+    wire instr_is_final1, instr_is_final2, instr_is_final3;
 
-    andn #(3) n24 (.out(instr_is_final1), .in ( {P_OP[1:0], valid_in} ));
-    andn #(3) n25 (.out(instr_is_final2), .in ( {P_OP[12], instr_is_IDTR_orig_in, valid_in} ));
-    orn  #(2) n26 (.out(instr_is_final_WB), .in( {instr_is_final1, instr_is_final2} ));
+    //andn #(3) n24 (.out(instr_is_final1), .in ( {P_OP[1:0], valid_in} ));
+    andn #(3) n25 (.out(instr_is_final1), .in ( {P_OP[12], instr_is_IDTR_orig_in, valid_in} )); //jmp
+    andn #(3) n29 (.out(instr_is_final2), .in ( {P_OP[36], instr_is_IDTR_orig_in, valid_in} )); //ret far
+    orn  #(2) n26 (.out(instr_is_final_WB), .in( {instr_is_final1, instr_is_final2 /*, instr_is_final3 */ } ));
 
 endmodule
 

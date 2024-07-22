@@ -80,6 +80,8 @@ module IE_handler (
     wire [127:0] push_eflags, push_cs, push_eip, first_4_bytes, second_4_bytes, exchange, sar16, mov_cs, jump, ret_far, pop_eflags;
     wire [31:0]  push_eflags_imm, push_cs_imm, push_eip_imm, first_4_bytes_imm, second_4_bytes_imm;
 
+    //not reflected in naming, but true order is push CS, push EIP, 
+
     endian_swap32 e0(.in({EFLAGS_internal}), .out(push_eflags_imm));                //0000_0000_0001
     assign push_eflags = {8'h68, push_eflags_imm, 88'b0};                           //PUSH EFLAGS   
 
@@ -102,8 +104,9 @@ module IE_handler (
     assign ret_far = {8'hcb, 120'h0};                                               //RET FAR
     assign pop_eflags = {8'h59, 120'h0};                                            //POP EFLAGS to ECX but used to load EFLAGS
 
-    muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(128)) m2(.in({pop_eflags, ret_far, jump, mov_cs, sar16, exchange, second_4_bytes,
-                                                                first_4_bytes, push_eip, push_cs, push_eflags}), 
+
+    muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(128)) m2(.in({ret_far, pop_eflags, jump, mov_cs, sar16, exchange, second_4_bytes,
+                                                                first_4_bytes, push_eflags, push_eip, push_cs}), 
                                                                 .sel(IDTR_packet_select), .out(IDTR_packet_out));
     
 
@@ -238,7 +241,7 @@ module IDTR_FSM (
     orn  #(.NUM_INPUTS(3)) o6(.out(LD_EIP), .in( {e0, e1, e2} ));
 
     //is_POP_EFLAGS
-    andn #(.NUM_INPUTS(4)) a38(.out(is_POP_EFLAGS), .in( {CS[3:1], notCS[0]} ));
+    andn #(.NUM_INPUTS(4)) a38(.out(is_POP_EFLAGS), .in( {CS[3:2], notCS[1], CS[0]} ));
 
     //LD_info_regs
     andn #(.NUM_INPUTS(4)) a39(.out(LD_info_regs), .in( {notCS[3:0]} ));
@@ -260,8 +263,9 @@ module IDTR_FSM (
     //is_final_switch_state
     wire switch0, switch1;
     andn #(4) a43 (.out(switch0), .in( {CS[3], notCS[2], CS[1], notCS[0]} ));
-    andn #(4) a44 (.out(switch1), .in( { CS[3:1], notCS[0] } ));
-    orn  #(.NUM_INPUTS(2)) o9898769(.out(is_final_switch_state), .in(  {switch0, switch1 } ));
+    //andn #(4) a44 (.out(switch2), .in( { CS[3:2], notCS[1], CS[0] } ));
+    andn #(4) a499876 (.out(switch1), .in( { CS[3:1], notCS[0] } ));
+    orn  #(.NUM_INPUTS(2)) o9898769(.out(is_final_switch_state), .in(  {switch0, switch1 /*, switch2*/ } ));
 
     //if (CS = 1010 or 1101 and is_final_switch_instr_WB = 0) then (NS = CS) , (fetch_packet_valid_out = 0)
 
@@ -270,13 +274,14 @@ module IDTR_FSM (
     dff$ d111(.clk(clk_temp), .d(is_final_switch_instr_WB), .q(is_final_switch_instr_internal), .qbar(is_not_final_switch_instr_internal), .r(reset), .s(set));
     
     wire ld_mux_inv, ld_mux;
-    andn i44567(.out(ld_mux_inv), .in( {is_final_switch_state, is_not_final_switch_instr_internal} ));
+    andn #(2) i44567(.out(ld_mux_inv), .in( {is_final_switch_state, is_not_final_switch_instr_internal} ));
 
-    wire ld_mux_latched;
+    wire ld_mux_latched, ld_mux_out;
     dff$ d112(.clk(clk_temp), .d(ld_mux), .q(ld_mux_latched), .qbar(), .r(reset), .s(set));
+    andn #(2) (.out(ld_mux_out), .in( {rrag_stall_not, ld_mux_latched} ));
 
     inv1$ g543 (.out(ld_mux), .in(ld_mux_inv));
-    assign invalidate_fetch_out = ld_mux_latched;
+    assign invalidate_fetch_out = ld_mux_out;
 
 endmodule
 
