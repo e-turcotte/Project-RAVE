@@ -56,6 +56,8 @@ module execute_TOP(
     input is_fp,    //N
     input is_rep_in,   //N
     input[15:0] CS, //N
+    input is_resteer,
+    input valid_wb,
     //Global
 
     output valid_out,
@@ -106,6 +108,9 @@ module execute_TOP(
     wire swapCXC; 
     wire[63:0] res2_xchg;
     wire gBR;
+
+    nand2$ efp0(eflag_pop, P_OP[1], P_OP[0]);
+    and2$ efp1(res1_wb, res1_ld_in, eflag_pop);
 
     orn #(7) o1({P_OP[3], P_OP[11],P_OP[12],P_OP[34], P_OP[35], P_OP[36], P_OP[28]}, gBR );
 
@@ -173,7 +178,7 @@ module execute_TOP(
     assign eflags = eflags_rd;
     assign eflags_ld = {1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 2'b0, of_out, df_out,  1'b0, 1'b0, sf_out, zf_out, af_out, pf_out, cf_out}; 
     assign af = eflags_rd[2]; assign cf = eflags_rd[0];  assign pf = eflags_rd[1]; assign zf = eflags_rd[3];   assign sf = eflags_rd[4];  assign df = eflags_rd[7];  assign of = eflags_rd[8];     
-    EFLAG e1(eflags_rd, clk, set, rst, valid_internal, eflags_ld, FMASK, cc_inval, P_OP[1:0], OP2[17:0]);
+    EFLAG e1(eflags_rd, clk, set, rst, valid_internal, eflags_ld, FMASK, cc_inval, P_OP[1:0], op2[17:0], is_resteer, valid_wb);
     assign CS_out = CS;
     assign P_OP_out = P_OP;
     //Handle skipGen
@@ -266,7 +271,7 @@ module res4Handler(
     or4$ pus(isPush, P_OP_PUSH, P_OP_CALL_NEAR, P_OP_CALL_FAR, P_OP_CALL_PTR );
     or3$ pop(isPop, P_OP_POP, P_OP_RET_FAR, P_OP_RET_PTR);
     or2$ isRET(isRet, P_OP_RET_FAR, P_OP_RET_PTR);
-     and2$ immO(immOVR, isRet, isImm);
+    and2$ immO(immOVR, isRet, isImm);
     or3$ incre(switch, isPush, isPop, P_OP_MOVS);
 
     mux8_n #(32) mx(add3, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], isPush );
@@ -297,7 +302,7 @@ P_OP List/Numbering
 7	CMPXCHG
 8	DAA
 9	HLT
-10	IREtd
+0	IREtd
 11	JMPnear
 12	JMPfar
 13	MOV
@@ -318,9 +323,9 @@ P_OP List/Numbering
 28	RET
 29	SAL
 30	SAR
-31  STD
-32 JMPptr
-33 XCHG
+31      STD
+32 	JMPptr
+33  XCHG
 34 CALLfar
 35 call ptr
 36 return ptr

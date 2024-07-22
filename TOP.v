@@ -1310,6 +1310,8 @@
         .res1_is_mem_in(res1_is_mem_MEM_EX_latch_out), .res2_is_mem_in(res2_is_mem_MEM_EX_latch_out), 
         .res3_is_mem_in(res3_is_mem_MEM_EX_latch_out), .res4_is_mem_in(res4_is_mem_MEM_EX_latch_out),
         .opsize_in(opsize_MEM_EX_latch_out),
+        .is_resteer(is_resteer_WB_out),
+        .valid_wb(is_valid_WB_out),
         
         .aluk(aluk_MEM_EX_latch_out),
         .MUX_ADDER_IMM(MUX_ADDER_IMM_MEM_EX_latch_out),

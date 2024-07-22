@@ -13,7 +13,9 @@ module EFLAG(
     input[17:0] FMASK,
     input cc_inval,
     input [1:0] P_OP,
-    input [17:0] OP2
+    input [17:0] OP2,
+    input is_resteer,
+    input valid_wb
 );
 
 assign cf = cc_out[0];
@@ -23,7 +25,7 @@ assign zf = cc_out[3];
 assign sf = cc_out[4];
 assign df = cc_out[7];
 assign of = cc_out[8];
-wire[17:0] cc_new;
+wire[17:0] cc_new,cc_new2,  cc_old, cc_not_old;
 wire[17:0] FMASK_v; wire cc_val;
 inv1$ inv1(cc_val, cc_inval);
 wire v;
@@ -36,8 +38,11 @@ and3$ asdasfd(isIRET, P_OP[1], P_OP[0], val);
 for(i = 0; i < 18; i = i + 1) begin : ef
     and2$ a(FMASK_v[i], val_n,FMASK[i]);
     dff$ d(clk, cc_new[i], cc_out[i], cc_not[i], rst, set);
-    mux4$ m(cc_new[i], cc_out[i], cc_in[i], OP2[i], OP2[2], FMASK_v[i], isIRET);
+    mux4$ m(cc_new2[i], cc_out[i], cc_in[i], OP2[i], OP2[2], FMASK_v[i], isIRET);
+    mux2$ m2(cc_new[i], cc_new2[i], cc_old[i], is_resteer);
 end
+    
+regn #(18) r69(.din(cc_out), .ld(valid_wb), .clr(rst), .clk(clk), .dout(cc_old));
 
 endgenerate
 
