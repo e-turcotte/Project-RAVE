@@ -162,7 +162,7 @@ module writeback_TOP(
     // wire is_resteer_pre_flopping;
     wire is_resteer_no_valid_anded;
     nor2$ g0(.out(is_resteer_no_valid_anded), .in0(BR_correct_in), .in1(invvalid));
-    and2$ g342d1(.out(is_resteer), .in0(is_resteer_no_valid_anded), .in1(valid_in));
+    and3$ g342d1(.out(is_resteer), .in0(is_resteer_no_valid_anded), .in1(valid_in), .in2(BR_valid));
 
     // wire not_clk;
     // inv1$ gdf1(.in(clk), .out(not_clk));
