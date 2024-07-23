@@ -27,9 +27,9 @@ module dumper (input [31:0] eip, latch_eip,
             $fdisplay(file, "\n");
 
             $fdisplay(file, "[===INSTRUCTION===]");
-            $fdisplay(file, "EIP         = %h", eip);
-            $fdisplay(file, "LATCHED EIP = %h", latch_eip);
-            $fdisplay(file, "PTCID       = %h", ptcid);
+            $fdisplay(file, "EIP         = 0x%h", eip);
+            $fdisplay(file, "LATCHED EIP = 0x%h", latch_eip);
+            $fdisplay(file, "PTCID       = 0x%h", ptcid);
             $fdisplay(file, "[===WB DATA===]");
             $fdisplay(file, "RES1 = 0x%h   DEST1 = 0x%h   REG/SEG/MEM/EIP = %b", res1, dest1, {reg_wb[0],seg_wb[0],mem_wb[0],eip_wb});
             $fdisplay(file, "RES2 = 0x%h   DEST2 = 0x%h   REG/SEG/MEM/EIP = %b", res2, dest2, {reg_wb[1],seg_wb[1],mem_wb[1],1'b0});
