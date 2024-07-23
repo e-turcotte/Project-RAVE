@@ -137,7 +137,7 @@ module fetch_2 (
     
     andn #(2) b23r(.out(packet_out_valid_almost1), .in( {fetch_packet_out_valid, IE_val_inv} ));
     or2$ o1243(.out(packet_out_valid_almost2), .in0(packet_out_valid_almost1), .in1(packet_select));
-    andn #(2) k23 (.out(packet_out_valid), .in( {packet_out_valid_almost2, IDTR_invalidate_fetch} ));
+    andn #(2) k23 (.out(packet_out_valid), .in( {packet_out_valid_almost2, /*IDTR_invalidate_fetch*/1'b1} )); //TODO - revert that comment
     // orn #(2) lasjfhl(.out(packet_out_valid), .in({packet_out_valid_almost3, is_resteer})); //for the jump within the switching service routine;
 
     wire [127:0] line_00_reverse, line_01_reverse, line_10_reverse, line_11_reverse;
