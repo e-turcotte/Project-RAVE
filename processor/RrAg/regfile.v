@@ -15,10 +15,12 @@ module regfile (input [255:0] din,
 
     decodern #(.INPUT_WIDTH(2)) d0(.in(ldsize), .out(decodedldsize));
     decodern #(.INPUT_WIDTH(2)) d1(.in(rdsize), .out(decodedrdsize));
-    wire usegpr, usemmx;
+    wire usegpr_rd, usegpr_ld, usemmx_rd, usemmx_ld;
     
-    inv1$ g0(.out(usegpr), .in(decodedldsize[3]));
-    assign usemmx = decodedldsize[3];
+    inv1$ g02(.out(usegpr_rd), .in(decodedrdsize[3]));
+    assign usemmx_rd = decodedrdsize[3];
+    inv1$ g0(.out(usegpr_ld), .in(decodedldsize[3]));
+    assign usemmx_ld = decodedldsize[3];
 
     wire [31:0] gprld, mmxld, decodedld, gprdest, mmxdest, decodedrd;
 
@@ -36,25 +38,25 @@ module regfile (input [255:0] din,
     generate
         for (i = 0; i < 32; i = i + 1) begin : ld_slices
             if (i < 8) begin
-                and3$ g2(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[0]));
-                and3$ g3(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[0]));
-                and3$ g4(.out(mmxdest[i]), .in0(decodedrd[i]), .in1(usemmx), .in2(dest[0]));
-                and3$ g5(.out(gprdest[i]), .in0(decodedrd[i]), .in1(usegpr), .in2(dest[0]));
+                and3$ g2(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx_ld), .in2(ld_en[0]));
+                and3$ g3(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr_ld), .in2(ld_en[0]));
+                and3$ g4(.out(mmxdest[i]), .in0(decodedrd[i]), .in1(usemmx_rd), .in2(dest[0]));
+                and3$ g5(.out(gprdest[i]), .in0(decodedrd[i]), .in1(usegpr_rd), .in2(dest[0]));
             end else if (8 <= i && i < 16) begin
-                and3$ g6(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[1]));
-                and3$ g7(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[1]));
-                and3$ g8(.out(mmxdest[i]), .in0(decodedrd[i]), .in1(usemmx), .in2(dest[1]));
-                and3$ g9(.out(gprdest[i]), .in0(decodedrd[i]), .in1(usegpr), .in2(dest[1]));
+                and3$ g6(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx_ld), .in2(ld_en[1]));
+                and3$ g7(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr_ld), .in2(ld_en[1]));
+                and3$ g8(.out(mmxdest[i]), .in0(decodedrd[i]), .in1(usemmx_rd), .in2(dest[1]));
+                and3$ g9(.out(gprdest[i]), .in0(decodedrd[i]), .in1(usegpr_rd), .in2(dest[1]));
             end else if (16 <= i && i< 24) begin
-                and3$ g10(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[2]));
-                and3$ g11(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[2]));
-                and3$ g12(.out(mmxdest[i]), .in0(decodedrd[i]), .in1(usemmx), .in2(dest[2]));
-                and3$ g13(.out(gprdest[i]), .in0(decodedrd[i]), .in1(usegpr), .in2(dest[2]));
+                and3$ g10(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx_ld), .in2(ld_en[2]));
+                and3$ g11(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr_ld), .in2(ld_en[2]));
+                and3$ g12(.out(mmxdest[i]), .in0(decodedrd[i]), .in1(usemmx_rd), .in2(dest[2]));
+                and3$ g13(.out(gprdest[i]), .in0(decodedrd[i]), .in1(usegpr_rd), .in2(dest[2]));
             end else begin
-                and3$ g14(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx), .in2(ld_en[3]));
-                and3$ g15(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr), .in2(ld_en[3]));
-                and3$ g16(.out(mmxdest[i]), .in0(decodedrd[i]), .in1(usemmx), .in2(dest[3]));
-                and3$ g17(.out(gprdest[i]), .in0(decodedrd[i]), .in1(usegpr), .in2(dest[3]));
+                and3$ g14(.out(mmxld[i]), .in0(decodedld[i]), .in1(usemmx_ld), .in2(ld_en[3]));
+                and3$ g15(.out(gprld[i]), .in0(decodedld[i]), .in1(usegpr_ld), .in2(ld_en[3]));
+                and3$ g16(.out(mmxdest[i]), .in0(decodedrd[i]), .in1(usemmx_rd), .in2(dest[3]));
+                and3$ g17(.out(gprdest[i]), .in0(decodedrd[i]), .in1(usegpr_rd), .in2(dest[3]));
             end
         end
     endgenerate
@@ -67,8 +69,8 @@ module regfile (input [255:0] din,
     gprfile gf(.din({din[223:192],din[159:128],din[95:64],din[31:0]}), .ld(gprld), .dest(gprdest), .rd(rd_addr), .ldsize(decodedldsize[2:0]), .rdsize(decodedrdsize[2:0]), .addressingmode(addressingmode), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout(gprouts), .addrout(addrout), .ptcout(gprptcs), .addrptc(addrptc));
     mmxfile mf(.din(din), .ld(mmxld), .dest(mmxdest), .rd(rd_addr), .data_ptcid(data_ptcid), .new_ptcid(new_ptcid), .clr(clr), .ptcclr(ptcclr), .clk(clk), .dout(mmxouts), .ptcout(mmxptcs));
 
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(256)) m0(.in({mmxouts,{32{gprouts[127]}},gprouts[127:96],{32{gprouts[95]}},gprouts[95:64],{32{gprouts[63]}},gprouts[63:32],{32{gprouts[31]}},gprouts[31:0]}), .sel(usemmx), .out(dout));
-    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(512)) m1(.in({mmxptcs,{64{1'b0}},gprptcs[255:192],{64{1'b0}},gprptcs[191:128],{64{1'b0}},gprptcs[127:64],{64{1'b0}},gprptcs[63:0]}), .sel(usemmx), .out(ptcout));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(256)) m0(.in({mmxouts,{32{gprouts[127]}},gprouts[127:96],{32{gprouts[95]}},gprouts[95:64],{32{gprouts[63]}},gprouts[63:32],{32{gprouts[31]}},gprouts[31:0]}), .sel(usemmx_rd), .out(dout));
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(512)) m1(.in({mmxptcs,{64{1'b0}},gprptcs[255:192],{64{1'b0}},gprptcs[191:128],{64{1'b0}},gprptcs[127:64],{64{1'b0}},gprptcs[63:0]}), .sel(usemmx_rd), .out(ptcout));
 
     integer k, cyc_cnt;
     integer file;
@@ -228,12 +230,12 @@ module gprfile (input [127:0] din,
             nor3$ g5(.out(notinuserd), .in0(rdsize[2]), .in1(rdsize[1]), .in2(rdsize[0]));
 
             assign out32[i] = {e_out[i],h_out[i],l_out[i]};
-            sext_16_to_32 s0(.in({h_out[i],l_out[i]}), .out(out16[i]));
+            assign out16[i] = {16'h0000,h_out[i],l_out[i]};
             assign ptc32[i] = {e_ptc[i],h_ptc[i],l_ptc[i]};
             assign ptc16[i] = {32'h0000,h_ptc[i],l_ptc[i]};
             if (i < 4) begin
-                sext_8_to_32 s1(.in(h_out[i]), .out(out8h[i]));
-                sext_8_to_32 s2(.in(l_out[i]), .out(out8l[i]));
+                assign out8h[i] = {24'h000000,h_out[i]};
+                assign out8l[i] = {24'h000000,l_out[i]};
                 assign ptc8h[i] = {48'h000000,h_ptc[i]};
                 assign ptc8l[i] = {48'h000000,l_ptc[i]};
                 muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(32)) m7(.in({{32{1'b0}},out32[i],out16[i],out8l[i]}), .sel({notinuserd,rdsize}), .out(outs[(i*32)+31:i*32]));
