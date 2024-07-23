@@ -1576,4 +1576,24 @@
 
     nand2$ ptc_clear_and (.in0(idtr_ptc_clear_out), .in1(is_resteer_WB_out), .out(IDTR_PTC_clear)); //TODO
 
+    dumper dumpy(.eip(EIP_EX_WB_latch_out), .latch_eip(latched_eip_EX_WB_latch_out),
+                 .ptcid(inst_ptcid_EX_WB_latch_out),
+                 .res1(res1_WB_RRAG_out), .res2(res2_WB_RRAG_out), .res3(res3_WB_RRAG_out), .res4(res4_WB_RRAG_out),
+                 .dest1(inp1_dest_EX_WB_latch_out), .dest2(inp2_dest_EX_WB_latch_out), .dest3(inp3_dest_EX_WB_latch_out), .dest4(inp4_dest_EX_WB_latch_out),
+                 .reg_wb(reg_ld_WB_RRAG_out), .seg_wb(seg_ld_WB_RRAG_out), .mem_wb(mem_ld_WB_M_out),
+                 .eip_wb(is_resteer_WB_out),
+                 .br_pred_tnt(BR_pred_T_NT_EX_WB_latch_out), .br_pred_target(BR_pred_target_EX_WB_latch_out),
+                 .eflags(final_EFLAGS),
+                 .gpf_out({r1.rf.gf.e_out[7],r1.rf.gf.h_out[7],r1.rf.gf.l_out[7],
+                          r1.rf.gf.e_out[6],r1.rf.gf.h_out[6],r1.rf.gf.l_out[6],
+                          r1.rf.gf.e_out[5],r1.rf.gf.h_out[5],r1.rf.gf.l_out[5],
+                          r1.rf.gf.e_out[4],r1.rf.gf.h_out[4],r1.rf.gf.l_out[4],
+                          r1.rf.gf.e_out[3],r1.rf.gf.h_out[3],r1.rf.gf.l_out[3],
+                          r1.rf.gf.e_out[2],r1.rf.gf.h_out[2],r1.rf.gf.l_out[2],
+                          r1.rf.gf.e_out[1],r1.rf.gf.h_out[1],r1.rf.gf.l_out[1],
+                          r1.rf.gf.e_out[0],r1.rf.gf.h_out[0],r1.rf.gf.l_out[0]}),
+                 .mmf_out(r1.rf.mf.outs),
+                 .sf_out(r1.sf.base_outs),
+                 .clk(clk_g), .valid(is_valid_WB_out));
+
  endmodule

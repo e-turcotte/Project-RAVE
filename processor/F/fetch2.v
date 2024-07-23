@@ -102,8 +102,10 @@ module fetch_2 (
 
     regn #(.WIDTH(1)) scrappy_fix_to_get_delayed_valid_for_decode_so_i_dont_have_to_refactor(.din(packet_out_valid), 
                                                                 .ld(not_stall), .clk(clk), .clr(reset), .dout(packet_out_valid_latched));
-
-    andn #(2) a2(.in({not_stall, packet_out_valid_latched}), .out(ld_BIP_no_override));
+    
+    wire ld_BIP_no_override_not_checking_CF;
+    andn #(2) a2(.in({not_stall, packet_out_valid_latched}), .out(ld_BIP_no_override_not_checking_CF));
+    orn #(2) jhdkfh(.in({ld_BIP_no_override_not_checking_CF, is_CF}), .out(ld_BIP_no_override));
 
     orn #(2) sdfo1(.out(ld_BIP), .in({ld_BIP_no_override, ld_BIP_override}));
     
