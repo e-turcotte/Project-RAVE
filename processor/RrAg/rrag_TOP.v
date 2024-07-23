@@ -46,6 +46,7 @@ module rrag (input valid_in,
              output valid_out, stall,
              output [1:0] opsize_out,
              output [31:0] mem_addr1, mem_addr2, mem_addr1_end, mem_addr2_end,
+             output mem1_end_is_valid, mem2_end_is_valid, 
              output [63:0] reg1, reg2, reg3, reg4,
              output [127:0] ptc_r1, ptc_r2, ptc_r3, ptc_r4,
              output [2:0] reg1_orig, reg2_orig, reg3_orig, reg4_orig,
@@ -156,8 +157,8 @@ module rrag (input valid_in,
     wire [3:0] decodedsize;
 
     decodern #(.INPUT_WIDTH(2)) d0(.in(opsize_in), .out(decodedsize));
-    prot_exception_logic p0(.VP(VP), .PF(PF), .disp_imm(disp), .calc_size(segoffs), .address_size(decodedsize), .read_address_end_size(mem_addr1_end));
-    prot_exception_logic p1(.VP(VP), .PF(PF), .disp_imm(32'h00000000), .calc_size(regformem4), .address_size(decodedsize), .read_address_end_size(mem_addr2_end));
+    prot_exception_logic p0(.VP(VP), .PF(PF), .disp_imm(disp), .calc_size(segoffs), .address_size(decodedsize), .read_address_end_size(mem_addr1_end), .prot_logic_is_valid(mem1_end_is_valid));
+    prot_exception_logic p1(.VP(VP), .PF(PF), .disp_imm(32'h00000000), .calc_size(regformem4), .address_size(decodedsize), .read_address_end_size(mem_addr2_end), .prot_logic_is_valid(mem2_end_is_valid));
 
     assign aluk_out = aluk_in;
     assign mux_add_out = mux_adder_in;
