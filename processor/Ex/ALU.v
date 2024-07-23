@@ -237,8 +237,10 @@ mux2$ mx4(sal_cf, SAR_cf_nOF, OP1[31], overSHF);
 or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
 mux2$ mx1(sal_of, of, OP1[31], of_sel);
 assign sal_af = 0;
+inv1$ asax(mux_shf_n, MUX_SHF);
+and2$ (overSHF_adj ,overSHF, mux_shf_n);
 //TODO: check here
-mux2n #(32) mx(SAL_out[31:0], shf_out, 32'd0 ,overSHF);
+mux2n #(32) mx(SAL_out[31:0], shf_out, 32'd0 ,overSHF_adj);
 equaln #(32) mx5(32'd0, shiftCnt, cc_val);
 
 endmodule

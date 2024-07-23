@@ -36,7 +36,7 @@ module BRLOGIC(
     wire match32, match48;
     equaln #(32) e1(pred_target[31:0], act_target[31:0], match32);
     
-    kogeAdder #(32) inc(FIP_p1, cout, FIP, 32'h0000_0010, 1'b0);
+     kogeAdder #(32) inc(FIP_p1, cout, FIP, 32'h0000_0010, 1'b0);
     wire destCorrect; wire brCorrect; wire takenCor; wire notTakenCor;
     
     and3$ x1(takenCor , pred_taken, taken,match32);
