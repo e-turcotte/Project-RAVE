@@ -182,8 +182,8 @@
 0x206c:	 00 00 00 00
 0x2070:	 00 00 00 00
 0x2074:	 FF EE 69 42    //junk
-0x2078:	 00 00 00 00    //cs=0x0060, eip=0x0 (ISR address)
-0x207C:	 60 00 00 00
+0x2078:	 00 00 00 00    //cs=0x06000, eip=0x0 (ISR address)
+0x207C:	 00 60 00 00
 0x2080:	 AA BB CC DD    //junk
 
 //ISR
