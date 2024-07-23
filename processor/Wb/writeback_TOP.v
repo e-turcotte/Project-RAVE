@@ -180,13 +180,10 @@ module writeback_TOP(
     inv1$ i92(.out(invstall), .in(stall));
 
     wire [3:0] almost_final_IE_type, almost_final_IE_type2;
-    assign almost_final_IE_type[2:0] = IE_type_in[2:0];
-    assign almost_final_IE_type[3] = interrupt_in;
-    or2$ o4(.out(IE_val_almost), .in0(IE_in), .in1(interrupt_in));
 
     wire IDTR_is_serciving_inv;
     
-    inv1$ i123(.out(IE_val_inv), .in(IE_val_almost));
+    inv1$ i123(.out(IE_val_inv), .in(IE_in));
     inv1$ i321(.out(IDTR_is_serciving_inv), .in(IDTR_is_serciving_IE));
 
     wire valid_out_1, valid_out_2;
@@ -194,10 +191,13 @@ module writeback_TOP(
     andn #(2) weg(.out(valid_out_2), .in( {instr_is_IDTR_orig_in, valid_in } ));
     orn #(2) p234 (.out(valid_out), .in ( {valid_out_1, valid_out_2} ));
 
-    and3$ a134 (.out(final_IE_val), .in0(IE_val_almost), .in1(valid_in), .in2(IDTR_is_serciving_inv));
-    b4_bitwise_and bro (.out(almost_final_IE_type2), .in0(almost_final_IE_type), .in1( {valid_in, valid_in, valid_in, valid_in} ));
-    b4_bitwise_and brobro (.out(final_IE_type), .in0(almost_final_IE_type2), .in1( {IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv} ));  
+    and3$ a134 (.out(IE_val_almost), .in0(IE_in), .in1(valid_in), .in2(IDTR_is_serciving_inv));
+    b4_bitwise_and bro (.out(almost_final_IE_type2), .in0(IE_type_in), .in1( {valid_in, valid_in, valid_in, valid_in} ));
+    b4_bitwise_and brobro (.out(almost_final_IE_type), .in0(almost_final_IE_type2), .in1( {IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv} ));  
 
+    assign final_IE_type[2:0] = almost_final_IE_type[2:0];
+    assign final_IE_type[3] = interrupt_in;
+    orn #(2) qoegf(.out(final_IE_val), .in({IE_val_almost, interrupt_in}));
 
     wire instr_is_final1, instr_is_final2, instr_is_final3;
 

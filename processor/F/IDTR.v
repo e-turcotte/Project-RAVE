@@ -183,7 +183,8 @@ module IDTR_FSM (
     wire muxsel0, muxsel1, muxsel2, muxsel;
     
     andn #(5) wgw235 (.out(muxsel0), .in({ notNS[3:1], NS[0],  rrag_stall_in})); //next state is setup and rrag - allow to change
-    orn #(2) p234 (.out(muxsel1), .in( {rrag_stall_not, muxsel0} ));
+    //DO NOT CHANGE THIS FROM 3 --> 2 - somehow breaks everything
+    orn #(3) p234 (.out(muxsel1), .in( {rrag_stall_not, muxsel0} ));
     //if allowed to move or no rrag stall, allow to move
 
     inv1$ i1834(.in(muxsel1), .out(muxsel2));

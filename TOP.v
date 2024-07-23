@@ -60,7 +60,6 @@
     reg global_init;
     reg [31:0] EIP_init;
     reg [31:0] IDTR_base;
-    reg interrupt;
 
     initial begin
         // D_valid = 1'b1;
@@ -69,7 +68,6 @@
         global_set = 1;
         IDTR_base = 32'h02000000;
         global_init = 0;
-        interrupt = 0;
         //initialize TLB
         VP_0 = 20'h00000;
 		VP_1 = 20'h02000; // - IDTR
@@ -92,7 +90,7 @@
 		entry_v = 8'b11111111;
 		entry_P = 8'b11111111;
 		entry_RW= 8'b11111111;
-		entry_PCD =  8'b00000000;
+		entry_PCD =  8'b10000000;
 
 		VP = {VP_7, VP_6, VP_5, VP_4, VP_3, VP_2, VP_1, VP_0};
 		PF = {PF_7, PF_6, PF_5, PF_4, PF_3, PF_2, PF_1, PF_0};
@@ -575,6 +573,8 @@
     wire ackIE, ackIO, ackDEr, ackDEw, ackDOr, ackDOw, grantIE, grantIO, 
         grantDEr, grantDEw, grantDOr, grantDOw, recvIE, recvIO, recvDE, recvDO;
 
+    wire interrupt;
+
     offcoreBus_TOP offcoreBus(
         .clk( clk_ng),
         .rst(global_reset),
@@ -622,7 +622,8 @@
         .recvIE(recvIE), 
         .recvIO(recvIO), 
         .recvDE(recvDE), 
-        .recvDO(recvDO)
+        .recvDO(recvDO),
+        .interrupt_out(interrupt)
     );
 
     IE_handler IDTR(
@@ -637,7 +638,7 @@
         .CS_WB(final_CS),
         .is_resteer(is_resteer_WB_out),
         .is_IRETD(is_iretd_WB_out),
-        .rrag_stall_in(RrAg_stall_out),
+        .rrag_stall_in(D_RrAg_Latches_full),
         .is_final_switch_instr_WB(instr_is_IDTR_switch_final_WB),
     
         .IDTR_packet_out(IDTR_packet_out),

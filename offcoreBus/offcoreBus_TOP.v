@@ -12,7 +12,8 @@ module offcoreBus_TOP(
 
     output ackIE, ackIO, ackDEr, ackDEw, ackDOr, ackDOw,
     output grantIE, grantIO, grantDEr, grantDEw, grantDOr, grantDOw,
-    output recvIE, recvIO, recvDE, recvDO
+    output recvIE, recvIO, recvDE, recvDO,
+    output interrupt_out
 );
 
     wire reqB0, reqB1, reqB2, reqB3, reqDMA;
@@ -58,7 +59,8 @@ IO_top io(
         
     .releases_io(relDMA),
     .req_io(reqDMA),
-    .dest_io(destDMA)
+    .dest_io(destDMA),
+    .interrupt_core(interrupt_out)
 );
 
 pmem_TOP  pmem(

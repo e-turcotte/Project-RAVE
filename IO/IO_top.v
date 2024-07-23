@@ -15,7 +15,8 @@ module IO_top(
     input ack_io,
     output releases_io,
     output req_io,
-    output [3:0] dest_io
+    output [3:0] dest_io,
+    output interrupt_core
 );
 
 
@@ -51,7 +52,7 @@ module IO_top(
     wire [7:0] data_kb;
     wire read_kb;
     //COR;
-    wire interrupt_core;
+    //wire interrupt_core;
 
     reg valid_in_kb;
     reg[7:0] data_in_kb;
