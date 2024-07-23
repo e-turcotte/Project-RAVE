@@ -275,7 +275,7 @@ def STD(row,op,asm):
     return
 def CMOVC(row,op,asm):
     # CS
-    row[7] = "5'b00011"  # aluk
+    row[7] = "5'b10011"  # aluk
     row[8] = "3'b000"  # MUX_ADDER_IMM
     row[11] = "37'b0_0000_0000_0000_0000_0000_0000_0000_0100_0000"  # P_OP
     # 18'b000000000_of_df_00_sf_zf_af_pf_cf
