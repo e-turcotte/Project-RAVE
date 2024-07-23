@@ -240,6 +240,7 @@ module decode_TOP(
     assign segSEL = seg_override;
     wire cs_miss_out;
 
+    wire cs_hit;
     //~1.5 ns
     cs_top opcode(.isMOD(isMOD), .modSWAP(modSWAP), .isDouble(isDouble), .OPCext(OPCext), .aluk(aluk), .MUX_ADDER_IMM(MUX_ADDER_IMM), 
                 .MUX_AND_INT(MUX_AND_INT), .MUX_SHIFT(MUX_SHIFT), .P_OP(P_OP), .FMASK(FMASK), .conditionals(conditionals), .swapEIP(swapEIP), 
@@ -399,7 +400,8 @@ module decode_TOP(
     wire [7:0] instruction_length;
     wire pass_length;
     // andn #(2) a3qlwkhrkj1ho23(.in({not_is_CF, valid_in}), .out(pass_length));
-    assign pass_length = valid_in;
+    andn #(2) aksjdhfkshd3(.in({cs_hit, valid_in}), .out(pass_length));
+    // assign pass_length = valid_in;
 
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(8)) muuxewuxee1(
         .in({decoded_instr_length, 8'b00000000}), 
@@ -421,8 +423,6 @@ module decode_TOP(
     /*                                                                                                */
     /*                                                                                                */
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    wire cs_hit;
 
     //andn #(2) csand (.in( {valid_in, cs_hit} ), .out(valid_out));
 
