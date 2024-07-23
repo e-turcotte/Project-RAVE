@@ -1098,6 +1098,42 @@ end
 always @(posedge clk) begin
       clk_ctr_$ = clk_ctr_$ + 1;
 end
+wire [31:0] vAddress_o00, vAddress_o01, vAddress_o02, vAddress_o03, vAddress_o10, vAddress_o11, vAddress_o12, vAddress_o13, vAddress_o20, vAddress_o21, vAddress_o22, vAddress_o23, vAddress_o30, vAddress_o31, vAddress_o32, vAddress_o33;
+wire [31:0] vAddress_e00, vAddress_e01, vAddress_e02, vAddress_e03, vAddress_e10, vAddress_e11, vAddress_e12, vAddress_e13, vAddress_e20, vAddress_e21, vAddress_e22, vAddress_e23, vAddress_e30, vAddress_e31, vAddress_e32, vAddress_e33;
+address_gen e00(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[0].r.mem[0]), .even(1'b0), .index(2'd0), .vAddress(vAddress_e00));
+address_gen e01(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[0].r.mem[1]), .even(1'b0), .index(2'd1), .vAddress(vAddress_e01));
+address_gen e02(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[0].r.mem[2]), .even(1'b0), .index(2'd2), .vAddress(vAddress_e02));
+address_gen e03(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[0].r.mem[3]), .even(1'b0), .index(2'd3), .vAddress(vAddress_e03));
+address_gen e10(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[1].r.mem[0]), .even(1'b0), .index(2'd0), .vAddress(vAddress_e10));
+address_gen e11(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[1].r.mem[1]), .even(1'b0), .index(2'd1), .vAddress(vAddress_e11));
+address_gen e12(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[1].r.mem[2]), .even(1'b0), .index(2'd2), .vAddress(vAddress_e12));
+address_gen e13(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[1].r.mem[3]), .even(1'b0), .index(2'd3), .vAddress(vAddress_e13));
+address_gen e20(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[2].r.mem[0]), .even(1'b0), .index(2'd0), .vAddress(vAddress_e20));
+address_gen e21(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[2].r.mem[1]), .even(1'b0), .index(2'd1), .vAddress(vAddress_e21));
+address_gen e22(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[2].r.mem[2]), .even(1'b0), .index(2'd2), .vAddress(vAddress_e22));
+address_gen e23(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[2].r.mem[3]), .even(1'b0), .index(2'd3), .vAddress(vAddress_e23));
+address_gen e30(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[3].r.mem[0]), .even(1'b0), .index(2'd0), .vAddress(vAddress_e30));
+address_gen e31(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[3].r.mem[1]), .even(1'b0), .index(2'd1), .vAddress(vAddress_e31));
+address_gen e32(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[3].r.mem[2]), .even(1'b0), .index(2'd2), .vAddress(vAddress_e32));
+address_gen e33(.VP(VP), .PF(PF), .tag(bankE.cs1.ts.tagGen[3].r.mem[3]), .even(1'b0), .index(2'd3), .vAddress(vAddress_e33));
+
+address_gen o00(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[0].r.mem[0]), .even(1'b1), .index(2'd0), .vAddress(vAddress_o00));
+address_gen o01(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[0].r.mem[1]), .even(1'b1), .index(2'd1), .vAddress(vAddress_o01));
+address_gen o02(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[0].r.mem[2]), .even(1'b1), .index(2'd2), .vAddress(vAddress_o02));
+address_gen o03(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[0].r.mem[3]), .even(1'b1), .index(2'd3), .vAddress(vAddress_o03));
+address_gen o10(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[1].r.mem[0]), .even(1'b1), .index(2'd0), .vAddress(vAddress_o10));
+address_gen o11(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[1].r.mem[1]), .even(1'b1), .index(2'd1), .vAddress(vAddress_o11));
+address_gen o12(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[1].r.mem[2]), .even(1'b1), .index(2'd2), .vAddress(vAddress_o12));
+address_gen o13(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[1].r.mem[3]), .even(1'b1), .index(2'd3), .vAddress(vAddress_o13));
+address_gen o20(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[2].r.mem[0]), .even(1'b1), .index(2'd0), .vAddress(vAddress_o20));
+address_gen o21(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[2].r.mem[1]), .even(1'b1), .index(2'd1), .vAddress(vAddress_o21));
+address_gen o22(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[2].r.mem[2]), .even(1'b1), .index(2'd2), .vAddress(vAddress_o22));
+address_gen o23(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[2].r.mem[3]), .even(1'b1), .index(2'd3), .vAddress(vAddress_o23));
+address_gen o30(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[3].r.mem[0]), .even(1'b1), .index(2'd0), .vAddress(vAddress_o30));
+address_gen o31(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[3].r.mem[1]), .even(1'b1), .index(2'd1), .vAddress(vAddress_o31));
+address_gen o32(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[3].r.mem[2]), .even(1'b1), .index(2'd2), .vAddress(vAddress_o32));
+address_gen o33(.VP(VP), .PF(PF), .tag(bankO.cs1.ts.tagGen[3].r.mem[3]), .even(1'b1), .index(2'd3), .vAddress(vAddress_o33));
+
 always @(negedge clk) begin
     // Write signal values to the file at every clock cycle
     if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1 || clk_ctr_$ == 650) begin
@@ -1167,17 +1203,17 @@ always @(negedge clk) begin
 
     end
 end
- 
+
 always  @(posedge clk) begin
         #3
         if (valid_e_$ == 1'b1 || valid_o_$ == 1'b1 || clk_ctr_$ == 32'd650) begin
             $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #,Cyc: %d\n", clk_ctr_$);
             $fwrite(file_handle, "EVEN TAG STORE\n");
-            $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
-            $fwrite(file_handle, "3,8'h%h,8'h%h,8'h%h,8'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[3], bankE.cs1.ts.tagGen[2].r.mem[3],bankE.cs1.ts.tagGen[1].r.mem[3],bankE.cs1.ts.tagGen[0].r.mem[3]);
-            $fwrite(file_handle, "2,8'h%h,8'h%h,8'h%h,8'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[2], bankE.cs1.ts.tagGen[2].r.mem[2],bankE.cs1.ts.tagGen[1].r.mem[2],bankE.cs1.ts.tagGen[0].r.mem[2]);
-            $fwrite(file_handle, "1,8'h%h,8'h%h,8'h%h,8'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[1], bankE.cs1.ts.tagGen[2].r.mem[1],bankE.cs1.ts.tagGen[1].r.mem[1],bankE.cs1.ts.tagGen[0].r.mem[1]);
-            $fwrite(file_handle, "0,8'h%h,8'h%h,8'h%h,8'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[0], bankE.cs1.ts.tagGen[2].r.mem[0],bankE.cs1.ts.tagGen[1].r.mem[0],bankE.cs1.ts.tagGen[0].r.mem[0]);
+            $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0,,,Vaddress\n");
+            $fwrite(file_handle, "3,8'h%h,8'h%h,8'h%h,8'h%h,,,3,32'h%h,32'h%h,32'h%h,32'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[3], bankE.cs1.ts.tagGen[2].r.mem[3],bankE.cs1.ts.tagGen[1].r.mem[3],bankE.cs1.ts.tagGen[0].r.mem[3], vAddress_e33, vAddress_e23, vAddress_e13,vAddress_e03);
+            $fwrite(file_handle, "2,8'h%h,8'h%h,8'h%h,8'h%h,,,2,32'h%h,32'h%h,32'h%h,32'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[2], bankE.cs1.ts.tagGen[2].r.mem[2],bankE.cs1.ts.tagGen[1].r.mem[2],bankE.cs1.ts.tagGen[0].r.mem[2], vAddress_e32, vAddress_e22, vAddress_e12,vAddress_e02);
+            $fwrite(file_handle, "1,8'h%h,8'h%h,8'h%h,8'h%h,,,1,32'h%h,32'h%h,32'h%h,32'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[1], bankE.cs1.ts.tagGen[2].r.mem[1],bankE.cs1.ts.tagGen[1].r.mem[1],bankE.cs1.ts.tagGen[0].r.mem[1], vAddress_e31, vAddress_e21, vAddress_e11,vAddress_e01);
+            $fwrite(file_handle, "0,8'h%h,8'h%h,8'h%h,8'h%h,,,0,32'h%h,32'h%h,32'h%h,32'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[0], bankE.cs1.ts.tagGen[2].r.mem[0],bankE.cs1.ts.tagGen[1].r.mem[0],bankE.cs1.ts.tagGen[0].r.mem[0], vAddress_e30, vAddress_e20, vAddress_e10,vAddress_e00);
            
             $fwrite(file_handle, "EVEN DATA STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
@@ -1198,10 +1234,10 @@ always  @(posedge clk) begin
 
             $fwrite(file_handle, "ODD TAG STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
-            $fwrite(file_handle, "3,8'h%h,8'h%h,8'h%h,8'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[3], bankO.cs1.ts.tagGen[2].r.mem[3],bankO.cs1.ts.tagGen[1].r.mem[3],bankO.cs1.ts.tagGen[0].r.mem[3]);
-            $fwrite(file_handle, "2,8'h%h,8'h%h,8'h%h,8'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[2], bankO.cs1.ts.tagGen[2].r.mem[2],bankO.cs1.ts.tagGen[1].r.mem[2],bankO.cs1.ts.tagGen[0].r.mem[2]);
-            $fwrite(file_handle, "1,8'h%h,8'h%h,8'h%h,8'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[1], bankO.cs1.ts.tagGen[2].r.mem[1],bankO.cs1.ts.tagGen[1].r.mem[1],bankO.cs1.ts.tagGen[0].r.mem[1]);
-            $fwrite(file_handle, "0,8'h%h,8'h%h,8'h%h,8'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[0], bankO.cs1.ts.tagGen[2].r.mem[0],bankO.cs1.ts.tagGen[1].r.mem[0],bankO.cs1.ts.tagGen[0].r.mem[0]);
+            $fwrite(file_handle, "3,8'h%h,8'h%h,8'h%h,8'h%h,,,3,32'h%h,32'h%h,32'h%h,32'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[3], bankO.cs1.ts.tagGen[2].r.mem[3],bankO.cs1.ts.tagGen[1].r.mem[3],bankO.cs1.ts.tagGen[0].r.mem[3], vAddress_o33, vAddress_o23, vAddress_o13,vAddress_o03);
+            $fwrite(file_handle, "2,8'h%h,8'h%h,8'h%h,8'h%h,,,2,32'h%h,32'h%h,32'h%h,32'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[2], bankO.cs1.ts.tagGen[2].r.mem[2],bankO.cs1.ts.tagGen[1].r.mem[2],bankO.cs1.ts.tagGen[0].r.mem[2], vAddress_o32, vAddress_o22, vAddress_o12,vAddress_o02);
+            $fwrite(file_handle, "1,8'h%h,8'h%h,8'h%h,8'h%h,,,1,32'h%h,32'h%h,32'h%h,32'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[1], bankO.cs1.ts.tagGen[2].r.mem[1],bankO.cs1.ts.tagGen[1].r.mem[1],bankO.cs1.ts.tagGen[0].r.mem[1], vAddress_o31, vAddress_o21, vAddress_o11,vAddress_o01);
+            $fwrite(file_handle, "0,8'h%h,8'h%h,8'h%h,8'h%h,,,0,32'h%h,32'h%h,32'h%h,32'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[0], bankO.cs1.ts.tagGen[2].r.mem[0],bankO.cs1.ts.tagGen[1].r.mem[0],bankO.cs1.ts.tagGen[0].r.mem[0], vAddress_o30, vAddress_o20, vAddress_o10,vAddress_o00);
            
             $fwrite(file_handle, "ODD DATA STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
@@ -1225,10 +1261,10 @@ always  @(posedge clk) begin
             $fwrite(file_handle, "\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\nCycle #,%d\n", clk_ctr_$);
             $fwrite(file_handle, "EVEN TAG STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
-            $fwrite(file_handle, "3,8'h%h,8'h%h,8'h%h,8'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[3], bankE.cs1.ts.tagGen[2].r.mem[3],bankE.cs1.ts.tagGen[1].r.mem[3],bankE.cs1.ts.tagGen[0].r.mem[3]);
-            $fwrite(file_handle, "2,8'h%h,8'h%h,8'h%h,8'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[2], bankE.cs1.ts.tagGen[2].r.mem[2],bankE.cs1.ts.tagGen[1].r.mem[2],bankE.cs1.ts.tagGen[0].r.mem[2]);
-            $fwrite(file_handle, "1,8'h%h,8'h%h,8'h%h,8'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[1], bankE.cs1.ts.tagGen[2].r.mem[1],bankE.cs1.ts.tagGen[1].r.mem[1],bankE.cs1.ts.tagGen[0].r.mem[1]);
-            $fwrite(file_handle, "0,8'h%h,8'h%h,8'h%h,8'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[0], bankE.cs1.ts.tagGen[2].r.mem[0],bankE.cs1.ts.tagGen[1].r.mem[0],bankE.cs1.ts.tagGen[0].r.mem[0]);
+            $fwrite(file_handle, "3,8'h%h,8'h%h,8'h%h,8'h%h,,,3,32'h%h,32'h%h,32'h%h,32'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[3], bankE.cs1.ts.tagGen[2].r.mem[3],bankE.cs1.ts.tagGen[1].r.mem[3],bankE.cs1.ts.tagGen[0].r.mem[3], vAddress_e33, vAddress_e23, vAddress_e13,vAddress_e03);
+            $fwrite(file_handle, "2,8'h%h,8'h%h,8'h%h,8'h%h,,,2,32'h%h,32'h%h,32'h%h,32'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[2], bankE.cs1.ts.tagGen[2].r.mem[2],bankE.cs1.ts.tagGen[1].r.mem[2],bankE.cs1.ts.tagGen[0].r.mem[2], vAddress_e32, vAddress_e22, vAddress_e12,vAddress_e02);
+            $fwrite(file_handle, "1,8'h%h,8'h%h,8'h%h,8'h%h,,,1,32'h%h,32'h%h,32'h%h,32'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[1], bankE.cs1.ts.tagGen[2].r.mem[1],bankE.cs1.ts.tagGen[1].r.mem[1],bankE.cs1.ts.tagGen[0].r.mem[1], vAddress_e31, vAddress_e21, vAddress_e11,vAddress_e01);
+            $fwrite(file_handle, "0,8'h%h,8'h%h,8'h%h,8'h%h,,,0,32'h%h,32'h%h,32'h%h,32'h%h\n", bankE.cs1.ts.tagGen[3].r.mem[0], bankE.cs1.ts.tagGen[2].r.mem[0],bankE.cs1.ts.tagGen[1].r.mem[0],bankE.cs1.ts.tagGen[0].r.mem[0], vAddress_e30, vAddress_e20, vAddress_e10,vAddress_e00);
            
             $fwrite(file_handle, "EVEN DATA STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
@@ -1249,10 +1285,11 @@ always  @(posedge clk) begin
 
             $fwrite(file_handle, "ODD TAG STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
-            $fwrite(file_handle, "3,8'h%h,8'h%h,8'h%h,8'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[3], bankO.cs1.ts.tagGen[2].r.mem[3],bankO.cs1.ts.tagGen[1].r.mem[3],bankO.cs1.ts.tagGen[0].r.mem[3]);
-            $fwrite(file_handle, "2,8'h%h,8'h%h,8'h%h,8'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[2], bankO.cs1.ts.tagGen[2].r.mem[2],bankO.cs1.ts.tagGen[1].r.mem[2],bankO.cs1.ts.tagGen[0].r.mem[2]);
-            $fwrite(file_handle, "1,8'h%h,8'h%h,8'h%h,8'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[1], bankO.cs1.ts.tagGen[2].r.mem[1],bankO.cs1.ts.tagGen[1].r.mem[1],bankO.cs1.ts.tagGen[0].r.mem[1]);
-            $fwrite(file_handle, "0,8'h%h,8'h%h,8'h%h,8'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[0], bankO.cs1.ts.tagGen[2].r.mem[0],bankO.cs1.ts.tagGen[1].r.mem[0],bankO.cs1.ts.tagGen[0].r.mem[0]);
+            $fwrite(file_handle, "3,8'h%h,8'h%h,8'h%h,8'h%h,,,3,32'h%h,32'h%h,32'h%h,32'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[3], bankO.cs1.ts.tagGen[2].r.mem[3],bankO.cs1.ts.tagGen[1].r.mem[3],bankO.cs1.ts.tagGen[0].r.mem[3], vAddress_o33, vAddress_o23, vAddress_o13,vAddress_o03);
+            $fwrite(file_handle, "2,8'h%h,8'h%h,8'h%h,8'h%h,,,2,32'h%h,32'h%h,32'h%h,32'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[2], bankO.cs1.ts.tagGen[2].r.mem[2],bankO.cs1.ts.tagGen[1].r.mem[2],bankO.cs1.ts.tagGen[0].r.mem[2], vAddress_o32, vAddress_o22, vAddress_o12,vAddress_o02);
+            $fwrite(file_handle, "1,8'h%h,8'h%h,8'h%h,8'h%h,,,1,32'h%h,32'h%h,32'h%h,32'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[1], bankO.cs1.ts.tagGen[2].r.mem[1],bankO.cs1.ts.tagGen[1].r.mem[1],bankO.cs1.ts.tagGen[0].r.mem[1], vAddress_o31, vAddress_o21, vAddress_o11,vAddress_o01);
+            $fwrite(file_handle, "0,8'h%h,8'h%h,8'h%h,8'h%h,,,0,32'h%h,32'h%h,32'h%h,32'h%h\n", bankO.cs1.ts.tagGen[3].r.mem[0], bankO.cs1.ts.tagGen[2].r.mem[0],bankO.cs1.ts.tagGen[1].r.mem[0],bankO.cs1.ts.tagGen[0].r.mem[0], vAddress_o30, vAddress_o20, vAddress_o10,vAddress_o00);
+
            
             $fwrite(file_handle, "ODD DATA STORE\n");
             $fwrite(file_handle, "Index,Way3,Way2,Way1,Way0\n");
@@ -1274,6 +1311,38 @@ always  @(posedge clk) begin
         end
 
 end
+endmodule
+
+module address_gen (
+    input [159:0] VP, PF,
+    input [7:0] tag,
+    input even,
+    input [1:0]index,
+
+    output [31:0] vAddress
+);
+    reg [7:0] pf_hit;
+    wire [7:0]  pf_hit_1;
+    genvar i;
+    wire [19:0] v_page;
+    for (i = 0; i< 8; i = i + 1) begin: names
+        assign pf_hit_1[i] = (tag[7:5] == PF[20*i + 2 : 20 * i]);
+    end
+
+    always @(*) begin 
+        if      (pf_hit_1[7] == 1) pf_hit = 8'h80;
+        else if (pf_hit_1[6] == 1) pf_hit = 8'h40;
+        else if (pf_hit_1[5] == 1) pf_hit = 8'h20;
+        else if (pf_hit_1[4] == 1) pf_hit = 8'h10;
+        else if (pf_hit_1[3] == 1) pf_hit = 8'h04;
+        else if (pf_hit_1[2] == 1) pf_hit = 8'h03;
+        else if (pf_hit_1[1] == 1) pf_hit = 8'h02;
+        else if (pf_hit_1[0] == 1) pf_hit = 8'h01;
+    end 
+    muxnm_tristate #(8, 20) adgf(VP, pf_hit, v_page);
+
+    assign vAddress = {v_page, tag[4:0], index, even, 4'd0};
+
 endmodule
 
 // module pulseFilter #(time) (inp, filtered);
