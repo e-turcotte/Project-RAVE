@@ -932,6 +932,9 @@
 
         wire [63:0] reg1_rragdf, reg2_rragdf, reg3_rragdf, reg4_rragdf;
         wire [15:0] seg1_rragdf, seg2_rragdf, seg3_rragdf, seg4_rragdf;
+
+        wire RrAg_MEM_latch_clr;
+        andn #(.NUM_INPUTS(2)) n2amdl002 (.in({global_reset, WB_to_clr_latches_resteer_active_low}), .out(RrAg_MEM_latch_clr));
     
     rrag r1 (
         //inputs
@@ -956,7 +959,7 @@
         .wb_segaddr1(seg_addr_WB_RRAG_out[2:0]), .wb_segaddr2(seg_addr_WB_RRAG_out[5:3]), .wb_segaddr3(seg_addr_WB_RRAG_out[8:6]), .wb_segaddr4(seg_addr_WB_RRAG_out[11:9]),
         .wb_opsize(ressize_WB_RRAG_out), .wb_regld(reg_ld_WB_RRAG_out), .wb_segld(seg_ld_WB_RRAG_out), .wb_inst_ptcid(inst_ptcid_out_WB_RRAG_out),
         .fwd_stall(MEM_stall_out), //recieve from MEM
-        .ptc_clear(1'b1), //TODO: from IDTR      
+        .ptc_clear(RrAg_MEM_latch_clr), //TODO: from IDTR      
 
         //outputs
         .valid_out(valid_RrAg_MEM_latch_in), .stall(RrAg_stall_out), //send to D_RrAg_Queued_Latches
@@ -1007,9 +1010,6 @@
     
     wire RrAg_MEM_latch_LD;
     inv1$ n2000(.out(RrAg_MEM_latch_LD), .in(MEM_stall_out));
-
-    wire RrAg_MEM_latch_clr;
-    andn #(.NUM_INPUTS(2)) n2amdl002 (.in({global_reset, WB_to_clr_latches_resteer_active_low}), .out(RrAg_MEM_latch_clr));
 
     RrAg_MEM_latch q4(
         //inputs
@@ -1581,7 +1581,7 @@
     // assign final_IE_val = 0;
     // assign final_IE_type = 0;
 
-    nand2$ ptc_clear_and (.in0(idtr_ptc_clear_out), .in1(is_resteer_WB_out), .out(IDTR_PTC_clear)); //TODO
+    nor2$ ptc_clear_and (.in0(idtr_ptc_clear_out), .in1(is_resteer_WB_out), .out(IDTR_PTC_clear)); //TODO
 
     dumper dumpy(.eip(EIP_EX_WB_latch_out), .latch_eip(latched_eip_EX_WB_latch_out),
                  .ptcid(inst_ptcid_EX_WB_latch_out),
