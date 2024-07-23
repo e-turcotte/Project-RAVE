@@ -272,16 +272,16 @@ module IDTR_FSM (
     wire is_not_final_switch_instr_internal, is_final_switch_instr_internal;
 
     dff$ d111(.clk(clk_temp), .d(is_final_switch_instr_WB), .q(is_final_switch_instr_internal), .qbar(is_not_final_switch_instr_internal), .r(reset), .s(set));
-    
+
     wire ld_mux_inv, ld_mux;
-    andn #(2) i44567(.out(ld_mux_inv), .in( {is_final_switch_state, is_not_final_switch_instr_internal} ));
+    andn #(2) i44567(.out(ld_mux_inv), .in( {is_final_switch_state, is_not_final_switch_instr_internal, rrag_stall_not} ));
+    inv1$ g543 (.out(ld_mux), .in(ld_mux_inv));
 
     wire ld_mux_latched, ld_mux_out;
     dff$ d112(.clk(clk_temp), .d(ld_mux), .q(ld_mux_latched), .qbar(), .r(reset), .s(set));
-    andn #(2) (.out(ld_mux_out), .in( {rrag_stall_not, ld_mux_latched} ));
+    // andn #(2) (.out(ld_mux_out), .in( {, ld_mux_latched} ));
 
-    inv1$ g543 (.out(ld_mux), .in(ld_mux_inv));
-    assign invalidate_fetch_out = ld_mux_out;
+    assign invalidate_fetch_out = ld_mux_latched;
 
 endmodule
 
