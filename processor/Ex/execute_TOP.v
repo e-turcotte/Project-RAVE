@@ -187,7 +187,7 @@ module execute_TOP(
     and2$ a2(valid_out, valid_internal, skip_n);
 
     //HandleBRLOGIC
-    BRLOGIC b1(BR_valid, BR_taken, BR_correct, BR_FIP, BR_FIP_p1, valid_internal, BR_pred_target_in, BR_pred_T_NT_in, conditionals, zf, cf, res1[31:0], P_OP[11], P_OP[12], P_OP[32], gBR);
+    BRLOGIC b1(BR_valid, BR_taken, BR_correct, BR_FIP, BR_FIP_p1, valid_internal, BR_pred_target_in, BR_pred_T_NT_in, conditionals, zf, cf, res1[31:0], P_OP[11], P_OP[12], P_OP[32], gBR, EIP_in);
 
     assign IE_type_out[3:0] = IE_type_in[3:0];
     assign IE_out = IE_in;
