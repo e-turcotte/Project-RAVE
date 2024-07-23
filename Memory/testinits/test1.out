@@ -1,0 +1,356 @@
+              	      	//  Test Case 1
+              	      	//  Do not distribute
+              	      	//  REP MOVS has a segment limit violation with the default ES limit value
+              	      	//  Segment limit violation when write happens at location 0x0c00003FF (2nd WR
+              	      	//  operation of the REP MOVS)
+              	      	//  ES limit should be changed to  0x3F9 + 32bytes =0x419 to avoid segment limit violoation
+
+0x0000: EB 14      	//     	JMP loc1			
+0x0002: 00 00 00 00	// 	.LONG 0x00000000
+0x0006: 99 99 99 99	// 	.LONG 0x99999999
+0x000a: 11 11 11 11	// 	.LONG 0x11111111
+0x000e: 54 55 45 21	// 	.LONG 0x21455554
+0x0012: 59 35 34 21	// 	.LONG 0x21343559
+
+0x0016:            	//        	loc1:				// Basic Operations	
+0x0016: B8 78 56 34	// 	MOVL $0x12345678, %EAX	 	//  EAX = 0x12345678 	
+0x001a: 12         	//
+0x001b: 66 83 C0 02	// 	ADDW $0x00000002, %AX		//  AX = 0x567A 
+              					      	            //   CF=0 ; SF=0 ; ZF=0 ; PF=0 ; AF=0 ; OF=0 
+0x001f: 89 C2      	//     	MOVL %EAX, %EDX			//  EDX = 0x1234567A
+0x0021: BB 00 00 00	// 	MOVL $0, %EBX			    //  EBX = 0x00000000
+0x0025: 00         	//
+
+0x0026: 01 D3      	//     	ADDL %EDX, %EBX         //  EBX = 0x1234567A
+              					      	            //   CF=0	; SF=0 ; ZF=0 ; PF=0 ; AF=0 ; OF=0 
+0x0028: 00 DF      	//     	ADDB %BL, %BH			//  BH = 0xD0 ; EBX=0x1234D07A 
+              					      	            //   CF=0 ; SF=1 ; ZF=0 ; PF=0 ; AF=1 ; OF=1
+0x002a: BF ED DE AD	// 	MOVL $0x0BADDEED, %EDI		//  EDI=0x0BADDEED
+0x002e: 0B         	//
+0x002f: B9 34 12 00	// 	MOVL $0x00001234, %ECX		//  ECX=0x00001234
+0x0033: 00         	//
+0x0034: 87 D1      	//     	XCHGL %EDX, %ECX        //  EDX=0x00001234 ; ECX=0x1234567A
+0x0036: 66 87 D1   	//   	XCHGW %DX, %CX			//  EDX=0x0000567A ; ECX=0x12341234
+0x0039: 86 F1      	//     	XCHGB %DH, %CL			//  EDX=0x0000347A ; ECX=0x12341256
+0x003b: 86 D5      	//     	XCHGB %DL, %CH			//  EDX=0x00003412 ; ECX=0x12347A56
+0x003d: 87 D1      	//     	XCHGL %EDX, %ECX        //  EDX=0x12347A56 ; ECX=0x00003412
+0x003f: 86 F2      	//     	XCHGB %DH, %DL			//  EDX=0x1234567A ; ECX=0x00003412
+0x0041: 86 CD      	//     	XCHGB %CL, %CH			//  EDX=0x1234567A ; ECX=0x00001234
+
+0x0043: B5 85      	//     	MOVB $0x85, %CH			//  CH=0x85, ECX=0x00008534
+0x0045: B1 F1      	//     	MOVB $0xF1, %CL			//  CL=0xF1 ;ECX=0x000085F1
+0x0047: 66 D1 E1   	//   	SALW %CX			    //  CX=0x0BE2; CF=1; SF=0; ZF=0; AF=UNDEF; PF=1, OF=1
+0x004a: C1 E1 10   	//   	SALL $16, %ECX			//  ECX=0x0BE20000; CF=0; SF=0; ZF=0; PF=1, AF=UNDEF; OF=UNDEF
+0x004d: C1 F9 11   	//   	SARL $17, %ECX			//  ECX=0x000005F1; CF=0; SF=0; ZF=0; PF=0, AF=UNDEF; OF=UNDEF
+0x0050: C1 E2 00   	//   	SALL $0, %EDX			//  EDX = 0x1234567A; CF=0; SF=0; ZF=0; PF=0; AF=ABOVE; OF=ABOVE
+0x0053: 66 83 C9 FF	// 	OR $0xFFFF, %CX		        //  CX=0xFFFF; ECX=0x0000FFFF; CF=0; SF=1; ZF=0; PF=1; AF=UNDEF; OF=0
+0x0057: 66 B9 01 00	// 	MOVW $0x0001, %CX           //  CX=0x0001; ECX=0x00000001
+0x005b: 66 D3 FF   	//   	SARW %CL, %DI			//  DI=0xEF76; EDI=0x0BADEF76; CF=1; SF=1; ZF=0; PF=0; AF=UNDEF; OF=0
+0x005e: BD 00 00 00	// 	MOVL $0x0, %EBP			    //  EBP=0x00000000
+0x0062: 00         	//
+
+0x0063: BC 00 30 00	// 	MOVL $0x3000, %ESP		//  ESP=0x00003000
+0x0067: 00         	//
+
+0x0068: BE 00 00 00	// 	MOVL $0x0, %ESI			//  ESI=0x00000000
+0x006c: 00         	//
+
+0x006d: 90         	//       	NOP
+0x006e: B6 04      	//     	MOV $0x04, %DH			//  DH=0x04; EDX= 0x1234047A;
+0x0070: 09 ED      	//     	OR %EBP, %EBP                   //  EBP=0x00000000; CF=0; SF=0; ZF=1; PF=1; AF=UNDEF; OF=0
+0x0072: 0F 85 8D 00	// 	JNE  no_jump			//  Not taken
+0x0076: 00 00      	//
+
+0x0078: BF 00 00 00	// 	MOVL $0xB0000000, %EDI		//  EDI=0xB0000000; CF=0; SF=0; ZF=1; PF=1; AF=UNDEF; OF=0
+0x007c: B0         	//
+
+0x007d: F7 D7      	//     	NOTL %EDI			//  EDI=0x4FFFFFFF;
+0x007f: 66 F7 D7   	//   	NOTW %DI			//  DI=0x0000; EDI=0x4FFF0000
+0x0082: 80 C6 01   	//   	ADD $0x1,%DH			//  DH=0x05; EDX=0x1234057A; CF=0; SF=0; ZF=0; PF=1; AF=0; OF=0
+0x0085: 83 C2 01   	//   	ADD $0x1,%EDX			//  EDX=0x1234057B; CF=0; SF=0; ZF=0; PF=1; AF=0; OF=0;
+0x0088: 66 C1 FC 04	// 	SARW $4, %SP			//  SP=0x0300; ESP=0x00000300; CF=0; SF=0; ZF=0; PF=1; AF=UNDEF; OF=UNDEF
+0x008c: EB 6F      	//     	JMP loc2			//  Jump to loc2 
+
+0x008e:            	//        	loc3:				//  SIMD
+0x008e: 0F 6F 44 34	// 	MOVQ -0x8(%ESP, %ESI), %MM0	//  MM0=MEM[SS+0x000002F8]=0x123404001234D07A
+0x0092: F8         	//
+0x0093: 0F 6F 4C 34	// 	MOVQ -0x10(%ESP, %ESI), %MM1	//  MM1=MEM[SS+0x000002F0]=0x000000011234057B
+0x0097: F0         	//
+0x0098: 0F 6F 54 34	// 	MOVQ -0x18(%ESP, %ESI), %MM2	//  MM2=MEM[SS+0x000002E8]=0x0000000000000000
+0x009c: E8         	//
+0x009d: 0F 6F 5C 34	// 	MOVQ -0x19(%ESP, %ESI), %MM3	//  MM3=MEM[SS+0x000002E7]=0x000000000000004F
+0x00a1: E7         	//
+0x00a2: 0F 6F 64 34	// 	MOVQ -0x9(%ESP, %ESI), %MM4	//  MM4=MEM[SS+0x000002F7]=0x3404001234D07A00
+0x00a6: F7         	//
+0x00a7: 89 E5      	//     	MOVL %ESP, %EBP			//  EBP=0x00000300
+0x00a9: 0F 6F 6D ED	// 	MOVQ -0x13(%EBP),%MM5		//  MM5=MEM[SS+0x000002ED]=0x011234057B000000
+0x00ad: 0F 6F 75 D6	// 	MOVQ -0x2A(%EBP), %MM6		//  MM6=MEM[SS+0x000002D6]=0x0000BAB0BAB0ACDC
+0x00b1: 0F 6F 7C 74	// 	MOVQ -0x30(%ESP, %ESI, 2), %MM7 //  MM7=MEM[SS+0x000002D0]=0xACDC0000000CACCC 	
+0x00b5: D0         	//
+
+0x00b6: 81 44 34 E7	// 	ADDL $0x00000AB1,-0x19(%ESP, %ESI) //  MEM[SS+0x000002E7]=0x00000B00, CF=0, SF=0, ZF=0, PF=1, AF=1, 
+0x00ba: B1 0A 00 00	// 
+
+0x00be: BE E7 FF FF	// 	MOVL $-0x19, %ESI		//  ESI=0xFFFFFFE7
+0x00c2: FF         	//
+
+0x00c3: 8E 1C 34   	//   	MOVW (%ESP, %ESI), %DS		//  DS=0x0B00
+0x00c6: BF 00 00 00	// 	MOVL $0x00000000, %EDI		//  EDI=0x00000000
+0x00ca: 00         	//
+
+0x00cb: 0F FE 07   	//   	PADDD (%EDI), %MM0		//  MM0=0xF0E1C2EF2469607A , VA=DS+0x00
+0x00ce: 0F FE C8   	//   	PADDD %MM0, %MM1		//  MM1=0xF0E1C2F0369D65F5
+
+0x00d1: B8 28 00 00	//	MOVL $0x00000028, %EAX		//  EAX=0x00000028
+0x00d5: 00
+0x00d6: 0F 6F 48 08	//	MOVQ 0x08(%EAX), %MM1		//  MM1=MEM[DS+0x00000030]=0x8080F00002007FFF
+0x00da:	0F 63 48 00	//	PACKSSWB 0x00(%EAX), %MM1	//  MM1=0x7f7f027a80807f7f, VA=DS+0x28
+0x00de: 90			//	NOP
+
+0x00df: B8 0C 00 00	// 	MOVL  $0x000000C, %EAX		//  EAX=0x0000000C
+0x00e3: 00         	//
+
+0x00e4: 0F 6F 04 47	// 	MOVQ  (%EDI, %EAX, 2), %MM0	//  MM0=0x0000000000000007
+0x00e8: 81 C6 C0 00	// 	ADDL $0xC0, %ESI		//  ESI=0x0000000A7, CF=1, SF=0, ZF=0, PF=0, AF=0, OF=0 
+0x00ec: 00 00      	//
+
+0x00ee: 77 15      	//     	JNBE no_jump			//  not taken
+0x00f0: 66 0F 42 74	// 	CMOVCW 0x4(%EDI, %EAX, 2), %SI  //  SI=0x0000, ESI=0x00000000
+0x00f4: 47 04      	//
+
+0x00f6: BB 44 01 00	// 	MOVL $loc4, %EBX		//  EBX= loc4 location 0x00000144
+0x00fa: 00         	//
+
+0x00fb: FF E3      	//     	JMP *%EBX			//  Jump to loc4
+
+0x00fd:            	//      loc2:				//  Stack Buster
+0x00fd: 66 B8 00 04	// 	MOVW $0x0400, %AX		//  AX=0x0400, EAX=0x12340400
+0x0101: 8E D0      	//     	MOVW %AX, %SS			//  SS=0x0400
+0x0103: 50         	//       	PUSHL %EAX			//  ESP=0x000002FC, MEM[SS+0x000002FC]=0x12340400
+0x0104: 53         	//       	PUSHL %EBX			//  ESP=0x000002F8, MEM[SS+0x000002F8]=0x1234D07A
+0x0105:            	//        	no_jump:	
+0x0105: 51         	//       	PUSHL %ECX			//  ESP=0x000002F4, MEM[SS+0x000002F4]=0x00000001
+0x0106: 52         	//       	PUSHL %EDX		   	//  ESP=0x000002F0, MEM[SS+0x000002F0]=0x1234057B	
+0x0107: 55         	//       	PUSHL %EBP		 	//  ESP=0x000002EC, MEM[SS+0x000002EC]=0x00000000
+0x0108: 56         	//       	PUSHL %ESI			//  ESP=0x000002E8, MEM[SS+0x000002E8]=0x00000000
+0x0109: 57         	//       	PUSHL %EDI			//  ESP=0x000002E4, MEM[SS+0x000002E4]=0x4FFF0000
+0x010a: 54         	//       	PUSHL %ESP			//  ESP=0x000002E0, MEM[SS+0x000002E0]=0x000002E4
+0x010b: 0E         	//       	PUSHL %CS			//  ESP=0x000002DC, MEM[SS+0x000002DC]=0x00000000
+0x010c: 68 B0 BA B0	// 	PUSHL $0xBAB0BAB0		//  ESP=0x000002D8, MEM[SS+0x000002D8]=0xBAB0BAB0
+0x0110: BA         	//
+
+0x0111: 66 68 DC AC	// 	PUSHW $0xACDC			//  ESP=0x000002D6, MEM[SS+0x000002D6]=0xACDC
+              	      	// PUSHL $0x0000000C	        #  ESP=0x000002D2, MEM[SS+0x000002D2]=0x0000000C
+0x0115: 68         	//       	.BYTE 0x68			//  PUSHL fix: opcode
+0x0116: 0C 00 00 00	// 	.LONG 0x0000000C		//  PUSHL fix: imm32
+0x011a: 66 68 CC AC	// 	PUSHW $0xACCC			//  ESP=0x000002D0, MEM[SS+0x000002D0]=0xACCC
+0x011e: 58         	//       	POPL %EAX			//  ESP=0x000002D4, EAX=0x000CACCC
+0x011f: 58         	//       	POPL %EAX			//  ESP=0x000002D8, EAX=0xACDC0000
+0x0120: 66 58      	//     	POPW %AX			//  ESP=0x000002DA, AX=BAB0, EAX=0xACDCBAB0
+0x0122: 58         	//       	POPL %EAX			//  ESP=0x000002DE, EAX=0x0000BAB0 	
+0x0123: 58         	//       	POPL %EAX			//  ESP=0x000002E2, EAX=0x02E40000
+0x0124: 58         	//       	POPL %EAX			//  ESP=0x000002E6, EAX=0x00000000
+0x0125: 66 58      	//     	POPW %AX			//  ESP=0x000002E8, AX=4FFFF, EAX=0x00004FFF
+0x0127: 83 C4 10   	//   	ADDL $0x10, %ESP		//  ESP=0x000002F8, CF=0, SF=0, ZF=0, PF=0, AF=0, OF=0
+0x012a: 59         	//       	POPL %ECX			//  ESP=0x000002FC, ECX=0x1234D07A
+0x012b: 5B         	//       	POPL %EBX			//  ESP=0x00000300, EBX=0x12340400
+0x012c: 66 0F 42 D8	// 	CMOVCW %AX, %BX			//  NOP, EAX=0x00004FFF, EBX=0x12340400
+0x0130: 01 C8      	//     	ADDL %ECX, %EAX			//  EAX=0x12352079, CF=0, SF=0, ZF=0, PF=0, AF=1, OF=0
+0x0132: 0F 42 C8   	//   	CMOVCL %EAX, %ECX		//  ECX=0x1234D07A executed as a NOP 
+0x0135: 8E C1      	//     	MOVW %CX, %ES			//  ES=0xD07A
+0x0137: 8E D8      	//     	MOVW %AX, %DS			//  DS=0x2079 	
+0x0139: 8E D3      	//     	MOVW %BX, %SS			//  SS=0x0400
+0x013b: 8E E3      	//     	MOVW %BX, %FS			//  FS=0x0400
+0x013d: 8E EB      	//     	MOVW %BX, %GS			//  GS=0x0400
+0x013f: E9 4A FF FF	// 	JMP loc3	
+0x0143: FF         	//
+
+
+0x0144:            	//        	loc4:				//  Repeat MOVS
+0x0144: B8 00 0B 00	// 	MOVL $0x00000b00, %EAX		//  EAX = 0x00000b00
+0x0148: 00         	//
+
+0x0149: 8E D8      	//     	MOVW %AX, %DS			//  DS  = 0x0b00
+0x014b: B8 00 0C 00	// 	MOVL $0x00000c00, %EAX		//  EAX = 0x00000c00
+0x014f: 00         	//
+
+0x0150: 8E C0      	//     	MOVW %AX, %ES			//  ES  = 0x0c00
+0x0152: BE 04 00 00	// 	MOVL $0x00000004, %ESI		//  ESI = 0x00000004
+0x0156: 00         	//
+
+0x0157: BF F9 03 00	// 	MOVL $0x000003F9, %EDI		//  EDI = 0x000003F9
+0x015b: 00         	//
+
+0x015c: B9 05 00 00	// 	MOVL $0x00000005, %ECX		//  ECX = 0x00000005
+0x0160: 00         	//
+
+0x0161: BC 00 0A 00	// 	MOVL $0x00000a00, %ESP		//  ESP = 0x00000a00
+0x0165: 00         	//
+
+0x0166: 8E D4      	//     	MOVW %SP, %SS			//  SS  = 0x0a00
+0x0168: BC 00 10 00	// 	MOVL $0x00001000, %ESP		//  ESP = 0x00001000
+0x016c: 00         	//
+
+0x016d: FC         	//      CLD				//  DF  = 0
+0x016e: F3 66 A5    //     	REP MOVS     			//  move words at DS:ESI to ES:EDI %ECX times
+              	                			      	//  initially ES:EDI=0x0c0003F9, DS:ESI=0x0b000004
+              		                    			//  EDI and ESI are incremented by 2 after every iteration
+              					           	//  Segment limit violation at ES:0x400(VA=0x0c000400, PA=0x73FD)
+              					              	//  only need to verify that exception was detected
+              		                    			//  rerun benchmark with ES limit changed to 0x419 to proceed
+              		                    			//  REP should terminate on the 5th iteration
+              					              	//  MEM[ES+0x03f9] = 0xBEEF , PA = 0x73F9 
+              					              	//  MEM[ES+0x03fb] = 0xDEAD
+              					              	//  MEM[ES+0x03fd] = 0xDEEF
+              					              	//  MEM[ES+0x03ff] = 0xABCD
+              					              	//  MEM[ES+0x0401] = 0xBCBC
+              		                    			//  ECX will then be 0x00000000
+
+0x0171: BB 01 04 00	// 	MOVL $0x00000401, %EBX		//  EBX = 0x00000401
+0x0175: 00         	//
+0x0176: 26 8B 1B   	//   	MOVL %ES:(%EBX), %EBX		//  EBX = 0x8765BCBC, MEM[VA=0x0C000401, PA=0x7401]
+
+0x0179: BB FD 03 00	// 	MOVL $0x000003fd, %EBX		//  EBX = 0x000003fd
+0x017d: 00         	//
+0x017e: 26 8B 1B   	//   	MOVL %ES:(%EBX), %EBX		//  EBX = 0xABCDDEEF, MEM[VA=0x0C0003FD, PA=0x73FD]
+
+0x0181: BB F9 03 00	// 	MOVL $0x000003f9, %EBX		//  EBX = 0x000003f9
+0x0185: 00         	//
+0x0186: 26 8B 1B   	//   	MOVL %ES:(%EBX), %EBX		//  EBX = 0xDEADBEEF, MEM[VA=0x0C0003F9, PA=0x73F9]
+
+0x0189: B9 02 00 00	// 	MOVL $0x00000002, %ECX		//  ECX = 0x00000002
+0x018d: 00         	//
+0x018e: 26 83 84 8B	// 	ADDL $0x00000001, %ES:0x21524122(%EBX, %ECX, 4)	// MEM[VA=0x0C000019]=0x12345679
+0x0192: 22 41 52 21	// 
+0x0196: 01         	//
+              							      	//  VA=0x0c000000+0x21524122+0xDEADBEEF+2*4
+              							      	//  = 0x0C000019, PA=0x7019
+              							      	//  CF=0, SF=0, ZF=0, AF=0, OF=0
+
+
+0x0197: 77 02      	//     	JNBE loc5			//  Jump to loc 5
+0x0199: F4         	//       	HLT				//  Do not reach here
+0x019a: F4         	//       	HLT
+
+0x019b:            	//        	loc5:				//  CALL
+0x019b: 66 BB 00 02	// 	MOVW $0x0200, %BX		//  BX = 0x0200, EBX=DEAD0200
+0x019f: B8 FE FF FF	// 	MOVL $0x7ffffffE, %EAX		//  EAX = 0x7ffffffe 
+0x01a3: 7F         	//
+
+0x01a4: BA 02 00 00	// 	MOVL $0x00000002, %EDX		//  EDX = 0x000000002
+0x01a8: 00         	//
+
+0x01a9: 8E D3      	//     	MOVW %BX, %SS			//  SS = 0x0200
+0x01ab: BC FF 00 00	// 	MOVL $0x000000FF, %ESP		//  ESP = 0x000000FF
+0x01af: 00         	//
+
+0x01b0: B1 02      	//     	MOVB $0x02, %CL			//  CL = 0x02 
+0x01b2: F7 D0      	//     	NOT %EAX			//  EAX = 0x80000001
+0x01b4: BB 00 04 00	// 	MOVL $0x10000400, %EBX		//  EBX = 0x10000400
+0x01b8: 10         	//
+
+0x01b9: 8E DB      	//     	MOVW %BX, %DS			//  DS = 0x0400
+0x01bb: FF 15 60 00	// 	CALL *0x00000060		//  CALL[VA=0x04000060,PA=0x5060] (loop)
+0x01bf: 00 00      	//
+
+0x01c1: D3 F8      	//     	SAR  %CL, %EAX			//  EAX = 0xE0000000, CF=1, SF=1, ZF=0, PF=1, AF=UNDEF, OF=UNDEF
+
+0x01c3: 0F B0 E7   	//   	CMPXCHGB %AH, %BH		//  EAX = 0xE0000004, ZF=0
+0x01c6: B9 00 00 00	// 	MOVL $0x00000000, %ECX		//  ECX = 0x00000000
+0x01ca: 00         	//
+0x01cb: 66 8B 01   	//   	MOVW (%ECX), %AX		//  EAX = 0xE0004E4F
+0x01ce: 66 0F B1 1D	// 	CMPXCHGW %BX, 0x00000002	//  MEM[VA=0x04000002, PA=0x5002] = 0x0400, ZF=1
+0x01d2: 02 00 00 00	// 
+
+0x01d6: 0F BC DB	//	BSF %EBX, %EBX			//  EBX = 0x0000000a, ZF = 0
+
+0x01d9: B8 28 00 00	// MOVL $0x00000028, %EAX		//  EAX=0x00000028
+0x01dd:	00 	
+
+0x01de: BB 00 0B 00	// MOVL $0x00000b00, %EBX		//  EBX = 0x00000B00
+0x01e2: 00 
+
+0x01e3: 8E DB		//      MOVW %BX, %DS                   //  DS = 0x0B00
+
+0x01e5: 0F 68 48 00 	// PUNPCKHBW (%EAX + 0x00), %MM1	//  MM1=0x807f7f007f027a, VA=DS+0x28
+
+0x01e9: F4         	//       	HLT				//  END OF THE TEST
+
+0x01f1:            	//        	loop:
+0x01f1: 83 C0 01   	//   	ADD $0x1,%EAX			//  EAX=0x80000002~0x80000003, first CF=0, SF=1, ZF=0, PF=0, AF=0, OF=0
+              					      	//   second CF=0, SF=1, ZF=0, PF=1, AF=0, OF=0
+0x01f4: 80 C2 FF   	//   	ADDB $-0x1, %DL			//  DL=0x01~0x00, first CF=1, SF=0, ZF=0, PF=0, AF=1, OF=0
+              					      	//   second CF=1, SF=0, ZF=1, PF=1, AF=1, OF=0
+0x01f7: 75 F8      	//     	JNE loop
+0x01f9: C3         	//       	RET
+
+
+
+0x01fa: 00 00 00 00	// 	
+0x01fe: 00 00 00 00	// 
+
+0x4000: 00 90 34 12	// 	.LONG 0x12349000
+0x4004: EF BE AD DE	// 	.LONG 0xDEADBEEF
+0x4008: EF DE CD AB	// 	.LONG 0xABCDDEEF
+0x400c: BC BC B0 B0	// 	.LONG 0xB0B0BCBC
+0x4010: 00 05 00 00	// 	.LONG 0x00000500
+0x4014: 00 00 00 00	// 	.LONG 0x00000000
+0x4018: 07 00 00 00	// 	.LONG 0x00000007
+0x401c: 00 00 00 00	// 	.LONG 0x00000000
+0x4020: 00 80 00 80	// 	.LONG 0x80008000
+0x4024: 02 80 01 80	// 	.LONG 0x80018002
+
+
+0x4028: 7A 00 02 00	// 	.LONG 0x0002007A // USE FOR PACKSSWB
+0x402c: 7F 00 80 00	// 	.LONG 0x0080007F
+0x4030: FF 7F 00 02	//  .LONG 0x02007FFF
+0x4034: 00 F0 80 80	// 	.LONG 0x8080F000
+0x4038: 03 00 00 01	// 	.LONG 0x01000003
+0x403c: F0 F0 60 60	// 	.LONG 0x6060F0F0
+
+0x5000: 4F 4E 4F 4E	// 	.LONG 0x4E4F4E4F
+0x5004: 52 41 4E 44	// 	.LONG 0x444E4152
+0x5008: 53 45 4C 55	// 	.LONG 0x554C4553
+0x500c: 52 41 4E 44	// 	.LONG 0x444E4152
+0x5010: 53 45 4C 55	// 	.LONG 0x554C4553
+0x5014: 52 41 4E 44	// 	.LONG 0x444E4152
+0x5018: 53 45 4C 55	// 	.LONG 0x554C4553
+0x501c: 52 41 4E 44	// 	.LONG 0x444E4152
+0x5020: 53 45 4C 55	// 	.LONG 0x554C4553
+0x5024: 4F 4E 4F 4E	// 	.LONG 0x4E4F4E4F
+0x5028: 00 00 00 00	// 	.LONG 0x00000000
+0x502c: 00 00 00 00	// 	.LONG 0x00000000
+0x5030: 00 01 00 00	// 	.LONG 0x00000100
+0x5034: 00 00 00 00	// 	.LONG 0x00000000
+0x5038: 00 00 00 00	// 	.LONG 0x00000000
+0x503c: 00 00 00 00	// 	.LONG 0x00000000
+0x5040: 01 00 00 00	// 	.LONG 0x00000001
+0x5044: 00 00 00 00	// 	.LONG 0x00000000
+0x5048: 00 00 00 00	// 	.LONG 0x00000000
+0x504c: 00 00 00 00	// 	.LONG 0x00000000
+0x5050: 01 00 00 00	// 	.LONG 0x00000001
+0x5054: 00 00 00 00	// 	.LONG 0x00000000
+0x5058: 00 00 00 00	// 	.LONG 0x00000000
+0x505c: 00 00 00 00	// 	.LONG 0x00000000
+0x5060: F1 01 00 00	// 	.LONG 0x000001F1		// target address of call intruction
+
+0x5064: 00 00 00 00	// 	.ORG 0x7019
+0x5068: 00 00 00 00	// 
+0x506c: 00 00 00 00	// 
+0x5070: 00 00 00 00	// 
+0x5074: 00 00 00 00	// 
+0x7019: 78 56 34 12	// 	.LONG 0x12345678
+
+0x701d: 00 00 00 00	// 	.ORG 0x73F9
+0x7021: 00 00 00 00	// 
+0x7025: 00 00 00 00	// 
+0x7029: 00 00 00 00	// 
+0x702d: 00 00 00 00	// 
+0x73f9: EF BE AD DE	// 	.LONG 0xDEADBEEF
+0x73fd: 78 56 34 12	// 	.LONG 0x12345678
+0x7401: 21 43 65 87	// 	.LONG 0x87654321
+0x7405: 53 45 4C 55	// 	.LONG 0x554C4553
+0x7409: 78 56 34 12	// 	.LONG 0x12345678
+0x740d: 78 56 34 12	// 	.LONG 0x12345678
+0x7411: 78 56 34 12	// 	.LONG 0x12345678
+0x7415: 78 56 34 12	// 	.LONG 0x12345678
