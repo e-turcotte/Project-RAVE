@@ -54,7 +54,7 @@ inv1$ inv1(size_n, isSIZE);
 inv1$ inv2(size1_n, size0[1]);
 nor3$ n1(size_s, size_n, size1_n, size0[0]);
 mux2n #(2)mx12(size, size0, 2'b01, size_s);
-csAdapter csa0(.memSizeOVR(memSizeOVR0), .S3_MOD_OVR(S3_MOD_OVR), .OP_MOD_OVR(OP_MOD_OVR), .M2_RW(M2_RW), .M1_RW(M1_RW0), .R1_MOD_OVR(R1_MOD_OVR), .op4_wb(op4_wb0), .op3_wb(op3_wb), .op2_wb(op2_wb), .op1_wb(op1_wb), .dest4_mux(dest4_mux), .dest3_mux(dest3_mux), .dest2_mux(dest2_mux0), .dest1_mux(dest1_mux0), .op4_mux(op4_mux), .op3_mux(op3_mux), .op2_mux(op2_mux0), .op1_mux(op1_mux0), .S4(S4), .S3(S30), .S2(S2), .S1(S10), .R4(R4), .R3(R3), .R2(R20), .R1(R10), .size(size0), .immSize(immSize0), .isImm(isImm), .isFP(isFP), .isBR(isBR), .swapEIP(swapEIP), .conditionals(conditionals), .FMASK(FMASK), .P_OP(P_OP), .MUX_SHIFT(MUX_SHIFT), .MUX_AND_INT(MUX_AND_INT), .MUX_ADDER_IMM(MUX_ADDER_IMM), .aluk(aluk), .OPCext(OPCext), .isDouble(isDouble), .modSWAP(modSWAP), .isMOD(isMOD), .toSplit(chosen));
+csAdapter csa0(.memSizeOVR(memSizeOVR0), .S3_MOD_OVR(S3_MOD_OVR), .OP_MOD_OVR(OP_MOD_OVR), .M2_RW(M2_RW), .M1_RW(M1_RW0), .R1_MOD_OVR(R1_MOD_OVR), .op4_wb(op4_wb0), .op3_wb(op3_wb), .op2_wb(op2_wb), .op1_wb(op1_wb), .dest4_mux(dest4_mux), .dest3_mux(dest3_mux), .dest2_mux(dest2_mux0), .dest1_mux(dest1_mux0), .op4_mux(op4_mux), .op3_mux(op3_mux), .op2_mux(op2_mux0), .op1_mux(op1_mux0), .S4(S4), .S3(S30), .S2(S20), .S1(S10), .R4(R4), .R3(R3), .R2(R20), .R1(R10), .size(size0), .immSize(immSize0), .isImm(isImm), .isFP(isFP), .isBR(isBR), .swapEIP(swapEIP), .conditionals(conditionals), .FMASK(FMASK), .P_OP(P_OP), .MUX_SHIFT(MUX_SHIFT), .MUX_AND_INT(MUX_AND_INT), .MUX_ADDER_IMM(MUX_ADDER_IMM), .aluk(aluk), .OPCext(OPCext), .isDouble(isDouble), .modSWAP(modSWAP), .isMOD(isMOD), .toSplit(chosen));
 mux2n  # (8) m1x(m, B2, B3, isDouble);
 
 or2$ norsax(sal_size_8_hotfix, immSize0[0], immSize0[1]);
@@ -95,4 +95,14 @@ and2$ a8(seg_sel, isMOD, isSEG);
  mux2n #(3) mx11(S1, S10, s_out, seg_sel);
  mux2$ mx69(op4_wb, op4_wb0, 1'b1, isREP);
  mux2n #(4) mx70(memSizeOVR, memSizeOVR0, {memSizeOVR0[3], memSizeOVR0[1], memSizeOVR0[2], memSizeOVR0[0]}, isSIZE);
+
+or2$ (S2ovr, M1_RW[1], M1_RW[0]);
+
+
+equaln #(3) axp0(R2, 3'd4, R1_ovr0);
+equaln #(3) axp1(R2, 3'd5, R1_ovr1);
+or2$ axp2(S2ovr2, R1_ovr0, R1_ovr1 );
+and2$ axp3(s2_ovr_fin, S2ovr2, S2ovr);
+mux2n #(3) leFix(S2, S20, 3'd2, s2_ovr_fin );
+
 endmodule
