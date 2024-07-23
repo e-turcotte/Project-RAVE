@@ -228,12 +228,12 @@ module gprfile (input [127:0] din,
             nor3$ g5(.out(notinuserd), .in0(rdsize[2]), .in1(rdsize[1]), .in2(rdsize[0]));
 
             assign out32[i] = {e_out[i],h_out[i],l_out[i]};
-            sext_16_to_32 s0(.in({h_out[i],l_out[i]}), .out(out16[i]));
+            assign out16[i] = {16'h0000,h_out[i],l_out[i]};
             assign ptc32[i] = {e_ptc[i],h_ptc[i],l_ptc[i]};
             assign ptc16[i] = {32'h0000,h_ptc[i],l_ptc[i]};
             if (i < 4) begin
-                sext_8_to_32 s1(.in(h_out[i]), .out(out8h[i]));
-                sext_8_to_32 s2(.in(l_out[i]), .out(out8l[i]));
+                assign out8h[i] = {24'h000000,h_out[i]};
+                assign out8l[i] = {24'h000000,l_out[i]};
                 assign ptc8h[i] = {48'h000000,h_ptc[i]};
                 assign ptc8l[i] = {48'h000000,l_ptc[i]};
                 muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(32)) m7(.in({{32{1'b0}},out32[i],out16[i],out8l[i]}), .sel({notinuserd,rdsize}), .out(outs[(i*32)+31:i*32]));
