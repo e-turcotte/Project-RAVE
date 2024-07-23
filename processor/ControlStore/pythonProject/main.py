@@ -42,8 +42,8 @@ def main():
         opcode = asm[0]
         opH = row[2]
         row[19] = "2'b11" if "64" in row[1] else "2'b10" if "32" in row[1] or "EAX" in row[1] else "2'b00"
-        if "Sreg" in row[1]:
-            row[19] = "2'b01";
+        if "Sreg" in row[1] or ("PUSH" in row[1] and "S" in row[1]):
+            row[19] = "2'b01"
         row[9] = "1'b0"  # MUX_AND_INT
 
         if "?" in row[0]:
