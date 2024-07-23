@@ -238,7 +238,7 @@ or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
 mux2$ mx1(sal_of, of, OP1[31], of_sel);
 assign sal_af = 0;
 inv1$ asax(mux_shf_n, MUX_SHF);
-and2$ (overSHF_adj ,overSHF, mux_shf_n);
+and2$ xzs(overSHF_adj ,overSHF, mux_shf_n);
 //TODO: check here
 mux2n #(32) mx(SAL_out[31:0], shf_out, 32'd0 ,overSHF_adj);
 equaln #(32) mx5(32'd0, shiftCnt, cc_val);
@@ -272,8 +272,11 @@ wire overSHF;
 or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
 equaln #(5) e1(shiftCnt[4:0], 5'b00010, of_sel);
 
-mux4n #(32) mx(SAR_out[31:0], shf_out, 32'd0 ,shf_out ,32'hFFFF_FFFF ,overSHF, OP1[31]);
+mux4n #(32) mx(SAR_out[31:0], shf_out, 32'd0 ,shf_out ,32'hFFFF_FFFF ,overSHF_adj, OP1[31]);
 
+
+inv1$ asaxas(mux_shf_n, MUX_SHF);
+and2$ asax(overSHF_adj ,overSHF, mux_shf_n);
 //genCF
 muxnm_tristate #(32, 1) mx1({OP1[30:0],1'b0}, shiftCnt, SAR_cf_nOF);
 mux2$ mx2(sar_cf, SAR_cf_nOF, OP1[31], overSHF);
