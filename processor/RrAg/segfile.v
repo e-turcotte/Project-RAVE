@@ -68,15 +68,15 @@ module segfile (input [63:0] base_in,
     
     muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(16)) m4(.in({{32{1'b0}},base_outs}), .sel(rd_addr[5:3]), .out(base_out[31:16]));
     muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(20)) m5(.in({{40{1'b0}},lim_outs}), .sel(rd_addr[5:3]), .out(lim_out[39:20]));
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m6(.in({{64{1'b0}},ptc_outs}), .sel(rd_addr[2:0]), .out(ptc_out[63:32]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m6(.in({{64{1'b0}},ptc_outs}), .sel(rd_addr[5:3]), .out(ptc_out[63:32]));
 
     muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(16)) m7(.in({{32{1'b0}},base_outs}), .sel(rd_addr[8:6]), .out(base_out[47:32]));
     muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(20)) m8(.in({{40{1'b0}},lim_outs}), .sel(rd_addr[8:6]), .out(lim_out[59:40]));
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m9(.in({{64{1'b0}},ptc_outs}), .sel(rd_addr[2:0]), .out(ptc_out[95:64]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m9(.in({{64{1'b0}},ptc_outs}), .sel(rd_addr[8:6]), .out(ptc_out[95:64]));
     
     muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(16)) m10(.in({{32{1'b0}},base_outs}), .sel(rd_addr[11:9]), .out(base_out[63:48]));
     muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(20)) m11(.in({{40{1'b0}},lim_outs}), .sel(rd_addr[11:9]), .out(lim_out[79:60]));
-    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m12(.in({{64{1'b0}},ptc_outs}), .sel(rd_addr[2:0]), .out(ptc_out[127:96]));
+    muxnm_tree #(.SEL_WIDTH(3), .DATA_WIDTH(32)) m12(.in({{64{1'b0}},ptc_outs}), .sel(rd_addr[11:9]), .out(ptc_out[127:96]));
     
     integer cyc_cnt;
     integer file;
