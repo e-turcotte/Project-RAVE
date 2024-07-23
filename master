@@ -7,6 +7,7 @@
 /home/projects/courses/spring_22/ee382n19_16785/lib/lib6
 
 TOP.v
+dumper.v
 
 processor/M/cache/d$.v
 processor/M/cache/RSW_IA_AS.v

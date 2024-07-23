@@ -51,7 +51,7 @@ AND_alu a1(and_out, OP1,OP2,MUX_AND_INT);
 //aluk = 00001
 wire[63:0] add_out;
 wire add_cf, add_of, add_af;
-ADD_alu a2(add_out, add_af, add_cf, add_of, OP1, OP2, MUX_ADDER_IMM);
+ADD_alu a2(add_out, add_af, add_cf, add_of, OP1, OP2, MUX_ADDER_IMM, size);
 
 //do flags
 //aluk = 00010
@@ -237,8 +237,10 @@ mux2$ mx4(sal_cf, SAR_cf_nOF, OP1[31], overSHF);
 or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
 mux2$ mx1(sal_of, of, OP1[31], of_sel);
 assign sal_af = 0;
+inv1$ asax(mux_shf_n, MUX_SHF);
+and2$ xzs(overSHF_adj ,overSHF, mux_shf_n);
 //TODO: check here
-mux2n #(32) mx(SAL_out[31:0], shf_out, 32'd0 ,overSHF);
+mux2n #(32) mx(SAL_out[31:0], shf_out, 32'd0 ,overSHF_adj);
 equaln #(32) mx5(32'd0, shiftCnt, cc_val);
 
 endmodule
@@ -270,8 +272,11 @@ wire overSHF;
 or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
 equaln #(5) e1(shiftCnt[4:0], 5'b00010, of_sel);
 
-mux4n #(32) mx(SAR_out[31:0], shf_out, 32'd0 ,shf_out ,32'hFFFF_FFFF ,overSHF, OP1[31]);
+mux4n #(32) mx(SAR_out[31:0], shf_out, 32'd0 ,shf_out ,32'hFFFF_FFFF ,overSHF_adj, OP1[31]);
 
+
+inv1$ asaxas(mux_shf_n, MUX_SHF);
+and2$ asax(overSHF_adj ,overSHF, mux_shf_n);
 //genCF
 muxnm_tristate #(32, 1) mx1({OP1[30:0],1'b0}, shiftCnt, SAR_cf_nOF);
 mux2$ mx2(sar_cf, SAR_cf_nOF, OP1[31], overSHF);
@@ -519,7 +524,8 @@ module ADD_alu(
     output cf_out,
     output of_out,
     input[63:0] OP1, OP2,
-    input[2:0] MUX_ADDER_IMM
+    input[2:0] MUX_ADDER_IMM,
+    input [1:0] size
 );
     wire [31:0] mux_res;
     wire[31:0] adderResult;
@@ -533,7 +539,11 @@ module ADD_alu(
     inv1$ i1(af_out, af_outn);
     
     wire uf, of;
-    calcSat cs1(of, uf, OP1[31], mux_res[31], adderResult[31]);
+     calcSat cs1(of2, uf2, OP1[31], OP2[31], adderResult[31]);
+    calcSat cs2(of1, uf1, OP1[15], OP2[15], adderResult[15]);
+    calcSat cs3(of0, uf0, OP1[7], OP2[7], adderResult[7]);
+    mux4n cs_sel1 (of, of0, of1, of2, 1'b0, size[0], size[1]);
+    mux4n cs_sel2 (uf, uf0, uf1, uf2, 1'b0, size[0], size[1]);
     or2$ o1(of_out, of, uf);
     
     assign ADD_ALU_OUT[63:32] = 32'd0;

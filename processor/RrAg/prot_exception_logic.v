@@ -3,7 +3,8 @@ module prot_exception_logic(
     input [31:0] disp_imm,
     input [31:0] calc_size, //from reg file adder
     input [3:0] address_size, //should be onehot as shown below
-    output [31:0] read_address_end_size
+    output [31:0] read_address_end_size,
+    output prot_logic_is_valid
 );
 
     //assuming address_size is encoded as follows:
@@ -43,5 +44,6 @@ module prot_exception_logic(
 
     assign read_address_end_size = {entry_P, read_address_end_size_V[11:0]};
 
+    assign prot_logic_is_valid = tlb_valid;
 
 endmodule

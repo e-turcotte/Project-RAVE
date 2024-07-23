@@ -75,7 +75,7 @@
 		VP_1 = 20'h02000; // - IDTR
 		VP_2 = 20'h04000;
 		VP_3 = 20'h0b000;
-		VP_4   =   20'h0c000;
+		VP_4 = 20'h0c000;
 		VP_5 = 20'h0a000;
 		VP_6 = 20'h06000;
 		VP_7 = 20'h03000;
@@ -84,7 +84,7 @@
 		PF_1 = 20'h00002; //01000000 = x40 - IDTR
 		PF_2 = 20'h00005; //10100000 = xa0
 		PF_3 = 20'h00004; //10000000 = x80
-		PF_4 =   20'h00007; //11100000 = xe0
+		PF_4 = 20'h00007; //11100000 = xe0
 		PF_5 = 20'h00005; //11000000 = xc0
 		PF_6 = 20'h00006; //10100000 = xa0
 		PF_7 = 20'h00003; //01100000 = x60
@@ -290,6 +290,7 @@
     wire         valid_RrAg_MEM_latch_in;
     wire [1:0]   opsize_RrAg_MEM_latch_in;
     wire [31:0]  mem_addr1_RrAg_MEM_latch_in, mem_addr2_RrAg_MEM_latch_in, mem_addr1_end_RrAg_MEM_latch_in, mem_addr2_end_RrAg_MEM_latch_in;
+    wire         mem1_end_is_valid_RrAg_MEM_latch_in, mem2_end_is_valid_RrAg_MEM_latch_in;  
     wire [63:0]  reg1_RrAg_MEM_latch_in, reg2_RrAg_MEM_latch_in, reg3_RrAg_MEM_latch_in, reg4_RrAg_MEM_latch_in;
     wire [127:0] ptc_r1_RrAg_MEM_latch_in, ptc_r2_RrAg_MEM_latch_in, ptc_r3_RrAg_MEM_latch_in, ptc_r4_RrAg_MEM_latch_in;
     wire [2:0]   reg1_orig_RrAg_MEM_latch_in, reg2_orig_RrAg_MEM_latch_in, reg3_orig_RrAg_MEM_latch_in, reg4_orig_RrAg_MEM_latch_in;
@@ -330,6 +331,7 @@
     wire         valid_RrAg_MEM_latch_out;
     wire [1:0]   opsize_RrAg_MEM_latch_out;
     wire [31:0]  mem_addr1_RrAg_MEM_latch_out, mem_addr2_RrAg_MEM_latch_out, mem_addr1_end_RrAg_MEM_latch_out, mem_addr2_end_RrAg_MEM_latch_out;
+    wire         mem1_end_is_valid_RrAg_MEM_latch_out, mem2_end_is_valid_RrAg_MEM_latch_out;
     wire [63:0]  reg1_RrAg_MEM_latch_out, reg2_RrAg_MEM_latch_out, reg3_RrAg_MEM_latch_out, reg4_RrAg_MEM_latch_out;
     wire [127:0] ptc_r1_RrAg_MEM_latch_out, ptc_r2_RrAg_MEM_latch_out, ptc_r3_RrAg_MEM_latch_out, ptc_r4_RrAg_MEM_latch_out;
     wire [2:0]   reg1_orig_RrAg_MEM_latch_out, reg2_orig_RrAg_MEM_latch_out, reg3_orig_RrAg_MEM_latch_out, reg4_orig_RrAg_MEM_latch_out;
@@ -960,6 +962,7 @@
         .valid_out(valid_RrAg_MEM_latch_in), .stall(RrAg_stall_out), //send to D_RrAg_Queued_Latches
         .opsize_out(opsize_RrAg_MEM_latch_in),
         .mem_addr1(mem_addr1_RrAg_MEM_latch_in), .mem_addr2(mem_addr2_RrAg_MEM_latch_in), .mem_addr1_end(mem_addr1_end_RrAg_MEM_latch_in), .mem_addr2_end(mem_addr2_end_RrAg_MEM_latch_in),
+        .mem1_end_is_valid(mem1_end_is_valid_RrAg_MEM_latch_in), .mem2_end_is_valid(mem2_end_is_valid_RrAg_MEM_latch_in),
         .reg1(reg1_rragdf), .reg2(reg2_rragdf), .reg3(reg3_rragdf), .reg4(reg4_rragdf),
         .ptc_r1(ptc_r1_RrAg_MEM_latch_in), .ptc_r2(ptc_r2_RrAg_MEM_latch_in), .ptc_r3(ptc_r3_RrAg_MEM_latch_in), .ptc_r4(ptc_r4_RrAg_MEM_latch_in),
         .reg1_orig(reg1_orig_RrAg_MEM_latch_in), .reg2_orig(reg2_orig_RrAg_MEM_latch_in), .reg3_orig(reg3_orig_RrAg_MEM_latch_in), .reg4_orig(reg4_orig_RrAg_MEM_latch_in),
@@ -1014,6 +1017,7 @@
         .clk(clk),
         .valid_in(valid_RrAg_MEM_latch_in), .opsize_in(opsize_RrAg_MEM_latch_in),
         .mem_addr1_in(mem_addr1_RrAg_MEM_latch_in), .mem_addr2_in(mem_addr2_RrAg_MEM_latch_in), .mem_addr1_end_in(mem_addr1_end_RrAg_MEM_latch_in), .mem_addr2_end_in(mem_addr2_end_RrAg_MEM_latch_in),
+        .mem1_end_is_valid_in(mem1_end_is_valid_RrAg_MEM_latch_in), .mem2_end_is_valid_in(mem2_end_is_valid_RrAg_MEM_latch_in),
         .reg1_in(reg1_RrAg_MEM_latch_in), .reg2_in(reg2_RrAg_MEM_latch_in), .reg3_in(reg3_RrAg_MEM_latch_in), .reg4_in(reg4_RrAg_MEM_latch_in),
         .ptc_r1_in(ptc_r1_RrAg_MEM_latch_in), .ptc_r2_in(ptc_r2_RrAg_MEM_latch_in), .ptc_r3_in(ptc_r3_RrAg_MEM_latch_in), .ptc_r4_in(ptc_r4_RrAg_MEM_latch_in),
         .reg1_orig_in(reg1_orig_RrAg_MEM_latch_in), .reg2_orig_in(reg2_orig_RrAg_MEM_latch_in), .reg3_orig_in(reg3_orig_RrAg_MEM_latch_in), .reg4_orig_in(reg4_orig_RrAg_MEM_latch_in),
@@ -1049,6 +1053,7 @@
         //outputs
         .valid_out(valid_RrAg_MEM_latch_out), .opsize_out(opsize_RrAg_MEM_latch_out),
         .mem_addr1_out(mem_addr1_RrAg_MEM_latch_out), .mem_addr2_out(mem_addr2_RrAg_MEM_latch_out), .mem_addr1_end_out(mem_addr1_end_RrAg_MEM_latch_out), .mem_addr2_end_out(mem_addr2_end_RrAg_MEM_latch_out),
+        .mem1_end_is_valid_out(mem1_end_is_valid_RrAg_MEM_latch_out), .mem2_end_is_valid_out(mem2_end_is_valid_RrAg_MEM_latch_out),
         .reg1_out(reg1_RrAg_MEM_latch_out), .reg2_out(reg2_RrAg_MEM_latch_out), .reg3_out(reg3_RrAg_MEM_latch_out), .reg4_out(reg4_RrAg_MEM_latch_out),
         .ptc_r1_out(ptc_r1_RrAg_MEM_latch_out), .ptc_r2_out(ptc_r2_RrAg_MEM_latch_out), .ptc_r3_out(ptc_r3_RrAg_MEM_latch_out), .ptc_r4_out(ptc_r4_RrAg_MEM_latch_out),
         .reg1_orig_out(reg1_orig_RrAg_MEM_latch_out), .reg2_orig_out(reg2_orig_RrAg_MEM_latch_out), .reg3_orig_out(reg3_orig_RrAg_MEM_latch_out), .reg4_orig_out(reg4_orig_RrAg_MEM_latch_out),
@@ -1114,6 +1119,8 @@
         .mem_addr2(mem_addr2_RrAg_MEM_latch_out),
         .mem_addr1_end(mem_addr1_end_RrAg_MEM_latch_out),
         .mem_addr2_end(mem_addr2_end_RrAg_MEM_latch_out),
+        .mem1_end_is_valid(mem1_end_is_valid_RrAg_MEM_latch_out),
+        .mem1_end_is_valid(mem2_end_is_valid_RrAg_MEM_latch_out),
         .reg1(reg1_memdf),
         .reg2(reg2_memdf),
         .reg3(reg3_memdf),
@@ -1575,5 +1582,25 @@
     // assign final_IE_type = 0;
 
     nand2$ ptc_clear_and (.in0(idtr_ptc_clear_out), .in1(is_resteer_WB_out), .out(IDTR_PTC_clear)); //TODO
+
+    dumper dumpy(.eip(EIP_EX_WB_latch_out), .latch_eip(latched_eip_EX_WB_latch_out),
+                 .ptcid(inst_ptcid_EX_WB_latch_out),
+                 .res1(res1_WB_RRAG_out), .res2(res2_WB_RRAG_out), .res3(res3_WB_RRAG_out), .res4(res4_WB_RRAG_out),
+                 .dest1(inp1_dest_EX_WB_latch_out), .dest2(inp2_dest_EX_WB_latch_out), .dest3(inp3_dest_EX_WB_latch_out), .dest4(inp4_dest_EX_WB_latch_out),
+                 .reg_wb(reg_ld_WB_RRAG_out), .seg_wb(seg_ld_WB_RRAG_out), .mem_wb(mem_ld_WB_M_out),
+                 .eip_wb(is_resteer_WB_out), .is_halt(wb_inst.halt_ld),
+                 .br_pred_tnt(BR_pred_T_NT_EX_WB_latch_out), .br_pred_target(BR_pred_target_EX_WB_latch_out),
+                 .eflags(final_EFLAGS),
+                 .gpf_out({r1.rf.gf.e_out[7],r1.rf.gf.h_out[7],r1.rf.gf.l_out[7],
+                          r1.rf.gf.e_out[6],r1.rf.gf.h_out[6],r1.rf.gf.l_out[6],
+                          r1.rf.gf.e_out[5],r1.rf.gf.h_out[5],r1.rf.gf.l_out[5],
+                          r1.rf.gf.e_out[4],r1.rf.gf.h_out[4],r1.rf.gf.l_out[4],
+                          r1.rf.gf.e_out[3],r1.rf.gf.h_out[3],r1.rf.gf.l_out[3],
+                          r1.rf.gf.e_out[2],r1.rf.gf.h_out[2],r1.rf.gf.l_out[2],
+                          r1.rf.gf.e_out[1],r1.rf.gf.h_out[1],r1.rf.gf.l_out[1],
+                          r1.rf.gf.e_out[0],r1.rf.gf.h_out[0],r1.rf.gf.l_out[0]}),
+                 .mmf_out(r1.rf.mf.outs),
+                 .sf_out(r1.sf.base_outs),
+                 .clk(clk_g), .valid(is_valid_WB_out));
 
  endmodule

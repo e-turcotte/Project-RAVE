@@ -6,6 +6,7 @@ module RrAg_MEM_latch (
         input         valid_in,
         input [1:0]   opsize_in,
         input [31:0]  mem_addr1_in, mem_addr2_in, mem_addr1_end_in, mem_addr2_end_in,
+        input         mem1_end_is_valid_in, mem2_end_is_valid_in,
         input [63:0]  reg1_in, reg2_in, reg3_in, reg4_in,
         input [127:0] ptc_r1_in, ptc_r2_in, ptc_r3_in, ptc_r4_in,
         input [2:0]   reg1_orig_in, reg2_orig_in, reg3_orig_in, reg4_orig_in,
@@ -42,6 +43,7 @@ module RrAg_MEM_latch (
         output         valid_out,
         output [1:0]   opsize_out,
         output [31:0]  mem_addr1_out, mem_addr2_out, mem_addr1_end_out, mem_addr2_end_out,
+        output         mem1_end_is_valid_out, mem2_end_is_valid_out, 
         output [63:0]  reg1_out, reg2_out, reg3_out, reg4_out,
         output [127:0] ptc_r1_out, ptc_r2_out, ptc_r3_out, ptc_r4_out,
         output [2:0]   reg1_orig_out, reg2_orig_out, reg3_orig_out, reg4_orig_out,
@@ -89,6 +91,8 @@ module RrAg_MEM_latch (
     regn #(.WIDTH(32))  r5  (.din(mem_addr2_in), .ld(ld), .clr(clr), .clk(clk), .dout(mem_addr2_out));
     regn #(.WIDTH(32))  r6  (.din(mem_addr1_end_in), .ld(ld), .clr(clr), .clk(clk), .dout(mem_addr1_end_out));
     regn #(.WIDTH(32))  r7  (.din(mem_addr2_end_in), .ld(ld), .clr(clr), .clk(clk), .dout(mem_addr2_end_out));
+    regn #(.WIDTH(1))  r99 (.din(mem1_end_is_valid_in), .ld(ld), .clr(clr), .clk(clk), .dout(mem1_end_is_valid_out));
+    regn #(.WIDTH(1))  r98 (.din(mem2_end_is_valid_in), .ld(ld), .clr(clr), .clk(clk), .dout(mem2_end_is_valid_out));
     regn #(.WIDTH(64))  r8  (.din(reg1_in), .ld(ld), .clr(clr), .clk(clk), .dout(reg1_out));
     regn #(.WIDTH(64))  r9  (.din(reg2_in), .ld(ld), .clr(clr), .clk(clk), .dout(reg2_out));
     regn #(.WIDTH(64))  r10 (.din(reg3_in), .ld(ld), .clr(clr), .clk(clk), .dout(reg3_out));
@@ -168,6 +172,8 @@ module RrAg_MEM_latch (
         $fdisplay(file, "\t\t mem_addr2: 0x%h", mem_addr2_out);
         $fdisplay(file, "\t\t mem_addr1_end: 0x%h", mem_addr1_end_out);
         $fdisplay(file, "\t\t mem_addr2_end: 0x%h", mem_addr2_end_out);
+        $fdisplay(file, "\t\t mem1_end_is_valid: 0x%h", mem1_end_is_valid_out);
+        $fdisplay(file, "\t\t mem1_end_is_valid: 0x%h", mem1_end_is_valid_out);
         $fdisplay(file, "\t\t reg1: 0x%h", reg1_out);
         $fdisplay(file, "\t\t reg2: 0x%h", reg2_out);
         $fdisplay(file, "\t\t reg3: 0x%h", reg3_out);

@@ -49,7 +49,7 @@ generate
     end
 endgenerate
 wire[63:0] muxData, preSext;
-mux8_n #(64) breakup(muxData, data0_shift[63:0], {data1[7:0], data0_shift[55:0]}, {data1[15:0], data0_shift[47:0]},{data1[23:0], data0_shift[39:0]},{data1[31:0], data0_shift[31:0]},{data1[39:0], data0_shift[23:0]},{data1[47:0], data0_shift[15:0]},{data1[55:0], data0_shift[7:0]}, pAddress0[1], pAddress0[2], pAddress0[3]);
+mux8_n #(64) breakup(muxData, data0_shift[63:0], {data1[7:0], data0_shift[55:0]}, {data1[15:0], data0_shift[47:0]},{data1[23:0], data0_shift[39:0]},{data1[31:0], data0_shift[31:0]},{data1[39:0], data0_shift[23:0]},{data1[47:0], data0_shift[15:0]},{data1[55:0], data0_shift[7:0]}, pAddress0[0], pAddress0[1], pAddress0[2]);
 mux2n #(64) chossePath(preSext, data0_shift[63:0],muxData, E_needP1 );
 wire sext;
 mux4$ mxnb(sext, preSext[7], preSext[15], preSext[31], preSext[63], size0[0], size0[1]);

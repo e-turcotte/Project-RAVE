@@ -187,7 +187,7 @@ module execute_TOP(
     and2$ a2(valid_out, valid_internal, skip_n);
 
     //HandleBRLOGIC
-    BRLOGIC b1(BR_valid, BR_taken, BR_correct, BR_FIP, BR_FIP_p1, valid_internal, BR_pred_target_in, BR_pred_T_NT_in, conditionals, zf, cf, res1[31:0], P_OP[11], P_OP[12], P_OP[32], gBR);
+    BRLOGIC b1(BR_valid, BR_taken, BR_correct, BR_FIP, BR_FIP_p1, valid_internal, BR_pred_target_in, BR_pred_T_NT_in, conditionals, zf, cf, res1[31:0], P_OP[11], P_OP[12], P_OP[32], gBR, EIP_in);
 
     assign IE_type_out[3:0] = IE_type_in[3:0];
     assign IE_out = IE_in;
@@ -273,7 +273,7 @@ module res4Handler(
     and2$ immO(immOVR, isRet, isImm);
     or3$ incre(switch, isPush, isPop, P_OP_MOVS);
 
-    mux8_n #(32) mx(add3, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFF, 32'hFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], isPush );
+    mux8_n #(32) mx(add3, 32'd1, 32'd2, 32'd4, 32'd8, 32'hFFFFFFFF, 32'hFFFFFFFE, 32'hFFFF_FFFC, 32'hFFFF_FFF8, size[0], size[1], isPush );
     // mux2n #(32) mxm(add3, add1, op2[31:0],)
     mux2n #(32) mnx(add1, add3,op2[31:0],immOVR );
     mux2n #(32) mxn(add2, add1, 32'hFFFF_FFFF, P_OP_MOVS);
