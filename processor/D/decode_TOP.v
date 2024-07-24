@@ -242,7 +242,7 @@ module decode_TOP(
 
     wire cs_hit;
     //~1.5 ns
-    cs_top opcode(.isMOD(isMOD), .modSWAP(modSWAP), .isDouble(isDouble), .OPCext(OPCext), .aluk(aluk), .MUX_ADDER_IMM(MUX_ADDER_IMM), 
+    cs_top opcode(.isSIB(isSIB), .isMOD(isMOD), .modSWAP(modSWAP), .isDouble(isDouble), .OPCext(OPCext), .aluk(aluk), .MUX_ADDER_IMM(MUX_ADDER_IMM), 
                 .MUX_AND_INT(MUX_AND_INT), .MUX_SHIFT(MUX_SHIFT), .P_OP(P_OP), .FMASK(FMASK), .conditionals(conditionals), .swapEIP(swapEIP), 
                 .isBR(isBR), .isFP(isFP), .isImm(isImm), .immSize(immSize), .size(size), .R1(R1), .R2(R2), .R3(R3), .R4(R4), .S1(S1), .S2(S2), 
                 .S3(S3), .S4(S4), .op1_mux(op1_mux), .op2_mux(op2_mux), .op3_mux(op3_mux), .op4_mux(op4_mux), .dest1_mux(dest1_mux), .dest2_mux(dest2_mux), 
