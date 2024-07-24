@@ -71,7 +71,7 @@ and4$ a1(m1rw_s, isMOD, m1, m2, opmodovr);
 // and4$ a22(m2rw_s, isMOD, m1, m2, OP_MOD_OVR[1]);
 mux2n  # (2) mx3(M1_RW, M1_RW0, 2'b00, m1rw_s);
 // mux2n  # (2) mx33(M2_RW, M2_RW0, 2'b00, m2rw_s);
-and4$ a2(s3_s, isMOD, m1, m2, S3_MOD_OVR);
+and2$ a2(s3_s, isMOD,  S3_MOD_OVR);
 mux2n  # (3)  mx4(S3, S30, m[5:3], s3_s);
 and2$ a3(r1_s, isMOD, R1_MOD_OVR);
 // and4$ a3(r1_s, isMOD, m1, m2, R1_MOD_OVR);
@@ -112,7 +112,7 @@ or2$ axp22(S1ovr2, R2_ovr0, R2_ovr1 );
 or2$ axp3(S1ovr3, OP_MOD_OVR[0], OP_MOD_OVR[1] );
 
 nand2$ axp99(R2_ovr_S1 ,S1ovr2,OP_MOD_OVR[0]);
-nand2$ axp999(R3_ovr_S1 ,S1ovr3,OP_MOD_OVR[1]);
+nand2$ axp999(R3_ovr_S1 ,S1ovr333,OP_MOD_OVR[1]);
 nand2$ axp9999(S1ovr_R,R3_ovr_S1,R2_ovr_S1);
 and2$  axp4(S1ovr_final, S1ovr_R,S2ovr );
 and3$  axp55(S1ovr_final2, S1ovr333, isSIB,S2ovr);
