@@ -1112,7 +1112,7 @@ def RETnear(row,op,asm):
     # OP4
     row[31] = R4  # op4_mux
     row[35] = R4  # dest4_mux
-    row[39] = o if version == o else z  # op4_wb
+    row[39] = o   # op4_wb
     return
 def SAL(row,op,asm):
     # CS
