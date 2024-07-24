@@ -6,7 +6,13 @@ module dumper (input [31:0] eip, latch_eip,
                input eip_wb, is_halt,
                input br_pred_tnt,
                input [31:0] br_pred_target,
-               input [6:0] eflags,
+               input [17:0] eflags,
+               input br_valid,
+               input br_taken,
+               input br_correct,
+               input [31:0] fipE,
+               input [31:0] fipO,
+               input [31:0] eip_bp,
                input [255:0] gpf_out,
                input [511:0] mmf_out,
                input [95:0] sf_out,
@@ -37,16 +43,20 @@ module dumper (input [31:0] eip, latch_eip,
             $fdisplay(file, "RES4 = 0x%h   DEST4 = 0x%h   REG/SEG/MEM/EIP = %b", res4, dest4, {reg_wb[3],seg_wb[3],mem_wb[3],1'b0});
             $fdisplay(file, "HALT = %b", is_halt);
             $fdisplay(file, "[===BR PREDICTION===]");
-            $fdisplay(file, "BR_PRED T/NT = %b", br_pred_tnt);
-            $fdisplay(file, "BR_PRED TARGET = %h", br_pred_target);
+            $fdisplay(file, "Is Valid BP = %h", br_valid);
+            $fdisplay(file, "Is Correct BP = %h", br_correct);
+            $fdisplay(file, "Is Taken BP = %h", br_taken);
+            $fdisplay(file, "FIP Even BP = %h", fipE);
+            $fdisplay(file, "FIP Odd BP = %h", fipO);
+            $fdisplay(file, "EIP BP = %h", eip_bp);
             $fdisplay(file, "[===EFLAGS===]");
-            $fdisplay(file, "CF = %b", eflags[0]);
-            $fdisplay(file, "PF = %b", eflags[1]);
-            $fdisplay(file, "AF = %b", eflags[2]);
-            $fdisplay(file, "ZF = %b", eflags[3]);
-            $fdisplay(file, "SF = %b", eflags[4]);
-            $fdisplay(file, "DF = %b", eflags[5]);
-            $fdisplay(file, "OF = %b", eflags[6]);
+            $fdisplay(file, "CF = %b", eflags[0]);             
+            $fdisplay(file, "PF = %b", eflags[1]);      
+            $fdisplay(file, "AF = %b", eflags[2]);      
+            $fdisplay(file, "ZF = %b", eflags[3]);      
+            $fdisplay(file, "SF = %b", eflags[4]);      
+            $fdisplay(file, "DF = %b", eflags[7]);      
+            $fdisplay(file, "OF = %b", eflags[8]);      
             $fdisplay(file, "[===GPR VALUES===]");
             $fdisplay(file, "EAX = 0x%h", gpf_out[31:0]);
             $fdisplay(file, "ECX = 0x%h", gpf_out[63:32]);

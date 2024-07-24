@@ -15,7 +15,8 @@ module EFLAG(
     input [1:0] P_OP,
     input [17:0] OP1,
     input is_resteer,
-    input valid_wb
+    input valid_wb,
+    output [17:0] eflag_update
 );
 
 assign cf = cc_out[0];
@@ -43,7 +44,7 @@ for(i = 0; i < 18; i = i + 1) begin : ef
 end
     
 regn #(18) r69(.din(cc_out), .ld(valid_wb), .clr(rst), .clk(clk), .dout(cc_old));
-
+assign eflag_update = cc_new;
 endgenerate
 
 integer file_handle;
