@@ -199,7 +199,7 @@ module rrag (input valid_in,
     and4$ g7(.out(mem1_stall), .in0(mem1_use), .in1(modrmsibseg1_ptc), .in2(rep_using_regs), .in3(valid_in));
     or2$ g8(.out(reg4seg2_ptc), .in0(regformem4ptc), .in1(ptc_s2[14]));
     and4$ g9(.out(mem2_stall), .in0(mem2_use), .in1(reg4seg2_ptc), .in2(rep_using_regs), .in3(valid_in));
-    and3$ g10(.out(rep_cnt_stall), .in0(is_rep_in), .in1(regformem3ptc), .in2(valid_in));
+    and4$ g10(.out(rep_cnt_stall), .in0(is_rep_in), .in1(regformem3ptc), .in2(rep_using_regs), .in3(valid_in));
     and2$ gfwd(.out(guarded_fwd_stall), .in0(fwd_stall), .in1(valid_in));
     or4$ g11(.out(other_stall), .in0(guarded_fwd_stall), .in1(mem1_stall), .in2(mem2_stall), .in3(rep_cnt_stall));
     inv1$ g12(.out(no_other_stall), .in(other_stall));

@@ -95,7 +95,7 @@
 		VP = {VP_7, VP_6, VP_5, VP_4, VP_3, VP_2, VP_1, VP_0};
 		PF = {PF_7, PF_6, PF_5, PF_4, PF_3, PF_2, PF_1, PF_0};
 
-        ES_LIM = 20'h003ff;
+        ES_LIM = 20'h00419;
         CS_LIM = 20'h04fff;
         SS_LIM = 20'h04000;
         DS_LIM = 20'h011ff;
