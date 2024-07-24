@@ -6,6 +6,7 @@ module iBuff_latch (
     input wire is_init,
     input wire [127:0] line_even_fetch1,
     input wire [127:0] line_odd_fetch1,
+    input wire stall,
 
     input wire [1:0] FIP_o_lsb_fetch1,
     input wire [1:0] FIP_e_lsb_fetch1,
@@ -53,6 +54,7 @@ orn #(2) o1123125(.out(odd_latch_was_loaded), .in({ld_1, ld_3}));
 invalidate_selector i0(.new_BIP(new_BIP_fetch2), .old_BIP(old_BIP_fetch2), .CF(CF), .cache_miss_even(cache_miss_even_fetch1), 
                         .cache_miss_odd(cache_miss_odd_fetch1), .FIP_o(FIP_o_lsb_fetch1), .FIP_e(FIP_e_lsb_fetch1),
                         .valid_in_00(line_00_valid), .valid_in_01(line_01_valid), .valid_in_10(line_10_valid), .valid_in_11(line_11_valid),
+                        .stall(stall),
                         .invalidate_line_00(invalidate_line_00), .invalidate_line_01(invalidate_line_01), 
                         .invalidate_line_10(invalidate_line_10), .invalidate_line_11(invalidate_line_11));
 
@@ -132,6 +134,7 @@ module invalidate_selector (
     input wire valid_in_01,
     input wire valid_in_10,
     input wire valid_in_11,
+    input wire stall,
 
 
     output wire invalidate_line_00,
@@ -139,6 +142,9 @@ module invalidate_selector (
     output wire invalidate_line_10,
     output wire invalidate_line_11
 );
+
+wire not_stall;
+inv1$ isdfsd0(.out(not_stall), .in(stall));
 
 wire [7:0] new_buff_offset, old_buff_offset;
 assign new_buff_offset = {4'b0000, new_BIP[3:0]};
@@ -194,10 +200,10 @@ assign line_11_check = FIP_o;
 // andn #(2) a5(.in({invalidate_line_01_no_cache_check, cache_not_hit_line_01}), .out(invalidate_line_01));
 // andn #(2) a6(.in({invalidate_line_10_no_cache_check, cache_not_hit_line_10}), .out(invalidate_line_10));
 // andn #(2) a7(.in({invalidate_line_11_no_cache_check, cache_not_hit_line_11}), .out(invalidate_line_11));
-andn #(2) afdsf4(.in({invalidate_line_00_no_cache_check, valid_in_00}), .out(invalidate_line_00));
-andn #(2) asdfsd5(.in({invalidate_line_01_no_cache_check, valid_in_01}), .out(invalidate_line_01));
-andn #(2) asdfsd6(.in({invalidate_line_10_no_cache_check, valid_in_10}), .out(invalidate_line_10));
-andn #(2) a7ffs(.in({invalidate_line_11_no_cache_check, valid_in_11}), .out(invalidate_line_11));
+andn #(3) afdsf4(.in({invalidate_line_00_no_cache_check, valid_in_00, not_stall}), .out(invalidate_line_00));
+andn #(3) asdfsd5(.in({invalidate_line_01_no_cache_check, valid_in_01, not_stall}), .out(invalidate_line_01));
+andn #(3) asdfsd6(.in({invalidate_line_10_no_cache_check, valid_in_10, not_stall}), .out(invalidate_line_10));
+andn #(3) a7ffs(.in({invalidate_line_11_no_cache_check, valid_in_11, not_stall}), .out(invalidate_line_11));
 // assign invalidate_line_00 = invalidate_line_00_no_cache_check;
 // assign invalidate_line_01 = invalidate_line_01_no_cache_check;
 // assign invalidate_line_10 = invalidate_line_10_no_cache_check;
