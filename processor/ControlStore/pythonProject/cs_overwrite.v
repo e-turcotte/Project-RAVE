@@ -108,9 +108,13 @@ equaln #(3) axp2a(R3, 3'd4, R3_ovr0);
 equaln #(3) axp3a(R3, 3'd5, R3_ovr1);
 or2$ axp2(S1ovr333, R3_ovr0, R3_ovr1 );
 or2$ axp22(S1ovr2, R2_ovr0, R2_ovr1 );
+
 or2$ axp3(S1ovr3, OP_MOD_OVR[0], OP_MOD_OVR[1] );
 
-and3$  axp4(S1ovr_final, S1ovr2,isMOD,S2ovr );
+nand2$ axp99(R2_ovr_S1 ,S1ovr2,OP_MOD_OVR[0]);
+nand2$ axp999(R3_ovr_S1 ,S1ovr3,OP_MOD_OVR[1]);
+nand2$ axp9999(S1ovr_R,R3_ovr_S1,R2_ovr_S1);
+and2$  axp4(S1ovr_final, S1ovr_R,S2ovr );
 and3$  axp55(S1ovr_final2, S1ovr333, isSIB,S2ovr);
 
 or2$ axp5(s2_ovr_fin, S1ovr_final, S1ovr_final2);
