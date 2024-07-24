@@ -1602,6 +1602,15 @@
                           r1.rf.gf.e_out[0],r1.rf.gf.h_out[0],r1.rf.gf.l_out[0]}),
                  .mmf_out(r1.rf.mf.outs),
                  .sf_out(r1.sf.base_outs),
-                 .clk(clk_g), .valid(is_valid_WB_out));
+                 .clk(clk_g), .valid(is_valid_WB_out),
+                 .br_valid(BR_valid_WB_BP_out),
+                 .br_taken(BR_taken_WB_BP_out),
+                 .br_correct(BR_correct_WB_BP_out),
+                 .fipE(newFIP_e_WB_out),
+                 .fipO(newFIP_o_WB_out),
+                 .eip_bp(newEIP_WB_out)
+    );
+
+
 
  endmodule

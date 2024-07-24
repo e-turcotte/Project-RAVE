@@ -32,7 +32,7 @@ module IE_handler (
     //001: protection (read_address > seg_max_address), vector = 13
     //010: page fault (tlb_miss) , vector = 14 (decimal) * 8 
     //100: interrupt
-
+    or2$ asxes(invalidate_fetch_out, invalidate_fetch_out_not_or, is_servicing_IE_not);
     //take IDTR and add 8 * vector to it
     wire [31:0] protection_vect, page_fault_vect, interrupt_vect;
     wire [31:0] vector_out, vector_out_shifted, IDT_entry_address, IDT_entry_address4;
@@ -63,7 +63,7 @@ module IE_handler (
     IDTR_FSM fsm(.clk(clk), .set(1'b1), .reset(reset), .enable(enable), .IE(IE_in), .is_IRETD(is_IRETD), .rrag_stall_in(rrag_stall_in),
                  .is_final_switch_instr_WB(is_final_switch_instr_WB), .IDTR_packet_select(IDTR_packet_select), .packet_out_select(packet_out_select), .flush_pipe(flush_pipe), 
                  .PTC_clear(PTC_clear), .LD_EIP(LD_EIP), .is_POP_EFLAGS(is_POP_EFLAGS), .LD_info_regs(LD_info_regs), 
-                 .servicing_IE(is_servicing_IE), .is_switching(is_switching), .invalidate_fetch_out(invalidate_fetch_out));
+                 .servicing_IE(is_servicing_IE), .is_switching(is_switching), .invalidate_fetch_out(invalidate_fetch_out_not_or));
 
     wire [31:0] IDT_entry_internal, IDT_entry4_internal, EFLAGS_internal, CS_internal, EIP_internal;
     wire is_servicing_IE_not;
@@ -139,7 +139,7 @@ module IDTR_FSM (
     wire IE_not, is_IRETD_not, rrag_stall_not;
     wire NS0, NS1, NS2, NS3;
 
-    andn #(.NUM_INPUTS(2)) a0(.out(clk_temp), .in({clk, enable}));
+
     
     inv1$ i0(.out(IE_not), .in(IE));
     inv1$ i1(.out(is_IRETD_not), .in(is_IRETD));
@@ -196,10 +196,10 @@ module IDTR_FSM (
     mux2$ m2(.outb(NS[2]), .in0(NS2), .in1(CS[2]), .s0(muxsel));
     mux2$ m3(.outb(NS[3]), .in0(NS3), .in1(CS[3]), .s0(muxsel));
 
-    dff$ s1(clk_temp, NS[0], CS[0], notCS[0], reset, set);
-    dff$ s2(clk_temp, NS[1], CS[1], notCS[1], reset, set);
-    dff$ s3(clk_temp, NS[2], CS[2], notCS[2], reset, set);
-    dff$ s4(clk_temp, NS[3], CS[3], notCS[3], reset, set);
+    dff$ s1(clk, NS[0], CS[0], notCS[0], reset, set);
+    dff$ s2(clk, NS[1], CS[1], notCS[1], reset, set);
+    dff$ s3(clk, NS[2], CS[2], notCS[2], reset, set);
+    dff$ s4(clk, NS[3], CS[3], notCS[3], reset, set);
 
     //IDTR_packet_select
     andn #(.NUM_INPUTS(4)) a17(.out(IDTR_packet_select[0]),  .in( {notCS[3:2], CS[1], notCS[0]} ));
@@ -272,13 +272,13 @@ module IDTR_FSM (
 
     wire is_not_final_switch_instr_internal, is_final_switch_instr_internal;
 
-    dff$ d111(.clk(clk_temp), .d(is_final_switch_instr_WB), .q(is_final_switch_instr_internal), .qbar(is_not_final_switch_instr_internal), .r(reset), .s(set));
+    dff$ d111(.clk(clk), .d(is_final_switch_instr_WB), .q(is_final_switch_instr_internal), .qbar(is_not_final_switch_instr_internal), .r(reset), .s(set));
     
     wire ld_mux_inv, ld_mux;
     andn #(2) i44567(.out(ld_mux_inv), .in( {is_final_switch_state, is_not_final_switch_instr_internal} ));
 
     wire ld_mux_latched, ld_mux_out;
-    dff$ d112(.clk(clk_temp), .d(ld_mux), .q(ld_mux_latched), .qbar(), .r(reset), .s(set));
+    dff$ d112(.clk(clk), .d(ld_mux), .q(ld_mux_latched), .qbar(), .r(reset), .s(set));
     andn #(2) (.out(ld_mux_out), .in( {rrag_stall_not, ld_mux_latched} ));
 
     inv1$ g543 (.out(ld_mux), .in(ld_mux_inv));
