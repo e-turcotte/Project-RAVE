@@ -167,14 +167,14 @@ def CALLnear(row,op,asm):
     row[20] = zzz  # R1 - MODRM override
     row[24] = SS  # S1  - MODRM DS
     row[21] = ESP  # R2  - MODRM Base
-    row[25] = zzz  # S2 - M2 SEG
+    row[25] = SS  # S2 - M2 SEG
     row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
-    row[23] = zzz  # R4 - FREE
+    row[23] = ESP  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] =  zo # M1_RW
-    row[42] = zz # M2_RW
+    row[41] =  zz # M1_RW
+    row[42] = zo # M2_RW
 
     # OPERAND SWAP LOGIC
     # OP1
@@ -187,11 +187,11 @@ def CALLnear(row,op,asm):
     row[37] = z  # op2_wb
     # OP3
     row[30] = EIP  # op3_mux
-    row[34] = M1  # dest3_mux
+    row[34] = M2  # dest3_mux
     row[38] = o  # op3_wb
     # OP4
-    row[31] = R2  # op4_mux
-    row[35] = R2  # dest4_mux
+    row[31] = R4  # op4_mux
+    row[35] = R4  # dest4_mux
     row[39] = o  # op4_wb
     return
 
@@ -1324,31 +1324,31 @@ def CALLptr(row,op,asm):
     row[20] = zzz  # R1 - MODRM override
     row[24] = SS  # S1  - MODRM DS
     row[21] = ESP  # R2  - MODRM Base
-    row[25] = zzz  # S2 - M2 SEG
+    row[25] = SS  # S2 - M2 SEG
     row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
-    row[23] = zzz  # R4 - FREE
+    row[23] = ESP  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = zo  # M1_RW
-    row[42] = zz  # M2_RW
+    row[41] = zz  # M1_RW
+    row[42] = zo  # M2_RW
 
     # OPERAND SWAP LOGIC
     # OP1
     row[28] = IMM  # op1_mux
-    row[32] = DC  # dest1_mux
-    row[36] = z  # op1_wb
+    row[32] = CSEIP  # dest1_mux
+    row[36] = o  # op1_wb
     # OP2
     row[29] = IMM  # op2_mux
     row[33] = DC  # dest2_mux
     row[37] = z  # op2_wb
     # OP3
     row[30] = CSEIP  # op3_mux
-    row[34] = M1  # dest3_mux
+    row[34] = M2  # dest3_mux
     row[38] = o  # op3_wb
     # OP4
-    row[31] = S1  # op4_mux
-    row[35] = S1  # dest4_mux
+    row[31] = R4  # op4_mux
+    row[35] = R4  # dest4_mux
     row[39] = o  # op4_wb
     return
 def RETfar(row,op,asm):
