@@ -1085,8 +1085,8 @@ def RETnear(row,op,asm):
 
     # 1
     row[20] = EAX  # R1 - MODRM override
-    row[24] = DS  # S1  - MODRM DS
-    row[21] = zzz  # R2  - MODRM Base
+    row[24] = SS  # S1  - MODRM DS
+    row[21] = ESP  # R2  - MODRM Base
     row[25] = SS  # S2 - M2 SEG
     row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE

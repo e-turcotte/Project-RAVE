@@ -43,6 +43,8 @@ def main():
         opcode = asm[0]
         opH = row[2]
         row[19] = "2'b11" if "64" in row[1] else "2'b10" if "32" in row[1] or "EAX" in row[1] else "2'b00"
+        if ("RET" in row[1] ) :
+            row[19] = "2'b10"
         if ("Sreg" in row[1] ) :
             row[19] = "2'b01"
         if ( "GS" in row[1] or "FS" in row[1] or "SS" in row[1] or "ES" in row[1] or "DS" in row[1] or "CS" in row[1]):
