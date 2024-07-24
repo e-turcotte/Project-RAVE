@@ -1,8 +1,8 @@
 module mem (input valid_in,
             input fwd_stall,
             input [1:0] opsize_in,
-            input [31:0] mem_addr1, mem_addr2, mem_addr1_end, mem_addr2_end,
-            input mem1_end_is_valid, mem2_end_is_valid, 
+            input [31:0] mem_addr1, mem_addr2, mem_addr1_end, mem_addr2_end, latched_EIP_end,
+            input mem1_end_is_valid, mem2_end_is_valid, latched_EIP_end_is_valid,
             input [63:0] reg1, reg2, reg3, reg4,
             input [127:0] ptc_r1, ptc_r2, ptc_r3, ptc_r4,
             input [2:0] reg1_orig, reg2_orig, reg3_orig, reg4_orig,
@@ -193,15 +193,17 @@ module mem (input valid_in,
               .dest1_ptcinfo(dest1_ptcinfo), .dest2_ptcinfo(dest2_ptcinfo), .dest3_ptcinfo(dest3_ptcinfo), .dest4_ptcinfo(dest4_ptcinfo),
               .dest1_type({dest1_is_mem,dest1_is_seg,dest1_is_reg}), .dest2_type({dest2_is_mem,dest2_is_seg,dest2_is_reg}), .dest3_type({dest3_is_mem,dest3_is_seg,dest3_is_reg}), .dest4_type({dest4_is_mem,dest4_is_seg,dest4_is_reg}));
     
-    wire prot_seg1, prot_seg2, prot_seg1_almost, prot_seg2_almost, prot_seg;
+    wire prot_seg1, prot_seg2, prot_seg3, prot_seg1_almost, prot_seg2_almost, prot_seg3_almost, prot_seg;
 
     seg_lim_exception_logic segcheck1(.read_address_end_size(mem_addr1_end), .seg_size(seg1_lim), .seg_lim_exception(prot_seg1_almost));
     seg_lim_exception_logic segcheck2(.read_address_end_size(mem_addr2_end), .seg_size(seg2_lim), .seg_lim_exception(prot_seg2_almost));
-    
+    seg_lim_exception_logic segcheck3(.read_address_end_size(latched_EIP_end), .seg_size(seg4_lim), .seg_lim_exception(prot_seg3_almost));
+
     andn #(3) seglim_ismem1 (.in( {prot_seg1_almost, mem1_is_access, mem1_end_is_valid} ), .out(prot_seg1));
     andn #(3) seglim_ismem2 (.in( {prot_seg2_almost, mem2_is_access, mem2_end_is_valid} ), .out(prot_seg2));
+    andn #(3) seglim_ismem3 (.in( {prot_seg3_almost, 1'b1, latched_EIP_end_is_valid} ), .out(prot_seg3));
 
-    or2$ seg_or(.out(prot_seg), .in0(prot_seg1), .in1(prot_seg2));
+    orn #(3) seg_or(.out(prot_seg), .in( {prot_seg1, prot_seg2, prot_seg3}));
 
     wire [3:0] IE_type_out_almost;
     or2$ g111(.out(IE_type_out_almost[0]), .in0(prot_seg), .in1(prot_exc));                        //update protection exception
