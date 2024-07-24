@@ -127,6 +127,11 @@ module invalidate_selector (
     input wire cache_miss_odd,
     input wire [1:0] FIP_o,
     input wire [1:0] FIP_e,
+    input wire valid_in_00,
+    input wire valid_in_01,
+    input wire valid_in_10,
+    input wire valid_in_11,
+
 
     output wire invalidate_line_00,
     output wire invalidate_line_01,
@@ -188,10 +193,14 @@ assign line_11_check = FIP_o;
 // andn #(2) a5(.in({invalidate_line_01_no_cache_check, cache_not_hit_line_01}), .out(invalidate_line_01));
 // andn #(2) a6(.in({invalidate_line_10_no_cache_check, cache_not_hit_line_10}), .out(invalidate_line_10));
 // andn #(2) a7(.in({invalidate_line_11_no_cache_check, cache_not_hit_line_11}), .out(invalidate_line_11));
-assign invalidate_line_00 = invalidate_line_00_no_cache_check;
-assign invalidate_line_01 = invalidate_line_01_no_cache_check;
-assign invalidate_line_10 = invalidate_line_10_no_cache_check;
-assign invalidate_line_11 = invalidate_line_11_no_cache_check;
+andn #(2) afdsf4(.in({invalidate_line_00_no_cache_check, valid_in_00}), .out(invalidate_line_00));
+andn #(2) asdfsd5(.in({invalidate_line_01_no_cache_check, valid_in_01}), .out(invalidate_line_01));
+andn #(2) asdfsd6(.in({invalidate_line_10_no_cache_check, valid_in_10}), .out(invalidate_line_10));
+andn #(2) a7ffs(.in({invalidate_line_11_no_cache_check, valid_in_11}), .out(invalidate_line_11));
+// assign invalidate_line_00 = invalidate_line_00_no_cache_check;
+// assign invalidate_line_01 = invalidate_line_01_no_cache_check;
+// assign invalidate_line_10 = invalidate_line_10_no_cache_check;
+// assign invalidate_line_11 = invalidate_line_11_no_cache_check;
 
 endmodule
 
