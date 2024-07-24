@@ -100,13 +100,14 @@ and2$ a8(seg_sel, isMOD, isSEG);
  mux2$ mx69(op4_wb, op4_wb0, 1'b1, isREP);
  mux2n #(4) mx70(memSizeOVR, memSizeOVR0, {memSizeOVR0[3], memSizeOVR0[1], memSizeOVR0[2], memSizeOVR0[0]}, isSIZE);
 
-
-
+nor2$ (dont_ow_r1 ,m[7], m[6]);
+inv1$ (notm4, m[1]);
+nand4$ (ignore, dont_ow_r1, m[2], m[0],notm4);
 or2$ (S1ovr, M1_RW[1], M1_RW[0]);
 equaln #(3) axp0(r2_act, 3'd4, R2_ovr0);
 equaln #(3) axp1(r2_act, 3'd5, R2_ovr1);
 or2$ axp22(S1ovr2, R2_ovr0, R2_ovr1 );
-and3$ axp99999(R2_is_mod_ovr, S1ovr2,isMOD, S1ovr );
+and4$ axp99999(R2_is_mod_ovr, S1ovr2,isMOD, S1ovr,ignore );
 
 equaln #(3) axp2a(r3_act, 3'd4, R3_ovr0);
 equaln #(3) axp3a(r3_act, 3'd5, R3_ovr1);

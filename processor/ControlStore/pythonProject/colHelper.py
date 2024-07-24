@@ -91,7 +91,7 @@ def AND(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -129,7 +129,7 @@ def BSF(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -168,7 +168,7 @@ def CALLnear(row,op,asm):
     row[24] = SS  # S1  - MODRM DS
     row[21] = ESP  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -208,7 +208,7 @@ def CLD(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -247,7 +247,7 @@ def STD(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -287,7 +287,7 @@ def CMOVC(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -327,7 +327,7 @@ def CMPXCHG(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = EAX  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -367,7 +367,7 @@ def DAA(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -487,7 +487,7 @@ def JMPnear(row,op,asm):
     row[24] = SS  # S1  - MODRM DS
     row[21] = ESP  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -526,7 +526,7 @@ def JMPfar(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = SS  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = ESP  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -566,7 +566,7 @@ def MOV(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - MODRM override
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -607,7 +607,7 @@ def MOVQ(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -685,7 +685,7 @@ def NOT(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -725,7 +725,7 @@ def OR(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -765,7 +765,7 @@ def PADDW(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -805,7 +805,7 @@ def PADDD(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -845,7 +845,7 @@ def PACKSSWB(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -885,7 +885,7 @@ def PACKSSDW(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -925,7 +925,7 @@ def PUNPCKHBW(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -964,7 +964,7 @@ def PUNPCKHWD(row, op, asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -1006,7 +1006,7 @@ def POP(row,op,asm):
     row[24] = segR if version == 2 else DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = SS  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = DS if "DS" in row[1] else ES if "ES" in row[1]  else SS if "SS" in row[1] else FS if "FS" in row[1] else GS  # S3 - FREE
     row[23] = ESP  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -1047,7 +1047,7 @@ def PUSH(row,op,asm):
     row[24] = segR if version == 2 else DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = SS  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = DS if "DS" in row[1] else ES if "ES" in row[1] else SS if "SS" in row[1] else FS if "FS" in row[1] else GS  # S3 - FREE
     row[23] = ESP  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -1088,7 +1088,7 @@ def RETnear(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = SS  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = ESP  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -1128,7 +1128,7 @@ def SAL(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -1168,7 +1168,7 @@ def SAR(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -1207,7 +1207,7 @@ def JMPptr(row,op,asm):
     row[24] = SS  # S1  - MODRM DS
     row[21] = ESP  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -1247,7 +1247,7 @@ def XCHG(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = EAX  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -1286,7 +1286,7 @@ def CALLfar(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = SS  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = ESP  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -1325,7 +1325,7 @@ def CALLptr(row,op,asm):
     row[24] = SS  # S1  - MODRM DS
     row[21] = ESP  # R2  - MODRM Base
     row[25] = zzz  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
@@ -1367,7 +1367,7 @@ def RETfar(row,op,asm):
     row[24] = DS  # S1  - MODRM DS
     row[21] = zzz  # R2  - MODRM Base
     row[25] = SS  # S2 - M2 SEG
-    row[22] = EBP  # R3 - MODRM Index
+    row[22] = EAX  # R3 - MODRM Index
     row[26] = zzz  # S3 - FREE
     row[23] = ESP  # R4 - FREE
     row[27] = CS  # S4 - CS
