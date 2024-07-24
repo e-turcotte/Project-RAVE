@@ -52,6 +52,7 @@ orn #(2) o1123125(.out(odd_latch_was_loaded), .in({ld_1, ld_3}));
 
 invalidate_selector i0(.new_BIP(new_BIP_fetch2), .old_BIP(old_BIP_fetch2), .CF(CF), .cache_miss_even(cache_miss_even_fetch1), 
                         .cache_miss_odd(cache_miss_odd_fetch1), .FIP_o(FIP_o_lsb_fetch1), .FIP_e(FIP_e_lsb_fetch1),
+                        .valid_in_00(line_00_valid), .valid_in_01(line_01_valid), .valid_in_10(line_10_valid), .valid_in_11(line_11_valid),
                         .invalidate_line_00(invalidate_line_00), .invalidate_line_01(invalidate_line_01), 
                         .invalidate_line_10(invalidate_line_10), .invalidate_line_11(invalidate_line_11));
 
