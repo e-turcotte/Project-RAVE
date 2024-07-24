@@ -102,24 +102,18 @@ and2$ a8(seg_sel, isMOD, isSEG);
 
 
 
-or2$ (S2ovr, M1_RW[1], M1_RW[0]);
-equaln #(3) axp0(R2, 3'd4, R2_ovr0);
-equaln #(3) axp1(R2, 3'd5, R2_ovr1);
-
-equaln #(3) axp2a(R3, 3'd4, R3_ovr0);
-equaln #(3) axp3a(R3, 3'd5, R3_ovr1);
-or2$ axp2(S1ovr333, R3_ovr0, R3_ovr1 );
+or2$ (S1ovr, M1_RW[1], M1_RW[0]);
+equaln #(3) axp0(r2_act, 3'd4, R2_ovr0);
+equaln #(3) axp1(r2_act, 3'd5, R2_ovr1);
 or2$ axp22(S1ovr2, R2_ovr0, R2_ovr1 );
+and3$ axp99999(R2_is_mod_ovr, S1ovr2,isMOD, S1ovr );
 
-or2$ axp3(S1ovr3, OP_MOD_OVR[0], OP_MOD_OVR[1] );
+equaln #(3) axp2a(r3_act, 3'd4, R3_ovr0);
+equaln #(3) axp3a(r3_act, 3'd5, R3_ovr1);
+or2$ axp2(S1ovr_is_stack, R3_ovr0, R3_ovr1 );
+and3$ axp2222(R3_is_mod_ovr, S1ovr_is_stack,isSIB ,S1ovr );
 
-nand2$ axp99(R2_ovr_S1 ,S1ovr2,OP_MOD_OVR[0]);
-nand2$ axp999(R3_ovr_S1 ,S1ovr333,OP_MOD_OVR[1]);
-nand2$ axp9999(S1ovr_R,R3_ovr_S1,R2_ovr_S1);
-and2$  axp4(S1ovr_final, S1ovr_R,S2ovr );
-and3$  axp55(S1ovr_final2, S1ovr333, isSIB,S2ovr);
-
-or2$ axp5(s2_ovr_fin, S1ovr_final, S1ovr_final2);
-mux2n #(3) leFix(S10a, S10, 3'd2, s2_ovr_fin );
+or2$ axp5(s1_ovr_stack, R3_is_mod_ovr, R2_is_mod_ovr);
+mux2n #(3) leFix(S10a, S10, 3'd2, s1_ovr_stack );
 
 endmodule
