@@ -248,7 +248,7 @@ module decode_TOP(
                 .S3(S3), .S4(S4), .op1_mux(op1_mux), .op2_mux(op2_mux), .op3_mux(op3_mux), .op4_mux(op4_mux), .dest1_mux(dest1_mux), .dest2_mux(dest2_mux), 
                 .dest3_mux(dest3_mux), .dest4_mux(dest4_mux), .op1_wb(op1_wb), .op2_wb(op2_wb), .op3_wb(op3_wb), .op4_wb(op4_wb), .R1_MOD_OVR(R1_MOD_OVR), 
                 .M1_RW(M1_RW), .M2_RW(M2_RW), .OP_MOD_OVR(OP_MOD_OVR), .S3_MOD_OVR(S3_MOD_OVR), .memSizeOVR(memSizeOVR), .cs_hit_out(cs_hit), .B1(B1), .B2(B2), .B3(B3), .B4(B4), 
-                .B5(B5), .B6(B6), .isREP(isREP), .isSIZE(isSIZE), .isSEG(isSEG), .prefSize(prefSize), .segSEL(segSEL));
+                .B5(B5), .B6(B6), .isREP(isREP), .isSIZE(isSIZE), .isSEG(isSEG), .prefSize(prefSize), .segSEL(segSEL), .r2_act(reg_addr2_out), .r3_act(reg_addr3_out));
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
