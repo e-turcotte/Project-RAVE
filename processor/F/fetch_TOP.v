@@ -183,6 +183,7 @@ module fetch_TOP (
         .is_init(is_init), 
         .line_even_fetch1(even_line), 
         .line_odd_fetch1(odd_line), 
+        .stall(stall),
         .FIP_o_lsb_fetch1(FIP_o_lsb), 
         .FIP_e_lsb_fetch1(FIP_e_lsb), 
         .cache_miss_even_fetch1(cache_miss_even), 
