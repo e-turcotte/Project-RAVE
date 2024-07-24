@@ -755,8 +755,8 @@
         .BP_target_out(BR_pred_target_F_D_latch_in),
         .BP_update_alias_out(BP_alias_F_D_latch_in),
 
-        .IE_out(),
-        .IE_type_out(),
+        .IE_out(IE_F_D_latch_in),
+        .IE_type_out(IE_type_F_D_latch_in),
         .instr_is_IDTR_orig(instr_is_IDTR_orig_F_D_latch_in),
         .IDTR_is_POP_EFLAGS_out(IDTR_is_POP_EFLAGS_F_D_latch_in)
     );
@@ -775,8 +775,8 @@
         .valid_in(valid_F_D_latch_in),
         .packet_in(packet_F_D_latch_in),
         .BP_alias_in(BP_alias_F_D_latch_in),
-        .IE_in(1'b0), //TODO: IE_F_D_latch_in, hardcoded for now as no IE
-        .IE_type_in(4'b0), //TODO: IE_type_F_D_latch_in
+        .IE_in(IE_F_D_latch_in), //TODO: IE_F_D_latch_in, hardcoded for now as no IE
+        .IE_type_in(IE_type_F_D_latch_in), //TODO: IE_type_F_D_latch_in
         .BR_pred_target_in(BR_pred_target_F_D_latch_in),
         .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_in),
         .instr_is_IDTR_orig_in(instr_is_IDTR_orig_F_D_latch_in),

@@ -164,7 +164,7 @@ module fetch_TOP (
 
     wire prot_ex, tlb_miss;
     or2$ o183(.out(prot_ex), .in0(protection_exception_e), .in1(protection_exception_o));
-    or2$ o124(.out(tlb_miss), .in0(TLB_MISS_EXCEPTION_e), .in1(TLB_MISS_EXCEPTION_0));
+    or2$ o124(.out(tlb_miss), .in0(TLB_MISS_EXCEPTION_e), .in1(TLB_MISS_EXCEPTION_o));
 
     or2$ o12e3(.out(IE_out), .in0(tlb_miss), .in1(prot_ex));
     assign IE_type_out[0] = prot_ex;
