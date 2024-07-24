@@ -1,0 +1,95 @@
+              	      	//  TEST PROGRAM.  DO NOT DISTRIBUTE
+              	      	//  TEST3
+0x0000: BB 00 04 00	// 		movl	$0x10000400, %ebx	// ebx = 0x10000400
+0x0004: 10         	//
+0x0005: B8 05 00 00	// 		movl	$0x5, %eax		// eax = 0x00000005
+0x0009: 00         	//
+0x000a: BC 20 00 00	// 		movl	$0x20, %esp		// esp = 0x00000020
+0x000e: 00         	//
+0x000f: 8E DB      	//     		movw	%bx, %ds		// ds = 0x0400
+0x0011: C0 60 FE 03	// 	back:	salb	$0x3, -2(%eax)		// M[VA=0x04000003] = M[VA=0x04000003] << 3
+              						      	//  1st time, result is 0x40, SF=0,ZF=0,PF=0,CF=1, others undef
+              						      	//  2nd time, result is 0x00, SF=0,ZF=1,PF=1,CF=0, others undef
+0x0015: 75 FA      	//     		jne	back			// 1st time, T (ZF=0), eip=0x12
+              						      	//  2nd time, NT (ZF=1)
+0x0017: 04 FF      	//     		addb	$-1, %al			// al = 0x04, SF=0,ZF=0,PF=0,CF=1,AF=1,OF=0
+0x0019: 8E 50 FF   	//   		movw	-1(%eax), %ss		// ss = M[VA=0x04000003] = 0x0c00
+0x001c: C1 FB 04   	//   		sarl	$0x4, %ebx		// ebx = 0x01000040, CF=0,OF undef, others unaffected #here
+0x001f: 68 24 23 22	// 		push	$0x21222324		// esp = 0x1c, M[VA=0x0c00001c] = 24_23_22_21
+0x0023: 21         	//
+0x0024: 8B 0B      	//     		movl	(%ebx), %ecx		// attempt ecx = M[VA=0x05000040], take protection exception.
+              						      	//  transfer control:	
+              						      	//  esp = 0x18, M[VA=0x0c000018] = eflags
+              						      	//  esp = 0x14, M[VA=0x0c000014] = cs
+              						      	//  esp = 0x10, M[VA=0x0c000010] = eip
+              						      	//  fetch VA=0x02000068
+              						      	//  eip = 0x1, cs=0x200
+              						      	// 
+              						      	//  after iretd:
+              						      	//  ecx = M[VA=0x4000006] = 0x06050400
+0x0026: 8E C1      	//     		movw	%cx, %es		// es = 0x0400
+0x0028: 5E         	//       		popl	%esi			// esi = 0x21222324, esp = 0x20;
+0x0029: 26 89 70 0C	// 		movl	%esi, %es:0x0c(%eax)	// M[VA=0x04000000+0x0c+0x04=0x04000010] = M[VA=0x0c00001c] = 0x21222324,
+              						      	//  esp = 0x020
+0x002d: 8B 74 58 02	// 		movl	0x2(%eax, %ebx, 2), %esi	
+              						      	//  esi = M[0x04000000 + 0x4 + 0x6<<1 + 2 = 0x04000012] = 0x12112122
+0x0031: 90         	//       		nop
+0x0032: 90         	//       		nop
+0x0033: E8 06 00 00	// 		call subr			// esp = 0x1c, M[VA=0x0c00001c] = eip_next (0x38)
+0x0037: 00         	//
+              						      	//  eip= 0x3e
+              						      	//  after return... eip=	0x38 esp=0x20
+
+0x0038: B3 FE 		//			movb $fe, %bl
+0x003a: F4        //      hlt 		
+
+              						      	//  subroutine
+0x003e: 90         	//       	subr:	nop
+0x003f: 90         	//       		nop
+0x0040: 90         	//       		nop
+0x0041: 90         	//       		nop
+0x0042: 90         	//       		nop
+0x0043: 90         	//       		nop
+0x0044: 90         	//       		nop
+0x0045: 90         	//       		nop
+0x0046: C3         	//       		ret                        	// eip = popw() = 0x38
+
+0x0047: 00 00 00 00	// 		.org 0x2000
+0x004b: 00 00 00 00	// 
+0x004f: 00 00 00 00	// 
+0x0053: 00 00 00 00	// 
+0x0057: 00 00 00 00	// 
+
+0x2000: F4         	//       		hlt
+0x2001: BB 06 00 00	// 		mov $0x00000006, %ebx		// ebx = 0x0006
+0x2005: 00         	//
+0x2006: CF         	//       		iret				// eip = M[VA=0x0c000010], esp = 0x14
+              						      	//  cs = M[VA=0x0c000014], esp = 0x18
+              						      	//  eflags = M[VA=0x0c000018] (CF=0,OF=undef,SF=0,ZF=0,PF=0,AF=1)
+              						      	//  esp = 0x1c
+
+0x2007: 00 00 00 00	// 		.org 0x2068
+0x200b: 00 00 00 00	// 
+0x200f: 00 00 00 00	// 
+0x2013: 00 00 00 00	// 
+0x2017: 00 00 00 00	// 
+0x2068: 01 00 00 02	// 		.long 0x02000001		// CS=0x0200, EIP=0x01 (protection fault routine address)
+0x206c: 00 00 00 00	// 		.long 0x00000000  							       
+0x2070: 00 00 00 02	// 		.long 0x02000000		// CS=0x0200, EIP=0x00 (page fault routine address)
+0x2074: 00 00 00 00	// 		.long 0x00000000  
+
+0x2078: 00 00 00 00	// 		.org 0x5000
+0x207c: 00 00 00 00	// 
+0x2080: 00 00 00 00	// 
+0x2084: 00 00 00 00	// 
+0x2088: 00 00 00 00	// 
+
+0x5000: 01 02 03 28	// 		.long 0x28030201
+0x5004: 0C 04 00 04	// 		.long 0x0400040c
+0x5008: 05 06 07 08	// 		.long 0x08070605
+0x500c: 09 0A 0B 0C	// 		.long 0x0c0b0a09
+0x5010: 0D 0E 0F 10	// 		.long 0x100f0e0d
+0x5014: 11 12 13 14	// 		.long 0x14131211
+0x5018:	02 00 00 00	//		.long 0x00000002
+0x501c:	F9 00 00 00	//		.long 0x000000F9
+
