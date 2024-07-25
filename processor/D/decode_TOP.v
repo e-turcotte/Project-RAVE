@@ -386,14 +386,14 @@ module decode_TOP(
     );
 
     wire not_stall, ld_BIP;
-    wire ld_EIP_without_CF;
+    wire ld_EIP_without_stall_check;
     wire ld_EIP;
     wire guard_full_stall;
     
     and2$ gfwd(.out(guard_full_stall), .in0(queue_full_stall), .in1(valid_in));
     inv1$ i0234235(.in(guard_full_stall), .out(not_stall));
-    andn #(2) a2(.in({not_stall, valid_in}), .out(ld_EIP_without_CF));
-    orn #(2) o2(.in({ld_EIP_without_CF, is_CF}), .out(ld_EIP));
+    orn #(2) o1(.in({is_CF, valid_in}), .out(ld_EIP_without_stall_check));
+    andn #(2) a2(.in({not_stall, ld_EIP_without_stall_check}), .out(ld_EIP));
     
     regn #(.WIDTH(32)) EIP_reg(.din(mux_EIP_to_load), .ld(ld_EIP), .clk(clk), .clr(reset), .dout(latched_EIP));
 
