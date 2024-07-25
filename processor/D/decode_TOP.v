@@ -389,12 +389,12 @@ module decode_TOP(
     wire ld_EIP_without_stall_check;
     wire ld_EIP;
     wire guard_full_stall;
-    wire is_CF_and_valid;
-    and2$ a0sdf(.out(is_CF_and_valid), .in0(is_CF), .in1(valid_in));
+    // wire is_prediction_and_valid;
+    // and2$ a0sdf(.out(is_prediction_and_valid), .in0(is_BR_T_NT), .in1(valid_in));
     
     and2$ gfwd(.out(guard_full_stall), .in0(queue_full_stall), .in1(valid_in));
     inv1$ i0234235(.in(guard_full_stall), .out(not_stall));
-    orn #(2) o1(.in({is_CF_and_valid, valid_in}), .out(ld_EIP_without_stall_check));
+    orn #(3) o1(.in({is_CF, valid_in}), .out(ld_EIP_without_stall_check));
     andn #(2) a2(.in({not_stall, ld_EIP_without_stall_check}), .out(ld_EIP));
     
     regn #(.WIDTH(32)) EIP_reg(.din(mux_EIP_to_load), .ld(ld_EIP), .clk(clk), .clr(reset), .dout(latched_EIP));
