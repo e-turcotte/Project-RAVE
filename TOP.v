@@ -521,7 +521,7 @@
     wire [3:0] reg_ld_WB_RRAG_out, seg_ld_WB_RRAG_out;
     wire mem_ld_WB_M_out, wbaq_isfull_WB_M_in;
     wire [6:0] inst_ptcid_out_WB_RRAG_out;
-    wire [5:0] WB_BP_update_alias;
+    wire [7:0] WB_BP_update_alias;
     wire [31:0] newFIP_e_WB_out, newFIP_o_WB_out;
     wire [31:0] newEIP_WB_out, latched_EIP_WB_out, EIP_WB_out;
     wire [31:0] latched_eip_WB_out;
@@ -541,7 +541,7 @@
     wire [31:0] BP_EIP_BTB_out;
     wire is_BR_T_NT_BP_out;
     wire [27:0] BP_FIP_e_BTB_out, BP_FIP_o_BTB_out;
-    wire [5:0] BP_update_alias_out;
+    wire [7:0] BP_update_alias_out;
 
     ////////////////////////////////////////////////////////////////
     //     Outputs from IDTR that go to the everywhere:           //
