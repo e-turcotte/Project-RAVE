@@ -347,7 +347,7 @@ def CMPXCHG(row,op,asm):
     # OP3
     row[30] = R4  # op3_mux
     row[34] = R4  # dest3_mux
-    row[38] = z  # op3_wb
+    row[38] = o  # op3_wb
     # OP4
     row[31] = DC  # op4_mux
     row[35] = DC  # dest4_mux

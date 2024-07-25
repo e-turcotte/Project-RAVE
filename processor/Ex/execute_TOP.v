@@ -138,7 +138,7 @@ module execute_TOP(
     assign res4_ptcinfo = op4_ptcinfo;
 
     //assign res3 = op3;
-    res3Handler r3H(op3,op2, size_to_use, swapCXC, P_OP[7], P_OP[15], df, res3);
+    res3Handler r3H(op1, op3,op2, size_to_use, swapCXC, P_OP[7], P_OP[15], df, res3);
     assign dest3_ptcinfo_out = dest3_ptcinfo_in;
     assign res3_is_reg_out = res3_is_reg_in;
     assign res3_is_seg_out = res3_is_seg_in;
@@ -226,6 +226,7 @@ mux2n #(32) m1(res2[63:32], op2[63:32], op1[63:32], P_OP_XCHG);
 endmodule
 
 module res3Handler(
+    input [63:0] op1,
     input[63:0] op3,
     input[63:0] op2,
     input[1:0] size,
@@ -245,7 +246,7 @@ module res3Handler(
     
     inv1$ invSw(swapCXCn, swapCXC);
 
-    mux4n #(32) m1(res3[31:0], res3a[31:0], res3a[31:0], res3a[31:0], op2[31:0], swapCXCn, P_OP_CXC);
+    mux4n #(32) m1(res3[31:0], res3a[31:0], res3a[31:0], res3a[31:0], op1[31:0], swapCXCn, P_OP_CXC);
     assign res3[63:32] = op3[63:32];
 endmodule
 
