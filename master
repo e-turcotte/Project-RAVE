@@ -74,6 +74,7 @@ processor/Ex/ALU.v
 processor/Wb/writeback_TOP.v
 processor/Wb/bypassmech.v
 processor/Wb/reg_wb_cell.v
+processor/Wb/fip_seg_prot_check.v
 
 processor/F_D_latch.v
 processor/D_RrAg_Latches.v

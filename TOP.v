@@ -1545,6 +1545,8 @@
 
         .interrupt_in(interrupt), //TODO
         .IDTR_is_serciving_IE(is_servicing_IE),
+        .VP(VP), .PF(PF),
+        .CS_LIM(CS_LIM),
 
         .wbaq_full(wbaq_isfull_WB_M_in), .is_rep(is_rep_EX_WB_latch_out),
 
