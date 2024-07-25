@@ -92,17 +92,27 @@ module IE_handler (
     assign push_eip = {8'h68, push_eip_imm, 88'b0};                                 //PUSH EIP
     
     endian_swap32 e3(.in({IDT_entry_internal}), .out(first_4_bytes_imm));           //0000_0000_1000
-    assign first_4_bytes = {16'h8b0d, first_4_bytes_imm, 80'b0};                    //MOV ECX, [IDT_entry_internal]
+    //assign first_4_bytes = {16'h8b0d, first_4_bytes_imm, 80'b0};                  //MOV ECX, [IDT_entry_internal]
+    assign first_4_bytes = {24'h668b2e, first_4_bytes_imm, 72'b0};                  //MOV EBP, [IDT_entry_internal]
 
     endian_swap32 e4(.in({IDT_entry4_internal}), .out(second_4_bytes_imm));         //0000_0001_0000
-    assign second_4_bytes = {16'h8b15, second_4_bytes_imm, 80'b0};                  //MOV EDX, [IDT_entry4_internal]
+    //assign second_4_bytes = {16'h8b15, second_4_bytes_imm, 80'b0};                //MOV EDX, [IDT_entry4_internal]
+    assign second_4_bytes = {24'h668b3e, second_4_bytes_imm, 72'b0};                //MOV EDI, [IDT_entry4_internal]
 
-    assign exchange = {24'h6687d1, 104'h0};                                         //XCHG CX, DX
-    assign sar16 = {24'hc1f904, 104'h0};                                            //SAR ECX, 4
-    assign mov_cs = {24'h668ec9, 104'h0};                                           //MOV CS, CX
-    assign jump = {16'hffe2, 112'h0};                                               //JMP EDX
+    //assign exchange = {24'h6687d1, 104'h0};                                       //XCHG CX, DX
+    assign exchange = {24'h87fd, 112'h0};                                           //XCHG BP, DI
+
+    //assign sar16 = {24'hc1f904, 104'h0};                                          //SAR ECX, 4
+    assign sar16 = {32'h66c1fd04, 96'h0};                                          //SAR EBP, 4
+
+    //assign mov_cs = {24'h668ec9, 104'h0};                                         //MOV CS, CX
+    assign mov_cs = {16'h8ecd, 112'h0};                                             //MOV CS, BP
+
+    //assign jump = {16'hffe2, 112'h0};                                               //JMP EDX
+    assign jump = {24'h66ffe7, 104'h0};                                               //JMP EDI
     assign ret_far = {8'hcb, 120'h0};                                               //RET FAR
-    assign pop_eflags = {8'h59, 120'h0};                                            //POP EFLAGS to ECX but used to load EFLAGS
+    //assign pop_eflags = {8'h59, 120'h0};                                            //POP EFLAGS to ECX but used to load EFLAGS
+    assign pop_eflags = {16'h665d, 112'h0};                                            //POP EFLAGS to EBP but used to load EFLAGS
 
 
     muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(128)) m2(.in({ret_far, pop_eflags, jump, mov_cs, sar16, exchange, second_4_bytes,
