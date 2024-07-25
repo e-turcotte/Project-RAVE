@@ -341,10 +341,24 @@ module PACKSSWB_alu(
 );
     genvar i;
     wire[7:0] cout;
+    wire [3:0] is_over_1, is_over_2, is_under_1, is_under_2, or_res_1, or_res_2, isPos_1, isPos_2, or_res_1_edge, or_res_2_edge, isNeg_1, isNeg_2;
     generate 
         for(i = 0; i < 4; i = i + 1) begin : iterate
-            satAdder #(8) a(packsswb_out[8*i+7:8*i],cout[i], OP1[16*i+15:16*i+8], OP1[16*i+7:16*i], 1'b0 );
-            satAdder #(8) b(packsswb_out[8*i+7+32:8*i+32],cout[i+4], OP2[16*i+15:16*i+8], OP2[16*i+7:16*i], 1'b0 );
+            inv1$ (isPos_1[i], OP1[16*i+15]);
+            orn #(7) (.in({OP1[16*i+14:16*i+8]}), .out(or_res_1[i]));
+            or2$ (or_res_1_edge[i], or_res_1[i], OP1[i*16 + 7]);
+            and2$ (is_under_1[i], or_res_1[i], OP1[15+16*i]); 
+            and2$ (is_over_1[i],  or_res_1_edge[i], isPos_1[i]);
+            mux4n #(8) (packsswb_out[8*i+7 : 8*i], OP1[16*i+7:16*i], 8'h7f, 8'h80, 8'd0, is_over_1[i], is_under_1[i]);
+           
+            inv1$ (isPos_2[i], OP2[16*i+15]);
+            orn #(7) (.in({OP2[16*i+14:16*i+8]}), .out(or_res_2[i]));
+            or2$ (or_res_2_edge[i], or_res_2[i], OP2[i*16 + 7]);
+            and2$ (is_under_2[i], or_res_2[i], OP2[15+16*i]); 
+            and2$ (is_over_2[i], or_res_2_edge[i], isPos_2[i]);
+            mux4n #(8) (packsswb_out[8*i+7 +32 : 8*i+32], OP2[16*i+7:16*i], 8'h7f, 8'h80, 8'd0, is_over_2[i], is_under_2[i]);
+            // satAdder #(8) a(packsswb_out[8*i+7:8*i],cout[i], OP1[16*i+15:16*i+8], OP1[16*i+7:16*i], 1'b0 );
+            // satAdder #(8) b(packsswb_out[8*i+7+32:8*i+32],cout[i+4], OP2[16*i+15:16*i+8], OP2[16*i+7:16*i], 1'b0 );
         end
     endgenerate
 endmodule
