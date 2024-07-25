@@ -195,13 +195,25 @@ module mem (input valid_in,
     
     wire prot_seg1, prot_seg2, prot_seg3, prot_seg1_almost, prot_seg2_almost, prot_seg3_almost, prot_seg;
 
-    seg_lim_exception_logic segcheck1(.read_address_end_size(mem_addr1_end), .seg_size(seg1_lim), .seg_lim_exception(prot_seg1_almost));
-    seg_lim_exception_logic segcheck2(.read_address_end_size(mem_addr2_end), .seg_size(seg2_lim), .seg_lim_exception(prot_seg2_almost));
-    seg_lim_exception_logic segcheck3(.read_address_end_size(latched_EIP_end), .seg_size(seg4_lim), .seg_lim_exception(prot_seg3_almost));
+    //seg_lim_exception_logic segcheck1(.read_address_end_size(mem_addr1_end), .seg_size(seg1_lim), .seg_lim_exception(prot_seg1_almost));
+    //seg_lim_exception_logic segcheck2(.read_address_end_size(mem_addr2_end), .seg_size(seg2_lim), .seg_lim_exception(prot_seg2_almost));
+    //seg_lim_exception_logic segcheck3(.read_address_end_size(latched_EIP_end), .seg_size(seg4_lim), .seg_lim_exception(prot_seg3_almost));
 
-    andn #(3) seglim_ismem1 (.in( {prot_seg1_almost, mem1_is_access, mem1_end_is_valid} ), .out(prot_seg1));
-    andn #(3) seglim_ismem2 (.in( {prot_seg2_almost, mem2_is_access, mem2_end_is_valid} ), .out(prot_seg2));
-    andn #(3) seglim_ismem3 (.in( {prot_seg3_almost, 1'b1, latched_EIP_end_is_valid} ), .out(prot_seg3));
+    wire [31:0] seg1_shifted, SEG1_MAX, seg2_shifted, SEG2_MAX, seg4_shifted, SEG4_MAX;
+    assign seg1_shifted = {seg1, 16'h0000};
+    assign seg2_shifted = {seg2, 16'h0000};
+    assign seg4_shifted = {seg4, 16'h0000};
+
+    kogeAdder #(.WIDTH(32)) adder1(.SUM(SEG1_MAX), .COUT(cout1), .A(seg1_shifted), .B({12'h0, seg1_lim}), .CIN(1'b0));
+    kogeAdder #(.WIDTH(32)) adder2(.SUM(SEG2_MAX), .COUT(cout2), .A(seg2_shifted), .B({12'h0, seg2_lim}), .CIN(1'b0));
+    kogeAdder #(.WIDTH(32)) adder4(.SUM(SEG4_MAX), .COUT(cout4), .A(seg4_shifted), .B({12'h0, seg4_lim}), .CIN(1'b0));
+
+    seg_lim_check s1(.VP(VP_in), .PF(PF_in), .address(mem_addr1), .seg_max(SEG1_MAX), .seg_lim_exception(prot_seg1_almost) );
+    seg_lim_check s2(.VP(VP_in), .PF(PF_in), .address(mem_addr2), .seg_max(SEG2_MAX), .seg_lim_exception(prot_seg2_almost) );
+    seg_lim_check s4(.VP(VP_in), .PF(PF_in), .address(latched_eip_in), .seg_max(SEG4_MAX), .seg_lim_exception(prot_seg3) );
+
+    andn #(2) seglim_ismem1 (.in( {prot_seg1_almost, mem1_is_access} ), .out(prot_seg1));
+    andn #(2) seglim_ismem2 (.in( {prot_seg2_almost, mem2_is_access } ), .out(prot_seg2));
 
     orn #(3) seg_or(.out(prot_seg), .in( {prot_seg1, prot_seg2, prot_seg3}));
 
