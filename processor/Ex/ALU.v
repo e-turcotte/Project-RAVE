@@ -33,7 +33,14 @@ xor4$ par0(pfx0,ALU_OUT[0],ALU_OUT[1],ALU_OUT[2],ALU_OUT[3] );
 xor4$ par1(pfx1,ALU_OUT[4],ALU_OUT[5],ALU_OUT[6],ALU_OUT[7] );
 xnor2$ par2(pf_out, pfx0, pfx1);
 mux4$ m10(sf_out, ALU_OUT[7], ALU_OUT[15], ALU_OUT[31], ALU_OUT[63], size[0], size[1]);
-orn #(64) o10 (ALU_OUT[63:0], zf_basex);
+
+wire [63:0] fix_alu_zf, fin_alu_zf;
+mux4n #(64) (fix_alu_zf, 64'h0000_0000_0000_00FF, 64'h0000_0000_0000_FFFF, 64'h0000_0000_FFFF_FFFF, 64'hFFFF_FFFF_FFFF_FFFF, size[0], size[1] );
+genvar k;
+for(k = 0; k < 64; k = k +1) begin :kfix
+    and2$ (fin_alu_zf[k], fix_alu_zf[k], ALU_OUT[k]);
+end
+orn #(64) o10 (fin_alu_zf[63:0], zf_basex);
 inv1$ o125(zf_base, zf_basex);
 mux3$ z1(zf_out, zf_base, penc_zf, cmpxchng_zf, BSF_P_OP, CMPXCHNG_P_OP);
 assign df_out = STD_P_OP;

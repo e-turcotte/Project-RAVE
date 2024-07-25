@@ -61,24 +61,24 @@ def generateVerilog(rows, fields):
             wireCnt += 1
         file.write("\nendmodule")
 
-    # with open("cs_select.v","w") as file:
-    #     input = genInput2(rows,fields) + "input [7:0] B1, B2, B3"
-    #     output = "output[229:0] chosen,\n"
-    #     file.write("module cs_select(\n" + output + "\n" + input + ");\n\n")
-    #     eCNT = 0
-    #     wCNT = 0
-    #     for row in rows:
-    #         equals = genEqual(row, fields, eCNT, wCNT, "B1", "B2", "B3")
-    #         file.write(equals + "\n")
-    #         wCNT += 1
-    #         eCNT += 1
+    with open("cs_select.v","w") as file:
+        input = genInput2(rows,fields) + "input [7:0] B1, B2, B3"
+        output = "output[229:0] chosen,\n"
+        file.write("module cs_select(\n" + output + "\n" + input + ");\n\n")
+        eCNT = 0
+        wCNT = 0
+        for row in rows:
+            equals = genEqual(row, fields, eCNT, wCNT, "B1", "B2", "B3")
+            file.write(equals + "\n")
+            wCNT += 1
+            eCNT += 1
 
-    #     buf, tri, dCat, sCat = genTriM(eCNT, "chosen", str(0))
-    #     file.write(buf)
-    #     file.write(dCat)
-    #     file.write(sCat)
-    #     file.write(tri)
-    #     file.write("\nendmodule")
+        buf, tri, dCat, sCat = genTriM(eCNT, "chosen", str(0))
+        file.write(buf)
+        file.write(dCat)
+        file.write(sCat)
+        file.write(tri)
+        file.write("\nendmodule")
 
     # with open("cs_top.v","w") as file:
     #     input = "input[7:0] B1, B2, B3, B4, B5, B6,\n input isREP, isSIZE, isSEG,\n input[3:0] prefSize, \n input[5:0] segSEL "
