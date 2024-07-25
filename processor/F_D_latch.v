@@ -5,7 +5,7 @@ module F_D_latch (
 
         input valid_in,
         input [127:0] packet_in,
-        input [5:0] BP_alias_in,
+        input [7:0] BP_alias_in,
         input IE_in,
         input [3:0] IE_type_in,
         input [31:0] BR_pred_target_in,
@@ -15,7 +15,7 @@ module F_D_latch (
 
         output valid_out,
         output [127:0] packet_out,
-        output [5:0] BP_alias_out,
+        output [7:0] BP_alias_out,
         output IE_out,
         output [3:0] IE_type_out,
         output [31:0] BR_pred_target_out,
@@ -32,7 +32,7 @@ module F_D_latch (
 
     regn #(.WIDTH(1))   r1(.din(valid_in), .ld(ld), .clr(clr), .clk(clk), .dout(valid_out));
     regn #(.WIDTH(128)) r2(.din(packet_in), .ld(ld), .clr(clr), .clk(clk), .dout(packet_out));
-    regn #(.WIDTH(6))   r3(.din(BP_alias_in), .ld(ld), .clr(clr), .clk(clk), .dout(BP_alias_out));
+    regn #(.WIDTH(8))   r3(.din(BP_alias_in), .ld(ld), .clr(clr), .clk(clk), .dout(BP_alias_out));
     regn #(.WIDTH(1))   r4(.din(IE_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_out));
     regn #(.WIDTH(4))   r5(.din(IE_type_in), .ld(ld), .clr(clr), .clk(clk), .dout(IE_type_out));
     regn #(.WIDTH(32))  r6(.din(BR_pred_target_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_target_out));

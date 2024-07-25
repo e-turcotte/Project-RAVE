@@ -9,10 +9,10 @@
     integer cycle_number;
 
     localparam m_size_D_RrAg = 1;
-    localparam n_size_D_RrAg = 407;
+    localparam n_size_D_RrAg = 409;
     
     localparam m_size_MEM_EX = 780;
-    localparam n_size_MEM_EX = 858; //858 with instr is idtr push
+    localparam n_size_MEM_EX = 860; //858 with instr is idtr push
 
     initial begin
         file = $fopen("debug.out", "w");
@@ -144,7 +144,7 @@
     //////////////////////////////////////////////////////////
     wire valid_F_D_latch_in;
     wire [127:0] packet_F_D_latch_in;
-    wire [5:0] BP_alias_F_D_latch_in;
+    wire [7:0] BP_alias_F_D_latch_in;
     wire IE_F_D_latch_in;
     wire [3:0] IE_type_F_D_latch_in;
     wire [31:0] BR_pred_target_F_D_latch_in;
@@ -158,7 +158,7 @@
     //////////////////////////////////////////////////////////
     wire valid_F_D_latch_out;
     wire [127:0] packet_F_D_latch_out;
-    wire [5:0] BP_alias_F_D_latch_out;
+    wire [7:0] BP_alias_F_D_latch_out;
     wire IE_F_D_latch_out;
     wire [3:0] IE_type_F_D_latch_out;
     wire [31:0] BR_pred_target_F_D_latch_out;
@@ -200,7 +200,7 @@
     wire        usereg2_D_RrAg_latch_in;
     wire        usereg3_D_RrAg_latch_in;
     wire        rep_D_RrAg_latch_in;
-    wire [5:0]  BP_alias_D_RrAg_latch_in;
+    wire [7:0]  BP_alias_D_RrAg_latch_in;
     wire [4:0]  aluk_D_RrAg_latch_in;
     wire [2:0]  mux_adder_D_RrAg_latch_in;
     wire        mux_and_int_D_RrAg_latch_in;
@@ -258,7 +258,7 @@
     wire        usereg2_D_RrAg_latch_out;
     wire        usereg3_D_RrAg_latch_out;
     wire        rep_D_RrAg_latch_out;
-    wire [5:0]  BP_alias_D_RrAg_latch_out;
+    wire [7:0]  BP_alias_D_RrAg_latch_out;
     wire [4:0]  aluk_D_RrAg_latch_out;
     wire [2:0]  mux_adder_D_RrAg_latch_out;
     wire        mux_and_int_D_RrAg_latch_out;
@@ -319,7 +319,7 @@
     wire [3:0]   IE_type_RrAg_MEM_latch_in;
     wire [31:0]  BR_pred_target_RrAg_MEM_latch_in;
     wire         BR_pred_T_NT_RrAg_MEM_latch_in;
-    wire [5:0]   BP_alias_RrAg_MEM_latch_in;
+    wire [7:0]   BP_alias_RrAg_MEM_latch_in;
     wire [3:0]  memSizeOVR_RrAg_MEM_latch_in;
     wire        instr_is_IDTR_orig_RrAg_MEM_latch_in;
     
@@ -360,7 +360,7 @@
     wire [3:0]   IE_type_RrAg_MEM_latch_out;
     wire [31:0]  BR_pred_target_RrAg_MEM_latch_out;
     wire         BR_pred_T_NT_RrAg_MEM_latch_out;
-    wire [5:0]   BP_alias_RrAg_MEM_latch_out;
+    wire [7:0]   BP_alias_RrAg_MEM_latch_out;
     wire [3:0]   memSizeOVR_RrAg_MEM_latch_out;
     wire        instr_is_IDTR_orig_RrAg_MEM_latch_out;
 
@@ -376,7 +376,7 @@
     wire         instr_is_IDTR_orig_MEM_EX_latch_in;
     wire [31:0]  BR_pred_target_MEM_EX_latch_in;
     wire         BR_pred_T_NT_MEM_EX_latch_in;
-    wire [5:0]   BP_alias_MEM_EX_latch_in;
+    wire [7:0]   BP_alias_MEM_EX_latch_in;
  
     wire         res1_ld_MEM_EX_latch_in, res2_ld_MEM_EX_latch_in, res3_ld_MEM_EX_latch_in, res4_ld_MEM_EX_latch_in;
     wire [63:0]  op1_MEM_EX_latch_in, op2_MEM_EX_latch_in, op3_MEM_EX_latch_in, op4_MEM_EX_latch_in;
@@ -414,7 +414,7 @@
     wire         instr_is_IDTR_orig_MEM_EX_latch_out;
     wire [31:0]  BR_pred_target_MEM_EX_latch_out;
     wire         BR_pred_T_NT_MEM_EX_latch_out;
-    wire [5:0]   BP_alias_MEM_EX_latch_out;
+    wire [7:0]   BP_alias_MEM_EX_latch_out;
 
     wire         res1_ld_MEM_EX_latch_out, res2_ld_MEM_EX_latch_out, res3_ld_MEM_EX_latch_out, res4_ld_MEM_EX_latch_out;
     wire [63:0]  op1_MEM_EX_latch_out, op2_MEM_EX_latch_out, op3_MEM_EX_latch_out, op4_MEM_EX_latch_out;
@@ -472,7 +472,7 @@
     wire [17:0] EFLAGS_EX_WB_latch_in;
     wire [36:0] P_OP_EX_WB_latch_in;
     wire is_rep_EX_WB_latch_in;
-    wire [5:0] BP_alias_EX_WB_latch_in;
+    wire [7:0] BP_alias_EX_WB_latch_in;
     wire [3:0]  memSizeOVR_EX_WB_latch_in;
 
     ///////////////////////////////////////////////////////////
@@ -505,7 +505,7 @@
     wire [17:0] EFLAGS_EX_WB_latch_out;
     wire [36:0] P_OP_EX_WB_latch_out;
     wire is_rep_EX_WB_latch_out;
-    wire [5:0] BP_alias_EX_WB_latch_out;
+    wire [7:0] BP_alias_EX_WB_latch_out;
     wire [3:0]  memSizeOVR_EX_WB_latch_out;
 
     ///////////////////////////////////////////////////////////

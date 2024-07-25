@@ -23,7 +23,7 @@ module decode_TOP(
     ///////////////////////////
     input wire [31:0] BP_EIP,
     input wire is_BR_T_NT,
-    input wire [5:0] BP_alias_in,
+    input wire [7:0] BP_alias_in,
     input wire [31:0] BP_BR_pred_target_in,
 
     ////////////////////////////
@@ -57,7 +57,7 @@ module decode_TOP(
     output [1:0] reg3_shfamnt_out,
     output usereg2_out, usereg3_out,
     output rep_out,
-    output [5:0] BP_alias_out,
+    output [7:0] BP_alias_out,
 
     output [4:0] aluk_out,
     output [2:0] mux_adder_out,

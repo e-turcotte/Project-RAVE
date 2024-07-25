@@ -38,7 +38,7 @@ module RrAg_MEM_latch (
         input         instr_is_IDTR_orig_in,
         input [31:0]  BR_pred_target_in,
         input         BR_pred_T_NT_in,
-        input [5:0]   BP_alias_in, 
+        input [7:0]   BP_alias_in, 
 
         output         valid_out,
         output [1:0]   opsize_out,
@@ -75,7 +75,7 @@ module RrAg_MEM_latch (
         output         instr_is_IDTR_orig_out,
         output [31:0]  BR_pred_target_out,
         output         BR_pred_T_NT_out,
-        output [5:0]   BP_alias_out
+        output [7:0]   BP_alias_out
 
         );
     
@@ -160,7 +160,7 @@ module RrAg_MEM_latch (
     regn #(.WIDTH(1))   r66 (.din(instr_is_IDTR_orig_in), .ld(ld), .clr(clr), .clk(clk), .dout(instr_is_IDTR_orig_out));
     regn #(.WIDTH(32))  r67 (.din(BR_pred_target_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_target_out));
     regn #(.WIDTH(1))   r68 (.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
-    regn #(.WIDTH(6))   r69 (.din(BP_alias_in), .ld(ld), .clr(clr), .clk(clk), .dout(BP_alias_out));
+    regn #(.WIDTH(8))   r69 (.din(BP_alias_in), .ld(ld), .clr(clr), .clk(clk), .dout(BP_alias_out));
  
     always @(posedge clk) begin
         $fdisplay(file, "cycle number: %d", cyc_cnt);
