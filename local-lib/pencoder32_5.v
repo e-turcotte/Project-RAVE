@@ -62,8 +62,8 @@ module mux4_n #(parameter DATA_WIDTH = 32)(
 
 genvar i;
 generate
-    for(i = 0; i < DATA_WIDTH/16; i=i+1) begin : nmux
-        mux4_16$ m(OUT[16*i+15:16*i], A[16*i+15:16*i], B[16*i+15:16*i], C[16*i+15:16*i], D[16*i+15:16*i], S0, S1);
+    for(i = 0; i < DATA_WIDTH; i=i+1) begin : nmux
+        mux4$ m(OUT[i], A[i], B[i], C[i], D[i], S0, S1);
     end
 endgenerate
 

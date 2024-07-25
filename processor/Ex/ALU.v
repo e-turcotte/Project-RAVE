@@ -475,11 +475,11 @@ module CMPXCHNG_alu(
     wire[3:0] adder_af;
     kogeAdder #(4) a3(adder_af, nulls, incB[7:4], OP1[7:4], 1'b0);
     equaln #(4) e2(adder_af[3:0], adderResult[7:4], af_outn);
-    inv1$ i1(af_out, af_outn);
+    inv1$ i1(cmpxchng_af, af_outn);
     
     wire uf, of;
     calcSat cs1(of, uf, OP1[31], incB[31], adderResult[31]);
-    or2$ o1(of_out, of, uf);
+    or2$ o1(cmpxchng_of, of, uf);
 
 endmodule
 

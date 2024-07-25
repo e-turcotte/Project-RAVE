@@ -42,7 +42,7 @@ def main():
         print(asm)
         opcode = asm[0]
         opH = row[2]
-        row[19] = "2'b11" if "64" in row[1] else "2'b10" if "32" in row[1] or "EAX" in row[1] else "2'b00"
+        row[19] = "2'b11" if "64" in row[1] or "mm/" in row [1] else "2'b10" if "32" in row[1] or "EAX" in row[1] else "2'b00"
         if ("RET" in row[1] ) :
             row[19] = "2'b10"
         if ("Sreg" in row[1] ) :
@@ -151,8 +151,11 @@ def main():
         else:
             row[45] = "4'b0000"
         row[14] = "1'b0"
+        if ("PACK" in row[1]):
+            row[19] = "2'b11"
     numRows = 1
 
+    
     with open('output.csv', 'w', newline='') as output_file:
         csvwriter = csv.writer(output_file)
 
