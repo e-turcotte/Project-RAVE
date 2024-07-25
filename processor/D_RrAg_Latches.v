@@ -60,12 +60,12 @@ module D_RrAg_Queued_Latches #(parameter M_WIDTH=8, N_WIDTH=8, Q_LENGTH=8) (inpu
             $fdisplay(file, "\n\t ==LATCH==: %d", latch_num);
             $fdisplay(file, "\t modifiable signals:");
 
-            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][407]);
+            $fdisplay(file, "\t\t valid: %d", all_outs[latch_num][409]);
 
             $fdisplay(file, "\n\t non-modifiable signals:");
-            $fdisplay(file, "\t\t instr_is_IDTR_orig: %b", all_outs[latch_num][406]);
-            $fdisplay(file, "\t\t memsizeOVR: %b", all_outs[latch_num][405:402]);
-            $fdisplay(file, "\t\t BP_alias: %d", all_outs[latch_num][401:396]);
+            $fdisplay(file, "\t\t instr_is_IDTR_orig: %b", all_outs[latch_num][408]);
+            $fdisplay(file, "\t\t memsizeOVR: %b", all_outs[latch_num][407:404]);
+            $fdisplay(file, "\t\t BP_alias: %d", all_outs[latch_num][403:396]);
             $fdisplay(file, "\t\t latched EIP: %d", all_outs[latch_num][395:364]);
             $fdisplay(file, "\t\t is_imm: %d", all_outs[latch_num][363]);
             $fdisplay(file, "\t\t reg_addr1: %b", all_outs[latch_num][362:360]);

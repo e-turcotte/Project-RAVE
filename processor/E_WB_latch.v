@@ -14,7 +14,7 @@ module E_WB_latch (
             input BR_pred_T_NT_in,
             input [6:0] PTCID_in,
             input is_rep_in,
-            input [5:0] BP_alias_in,
+            input [7:0] BP_alias_in,
             input [17:0] eflags_in,
             input [15:0] CS_in, 
             input [36:0] P_OP_in,
@@ -43,7 +43,7 @@ module E_WB_latch (
             output BR_pred_T_NT_out,
             output [6:0] PTCID_out,
             output is_rep_out,
-            output [5:0] BP_alias_out,
+            output [7:0] BP_alias_out,
             output [17:0] eflags_out,
             output [15:0] CS_out, 
             output [36:0] P_OP_out,
@@ -79,7 +79,7 @@ module E_WB_latch (
     regn #(.WIDTH(1))   r8(.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
     regn #(.WIDTH(7))   r9(.din(PTCID_in), .ld(ld), .clr(clr), .clk(clk), .dout(PTCID_out));
     regn #(.WIDTH(1))   r10(.din(is_rep_in), .ld(ld), .clr(clr), .clk(clk), .dout(is_rep_out));
-    regn #(.WIDTH(6))   r11(.din(BP_alias_in), .ld(ld), .clr(clr), .clk(clk), .dout(BP_alias_out));
+    regn #(.WIDTH(8))   r11(.din(BP_alias_in), .ld(ld), .clr(clr), .clk(clk), .dout(BP_alias_out));
     regn #(.WIDTH(18))  r12(.din(eflags_in), .ld(ld), .clr(clr), .clk(clk), .dout(eflags_out));
     regn #(.WIDTH(16))  r13(.din(CS_in), .ld(ld), .clr(clr), .clk(clk), .dout(CS_out));
     regn #(.WIDTH(37))  r14(.din(P_OP_in), .ld(ld), .clr(clr), .clk(clk), .dout(P_OP_out));

@@ -27,7 +27,7 @@ module execute_TOP(
     input set, rst,                        
     input [6:0] PTCID_in,
     input res1_ld_in, res2_ld_in, res3_ld_in, res4_ld_in, //N
-    input [5:0] BP_alias_in,
+    input [7:0] BP_alias_in,
 
 
     input[63:0] op1, op2, op3, op4, //M
@@ -71,7 +71,7 @@ module execute_TOP(
     output BR_pred_T_NT_out,
     output [6:0] PTCID_out,
     output is_rep_out,
-    output [5:0] BP_alias_out,
+    output [7:0] BP_alias_out,
 
     output[17:0] eflags,
     output[15:0] CS_out, 

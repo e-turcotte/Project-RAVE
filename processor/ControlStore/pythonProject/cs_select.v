@@ -263,13 +263,13 @@ equaln #(8) e115({B1}, {8'hC2}, weq115);//RET imm16 | 1'b0 | 1'b0 | C2 iw
 equaln #(8) e116({B1}, {8'hCA}, weq116);//RET imm16 | 1'b0 | 1'b0 | CA iw
 equaln #(11) e117({B1, B2[5:3]}, {8'hD0, 3'd4}, weq117);//SAL r/m8, 1 | 1'b0 | 1'b1 | D0 /4 ?
 equaln #(11) e118({B1, B2[5:3]}, {8'hD2, 3'd4}, weq118);//SAL r/m8, CL | 1'b0 | 1'b1 | D2 /4 ?
-equaln #(8) e119({B1}, {8'hC0}, weq119);//SAL r/m8, imm8 | 1'b0 | 1'b0 | C0 /4 ib
+equaln #(11) e119({B1, B2[5:3]}, {8'hC0, 3'd4}, weq119);//SAL r/m8, imm8 | 1'b0 | 1'b1 | C0 /4 ib ?
 equaln #(11) e120({B1, B2[5:3]}, {8'hD1, 3'd4}, weq120);//SAL r/m32, 1 | 1'b0 | 1'b1 | D1 /4 ?
 equaln #(11) e121({B1, B2[5:3]}, {8'hD3, 3'd4}, weq121);//SAL r/m32, CL | 1'b0 | 1'b1 | D3 /4 ?
 equaln #(11) e122({B1, B2[5:3]}, {8'hC1, 3'd4}, weq122);//SAL r/m32, imm8 | 1'b0 | 1'b1 | C1 /4 ib ?
 equaln #(11) e123({B1, B2[5:3]}, {8'hD0, 3'd7}, weq123);//SAR r/m8, 1 | 1'b0 | 1'b1 | D0 /7 ?
 equaln #(11) e124({B1, B2[5:3]}, {8'hD2, 3'd7}, weq124);//SAR r/m8, CL | 1'b0 | 1'b1 | D2 /7 ?
-equaln #(8) e125({B1}, {8'hC0}, weq125);//SAR r/m8, imm8 | 1'b0 | 1'b0 | C0 /7 ib
+equaln #(11) e125({B1, B2[5:3]}, {8'hC0, 3'd7}, weq125);//SAR r/m8, imm8 | 1'b0 | 1'b1 | C0 /7 ib ?
 equaln #(11) e126({B1, B2[5:3]}, {8'hD1, 3'd7}, weq126);//SAR r/m32, 1 | 1'b0 | 1'b1 | D1 /7 ?
 equaln #(11) e127({B1, B2[5:3]}, {8'hD3, 3'd7}, weq127);//SAR r/m32, CL | 1'b0 | 1'b1 | D3 /7 ?
 equaln #(11) e128({B1, B2[5:3]}, {8'hC1, 3'd7}, weq128);//SAR r/m32, imm8 | 1'b0 | 1'b1 | C1 /7 ib ?
@@ -284,106 +284,106 @@ equaln #(8) e136({B1}, {8'h96}, weq136);//XCHG EAX, r32 | 1'b0 | 1'b0 | 90+ rd
 equaln #(8) e137({B1}, {8'h97}, weq137);//XCHG EAX, r32 | 1'b0 | 1'b0 | 90+ rd
 equaln #(8) e138({B1}, {8'h86}, weq138);//XCHG r/m8, r8 | 1'b0 | 1'b0 | 86  /r
 equaln #(8) e139({B1}, {8'h87}, weq139);//XCHG r/m32, r32 | 1'b0 | 1'b0 | 87 /r
-bufferH256$ b0(beq0,     weq0);
-bufferH256$ b1(beq1,     weq1);
-bufferH256$ b2(beq2,     weq2);
-bufferH256$ b3(beq3,     weq3);
-bufferH256$ b4(beq4,     weq4);
-bufferH256$ b5(beq5,     weq5);
-bufferH256$ b6(beq6,     weq6);
-bufferH256$ b7(beq7,     weq7);
-bufferH256$ b8(beq8,     weq8);
-bufferH256$ b9(beq9,     weq9);
-bufferH256$ b10(beq10,   weq10);
-bufferH256$ b11(beq11,   weq11);
-bufferH256$ b12(beq12,   weq12);
-bufferH256$ b13(beq13,   weq13);
-bufferH256$ b14(beq14,   weq14);
-bufferH256$ b15(beq15,   weq15);
-bufferH256$ b16(beq16,   weq16);
-bufferH256$ b17(beq17,   weq17);
-bufferH256$ b18(beq18,   weq18);
-bufferH256$ b19(beq19,   weq19);
-bufferH256$ b20(beq20,   weq20);
-bufferH256$ b21(beq21,   weq21);
-bufferH256$ b22(beq22,   weq22);
-bufferH256$ b23(beq23,   weq23);
-bufferH256$ b24(beq24,   weq24);
-bufferH256$ b25(beq25,   weq25);
-bufferH256$ b26(beq26,   weq26);
-bufferH256$ b27(beq27,   weq27);
-bufferH256$ b28(beq28,   weq28);
-bufferH256$ b29(beq29,   weq29);
-bufferH256$ b30(beq30,   weq30);
-bufferH256$ b31(beq31,   weq31);
-bufferH256$ b32(beq32,   weq32);
-bufferH256$ b33(beq33,   weq33);
-bufferH256$ b34(beq34,   weq34);
-bufferH256$ b35(beq35,   weq35);
-bufferH256$ b36(beq36,   weq36);
-bufferH256$ b37(beq37,   weq37);
-bufferH256$ b38(beq38,   weq38);
-bufferH256$ b39(beq39,   weq39);
-bufferH256$ b40(beq40,   weq40);
-bufferH256$ b41(beq41,   weq41);
-bufferH256$ b42(beq42,   weq42);
-bufferH256$ b43(beq43,   weq43);
-bufferH256$ b44(beq44,   weq44);
-bufferH256$ b45(beq45,   weq45);
-bufferH256$ b46(beq46,   weq46);
-bufferH256$ b47(beq47,   weq47);
-bufferH256$ b48(beq48,   weq48);
-bufferH256$ b49(beq49,   weq49);
-bufferH256$ b50(beq50,   weq50);
-bufferH256$ b51(beq51,   weq51);
-bufferH256$ b52(beq52,   weq52);
-bufferH256$ b53(beq53,   weq53);
-bufferH256$ b54(beq54,   weq54);
-bufferH256$ b55(beq55,   weq55);
-bufferH256$ b56(beq56,   weq56);
-bufferH256$ b57(beq57,   weq57);
-bufferH256$ b58(beq58,   weq58);
-bufferH256$ b59(beq59,   weq59);
-bufferH256$ b60(beq60,   weq60);
-bufferH256$ b61(beq61,   weq61);
-bufferH256$ b62(beq62,   weq62);
-bufferH256$ b63(beq63,   weq63);
-bufferH256$ b64(beq64,   weq64);
-bufferH256$ b65(beq65,   weq65);
-bufferH256$ b66(beq66,   weq66);
-bufferH256$ b67(beq67,   weq67);
-bufferH256$ b68(beq68,   weq68);
-bufferH256$ b69(beq69,   weq69);
-bufferH256$ b70(beq70,   weq70);
-bufferH256$ b71(beq71,   weq71);
-bufferH256$ b72(beq72,   weq72);
-bufferH256$ b73(beq73,   weq73);
-bufferH256$ b74(beq74,   weq74);
-bufferH256$ b75(beq75,   weq75);
-bufferH256$ b76(beq76,   weq76);
-bufferH256$ b77(beq77,   weq77);
-bufferH256$ b78(beq78,   weq78);
-bufferH256$ b79(beq79,   weq79);
-bufferH256$ b80(beq80,   weq80);
-bufferH256$ b81(beq81,   weq81);
-bufferH256$ b82(beq82,   weq82);
-bufferH256$ b83(beq83,   weq83);
-bufferH256$ b84(beq84,   weq84);
-bufferH256$ b85(beq85,   weq85);
-bufferH256$ b86(beq86,   weq86);
-bufferH256$ b87(beq87,   weq87);
-bufferH256$ b88(beq88,   weq88);
-bufferH256$ b89(beq89,   weq89);
-bufferH256$ b90(beq90,   weq90);
-bufferH256$ b91(beq91,   weq91);
-bufferH256$ b92(beq92,   weq92);
-bufferH256$ b93(beq93,   weq93);
-bufferH256$ b94(beq94,   weq94);
-bufferH256$ b95(beq95,   weq95);
-bufferH256$ b96(beq96,   weq96);
-bufferH256$ b97(beq97,   weq97);
-bufferH256$ b98(beq98,   weq98);
-bufferH256$ b99(beq99,   weq99);
+bufferH256$ b0(beq0, weq0);
+bufferH256$ b1(beq1, weq1);
+bufferH256$ b2(beq2, weq2);
+bufferH256$ b3(beq3, weq3);
+bufferH256$ b4(beq4, weq4);
+bufferH256$ b5(beq5, weq5);
+bufferH256$ b6(beq6, weq6);
+bufferH256$ b7(beq7, weq7);
+bufferH256$ b8(beq8, weq8);
+bufferH256$ b9(beq9, weq9);
+bufferH256$ b10(beq10, weq10);
+bufferH256$ b11(beq11, weq11);
+bufferH256$ b12(beq12, weq12);
+bufferH256$ b13(beq13, weq13);
+bufferH256$ b14(beq14, weq14);
+bufferH256$ b15(beq15, weq15);
+bufferH256$ b16(beq16, weq16);
+bufferH256$ b17(beq17, weq17);
+bufferH256$ b18(beq18, weq18);
+bufferH256$ b19(beq19, weq19);
+bufferH256$ b20(beq20, weq20);
+bufferH256$ b21(beq21, weq21);
+bufferH256$ b22(beq22, weq22);
+bufferH256$ b23(beq23, weq23);
+bufferH256$ b24(beq24, weq24);
+bufferH256$ b25(beq25, weq25);
+bufferH256$ b26(beq26, weq26);
+bufferH256$ b27(beq27, weq27);
+bufferH256$ b28(beq28, weq28);
+bufferH256$ b29(beq29, weq29);
+bufferH256$ b30(beq30, weq30);
+bufferH256$ b31(beq31, weq31);
+bufferH256$ b32(beq32, weq32);
+bufferH256$ b33(beq33, weq33);
+bufferH256$ b34(beq34, weq34);
+bufferH256$ b35(beq35, weq35);
+bufferH256$ b36(beq36, weq36);
+bufferH256$ b37(beq37, weq37);
+bufferH256$ b38(beq38, weq38);
+bufferH256$ b39(beq39, weq39);
+bufferH256$ b40(beq40, weq40);
+bufferH256$ b41(beq41, weq41);
+bufferH256$ b42(beq42, weq42);
+bufferH256$ b43(beq43, weq43);
+bufferH256$ b44(beq44, weq44);
+bufferH256$ b45(beq45, weq45);
+bufferH256$ b46(beq46, weq46);
+bufferH256$ b47(beq47, weq47);
+bufferH256$ b48(beq48, weq48);
+bufferH256$ b49(beq49, weq49);
+bufferH256$ b50(beq50, weq50);
+bufferH256$ b51(beq51, weq51);
+bufferH256$ b52(beq52, weq52);
+bufferH256$ b53(beq53, weq53);
+bufferH256$ b54(beq54, weq54);
+bufferH256$ b55(beq55, weq55);
+bufferH256$ b56(beq56, weq56);
+bufferH256$ b57(beq57, weq57);
+bufferH256$ b58(beq58, weq58);
+bufferH256$ b59(beq59, weq59);
+bufferH256$ b60(beq60, weq60);
+bufferH256$ b61(beq61, weq61);
+bufferH256$ b62(beq62, weq62);
+bufferH256$ b63(beq63, weq63);
+bufferH256$ b64(beq64, weq64);
+bufferH256$ b65(beq65, weq65);
+bufferH256$ b66(beq66, weq66);
+bufferH256$ b67(beq67, weq67);
+bufferH256$ b68(beq68, weq68);
+bufferH256$ b69(beq69, weq69);
+bufferH256$ b70(beq70, weq70);
+bufferH256$ b71(beq71, weq71);
+bufferH256$ b72(beq72, weq72);
+bufferH256$ b73(beq73, weq73);
+bufferH256$ b74(beq74, weq74);
+bufferH256$ b75(beq75, weq75);
+bufferH256$ b76(beq76, weq76);
+bufferH256$ b77(beq77, weq77);
+bufferH256$ b78(beq78, weq78);
+bufferH256$ b79(beq79, weq79);
+bufferH256$ b80(beq80, weq80);
+bufferH256$ b81(beq81, weq81);
+bufferH256$ b82(beq82, weq82);
+bufferH256$ b83(beq83, weq83);
+bufferH256$ b84(beq84, weq84);
+bufferH256$ b85(beq85, weq85);
+bufferH256$ b86(beq86, weq86);
+bufferH256$ b87(beq87, weq87);
+bufferH256$ b88(beq88, weq88);
+bufferH256$ b89(beq89, weq89);
+bufferH256$ b90(beq90, weq90);
+bufferH256$ b91(beq91, weq91);
+bufferH256$ b92(beq92, weq92);
+bufferH256$ b93(beq93, weq93);
+bufferH256$ b94(beq94, weq94);
+bufferH256$ b95(beq95, weq95);
+bufferH256$ b96(beq96, weq96);
+bufferH256$ b97(beq97, weq97);
+bufferH256$ b98(beq98, weq98);
+bufferH256$ b99(beq99, weq99);
 bufferH256$ b100(beq100, weq100);
 bufferH256$ b101(beq101, weq101);
 bufferH256$ b102(beq102, weq102);
@@ -429,10 +429,8 @@ assign sigCat0 = {beq0, beq1, beq2, beq3, beq4, beq5, beq6, beq7, beq8, beq9, be
 wire[32199:0] dataCat0;
  assign dataCat0 ={w0, w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12, w13, w14, w15, w16, w17, w18, w19, w20, w21, w22, w23, w24, w25, w26, w27, w28, w29, w30, w31, w32, w33, w34, w35, w36, w37, w38, w39, w40, w41, w42, w43, w44, w45, w46, w47, w48, w49, w50, w51, w52, w53, w54, w55, w56, w57, w58, w59, w60, w61, w62, w63, w64, w65, w66, w67, w68, w69, w70, w71, w72, w73, w74, w75, w76, w77, w78, w79, w80, w81, w82, w83, w84, w85, w86, w87, w88, w89, w90, w91, w92, w93, w94, w95, w96, w97, w98, w99, w100, w101, w102, w103, w104, w105, w106, w107, w108, w109, w110, w111, w112, w113, w114, w115, w116, w117, w118, w119, w120, w121, w122, w123, w124, w125, w126, w127, w128, w129, w130, w131, w132, w133, w134, w135, w136, w137, w138, w139};
 muxnm_tristate #(140, 230) mxt1(dataCat0, sigCat0 ,chosen);
-
 wire [139:0] WEQ_concat;
 assign WEQ_concat = {weq0, weq1, weq2, weq3, weq4, weq5, weq6, weq7, weq8, weq9, weq10, weq11, weq12, weq13, weq14, weq15, weq16, weq17, weq18, weq19, weq20, weq21, weq22, weq23, weq24, weq25, weq26, weq27, weq28, weq29, weq30, weq31, weq32, weq33, weq34, weq35, weq36, weq37, weq38, weq39, weq40, weq41, weq42, weq43, weq44, weq45, weq46, weq47, weq48, weq49, weq50, weq51, weq52, weq53, weq54, weq55, weq56, weq57, weq58, weq59, weq60, weq61, weq62, weq63, weq64, weq65, weq66, weq67, weq68, weq69, weq70, weq71, weq72, weq73, weq74, weq75, weq76, weq77, weq78, weq79, weq80, weq81, weq82, weq83, weq84, weq85, weq86, weq87, weq88, weq89, weq90, weq91, weq92, weq93, weq94, weq95, weq96, weq97, weq98, weq99, weq100, weq101, weq102, weq103, weq104, weq105, weq106, weq107, weq108, weq109, weq110, weq111, weq112, weq113, weq114, weq115, weq116, weq117, weq118, weq119, weq120, weq121, weq122, weq123, weq124, weq125, weq126, weq127, weq128, weq129, weq130, weq131, weq132, weq133, weq134, weq135, weq136, weq137, weq138, weq139};
 
 orn #(140) (.in(WEQ_concat), .out(cs_hit)); //will be 1 if there is a hit
- 
 endmodule

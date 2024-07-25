@@ -9,7 +9,7 @@ module writeback_TOP(
     input instr_is_IDTR_orig_in,
     input [31:0] BR_pred_target_in,
     input BR_pred_T_NT_in,
-    input [5:0] BP_alias_in,
+    input [7:0] BP_alias_in,
     input [6:0] inst_ptcid_in,
     input set, rst,
 
@@ -51,7 +51,7 @@ module writeback_TOP(
     output [31:0] latched_latched_EIP_out,
     output [31:0] latched_latched_latched_EIP_out,
     output BR_valid, BR_taken, BR_correct, //done
-    output [5:0] WB_BP_update_alias,
+    output [7:0] WB_BP_update_alias,
     output is_resteer,
     output [15:0] CS_out, //done
     output [17:0] EFLAGS_out,
