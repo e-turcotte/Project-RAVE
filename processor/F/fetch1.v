@@ -349,6 +349,7 @@ wire mshr_e_hit, mshr_e_full, mshr_e_write;
 wire [14:0] mshr_e_paddr;
 
 cacheBank bankE(
+    .prefetch(1'b0),
     .clk(clk),
     .rst(reset), 
     .set(set),
@@ -430,6 +431,7 @@ wire mshr_o_hit, mshr_o_full, mshr_o_write;
 wire [14:0]  mshr_o_paddr;
 
 cacheBank bankO(
+    .prefetch(1'b0),
     .clk( clk),
     .rst(reset), 
     .set(set),

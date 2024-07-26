@@ -26,6 +26,8 @@ module BRLOGIC(
     nand4$ a25(w4, conditionals[1], zf_n, conditionals[0],cf_n );
     nand3$ n1(taken_t, w1, w2, w4);
     or2$ n2(taken, taken_t, gurBR_adjust);
+    inv1$ ivjsd(taken_n, taken);
+    inv1$ afnax(pred_taken_n, pred_taken);
     // assign FIP = act_target;
     mux2n #(32) vif(FIP,nxt_EIP ,act_target, taken);
     and3$ (gurBR_adjust, gurBR,cond_n[1], cond_n[0] );
@@ -41,8 +43,9 @@ module BRLOGIC(
     
     and3$ x1(takenCor , pred_taken, taken,match32);
     
-    xnor2$ x2(notTakenCor, taken, pred_taken); //TODO: i think this should be a NOR
-    
+    xnor2$ x2(notTakenCora, taken, pred_taken); //TODO: i think this should be a NOR
+    // and2$ x3(notTakenCor, notTakenCora, taken_n);
+    and3$ x4(notTakenCor, pred_taken_n, taken_n, val_in);
     or2$ a5(correct, notTakenCor, takenCor);
     
 

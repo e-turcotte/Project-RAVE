@@ -633,8 +633,22 @@ cacheaqsys cacheaqsys_inst (
     .ptcinfo(ptcinfo_out),
     .qslot(qslot_$)
 );
+inv1$ ascvzcxzx(w_n_$, w_$);
+inv1$ asxx(valid_e_n_$, valid_e_$);
+inv1$ axsx(valid_o_n_$, valid_o_$);
+inv1$ axas(pcd_n_$, pcd_$);
+and4$ vna(prefetch_e_$, valid_e_n_$, valid_o_$,pcd_n_$, w_n_$);
+and4$ vna2(prefetch_o_$,valid_e_$, valid_o_n_$,pcd_n_$, w_n_$);
+or2$ (valid_o_$_pf, prefetch_o_$, valid_o_$);
+or2$ (valid_e_$_pf, prefetch_e_$, valid_e_$);
+
+mux2$ (r_e_$_pf, r_$, 1'b1, prefetch_e_$);
+mux2$ (r_o_$_pf, r_$, 1'b1, prefetch_o_$);
+mux2$ (sw_e_$_pf, sw_$, 1'b0, prefetch_e_$);
+mux2$ (sw_o_$_pf, sw_$, 1'b0, prefetch_o_$);
 
 cacheBank bankE (
+    .prefetch(prefetch_e_$),
     .clk(clk),
     .rst(rst),
     .set(set),
@@ -644,10 +658,10 @@ cacheBank bankE (
     .pAddress(pAddress_e_$),
     .data(data_e_$),
     .size(size_e_$),
-    .r(r_$),
+    .r(r_e_$_pf),
     .w(w_$),
-    .sw(sw_$),
-    .valid_in(valid_e_$),
+    .sw(sw_e_$_pf),
+    .valid_in(valid_e_$_pf),
     .fromBUS(fromBUS_$),
     .mask(mask_e_$),
     .AQ_isEMPTY(aq_isempty),
@@ -706,6 +720,7 @@ cacheBank bankE (
 );
 
 cacheBank bankO (
+    .prefetch(prefetch_o_$),
     .clk(clk),
     .rst(rst),
     .set(set),
@@ -715,10 +730,10 @@ cacheBank bankO (
     .pAddress(pAddress_o_$),
     .data(data_o_$),
     .size(size_o_$),
-    .r(r_$),
+    .r(r_o_$_pf),
     .w(w_$),
-    .sw(sw_$),
-    .valid_in(valid_o_$),
+    .sw(sw_o_$_pf),
+    .valid_in(valid_o_$_pf),
     .fromBUS(fromBUS_$),
     .mask(mask_o_$),
     .AQ_isEMPTY(aq_isempty),
