@@ -73,7 +73,8 @@
 		VP_1 = 20'h02000; // - IDTR
 		VP_2 = 20'h04000;
 		VP_3 = 20'h0b000;
-		VP_4 = 20'h0c000;
+		//VP_4 = 20'h0c000;
+        VP_4 = 20'h0b001; //for test2a
 		VP_5 = 20'h0a000;
 		VP_6 = 20'h06000;
 		VP_7 = 20'h03000;
@@ -1502,7 +1503,6 @@
         .BR_FIP_out(BR_FIP_EX_WB_latch_out), .BR_FIP_p1_out(BR_FIP_p1_EX_WB_latch_out)
     );
     
-
     writeback_TOP wb_inst(
         .clk(clk),
         .valid_in(valid_EX_WB_latch_out),
@@ -1580,8 +1580,6 @@
         .halts(halts),
         .instr_is_final_WB(instr_is_IDTR_switch_final_WB)
     );
-
-    
 
    assign final_IE_type[1:0] = IE_type_WB_out[1:0];
    assign final_IE_type[2] = IE_type_WB_out[3];

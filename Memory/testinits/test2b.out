@@ -1,0 +1,234 @@
+              	      	//  Test Case 2 version B - assumes exception taken BEFORE control instruction
+              	      	//  Do not distribute
+
+0x0000: E9 FB 00 00	// 	jmp     proc1                       // eip = @proc1, this should conflict in the icache
+0x0004: 00         	//
+
+0x0005:            	//        	back: 
+0x0005: 66 BA 00 02	// 	movw    $0x200, %dx                 // edx = 0x200
+0x0009: 8E D2      	//     	movw    %dx, %ss                    // ss = 0x200
+0x000b: BC 00 01 00	// 	movl    $0x100, %esp                // esp = 0x100
+0x000f: 00         	//
+
+0x0010: E8 EB 01 00	// 	call    proc2                       // esp = 0xFC
+0x0014: 00         	//
+
+              	                                          	//  MEM[0x020000FC] = @label2  PA=0x20FC
+              	                                          	//  eip = @proc2  this also conflicts in the icache
+
+0x0015:            	//        	label2:
+              	                                          	//  icache exception inside proc3
+0x0015: E8 E6 02 00	// 	call    proc3                       // esp = 0xFC
+0x0019: 00         	//
+
+              	                                          	//  MEM[0x020000FC] = @label3  PA=0x20FC
+              	                                          	//  eip = @proc3
+0x001a:            	//        	label3:
+0x001a: BA 00 0A 00	// 	movl    $0xa00, %edx                // edx = 0xA00      
+0x001e: 00         	//
+
+0x001f: 8E DA      	//     	movw    %dx, %ds                    // ds = 0xA00
+0x0021: BA 00 00 00	// 	movl    $0x0, %edx                  // edx = 0x0
+0x0025: 00         	//
+
+              	                                          	// there should be conflicts in the dcache below
+0x0026: 8B 02      	//     	movl    (%edx), %eax                //eax = MEM[0x0A000000] , eax = 0x11113333  PA=0x5000
+0x0028: C7 02 04 03	// 	movl    $0x01020304, (%edx)         //MEM[0A000000] = 0x01020304   PA=0x5000
+0x002c: 02 01      	//
+
+0x002e: 8B 32      	//     	movl    (%edx), %esi                //esi = 0x01020304 
+
+0x0030: C7 82 00 01	// 	movl    $0x05060708, 0x100(%edx)    //MEM[0A000100] = 0x05060708   PA=0x5100
+0x0034: 00 00 08 07	// 
+0x0038: 06 05      	//
+
+0x003a: 03 82 00 01	// 	addl    0x100(%edx), %eax           //eax = 0x16173A3B   OF=0 SF=0 ZF=0 AF=0 CF=0 PF=0 
+0x003e: 00 00      	//
+
+0x0040: C7 82 00 02	// 	movl    $0xCAFECABB, 0x200(%edx)    //MEM[0x0A000200] = 0xCAFECABB PA=0x5200
+0x0044: 00 00 BB CA	// 
+0x0048: FE CA      	//
+
+0x004a: 8B 8A 00 02	// 	movl    0x200(%edx), %ecx           //ecx = 0xCAFECABB
+0x004e: 00 00      	//
+
+0x0050: C7 82 00 03	// 	movl    $0xFADEDCAB, 0x300(%edx)    //MEM[0x0A000300] = 0xFADEDCAB PA=0x5300  
+0x0054: 00 00 AB DC	// 
+0x0058: DE FA      	//
+
+0x005a: 8B 8A 00 03	// 	movl    0x300(%edx), %ecx           //ecx = FADEDCAB
+0x005e: 00 00      	//
+
+0x0060: 8B 3A      	//     	movl    (%edx), %edi                //edi = 0x01020304  PA=0x5000
+
+              	                                          	//  memory dependence
+              	                                          	//  TODO initialize this memory section properly
+0x0062: C7 02 00 00	// 	movl    $0x00, (%edx)               //MEM[0x0A000000] = 0x0  PA=0x5000
+0x0066: 00 00      	//
+
+0x0068: 8B 02      	//     	movl    (%edx), %eax                //eax = 0
+
+0x006a: 90         	//       	nop
+0x006b: 90         	//       	nop
+0x006c: 90         	//       	nop
+0x006d: 90         	//       	nop
+0x006e: 90         	//       	nop
+0x006f: 90         	//       	nop
+0x0070: C7 42 04 FF	// 	movl    $0xFFFFFFFF, 0x4(%edx)      //MEM[0x0A000004] = 0xFFFFFFFF   PA=0x5004        
+0x0074: FF FF FF   	//
+
+0x0077: 8B 4A 05   	//   	movl    0x5(%edx), %ecx             //ecx = MEM[0x0A000005], ecx = 0xDDFFFFFF PA=0x5005
+
+              	                                          	//  page boundary
+0x007a: BA 00 0B 00	// 	movl    $0xB00, %edx                // edx = 0xB00      
+0x007e: 00         	//
+
+0x007f: 8E DA      	//     	movw    %dx, %ds                    // ds = 0xB00
+0x0081: BA 00 00 00	// 	movl    $0x0, %edx                  // edx = 0x0;
+0x0085: 00         	//
+
+0x0086: 0F 6F 9A FF	// 	movq    0xFFF(%edx), %mm3           // mm3 = MEM[0x0B000FFF], mm3 = 0x778899AABBCCDD01 
+0x008a: 0F 00 00   	//
+
+              	                                          	//  physical address of first byte 0x4FFF
+              	                                          	//  physical address of next 7 bytes 0x7000
+
+              	                                          	//  data sharing
+0x008d: BA 00 04 00	// 	movl    $0x400, %edx                // edx = 0x400
+0x0091: 00         	//
+
+0x0092: 8E EA      	//     	movw    %dx, %gs                    // gs = 0x400
+0x0094: BA 00 0A 00	// 	movl    $0xA00, %edx                // edx = 0xA00
+0x0098: 00         	//
+
+0x0099: 8E DA      	//     	movw    %dx, %ds                    // ds = 0xA00
+0x009b: BA 00 00 00	// 	movl    $0x0, %edx                  // edx = 0x0
+0x009f: 00         	//
+
+0x00a0: C7 02 33 22	// 	movl    $0xCAFE2233, (%edx)         // MEM[0x0A000000 PA=0x5000] = 0xCAFE2233
+0x00a4: FE CA      	//
+
+0x00a6: 65 8B 32   	//   	movl    %gs:(%edx), %esi            // esi = MEM[0x04000000 PA=0x5000], esi = 0xCAFE2233
+0x00a9: 9A 10 00 00	// 	lcall   $0x0400, $0x10              // CS = 0x0400, EIP = 0x10
+0x00ad: 00 00 04   	//
+
+0x00b0: F4         	//       	HLT
+
+0x00b1: 90 90 90 90	// 	.ALIGN 256
+0x00b5: 90 90 90 90	// 
+0x00b9: 90 90 90 90	// 
+0x00bd: 90 90 90 90	// 
+0x00c1: 90 90 90 90	// 
+
+0x00c5:            	//        	
+                    	//  	proc1:
+0x0100: E9 00 FF FF	// 	jmp back                                // eip = @back
+0x0104: FF         	//
+
+0x0105: 90 90 90 90	// 	.ALIGN 256
+0x0109: 90 90 90 90	// 
+0x010d: 90 90 90 90	// 
+0x0111: 90 90 90 90	// 
+0x0115: 90 90 90 90	// 
+
+0x0119:            	//
+                    //          proc2:
+0x0200: C3         	//       	ret                                     // eip = @label2 esp = 100
+
+0x0201: 90 90 90 90	// 	.ALIGN 256
+0x0205: 90 90 90 90	// 
+0x0209: 90 90 90 90	// 
+0x020d: 90 90 90 90	// 
+0x0211: 90 90 90 90	// 
+
+0x0215:            	//        	
+                    //  proc3:
+0x0300: BE 00 00 00	// 	movl  $0x0, %esi                        //esi = 0
+0x0304: 00         	//
+
+0x0305: 81 04 34 4F	// 	addl $0xF223344F, %ss:(%esp,%esi)       //MEM[] = @label3 + 0xF223344F = 0xF2233469 
+0x0309: 34 23 F2   	//
+
+              	                                          	//  changes the return address on the stack to something 
+              	                                          	//  exception handler will fix the problem
+
+0x030c: C3         	//       	ret                                     //esp = 100, eip = @label3 + 0xF223344F
+
+0x030d: EB 11 90 90	// 	.ALIGN 32
+0x0311: 90 90 90 90	// 
+0x0315: 90 90 90 90	// 
+0x0319: 90 90 90 90	// 
+0x031d: 90 90 90   	//
+
+0x0320:            	//        	excepthand: 
+0x0320: 81 04 34 0E	// 	addl $-0x2F2, %ss:(%esp,%esi)      //MEM[] = @label3
+0x0324: FD FF FF   	//
+
+0x0327: CF         	//       	iret                                    //esp = 100 , eip = @label3
+
+              	      	// MEMORY INITIALIZATION
+              	      	// before... 0000    
+              	      	// 0x2068  @excepthand =  0x0320
+              	      	// after.... 0000
+
+0x0328: 00 00 00 00	// 	.ORG 0x2060
+0x032c: 00 00 00 00	// 
+0x0330: 00 00 00 00	// 
+0x0334: 00 00 00 00	// 
+0x0338: 00 00 00 00	// 
+
+0x2060: 00 00 00 00	// 	.QUAD   0x0
+0x2064: 00 00 00 00	// 
+
+0x2068: 20 03 00 00	// 	.LONG   0x320
+0x206c: 00 00 00 00	// 	.QUAD   0x0
+0x2070: 00 00 00 00	// 
+
+              	      	// 0x5000 0x11113333
+              	      	// 0x5004 0x00000000
+              	      	// 0x5008 0xDDDDDDDD
+              	      	// 0x4FF8  0x0102020303040405
+
+0x2074: 00 00 00 00	// 	.ORG 0x4FF8
+0x2078: 00 00 00 00	// 
+0x207c: 00 00 00 00	// 
+0x2080: 00 00 00 00	// 
+0x2084: 00 00 00 00	// 
+
+0x4ff8: 05 04 04 03	// 	.QUAD   0x0102020303040405
+0x4ffc: 03 02 02 01	// 
+
+0x5000:            	//        	.ORG 0x5000
+0x5000: 33 33 11 11	// 	.LONG   0x11113333
+0x5004: 00 00 00 00	// 	.LONG   0x00000000
+
+0x5008: DD DD DD DD	// 	.LONG   0xDDDDDDDD
+
+0x500c: 00 00 00 00	// 	.ORG 0x5010
+0x5010: CB         	//       	lret
+
+              	      	// 0x7000  0x66778899AABBCCDD
+
+0x5011: 00 00 00 00	// 	.ORG 0x7000
+0x5015: 00 00 00 00	// 
+0x5019: 00 00 00 00	// 
+0x501d: 00 00 00 00	// 
+0x5021: 00 00 00 00	// 
+
+0x7000: DD CC BB AA	// 	.QUAD   0x66778899AABBCCDD
+0x7004: 99 88 77 66	// 
+
+
+
+
+
+              	             	      	// TLB
+              	             	      	// 
+              	             	      	//     Virtual Page            Physical Page           Valid           Present         
+              	             	      	// 
+              	             	      	//     20'h00000               20'h00000               1               1               
+              	             	      	//     20'h02000               20'h00002               1               1               
+              	             	      	//     20'h04000               20'h00005               1               1               
+              	             	      	//     20'h0b000               20'h00004               1               1               
+              	             	      	//     20'h0b001               20'h00007               1               1               
+              	             	      	//     20'h0a000               20'h00005               1               1               

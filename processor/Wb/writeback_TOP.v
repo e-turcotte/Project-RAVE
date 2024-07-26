@@ -164,7 +164,7 @@ module writeback_TOP(
     // wire is_resteer_pre_flopping;
     wire is_resteer_no_valid_anded;
     nor2$ g0(.out(is_resteer_no_valid_anded), .in0(BR_correct_in), .in1(invvalid));
-    and3$ g342d1(.out(is_resteer), .in0(is_resteer_no_valid_anded), .in1(valid_in), .in2(BR_valid));
+    andn #(4) g342d1(.out(is_resteer), .in( {is_resteer_no_valid_anded, valid_in, BR_valid, final_IE_val_not}));
 
     // wire not_clk;
     // inv1$ gdf1(.in(clk), .out(not_clk));
@@ -173,7 +173,7 @@ module writeback_TOP(
     // and2$ gdsf1(.out(is_resteer), .in0(neg_flop_resteer), .in1(not_clk));
     assign latched_EIP_out = latched_EIP_in;
     assign WB_BP_update_alias = BP_alias_in;
-
+    wire [31:0] BR_FIP_MAX;
     assign BR_FIP_MAX = {BR_FIP_in[31:4] , 4'hF};
     wire FIP_tlb_hit, FIP_tlb_miss, FIP_prot_seg_exception, FIP_tlb_miss_exception;
     fip_seg_prot_check fip_check( .VP(VP), .PF(PF), .FIP(BR_FIP_MAX), .prot_logic_is_valid(FIP_tlb_hit));
@@ -182,13 +182,15 @@ module writeback_TOP(
     wire [31:0] CS_lshfted, CS_MAX;
     assign CS_lshfted = {CS_in, 16'b0000};
 
-    kogeAdder #(.WIDTH(32)) cs_lim_adder(.SUM(CS_MAX), .COUT(), .A(CS_lshfted), .B(CS_LIM), .CIN(1'b0));
+    kogeAdder #(.WIDTH(32)) cs_lim_adder(.SUM(CS_MAX), .COUT(cout0), .A(CS_lshfted), .B({12'b0, CS_LIM}), .CIN(1'b0));
 
     wire RA_gt_SS, RA_lt_SS, EQ, seg_lim_exception;
     mag_comp32 mag(.A(BR_FIP_MAX), .B(CS_MAX), .AGB(RA_gt_SS), .BGA(RA_lt_SS), .EQ(EQ));
-    orn  #(3) o1(.out(seg_lim_exception), .in ( {EQ, RA_gt_SS, FIP_tlb_hit }));
-    andn #(4) yurrr (.in( {FIP_tlb_miss, BR_valid, BR_taken, valid_in} ), .out(FIP_tlb_miss_exception));
+    orn  #(2) o1(.out(seg_lim_exception), .in ( {EQ, RA_gt_SS }));
+
     andn #(4) yur (.in( {BR_valid, BR_taken, seg_lim_exception, valid_in} ), .out(FIP_prot_seg_exception));
+    inv1$ i135(.out(FIP_prot_seg_exception_not), .in(FIP_prot_seg_exception));
+    andn #(5) yurrr (.in( {BR_valid, BR_taken, valid_in, FIP_tlb_miss, FIP_prot_seg_exception_not} ), .out(FIP_tlb_miss_exception));
 
     wire invstall;
     wire IE_val_almost, IE_val_inv;
@@ -214,11 +216,19 @@ module writeback_TOP(
     b4_bitwise_and brobro (.out(almost_final_IE_type), .in0(almost_final_IE_type2), .in1( {IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv, IDTR_is_serciving_inv} ));  
 
     // assign final_IE_type[2:0] = almost_final_IE_type[2:0];
-    orn #(2) o32 (.in( {almost_final_IE_type, FIP_prot_seg_exception} ), .out(final_IE_type[0]));
-    orn #(2) o33 (.in( {almost_final_IE_type, FIP_tlb_miss_exception} ), .out(final_IE_type[1]));
-    assign final_IE_type[2] = almost_final_IE_type[2];
-    assign final_IE_type[3] = interrupt_in;
+    orn #(2) o32 (.in( {almost_final_IE_type[0], FIP_prot_seg_exception} ), .out(final_IE_type[0]));
+    orn #(2) o33 (.in( {almost_final_IE_type[1], FIP_tlb_miss_exception} ), .out(final_IE_type[1]));
+
+    wire final_ie_type0_not, final_ie_type1_not;
+    inv1$ p13 (.out(final_ie_type0_not), .in(final_IE_type[0]));
+    inv1$ p123(.out(final_ie_type1_not), .in(final_IE_type[1]));    
+
+    assign final_IE_type[2] = 1'b0;
+    andn #(3) g24 (.in( {interrupt_in, final_ie_type0_not, final_ie_type1_not} ), .out(final_IE_type[3]));
+    //assign final_IE_type[3] = interrupt_in;
     orn #(4) qoegf(.out(final_IE_val), .in({IE_val_almost, interrupt_in, FIP_tlb_miss_exception, FIP_prot_seg_exception}));
+
+    inv1$ i987(.in(final_IE_val), .out(final_IE_val_not));
 
     wire instr_is_final1, instr_is_final2, instr_is_final3;
 
