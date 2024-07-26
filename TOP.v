@@ -3,9 +3,8 @@
     localparam CYCLE_TIME_BUS = CYCLE_TIME / 2.0;
     
     integer file;
-    reg clk_g;
-    wire clk;
-    reg bus_clk_ng;
+    reg clk;
+    reg bus_clk;
     integer cycle_number;
 
     localparam m_size_D_RrAg = 1;
@@ -22,18 +21,15 @@
     end
 
     initial begin
-        bus_clk_ng = 1'b1;
-        forever #(CYCLE_TIME_BUS / 2.0) bus_clk_ng = ~bus_clk_ng;
+        bus_clk = 1'b1;
+        forever #(CYCLE_TIME_BUS / 2.0) bus_clk = ~bus_clk;
     end
 
     initial begin
-        clk_g = 1'b1;
-        forever #(CYCLE_TIME / 2.0) clk_g = ~clk_g;
+        clk = 1'b1;
+        forever #(CYCLE_TIME / 2.0) clk = ~clk;
     end
     inv1$ icg1(halts_n, halts);
-    and2$ icg2(clk, clk_g, halts_n);
-    and2$ icg3(clk_ng, clk_g, 1'b1);
-    and2$ icg4(bus_clk, bus_clk_ng, 1'b1);
     always @(posedge clk) begin
         cycle_number = cycle_number + 1;
         $fdisplay(file, "Cycle number: %d", cycle_number);
@@ -577,7 +573,7 @@
     wire interrupt;
 
     offcoreBus_TOP offcoreBus(
-        .clk( clk_ng),
+        .clk(clk),
         .rst(global_reset),
         .set(global_set),
         .clk_bus(bus_clk),
@@ -1116,7 +1112,7 @@
 
     mem m1 (
         //inputs
-        .clk_ng(clk_ng),
+        .clk_ng(clk),
         .valid_in(valid_RrAg_MEM_latch_out),
         .fwd_stall(MEM_EX_Latches_full), // receive from MEM_EX_Queued_Latches
         .opsize_in(opsize_RrAg_MEM_latch_out),
@@ -1607,7 +1603,7 @@
                           r1.rf.gf.e_out[0],r1.rf.gf.h_out[0],r1.rf.gf.l_out[0]}),
                  .mmf_out(r1.rf.mf.outs),
                  .sf_out(r1.sf.base_outs),
-                 .clk(clk_g), .valid(is_valid_WB_out),
+                 .clk(clk), .valid(is_valid_WB_out),
                  .br_valid(BR_valid_WB_BP_out),
                  .br_taken(BR_taken_WB_BP_out),
                  .br_correct(BR_correct_WB_BP_out),

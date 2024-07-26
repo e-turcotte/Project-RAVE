@@ -361,7 +361,7 @@ cacheBank bankE(
     .r(DES_full_ne),
     .w(DES_full_e),
     .sw(1'b0),
-    .valid_in(1'b1),
+    .valid_in(reset),
     .fromBUS(DES_full_e), 
     .mask(128'hFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF),
     .ptc_clear(1'b1),
@@ -444,7 +444,7 @@ cacheBank bankO(
     .r(DES_full_no),
     .w(DES_full_o),
     .sw(1'b0),
-    .valid_in(1'b1),
+    .valid_in(reset),
     .fromBUS(DES_full_o), 
     .mask(128'hFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF),
     

@@ -175,7 +175,9 @@ module writeback_TOP(
     wire invstall;
     wire IE_val_almost, IE_val_inv;
     
-    and2$ a94(.out(stall), .in0(wbaq_full), .in1(mem_ld)); 
+    wire mem_stall;
+    and2$ a94(.out(mem_stall), .in0(wbaq_full), .in1(mem_ld));
+    or2$ a95(.out(stall), .in0(mem_stall), .in1(halts)); 
 
     inv1$ i92(.out(invstall), .in(stall));
 
@@ -188,7 +190,7 @@ module writeback_TOP(
 
     wire valid_out_1, valid_out_2;
     andn #(3) asd(.out(valid_out_1), .in( {valid_in, invstall, IE_val_inv} ));
-    andn #(2) weg(.out(valid_out_2), .in( {instr_is_IDTR_orig_in, valid_in } ));
+    andn #(2) weg(.out(valid_out_2), .in( {instr_is_IDTR_orig_in, valid_in} ));
     orn #(2) p234 (.out(valid_out), .in ( {valid_out_1, valid_out_2} ));
 
     and3$ a134 (.out(IE_val_almost), .in0(IE_in), .in1(valid_in), .in2(IDTR_is_serciving_inv));
