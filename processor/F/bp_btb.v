@@ -3,10 +3,12 @@ module bp_btb(
     input reset,
     input [31:0] eip,
     input prev_BR_result,
-    input [5:0] prev_BR_alias,
+    input [7:0] prev_BR_alias,
     input prev_is_BR,
+    input prev_BR_correct,
     input LD,
     input is_D_valid,
+    input is_WB_valid,
 
     input [31:0] btb_update_eip_WB, //EIP of BR instr, passed from D
     input [31:0] FIP_E_WB, 
@@ -14,7 +16,7 @@ module bp_btb(
     input [31:0] EIP_WB, //update, from WB
 
     output prediction,
-    output [5:0] BP_update_alias_out,
+    output [7:0] BP_update_alias_out,
 
     output [27:0] FIP_E_target,
     output [27:0] FIP_O_target,
@@ -37,7 +39,7 @@ module bp_btb(
         .FIP_E_WB(FIP_E_WB),
         .FIP_O_WB(FIP_O_WB),
         .D_EIP_WB(EIP_WB),
-        .LD(LD),
+        .LD(btb_ld),
         .reset(reset),
 
         .FIP_E_target(FIP_E_target),
@@ -54,8 +56,10 @@ module bp_btb(
         .reset(reset),
         .eip(eip),
         .prev_BR_result(prev_BR_result),
-        .prev_BR_alias(prev_BR_alias),
+        .GBHR_restore_val(prev_BR_alias),
         .prev_is_BR(prev_is_BR),
+        .prev_BR_correct(prev_BR_correct),
+        .wb_valid(is_WB_valid),
         .LD(LD),
         .prediction(bp_prediction),
         .BP_alias(BP_update_alias_out)
