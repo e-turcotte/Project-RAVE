@@ -90,7 +90,7 @@
 
 		entry_v = 8'b11111111;
 		entry_P = 8'b11111111;
-		entry_RW= 8'b11111111;
+		entry_RW= 8'b11111110;
 		entry_PCD =  8'b10000000;
 
 		VP = {VP_7, VP_6, VP_5, VP_4, VP_3, VP_2, VP_1, VP_0};
@@ -1127,7 +1127,7 @@
         .mem_addr2_end(mem_addr2_end_RrAg_MEM_latch_out),
         .latched_EIP_end(latched_EIP_end_RrAg_MEM_latch_out), .latched_EIP_end_is_valid(latched_EIP_end_is_valid_RrAg_MEM_latch_out),
         .mem1_end_is_valid(mem1_end_is_valid_RrAg_MEM_latch_out),
-        .mem1_end_is_valid(mem2_end_is_valid_RrAg_MEM_latch_out),
+        .mem2_end_is_valid(mem2_end_is_valid_RrAg_MEM_latch_out),
         .reg1(reg1_memdf),
         .reg2(reg2_memdf),
         .reg3(reg3_memdf),

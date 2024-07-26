@@ -28,7 +28,8 @@ module bp_btb(
 
     // and2$ aajsfhd0(.out(prediction), .in0(inverseclk), .in1(pre_anded_prediction));
 
-
+    wire btb_ld;
+    andn #(2) adsf0( .in({LD, prev_BR_result}), .out(btb_ld));
     branch_target_buff btb(
         .clk(clk),
         .EIP_fetch(eip), //this should be eip + length from decode
