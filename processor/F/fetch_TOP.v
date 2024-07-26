@@ -29,7 +29,7 @@ module fetch_TOP (
     input wire [5:0] BP_BIP,
     input wire [31:0] BP_target,
     input wire is_BR_T_NT,
-    input wire [5:0] BP_update_alias,
+    input wire [7:0] BP_update_alias,
 
     ////////////////////////////
     // signals from init     //  
@@ -89,7 +89,7 @@ module fetch_TOP (
     output wire packet_valid_out,
     output wire is_BR_T_NT_out,
     output wire [31:0] BP_target_out,
-    output wire [5:0] BP_update_alias_out,
+    output wire [7:0] BP_update_alias_out,
 
     output wire IE_out,
     output wire [3:0] IE_type_out,
