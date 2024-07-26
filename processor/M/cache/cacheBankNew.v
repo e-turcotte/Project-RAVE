@@ -1,4 +1,5 @@
 module cacheBank (
+    input prefetch,
     input clk,
     input rst, set,
     input [3:0] cache_id,
@@ -221,7 +222,8 @@ mux2n #(4)  abcde(SER_dest1,{2'b10,pAddress[5],pAddress[4]}, 4'b1100, PCD_IN);
 
 //Handle outputAlign
 // assign EX_valid = valid; 
-and2$ (EX_valid, valid, HIT);
+and2$ (EX_valid_temp, valid, HIT);
+mux2$ (EX_valid, EX_valid_temp, 1'b0, prefetch);
 assign EX_data = cache_line;
  assign EX_vAddress = vAddress;
 assign EX_pAddress = pAddress;
