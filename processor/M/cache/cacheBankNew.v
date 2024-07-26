@@ -223,7 +223,7 @@ mux2n #(4)  abcde(SER_dest1,{2'b10,pAddress[5],pAddress[4]}, 4'b1100, PCD_IN);
 // assign EX_valid = valid; 
 and2$ (EX_valid, valid, HIT);
 assign EX_data = cache_line;
-assign EX_vAddress = vAddress;
+ assign EX_vAddress = vAddress;
 assign EX_pAddress = pAddress;
 assign EX_size = size;
 wire [1:0] EX_wake2;
