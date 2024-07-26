@@ -664,7 +664,7 @@
         .prev_BR_result(BR_taken_WB_BP_out),
         .prev_BR_alias(WB_BP_update_alias),
         .prev_is_BR(BR_valid_WB_BP_out),
-        .prev_is_BR_correct(BR_correct_WB_BP_out),
+        .prev_BR_correct(BR_correct_WB_BP_out),
         .LD(LD_btb),
         .is_D_valid(valid_out_D_RrAg_latch_in),
         .is_WB_valid(is_valid_WB_out),
