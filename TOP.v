@@ -118,7 +118,7 @@
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
-        #10000
+        #100000
 
         $finish;
 
@@ -694,6 +694,7 @@
 
     fetch_TOP f0(
         .clk(clk),
+        .clk_ng(clk_ng),
         .set(global_set),
         .reset(global_reset),
         .bus_clk(bus_clk),

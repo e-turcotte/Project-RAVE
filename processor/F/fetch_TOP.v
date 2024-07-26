@@ -3,6 +3,7 @@ module fetch_TOP (
     //     global signals     //  
     ///////////////////////////
     input wire clk,
+    input wire clk_ng,
     input wire set,
     input wire reset,
     input wire bus_clk,
@@ -104,6 +105,7 @@ module fetch_TOP (
     wire [1:0] FIP_o_lsb, FIP_e_lsb;
     fetch_1 f1(
         .clk(clk),
+        .clk_ng(clk_ng),
         .set(set), 
         .reset(reset),
         .init_addr(init_addr),
