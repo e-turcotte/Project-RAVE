@@ -93,11 +93,11 @@ module IE_handler (
     
     endian_swap32 e3(.in({IDT_entry_internal}), .out(first_4_bytes_imm));           //0000_0000_1000
     //assign first_4_bytes = {16'h8b0d, first_4_bytes_imm, 80'b0};                  //MOV ECX, [IDT_entry_internal]
-    assign first_4_bytes = {24'h668b2e, first_4_bytes_imm, 72'b0};                  //MOV EBP, [IDT_entry_internal]
+    assign first_4_bytes = {16'h8b2d, first_4_bytes_imm, 80'b0};                  //MOV EBP, [IDT_entry_internal]
 
     endian_swap32 e4(.in({IDT_entry4_internal}), .out(second_4_bytes_imm));         //0000_0001_0000
     //assign second_4_bytes = {16'h8b15, second_4_bytes_imm, 80'b0};                //MOV EDX, [IDT_entry4_internal]
-    assign second_4_bytes = {24'h668b3e, second_4_bytes_imm, 72'b0};                //MOV EDI, [IDT_entry4_internal]
+    assign second_4_bytes = {16'h8b3d, second_4_bytes_imm, 80'b0};                //MOV EDI, [IDT_entry4_internal]
 
     //assign exchange = {24'h6687d1, 104'h0};                                       //XCHG CX, DX
     assign exchange = {24'h87fd, 112'h0};                                           //XCHG BP, DI
@@ -112,7 +112,7 @@ module IE_handler (
     assign jump = {24'h66ffe7, 104'h0};                                               //JMP EDI
     assign ret_far = {8'hcb, 120'h0};                                               //RET FAR
     //assign pop_eflags = {8'h59, 120'h0};                                            //mov EFLAGS to ECX but used to load EFLAGS
-    assign mov_eflags = {48'h 6766_896c_2408, 80'h0};                                   //mov  EFLAGS to EBP but used to load EFLAGS - mov [ESP+8], EBP
+    assign mov_eflags = {48'h6766_896c_2408, 80'h0};                                   //mov  EFLAGS to EBP but used to load EFLAGS - mov [ESP+8], EBP
 
     assign incr_SS = { 16'h6683c404, 112'h0 };                                          //ADD ESP, 4
 

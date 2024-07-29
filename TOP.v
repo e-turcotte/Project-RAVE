@@ -99,7 +99,7 @@
         ES_LIM = 20'h00420;
         CS_LIM = 20'h04fff;
         SS_LIM = 20'h04000;
-        DS_LIM = 20'h011ff;
+        DS_LIM = 20'hF41ff;
         FS_LIM = 20'h003ff;
         GS_LIM = 20'h007ff;
 
@@ -446,7 +446,7 @@
     //////////////////////////////////////////////////////////
 
     wire valid_EX_WB_latch_in;
-
+    wire [17:0] eflags_old;
     wire [31:0] EIP_EX_WB_latch_in;
     wire [31:0] latched_eip_EX_WB_latch_in;
     wire        IE_EX_WB_latch_in;
@@ -627,33 +627,60 @@
         .recvDO(recvDO),
         .interrupt_out(interrupt)
     );
-
-    IE_handler IDTR(
-        .clk(clk),
-        .reset(global_reset),
-        .enable(1'b1), //im not sure when it should be disabled but its here if u need
-        .IE_in(final_IE_val),
-        .IE_type_in(final_IE_type),
-        .IDTR_base_address(IDTR_base),
-        .EIP_WB(latched_eip_WB_out),
-        .EFLAGS_WB(final_EFLAGS),
-        .CS_WB(final_CS),
-        .is_resteer(is_resteer_WB_out),
-        .is_IRETD(is_iretd_WB_out),
-        .rrag_stall_in(D_RrAg_Latches_full),
-        .is_final_switch_instr_WB(instr_is_IDTR_switch_final_WB),
-    
-        .IDTR_packet_out(IDTR_packet_out),
-        .packet_out_select(IDTR_packet_select_out),
-        .flush_pipe(IDTR_flush_pipe),
-        .PTC_clear(idtr_ptc_clear_out),
-        .LD_EIP(IDTR_LD_EIP_out),
-        .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
-        .is_servicing_IE(is_servicing_IE),
-        .is_switching(IDTR_is_switching),
-        .LD_info_regs_out(IDTR_LD_info_regs),
-        .invalidate_fetch_out(IDTR_invalidate_fetch_out)
+    IDTR_FSM_2 IDTR( //TODO: PRAY
+    .clk(clk),
+    .rst(global_reset),
+    .rrag_stall(D_RrAg_Latches_full),
+    .is_IE(final_IE_val),
+    .is_IRET(is_iretd_WB_out),
+    .IE_type_in(final_IE_type),
+    .IDTR_base_address(IDTR_base),
+    .valid_wb(valid_EX_WB_latch_out),
+    .cs_WB(final_CS),
+    .eip_WB(latched_eip_WB_out),
+    .eflags_EX_old(eflags_old),
+    .OP1_wb(res1_WB_RRAG_out),
+    .P_OP_wb(P_OP_EX_WB_latch_out),
+    .P_OP_1_2_override(P_OP_1_2_override_idtr),
+    .P_OP_21_22_override (P_OP_21_22_override_idtr),
+    .P_OP_22_23_override (P_OP_22_23_override_idtr),
+    .invalidate_op1_wb(invalidate_op1_wb_idtr),
+    .packet_out(IDTR_packet_out),
+    .packet_select(IDTR_packet_select_out),
+    .flush_pipe(IDTR_flush_pipe),
+    .PTC_clear(idtr_ptc_clear_out),
+    .allow_fetch(IDTR_invalidate_fetch_out)
     );
+    assign IDTR_is_POP_EFLAGS = 0;
+    assign is_servicing_IE = 0;
+    assign IDTR_is_switching = 0;
+    assign IDTR_LD_info_regs = 0;
+    // IE_handler IDTR(
+    //     .clk(clk),
+    //     .reset(global_reset),
+    //     .enable(1'b1), //im not sure when it should be disabled but its here if u need
+    //     .IE_in(final_IE_val),
+    //     .IE_type_in(final_IE_type),
+    //     .IDTR_base_address(IDTR_base),
+    //     .EIP_WB(latched_eip_WB_out),
+    //     .EFLAGS_WB(final_EFLAGS),
+    //     .CS_WB(final_CS),
+    //     .is_resteer(is_resteer_WB_out),
+    //     .is_IRETD(is_iretd_WB_out),
+    //     .rrag_stall_in(D_RrAg_Latches_full),
+    //     .is_final_switch_instr_WB(instr_is_IDTR_switch_final_WB),
+    
+    //     .IDTR_packet_out(IDTR_packet_out),
+    //     .packet_out_select(IDTR_packet_select_out),
+    //     .flush_pipe(IDTR_flush_pipe),
+    //     .PTC_clear(idtr_ptc_clear_out),
+    //     .LD_EIP(IDTR_LD_EIP_out),
+    //     .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
+    //     .is_servicing_IE(is_servicing_IE),
+    //     .is_switching(IDTR_is_switching),
+    //     .LD_info_regs_out(IDTR_LD_info_regs),
+    //     .invalidate_fetch_out(IDTR_invalidate_fetch_out)
+    // );
 
     wire btb_hit;
     wire LD_btb;
@@ -782,6 +809,10 @@
         .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_in),
         .instr_is_IDTR_orig_in(instr_is_IDTR_orig_F_D_latch_in),
         .IDTR_is_POP_EFLAGS_in(IDTR_is_POP_EFLAGS_F_D_latch_in),
+        .P_OP_1_2_override_in(P_OP_1_2_override_idtr),
+        .P_OP_21_22_override_in(P_OP_21_22_override_idtr),
+        .P_OP_22_23_override_in(P_OP_22_23_override_idtr),
+        .invalidate_op1_wb_in(invalidate_op1_wb_idtr),
          //outputs
         .valid_out(valid_F_D_latch_out),
         .packet_out(packet_F_D_latch_out),
@@ -791,8 +822,11 @@
         .BR_pred_target_out(BR_pred_target_F_D_latch_out),
         .BR_pred_T_NT_out(BR_pred_T_NT_F_D_latch_out),
         .instr_is_IDTR_orig_out(instr_is_IDTR_orig_F_D_latch_out),
-        .IDTR_is_POP_EFLAGS_out(IDTR_is_POP_EFLAGS_F_D_latch_out)
-    
+        .IDTR_is_POP_EFLAGS_out(IDTR_is_POP_EFLAGS_F_D_latch_out),
+        .P_OP_1_2_override(  P_OP_1_2_override_F_D_LATCH),
+        .P_OP_21_22_override(P_OP_21_22_override_F_D_LATCH),
+        .P_OP_22_23_override(P_OP_22_23_override_F_D_LATCH),
+        .invalidate_op1_wb(  invalidate_op1_wb_F_D_LATCH)
     );
 
     wire IDTR_is_POP_EFLAGS_D_out;
@@ -813,6 +847,11 @@
         // .BP_alias_in(BP_alias_F_D_latch_out),
         // .BR_pred_target_in(BR_pred_target_F_D_latch_out),
         // .BR_pred_T_NT_in(BR_pred_T_NT_F_D_latch_out),
+        .P_OP_1_2_override(P_OP_1_2_override_F_D_LATCH),
+        .P_OP_21_22_override(P_OP_21_22_override_F_D_LATCH),
+        .P_OP_22_23_override(P_OP_22_23_override_F_D_LATCH),
+        .invalidate_op1_wb(invalidate_op1_wb_F_D_LATCH),
+
 
         // Signals from BP
         .BP_EIP(BP_EIP_BTB_out),
@@ -1319,6 +1358,7 @@
 
     execute_TOP e1 (
         .clk(clk),
+        .eflags_old(eflags_old),
         .fwd_stall(fwd_stall_WB_EX_out), //TODO: recieve from WB
         .valid_in(expostwakevalid),
         .latch_empty(MEM_EX_Latches_empty),

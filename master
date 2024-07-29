@@ -39,6 +39,7 @@ processor/F/bp_gshare.v
 processor/F/bp_btb.v
 processor/F/I_Buff.v
 processor/F/IDTR.v
+processor/F/IDTR_FSM_2.v
 
 processor/D/decode_TOP.v
 processor/D/addressing_d.v
