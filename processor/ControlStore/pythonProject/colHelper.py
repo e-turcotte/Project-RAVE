@@ -1340,8 +1340,8 @@ def CALLptr(row,op,asm):
     row[36] = o  # op1_wb
     # OP2
     row[29] = IMM  # op2_mux
-    row[33] = DC  # dest2_mux
-    row[37] = z  # op2_wb
+    row[33] = S4  # dest2_mux
+    row[37] = o  # op2_wb
     # OP3
     row[30] = CSEIP  # op3_mux
     row[34] = M2  # dest3_mux
