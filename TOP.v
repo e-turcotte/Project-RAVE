@@ -114,7 +114,7 @@
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
-        #10000
+        #100000
 
         $finish;
 
@@ -660,8 +660,10 @@
         .prev_BR_result(BR_taken_WB_BP_out),
         .prev_BR_alias(WB_BP_update_alias),
         .prev_is_BR(BR_valid_WB_BP_out),
+        .prev_BR_correct(BR_correct_WB_BP_out),
         .LD(LD_btb),
         .is_D_valid(valid_out_D_RrAg_latch_in),
+        .is_WB_valid(is_valid_WB_out),
 
         .btb_update_eip_WB(latched_eip_WB_out), //EIP of BR instr, passed from D
         .FIP_E_WB(newFIP_e_WB_out), 
@@ -688,6 +690,7 @@
 
     fetch_TOP f0(
         .clk(clk),
+        .clk_ng(clk_ng),
         .set(global_set),
         .reset(global_reset),
         .bus_clk(bus_clk),

@@ -1,5 +1,6 @@
 module fetch_1 (
     input wire clk,
+    input wire clk_ng,
     input wire set, reset,
     input wire [31:0] init_addr,
     input wire is_init,
@@ -112,7 +113,7 @@ I$ icache(
     .cache_miss_odd(icache_miss_odd_out),
     .evenW(evenW_out),
     .oddW(oddW_out),
-    .clk(clk),
+    .clk(clk_ng),
     .set(set),
     .reset(reset),
     .VP(VP),
