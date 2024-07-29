@@ -613,7 +613,7 @@ cacheaqsys cacheaqsys_inst (
     .size_e(size_e_$),
     .size_o(size_o_$),
     .r(r_$),
-    .w(w_$),
+    .w(w_$_oop),
     .sw(sw_$),
     .valid_e(valid_e_$),
     .valid_o(valid_o_$),
@@ -633,6 +633,7 @@ cacheaqsys cacheaqsys_inst (
     .ptcinfo(ptcinfo_out),
     .qslot(qslot_$)
 );
+or2$ hailmary2(w_$, fromBUS_$, w_$_oop);
 inv1$ ascvzcxzx(w_n_$, w_$);
 inv1$ asxx(valid_e_n_$, valid_e_$);
 inv1$ axsx(valid_o_n_$, valid_o_$);
