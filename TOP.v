@@ -1633,7 +1633,7 @@
                  .ptcid(inst_ptcid_EX_WB_latch_out),
                  .res1(res1_WB_RRAG_out), .res2(res2_WB_RRAG_out), .res3(res3_WB_RRAG_out), .res4(res4_WB_RRAG_out),
                  .dest1(inp1_dest_EX_WB_latch_out), .dest2(inp2_dest_EX_WB_latch_out), .dest3(inp3_dest_EX_WB_latch_out), .dest4(inp4_dest_EX_WB_latch_out),
-                 .reg_wb(reg_ld_WB_RRAG_out), .seg_wb(seg_ld_WB_RRAG_out), .mem_wb(mem_ld_WB_M_out),
+                 .reg_wb(reg_ld_WB_RRAG_out), .seg_wb(seg_ld_WB_RRAG_out), .mem_wb(wb_inst.partialmem_ld),
                  .eip_wb(is_resteer_WB_out), .is_halt(wb_inst.halt_ld),
                  .br_pred_tnt(BR_pred_T_NT_EX_WB_latch_out), .br_pred_target(BR_pred_target_EX_WB_latch_out),
                  .eflags(final_EFLAGS),
