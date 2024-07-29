@@ -690,7 +690,7 @@
 
     fetch_TOP f0(
         .clk(clk),
-        .clk_ng(clk_ng),
+        .clk_ng(clk),
         .set(global_set),
         .reset(global_reset),
         .bus_clk(bus_clk),
