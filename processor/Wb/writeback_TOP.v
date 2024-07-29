@@ -223,7 +223,8 @@ module writeback_TOP(
     inv1$ p13 (.out(final_ie_type0_not), .in(final_IE_type[0]));
     inv1$ p123(.out(final_ie_type1_not), .in(final_IE_type[1]));    
 
-    assign final_IE_type[2] = 1'b0;
+    assign final_IE_type[2] = 1'b0; //div0 no longer needed to check
+    
     andn #(3) g24 (.in( {interrupt_in, final_ie_type0_not, final_ie_type1_not} ), .out(final_IE_type[3]));
     //assign final_IE_type[3] = interrupt_in;
     orn #(4) qoegf(.out(final_IE_val), .in({IE_val_almost, interrupt_in, FIP_tlb_miss_exception, FIP_prot_seg_exception}));
@@ -232,10 +233,11 @@ module writeback_TOP(
 
     wire instr_is_final1, instr_is_final2, instr_is_final3;
 
-    //andn #(3) n24 (.out(instr_is_final1), .in ( {P_OP[1:0], valid_in} ));
+    andn #(3) n24 (.out(instr_is_final2), .in ( {P_OP[1:0], valid_in} )); //pop eflags
     andn #(3) n25 (.out(instr_is_final1), .in ( {P_OP[12], instr_is_IDTR_orig_in, valid_in} )); //jmp
-    andn #(3) n29 (.out(instr_is_final2), .in ( {P_OP[36], instr_is_IDTR_orig_in, valid_in} )); //ret far
+    //andn #(3) n29 (.out(instr_is_final2), .in ( {P_OP[36], instr_is_IDTR_orig_in, valid_in} )); //ret far
     orn  #(2) n26 (.out(instr_is_final_WB), .in( {instr_is_final1, instr_is_final2 /*, instr_is_final3 */ } ));
+
 endmodule
 
 module b4_bitwise_and(

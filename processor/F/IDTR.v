@@ -13,6 +13,7 @@ module IE_handler (
     input is_resteer,
     input rrag_stall_in,
     input is_final_switch_instr_WB,
+    input is_pop_eflags_EX_in,
     
     output [127:0] IDTR_packet_out,
     output packet_out_select,           //to mux in fetch2 that picks between IBUFF or IDTR
@@ -57,11 +58,13 @@ module IE_handler (
     kogeAdder #(.WIDTH(32)) a2(.A(IDTR_base_address), .B(vector_out_shifted), .CIN(1'b0), .SUM(IDT_entry_address), .COUT());
     kogeAdder #(.WIDTH(32)) a3(.A(IDT_entry_address), .B(32'h4), .CIN(1'b0), .SUM(IDT_entry_address4), .COUT());
 
+    orn #(2)  i394 (.in( {is_final_switch_instr_WB, is_pop_eflags_EX_in} ), .out(is_final_instr));
+
     wire [10:0] IDTR_packet_select;
     wire LD_info_regs;
 
     IDTR_FSM fsm(.clk(clk), .set(1'b1), .reset(reset), .enable(enable), .IE(IE_in), .is_IRETD(is_IRETD), .rrag_stall_in(rrag_stall_in),
-                 .is_final_switch_instr_WB(is_final_switch_instr_WB), .IDTR_packet_select(IDTR_packet_select), .packet_out_select(packet_out_select), .flush_pipe(flush_pipe), 
+                 .is_final_switch_instr_WB(is_final_instr), .IDTR_packet_select(IDTR_packet_select), .packet_out_select(packet_out_select), .flush_pipe(flush_pipe), 
                  .PTC_clear(PTC_clear), .LD_EIP(LD_EIP), .is_POP_EFLAGS(is_POP_EFLAGS), .LD_info_regs(LD_info_regs), 
                  .servicing_IE(is_servicing_IE), .is_switching(is_switching), .invalidate_fetch_out(invalidate_fetch_out_not_or));
 
@@ -104,9 +107,8 @@ module IE_handler (
     assign ret_far = {8'hcb, 120'h0};                                               //RET FAR
     assign pop_eflags = {8'h59, 120'h0};                                            //POP EFLAGS to ECX but used to load EFLAGS
 
-
-    muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(128)) m2(.in({ret_far, pop_eflags, jump, mov_cs, sar16, exchange, second_4_bytes,
-                                                                first_4_bytes, push_eflags, push_eip, push_cs}), 
+    muxnm_tristate #(.NUM_INPUTS(11), .DATA_WIDTH(128)) m2(.in({pop_eflags, ret_far, jump, mov_cs, sar16, exchange, second_4_bytes,
+                                                                first_4_bytes, push_eip, push_cs, push_eflags}), 
                                                                 .sel(IDTR_packet_select), .out(IDTR_packet_out));
     
 
@@ -242,7 +244,8 @@ module IDTR_FSM (
     orn  #(.NUM_INPUTS(3)) o6(.out(LD_EIP), .in( {e0, e1, e2} ));
 
     //is_POP_EFLAGS
-    andn #(.NUM_INPUTS(4)) a38(.out(is_POP_EFLAGS), .in( {CS[3:2], notCS[1], CS[0]} ));
+    //andn #(.NUM_INPUTS(4)) a38(.out(is_POP_EFLAGS), .in( {CS[3:2], notCS[1], CS[0]} ));
+    andn #(.NUM_INPUTS(4)) a38(.out(is_POP_EFLAGS), .in( {CS[3:1], notCS[0] } ));
 
     //LD_info_regs
     andn #(.NUM_INPUTS(4)) a39(.out(LD_info_regs), .in( {notCS[3:0]} ));
@@ -263,9 +266,9 @@ module IDTR_FSM (
 
     //is_final_switch_state
     wire switch0, switch1;
-    andn #(4) a43 (.out(switch0), .in( {CS[3], notCS[2], CS[1], notCS[0]} ));
-    //andn #(4) a44 (.out(switch2), .in( { CS[3:2], notCS[1], CS[0] } ));
-    andn #(4) a499876 (.out(switch1), .in( { CS[3:1], notCS[0] } ));
+    andn #(4) a43 (.out(switch0), .in( {CS[3], notCS[2], CS[1], notCS[0]} )); //1010
+    //andn #(4) a44 (.out(switch1), .in( { CS[3:2], notCS[1], CS[0] } )); //1101
+    andn #(4) a499876 (.out(switch1), .in( { CS[3:1], notCS[0] } )); //1110
     orn  #(.NUM_INPUTS(2)) o9898769(.out(is_final_switch_state), .in(  {switch0, switch1 /*, switch2*/ } ));
 
     //if (CS = 1010 or 1101 and is_final_switch_instr_WB = 0) then (NS = CS) , (fetch_packet_valid_out = 0)

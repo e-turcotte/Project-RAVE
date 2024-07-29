@@ -649,6 +649,7 @@
         .PTC_clear(idtr_ptc_clear_out),
         .LD_EIP(IDTR_LD_EIP_out),
         .is_POP_EFLAGS(IDTR_is_POP_EFLAGS),
+        .is_pop_eflags_EX_in(EX_is_pop_eflags),
         .is_servicing_IE(is_servicing_IE),
         .is_switching(IDTR_is_switching),
         .LD_info_regs_out(IDTR_LD_info_regs),
@@ -1387,6 +1388,7 @@
         .eflags(EFLAGS_EX_WB_latch_in),
         .CS_out(CS_EX_WB_latch_in),
         .P_OP_out(P_OP_EX_WB_latch_in),
+        .is_pop_eflags(EX_is_pop_eflags),
         
         .res1_wb(inp1_wb_EX_WB_latch_in),            .res2_wb(inp2_wb_EX_WB_latch_in),
         .res3_wb(inp3_wb_EX_WB_latch_in),            .res4_wb(inp4_wb_EX_WB_latch_in),

@@ -76,6 +76,7 @@ module execute_TOP(
     output[17:0] eflags,
     output[15:0] CS_out, 
     output [36:0] P_OP_out,
+    output is_pop_eflags,
     
     output res1_wb, res2_wb, res3_wb, res4_wb,
     output [63:0] res1, res2, res3, res4, //done
@@ -113,6 +114,8 @@ module execute_TOP(
 
     orn #(7) o1({P_OP[3], P_OP[11],P_OP[12],P_OP[34], P_OP[35], P_OP[36], P_OP[28]}, gBR );
 
+    //wire is_pop_eflags;
+    andn #(3) n24 (.out(is_pop_eflags), .in ( {P_OP[1:0], valid_in} )); //pop eflags
 
     wire valid_internal, invempty;
     inv1$ i0(.out(invempty), .in(latch_empty));
@@ -171,6 +174,8 @@ module execute_TOP(
 
     //handle ALU
     ALU_top a1(res1, res2_xchg, swapCXC, cf_out, pf_out, af_out, zf_out, sf_out, of_out, df_out, cc_inval, op1, op2, op3, dest1_addr, aluk, MUX_ADDER_IMM, MUX_AND_INT, MUX_SHIFT, P_OP[7], P_OP[2], P_OP[31],P_OP[29], P_OP[30], opsize_in,af,cf,of,zf, CS, EIP_in); 
+
+    muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(18)) eflags_sel (.in( {op1[17:0], eflags_ld} ), .out(), .sel(is_pop_eflags));
 
     //Handle eflags block
     wire[17:0] eflag_update;
