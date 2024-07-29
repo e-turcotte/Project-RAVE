@@ -79,8 +79,8 @@ module writeback_TOP(
 
     wire LD_EIP_CS;
 
-    mux2n #(64) mxn(res1, inp1, {{48{1'b0}},inp1[47:32]}, LD_EIP_CS);
-    assign res2 = inp2;
+    mux2n #(64) mxn1(res1, inp1, {{48{1'b0}},inp1[31:0]}, LD_EIP_CS);
+    mux2n #(64) mxn2(res2, inp2, {{48{1'b0}},inp1[47:32]}, LD_EIP_CS);
     assign res3 = inp3;
     assign res4 = inp4;
     assign ressize = inpsize;
@@ -91,10 +91,13 @@ module writeback_TOP(
     and3$ g102(.out(reg_ld[1]), .in0(inp2_isReg), .in1(valid_out), .in2(inp2_wb));
     and3$ g103(.out(reg_ld[0]), .in0(inp1_isReg), .in1(valid_out), .in2(inp1_wb));
     assign seg_addr = {inp4_dest[2:0],inp3_dest[2:0],inp2_dest[2:0],inp1_dest[2:0]};
+    wire seg2_ldnormal;
     and3$ g104(.out(seg_ld[3]), .in0(inp4_isSeg), .in1(valid_out), .in2(inp4_wb));
     and3$ g105(.out(seg_ld[2]), .in0(inp3_isSeg), .in1(valid_out), .in2(inp3_wb));
-    and3$ g106(.out(seg_ld[1]), .in0(inp2_isSeg), .in1(valid_out), .in2(inp2_wb));
-    and3$ g107(.out(seg_ld[0]), .in0(inp1_isSeg), .in1(valid_out), .in2(inp1_wb));
+    and3$ g107(.out(seg2_ldnormal), .in0(inp2_isSeg), .in1(valid_out), .in2(inp2_wb));
+    or2$ g108(.out(seg_ld[1]), .in0(seg2_ldnormal), .in1(LD_EIP_CS));
+    and3$ g106(.out(seg_ld[0]), .in0(inp1_isSeg), .in1(valid_out), .in2(inp1_wb));
+    
     wire [3:0] partialmem_ld;
     muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(64)) t1(.in({inp4,inp3,inp2,inp1}), .sel(partialmem_ld), .out(mem_data));
     muxnm_tristate #(.NUM_INPUTS(4), .DATA_WIDTH(32)) t2(.in({inp4_dest,inp3_dest,inp2_dest,inp1_dest}), .sel(partialmem_ld), .out(mem_addr));
