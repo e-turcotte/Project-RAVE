@@ -25,7 +25,8 @@ module seg_lim_check(
     wire RA_gt_SS, RA_lt_SS, EQ, seg_ex;
     mag_comp32 mag(.A(address), .B(seg_max), .AGB(RA_gt_SS), .BGA(RA_lt_SS), .EQ(EQ));
 
-    orn #(2) o1(.out(seg_ex), .in( {EQ, RA_gt_SS} ));
-    andn #(2) a2 (.out(seg_lim_exception), .in({tlb_valid, seg_ex}));
+    orn #(2) o1(.out(seg_lim_exception), .in( {EQ, RA_gt_SS} ));
+
+    // andn #(2) a2 (.out(seg_lim_exception), .in({tlb_valid, seg_ex}));
 
 endmodule

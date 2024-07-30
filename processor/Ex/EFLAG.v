@@ -4,7 +4,8 @@
 
 module EFLAG(
     output[17:0] cc_out,
-      
+    output[17:0] cc_old,
+
     input clk,
     input set,
     input rst,
@@ -26,7 +27,7 @@ assign zf = cc_out[3];
 assign sf = cc_out[4];
 assign df = cc_out[7];
 assign of = cc_out[8];
-wire[17:0] cc_new,cc_new2,  cc_old, cc_not_old;
+wire[17:0] cc_new,cc_new2, cc_not_old;
 wire[17:0] FMASK_v; wire cc_val;
 inv1$ inv1(cc_val, cc_inval);
 wire v;

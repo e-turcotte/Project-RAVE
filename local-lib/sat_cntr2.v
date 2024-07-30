@@ -33,7 +33,7 @@ module sat_cntr2(
 
 
     regn #(.WIDTH(1)) s1(.din(NS[1]), .ld(enable), .clr(rst_n), .clk(clk), .dout(S[1]));
-    regn #(.WIDTH(1)) s2(.din(NS[0]), .ld(enable), .clr(rst_n), .clk(clk), .dout(S[0]));
+    regn_with_set #(.WIDTH(1)) s2(.din(NS[0]), .ld(enable), .clr(rst_n), .clk(clk), .dout(S[0]));
 
     assign s_out_high = S[1];
     assign s_out_low = S[0];

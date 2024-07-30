@@ -41,9 +41,9 @@ module BRLOGIC(
      kogeAdder #(32) inc(FIP_p1, cout, FIP, 32'h0000_0010, 1'b0);
     wire destCorrect; wire brCorrect; wire takenCor; wire notTakenCor;
     
-    and3$ x1(takenCor , pred_taken, taken,match32);
+    and4$ x1(takenCor , pred_taken, taken,match32,val_in);
     
-    xnor2$ x2(notTakenCora, taken, pred_taken); //TODO: i think this should be a NOR
+    nor2$ x2(notTakenCora, taken, pred_taken); //TODO: i think this should be a NOR
     // and2$ x3(notTakenCor, notTakenCora, taken_n);
     and3$ x4(notTakenCor, pred_taken_n, taken_n, val_in);
     or2$ a5(correct, notTakenCor, takenCor);

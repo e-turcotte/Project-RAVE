@@ -76,6 +76,7 @@ module execute_TOP(
     output[17:0] eflags,
     output[15:0] CS_out, 
     output [36:0] P_OP_out,
+    output[17:0] eflags_old,
     
     output res1_wb, res2_wb, res3_wb, res4_wb,
     output [63:0] res1, res2, res3, res4, //done
@@ -111,7 +112,7 @@ module execute_TOP(
     nand2$ efp0(eflag_pop, P_OP[1], P_OP[0]);
     and2$ efp1(res1_wb, res1_ld_in, eflag_pop);
 
-    orn #(7) o1({P_OP[3], P_OP[11],P_OP[12],P_OP[34], P_OP[35], P_OP[36], P_OP[28]}, gBR );
+    orn #(8) o1({P_OP[3], P_OP[11],P_OP[12],P_OP[34], P_OP[35], P_OP[36], P_OP[28], P_OP[32]}, gBR );
 
 
     wire valid_internal, invempty;
@@ -178,7 +179,7 @@ module execute_TOP(
     assign eflags = eflag_update;
     assign eflags_ld = {1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 2'b0, of_out, df_out,  1'b0, 1'b0, sf_out, zf_out, af_out, pf_out, cf_out}; 
     assign af = eflags_rd[2]; assign cf = eflags_rd[0];  assign pf = eflags_rd[1]; assign zf = eflags_rd[3];   assign sf = eflags_rd[4];  assign df = eflags_rd[7];  assign of = eflags_rd[8];     
-    EFLAG e1(eflags_rd, clk, set, rst, valid_internal, eflags_ld, FMASK, cc_inval, P_OP[1:0], op1[17:0], is_resteer, valid_wb, eflag_update);
+    EFLAG e1(eflags_rd, eflags_old, clk, set, rst, valid_internal, eflags_ld, FMASK, cc_inval, P_OP[1:0], op1[17:0], is_resteer, valid_wb, eflag_update);
     assign CS_out = CS;
     assign P_OP_out = P_OP;
     //Handle skipGen

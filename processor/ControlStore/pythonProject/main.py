@@ -153,7 +153,11 @@ def main():
         row[14] = "1'b0"
         if ("PACK" in row[1]):
             row[19] = "2'b11"
+        if ("16:32" in row[1]):
+            row[17] = "1'b1"
+            row[18] = "2'b11"
     numRows = 1
+
 
     
     with open('output.csv', 'w', newline='') as output_file:

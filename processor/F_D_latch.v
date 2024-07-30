@@ -12,6 +12,10 @@ module F_D_latch (
         input BR_pred_T_NT_in,
         input instr_is_IDTR_orig_in,
         input IDTR_is_POP_EFLAGS_in,
+        input P_OP_1_2_override_in,
+        input P_OP_21_22_override_in,
+        input P_OP_22_23_override_in,
+        input invalidate_op1_wb_in,
 
         output valid_out,
         output [127:0] packet_out,
@@ -21,7 +25,11 @@ module F_D_latch (
         output [31:0] BR_pred_target_out,
         output BR_pred_T_NT_out,
         output instr_is_IDTR_orig_out,
-        input IDTR_is_POP_EFLAGS_out
+        input IDTR_is_POP_EFLAGS_out,
+        output P_OP_1_2_override,
+        output P_OP_21_22_override,
+        output P_OP_22_23_override,
+        output invalidate_op1_wb
         );
     
     integer file, cyc_cnt;
@@ -39,6 +47,10 @@ module F_D_latch (
     regn #(.WIDTH(1))   r7(.din(BR_pred_T_NT_in), .ld(ld), .clr(clr), .clk(clk), .dout(BR_pred_T_NT_out));
     regn #(.WIDTH(1))   r8(.din(instr_is_IDTR_orig_in), .ld(ld), .clr(clr), .clk(clk), .dout(instr_is_IDTR_orig_out));
     regn #(.WIDTH(1))   r9(.din(IDTR_is_POP_EFLAGS_in), .ld(ld), .clr(clr), .clk(clk), .dout(IDTR_is_POP_EFLAGS_out));
+    regn #(.WIDTH(1))   r10(.din(P_OP_1_2_override_in), .ld(ld), .clr(clr), .clk(clk), .dout(P_OP_1_2_override));
+    regn #(.WIDTH(1))   r11(.din(P_OP_21_22_override_in), .ld(ld), .clr(clr), .clk(clk), .dout(P_OP_21_22_override));
+    regn #(.WIDTH(1))   r12(.din(P_OP_22_23_override_in), .ld(ld), .clr(clr), .clk(clk), .dout(P_OP_22_23_override));
+    regn #(.WIDTH(1))   r13(.din(invalidate_op1_wb_in), .ld(ld), .clr(clr), .clk(clk), .dout(invalidate_op1_wb));
 
 
     always @(posedge clk) begin
