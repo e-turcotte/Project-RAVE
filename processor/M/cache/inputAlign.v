@@ -105,7 +105,7 @@ or2$ a0(TLB_miss, miss0, miss1);
 or2$ a2(protection_exception,prot_except1 , prot_except0);
 and2$ a3(TLB_hit, hit0, hit1);
 and3$ a6(PCD_out, PCD_out0, PCD_out1, valid0);
-
+nor2$ (isException_n, TLB_miss, protection_exception);
 //Address gneration
 assign address1[14:12] = tlb1[2:0];
 assign address0[14:12] = tlb0[2:0];
@@ -252,7 +252,7 @@ muxnm_tristate #(8, 16*8) mxt({
      wire[127:0] PTC_outx, PTC_outy;
      mux2n #(128) chosePath(PTC_outx, PTC0_shift[127:0], PTCDATA[127:0] , needP1 );
     nand2$ agf(PCD0n_sw, PCD_out0, sw);
-    and2$ asasasa(wiv_select, PCD0n_sw, valid_in);
+    and3$ asasasa(wiv_select, PCD0n_sw, valid_in, isException_n);
 
      mux4n #(128) mxptc(PTC_out, {112'd0, PTC_outx[15:0]}, {96'd0, PTC_outx[31:0]}, {64'd0,PTC_outx[63:0]}, PTC_outx, size_in[0], size_in[1] );
     wire[3:0] wake_init_vector1;
