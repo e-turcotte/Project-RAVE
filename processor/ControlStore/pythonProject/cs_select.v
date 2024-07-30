@@ -1,7 +1,6 @@
 module cs_select(
 output[229:0] chosen,
 output cs_hit,
-
 input [229:0] w0,
 input [229:0] w1,
 input [229:0] w2,
@@ -433,5 +432,4 @@ muxnm_tristate #(140, 230) mxt1(dataCat0, sigCat0 ,chosen);
 wire [139:0] WEQ_concat;
 assign WEQ_concat = {weq0, weq1, weq2, weq3, weq4, weq5, weq6, weq7, weq8, weq9, weq10, weq11, weq12, weq13, weq14, weq15, weq16, weq17, weq18, weq19, weq20, weq21, weq22, weq23, weq24, weq25, weq26, weq27, weq28, weq29, weq30, weq31, weq32, weq33, weq34, weq35, weq36, weq37, weq38, weq39, weq40, weq41, weq42, weq43, weq44, weq45, weq46, weq47, weq48, weq49, weq50, weq51, weq52, weq53, weq54, weq55, weq56, weq57, weq58, weq59, weq60, weq61, weq62, weq63, weq64, weq65, weq66, weq67, weq68, weq69, weq70, weq71, weq72, weq73, weq74, weq75, weq76, weq77, weq78, weq79, weq80, weq81, weq82, weq83, weq84, weq85, weq86, weq87, weq88, weq89, weq90, weq91, weq92, weq93, weq94, weq95, weq96, weq97, weq98, weq99, weq100, weq101, weq102, weq103, weq104, weq105, weq106, weq107, weq108, weq109, weq110, weq111, weq112, weq113, weq114, weq115, weq116, weq117, weq118, weq119, weq120, weq121, weq122, weq123, weq124, weq125, weq126, weq127, weq128, weq129, weq130, weq131, weq132, weq133, weq134, weq135, weq136, weq137, weq138, weq139};
 orn #(140) (.in(WEQ_concat), .out(cs_hit)); //will be 1 if there is a hit
-
 endmodule

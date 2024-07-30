@@ -1212,18 +1212,18 @@ def JMPptr(row,op,asm):
     row[23] = zzz  # R4 - FREE
     row[27] = CS  # S4 - CS
 
-    row[41] = zo  # M1_RW
+    row[41] = zz  # M1_RW
     row[42] = zz  # M2_RW
 
     # OPERAND SWAP LOGIC
     # OP1
     row[28] = IMM  # op1_mux
-    row[32] = DC  # dest1_mux
-    row[36] = z  # op1_wb
+    row[32] = CSEIP  # dest1_mux
+    row[36] = o  # op1_wb
     # OP2
-    row[29] = DC  # op2_mux
-    row[33] = DC  # dest2_mux
-    row[37] = z  # op2_wb
+    row[29] = IMM  # op2_mux
+    row[33] = S4  # dest2_mux
+    row[37] = o  # op2_wb
     # OP3
     row[30] = DC  # op3_mux
     row[34] = DC  # dest3_mux
