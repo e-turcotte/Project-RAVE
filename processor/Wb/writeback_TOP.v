@@ -68,6 +68,19 @@ module writeback_TOP(
     output halt_flop
     );
     
+
+    wire [3:0] inv_bit1, inv_bit2, isCS_write_concat;
+    wire is_CS_write;
+    wire [15:0] cs_write_new, true_cs;
+    genvar k;
+    for (k = 0; k < 4; k = k +1 ) begin: cs_resteer 
+        inv1$ (inv_bit1[k], seg_addr[3*k+1]);
+        inv1$ (inv_bit2[k], seg_addr[3*k + 2]);
+        and3$ (isCS_write_concat[k], inv_bit2[k], inv_bit1[k], seg_addr[3*k]);
+    end
+    orn #(4) (.in({isCS_write_concat}), .out(is_CS_write));
+    muxnm_tristate #(4, 16) (.in({res4[15:0], res3[15:0], res2[15:0], res1[15:0]}), .sel(isCS_write_concat), .out(cs_write_new));
+    mux2n #(16) (true_cs, CS_in, cs_write_new, is_CS_write);
     and2$ halc(halt_ld, P_OP[9], valid_out);
     regn #(1) r1(.din(1'b1), .ld(halt_ld), .clr(rst), .clk(clk), .dout(halts));
     
@@ -147,15 +160,35 @@ module writeback_TOP(
     assign EFLAGS_out = EFLAGS_in;
     assign EIP_out = EIP_in;
 
+    wire[31:0] newFIP_e_temp3, newFIP_o_temp3,  newEIP_temp3;
     or3$ o2(LD_EIP_CS, P_OP[36], P_OP[35], P_OP[32]);
 
-    mux2n #(32) m1(newFIP_e   , {BR_FIP_in[31:4],4'd0}, {BR_FIP_p1_in[31:4], 4'd0}, BR_FIP_in[4]);
-    mux2n #(32) m2(newFIP_o, {BR_FIP_p1_in[31:4], 4'd0}, {BR_FIP_in[31:4],4'd0}, BR_FIP_in[4]);
+    wire [31:0] newFIP_e_temp, newFIP_o_temp, newEIP_temp, newFIP_e_temp2, newFIP_o_temp2, newEIP_temp2;
+    mux2n #(32) m1(newFIP_e_temp2   , {BR_FIP_in[31:4],4'd0}, {BR_FIP_p1_in[31:4], 4'd0}, BR_FIP_in[4]);
+    mux2n #(32) m2(newFIP_o_temp2, {BR_FIP_p1_in[31:4], 4'd0}, {BR_FIP_in[31:4],4'd0}, BR_FIP_in[4]);
+
+    kogeAdder #(16) (.SUM(newFIP_e_temp3[31:16]), .COUT(1'b0), .A(newFIP_e_temp2[31:16]), .B(true_cs), .CIN(1'b0));
+    kogeAdder #(16) (.SUM(newFIP_o_temp3[31:16]), .COUT(1'b0), .A(newFIP_o_temp2[31:16]), .B(true_cs), .CIN(1'b0));
+    kogeAdder #(16) (.SUM(  newEIP_temp3[31:16]), .COUT(1'b0), .A(newEIP_temp2[31:16]), .B(true_cs), .CIN(1'b0));
+    
+    assign newFIP_e_temp3[15:0] =  newFIP_e_temp2[15:0];
+    assign newFIP_o_temp3[15:0] =  newFIP_o_temp2[15:0];
+    assign newEIP_temp3[15:0] =  newEIP_temp2[15:0];
+
+    mux2n #(32) m312(newFIP_e_temp, newFIP_e_temp2,newFIP_e_temp3, is_CS_write);
+    mux2n #(32) m412(newFIP_o_temp,   newFIP_o_temp2, newFIP_o_temp3, is_CS_write);
+    mux2n #(32) m512(newEIP_temp,     newEIP_temp2, newEIP_temp3, is_CS_write);
+
+    mux2n #(32) m352(newFIP_e, newFIP_e_temp, 32'd0, final_IE_val);
+    mux2n #(32) m452(newFIP_o, newFIP_o_temp, 32'd16, final_IE_val);
+    mux2n #(32) m552(newEIP,     newEIP_temp, 32'd0, final_IE_val);
+
+
 
     wire [31:0] targetEIP;
 
     mux2n #(32) m25(targetEIP, BR_FIP_in, inp1[31:0], LD_EIP_CS);
-    mux2n #(32) m3 (newEIP,EIP_in, targetEIP, BR_taken); //TODO: set newEIP to NT target or T target
+    mux2n #(32) m3 (newEIP_temp2,EIP_in, targetEIP, BR_taken); //TODO: set newEIP to NT target or T target
     and2$ gbrstuff (.out(BR_valid), .in0(BR_valid_in), .in1(valid_out));
     assign BR_taken = BR_taken_in;
     assign BR_correct = BR_correct_in;
@@ -166,12 +199,14 @@ module writeback_TOP(
     // inv1$ lashjdsjasdfl3ho(.in(BR_correct_delay3), .out(BR_correct_delay4));
     // wire is_resteer_pre_flopping;
     wire is_resteer_no_valid_anded;
-    nor2$ g0(.out(is_resteer_no_valid_anded), .in0(BR_correct_in), .in1(invvalid));
+    nor2$ g0(.out(is_resteer_no_valid_andeda), .in0(BR_correct_in), .in1(invvalid));
+    or2$ abdd(is_resteer_no_valid_anded , is_resteer_no_valid_andeda, is_CS_write);
     wire invclk, invinvclk, negedge_clk_pulse;
     inv1$ g23456789(.out(invclk), .in(clk));
     inv1$ g21347876(.out(invinvclk), .in(invclk));
     and2$ g3456789(.out(negedge_clk_pulse), .in0(invclk), .in1(invinvclk));
     //andn #(5) g342d1(.out(is_resteer), .in( {is_resteer_no_valid_anded, valid_in, BR_valid, final_IE_val_not, negedge_clk_pulse}));
+
     andn #(4) g342d1(.out(is_resteer), .in( {is_resteer_no_valid_anded, valid_in, BR_valid, final_IE_val_not}));
 
     // wire not_clk;

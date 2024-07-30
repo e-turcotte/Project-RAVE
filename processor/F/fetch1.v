@@ -1,5 +1,6 @@
 module fetch_1 (
     input wire clk,
+    input wire [15:0] cs,
     input wire set, reset,
     input wire [31:0] init_addr,
     input wire is_init,
@@ -103,9 +104,14 @@ wire icache_miss_even_out, icache_miss_odd_out;
 orn #(2) odsad1(.in({icache_miss_even_out, evenW_out}), .out(cache_miss_even_out));
 orn #(2) odsad2(.in({icache_miss_odd_out, oddW_out}), .out(cache_miss_odd_out)); //TODO: check if this is correct
 
+wire[31:0] FIP_e_inc, FIP_o_inc;
+kogeAdder #(16) (.SUM(FIP_e_inc[31:16]), .COUT(1'b0), .A(FIP_e[27:12]), .B(cs), .CIN(1'b0));
+kogeAdder #(16) (.SUM(FIP_o_inc[31:16]), .COUT(1'b0), .A(FIP_o[27:12]), .B(cs), .CIN(1'b0));
+assign FIP_e_inc[15:0] = { FIP_e[11:0], 4'b0000};
+assign FIP_o_inc[15:0] = { FIP_o[11:0], 4'b0000};
 I$ icache(
-    .FIP_o({FIP_o, 4'b0}),
-    .FIP_e({FIP_e, 4'b0}),
+    .FIP_o({FIP_o,4'b0000}),
+    .FIP_e({FIP_e,4'b0000}),
     .line_even_out(line_even_out),
     .line_odd_out(line_odd_out),
     .cache_miss_even(icache_miss_even_out),

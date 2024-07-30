@@ -6,6 +6,7 @@ module fetch_TOP (
     input wire set,
     input wire reset,
     input wire bus_clk,
+    input wire [15:0] cs, 
     
     ////////////////////////////
     // signals from decode   //  
@@ -107,6 +108,7 @@ module fetch_TOP (
         .set(set), 
         .reset(reset),
         .init_addr(init_addr),
+        .cs(cs),
         .is_init(is_init),
         .BP_FIP_o(BP_FIP_o[31:4]),
         .BP_FIP_e(BP_FIP_e[31:4]),
