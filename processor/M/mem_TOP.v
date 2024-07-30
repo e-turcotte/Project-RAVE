@@ -200,13 +200,13 @@ module mem (input valid_in,
     //seg_lim_exception_logic segcheck3(.read_address_end_size(latched_EIP_end), .seg_size(seg4_lim), .seg_lim_exception(prot_seg3_almost));
 
     wire [31:0] seg1_shifted, SEG1_MAX, seg2_shifted, SEG2_MAX, seg4_shifted, SEG4_MAX;
-    assign seg1_shifted = {seg1, 16'h0000};
-    assign seg2_shifted = {seg2, 16'h0000};
-    assign seg4_shifted = {seg4, 16'h0000};
+    assign SEG1_MAX = {seg1_shifted, 16'h0000};
+    assign SEG2_MAX = {seg2_shifted, 16'h0000};
+    assign SEG4_MAX = {seg4_shifted, 16'h0000};
 
-    kogeAdder #(.WIDTH(32)) adder1(.SUM(SEG1_MAX), .COUT(cout1), .A(seg1_shifted), .B({12'h0, seg1_lim}), .CIN(1'b0));
-    kogeAdder #(.WIDTH(32)) adder2(.SUM(SEG2_MAX), .COUT(cout2), .A(seg2_shifted), .B({12'h0, seg2_lim}), .CIN(1'b0));
-    kogeAdder #(.WIDTH(32)) adder4(.SUM(SEG4_MAX), .COUT(cout4), .A(seg4_shifted), .B({12'h0, seg4_lim}), .CIN(1'b0));
+    kogeAdder #(.WIDTH(32)) adder1(.SUM(seg1_shifted), .COUT(cout1), .A(seg1), .B({12'h0, seg1_lim}), .CIN(1'b0));
+    kogeAdder #(.WIDTH(32)) adder2(.SUM(seg2_shifted), .COUT(cout2), .A(seg2), .B({12'h0, seg2_lim}), .CIN(1'b0));
+    kogeAdder #(.WIDTH(32)) adder4(.SUM(seg4_shifted), .COUT(cout4), .A(seg4), .B({12'h0, seg4_lim}), .CIN(1'b0));
 
     seg_lim_check s1(.VP(VP_in), .PF(PF_in), .address(mem_addr1), .seg_max(SEG1_MAX), .seg_lim_exception(prot_seg1_almost) );
     seg_lim_check s2(.VP(VP_in), .PF(PF_in), .address(mem_addr2), .seg_max(SEG2_MAX), .seg_lim_exception(prot_seg2_almost) );

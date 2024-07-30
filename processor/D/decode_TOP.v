@@ -17,6 +17,12 @@ module decode_TOP(
     // input wire [5:0] BP_alias_in,
     // input wire [31:0] BR_pred_target_in,
     // input wire BR_pred_T_NT_in,
+    input wire P_OP_1_2_override,
+    input wire P_OP_21_22_override,
+    input wire P_OP_22_23_override,
+    input wire invalidate_op1_wb,
+
+
 
     ////////////////////////////
     //     signals from BP   //
@@ -443,7 +449,8 @@ module decode_TOP(
     assign op2_out = op2_mux;
     assign op3_out = op3_mux;
     assign op4_out = op4_mux;
-    assign res1_ld_out = op1_wb;
+    mux2$ (op1_true_wb, op1_wb, 1'b0, invalidate_op1_wb);
+    assign res1_ld_out = op1_true_wb;
     assign res2_ld_out = op2_wb;
     assign res3_ld_out = op3_wb;
     assign res4_ld_out = op4_wb; //better op1-4_wb
@@ -456,12 +463,16 @@ module decode_TOP(
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m2(.in({useR2, 1'b1}), .sel(isMOD), .out(usereg2_out));
     muxnm_tree #(.SEL_WIDTH(1), .DATA_WIDTH(1)) m3(.in({useR3, 1'b0}), .sel(isMOD), .out(usereg3_out));
     assign rep_out = is_rep;
-
+    
+    wire[37:0] p_op_out_temp;
+    or2$ (P_OP_22_ovr, P_OP_21_22_override,P_OP_22_23_override );
     assign aluk_out = aluk;
     assign mux_adder_out = MUX_ADDER_IMM;
     assign mux_and_int_out = MUX_AND_INT;
     assign mux_shift_out = MUX_SHIFT;
-    assign p_op_out = P_OP;
+    // assign p_op_out = P_OP;
+    mux2n #(37) (p_op_out_temp, P_OP, {P_OP[36:24], P_OP_22_23_override,P_OP_22_ovr, P_OP_21_22_override, P_OP[20:0]}, P_OP_22_ovr);
+    mux2n #(37) (p_op_out, p_op_out_temp, {p_op_out_temp[36:2], 2'b11}, P_OP_1_2_override);
     assign fmask_out = FMASK;
     assign conditionals_out = conditionals;
     assign is_br_out = isBR;
