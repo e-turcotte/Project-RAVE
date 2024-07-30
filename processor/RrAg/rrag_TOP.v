@@ -109,7 +109,13 @@ module rrag (input valid_in,
 
     wire [31:0] shfseg1, shfseg2;
 
-    assign shfseg1 = {seg1,16'h0000};
+    wire isOP_l, isOP_h, bypass_segR;
+
+    and2$ g_asher(isOP_l, P_OP[21], P_OP[22]);
+    and2$ g_needs_to(isOP_h, P_OP[22], P_OP[23]);
+    or2$  g_name_these(bypass_segR, isOP_h, isOP_l);
+
+    muxnm_tree #(.SELECT_WIDTH(1), .DATA_WIDTH(32)) mxsegfinal(.in({32'h00000000,seg1,16'h0000}), .sel(bypass_segR), .out(shfseg1));
     assign shfseg2 = {seg2,16'h0000};
 
     wire [31:0] mul2, mul4, mul8;
