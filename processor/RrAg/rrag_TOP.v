@@ -111,8 +111,8 @@ module rrag (input valid_in,
 
     wire isOP_l, isOP_h, bypass_segR;
 
-    and2$ g_asher(isOP_l, P_OP[21], P_OP[22]);
-    and2$ g_needs_to(isOP_h, P_OP[22], P_OP[23]);
+    and2$ g_asher(isOP_l, p_op_in[21], p_op_in[22]);
+    and2$ g_needs_to(isOP_h, p_op_in[22], p_op_in[23]);
     or2$  g_name_these(bypass_segR, isOP_h, isOP_l);
 
     muxnm_tree #(.SELECT_WIDTH(1), .DATA_WIDTH(32)) mxsegfinal(.in({32'h00000000,seg1,16'h0000}), .sel(bypass_segR), .out(shfseg1));
