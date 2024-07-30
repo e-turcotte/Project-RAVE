@@ -69,8 +69,8 @@
 		VP_1 = 20'h02000; // - IDTR
 		VP_2 = 20'h04000;
 		VP_3 = 20'h0b000;
-		//VP_4 = 20'h0c000;
-        VP_4 = 20'h0b001; //for test2a
+		VP_4 = 20'h0c000;
+        //VP_4 = 20'h0b001; //for test2a
 		VP_5 = 20'h0a000;
 		VP_6 = 20'h06000;
 		VP_7 = 20'h03000;
@@ -92,10 +92,10 @@
 		VP = {VP_7, VP_6, VP_5, VP_4, VP_3, VP_2, VP_1, VP_0};
 		PF = {PF_7, PF_6, PF_5, PF_4, PF_3, PF_2, PF_1, PF_0};
 
-        ES_LIM = 20'h00420;
+        ES_LIM = 20'h003ff;
         CS_LIM = 20'h04fff;
         SS_LIM = 20'h04000;
-        DS_LIM = 20'hF41ff;
+        DS_LIM = 20'h011ff;
         FS_LIM = 20'h003ff;
         GS_LIM = 20'h007ff;
 
@@ -115,7 +115,7 @@
         #(CYCLE_TIME)
         #(CYCLE_TIME)
         #(CYCLE_TIME)
-        #100000
+        #10000
 
         $finish;
 
