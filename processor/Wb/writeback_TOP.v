@@ -207,7 +207,7 @@ module writeback_TOP(
     and2$ g3456789(.out(negedge_clk_pulse), .in0(invclk), .in1(invinvclk));
     //andn #(5) g342d1(.out(is_resteer), .in( {is_resteer_no_valid_anded, valid_in, BR_valid, final_IE_val_not, negedge_clk_pulse}));
 
-    andn #(4) g342d1(.out(is_resteer), .in( {is_resteer_no_valid_anded, valid_in, BR_valid, final_IE_val_not}));
+    andn #(5) g342d1(.out(is_resteer), .in( {is_resteer_no_valid_anded, valid_in, BR_valid, final_IE_val_not, invclk}));
 
     // wire not_clk;
     // inv1$ gdf1(.in(clk), .out(not_clk));
