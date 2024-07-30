@@ -159,7 +159,7 @@ wire sar_af;
 wire sar_cf; 
 wire sar_of; 
 wire sar_cc_val;
-SAR_alu s1(sar_out,sar_af, sar_cf, sar_of, sar_cc_val, OP1, OP2, MUX_SHF, of);
+SAR_alu s1(sar_out,sar_af, sar_cf, sar_of, sar_cc_val, OP1, OP2, MUX_SHF, of, size);
 
 //do flags
 //aluk = 10010
@@ -168,7 +168,7 @@ wire sal_af;
 wire sal_cf; 
 wire sal_of; 
 wire sal_cc_val;
-SAL_alu s2(sal_out,sal_af, sal_cf, sal_of, sal_cc_val, OP1, OP2, MUX_SHF, of);
+SAL_alu s2(sal_out,sal_af, sal_cf, sal_of, sal_cc_val, OP1, OP2, MUX_SHF, of, size);
 nand2$ o11(cc_val, sar_cc_val,SAR_P_OP );
 nand2$ o12(isSHF,sal_cc_val , SAL_P_OP);
 nand2$ a12(cc_inval, cc_val, isSHF);
@@ -215,7 +215,8 @@ module SAL_alu(
     output cc_val,
     input [63:0] OP1, OP2, 
     input MUX_SHF,
-    input of
+    input of,
+    input [1:0] size
 );
 wire[31:0] shiftCnt, shiftCntN;
 wire[31:0] inpCap;
@@ -239,8 +240,9 @@ equaln #(5) e1(shiftCnt[4:0], 5'b00010, of_sel);
 
 inv_n #(32) iv(shiftCntN, shiftCnt);
 muxnm_tristate #(32, 1) mx3({1'b0,OP1[30:0]}, shiftCnt, SAR_cf_nOF);
-mux2$ mx4(sal_cf, SAR_cf_nOF, OP1[31], overSHF);
-
+mux2$ mx4(sal_cf_temp, SAR_cf_nOF, OP1[31], overSHF);
+mux2$ mx5xx(sal_cf, sal_cf_temp, op_check, MUX_SHF);
+mux4$ (op_check, OP1[7], OP1[15], OP1[31], OP1[63], size[0], size[1]);
 or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
 mux2$ mx1(sal_of, of, OP1[31], of_sel);
 assign sal_af = 0;
@@ -263,22 +265,26 @@ module SAR_alu(
     output cc_val,
     input [63:0] OP1, OP2, 
     input MUX_SHF,
-    input of
+    input of,
+    input [1:0] size
 );
-wire[31:0] shiftCnt;
+wire[31:0] shiftCnt,shf_out_32;
 wire[31:0] inpCap;
+wire[15:0] shf_out_16;
 //assign inpCap[31:8] = 24'h0000_00;
 //assign inpCap[7:0] = OP2[7:0];
 decodern #(5) d1(OP2[4:0], inpCap);
 mux2n #(32) m1 (shiftCnt, inpCap, 32'd2, MUX_SHF);
 wire[31:0] shf_out;
-rshfn_variable #(32)  r1(OP1[31:0], shiftCnt, OP1[31], shf_out);
+mux4$ (op_check, OP1[7], OP1[15], OP1[31], OP1[63], size[0], size[1]);
+rshfn_variable #(32)  r1(OP1[31:0], shiftCnt, op_check, shf_out_32);
+rshfn_variable #(16)  rx(OP1[15:0], shiftCnt, op_check, shf_out_16);
 assign SAR_out[63:32] = 32'd0;
 
 wire overSHF;
 or3$ o1(overSHF, OP2[6], OP2[7], OP2[5]);
 equaln #(5) e1(shiftCnt[4:0], 5'b00010, of_sel);
-
+mux2n #(32) (shf_out, shf_out_32, {16'd0,shf_out_16}, size[0]);
 mux4n #(32) mx(SAR_out[31:0], shf_out, 32'd0 ,shf_out ,32'hFFFF_FFFF ,overSHF_adj, OP1[31]);
 
 
