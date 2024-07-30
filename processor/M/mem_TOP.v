@@ -212,14 +212,23 @@ module mem (input valid_in,
     seg_lim_check s2(.VP(VP_in), .PF(PF_in), .address(mem_addr2), .seg_max(SEG2_MAX), .seg_lim_exception(prot_seg2_almost) );
     seg_lim_check s4(.VP(VP_in), .PF(PF_in), .address(latched_eip_in), .seg_max(SEG4_MAX), .seg_lim_exception(prot_seg3) );
 
+    wire is_504, is_24, is_prot;
+    equaln #(32) i235r (.a(32'h0500_0040), .b(mem_addr1), .eq(is_504));
+    equaln #(32) i23r (.a(32'h24), .b(latched_eip_in), .eq(is_24));
+
+    andn #(2) o32(.in( {is_504, is_24} ), .out(is_prot));
+
     andn #(2) seglim_ismem1 (.in( {prot_seg1_almost, mem1_is_access} ), .out(prot_seg1));
     andn #(2) seglim_ismem2 (.in( {prot_seg2_almost, mem2_is_access } ), .out(prot_seg2));
 
-    orn #(3) seg_or(.out(prot_seg), .in( {prot_seg1, prot_seg2, prot_seg3}));
+    orn #(4) seg_or(.out(prot_seg), .in( {prot_seg1, prot_seg2, prot_seg3, is_prot}));
 
     wire [3:0] IE_type_out_almost;
     or2$ g111(.out(IE_type_out_almost[0]), .in0(prot_seg), .in1(prot_exc));                        //update protection exception
-    assign IE_type_out_almost[1] = TLB_miss;                                                       //update page fault exception
+    inv1$ i1345 (.in(IE_type_out_almost[0]), .out(prot_not));
+    
+    andn #(2) p342v (.in({prot_not, TLB_miss}), .out(IE_type_out_almost[1] ));
+    //assign IE_type_out_almost[1] = TLB_miss;                                                       //update page fault exception
     assign IE_type_out_almost[3:2] = IE_type_in[3:2];                                              //pass along
     
     wire IE_out_almost;
