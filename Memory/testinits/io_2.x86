@@ -1,16 +1,16 @@
-0x0:  66 b8 00 03             /mov    ax,0x300
-0x4:  8e e8                   /mov    gs,eax
-0x6:  66 b8 00 06             /mov    ax,0x600
-0xa:  bc 30 00 00 00          /mov    esp,0x30
-0xf:  8e d0                   /mov    ss,eax
-0x11: b8 00 00 00 00          /mov    eax,0x0
-0x16: bb 01 70 00 00          /mov    ebx,0x7001
-0x1b: 65 c7 40 10 58 00 00    /mov    DWORD PTR gs:[eax+0x10],0x58
+0x0:  66 b8 00 03             //mov    ax,0x300
+0x4:  8e e8                   //mov    gs,eax
+0x6:  66 b8 00 06             //mov    ax,0x600
+0xa:  bc 30 00 00 00          //mov    esp,0x30
+0xf:  8e d0                   //mov    ss,eax
+0x11: b8 00 00 00 00          //mov    eax,0x0
+0x16: bb 01 70 00 00          //mov    ebx,0x7001
+0x1b: 65 c7 40 10 58 00 00    //mov    DWORD PTR gs:[eax+0x10],0x58 //Read from disc location x58
 0x22: 00
-0x23: 65 89 58 20             //mov    DWORD PTR gs:[eax+0x20],ebx
-0x27: 65 c7 40 30 52 00 00    //mov    DWORD PTR gs:[eax+0x30],0x52
+0x23: 65 89 58 20             //mov    DWORD PTR gs:[eax+0x20],ebx //Write to MEM x7001
+0x27: 65 c7 40 30 52 00 00    //mov    DWORD PTR gs:[eax+0x30],0x52 //Write size of 52 bytes
 0x2e: 00
-0x2f: 65 c7 40 40 01 00 00    //mov    DWORD PTR gs:[eax+0x40],0x1
+0x2f: 65 c7 40 40 01 00 00    //mov    DWORD PTR gs:[eax+0x40],0x1 //Initialize
 0x36: 00
 0x37: bf 00 0b 00 00          //mov    edi,0xb00
 0x3c: 8e df                   //mov    ds,edi
