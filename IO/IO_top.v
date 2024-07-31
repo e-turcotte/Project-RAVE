@@ -114,7 +114,7 @@ kb kb1(
 );
 
 DMA DMA1 (
-    .clk(clk_bus),
+     .clk(clk_bus),
     .set(set),
     .rst(rst),
 
