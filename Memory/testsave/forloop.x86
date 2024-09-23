@@ -1,0 +1,49 @@
+0x0:  b8 0f 00 00 00          //mov    eax,0xf
+0x5:  bb 00 00 00 00          //mov    ebx,0x0
+0xa:  bc 00 03 00 00          //mov    esp,0x300
+//0000000f <loop_start>://
+0xf:  83 c3 02                //add    ebx,0x2
+0x12: 83 c0 ff                //add    eax,0xffffffff
+0x15: 75 f8                   //jne    f <loop_start>
+0x17: b9 ef be 00 00          //mov    ecx,0xbeef
+0x1c: f4                      //hlt
+0x1d: 83 c7 00                //add    edi,0x0
+0x20: 83 c7 00                //add    edi,0x0
+0x23: 83 c7 00                //add    edi,0x0
+0x26: 83 c7 00                //add    edi,0x0
+0x29: 83 c7 00                //add    edi,0x0
+0x2c: 83 c7 00                //add    edi,0x0
+0x2f: 83 c7 00                //add    edi,0x0
+0x32: f4                      //hlt
+
+//ISR starts at 0x52
+0x4c:	90 90 90 90	
+0x50:	f4 f4 66 83	//addw	  $-1, %dx			//edx = 0x00ff
+0x54:	c2 ff cf f4	//iretd
+
+0x2074:	 EE FF 22 33
+0x2078:	 52 00 00 00    //cs=0x0, eip=0x52 (protection fault routine address)
+0x207C:	 00 00 00 00
+0x2080:	 AA BB CC DD
+
+0x43fc:	 01 02 03 04	//data
+0x4400:	 05 06 07 08
+
+// mov    eax,0xf
+// mov    ebx,0x0
+// mov    esp, 0x300
+// loop_start:
+// add    ebx,0x2
+// add    eax,0xffffffff
+// jne    loop_start
+// 
+// mov    ecx,0xbeef
+// 
+// hlt
+// add    edi,0x0
+// add    edi,0x0
+// add    edi,0x0
+// add    edi,0x0
+// add    edi,0x0
+// add    edi,0x0
+// add    edi,0x0

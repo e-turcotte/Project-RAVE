@@ -1,0 +1,55 @@
+0x0:  66 b8 00 03              //mov    ax,0x300
+0x4:  8e d8                    //mov    ds,eax
+0x6:  b8 00 00 00 00           //mov    eax,0x0
+0xb:  8b 08                    //mov    ecx,DWORD PTR [eax]
+0xd:  8b 20                    //mov    esp,DWORD PTR [eax]
+0xf:  8b 10                    //mov    edx,DWORD PTR [eax]
+0x11: bb 01 70 00 00           //mov    ebx,0x7001
+0x16: c7 40 10 58 00 00 00     //mov    DWORD PTR [eax+0x10],0x58
+0x1d: 89 58 20                 //mov    DWORD PTR [eax+0x20],ebx
+0x20: c7 40 30 52 00 00 00     //mov    DWORD PTR [eax+0x30],0x52
+0x27: c7 40 40 01 00 00 00     //mov    DWORD PTR [eax+0x40],0x1
+0x2e: bf 00 0c 00 00           //mov    edi,0xc00
+0x33: 8e df                    //mov    ds,edi
+0x35: 8b 10                    //mov    edx,DWORD PTR [eax]
+0x37: b8 00 00 00 00           //mov    eax,0x0
+0x3c: bb 20 00 00 00           //mov    ebx,0x40
+//0x00000041 <loop_start>: //
+0x41: 89 18                    //mov    DWORD PTR [eax],ebx
+0x43: 83 c0 04                 //add    eax,0x4
+0x46: 83 c3 ff                 //add    ebx,0xffffffff
+0x49: 75 f6                    //jne    41 <loop_start>
+0x4b: f4                       //halt
+ 
+
+0x2028:	 00 00 00 00
+0x202c:	 00 00 00 00
+0x2030:	 00 00 00 00
+0x2034:	 00 00 00 00
+0x2038:	 00 00 00 00
+0x203c:	 00 00 00 00
+0x2040:	 00 00 00 00
+0x2044:	 00 00 00 00
+0x2048:	 00 00 00 00
+0x204c:	 00 00 00 00
+0x2050:	 00 00 00 00
+0x2054:	 00 00 00 00
+0x2058:	 00 00 00 00
+0x205c:	 00 00 00 00
+0x2060:	 00 00 00 00
+0x2064:	 00 00 00 00
+0x2068:	 00 00 00 00
+0x206c:	 00 00 00 00
+0x2070:	 00 00 00 00
+0x2074:	 FF EE 69 42    //junk
+0x2078:	 00 00 00 00    //cs=0x06000, eip=0x0 (ISR address)
+0x207C:	 00 60 00 00
+0x2080:	 AA BB CC DD    //junk
+
+
+//ISR
+
+0x6000:  8b 08                     //mov    ecx,DWORD PTR [eax]
+0x6002:  8b 20                     //mov    esp,DWORD PTR [eax]
+0x6004:  8b 10                     //mov    edx,DWORD PTR [eax]
+0x6005:  cf f4                     //iretd then halt

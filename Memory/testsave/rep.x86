@@ -1,0 +1,39 @@
+0x0:  66 b8 00 02           // movw    ax, 0x0200
+0x4:  8e d8                 // movw    ds, eax
+0x6:  66 b8 00 03           // movw    ax, 0x0300
+0xa:  8e c0                 // movw    es, eax
+0xc:  be 00 00 00 00        // movd    esi, 0x0
+
+0x11: c6 46 01 01           // movb    [esi+0x1], 0x1
+0x15: c6 46 02 02           // movb    [esi+0x2], 0x2
+0x19: c6 46 03 03           // movb    [esi+0x3], 0x3
+0x1d: c6 46 04 04           // movb    [esi+0x4], 0x4
+0x21: c6 46 05 05           // movb    [esi+0x5], 0x5
+0x25: c6 46 06 06           // movb    [esi+0x6], 0x6
+0x29: c6 46 07 07           // movb    [esi+0x7], 0x7
+0x2d: c6 46 08 08           // movb    [esi+0x8], 0x8
+0x31: c6 46 09 09           // movb    [esi+0x9], 0x9
+0x35: c6 46 0a 0a           // movb    [esi+0xa], 0xa
+0x39: c6 46 0b 0b           // movb    [esi+0xb], 0xb
+0x3d: c6 46 0c 0c           // movb    [esi+0xc], 0xc
+0x41: c6 46 0d 0d           // movb    [esi+0xd], 0xd
+0x45: c6 46 0e 0e           // movb    [esi+0xe], 0xe
+0x49: c6 46 0f 0f           // movb    [esi+0xf], 0xf
+
+0x4d: bf 00 00 00 00        // movd    edi, 0x0
+0x52: b1 10                 // movb    cl, 0x10
+0x54: f3 a4                 // rep movsb es:[edi], ds:[esi]
+0x56: 83 c6 f0              // addd    esi, 0xfffffff0
+
+0x59: bf 10 00 00 00        // movd    edi, 0x10
+0x5e: b1 08                 // movb    cl, 0x8
+0x60: 66 f3 a5              // rep movsw es:[edi], ds:[esi]
+0x63: 83 c6 f0              // addd    esi, 0xfffffff0
+
+0x66: bf 20 00 00 00        // movd    edi, 0x20
+0x6b: b1 04                 // movb    cl, 0x4
+0x6d: f3 a5                 // rep movsd es:[edi], ds:[esi]
+0x6f: 83 c6 f0              // addd    esi, 0xfffffff0
+
+0x72: b8 ff ff ff ff        // movd    eax, 0xffffffff
+0x77: f4                    // hlt
